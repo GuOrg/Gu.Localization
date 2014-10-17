@@ -9,24 +9,40 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Tests",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7BCC1395-0ADB-4E76-A6C6-1F77A78022AD}"
 	ProjectSection(SolutionItems) = preProject
+		Gu.Wpf.Localization\Gu.Wpf.Localization.nuspec = Gu.Wpf.Localization\Gu.Wpf.Localization.nuspec
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Demo.WithResources", "Gu.Wpf.Localization.Demo.WithResources\Gu.Wpf.Localization.Demo.WithResources.csproj", "{24A5D9D2-60D8-47B7-8750-48E85A2218DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Demo.Controls", "Gu.Wpf.Localization.Demo.Controls\Gu.Wpf.Localization.Demo.Controls.csproj", "{85009EF0-C922-4EDB-9648-495B56B30CFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.NoResources", "Gu.Wpf.Localization.NoResources\Gu.Wpf.Localization.NoResources.csproj", "{A8722CC6-E477-43B6-A1A0-B7A062FBB290}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://tfshub.sandvik.com:8080/tfs/defaultcollection
-		SccProjectUniqueName0 = Gu.Wpf.Localization\\Gu.Wpf.Localization.csproj
-		SccProjectName0 = Gu.Wpf.Localization
-		SccLocalPath0 = Gu.Wpf.Localization
-		SccProjectUniqueName1 = Gu.Wpf.Localization.Tests\\Gu.Wpf.Localization.Tests.csproj
-		SccProjectName1 = Gu.Wpf.Localization.Tests
-		SccLocalPath1 = Gu.Wpf.Localization.Tests
-		SccLocalPath2 = .
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Gu.Wpf.Localization\\Gu.Wpf.Localization.csproj
+		SccProjectName1 = Gu.Wpf.Localization
+		SccLocalPath1 = Gu.Wpf.Localization
+		SccProjectUniqueName2 = Gu.Wpf.Localization.Tests\\Gu.Wpf.Localization.Tests.csproj
+		SccProjectName2 = Gu.Wpf.Localization.Tests
+		SccLocalPath2 = Gu.Wpf.Localization.Tests
+		SccProjectUniqueName3 = Gu.Wpf.Localization.Demo.WithResources\\Gu.Wpf.Localization.Demo.WithResources.csproj
+		SccProjectName3 = Gu.Wpf.Localization.Demo.WithResources
+		SccLocalPath3 = Gu.Wpf.Localization.Demo.WithResources
+		SccProjectUniqueName4 = Gu.Wpf.Localization.Demo.Controls\\Gu.Wpf.Localization.Demo.Controls.csproj
+		SccProjectName4 = Gu.Wpf.Localization.Demo.Controls
+		SccLocalPath4 = Gu.Wpf.Localization.Demo.Controls
+		SccProjectUniqueName5 = Gu.Wpf.Localization.NoResources\\Gu.Wpf.Localization.NoResources.csproj
+		SccProjectName5 = Gu.Wpf.Localization.NoResources
+		SccLocalPath5 = Gu.Wpf.Localization.NoResources
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CreateNugetPackage|Any CPU = CreateNugetPackage|Any CPU
@@ -46,6 +62,24 @@ Global
 		{51091D53-D0DF-4543-BB35-B7A52373AD9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51091D53-D0DF-4543-BB35-B7A52373AD9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51091D53-D0DF-4543-BB35-B7A52373AD9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24A5D9D2-60D8-47B7-8750-48E85A2218DE}.CreateNugetPackage|Any CPU.ActiveCfg = Release|Any CPU
+		{24A5D9D2-60D8-47B7-8750-48E85A2218DE}.CreateNugetPackage|Any CPU.Build.0 = Release|Any CPU
+		{24A5D9D2-60D8-47B7-8750-48E85A2218DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24A5D9D2-60D8-47B7-8750-48E85A2218DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24A5D9D2-60D8-47B7-8750-48E85A2218DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24A5D9D2-60D8-47B7-8750-48E85A2218DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85009EF0-C922-4EDB-9648-495B56B30CFC}.CreateNugetPackage|Any CPU.ActiveCfg = Release|Any CPU
+		{85009EF0-C922-4EDB-9648-495B56B30CFC}.CreateNugetPackage|Any CPU.Build.0 = Release|Any CPU
+		{85009EF0-C922-4EDB-9648-495B56B30CFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85009EF0-C922-4EDB-9648-495B56B30CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85009EF0-C922-4EDB-9648-495B56B30CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85009EF0-C922-4EDB-9648-495B56B30CFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8722CC6-E477-43B6-A1A0-B7A062FBB290}.CreateNugetPackage|Any CPU.ActiveCfg = Release|Any CPU
+		{A8722CC6-E477-43B6-A1A0-B7A062FBB290}.CreateNugetPackage|Any CPU.Build.0 = Release|Any CPU
+		{A8722CC6-E477-43B6-A1A0-B7A062FBB290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8722CC6-E477-43B6-A1A0-B7A062FBB290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8722CC6-E477-43B6-A1A0-B7A062FBB290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8722CC6-E477-43B6-A1A0-B7A062FBB290}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

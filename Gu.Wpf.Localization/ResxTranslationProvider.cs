@@ -12,29 +12,16 @@
     /// </summary>
     public class ResxTranslationProvider : ITranslationProvider
     {
-        private readonly ResourceManager _resourceManager;
         private readonly List<CultureInfo> _languages = new List<CultureInfo>();
-
-        /// <summary>
-        /// Uses the default Properties.Resources.ResourceManager;
-        /// </summary>
-        ////public ResxTranslationProvider()
-        ////    : this(Resources.ResourceManager)
-        ////{
-        ////}
 
         public ResxTranslationProvider(ResourceManager resourceManager)
         {
-            this._resourceManager = resourceManager;
+            this.ResourceManager = resourceManager;
             this._languages = CultureInfo.GetCultures(CultureTypes.AllCultures)
                                     .Where(
                                         x => x.TwoLetterISOLanguageName != "iv" &&
-                                             this._resourceManager.GetResourceSet(x, true, false) != null)
+                                             this.ResourceManager.GetResourceSet(x, true, false) != null)
                                     .ToList();
-            if (!this._languages.Any())
-            {
-                throw new ArgumentException("Resourcemanager contains no languages", "resourceManager");
-            }
         }
 
         public ResxTranslationProvider(Type resourceSource)
@@ -53,6 +40,9 @@
         {
         }
 
+        public ResourceManager ResourceManager { get; private set; }
+
+
         /// <summary>
         /// See <see cref="ITranslationProvider.Languages" />
         /// </summary>
@@ -69,12 +59,31 @@
         /// </summary>
         public string Translate(string key)
         {
-            return this._resourceManager.GetString(key);
+            return this.ResourceManager.GetString(key);
+        }
+
+        public bool HasCulture(CultureInfo culture)
+        {
+            return _languages.Any(x => x.Name == culture.Name);
         }
 
         public bool HasKey(string key, CultureInfo culture)
         {
-            return !string.IsNullOrEmpty(this._resourceManager.GetString(key, culture));
+            if (this.ResourceManager == null)
+            {
+                return false;
+            }
+            if (culture != null)
+            {
+                var resourceSet = this.ResourceManager.GetResourceSet(culture, false, true);
+                if (resourceSet == null)
+                {
+                    return false;
+                }
+                return !string.IsNullOrEmpty(resourceSet.GetString(key));
+            }
+            var value = this.ResourceManager.GetString(key, culture);
+            return !string.IsNullOrEmpty(value);
         }
     }
 }

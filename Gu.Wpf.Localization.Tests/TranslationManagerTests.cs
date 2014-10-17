@@ -1,4 +1,4 @@
-﻿namespace GULocalization.Tests
+﻿namespace Gu.Wpf.Localization.Tests
 {
     using System.Globalization;
     using System.Threading;
@@ -13,17 +13,17 @@
         public void TranslateDefaultvalueTest()
         {
             TranslationManager.Instance.CurrentLanguage = CultureInfo.GetCultureInfo("no");
-            var s1 = TranslationManager.Instance.Translate("Teststring1");
+            var s1 = TranslationManager.Instance.Translate("AllLanguages");
 
             TranslationManager.Instance.CurrentLanguage = CultureInfo.GetCultureInfo("sv");
-            var s2 = TranslationManager.Instance.Translate("Teststring1");
+            var s2 = TranslationManager.Instance.Translate("AllLanguages");
 
             TranslationManager.Instance.CurrentLanguage = CultureInfo.GetCultureInfo("en");
-            var s3 = TranslationManager.Instance.Translate("Teststring1");
+            var s3 = TranslationManager.Instance.Translate("AllLanguages");
 
-            Assert.AreEqual("Teststring1 Default", s1);
-            Assert.AreEqual("Teststring1 Svenska", s2);
-            Assert.AreEqual("Teststring1 English", s3);
+            Assert.AreEqual("Default", s1);
+            Assert.AreEqual("Svenska", s2);
+            Assert.AreEqual("English", s3);
         }
 
         [Test]
@@ -43,12 +43,12 @@
             Assert.AreEqual("!NoEntry!", s3);
         }
 
-        [TestCase("sv-SE", "Teststring1 Svenska")]
-        [TestCase("en-US", "Teststring1 English")]
+        [TestCase("sv-SE", "Svenska")]
+        [TestCase("en-US", "English")]
         public void TranslateDefaultLanguageTest(string cultureName, string expected)
         {
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName);
-            var actual = TranslationManager.Instance.Translate("Teststring1");
+            var actual = TranslationManager.Instance.Translate("AllLanguages");
             Assert.AreEqual(expected, actual);
         }
     }
