@@ -117,10 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Teststring1" xml:space="preserve">
-    <value>Teststring1 Default</value>
+  <data name="AllLanguages" xml:space="preserve">
+    <value>Default</value>
   </data>
   <data name="EnglishOnly" xml:space="preserve">
     <value></value>
+  </data>
+  <data name="NoTranslation" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="NeutralOnly" xml:space="preserve">
+    <value>So neutral</value>
   </data>
 </root>

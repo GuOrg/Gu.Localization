@@ -61,6 +61,15 @@ namespace Gu.Wpf.Localization.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        internal static string AllLanguages {
+            get {
+                return ResourceManager.GetString("AllLanguages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string EnglishOnly {
@@ -70,11 +79,20 @@ namespace Gu.Wpf.Localization.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Teststring1 Default.
+        ///   Looks up a localized string similar to So neutral.
         /// </summary>
-        internal static string Teststring1 {
+        internal static string NeutralOnly {
             get {
-                return ResourceManager.GetString("Teststring1", resourceCulture);
+                return ResourceManager.GetString("NeutralOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string NoTranslation {
+            get {
+                return ResourceManager.GetString("NoTranslation", resourceCulture);
             }
         }
     }

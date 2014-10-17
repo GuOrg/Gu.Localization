@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Gu.Wpf.Localization.Properties {
+namespace Gu.Wpf.Localization.Demo.WithResources.Properties {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace Gu.Wpf.Localization.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace Gu.Wpf.Localization.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Gu.Wpf.Localization.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Gu.Wpf.Localization.Demo.WithResources.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Gu.Wpf.Localization.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,47 +61,38 @@ namespace Gu.Wpf.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to !{0}!.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        public static string MissingKeyFormat {
+        internal static string MissingTranslation {
             get {
-                return ResourceManager.GetString("MissingKeyFormat", resourceCulture);
+                return ResourceManager.GetString("MissingTranslation", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ?{0}?.
+        ///   Looks up a localized string similar to So neutral.
         /// </summary>
-        public static string MissingResourcesFormat {
+        internal static string NeutralOnly {
             get {
-                return ResourceManager.GetString("MissingResourcesFormat", resourceCulture);
+                return ResourceManager.GetString("NeutralOnly", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to -{0}-.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        public static string MissingTranslationFormat {
+        internal static string SwedishOnly {
             get {
-                return ResourceManager.GetString("MissingTranslationFormat", resourceCulture);
+                return ResourceManager.GetString("SwedishOnly", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ~{0}~.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        public static string NoLanguagesFormat {
+        internal static string TranslatedToAll {
             get {
-                return ResourceManager.GetString("NoLanguagesFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ${0}$.
-        /// </summary>
-        public static string NullManagerFormat {
-            get {
-                return ResourceManager.GetString("NullManagerFormat", resourceCulture);
+                return ResourceManager.GetString("TranslatedToAll", resourceCulture);
             }
         }
     }

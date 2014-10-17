@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
     using System.Reflection;
@@ -20,11 +21,9 @@
         private static readonly DependencyObject DependencyObject = new DependencyObject();
         private static readonly ConcurrentDictionary<AppDomain, Assembly> DesignTimeCache = new ConcurrentDictionary<AppDomain, Assembly>();
         private static readonly ConcurrentDictionary<Uri, Assembly> RunTimeCache = new ConcurrentDictionary<Uri, Assembly>();
-
         private TranslationManager _translationManager;
-
         private Assembly _assembly;
-
+        public bool? TestIsDesigntime = null; // Hacking it ugly like this to be able to test
         /// <summary>
         /// Initializes a new instance of the <see cref="TranslateExtension"/> class.
         /// </summary>
@@ -38,41 +37,24 @@
             this.Key = key;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [ConstructorArgument("key")]
         public string Key { get; set; }
 
+        /// <summary>
+        /// Check if is in desigtime mode
+        /// </summary>
         public bool IsDesigntime
         {
             get
             {
+                if (TestIsDesigntime.HasValue)
+                {
+                    return TestIsDesigntime.Value;
+                }
                 return DesignerProperties.GetIsInDesignMode(DependencyObject);
-            }
-        }
-
-        /// <summary>
-        /// Checks that there is a translation for Key in all languages.
-        /// Used to provide feedback in designtime
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="translationManager"></param>
-        public void AssertTranslation(string key, TranslationManager translationManager)
-        {
-            if (translationManager.TranslationProvider == null)
-            {
-                throw new Exception("translationManager.TranslationProvider == null");
-            }
-
-            if (!translationManager.Languages.Any())
-            {
-                throw new Exception(string.Format("No languages found in assembly: {0}", this._assembly.GetName().Name));
-            }
-
-            var missing = translationManager.Languages.Where(x => !translationManager.HasKey(key, x))
-                                            .ToArray();
-            if (missing.Any())
-            {
-                var languages = string.Join(", ", missing.Select(x => x.TwoLetterISOLanguageName));
-                throw new Exception(string.Format("Translation for: '{0}' is missing in {{{1}}}", key, languages));
             }
         }
 
@@ -81,33 +63,47 @@
         /// </summary>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (this._translationManager == null)
+            if (_translationManager == null)
+            {
+                _translationManager = this.GetTranslationManager(serviceProvider);
+            }
+
+            var translationData = IsDesigntime
+                                      ? (ITranslationData)new TranslationDataDesigntime(Key, _translationManager)
+                                      : new TranslationData(this.Key, _translationManager);
+            var provideValueTarget = (IProvideValueTarget)serviceProvider.GetService(typeof(IProvideValueTarget));
+            var uiElement = provideValueTarget.TargetObject as UIElement;
+            var binding = new Binding("Value")
+                          {
+                              Source = translationData
+                          };
+            var provideValue = binding.ProvideValue(serviceProvider);
+            return provideValue;
+        }
+
+        private TranslationManager GetTranslationManager(IServiceProvider serviceProvider)
+        {
+            if (this.IsDesigntime)
             {
                 if (serviceProvider == null)
                 {
                     throw new Exception("serviceProvider == null");
                 }
-                if (this.IsDesigntime)
+                this._assembly = this.GetDesigntimeRootAssembly();
+            }
+            else
+            {
+                var uriContext = (IUriContext)serviceProvider.GetService(typeof(IUriContext));
+                if (uriContext.BaseUri == null)
                 {
                     this._assembly = this.GetDesigntimeRootAssembly();
                 }
                 else
                 {
-                    var uriContext = (IUriContext)serviceProvider.GetService(typeof(IUriContext));
                     this._assembly = RunTimeCache.GetOrAdd(uriContext.BaseUri, this.GetAssemblyFromUri);
                 }
-                this._translationManager = TranslationManager.GetInstance(this._assembly);
-                if (this.IsDesigntime)
-                {
-                    this.AssertTranslation(this.Key, this._translationManager);
-                }
             }
-
-            var binding = new Binding("Value")
-                          {
-                              Source = new TranslationData(this.Key, this._translationManager)
-                          };
-            return binding.ProvideValue(serviceProvider);
+            return TranslationManager.GetInstance(this._assembly);
         }
 
         private Assembly GetAssemblyFromUri(Uri uri)
