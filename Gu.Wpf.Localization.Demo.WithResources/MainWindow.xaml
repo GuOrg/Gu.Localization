@@ -5,8 +5,8 @@
         xmlns:l="clr-namespace:Gu.Wpf.Localization;assembly=Gu.Wpf.Localization"
         xmlns:withResources="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
         Title="MainWindow"
-        Width="525"
-        Height="350">
+        Width="800"
+        Height="600">
     <Window.Resources>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="Margin" Value="10,0,10,0" />
@@ -79,16 +79,21 @@
                                Text="{l:Translate TranslatedToAll}" />
                 </Grid>
             </GroupBox>
-            <GroupBox BorderBrush="HotPink"
-                      BorderThickness="2"
-                      Header="UserControl from same project">
+
+            <!--
+                <GroupBox BorderBrush="HotPink"
+                BorderThickness="2"
+                Header="UserControl from same project">
                 <withResources:LocalUserControl />
-            </GroupBox>
-            <GroupBox BorderBrush="Blue"
-                      BorderThickness="2"
-                      Header="UserControl from other project">
+                </GroupBox>
+                
+                <GroupBox BorderBrush="Blue"
+                BorderThickness="2"
+                Header="UserControl from other project">
                 <controls:DemoUserControl />
-            </GroupBox>
+                </GroupBox>
+            -->
+
             <GroupBox BorderBrush="Red"
                       BorderThickness="2"
                       Header="Custom control from other project">

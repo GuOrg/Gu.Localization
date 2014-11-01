@@ -10,7 +10,7 @@
     /// </summary>
     public class TranslationData : IWeakEventListener, ITranslationData
     {
-        private readonly WeakReference<TranslationManager> _translationManagerReference;
+        private readonly TranslationManager _translationManager;
         private readonly string _key;
 
         /// <summary>
@@ -21,10 +21,10 @@
         public TranslationData(string key, TranslationManager translationManager)
         {
             this._key = key;
+            _translationManager = translationManager;
             if (translationManager != null)
             {
                 LanguageChangedEventManager.AddListener(translationManager, this);
-                this._translationManagerReference = new WeakReference<TranslationManager>(translationManager);
             }
         }
 
@@ -34,15 +34,14 @@
         /// </summary>
         ~TranslationData()
         {
-            TranslationManager mgr;
-            if (this._translationManagerReference.TryGetTarget(out mgr))
+            if (_translationManager != null)
             {
-                LanguageChangedEventManager.RemoveListener(mgr, this);
+                LanguageChangedEventManager.RemoveListener(_translationManager, this);
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         /// <summary>
         /// The value bound to, this will contain the translated text
         /// </summary>
@@ -50,14 +49,13 @@
         {
             get
             {
-                TranslationManager mgr;
-                if (this._translationManagerReference.TryGetTarget(out mgr))
+                if (_translationManager != null)
                 {
-                    var translationInfo = mgr.GetInfo(_key);
+                    var translationInfo = _translationManager.GetInfo(_key);
                     switch (translationInfo)
                     {
                         case TranslationInfo.CanTranslate:
-                            var translate = mgr.Translate(_key);
+                            var translate = _translationManager.Translate(_key);
                             return translate;
                         case TranslationInfo.MissingKey:
                             return string.Format(Properties.Resources.MissingKeyFormat, this._key);

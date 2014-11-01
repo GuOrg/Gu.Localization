@@ -9,6 +9,7 @@
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
+    using System.Xaml;
 
     /// <summary>
     /// The Translate Markup extension returns a binding to a TranslationData
@@ -22,15 +23,15 @@
         private static readonly ConcurrentDictionary<AppDomain, Assembly> DesignTimeCache = new ConcurrentDictionary<AppDomain, Assembly>();
         private static readonly ConcurrentDictionary<Uri, Assembly> RunTimeCache = new ConcurrentDictionary<Uri, Assembly>();
         private TranslationManager _translationManager;
-        private Assembly _assembly;
         public bool? TestIsDesigntime = null; // Hacking it ugly like this to be able to test
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TranslateExtension"/> class.
         /// </summary>
         /// <param name="key">The key.</param>
         public TranslateExtension(string key)
         {
-            if (key == null)
+            if (IsDesigntime && key == null)
             {
                 throw new ArgumentNullException("key");
             }
@@ -65,45 +66,55 @@
         {
             if (_translationManager == null)
             {
-                _translationManager = this.GetTranslationManager(serviceProvider);
+                try
+                {
+                    _translationManager = this.GetTranslationManager(serviceProvider);
+                }
+                catch (Exception)
+                {
+                    if (IsDesigntime)
+                    {
+                        throw;
+                    }
+                }
             }
 
             var translationData = IsDesigntime
                                       ? (ITranslationData)new TranslationDataDesigntime(Key, _translationManager)
                                       : new TranslationData(this.Key, _translationManager);
-            var provideValueTarget = (IProvideValueTarget)serviceProvider.GetService(typeof(IProvideValueTarget));
-            var uiElement = provideValueTarget.TargetObject as UIElement;
             var binding = new Binding("Value")
-                          {
-                              Source = translationData
-                          };
+            {
+                Source = translationData
+            };
             var provideValue = binding.ProvideValue(serviceProvider);
             return provideValue;
         }
 
         private TranslationManager GetTranslationManager(IServiceProvider serviceProvider)
         {
+            List<Assembly> assemblies = new List<Assembly>();
             if (this.IsDesigntime)
             {
                 if (serviceProvider == null)
                 {
-                    throw new Exception("serviceProvider == null");
+                    throw new ArgumentException("serviceProvider == null");
                 }
-                this._assembly = this.GetDesigntimeRootAssembly();
+                assemblies.Add(this.GetDesigntimeRootAssembly());
             }
             else
             {
                 var uriContext = (IUriContext)serviceProvider.GetService(typeof(IUriContext));
-                if (uriContext.BaseUri == null)
+                var rootObject = (IRootObjectProvider)serviceProvider.GetService(typeof(IRootObjectProvider));
+                if (rootObject != null)
                 {
-                    this._assembly = this.GetDesigntimeRootAssembly();
+                    assemblies.Add(rootObject.RootObject.GetType().Assembly);
                 }
-                else
+                if (uriContext.BaseUri == null) // this means controltemplate
                 {
-                    this._assembly = RunTimeCache.GetOrAdd(uriContext.BaseUri, this.GetAssemblyFromUri);
+                    throw new NotImplementedException("message");
                 }
             }
-            return TranslationManager.GetInstance(this._assembly);
+            return TranslationManager.GetInstance(assemblies);
         }
 
         private Assembly GetAssemblyFromUri(Uri uri)
