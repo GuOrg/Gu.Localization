@@ -59,6 +59,13 @@
                             <TextBlock Grid.Row="4"
                                        Grid.Column="1"
                                        Text="{l:Translate TranslatedToAll}" />
+
+                            <TextBlock Grid.Row="5"
+                                       Grid.Column="0"
+                                       Text="KeyInControls" />
+                            <TextBlock Grid.Row="5"
+                                       Grid.Column="1"
+                                       Text="{l:Translate KeyInControls}" />
                         </Grid>
                     </Border>
                 </ControlTemplate>

@@ -9,7 +9,7 @@
         {
             get
             {
-                Type managerType = typeof(LanguageChangedEventManager);
+                var managerType = typeof(LanguageChangedEventManager);
                 var manager = (LanguageChangedEventManager)GetCurrentManager(managerType);
                 if (manager == null)
                 {

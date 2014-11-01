@@ -36,6 +36,8 @@
             }
         }
 
+        public Assembly Assembly { get; private set; }
+
         public ITranslationProvider TranslationProvider
         {
             get
@@ -85,6 +87,26 @@
             }
         }
 
+
+        /// <summary>
+        /// Use this to get the translationmanager for another assembly
+        /// </summary>
+        /// <param name="assemblies"></param>
+        /// <returns></returns>
+        public static TranslationManager GetInstance(params Assembly[] assemblies)
+        {
+            if (assemblies == null  || !assemblies.Any())
+            {
+                assembly = Assembly.GetEntryAssembly();
+            }
+            else if(assemblies.Any(a=>a.GetName().Name == "System.Xaml"))
+            {
+                
+            }
+            var manager = Cache.GetOrAdd(assembly, a => CreateManager(a));
+            return manager;
+        }
+
         public string Translate(string key)
         {
             if (this.TranslationProvider != null)
@@ -111,36 +133,19 @@
             return this.TranslationProvider.HasKey(key, culture);
         }
 
-        /// <summary>
-        /// Use this to get the translationmanager for another assembly
-        /// </summary>
-        /// <param name="assembly"></param>
-        /// <returns></returns>
-        public static TranslationManager GetInstance(Assembly assembly)
+        private static TranslationManager CreateManager(params Assembly[] assemblies)
         {
-            if (assembly == null || assembly.GetName().Name == "System.Xaml")
+            if (assemblies.GetName().Name == "System.Xaml")
             {
-                assembly = Assembly.GetEntryAssembly();
+                assemblies = Assembly.GetEntryAssembly();
             }
-            var manager = Cache.GetOrAdd(assembly, a => CreateManager(a));
-            return manager;
-        }
-
-        private static TranslationManager CreateManager(Assembly assembly)
-        {
-            if (assembly.GetName().Name == "System.Xaml")
-            {
-                assembly = Assembly.GetEntryAssembly();
-            }
-            var resourceManager = new ResourceManager(assembly.GetName().Name + ".Properties.Resources", assembly);
+            var resourceManager = new ResourceManager(assemblies.GetName().Name + ".Properties.Resources", assemblies);
             return new TranslationManager
                               {
-                                  Assembly = assembly,
+                                  Assembly = assemblies,
                                   TranslationProvider = new ResxTranslationProvider(resourceManager)
                               };
         }
-
-        public Assembly Assembly { get; private set; }
 
         private void OnLanguageChanged()
         {

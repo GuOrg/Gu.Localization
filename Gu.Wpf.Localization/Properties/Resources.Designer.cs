@@ -104,5 +104,14 @@ namespace Gu.Wpf.Localization.Properties {
                 return ResourceManager.GetString("NullManagerFormat", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #{0}#.
+        /// </summary>
+        public static string UnknownErrorFormat {
+            get {
+                return ResourceManager.GetString("UnknownErrorFormat", resourceCulture);
+            }
+        }
     }
 }
