@@ -62,6 +62,10 @@
             {
                 return this;
             }
+            if (IsDesigntime)
+            {
+                DesigntimeAsserts.AssertTranslation(Key);
+            }
             if (_translationManager == null)
             {
                 try

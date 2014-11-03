@@ -45,7 +45,7 @@
             }
         }
 
-        public Assembly[] Assemblies { get; private set; }
+        public IEnumerable<Assembly> Assemblies { get; private set; }
 
         public ITranslationProvider TranslationProvider
         {
@@ -135,9 +135,17 @@
                     element.Loaded += translationManager.ElementOnLoaded;
                     return translationManager;
                 }
-                throw new NotImplementedException("element == null || element.IsLoaded");
+                if (rootObject == null)
+                {
+                    throw new ArgumentException("rootObject == null");
+                }
+                if (rootObject.RootObject == null)
+                {
+                    throw new ArgumentException("rootObject.RootObject == null");
+                }
+                return new TranslationManager(new ResxTranslationProvider(rootObject.RootObject.GetType().Assembly));
             }
-            throw new NotImplementedException("provideValueTarget == null");
+            throw new ArgumentException("provideValueTarget == null");
         }
 
         public string Translate(string key)

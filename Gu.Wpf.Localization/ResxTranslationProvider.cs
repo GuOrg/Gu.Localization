@@ -53,7 +53,7 @@
         {
         }
 
-        public ResourceManagerWrapper[] ResourceManagers { get; private set; }
+        public IEnumerable<ResourceManagerWrapper> ResourceManagers { get; private set; }
 
         /// <summary>
         /// See <see cref="ITranslationProvider.Languages" />
@@ -102,7 +102,7 @@
                 return resourceSets.Any(x => !string.IsNullOrEmpty(x.ResourceSet.GetString(key)));
             }
             var values = this.ResourceManagers.Select(r => r.ResourceManager.GetString(key, null));
-            return values.All(x => !string.IsNullOrEmpty(x));
+            return !values.All(string.IsNullOrEmpty);
         }
 
         public class ResourceManagerWrapper
@@ -119,7 +119,7 @@
 
             public ResourceManager ResourceManager { get; private set; }
 
-            public ResourceSetAndCulture[] ResourceSets { get; private set; }
+            public IEnumerable<ResourceSetAndCulture> ResourceSets { get; private set; }
 
             private static IEnumerable<ResourceSetAndCulture> GetCultures(ResourceManager manager)
             {

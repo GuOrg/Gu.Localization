@@ -82,6 +82,14 @@
                 </Grid>
             </GroupBox>
 
+            <GroupBox>
+                <DataGrid>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{l:Translate TranslatedToAll}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+
             <GroupBox BorderBrush="BlueViolet" Header="DataTemplate">
                 <ContentPresenter ContentTemplate="{StaticResource DataTemplate}" />
             </GroupBox>
