@@ -1,15 +1,10 @@
 ﻿namespace Gu.Wpf.Localization
 {
     using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
-    using System.Reflection;
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
-    using System.Xaml;
 
     /// <summary>
     /// The Translate Markup extension returns a binding to a TranslationData
@@ -20,8 +15,6 @@
     public class TranslateExtension : MarkupExtension
     {
         private static readonly DependencyObject DependencyObject = new DependencyObject();
-        private static readonly ConcurrentDictionary<AppDomain, Assembly> DesignTimeCache = new ConcurrentDictionary<AppDomain, Assembly>();
-        private static readonly ConcurrentDictionary<Uri, Assembly> RunTimeCache = new ConcurrentDictionary<Uri, Assembly>();
         private TranslationManager _translationManager;
         public bool? TestIsDesigntime = null; // Hacking it ugly like this to be able to test
 
@@ -70,7 +63,7 @@
                 {
                     _translationManager = TranslationManager.Create(serviceProvider);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     if (IsDesigntime)
                     {
@@ -86,15 +79,6 @@
             };
             var provideValue = binding.ProvideValue(serviceProvider);
             return provideValue;
-        }
-
-        /// <summary>
-        /// This ugly workaround is needed since IRootObjectProvider is null in designtime
-        /// </summary>
-        /// <returns></returns>
-        private Assembly GetDesigntimeRootAssembly()
-        {
-            return DesignTimeCache.GetOrAdd(AppDomain.CurrentDomain, ad => ad.GetAssemblies().Last(a => a.EntryPoint != null));
         }
     }
 }

@@ -13,16 +13,23 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Markup;
+    using System.Windows.Media;
     using System.Xaml;
     using Gu.Wpf.Localization.Annotations;
 
     public class TranslationManager : INotifyPropertyChanged
     {
+        private static readonly ConcurrentDictionary<Assembly, TranslationManager> Cache = new ConcurrentDictionary<Assembly, TranslationManager>();
         private ITranslationProvider _translationProvider;
-
         private TranslationManager()
         {
             LanguageChanged += (sender, info) => OnPropertyChanged("CurrentLanguage");
+        }
+
+        private TranslationManager(ITranslationProvider provider)
+            : this()
+        {
+            _translationProvider = provider;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -34,7 +41,7 @@
             get
             {
                 var assembly = Assembly.GetCallingAssembly();
-                return Create(assembly);
+                return Cache.GetOrAdd(assembly, a => Create(a));
             }
         }
 
@@ -95,7 +102,7 @@
         /// <returns></returns>
         public static TranslationManager Create(params Assembly[] assemblies)
         {
-            const string systemXaml = "System.Xaml";
+            const string SystemXaml = "System.Xaml";
             var assemblyList = new List<Assembly>();
             if (assemblies == null || !assemblies.Any())
             {
@@ -103,56 +110,82 @@
             }
             else
             {
-                if (assemblies.Any(a => a.GetName().Name == systemXaml))
+                if (assemblies.Any(a => a.GetName().Name == SystemXaml))
                 {
                     assemblyList.Add(Assembly.GetEntryAssembly());
                 }
-                assemblyList.AddRange(assemblies.Where(x => x.GetName().Name != systemXaml));
+                assemblyList.AddRange(assemblies.Where(x => x.GetName().Name != SystemXaml));
             }
-            var manager = CreateManager(assemblyList);
+            var manager = new TranslationManager(new ResxTranslationProvider(assemblyList));
             return manager;
         }
 
         public static TranslationManager Create(IServiceProvider serviceProvider)
         {
-            var assemblies = new List<Assembly>();
             var rootObject = serviceProvider.RootObjectProvider();
             var provideValueTarget = serviceProvider.ProvideValueTarget();
             var typeDescriptorContext = serviceProvider.TypeDescriptorContext();
             var uriContext = serviceProvider.UriContext();
-            var provider = serviceProvider.ServiceProvider();
+            if (provideValueTarget != null)
+            {
+                var element = provideValueTarget.TargetObject as FrameworkElement;
+                if (element != null && !element.IsLoaded)
+                {
+                    var translationManager = new TranslationManager();
+                    element.Loaded += translationManager.ElementOnLoaded;
+                    return translationManager;
+                }
+                else
+                {
+                    throw new NotImplementedException("message");
+                }
+            }
+
+            var assemblies = new List<Assembly>();
             if (rootObject != null)
             {
+                var userControl = rootObject.RootObject as UserControl;
                 if (rootObject.RootObject is ResourceDictionary)
                 {
                     //var provider = (IServiceProvider)rootObject;
                     //var service = (IProvideValueTarget)provider.GetService(typeof(IProvideValueTarget));
                     //var controltemplate = service.TargetObject as ControlTemplate;
-                    var assemblies1 = AppDomain.CurrentDomain.GetAssemblies().Reverse().ToArray();
-                    foreach (var assembly in assemblies1)
-                    {
-                        string[] manifestResourceNames = assembly.GetManifestResourceNames();
-                        foreach (var manifestResourceName in manifestResourceNames)
+                    var allAssemblies = AppDomain.CurrentDomain.GetAssemblies()
+                                                 .Where(a => a.GetManifestResourceNames()
+                                                              .Any(n => n.Contains("Resources")) &&
+                                                              a.GetName().CultureName == "");
+                    assemblies.AddRange(allAssemblies);
+                    //assemblies.Add(Assembly.GetEntryAssembly());
+                }
+                else if (rootObject.RootObject.GetType().IsSubclassOf(typeof(Window)))
+                {
+                    assemblies.Add(rootObject.RootObject.GetType().Assembly);
+                }
+                else if (rootObject.RootObject.GetType().IsSubclassOf(typeof(Application)))
+                {
+                    assemblies.Add(rootObject.RootObject.GetType().Assembly);
+                }
+                else if (userControl != null)
+                {
+                    userControl.Loaded += (sender, args) =>
                         {
-                            ManifestResourceInfo manifestResourceInfo = assembly.GetManifestResourceInfo(manifestResourceName);
-                        }
-                    }
-
-                    //assemblies.Add(controltemplate.TargetType.Assembly);
-                    assemblies.Add(Assembly.GetEntryAssembly());
+                            var dependencyObject = VisualTreeHelper.GetParent(userControl);
+                            var b = dependencyObject != null;
+                        };
+                    assemblies.Add(userControl.GetType().Assembly);
                 }
-                if (rootObject.RootObject.GetType().IsSubclassOf(typeof(Window)))
+                else
                 {
-                    assemblies.Add(rootObject.RootObject.GetType().Assembly);
-                }
-                if (rootObject.RootObject.GetType().IsSubclassOf(typeof(Application)))
-                {
-                    assemblies.Add(rootObject.RootObject.GetType().Assembly);
+                    throw new ArgumentOutOfRangeException();
                 }
             }
             else
             {
-                throw new NotImplementedException("message");
+                var allAssemblies = AppDomain.CurrentDomain.GetAssemblies()
+                                             .Where(a => a.GetManifestResourceNames()
+                                                          .Any(n => n.Contains("Resources")) &&
+                                                          a.GetName().CultureName == "");
+                assemblies.AddRange(allAssemblies);
             }
             return Create(assemblies.ToArray());
         }
@@ -163,19 +196,19 @@
             {
                 try
                 {
-                    string translatedValue = this.TranslationProvider.Translate(key);
-                    if (translatedValue != null)
+                    var translated = this.TranslationProvider.Translate(key);
+                    if (translated != null)
                     {
-                        return translatedValue;
+                        return translated;
                     }
                 }
                 catch (Exception)
                 {
-                    return string.Format("!{0}!", key);
+                    return string.Format(Properties.Resources.UnknownErrorFormat, key);
                 }
             }
 
-            return string.Format("!{0}!", key);
+            return string.Format(Properties.Resources.NullManagerFormat, key);
         }
 
         public bool HasKey(string key, CultureInfo culture)
@@ -196,11 +229,6 @@
                 if (provider == null)
                 {
                     return TranslationInfo.NoResources;
-                    //var manifestResourceNames = Assembly.GetManifestResourceNames();
-                    //if (provider.ResourceManager.GetResourceSet())
-                    //{
-
-                    //}
                 }
                 return TranslationInfo.NoLanguages;
             }
@@ -212,8 +240,8 @@
             {
                 return TranslationInfo.NoTranslation;
             }
-            var s = provider.ResourceManagers.FirstOrDefault(x => !string.IsNullOrEmpty(x.GetString(key, CurrentLanguage)));
-            if (s == null) // Possibly undocumented behavior
+            var translations = provider.ResourceManagers.Select(x => x.ResourceManager.GetString(key));
+            if (translations.All(x => x == null)) // Possibly undocumented behavior
             {
                 return TranslationInfo.MissingKey;
             }
@@ -230,22 +258,24 @@
             }
         }
 
-        private static TranslationManager CreateManager(List<Assembly> assemblies)
-        {
-            var resourceManagers = assemblies.Select(x => new ResourceManager(x.GetName().Name + ".Properties.Resources", x));
-            return new TranslationManager
-                              {
-                                  Assemblies = assemblies.ToArray(),
-                                  TranslationProvider = new ResxTranslationProvider(resourceManagers)
-                              };
-        }
-
         private static void OnLanguageChanged(CultureInfo newLanguage)
         {
             if (LanguageChanged != null)
             {
                 LanguageChanged(null, newLanguage);
             }
+        }
+
+        private void ElementOnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            var frameworkElement = (FrameworkElement)sender;
+            frameworkElement.Loaded -= this.ElementOnLoaded;
+            var assemblies = frameworkElement.AncestorsAndSelf()
+                                             .Select(x => x.GetType().Assembly)
+                                             .Distinct()
+                                             .ToArray();
+            _translationProvider = new ResxTranslationProvider(assemblies);
+            this.OnPropertyChanged("CurrentLanguage"); // Hack to trigger refresh
         }
     }
 }

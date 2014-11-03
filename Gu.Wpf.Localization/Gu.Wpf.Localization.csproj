@@ -80,6 +80,7 @@
     <Compile Include="TranslationData.cs" />
     <Compile Include="TranslationInfo.cs" />
     <Compile Include="TranslationManager.cs" />
+    <Compile Include="VisualTreeHelperExt.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
