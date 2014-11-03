@@ -2,10 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:Gu.Wpf.Localization.Demo.Controls;assembly=Gu.Wpf.Localization.Demo.Controls"
-
-        xmlns:withResources="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
-        xmlns:lex="http://wpflocalizeextension.codeplex.com"
         xmlns:l="clr-namespace:Gu.Wpf.Localization;assembly=Gu.Wpf.Localization"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        xmlns:withResources="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
         Title="MainWindow"
         Width="800"
         Height="600">

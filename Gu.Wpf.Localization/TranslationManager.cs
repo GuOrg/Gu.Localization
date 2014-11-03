@@ -135,59 +135,9 @@
                     element.Loaded += translationManager.ElementOnLoaded;
                     return translationManager;
                 }
-                else
-                {
-                    throw new NotImplementedException("message");
-                }
+                throw new NotImplementedException("element == null || element.IsLoaded");
             }
-
-            var assemblies = new List<Assembly>();
-            if (rootObject != null)
-            {
-                var userControl = rootObject.RootObject as UserControl;
-                if (rootObject.RootObject is ResourceDictionary)
-                {
-                    //var provider = (IServiceProvider)rootObject;
-                    //var service = (IProvideValueTarget)provider.GetService(typeof(IProvideValueTarget));
-                    //var controltemplate = service.TargetObject as ControlTemplate;
-                    var allAssemblies = AppDomain.CurrentDomain.GetAssemblies()
-                                                 .Where(a => a.GetManifestResourceNames()
-                                                              .Any(n => n.Contains("Resources")) &&
-                                                              a.GetName().CultureName == "");
-                    assemblies.AddRange(allAssemblies);
-                    //assemblies.Add(Assembly.GetEntryAssembly());
-                }
-                else if (rootObject.RootObject.GetType().IsSubclassOf(typeof(Window)))
-                {
-                    assemblies.Add(rootObject.RootObject.GetType().Assembly);
-                }
-                else if (rootObject.RootObject.GetType().IsSubclassOf(typeof(Application)))
-                {
-                    assemblies.Add(rootObject.RootObject.GetType().Assembly);
-                }
-                else if (userControl != null)
-                {
-                    userControl.Loaded += (sender, args) =>
-                        {
-                            var dependencyObject = VisualTreeHelper.GetParent(userControl);
-                            var b = dependencyObject != null;
-                        };
-                    assemblies.Add(userControl.GetType().Assembly);
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-            }
-            else
-            {
-                var allAssemblies = AppDomain.CurrentDomain.GetAssemblies()
-                                             .Where(a => a.GetManifestResourceNames()
-                                                          .Any(n => n.Contains("Resources")) &&
-                                                          a.GetName().CultureName == "");
-                assemblies.AddRange(allAssemblies);
-            }
-            return Create(assemblies.ToArray());
+            throw new NotImplementedException("provideValueTarget == null");
         }
 
         public string Translate(string key)

@@ -81,7 +81,7 @@
 
         public bool HasCulture(CultureInfo culture)
         {
-            return _languages.Any(x => x.ThreeLetterISOLanguageName == culture.TwoLetterISOLanguageName);
+            return _languages.Any(x => x.TwoLetterISOLanguageName == culture.TwoLetterISOLanguageName);
         }
 
         public bool HasKey(string key, CultureInfo culture)
