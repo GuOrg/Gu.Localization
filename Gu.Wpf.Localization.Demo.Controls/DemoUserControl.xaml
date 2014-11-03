@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:l="clr-namespace:Gu.Wpf.Localization;assembly=Gu.Wpf.Localization"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -28,41 +29,41 @@
                    Text="MissingKey" />
         <TextBlock Grid.Row="0"
                    Grid.Column="1"
-                   Text="{l:Translate MissingKey}" />
+                   Text="{lex:Loc MissingKey}" />
 
         <TextBlock Grid.Row="1"
                    Grid.Column="0"
                    Text="MissingTranslation" />
         <TextBlock Grid.Row="1"
                    Grid.Column="1"
-                   Text="{l:Translate MissingTranslation}" />
+                   Text="{lex:Loc MissingTranslation}" />
 
         <TextBlock Grid.Row="2"
                    Grid.Column="0"
                    Text="MissingKey" />
         <TextBlock Grid.Row="2"
                    Grid.Column="1"
-                   Text="{l:Translate NeutralOnly}" />
+                   Text="{lex:Loc NeutralOnly}" />
 
         <TextBlock Grid.Row="3"
                    Grid.Column="0"
                    Text="SwedishOnly" />
         <TextBlock Grid.Row="3"
                    Grid.Column="1"
-                   Text="{l:Translate SwedishOnly}" />
+                   Text="{lex:Loc SwedishOnly}" />
 
         <TextBlock Grid.Row="4"
                    Grid.Column="0"
-                   Text="SwedishOnly" />
+                   Text="TranslatedToAll" />
         <TextBlock Grid.Row="4"
                    Grid.Column="1"
-                   Text="{l:Translate TranslatedToAll}" />
+                   Text="{lex:Loc TranslatedToAll}" />
 
         <TextBlock Grid.Row="5"
                    Grid.Column="0"
                    Text="KeyInControls" />
         <TextBlock Grid.Row="5"
                    Grid.Column="1"
-                   Text="{l:Translate KeyInControls}" />
+                   Text="{lex:Loc KeyInControls}" />
     </Grid>
 </UserControl>

@@ -22,7 +22,10 @@
         {
             _key = key;
             _translationManager = translationManager;
-            PropertyChangedEventManager.AddListener(translationManager, this,"CurrentLanguage");
+            if (_translationManager != null)
+            {
+                PropertyChangedEventManager.AddListener(translationManager, this,"CurrentLanguage");
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

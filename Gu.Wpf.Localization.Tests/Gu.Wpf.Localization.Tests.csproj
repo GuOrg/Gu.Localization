@@ -88,6 +88,10 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Gu.Wpf.Localization.Demo.Controls\Gu.Wpf.Localization.Demo.Controls.csproj">
+      <Project>{85009ef0-c922-4edb-9648-495b56b30cfc}</Project>
+      <Name>Gu.Wpf.Localization.Demo.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gu.Wpf.Localization\Gu.Wpf.Localization.csproj">
       <Project>{b5ba2bcc-6ca4-4422-9220-fdedd657ba0e}</Project>
       <Name>Gu.Wpf.Localization</Name>

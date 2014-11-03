@@ -26,21 +26,13 @@
             Assert.AreEqual("English", s3);
         }
 
-        [Test]
-        public void TranslateNonExistingKeyTest()
+        [TestCase("MissingKey", "en", "-MissingKey-")]
+        [TestCase("MissingKey", "no", "-MissingKey-")]
+        public void TranslateNonExistingKeyTest(string key, string culture, string expected)
         {
             TranslationManager.Instance.CurrentLanguage = CultureInfo.GetCultureInfo("no");
-            var s1 = TranslationManager.Instance.Translate("NoEntry");
-
-            TranslationManager.Instance.CurrentLanguage = CultureInfo.GetCultureInfo("sv");
-            var s2 = TranslationManager.Instance.Translate("NoEntry");
-
-            TranslationManager.Instance.CurrentLanguage = CultureInfo.GetCultureInfo("en");
-            var s3 = TranslationManager.Instance.Translate("NoEntry");
-
-            Assert.AreEqual("!NoEntry!", s1);
-            Assert.AreEqual("!NoEntry!", s2);
-            Assert.AreEqual("!NoEntry!", s3);
+            var actual = TranslationManager.Instance.Translate(key);
+            Assert.AreEqual(expected, actual);
         }
 
         [TestCase("sv-SE", "Svenska")]
