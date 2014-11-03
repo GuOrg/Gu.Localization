@@ -47,21 +47,5 @@
             var actual = ((TranslationData)binding.Source).Value;
             Assert.AreEqual(expected, actual);
         }
-
-        [TestCase("sv-SE", "MissingKey", "!MissingKey!")]
-        [TestCase("sv-SE", "NeutralOnly", "-NeutralOnly-")]
-        [TestCase("sv-SE", "EnglishOnly", "-EnglishOnly-")]
-        [TestCase("en-US", "EnglishOnly", "English")]
-        [TestCase("sv-SE", "AllLanguages", "Svenska")]
-        [TestCase("en-US", "AllLanguages", "English")]
-        public void ProvideValueDesigntime(string cultureName, string key, string expected)
-        {
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName);
-            var translateExtension = new TranslateExtension(key);
-            translateExtension.TestIsDesigntime = true;
-            var binding = (Binding)translateExtension.ProvideValue(_serviceProviderMock.Object);
-            var actual = ((TranslationData)binding.Source).Value;
-            Assert.AreEqual(expected, actual);
-        }
     }
 }

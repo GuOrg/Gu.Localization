@@ -57,6 +57,11 @@
         /// </summary>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
+            var provideValueTarget = serviceProvider.ProvideValueTarget();
+            if (!(provideValueTarget.TargetObject is DependencyObject))
+            {
+                return this;
+            }
             if (_translationManager == null)
             {
                 try
