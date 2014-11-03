@@ -24,7 +24,7 @@
                   SelectedItem="{Binding CurrentLanguage,
                                          Source={x:Static l:TranslationManager.Instance}}" />
         <WrapPanel Grid.Row="1">
-            <GroupBox BorderBrush="Green"
+            <!--<GroupBox BorderBrush="Green"
                       BorderThickness="2"
                       Header="Vanilla xaml">
                 <Grid>
@@ -78,8 +78,12 @@
                                Grid.Column="1"
                                Text="{l:Translate TranslatedToAll}" />
                 </Grid>
+            </GroupBox>-->
+            
+            <GroupBox BorderBrush="BlueViolet" Header="DataTemplate">
+                <ContentPresenter ContentTemplate="{StaticResource DataTemplate}" />
             </GroupBox>
-
+            
             <!--
                 <GroupBox BorderBrush="HotPink"
                 BorderThickness="2"

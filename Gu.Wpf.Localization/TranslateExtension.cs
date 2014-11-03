@@ -68,7 +68,7 @@
             {
                 try
                 {
-                    _translationManager = this.GetTranslationManager(serviceProvider);
+                    _translationManager = TranslationManager.Create(serviceProvider);
                 }
                 catch (Exception)
                 {
@@ -79,51 +79,13 @@
                 }
             }
 
-            var translationData = IsDesigntime
-                                      ? (ITranslationData)new TranslationDataDesigntime(Key, _translationManager)
-                                      : new TranslationData(this.Key, _translationManager);
+            var translationData = new TranslationData(this.Key, _translationManager);
             var binding = new Binding("Value")
             {
                 Source = translationData
             };
             var provideValue = binding.ProvideValue(serviceProvider);
             return provideValue;
-        }
-
-        private TranslationManager GetTranslationManager(IServiceProvider serviceProvider)
-        {
-            List<Assembly> assemblies = new List<Assembly>();
-            if (this.IsDesigntime)
-            {
-                if (serviceProvider == null)
-                {
-                    throw new ArgumentException("serviceProvider == null");
-                }
-                assemblies.Add(this.GetDesigntimeRootAssembly());
-            }
-            else
-            {
-                var uriContext = (IUriContext)serviceProvider.GetService(typeof(IUriContext));
-                var rootObject = (IRootObjectProvider)serviceProvider.GetService(typeof(IRootObjectProvider));
-                if (rootObject != null)
-                {
-                    assemblies.Add(rootObject.RootObject.GetType().Assembly);
-                }
-                if (uriContext.BaseUri == null) // this means controltemplate
-                {
-                    throw new NotImplementedException("message");
-                }
-            }
-            return TranslationManager.GetInstance(assemblies);
-        }
-
-        private Assembly GetAssemblyFromUri(Uri uri)
-        {
-            var localPath = uri.LocalPath;
-            var startIndex = 1;
-            var endIndex = localPath.IndexOf(";");
-            string assemblyName = localPath.Substring(startIndex, endIndex - startIndex);
-            return Assembly.Load(assemblyName);
         }
 
         /// <summary>
