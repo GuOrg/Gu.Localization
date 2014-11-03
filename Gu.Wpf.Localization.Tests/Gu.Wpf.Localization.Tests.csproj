@@ -60,6 +60,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DesigntimeAssertsTests.cs" />
     <Compile Include="ResxTranslationProviderTests.cs" />
     <Compile Include="TranslateExtensionTests.cs" />
     <Compile Include="TranslationDataTests.cs" />
