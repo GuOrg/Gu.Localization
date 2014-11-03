@@ -2,9 +2,9 @@
 {
     using System;
     using System.ComponentModel;
-    using System.Linq;
-    using System.Threading;
+    using System.Globalization;
     using System.Windows;
+
     /// <summary>
     /// The object that the translation extension binds to
     /// </summary>
@@ -20,24 +20,9 @@
         /// <param name="translationManager"></param>
         public TranslationData(string key, TranslationManager translationManager)
         {
-            this._key = key;
+            _key = key;
             _translationManager = translationManager;
-            if (translationManager != null)
-            {
-                LanguageChangedEventManager.AddListener(translationManager, this);
-            }
-        }
-
-        /// <summary>
-        /// Releases unmanaged resources and performs other cleanup operations before the
-        /// <see cref="TranslationData"/> is reclaimed by garbage collection.
-        /// </summary>
-        ~TranslationData()
-        {
-            if (_translationManager != null)
-            {
-                LanguageChangedEventManager.RemoveListener(_translationManager, this);
-            }
+            PropertyChangedEventManager.AddListener(translationManager, this,"CurrentLanguage");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -77,20 +62,16 @@
 
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e)
         {
-            if (managerType == typeof(LanguageChangedEventManager))
+            if (managerType == typeof(PropertyChangedEventManager))
             {
-                this.OnLanguageChanged(sender, e);
+                var handler = this.PropertyChanged;
+                if (handler != null)
+                {
+                    handler(this, new PropertyChangedEventArgs("Value"));
+                }
                 return true;
             }
             return false;
-        }
-
-        private void OnLanguageChanged(object sender, EventArgs e)
-        {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
-            }
         }
     }
 }

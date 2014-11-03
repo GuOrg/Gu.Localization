@@ -14,14 +14,18 @@
     {
         private readonly List<CultureInfo> _languages = new List<CultureInfo>();
 
-        public ResxTranslationProvider(ResourceManager resourceManager)
+        public ResxTranslationProvider(params ResourceManager[] resourceManagers)
         {
-            this.ResourceManager = resourceManager;
-            this._languages = CultureInfo.GetCultures(CultureTypes.AllCultures)
-                                    .Where(
-                                        x => x.TwoLetterISOLanguageName != "iv" &&
-                                             this.ResourceManager.GetResourceSet(x, true, false) != null)
+            ResourceManagers = resourceManagers;
+            _languages = CultureInfo.GetCultures(CultureTypes.AllCultures)
+                                    .Where(x => x.TwoLetterISOLanguageName != "iv" &&
+                                                this.ResourceManagers.Any(r => r.GetResourceSet(x, true, false) != null))
                                     .ToList();
+        }
+
+        public ResxTranslationProvider(IEnumerable<ResourceManager> resourceManagers)
+            : this(resourceManagers.ToArray())
+        {
         }
 
         public ResxTranslationProvider(Type resourceSource)
@@ -40,7 +44,7 @@
         {
         }
 
-        public ResourceManager ResourceManager { get; private set; }
+        public ResourceManager[] ResourceManagers { get; private set; }
 
 
         /// <summary>
@@ -50,7 +54,7 @@
         {
             get
             {
-                return this._languages;
+                return _languages;
             }
         }
 
@@ -59,7 +63,12 @@
         /// </summary>
         public string Translate(string key)
         {
-            return this.ResourceManager.GetString(key);
+            var manager = this.ResourceManagers.FirstOrDefault(x => !string.IsNullOrEmpty(x.GetString(key)));
+            if (manager == null)
+            {
+                return string.Format(Properties.Resources.MissingTranslationFormat, key);
+            }
+            return manager.GetString(key);
         }
 
         public bool HasCulture(CultureInfo culture)
@@ -69,21 +78,21 @@
 
         public bool HasKey(string key, CultureInfo culture)
         {
-            if (this.ResourceManager == null)
+            if (this.ResourceManagers == null)
             {
                 return false;
             }
             if (culture != null)
             {
-                var resourceSet = this.ResourceManager.GetResourceSet(culture, false, true);
+                var resourceSet = this.ResourceManagers.FirstOrDefault(r => r.GetResourceSet(culture, false, true) != null);
                 if (resourceSet == null)
                 {
                     return false;
                 }
                 return !string.IsNullOrEmpty(resourceSet.GetString(key));
             }
-            var value = this.ResourceManager.GetString(key, culture);
-            return !string.IsNullOrEmpty(value);
+            var values = this.ResourceManagers.Select(r => r.GetString(key, culture));
+            return values.All(x => !string.IsNullOrEmpty(x));
         }
     }
 }
