@@ -12,7 +12,7 @@ namespace Gu.Wpf.Localization.Demo.WithResources
         public MainWindow()
         {
             InitializeComponent();
-            //TranslationManager.Instance.CurrentLanguage = CultureInfo.GetCultureInfo("sv");
+            TranslationManager.Instance.CurrentLanguage = CultureInfo.GetCultureInfo("sv");
         }
     }
 }

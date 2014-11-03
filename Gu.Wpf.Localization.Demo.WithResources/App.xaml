@@ -27,35 +27,35 @@
                            Text="MissingKey" />
                 <TextBlock Grid.Row="0"
                            Grid.Column="1"
-                           Text="{lex:Loc MissingKey}" />
+                           Text="{l:Translate MissingKey}" />
 
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
                            Text="MissingTranslation" />
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
-                           Text="{lex:Loc MissingTranslation}" />
+                           Text="{l:Translate MissingTranslation}" />
 
                 <TextBlock Grid.Row="2"
                            Grid.Column="0"
                            Text="NeutralOnly" />
                 <TextBlock Grid.Row="2"
                            Grid.Column="1"
-                           Text="{lex:Loc NeutralOnly}" />
+                           Text="{l:Translate NeutralOnly}" />
 
                 <TextBlock Grid.Row="3"
                            Grid.Column="0"
                            Text="SwedishOnly" />
                 <TextBlock Grid.Row="3"
                            Grid.Column="1"
-                           Text="{lex:Loc SwedishOnly}" />
+                           Text="{l:Translate SwedishOnly}" />
 
                 <TextBlock Grid.Row="4"
                            Grid.Column="0"
                            Text="TranslatedToAll" />
                 <TextBlock Grid.Row="4"
                            Grid.Column="1"
-                           Text="{lex:Loc TranslatedToAll}" />
+                           Text="{l:Translate TranslatedToAll}" />
             </Grid>
         </DataTemplate>
     </Application.Resources>
