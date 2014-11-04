@@ -18,48 +18,22 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           Text="MissingKey" />
+                               Grid.Column="0"
+                               Text="SwedishOnly" />
                 <TextBlock Grid.Row="0"
-                           Grid.Column="1"
-                           Text="{l:Translate MissingKey}" />
+                               Grid.Column="1"
+                               Text="{l:Translate SwedishOnly}" />
 
                 <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           Text="MissingTranslation" />
+                               Grid.Column="0"
+                               Text="TranslatedToAll" />
                 <TextBlock Grid.Row="1"
-                           Grid.Column="1"
-                           Text="{l:Translate MissingTranslation}" />
-
-                <TextBlock Grid.Row="2"
-                           Grid.Column="0"
-                           Text="NeutralOnly" />
-                <TextBlock Grid.Row="2"
-                           Grid.Column="1"
-                           Text="{l:Translate NeutralOnly}" />
-
-                <TextBlock Grid.Row="3"
-                           Grid.Column="0"
-                           Text="SwedishOnly" />
-                <TextBlock Grid.Row="3"
-                           Grid.Column="1"
-                           Text="{l:Translate SwedishOnly}" />
-
-                <TextBlock Grid.Row="4"
-                           Grid.Column="0"
-                           Text="TranslatedToAll" />
-                <TextBlock Grid.Row="4"
-                           Grid.Column="1"
-                           Text="{l:Translate TranslatedToAll}" />
+                               Grid.Column="1"
+                               Text="{l:Translate TranslatedToAll}" />
             </Grid>
         </DataTemplate>
     </Application.Resources>

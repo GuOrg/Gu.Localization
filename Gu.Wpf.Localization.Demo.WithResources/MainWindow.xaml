@@ -5,9 +5,9 @@
         xmlns:l="clr-namespace:Gu.Wpf.Localization;assembly=Gu.Wpf.Localization"
         xmlns:withResources="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
         Title="MainWindow"
-        l:TranslationManager.DesignModeCulture="en"
         Width="800"
-        Height="600">
+        Height="600"
+        l:TranslationManager.DesignModeCulture="sv">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -20,10 +20,9 @@
                   SelectedItem="{Binding CurrentLanguage,
                                          Source={x:Static l:TranslationManager.Instance}}" />
         <WrapPanel Grid.Row="1">
-
             <GroupBox BorderBrush="Green"
                       BorderThickness="2"
-                      Header="Vanilla xaml">
+                      Header="No translations">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -60,24 +59,42 @@
                     <TextBlock Grid.Row="2"
                                Grid.Column="1"
                                Text="{l:Translate NeutralOnly}" />
+                </Grid>
+            </GroupBox>
 
-                    <TextBlock Grid.Row="3"
+            <GroupBox BorderBrush="Green"
+                      BorderThickness="2"
+                      Header="Vanilla xaml">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
                                Grid.Column="0"
                                Text="SwedishOnly" />
-                    <TextBlock Grid.Row="3"
+                    <TextBlock Grid.Row="0"
                                Grid.Column="1"
                                Text="{l:Translate SwedishOnly}" />
 
-                    <TextBlock Grid.Row="4"
+                    <TextBlock Grid.Row="1"
                                Grid.Column="0"
                                Text="TranslatedToAll" />
-                    <TextBlock Grid.Row="4"
+                    <TextBlock Grid.Row="1"
                                Grid.Column="1"
                                Text="{l:Translate TranslatedToAll}" />
                 </Grid>
             </GroupBox>
 
-            <GroupBox>
+            <GroupBox BorderBrush="Green"
+                      BorderThickness="2"
+                      Header="Not in visual tree">
                 <DataGrid>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{l:Translate TranslatedToAll}" />

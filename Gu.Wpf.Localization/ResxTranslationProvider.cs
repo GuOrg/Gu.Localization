@@ -25,7 +25,7 @@
                                          .ToList();
         }
         public ResxTranslationProvider(params Assembly[] assemblies)
-            : this(assemblies.Where(a => a.GetManifestResourceNames().Any(x => x.Contains("Resources"))).Select(x => Cache.GetOrAdd(x, r => new ResourceManager(r.GetName().Name + ".Properties.Resources", r))))
+            : this(CreateManagers(assemblies))
         {
         }
 
@@ -33,6 +33,7 @@
             : this(resourceManagers.ToArray())
         {
         }
+
         public ResxTranslationProvider(IEnumerable<Assembly> assemblies)
             : this(assemblies.ToArray())
         {
@@ -103,6 +104,14 @@
             }
             var values = this.ResourceManagers.Select(r => r.ResourceManager.GetString(key, null));
             return !values.All(string.IsNullOrEmpty);
+        }
+
+        private static ResourceManager[] CreateManagers(IEnumerable<Assembly> assemblies)
+        {
+            var resourceManagers = assemblies.Where(a => a != null && a.GetManifestResourceNames().Any(x => x.Contains("Resources")))
+                                             .Select(x => Cache.GetOrAdd(x, r => new ResourceManager(r.GetName().Name + ".Properties.Resources", r)))
+                                             .ToArray();
+            return resourceManagers;
         }
 
         public class ResourceManagerWrapper
