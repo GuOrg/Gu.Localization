@@ -2,17 +2,15 @@
 {
     using System;
     using System.ComponentModel;
-    using System.Globalization;
     using System.Windows;
 
     /// <summary>
     /// The object that the translation extension binds to
     /// </summary>
-    public class TranslationData : IWeakEventListener, ITranslationData
+    public class TranslationData : IWeakEventListener, INotifyPropertyChanged
     {
-        protected readonly TranslationManager TranslationManager;
-
-        protected readonly string Key;
+        private readonly TranslationManager _translationManager;
+        private readonly string _key;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TranslationData"/> class.
@@ -21,9 +19,9 @@
         /// <param name="translationManager"></param>
         public TranslationData(string key, TranslationManager translationManager)
         {
-            this.Key = key;
-            this.TranslationManager = translationManager;
-            if (this.TranslationManager != null)
+            this._key = key;
+            this._translationManager = translationManager;
+            if (this._translationManager != null)
             {
                 PropertyChangedEventManager.AddListener(translationManager, this,"CurrentLanguage");
             }
@@ -38,29 +36,29 @@
         {
             get
             {
-                if (this.TranslationManager != null)
+                if (this._translationManager != null)
                 {
-                    var translationInfo = this.TranslationManager.GetInfo(this.Key);
+                    var translationInfo = this._translationManager.GetInfo(this._key);
                     switch (translationInfo)
                     {
                         case TranslationInfo.CanTranslate:
-                            var translate = this.TranslationManager.Translate(this.Key);
+                            var translate = this._translationManager.Translate(this._key);
                             return translate;
                         case TranslationInfo.MissingKey:
-                            return string.Format(Properties.Resources.MissingKeyFormat, this.Key);
+                            return string.Format(Properties.Resources.MissingKeyFormat, this._key);
                         case TranslationInfo.NoLanguages:
-                            return string.Format(Properties.Resources.NoLanguagesFormat, this.Key);
+                            return string.Format(Properties.Resources.NoLanguagesFormat, this._key);
                         case TranslationInfo.NoResources:
-                            return string.Format(Properties.Resources.MissingResourcesFormat, this.Key);
+                            return string.Format(Properties.Resources.MissingResourcesFormat, this._key);
                         case TranslationInfo.NoProvider:
-                            return string.Format(Properties.Resources.NullManagerFormat, this.Key);
+                            return string.Format(Properties.Resources.NullManagerFormat, this._key);
                         case TranslationInfo.NoTranslation:
-                            return string.Format(Properties.Resources.MissingTranslationFormat, this.Key);
+                            return string.Format(Properties.Resources.MissingTranslationFormat, this._key);
                         default:
                             break;
                     }
                 }
-                return string.Format(Properties.Resources.NullManagerFormat, this.Key);
+                return string.Format(Properties.Resources.NullManagerFormat, this._key);
             }
         }
 

@@ -3,16 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:Gu.Wpf.Localization.Demo.Controls;assembly=Gu.Wpf.Localization.Demo.Controls"
         xmlns:l="clr-namespace:Gu.Wpf.Localization;assembly=Gu.Wpf.Localization"
-        xmlns:lex="http://wpflocalizeextension.codeplex.com"
         xmlns:withResources="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
         Title="MainWindow"
+        l:TranslationManager.DesignModeCulture="en"
         Width="800"
         Height="600">
-    <Window.Resources>
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="Margin" Value="10,0,10,0" />
-        </Style>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

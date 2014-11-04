@@ -42,7 +42,7 @@
         {
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName);
             var translateExtension = new TranslateExtension(key);
-            translateExtension.TestIsDesigntime = false;
+            DesignMode.OverrideIsInDesignMode = false;
             var binding = (Binding)translateExtension.ProvideValue(_serviceProviderMock.Object);
             var actual = ((TranslationData)binding.Source).Value;
             Assert.AreEqual(expected, actual);

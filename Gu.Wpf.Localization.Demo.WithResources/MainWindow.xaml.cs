@@ -2,8 +2,6 @@
 
 namespace Gu.Wpf.Localization.Demo.WithResources
 {
-    using System.Globalization;
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -12,7 +10,6 @@ namespace Gu.Wpf.Localization.Demo.WithResources
         public MainWindow()
         {
             InitializeComponent();
-            TranslationManager.Instance.CurrentLanguage = CultureInfo.GetCultureInfo("sv");
         }
     }
 }
