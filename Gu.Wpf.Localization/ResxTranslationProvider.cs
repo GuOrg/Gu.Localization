@@ -106,9 +106,24 @@
             return !values.All(string.IsNullOrEmpty);
         }
 
-        private static ResourceManager[] CreateManagers(IEnumerable<Assembly> assemblies)
+        private static IEnumerable<ResourceManager> CreateManagers(IEnumerable<Assembly> assemblies)
         {
-            var resourceManagers = assemblies.Where(a => a != null && a.GetManifestResourceNames().Any(x => x.Contains("Resources")))
+            const string Resources = ".resources";
+            foreach (var assembly in assemblies.Where(a => a != null && a.GetManifestResourceNames().Any(x => x.Contains(Resources))))
+            {
+                
+                var manifestResourceNames = assembly.GetManifestResourceNames().Where(x => x.Contains(Resources));
+                foreach (var manifestResourceName in manifestResourceNames)
+                {
+                    var types = assembly.GetTypes();
+                    var manifestResourceInfo = assembly.GetManifestResourceInfo(manifestResourceName);
+                    var resourceManager = new ResourceManager(manifestResourceName, assembly);
+                    throw new NotImplementedException("message");
+                    
+                    //yield return Cache.GetOrAdd(manifestResourceName,resourceManager)
+                }
+            }
+            var resourceManagers = assemblies.Where(a => a != null && a.GetManifestResourceNames().Any(x => x.Contains(Resources)))
                                              .Select(x => Cache.GetOrAdd(x, r => new ResourceManager(r.GetName().Name + ".Properties.Resources", r)))
                                              .ToArray();
             return resourceManagers;
