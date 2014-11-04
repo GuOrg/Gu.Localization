@@ -1,21 +1,27 @@
 ﻿namespace Gu.Wpf.Localization.Tests
 {
     using System;
-
+    using Moq;
     using NUnit.Framework;
 
     public class DesigntimeAssertsTests
     {
+        private Mock<IServiceProvider> _serviceProviderMock;
+        [SetUp]
+        public void SetUp()
+        {
+            _serviceProviderMock = new Mock<IServiceProvider>();
+        }
         [Test]
         public void AssertTranslationThrowsWhenKeyIsMissing()
         {
-            Assert.Throws<ArgumentException>(() => DesigntimeAsserts.AssertTranslation("MissingKey"));
+            Assert.Throws<ArgumentException>(() => DesignMode.AssertTranslation(_serviceProviderMock.Object, "MissingKey"));
         }
 
         [Test]
         public void DoesNotThrowWhenKeyIsPresent()
         {
-            Assert.DoesNotThrow(() => DesigntimeAsserts.AssertTranslation("AllLanguages"));
+            Assert.DoesNotThrow(() => DesignMode.AssertTranslation(_serviceProviderMock.Object, "AllLanguages"));
         }
     }
 }

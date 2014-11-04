@@ -14,9 +14,7 @@
     ////[Localizability(LocalizationCategory.Text)]
     public class TranslateExtension : MarkupExtension
     {
-        private static readonly DependencyObject DependencyObject = new DependencyObject();
         private TranslationManager _translationManager;
-        public bool? TestIsDesigntime = null; // Hacking it ugly like this to be able to test
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TranslateExtension"/> class.
@@ -24,7 +22,7 @@
         /// <param name="key">The key.</param>
         public TranslateExtension(string key)
         {
-            if (IsDesigntime && key == null)
+            if (DesignMode.IsInDesignMode && key == null)
             {
                 throw new ArgumentNullException("key");
             }
@@ -38,21 +36,6 @@
         public string Key { get; set; }
 
         /// <summary>
-        /// Check if is in desigtime mode
-        /// </summary>
-        public bool IsDesigntime
-        {
-            get
-            {
-                if (TestIsDesigntime.HasValue)
-                {
-                    return TestIsDesigntime.Value;
-                }
-                return DesignerProperties.GetIsInDesignMode(DependencyObject);
-            }
-        }
-
-        /// <summary>
         /// See <see cref="MarkupExtension.ProvideValue" />
         /// </summary>
         public override object ProvideValue(IServiceProvider serviceProvider)
@@ -62,10 +45,7 @@
             {
                 return this;
             }
-            if (IsDesigntime)
-            {
-                DesigntimeAsserts.AssertTranslation(Key);
-            }
+
             if (_translationManager == null)
             {
                 try
@@ -74,7 +54,7 @@
                 }
                 catch (Exception e)
                 {
-                    if (IsDesigntime)
+                    if (DesignMode.IsInDesignMode)
                     {
                         throw;
                     }

@@ -20,7 +20,14 @@
     public class TranslationManager : INotifyPropertyChanged
     {
         private static readonly ConcurrentDictionary<Assembly, TranslationManager> Cache = new ConcurrentDictionary<Assembly, TranslationManager>();
+        private static readonly TranslationManager _default = new TranslationManager(new ResxTranslationProvider(Assembly.GetEntryAssembly()));
         private ITranslationProvider _translationProvider;
+        public static readonly DependencyProperty DesignModeCultureProperty = DependencyProperty.RegisterAttached(
+            "DesignModeCulture",
+            typeof(CultureInfo),
+            typeof(TranslationManager),
+            new PropertyMetadata(CultureInfo.CurrentUICulture, OnDesignModeCultureChanged));
+
         private TranslationManager()
         {
             LanguageChanged += (sender, info) => OnPropertyChanged("CurrentLanguage");
@@ -43,6 +50,11 @@
                 var assembly = Assembly.GetCallingAssembly();
                 return Cache.GetOrAdd(assembly, a => Create(a));
             }
+        }
+
+        public static TranslationManager Default
+        {
+            get { return _default; }
         }
 
         public IEnumerable<Assembly> Assemblies { get; private set; }
@@ -122,10 +134,7 @@
 
         public static TranslationManager Create(IServiceProvider serviceProvider)
         {
-            var rootObject = serviceProvider.RootObjectProvider();
             var provideValueTarget = serviceProvider.ProvideValueTarget();
-            var typeDescriptorContext = serviceProvider.TypeDescriptorContext();
-            var uriContext = serviceProvider.UriContext();
             if (provideValueTarget != null)
             {
                 var element = provideValueTarget.TargetObject as FrameworkElement;
@@ -135,17 +144,18 @@
                     element.Loaded += translationManager.ElementOnLoaded;
                     return translationManager;
                 }
-                if (rootObject == null)
-                {
-                    throw new ArgumentException("rootObject == null");
-                }
-                if (rootObject.RootObject == null)
-                {
-                    throw new ArgumentException("rootObject.RootObject == null");
-                }
-                return new TranslationManager(new ResxTranslationProvider(rootObject.RootObject.GetType().Assembly));
             }
-            throw new ArgumentException("provideValueTarget == null");
+            return Default;
+        }
+
+        public static CultureInfo GetDesignModeCulture(UIElement element)
+        {
+            return (CultureInfo)element.GetValue(DesignModeCultureProperty);
+        }
+
+        public static void SetDesignModeCulture(UIElement element, CultureInfo value)
+        {
+            element.SetValue(DesignModeCultureProperty, value);
         }
 
         public string Translate(string key)
@@ -224,6 +234,14 @@
             }
         }
 
+        private static void OnDesignModeCultureChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            if (DesignMode.IsInDesignMode)
+            {
+                Default.CurrentLanguage = (CultureInfo)dependencyPropertyChangedEventArgs.NewValue;
+            }
+        }
+
         private void ElementOnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             var frameworkElement = (FrameworkElement)sender;
@@ -235,5 +253,6 @@
             _translationProvider = new ResxTranslationProvider(assemblies);
             this.OnPropertyChanged("CurrentLanguage"); // Hack to trigger refresh
         }
+
     }
 }
