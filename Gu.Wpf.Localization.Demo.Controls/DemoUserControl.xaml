@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:l="clr-namespace:Gu.Wpf.Localization;assembly=Gu.Wpf.Localization"
-             
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.Controls.Properties"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
@@ -20,25 +20,25 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0"
+        <!--<TextBlock Grid.Row="0"
                    Grid.Column="0"
                    Text="SwedishOnly" />
         <TextBlock Grid.Row="0"
                    Grid.Column="1"
-                   Text="{l:Translate SwedishOnly}" />
+                   Text="{l:Resource p:Resources.SwedishOnly}" />
 
         <TextBlock Grid.Row="1"
                    Grid.Column="0"
                    Text="TranslatedToAll" />
         <TextBlock Grid.Row="1"
                    Grid.Column="1"
-                   Text="{l:Translate TranslatedToAll}" />
+                   Text="{l:Resource p:Resources.TranslatedToAll}" />-->
 
         <TextBlock Grid.Row="2"
                    Grid.Column="0"
                    Text="KeyInControls" />
         <TextBlock Grid.Row="2"
                    Grid.Column="1"
-                   Text="{l:Translate KeyInControls}" />
+                   Text="{l:Resource p:Resources.KeyInControls}" />
     </Grid>
 </UserControl>

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:Gu.Wpf.Localization.Demo.Controls;assembly=Gu.Wpf.Localization.Demo.Controls"
         xmlns:l="clr-namespace:Gu.Wpf.Localization;assembly=Gu.Wpf.Localization"
+        xmlns:p="clr-namespace:Gu.Wpf.Localization.NoResources.Properties"
         Title="MainWindow"
         Width="525"
         Height="350">
@@ -13,11 +14,10 @@
         </Grid.RowDefinitions>
         <ComboBox Grid.Row="0"
                   Grid.Column="0"
-                  ItemsSource="{Binding Languages,
-                                        Source={x:Static l:TranslationManager.Instance}}"
-                  SelectedItem="{Binding CurrentLanguage,
-                                         Source={x:Static l:TranslationManager.Instance}}" />
-        <WrapPanel Grid.Row="1">
+                  ItemsSource="{Binding Source={x:Static l:Translator.Cultures}}"
+                  SelectedItem="{Binding CurrentCulture,
+                                         Source={x:Static l:Translator.Culture}}" />
+        <!--<WrapPanel Grid.Row="1">
             <GroupBox BorderBrush="Green"
                       BorderThickness="2"
                       Header="Vanilla xaml">
@@ -37,13 +37,13 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0"
+                    --><!--<TextBlock Grid.Row="0"
                                Grid.Column="0"
                                Text="MissingKey" />
                     <TextBlock Grid.Row="0"
                                Grid.Column="1"
                                Margin="10,0,10,0"
-                               Text="{l:Translate MissingKey}" />
+                               Text="{l:Resource p:Resources.MissingKey}" />--><!--
 
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
@@ -51,7 +51,7 @@
                     <TextBlock Grid.Row="1"
                                Grid.Column="1"
                                Margin="10,0,10,0"
-                               Text="{l:Translate MissingTranslation}" />
+                               Text="{l:Resource p:Resources.MissingTranslation}" />
 
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
@@ -59,7 +59,7 @@
                     <TextBlock Grid.Row="2"
                                Grid.Column="1"
                                Margin="10,0,10,0"
-                               Text="{l:Translate NeutralOnly}" />
+                               Text="{l:Resource p:Resources.NeutralOnly}" />
 
                     <TextBlock Grid.Row="3"
                                Grid.Column="0"
@@ -67,7 +67,7 @@
                     <TextBlock Grid.Row="3"
                                Grid.Column="1"
                                Margin="10,0,10,0"
-                               Text="{l:Translate SwedishOnly}" />
+                               Text="{l:Resource p:Resources.SwedishOnly}" />
 
                     <TextBlock Grid.Row="4"
                                Grid.Column="0"
@@ -75,7 +75,7 @@
                     <TextBlock Grid.Row="4"
                                Grid.Column="1"
                                Margin="10,0,10,0"
-                               Text="{l:Translate TranslatedToAll}" />
+                               Text="{l:Resource p:Resources.TranslatedToAll}" />
                 </Grid>
             </GroupBox>
             <GroupBox BorderBrush="Blue"
@@ -88,6 +88,6 @@
                       Header="Custom control from other project">
                 <controls:DemoCustomControl />
             </GroupBox>
-        </WrapPanel>
+        </WrapPanel>-->
     </Grid>
 </Window>

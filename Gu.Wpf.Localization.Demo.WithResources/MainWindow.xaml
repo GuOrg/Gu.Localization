@@ -3,11 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:Gu.Wpf.Localization.Demo.Controls;assembly=Gu.Wpf.Localization.Demo.Controls"
         xmlns:l="clr-namespace:Gu.Wpf.Localization;assembly=Gu.Wpf.Localization"
+        xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.WithResources.Properties"
         xmlns:withResources="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
         Title="MainWindow"
         Width="800"
         Height="600"
-        l:TranslationManager.DesignModeCulture="sv">
+        Language="en">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -15,10 +16,9 @@
         </Grid.RowDefinitions>
         <ComboBox Grid.Row="0"
                   Grid.Column="0"
-                  ItemsSource="{Binding Languages,
-                                        Source={x:Static l:TranslationManager.Instance}}"
-                  SelectedItem="{Binding CurrentLanguage,
-                                         Source={x:Static l:TranslationManager.Instance}}" />
+                  ItemsSource="{Binding Source={x:Static l:Translator.Cultures}}"
+                  SelectedItem="{Binding CurrentCulture,
+                                         Source={x:Static l:Translator.Culture}}" />
         <WrapPanel Grid.Row="1">
             <GroupBox BorderBrush="Green"
                       BorderThickness="2"
@@ -39,26 +39,26 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0"
+                    <!--<TextBlock Grid.Row="0"
                                Grid.Column="0"
                                Text="MissingKey" />
                     <TextBlock Grid.Row="0"
                                Grid.Column="1"
-                               Text="{l:Translate MissingKey}" />
+                               Text="{l:Resource p:Resources.MissingKey}" />-->
 
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
                                Text="MissingTranslation" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="1"
-                               Text="{l:Translate MissingTranslation}" />
+                               Text="{l:Resource p:Resources.MissingTranslation}" />
 
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
                                Text="NeutralOnly" />
                     <TextBlock Grid.Row="2"
                                Grid.Column="1"
-                               Text="{l:Translate NeutralOnly}" />
+                               Text="{l:Resource p:Resources.NeutralOnly}" />
                 </Grid>
             </GroupBox>
 
@@ -81,14 +81,14 @@
                                Text="SwedishOnly" />
                     <TextBlock Grid.Row="0"
                                Grid.Column="1"
-                               Text="{l:Translate SwedishOnly}" />
+                               Text="{l:Resource p:Resources.SwedishOnly}" />
 
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
                                Text="TranslatedToAll" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="1"
-                               Text="{l:Translate TranslatedToAll}" />
+                               Text="{l:Resource p:Resources.TranslatedToAll}" />
                 </Grid>
             </GroupBox>
 
@@ -97,7 +97,7 @@
                       Header="Not in visual tree">
                 <DataGrid>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="{l:Translate TranslatedToAll}" />
+                        <DataGridTextColumn Header="{l:Resource p:Resources.TranslatedToAll}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
