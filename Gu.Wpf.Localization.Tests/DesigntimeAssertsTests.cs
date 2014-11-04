@@ -11,7 +11,9 @@
         public void SetUp()
         {
             _serviceProviderMock = new Mock<IServiceProvider>();
+            DesignMode.OverrideIsInDesignMode = true;
         }
+
         [Test]
         public void AssertTranslationThrowsWhenKeyIsMissing()
         {

@@ -35,8 +35,8 @@
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase("sv-SE", "Svenska")]
-        [TestCase("en-US", "English")]
+        [TestCase("sv", "Svenska")]
+        [TestCase("en", "English")]
         public void TranslateDefaultLanguageTest(string cultureName, string expected)
         {
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName);
