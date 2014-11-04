@@ -61,6 +61,15 @@ namespace Gu.Wpf.Localization.Modern.Demo.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string SwedishOnly {
+            get {
+                return ResourceManager.GetString("SwedishOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         internal static string TranslatedToAll {

@@ -39,9 +39,6 @@
             }
             if (!Provider.HasKey(key, null))
             {
-                var dependencyProperty = (DependencyProperty)provideValueTarget.TargetProperty;
-                var dependencyObject = (DependencyObject)provideValueTarget.TargetObject;
-                dependencyObject.SetValue(dependencyProperty, string.Format(Properties.Resources.MissingKeyFormat, key));
                 throw new ArgumentException(string.Format("No translation for {0}", key));
             }
         }

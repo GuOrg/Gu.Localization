@@ -8,6 +8,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Resources;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// 
@@ -111,22 +112,39 @@
             const string Resources = ".resources";
             foreach (var assembly in assemblies.Where(a => a != null && a.GetManifestResourceNames().Any(x => x.Contains(Resources))))
             {
-                
-                var manifestResourceNames = assembly.GetManifestResourceNames().Where(x => x.Contains(Resources));
-                foreach (var manifestResourceName in manifestResourceNames)
+                var resourceManager = Cache.GetOrAdd(assembly, CreateManager);
+                if (resourceManager != null)
                 {
-                    var types = assembly.GetTypes();
-                    var manifestResourceInfo = assembly.GetManifestResourceInfo(manifestResourceName);
-                    var resourceManager = new ResourceManager(manifestResourceName, assembly);
-                    throw new NotImplementedException("message");
-                    
-                    //yield return Cache.GetOrAdd(manifestResourceName,resourceManager)
+                    yield return resourceManager;
                 }
             }
-            var resourceManagers = assemblies.Where(a => a != null && a.GetManifestResourceNames().Any(x => x.Contains(Resources)))
-                                             .Select(x => Cache.GetOrAdd(x, r => new ResourceManager(r.GetName().Name + ".Properties.Resources", r)))
-                                             .ToArray();
-            return resourceManagers;
+        }
+
+        private static ResourceManager CreateManager(Assembly assembly)
+        {
+            if (assembly == typeof(ResxTranslationProvider).Assembly)
+            {
+                return null;
+            }
+            var types = assembly.GetTypes();
+            foreach (var type in types)
+            {
+                var propertyInfos =
+                    type.GetProperties(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
+                foreach (var propertyInfo in propertyInfos)
+                {
+                    if (propertyInfo.PropertyType == typeof(ResourceManager))
+                    {
+                        var value = (ResourceManager)propertyInfo.GetValue(null);
+                        if (value == null)
+                        {
+                            throw new InvalidOperationException("(ResourceManager)propertyInfo.GetValue(null) == null");
+                        }
+                        return value;
+                    }
+                }
+            }
+            return null;
         }
 
         public class ResourceManagerWrapper
@@ -144,10 +162,14 @@
             public ResourceManager ResourceManager { get; private set; }
 
             public IEnumerable<ResourceSetAndCulture> ResourceSets { get; private set; }
+            public override string ToString()
+            {
+                var cultures = string.Join(", ", this.ResourceSets.Select(x => x.Culture.TwoLetterISOLanguageName));
+                return string.Format("ResourceManager: {0}, ResourceSets: {1}", this.ResourceManager.BaseName, cultures);
+            }
 
             private static IEnumerable<ResourceSetAndCulture> GetCultures(ResourceManager manager)
             {
-                var stopwatch = Stopwatch.StartNew();
                 var cultureInfos = CultureInfo.GetCultures(CultureTypes.NeutralCultures).Where(x => x.Name != "");
                 foreach (var culture in cultureInfos)
                 {
@@ -157,7 +179,6 @@
                         yield return new ResourceSetAndCulture(resourceSet, culture);
                     }
                 }
-                var elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
             }
         }
 
