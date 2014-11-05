@@ -1,6 +1,7 @@
 ﻿namespace Gu.Wpf.Localization
 {
     using System;
+    using System.Collections.Concurrent;
     using System.ComponentModel;
     using System.Globalization;
     using System.Reflection;
@@ -17,6 +18,7 @@
     //[TypeForwardedFrom("PresentationFramework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35")]
     public class ResourceExtension : StaticExtension
     {
+        private static readonly ConcurrentDictionary<Type, ResourceManagerWrapper> Cache = new ConcurrentDictionary<Type, ResourceManagerWrapper>();
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Gu.Wpf.Localization.ResourceExtension"/> class using the provided <paramref name="member"/> string.
         /// </summary>
@@ -38,6 +40,24 @@
         {
             if (this.Member == null)
                 throw new InvalidOperationException("MarkupExtensionStaticMember");
+            if (DesignMode.IsDesignMode)
+            {
+                var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
+                if (target != null && target.TargetObject is FrameworkElement)
+                {
+                    var frameworkElement = (FrameworkElement)target.TargetObject;
+                    var value = (XmlLanguage)frameworkElement.GetValue(FrameworkElement.LanguageProperty);
+                    if (value != null)
+                    {
+                        Translator.CurrentCulture = CultureInfo.GetCultureInfo(value.IetfLanguageTag);
+                    }
+                }
+                if (target != null && !(target.TargetObject is DependencyObject))
+                {
+                    return this;
+                }
+            }
+
             Type type = this.MemberType;
             string name;
             string str;
@@ -52,14 +72,22 @@
                 int length = this.Member.IndexOf('.');
                 if (length < 0)
                 {
-                    throw new ArgumentException("MarkupExtensionBadStatic");
+                    if (DesignMode.IsDesignMode)
+                    {
+                        throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
+                    }
+                    return string.Format(Properties.Resources.UnknownErrorFormat, Member);
                 }
                 else
                 {
                     string qualifiedTypeName = this.Member.Substring(0, length);
                     if (qualifiedTypeName == string.Empty)
                     {
-                        throw new ArgumentException("MarkupExtensionBadStatic");
+                        if (DesignMode.IsDesignMode)
+                        {
+                            throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
+                        }
+                        return string.Format(Properties.Resources.UnknownErrorFormat, Member);
                     }
                     else
                     {
@@ -75,28 +103,28 @@
                             type = xamlTypeResolver.Resolve(qualifiedTypeName);
                             name = this.Member.Substring(length + 1, this.Member.Length - length - 1);
                             if (name == string.Empty)
-                                throw new ArgumentException("MarkupExtensionBadStatic");
+                            {
+                                if (DesignMode.IsDesignMode)
+                                {
+                                    throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
+                                }
+                                return string.Format(Properties.Resources.UnknownErrorFormat, Member);
+                            }
                         }
                     }
                 }
             }
-            var propertyInfo = type.GetProperty("ResourceManager", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-            var resourceManager = propertyInfo.GetValue(null) as ResourceManager;
+
+            var resourceManager = Cache.GetOrAdd(type, GetManager);
             if (resourceManager == null)
-                throw new ArgumentException("resourceManager == null");
-            if (true)//DesignMode.IsDesignMode)
             {
-                var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-                if (target != null && target.TargetObject is FrameworkElement)
+                if (DesignMode.IsDesignMode)
                 {
-                    var frameworkElement = (FrameworkElement)target.TargetObject;
-                    var value = (XmlLanguage)frameworkElement.GetValue(FrameworkElement.LanguageProperty);
-                    if (value != null)
-                    {
-                        Translator.CurrentCulture = CultureInfo.GetCultureInfo(value.IetfLanguageTag);
-                    }
+                    throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
                 }
+                return string.Format(Properties.Resources.NullManagerFormat, name);
             }
+
             var translator = new Translator(resourceManager, name);
             var binding = new Binding("Value")
             {
@@ -104,6 +132,17 @@
             };
             var provideValue = binding.ProvideValue(serviceProvider);
             return provideValue;
+        }
+
+        private static ResourceManagerWrapper GetManager(Type type)
+        {
+            var propertyInfo = type.GetProperty("ResourceManager", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+            var resourceManager = propertyInfo.GetValue(null) as ResourceManager;
+            if (resourceManager == null)
+            {
+                return null;
+            }
+            return new ResourceManagerWrapper(resourceManager);
         }
     }
 }

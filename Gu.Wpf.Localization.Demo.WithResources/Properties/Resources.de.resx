@@ -117,19 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MissingTranslation" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SwedishOnly" xml:space="preserve">
-    <value />
-  </data>
   <data name="TranslatedToAll" xml:space="preserve">
-    <value />
-  </data>
-  <data name="NeutralOnly" xml:space="preserve">
-    <value>So neutral</value>
-  </data>
-  <data name="SwedishAndNeutral" xml:space="preserve">
-    <value>So neutral</value>
+    <value>Deutch</value>
   </data>
 </root>

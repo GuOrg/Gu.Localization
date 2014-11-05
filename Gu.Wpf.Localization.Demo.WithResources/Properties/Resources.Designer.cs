@@ -79,6 +79,15 @@ namespace Gu.Wpf.Localization.Demo.WithResources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to So neutral.
+        /// </summary>
+        internal static string SwedishAndNeutral {
+            get {
+                return ResourceManager.GetString("SwedishAndNeutral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string SwedishOnly {
