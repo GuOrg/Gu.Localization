@@ -9,7 +9,10 @@
 
         public static bool IsDesignMode
         {
-            get { return DesignerProperties.GetIsInDesignMode(DependencyObject); }
+            get
+            {
+                return DesignerProperties.GetIsInDesignMode(DependencyObject);
+            }
         }
     }
 }

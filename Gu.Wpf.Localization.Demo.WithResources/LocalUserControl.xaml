@@ -9,8 +9,8 @@
              xmlns:withResources="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             mc:Ignorable="d" 
-             l:Translator.Culture="sv">
+             l:Translator.Culture="sv"
+             mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -35,5 +35,6 @@
         <TextBlock Grid.Row="1"
                    Grid.Column="1"
                    Text="{l:Resource p:Resources.TranslatedToAll}" />
+
     </Grid>
 </UserControl>
