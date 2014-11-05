@@ -15,16 +15,20 @@
         public static readonly DependencyProperty CultureProperty = DependencyProperty.RegisterAttached(
             "Culture",
             typeof(CultureInfo),
-            typeof(Translator), 
+            typeof(Translator),
             new FrameworkPropertyMetadata(
-                CultureInfo.CurrentUICulture, 
-                FrameworkPropertyMetadataOptions.AffectsArrange|FrameworkPropertyMetadataOptions.AffectsMeasure, 
+                CultureInfo.CurrentUICulture,
+                FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure,
                 OnCultureChanged));
+        /// <summary>
+        /// This is exposed for binding current language see demo.
+        /// </summary>
+        public static readonly CultureProxy CultureProxy = new CultureProxy();
 
         private readonly ResourceManagerWrapper _manager;
         private readonly string _key;
         private static CultureInfo _currentCulture;
-        public static readonly CultureProxy CultureProxy = new CultureProxy();
+
         internal Translator(ResourceManagerWrapper manager, string key)
         {
             _manager = manager;
@@ -32,19 +36,22 @@
             foreach (var resourceSetAndCulture in manager.ResourceSets)
             {
                 var cultureInfo = resourceSetAndCulture.Culture;
-                if (Cultures.All(c =>cultureInfo!=null && c.TwoLetterISOLanguageName != cultureInfo.TwoLetterISOLanguageName))
+                if (Cultures.All(c => cultureInfo != null && c.TwoLetterISOLanguageName != cultureInfo.TwoLetterISOLanguageName))
                 {
                     Cultures.Add(cultureInfo);
                     OnLanguageCahnged(cultureInfo);
                 }
             }
-            LanguageCahnged += (sender, info) => OnPropertyChanged("Value");
+            LanguageChanged += (sender, info) => OnPropertyChanged("Value");
         }
 
-        public static event EventHandler<CultureInfo> LanguageCahnged;
+        public static event EventHandler<CultureInfo> LanguageChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// The culture to translate to
+        /// </summary>
         public static CultureInfo CurrentCulture
         {
             get
@@ -62,6 +69,9 @@
             }
         }
 
+        /// <summary>
+        /// The Value for the key in CurrentCulture
+        /// </summary>
         public string Value
         {
             get
@@ -81,11 +91,26 @@
         /// <param name="resourceManager"></param>
         /// <param name="key">() => Properties.Resources.AllLanguages</param>
         /// <returns>The key translated to the CurrentCulture</returns>
-        public static string Translate(ResourceManager resourceManager,Expression<Func<string>> key)
+        public static string Translate(ResourceManager resourceManager, Expression<Func<string>> key)
         {
             var memberExpression = (MemberExpression)key.Body;
             var keyName = memberExpression.Member.Name;
             return resourceManager.GetString(keyName, CurrentCulture);
+        }
+
+        public static string Translate(ResourceManager resourceManager, string key)
+        {
+            return resourceManager.GetString(key, CurrentCulture);
+        }
+
+        public static CultureInfo GetCulture(UIElement element)
+        {
+            return (CultureInfo)element.GetValue(CultureProperty);
+        }
+
+        public static void SetCulture(UIElement element, CultureInfo value)
+        {
+            element.SetValue(CultureProperty, value);
         }
 
         protected virtual void OnPropertyChanged(string propertyName = null)
@@ -99,26 +124,30 @@
 
         private static void OnLanguageCahnged(CultureInfo e)
         {
-            var handler = LanguageCahnged;
+            var handler = LanguageChanged;
             if (handler != null)
             {
                 handler(null, e);
             }
         }
 
-        public static CultureInfo GetCulture(UIElement element)
+        private static void OnCultureChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            return (CultureInfo)element.GetValue(CultureProperty);
-        }
-
-        public static void SetCulture(UIElement element, CultureInfo value)
-        {
-            element.SetValue(CultureProperty, value);
-        }
-
-        private static void OnCultureChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
-        {
-            CurrentCulture = (CultureInfo)e.NewValue;
+            if (DesignMode.IsDesignMode)
+            {
+                var frameworkElement = o as FrameworkElement;
+                if (frameworkElement != null && !frameworkElement.IsLoaded)
+                {
+                    frameworkElement.Loaded += (sender, args) =>
+                        {
+                            CurrentCulture = (CultureInfo)e.NewValue;
+                        };
+                }
+            }
+            else
+            {
+                CurrentCulture = (CultureInfo)e.NewValue;
+            }
         }
     }
 }

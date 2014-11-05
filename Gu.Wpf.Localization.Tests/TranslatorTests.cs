@@ -58,7 +58,7 @@
         public void NotifiesOnLanguageChanged()
         {
             var cultureInfos = new List<CultureInfo>();
-            Translator.LanguageCahnged += (sender, info) => cultureInfos.Add(info);
+            Translator.LanguageChanged += (sender, info) => cultureInfos.Add(info);
 
             Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
             CollectionAssert.AreEqual(new[] { "en" }, cultureInfos.Select(x => x.TwoLetterISOLanguageName));

@@ -8,7 +8,7 @@
         public event PropertyChangedEventHandler PropertyChanged;
         public CultureProxy()
         {
-            Translator.LanguageCahnged += (sender, info) => OnPropertyChanged("CurrentCulture");
+            Translator.LanguageChanged += (sender, info) => OnPropertyChanged("CurrentCulture");
         }
 
         public CultureInfo CurrentCulture
