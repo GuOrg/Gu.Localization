@@ -19,6 +19,7 @@
     public class ResourceExtension : StaticExtension
     {
         private static readonly ConcurrentDictionary<Type, ResourceManagerWrapper> Cache = new ConcurrentDictionary<Type, ResourceManagerWrapper>();
+        private IXamlTypeResolver xamlTypeResolver;
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Gu.Wpf.Localization.ResourceExtension"/> class using the provided <paramref name="member"/> string.
         /// </summary>
@@ -54,6 +55,8 @@
                 }
                 if (target != null && !(target.TargetObject is DependencyObject))
                 {
+                    xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
+
                     return this;
                 }
             }
@@ -93,7 +96,10 @@
                     {
                         if (serviceProvider == null)
                             throw new ArgumentNullException("serviceProvider");
-                        var xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
+                        if (xamlTypeResolver == null)
+                        {
+                            xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
+                        }
                         if (xamlTypeResolver == null)
                         {
                             throw new ArgumentException("MarkupExtensionNoContext IXamlTypeResolver");
