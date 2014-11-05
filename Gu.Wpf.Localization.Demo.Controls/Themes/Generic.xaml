@@ -32,14 +32,14 @@
                                 Text="SwedishOnly" />
                                 <TextBlock Grid.Row="0"
                                 Grid.Column="1"
-                                Text="{l:Resource p:Resources.SwedishOnly}" />
+                                Text="{l:Static p:Resources.SwedishOnly}" />
                                 
                                 <TextBlock Grid.Row="1"
                                 Grid.Column="0"
                                 Text="TranslatedToAll" />
                                 <TextBlock Grid.Row="1"
                                 Grid.Column="1"
-                                Text="{l:Resource p:Resources.TranslatedToAll}" />
+                                Text="{l:Static p:Resources.TranslatedToAll}" />
                             -->
 
                             <TextBlock Grid.Row="2"
@@ -47,7 +47,7 @@
                                        Text="KeyInControls" />
                             <TextBlock Grid.Row="2"
                                        Grid.Column="1"
-                                       Text="{l:Resource p:Resources.KeyInControls}" />
+                                       Text="{l:Static p:Resources.KeyInControls}" />
                         </Grid>
                     </Border>
                 </ControlTemplate>

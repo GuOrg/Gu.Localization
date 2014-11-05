@@ -8,6 +8,7 @@
     using Moq;
 
     using NUnit.Framework;
+    using StaticExtension = Localization.StaticExtension;
 
     public class TranslateExtensionTests
     {
@@ -19,7 +20,7 @@
             provideValueTargetMock.SetupGet(x => x.TargetObject).Returns(new SharedDp());
             serviceProviderMock.Setup(x => x.GetService(typeof(IProvideValueTarget)))
                                 .Returns(provideValueTargetMock.Object);
-            var translateExtension = new ResourceExtension("meh");
+            var translateExtension = new StaticExtension("meh");
             var actual = translateExtension.ProvideValue(serviceProviderMock.Object);
             Assert.AreEqual("#meh#", actual);
         }
