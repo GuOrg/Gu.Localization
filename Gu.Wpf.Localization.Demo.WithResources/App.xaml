@@ -8,7 +8,7 @@
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="Margin" Value="10,0,10,0" />
         </Style>
-        
+
         <DataTemplate x:Key="DataTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -22,18 +22,18 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0"
-                               Grid.Column="0"
-                               Text="SwedishOnly" />
+                           Grid.Column="0"
+                           Text="SwedishOnly" />
                 <TextBlock Grid.Row="0"
-                               Grid.Column="1"
-                               Text="{l:Resource p:Resources.SwedishOnly}" />
+                           Grid.Column="1"
+                           Text="{l:Resource p:Resources.SwedishOnly}" />
 
                 <TextBlock Grid.Row="1"
-                               Grid.Column="0"
-                               Text="TranslatedToAll" />
+                           Grid.Column="0"
+                           Text="TranslatedToAll" />
                 <TextBlock Grid.Row="1"
-                               Grid.Column="1"
-                               Text="{l:Resource p:Resources.TranslatedToAll}" />
+                           Grid.Column="1"
+                           Text="{l:Resource p:Resources.TranslatedToAll}" />
             </Grid>
         </DataTemplate>
     </Application.Resources>

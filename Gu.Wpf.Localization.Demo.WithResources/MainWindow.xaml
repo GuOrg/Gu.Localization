@@ -18,7 +18,7 @@
                   Grid.Column="0"
                   ItemsSource="{Binding Source={x:Static l:Translator.Cultures}}"
                   SelectedItem="{Binding CurrentCulture,
-                                         Source={x:Static l:Translator.Culture}}" />
+                                         Source={x:Static l:Translator.CultureProxy}}" />
         <WrapPanel Grid.Row="1">
             <GroupBox BorderBrush="Green"
                       BorderThickness="2"
@@ -38,27 +38,41 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-
-                    <!--<TextBlock Grid.Row="0"
+                    <TextBlock Grid.Row="0"
                                Grid.Column="0"
                                Text="MissingKey" />
                     <TextBlock Grid.Row="0"
                                Grid.Column="1"
-                               Text="{l:Resource p:Resources.MissingKey}" />-->
+                               Text="{l:Resource p:Resources.MissingKey}" />
 
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
-                               Text="MissingTranslation" />
+                               Text="SwedishAndNeutral" />
                     <TextBlock Grid.Row="1"
+                               Grid.Column="1"
+                               Text="{l:Resource p:Resources.SwedishAndNeutral}" />
+
+
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="0"
+                               Text="MissingTranslation" />
+                    <TextBlock Grid.Row="2"
                                Grid.Column="1"
                                Text="{l:Resource p:Resources.MissingTranslation}" />
 
-                    <TextBlock Grid.Row="2"
+                    <TextBlock Grid.Row="3"
                                Grid.Column="0"
                                Text="NeutralOnly" />
-                    <TextBlock Grid.Row="2"
+                    <TextBlock Grid.Row="3"
                                Grid.Column="1"
                                Text="{l:Resource p:Resources.NeutralOnly}" />
+
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="0"
+                               Text="BadFormat" />
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="1"
+                               Text="{l:Resource BadFormat}" />
                 </Grid>
             </GroupBox>
 

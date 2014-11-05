@@ -64,6 +64,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ResourceSetAndCulture.cs" />
     <Compile Include="CultureProxy.cs" />
     <Compile Include="DesignMode.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -76,6 +77,7 @@
     </Compile>
     <Compile Include="ResourceExtension.cs" />
     <Compile Include="ResourceExtensionConverter.cs" />
+    <Compile Include="ResourceManagerWrapper.cs" />
     <Compile Include="Translator.cs" />
   </ItemGroup>
   <ItemGroup>

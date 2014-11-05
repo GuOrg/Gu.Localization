@@ -7,34 +7,49 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Resources;
+    using System.Windows;
 
     public class Translator : INotifyPropertyChanged
     {
-        private readonly ResourceManager _manager;
+        public static ObservableCollection<CultureInfo> Cultures = new ObservableCollection<CultureInfo>();
+        public static readonly DependencyProperty CultureProperty = DependencyProperty.RegisterAttached(
+            "Culture",
+            typeof(CultureInfo),
+            typeof(Translator), 
+            new FrameworkPropertyMetadata(
+                CultureInfo.CurrentUICulture, 
+                FrameworkPropertyMetadataOptions.AffectsArrange|FrameworkPropertyMetadataOptions.AffectsMeasure, 
+                OnCultureChanged));
+
+        private readonly ResourceManagerWrapper _manager;
         private readonly string _key;
         private static CultureInfo _currentCulture;
-        private static readonly CultureProxy CultureProxy = new CultureProxy();
-        internal Translator(ResourceManager manager, string key)
+        public static readonly CultureProxy CultureProxy = new CultureProxy();
+        internal Translator(ResourceManagerWrapper manager, string key)
         {
             _manager = manager;
             _key = key;
+            foreach (var resourceSetAndCulture in manager.ResourceSets)
+            {
+                var cultureInfo = resourceSetAndCulture.Culture;
+                if (Cultures.All(c =>cultureInfo!=null && c.TwoLetterISOLanguageName != cultureInfo.TwoLetterISOLanguageName))
+                {
+                    Cultures.Add(cultureInfo);
+                    OnLanguageCahnged(cultureInfo);
+                }
+            }
             LanguageCahnged += (sender, info) => OnPropertyChanged("Value");
         }
 
         public Translator Create<T>(T resources, Func<T, ResourceManager> manager, Expression<Func<T, string>> key)
         {
             var memberExpression = (MemberExpression)key.Body;
-            return new Translator(manager(resources), memberExpression.Member.Name);
+            return new Translator(new ResourceManagerWrapper(manager(resources)), memberExpression.Member.Name);
         }
 
         public static event EventHandler<CultureInfo> LanguageCahnged;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public static CultureProxy Culture
-        {
-            get { return CultureProxy; }
-        }
 
         public static CultureInfo CurrentCulture
         {
@@ -53,17 +68,16 @@
             }
         }
 
-        public static ObservableCollection<CultureInfo> Cultures = new ObservableCollection<CultureInfo>
-        {
-            CultureInfo.GetCultureInfo("sv"),
-            CultureInfo.GetCultureInfo("en")
-        };
-
         public string Value
         {
             get
             {
-                return _manager.GetString(_key, CurrentCulture);
+                var value = _manager.ResourceManager.GetString(_key, CurrentCulture);
+                if (value == null)
+                {
+                    return string.Format(Properties.Resources.MissingKeyFormat, _key);
+                }
+                return value;
             }
         }
 
@@ -83,6 +97,21 @@
             {
                 handler(null, e);
             }
+        }
+
+        public static CultureInfo GetCulture(UIElement element)
+        {
+            return (CultureInfo)element.GetValue(CultureProperty);
+        }
+
+        public static void SetCulture(UIElement element, CultureInfo value)
+        {
+            element.SetValue(CultureProperty, value);
+        }
+
+        private static void OnCultureChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            CurrentCulture = (CultureInfo)e.NewValue;
         }
     }
 }

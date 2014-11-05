@@ -16,78 +16,82 @@
                   Grid.Column="0"
                   ItemsSource="{Binding Source={x:Static l:Translator.Cultures}}"
                   SelectedItem="{Binding CurrentCulture,
-                                         Source={x:Static l:Translator.Culture}}" />
-        <!--<WrapPanel Grid.Row="1">
+                                         Source={x:Static l:Translator.CultureProxy}}" />
+        <!--
+            <WrapPanel Grid.Row="1">
             <GroupBox BorderBrush="Green"
-                      BorderThickness="2"
-                      Header="Vanilla xaml">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    --><!--<TextBlock Grid.Row="0"
-                               Grid.Column="0"
-                               Text="MissingKey" />
-                    <TextBlock Grid.Row="0"
-                               Grid.Column="1"
-                               Margin="10,0,10,0"
-                               Text="{l:Resource p:Resources.MissingKey}" />--><!--
-
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="0"
-                               Text="MissingTranslation" />
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="1"
-                               Margin="10,0,10,0"
-                               Text="{l:Resource p:Resources.MissingTranslation}" />
-
-                    <TextBlock Grid.Row="2"
-                               Grid.Column="0"
-                               Text="NeutralOnly" />
-                    <TextBlock Grid.Row="2"
-                               Grid.Column="1"
-                               Margin="10,0,10,0"
-                               Text="{l:Resource p:Resources.NeutralOnly}" />
-
-                    <TextBlock Grid.Row="3"
-                               Grid.Column="0"
-                               Text="SwedishOnly" />
-                    <TextBlock Grid.Row="3"
-                               Grid.Column="1"
-                               Margin="10,0,10,0"
-                               Text="{l:Resource p:Resources.SwedishOnly}" />
-
-                    <TextBlock Grid.Row="4"
-                               Grid.Column="0"
-                               Text="TranslatedToAll" />
-                    <TextBlock Grid.Row="4"
-                               Grid.Column="1"
-                               Margin="10,0,10,0"
-                               Text="{l:Resource p:Resources.TranslatedToAll}" />
-                </Grid>
+            BorderThickness="2"
+            Header="Vanilla xaml">
+            <Grid>
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+        -->
+        <!--
+            <TextBlock Grid.Row="0"
+            Grid.Column="0"
+            Text="MissingKey" />
+            <TextBlock Grid.Row="0"
+            Grid.Column="1"
+            Margin="10,0,10,0"
+            Text="{l:Resource p:Resources.MissingKey}" />
+        -->
+        <!--
+            <TextBlock Grid.Row="1"
+            Grid.Column="0"
+            Text="MissingTranslation" />
+            <TextBlock Grid.Row="1"
+            Grid.Column="1"
+            Margin="10,0,10,0"
+            Text="{l:Resource p:Resources.MissingTranslation}" />
+            
+            <TextBlock Grid.Row="2"
+            Grid.Column="0"
+            Text="NeutralOnly" />
+            <TextBlock Grid.Row="2"
+            Grid.Column="1"
+            Margin="10,0,10,0"
+            Text="{l:Resource p:Resources.NeutralOnly}" />
+            
+            <TextBlock Grid.Row="3"
+            Grid.Column="0"
+            Text="SwedishOnly" />
+            <TextBlock Grid.Row="3"
+            Grid.Column="1"
+            Margin="10,0,10,0"
+            Text="{l:Resource p:Resources.SwedishOnly}" />
+            
+            <TextBlock Grid.Row="4"
+            Grid.Column="0"
+            Text="TranslatedToAll" />
+            <TextBlock Grid.Row="4"
+            Grid.Column="1"
+            Margin="10,0,10,0"
+            Text="{l:Resource p:Resources.TranslatedToAll}" />
+            </Grid>
             </GroupBox>
             <GroupBox BorderBrush="Blue"
-                      BorderThickness="2"
-                      Header="UserControl from other project">
-                <controls:DemoUserControl />
+            BorderThickness="2"
+            Header="UserControl from other project">
+            <controls:DemoUserControl />
             </GroupBox>
             <GroupBox BorderBrush="Red"
-                      BorderThickness="2"
-                      Header="Custom control from other project">
-                <controls:DemoCustomControl />
+            BorderThickness="2"
+            Header="Custom control from other project">
+            <controls:DemoCustomControl />
             </GroupBox>
-        </WrapPanel>-->
+            </WrapPanel>
+        -->
     </Grid>
 </Window>
