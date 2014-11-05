@@ -33,3 +33,4 @@ using System.Resources;
 [assembly: AssemblyVersion("1.0.3.3")]
 [assembly: AssemblyFileVersion("1.0.3.3")]
 [assembly: NeutralResourcesLanguageAttribute("en")]
+[assembly: InternalsVisibleTo("Gu.Wpf.Localization.Tests", AllInternalsVisible = true) ]
