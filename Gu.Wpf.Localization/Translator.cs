@@ -41,12 +41,6 @@
             LanguageCahnged += (sender, info) => OnPropertyChanged("Value");
         }
 
-        public Translator Create<T>(T resources, Func<T, ResourceManager> manager, Expression<Func<T, string>> key)
-        {
-            var memberExpression = (MemberExpression)key.Body;
-            return new Translator(new ResourceManagerWrapper(manager(resources)), memberExpression.Member.Name);
-        }
-
         public static event EventHandler<CultureInfo> LanguageCahnged;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -79,6 +73,19 @@
                 }
                 return value;
             }
+        }
+
+        /// <summary>
+        /// Translator.Translate(Properties.Resources.ResourceManager, () => Properties.Resources.AllLanguages);
+        /// </summary>
+        /// <param name="resourceManager"></param>
+        /// <param name="key">() => Properties.Resources.AllLanguages</param>
+        /// <returns>The key translated to the CurrentCulture</returns>
+        public static string Translate(ResourceManager resourceManager,Expression<Func<string>> key)
+        {
+            var memberExpression = (MemberExpression)key.Body;
+            var keyName = memberExpression.Member.Name;
+            return resourceManager.GetString(keyName, CurrentCulture);
         }
 
         protected virtual void OnPropertyChanged(string propertyName = null)

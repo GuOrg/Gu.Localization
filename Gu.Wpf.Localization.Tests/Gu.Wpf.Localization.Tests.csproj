@@ -60,17 +60,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DesigntimeAssertsTests.cs" />
-    <Compile Include="ResxTranslationProviderTests.cs" />
+    <Compile Include="ResourceManagerWrapperTests.cs" />
     <Compile Include="TranslateExtensionTests.cs" />
-    <Compile Include="TranslationDataTests.cs" />
-    <Compile Include="TranslationManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.generated.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TranslatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
