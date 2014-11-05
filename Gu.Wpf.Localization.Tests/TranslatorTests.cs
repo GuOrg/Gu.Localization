@@ -1,10 +1,8 @@
 ﻿namespace Gu.Wpf.Localization.Tests
 {
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
-
     using NUnit.Framework;
 
     public class TranslatorTests

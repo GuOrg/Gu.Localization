@@ -24,12 +24,12 @@ namespace Gu.Wpf.Localization
         {
             if (!(destinationType == typeof(InstanceDescriptor)))
                 return base.ConvertTo(context, culture, value, destinationType);
-            var resourceExtension = value as ResourceExtension;
+            var resourceExtension = value as StaticExtension;
             if (resourceExtension == null)
-                throw new ArgumentException("MustBeOfType: " + typeof(ResourceExtension).Name);
+                throw new ArgumentException("MustBeOfType: " + typeof(StaticExtension).Name);
             else
                 return (object)new InstanceDescriptor(
-                    (MemberInfo)typeof(ResourceExtension).GetConstructor(new Type[1]{typeof (string)}), 
+                    (MemberInfo)typeof(StaticExtension).GetConstructor(new Type[1]{typeof (string)}), 
                     (ICollection)new object[1]{(object) resourceExtension.Member});
         }
     }

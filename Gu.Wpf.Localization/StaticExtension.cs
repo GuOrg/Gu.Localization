@@ -6,6 +6,7 @@
     using System.Globalization;
     using System.Reflection;
     using System.Resources;
+    using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
@@ -14,23 +15,24 @@
     /// Implements a markup extension that returns static field and property references.
     /// </summary>
     [MarkupExtensionReturnType(typeof(string))]
+    [ContentProperty("Member"), DefaultProperty("Member")]
     [TypeConverter(typeof(ResourceExtensionConverter))]
-    //[TypeForwardedFrom("PresentationFramework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35")]
-    public class ResourceExtension : StaticExtension
+    public class StaticExtension : System.Windows.Markup.StaticExtension
     {
         private static readonly ConcurrentDictionary<Type, ResourceManagerWrapper> Cache = new ConcurrentDictionary<Type, ResourceManagerWrapper>();
-        private IXamlTypeResolver xamlTypeResolver;
+        private IXamlTypeResolver _xamlTypeResolver;
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Gu.Wpf.Localization.ResourceExtension"/> class using the provided <paramref name="member"/> string.
+        /// Initializes a new instance of the <see cref="T:Gu.Wpf.Localization.StaticExtension"/> class using the provided <paramref name="member"/> string.
         /// </summary>
         /// <param name="member">A string that identifies the member to make a reference to. This string uses the format prefix:typeName.fieldOrPropertyName. prefix is the mapping prefix for a XAML namespace, and is only required to reference static values that are not mapped to the default XAML namespace.</param><exception cref="T:System.ArgumentNullException"><paramref name="member"/> is null.</exception>
-        public ResourceExtension(string member)
+        public StaticExtension(string member)
             : base(member)
         {
+            Member = member;
         }
 
         /// <summary>
-        /// Returns an object value to set on the property where you apply this extension. For <see cref="T:System.Windows.Markup.ResourceExtension"/>, the return value is the static value that is evaluated for the requested static member.
+        /// Returns an object value to set on the property where you apply this extension. For <see cref="T:System.Windows.Markup.StaticExtension"/>, the return value is the static value that is evaluated for the requested static member.
         /// </summary>
         /// 
         /// <returns>
@@ -57,7 +59,7 @@
                     }
                     if (target != null && !(target.TargetObject is DependencyObject))
                     {
-                        xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
+                        _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
 
                         return this;
                     }
@@ -95,17 +97,17 @@
                         {
                             if (serviceProvider == null)
                                 throw new ArgumentNullException("serviceProvider");
-                            if (xamlTypeResolver == null)
+                            if (_xamlTypeResolver == null)
                             {
-                                xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
+                                _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
                             }
-                            if (xamlTypeResolver == null)
+                            if (_xamlTypeResolver == null)
                             {
                                 throw new ArgumentException("MarkupExtensionNoContext IXamlTypeResolver");
                             }
                             else
                             {
-                                type = xamlTypeResolver.Resolve(qualifiedTypeName);
+                                type = _xamlTypeResolver.Resolve(qualifiedTypeName);
                                 name = this.Member.Substring(length + 1, this.Member.Length - length - 1);
                                 if (string.IsNullOrEmpty(name))
                                 {

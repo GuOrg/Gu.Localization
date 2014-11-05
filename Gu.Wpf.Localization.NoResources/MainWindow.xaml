@@ -45,7 +45,7 @@
             <TextBlock Grid.Row="0"
             Grid.Column="1"
             Margin="10,0,10,0"
-            Text="{l:Resource p:Resources.MissingKey}" />
+            Text="{l:Static p:Resources.MissingKey}" />
         -->
         <!--
             <TextBlock Grid.Row="1"
@@ -54,7 +54,7 @@
             <TextBlock Grid.Row="1"
             Grid.Column="1"
             Margin="10,0,10,0"
-            Text="{l:Resource p:Resources.MissingTranslation}" />
+            Text="{l:Static p:Resources.MissingTranslation}" />
             
             <TextBlock Grid.Row="2"
             Grid.Column="0"
@@ -62,7 +62,7 @@
             <TextBlock Grid.Row="2"
             Grid.Column="1"
             Margin="10,0,10,0"
-            Text="{l:Resource p:Resources.NeutralOnly}" />
+            Text="{l:Static p:Resources.NeutralOnly}" />
             
             <TextBlock Grid.Row="3"
             Grid.Column="0"
@@ -70,7 +70,7 @@
             <TextBlock Grid.Row="3"
             Grid.Column="1"
             Margin="10,0,10,0"
-            Text="{l:Resource p:Resources.SwedishOnly}" />
+            Text="{l:Static p:Resources.SwedishOnly}" />
             
             <TextBlock Grid.Row="4"
             Grid.Column="0"
@@ -78,7 +78,7 @@
             <TextBlock Grid.Row="4"
             Grid.Column="1"
             Margin="10,0,10,0"
-            Text="{l:Resource p:Resources.TranslatedToAll}" />
+            Text="{l:Static p:Resources.TranslatedToAll}" />
             </Grid>
             </GroupBox>
             <GroupBox BorderBrush="Blue"

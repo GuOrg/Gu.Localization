@@ -15,7 +15,7 @@
                       ItemsSource="{Binding Source={x:Static l:Translator.Cultures}}"
                       SelectedItem="{Binding CurrentCulture,
                                              Source={x:Static l:Translator.CultureProxy}}" />
-            <TextBlock Style="{StaticResource Heading2}" Text="{l:Resource p:Resources.TranslatedToAll}" />
+            <TextBlock Style="{StaticResource Heading2}" Text="{l:Static p:Resources.TranslatedToAll}" />
         </StackPanel>
     </Grid>
 </UserControl>

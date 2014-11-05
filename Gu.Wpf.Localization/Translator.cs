@@ -139,9 +139,18 @@
                 if (frameworkElement != null && !frameworkElement.IsLoaded)
                 {
                     frameworkElement.Loaded += (sender, args) =>
-                        {
-                            CurrentCulture = (CultureInfo)e.NewValue;
-                        };
+                    {
+                        CurrentCulture = null;
+                        CurrentCulture = (CultureInfo)e.NewValue;
+                    };
+                }
+                if (frameworkElement != null && !frameworkElement.IsVisible)
+                {
+                    frameworkElement.IsVisibleChanged += (sender, args) =>
+                    {
+                        CurrentCulture = null;
+                        CurrentCulture = (CultureInfo)e.NewValue;
+                    };
                 }
             }
             else

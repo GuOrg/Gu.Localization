@@ -29,14 +29,14 @@
                        Text="MissingKey" />
             <TextBlock Grid.Row="0"
                        Grid.Column="1"
-                       Text="{l:Resource p:Resources.MissingKey}" />
+                       Text="{l:Static p:Resources.MissingKey}" />
 
             <TextBlock Grid.Row="1"
                        Grid.Column="0"
                        Text="SwedishAndNeutral" />
             <TextBlock Grid.Row="1"
                        Grid.Column="1"
-                       Text="{l:Resource p:Resources.SwedishAndNeutral}" />
+                       Text="{l:Static p:Resources.SwedishAndNeutral}" />
 
 
             <TextBlock Grid.Row="2"
@@ -44,21 +44,21 @@
                        Text="MissingTranslation" />
             <TextBlock Grid.Row="2"
                        Grid.Column="1"
-                       Text="{l:Resource p:Resources.MissingTranslation}" />
+                       Text="{l:Static p:Resources.MissingTranslation}" />
 
             <TextBlock Grid.Row="3"
                        Grid.Column="0"
                        Text="NeutralOnly" />
             <TextBlock Grid.Row="3"
                        Grid.Column="1"
-                       Text="{l:Resource p:Resources.NeutralOnly}" />
+                       Text="{l:Static p:Resources.NeutralOnly}" />
 
             <TextBlock Grid.Row="4"
                        Grid.Column="0"
                        Text="BadFormat" />
             <TextBlock Grid.Row="4"
                        Grid.Column="1"
-                       Text="{l:Resource BadFormat}" />
+                       Text="{l:Static BadFormat}" />
         </Grid>
     </Grid>
 </UserControl>

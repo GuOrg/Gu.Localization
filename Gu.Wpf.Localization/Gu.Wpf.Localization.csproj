@@ -75,7 +75,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ResourceExtension.cs" />
+    <Compile Include="StaticExtension.cs" />
     <Compile Include="ResourceExtensionConverter.cs" />
     <Compile Include="ResourceManagerWrapper.cs" />
     <Compile Include="Translator.cs" />
