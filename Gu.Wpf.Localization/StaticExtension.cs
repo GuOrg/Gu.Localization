@@ -16,7 +16,7 @@
     /// </summary>
     [MarkupExtensionReturnType(typeof(string))]
     [ContentProperty("Member"), DefaultProperty("Member")]
-    [TypeConverter(typeof(ResourceExtensionConverter))]
+    [TypeConverter(typeof(StaticExtensionConverter))]
     public class StaticExtension : System.Windows.Markup.StaticExtension
     {
         private static readonly ConcurrentDictionary<Type, ResourceManagerWrapper> Cache = new ConcurrentDictionary<Type, ResourceManagerWrapper>();
@@ -44,28 +44,17 @@
             try
             {
                 if (this.Member == null)
-                    throw new InvalidOperationException("MarkupExtensionStaticMember");
-                if (DesignMode.IsDesignMode)
                 {
-                    var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-                    if (target != null && target.TargetObject is FrameworkElement)
-                    {
-                        var frameworkElement = (FrameworkElement)target.TargetObject;
-                        var value = (XmlLanguage)frameworkElement.GetValue(FrameworkElement.LanguageProperty);
-                        if (value != null)
-                        {
-                            Translator.CurrentCulture = CultureInfo.GetCultureInfo(value.IetfLanguageTag);
-                        }
-                    }
-                    if (target != null && !(target.TargetObject is DependencyObject))
-                    {
-                        _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
-
-                        return this;
-                    }
+                    throw new InvalidOperationException("MarkupExtensionStaticMember");
                 }
 
-                Type type = this.MemberType;
+                if (DesignMode.IsDesignMode && IsTemplate(serviceProvider))
+                {
+                    _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
+                    return this;
+                }
+
+                var type = this.MemberType;
                 string name;
                 if (type != (Type)null)
                 {
@@ -73,7 +62,7 @@
                 }
                 else
                 {
-                    int length = this.Member.IndexOf('.');
+                    var length = this.Member.IndexOf('.');
                     if (length < 0)
                     {
                         if (DesignMode.IsDesignMode)
@@ -82,43 +71,26 @@
                         }
                         return string.Format(Properties.Resources.UnknownErrorFormat, Member);
                     }
-                    else
+                    var qualifiedTypeName = this.Member.Substring(0, length);
+                    if (string.IsNullOrEmpty(qualifiedTypeName))
                     {
-                        string qualifiedTypeName = this.Member.Substring(0, length);
-                        if (string.IsNullOrEmpty(qualifiedTypeName))
+                        if (DesignMode.IsDesignMode)
                         {
-                            if (DesignMode.IsDesignMode)
-                            {
-                                throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
-                            }
-                            return string.Format(Properties.Resources.UnknownErrorFormat, Member);
+                            throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
                         }
-                        else
+                        return string.Format(Properties.Resources.UnknownErrorFormat, Member);
+                    }
+
+                    type = this.GetMemberType(serviceProvider, qualifiedTypeName);
+
+                    name = this.Member.Substring(length + 1, this.Member.Length - length - 1);
+                    if (string.IsNullOrEmpty(name))
+                    {
+                        if (DesignMode.IsDesignMode)
                         {
-                            if (serviceProvider == null)
-                                throw new ArgumentNullException("serviceProvider");
-                            if (_xamlTypeResolver == null)
-                            {
-                                _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
-                            }
-                            if (_xamlTypeResolver == null)
-                            {
-                                throw new ArgumentException("MarkupExtensionNoContext IXamlTypeResolver");
-                            }
-                            else
-                            {
-                                type = _xamlTypeResolver.Resolve(qualifiedTypeName);
-                                name = this.Member.Substring(length + 1, this.Member.Length - length - 1);
-                                if (string.IsNullOrEmpty(name))
-                                {
-                                    if (DesignMode.IsDesignMode)
-                                    {
-                                        throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
-                                    }
-                                    return string.Format(Properties.Resources.UnknownErrorFormat, Member);
-                                }
-                            }
+                            throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
                         }
+                        return string.Format(Properties.Resources.UnknownErrorFormat, Member);
                     }
                 }
 
@@ -159,6 +131,33 @@
                 return null;
             }
             return new ResourceManagerWrapper(resourceManager);
+        }
+
+        private static bool IsTemplate(IServiceProvider serviceProvider)
+        {
+            var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
+            return target != null && 
+                   !(target.TargetObject is DependencyObject);
+        }
+
+        private Type GetMemberType(IServiceProvider serviceProvider, string qualifiedTypeName)
+        {
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException("serviceProvider");
+            }
+
+            if (_xamlTypeResolver == null)
+            {
+                _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
+            }
+
+            if (_xamlTypeResolver == null)
+            {
+                throw new ArgumentException("MarkupExtensionNoContext IXamlTypeResolver");
+            }
+
+            return _xamlTypeResolver.Resolve(qualifiedTypeName);
         }
     }
 }

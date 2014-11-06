@@ -76,7 +76,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="StaticExtension.cs" />
-    <Compile Include="ResourceExtensionConverter.cs" />
+    <Compile Include="StaticExtensionConverter.cs" />
     <Compile Include="ResourceManagerWrapper.cs" />
     <Compile Include="Translator.cs" />
   </ItemGroup>

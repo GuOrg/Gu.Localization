@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ResourceManagerWrapperTests.cs" />
-    <Compile Include="TranslateExtensionTests.cs" />
+    <Compile Include="StaticExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.generated.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

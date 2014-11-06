@@ -2,15 +2,10 @@
 {
     using System;
     using System.Windows.Markup;
-
-    using Gu.Wpf.Localization;
-
     using Moq;
-
     using NUnit.Framework;
-    using StaticExtension = Localization.StaticExtension;
 
-    public class TranslateExtensionTests
+    public class StaticExtensionTests
     {
         [Test]
         public void ProvideValueSharedDp()
@@ -20,7 +15,7 @@
             provideValueTargetMock.SetupGet(x => x.TargetObject).Returns(new SharedDp());
             serviceProviderMock.Setup(x => x.GetService(typeof(IProvideValueTarget)))
                                 .Returns(provideValueTargetMock.Object);
-            var translateExtension = new StaticExtension("meh");
+            var translateExtension = new Gu.Wpf.Localization.StaticExtension("meh");
             var actual = translateExtension.ProvideValue(serviceProviderMock.Object);
             Assert.AreEqual("#meh#", actual);
         }

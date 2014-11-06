@@ -67,7 +67,7 @@
             </GroupBox>
 
             <GroupBox BorderBrush="BlueViolet" Header="DataTemplate">
-                <ContentPresenter ContentTemplate="{StaticResource DataTemplate}" />
+                <ContentPresenter ContentTemplate="{StaticResource DemoTemplate}" />
             </GroupBox>
 
             <GroupBox BorderBrush="HotPink"

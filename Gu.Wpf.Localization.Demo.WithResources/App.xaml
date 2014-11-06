@@ -9,7 +9,7 @@
             <Setter Property="Margin" Value="10,0,10,0" />
         </Style>
 
-        <DataTemplate x:Key="DataTemplate">
+        <DataTemplate x:Key="DemoTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
