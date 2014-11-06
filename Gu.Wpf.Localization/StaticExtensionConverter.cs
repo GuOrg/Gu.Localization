@@ -8,7 +8,7 @@ namespace Gu.Wpf.Localization
     using System.Reflection;
     using System.Security;
 
-    internal class ResourceExtensionConverter : TypeConverter
+    internal class StaticExtensionConverter : TypeConverter
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
