@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Localization
+﻿namespace Gu.Localization
 {
     using System.Collections.Concurrent;
     using System.Collections.Generic;

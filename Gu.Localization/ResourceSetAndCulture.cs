@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Localization
+﻿namespace Gu.Localization
 {
     using System.Globalization;
     using System.Resources;

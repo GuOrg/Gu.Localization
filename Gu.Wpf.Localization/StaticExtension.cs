@@ -3,13 +3,13 @@
     using System;
     using System.Collections.Concurrent;
     using System.ComponentModel;
-    using System.Globalization;
     using System.Reflection;
     using System.Resources;
-    using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
+
+    using Gu.Localization;
 
     /// <summary>
     /// Implements a markup extension that returns static field and property references.
@@ -69,7 +69,7 @@
                         {
                             throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
                         }
-                        return string.Format(Properties.Resources.UnknownErrorFormat, Member);
+                        return string.Format(Gu.Localization.Properties.Resources.UnknownErrorFormat, Member);
                     }
                     var qualifiedTypeName = this.Member.Substring(0, length);
                     if (string.IsNullOrEmpty(qualifiedTypeName))
@@ -78,7 +78,7 @@
                         {
                             throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
                         }
-                        return string.Format(Properties.Resources.UnknownErrorFormat, Member);
+                        return string.Format(Gu.Localization.Properties.Resources.UnknownErrorFormat, Member);
                     }
 
                     type = this.GetMemberType(serviceProvider, qualifiedTypeName);
@@ -90,7 +90,7 @@
                         {
                             throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
                         }
-                        return string.Format(Properties.Resources.UnknownErrorFormat, Member);
+                        return string.Format(Gu.Localization.Properties.Resources.UnknownErrorFormat, Member);
                     }
                 }
 
@@ -101,7 +101,7 @@
                     {
                         throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
                     }
-                    return string.Format(Properties.Resources.NullManagerFormat, name);
+                    return string.Format(Gu.Localization.Properties.Resources.NullManagerFormat, name);
                 }
 
                 var translator = new Translator(resourceManager, name);
@@ -118,7 +118,7 @@
                 {
                     throw;
                 }
-                return string.Format(Properties.Resources.UnknownErrorFormat, Member);
+                return string.Format(Gu.Localization.Properties.Resources.UnknownErrorFormat, Member);
             }
         }
 
