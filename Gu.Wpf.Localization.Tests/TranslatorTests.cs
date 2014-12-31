@@ -44,6 +44,7 @@
         {
             Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
             var actual = Translator.Translate(Properties.Resources.ResourceManager, () => Properties.Resources.AllLanguages);
+
             Assert.AreEqual("English", actual);
             var allLanguages = Properties.Resources.AllLanguages;
             Translator.CurrentCulture = CultureInfo.GetCultureInfo("sv");

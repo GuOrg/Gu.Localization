@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization", "Gu.Wpf.Localization\Gu.Wpf.Localization.csproj", "{B5BA2BCC-6CA4-4422-9220-FDEDD657BA0E}"
 EndProject
@@ -24,31 +24,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.NoResou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Modern.Demo", "Gu.Wpf.Localization.Modern.Demo\Gu.Wpf.Localization.Modern.Demo.csproj", "{D77D4706-D218-4DC6-B117-611AF843FED9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization", "Gu.Localization\Gu.Localization.csproj", "{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization.Tests", "Gu.Localization.Tests\Gu.Localization.Tests.csproj", "{2734F4CB-08E5-445E-9AAD-F88151353B09}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://tfshub.sandvik.com:8080/tfs/defaultcollection
-		SccProjectUniqueName0 = Gu.Wpf.Localization\\Gu.Wpf.Localization.csproj
-		SccProjectName0 = Gu.Wpf.Localization
-		SccLocalPath0 = Gu.Wpf.Localization
-		SccProjectUniqueName1 = Gu.Wpf.Localization.Demo.Controls\\Gu.Wpf.Localization.Demo.Controls.csproj
-		SccProjectName1 = Gu.Wpf.Localization.Demo.Controls
-		SccLocalPath1 = Gu.Wpf.Localization.Demo.Controls
-		SccProjectUniqueName2 = Gu.Wpf.Localization.Tests\\Gu.Wpf.Localization.Tests.csproj
-		SccProjectName2 = Gu.Wpf.Localization.Tests
-		SccLocalPath2 = Gu.Wpf.Localization.Tests
-		SccProjectUniqueName3 = Gu.Wpf.Localization.Demo.WithResources\\Gu.Wpf.Localization.Demo.WithResources.csproj
-		SccProjectName3 = Gu.Wpf.Localization.Demo.WithResources
-		SccLocalPath3 = Gu.Wpf.Localization.Demo.WithResources
-		SccProjectUniqueName4 = Gu.Wpf.Localization.NoResources\\Gu.Wpf.Localization.NoResources.csproj
-		SccProjectName4 = Gu.Wpf.Localization.NoResources
-		SccLocalPath4 = Gu.Wpf.Localization.NoResources
-		SccLocalPath5 = .
-		SccProjectUniqueName6 = Gu.Wpf.Localization.Modern.Demo\\Gu.Wpf.Localization.Modern.Demo.csproj
-		SccProjectName6 = Gu.Wpf.Localization.Modern.Demo
-		SccLocalPath6 = Gu.Wpf.Localization.Modern.Demo
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CreateNugetPackage|Any CPU = CreateNugetPackage|Any CPU
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +71,18 @@ Global
 		{D77D4706-D218-4DC6-B117-611AF843FED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D77D4706-D218-4DC6-B117-611AF843FED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D77D4706-D218-4DC6-B117-611AF843FED9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}.CreateNugetPackage|Any CPU.ActiveCfg = Release|Any CPU
+		{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}.CreateNugetPackage|Any CPU.Build.0 = Release|Any CPU
+		{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2734F4CB-08E5-445E-9AAD-F88151353B09}.CreateNugetPackage|Any CPU.ActiveCfg = Release|Any CPU
+		{2734F4CB-08E5-445E-9AAD-F88151353B09}.CreateNugetPackage|Any CPU.Build.0 = Release|Any CPU
+		{2734F4CB-08E5-445E-9AAD-F88151353B09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2734F4CB-08E5-445E-9AAD-F88151353B09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2734F4CB-08E5-445E-9AAD-F88151353B09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2734F4CB-08E5-445E-9AAD-F88151353B09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
