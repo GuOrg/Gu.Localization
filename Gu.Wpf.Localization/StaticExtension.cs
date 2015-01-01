@@ -55,10 +55,10 @@
                 }
 
                 var type = this.MemberType;
-                string name;
+                string key;
                 if (type != (Type)null)
                 {
-                    name = this.Member;
+                    key = this.Member;
                 }
                 else
                 {
@@ -83,8 +83,8 @@
 
                     type = this.GetMemberType(serviceProvider, qualifiedTypeName);
 
-                    name = this.Member.Substring(length + 1, this.Member.Length - length - 1);
-                    if (string.IsNullOrEmpty(name))
+                    key = this.Member.Substring(length + 1, this.Member.Length - length - 1);
+                    if (string.IsNullOrEmpty(key))
                     {
                         if (DesignMode.IsDesignMode)
                         {
@@ -101,22 +101,29 @@
                     {
                         throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
                     }
-                    return string.Format(Gu.Localization.Properties.Resources.NullManagerFormat, name);
+                    return string.Format(Gu.Localization.Properties.Resources.NullManagerFormat, key);
                 }
 
-                var translator = new Translator(resourceManager, name);
+                var translation = new Translation(resourceManager, key);
                 var binding = new Binding("Value")
                 {
-                    Source = translator
+                    Source = translation
                 };
                 var provideValue = binding.ProvideValue(serviceProvider);
                 return provideValue;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 if (DesignMode.IsDesignMode)
                 {
-                    throw;
+                    if (exception is XamlParseException)
+                    {
+                        return Member;
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
                 return string.Format(Gu.Localization.Properties.Resources.UnknownErrorFormat, Member);
             }
@@ -136,7 +143,7 @@
         private static bool IsTemplate(IServiceProvider serviceProvider)
         {
             var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-            return target != null && 
+            return target != null &&
                    !(target.TargetObject is DependencyObject);
         }
 

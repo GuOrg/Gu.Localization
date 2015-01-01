@@ -9,7 +9,7 @@
              xmlns:withResources="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             l:Translator.Culture="sv"
+             l:TranslatorBehavior.Culture="sv"
              mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>

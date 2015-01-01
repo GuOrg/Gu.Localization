@@ -1,7 +1,8 @@
-﻿namespace Gu.Wpf.Localization.Tests
+﻿namespace Gu.Localization.Tests
 {
     using System.Linq;
-    using System.Threading;
+
+    using Gu.Localization;
 
     using NUnit.Framework;
 

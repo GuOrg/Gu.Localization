@@ -60,7 +60,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ResourceManagerWrapperTests.cs" />
     <Compile Include="StaticExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.generated.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -68,7 +67,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TranslatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -87,6 +85,10 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Gu.Localization\Gu.Localization.csproj">
+      <Project>{ef992dc9-c8df-48c4-aa2d-4126cc6cc6d4}</Project>
+      <Name>Gu.Localization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gu.Wpf.Localization.Demo.Controls\Gu.Wpf.Localization.Demo.Controls.csproj">
       <Project>{85009ef0-c922-4edb-9648-495b56b30cfc}</Project>
       <Name>Gu.Wpf.Localization.Demo.Controls</Name>

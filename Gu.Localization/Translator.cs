@@ -8,16 +8,16 @@
     using System.Linq.Expressions;
     using System.Resources;
 
-    public class Translator : INotifyPropertyChanged
+    public class Translator
     {
         /// <summary>
         /// This is exposed for binding current language see demo.
         /// </summary>
         public static readonly CultureProxy CultureProxy = new CultureProxy();
-        private static readonly List<CultureInfo> _allCultures = new List<CultureInfo>();
+        private static readonly List<CultureInfo> InnerAllCultures = new List<CultureInfo>();
         private readonly List<CultureInfo> _cultures = new List<CultureInfo>();
         private static CultureInfo _currentCulture;
-        private ResourceManagerWrapper _manager;
+        private readonly ResourceManagerWrapper _manager;
 
         internal Translator(ResourceManagerWrapper manager)
         {
@@ -27,18 +27,17 @@
                 var cultureInfo = resourceSetAndCulture.Culture;
                 if (AllCultures.All(c => cultureInfo != null && c.TwoLetterISOLanguageName != cultureInfo.TwoLetterISOLanguageName))
                 {
-                    _allCultures.Add(cultureInfo);
+                    InnerAllCultures.Add(cultureInfo);
                     OnLanguagesChanged();
                     OnLanguageChanged(cultureInfo);
                 }
+                _cultures.Add(cultureInfo);
             }
         }
 
         public static event EventHandler<CultureInfo> LanguageChanged;
-       
-        public static event EventHandler<EventArgs> LanguagesChanged;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public static event EventHandler<EventArgs> LanguagesChanged;
 
         /// <summary>
         /// The culture to translate to
@@ -64,7 +63,7 @@
         {
             get
             {
-                return _allCultures;
+                return InnerAllCultures;
             }
         }
 
@@ -76,23 +75,53 @@
         /// <returns>The key translated to the CurrentCulture</returns>
         public static string Translate(ResourceManager resourceManager, Expression<Func<string>> key)
         {
-            var memberExpression = (MemberExpression)key.Body;
-            var keyName = memberExpression.Member.Name;
-            return resourceManager.GetString(keyName, CurrentCulture);
+            if (ExpressionHelper.IsResourceKey(key))
+            {
+                return Translate(resourceManager, ExpressionHelper.GetResourceKey(key));
+            }
+            return Translate(resourceManager, key.Compile().Invoke());
+        }
+
+        public static string Translate(Expression<Func<string>> key)
+        {
+            if (ExpressionHelper.IsResourceKey(key))
+            {
+                return Translate(ExpressionHelper.GetResourceManager(key), ExpressionHelper.GetResourceKey(key));
+            }
+            return Translate(null, key.Compile().Invoke());
         }
 
         public static string Translate(ResourceManager resourceManager, string key)
         {
+            if (resourceManager == null)
+            {
+                return string.Format(Properties.Resources.NullManagerFormat, key);
+            }
+            if (string.IsNullOrEmpty(key))
+            {
+                return "null";
+            }
             return resourceManager.GetString(key, CurrentCulture);
         }
 
-        protected virtual void OnPropertyChanged(string propertyName = null)
+        public bool HasCulture(CultureInfo culture)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
+            return _cultures.Any(x => x.TwoLetterISOLanguageName == culture.TwoLetterISOLanguageName);
+        }
+
+        public bool HasKey(string key)
+        {
+            return _manager.ResourceManager.GetString(key, CurrentCulture) != null;
+        }
+
+        public string Translate(string key)
+        {
+            var translated  = _manager.ResourceManager.GetString(key, CurrentCulture);
+            if (translated == null)
             {
-                handler(this, new PropertyChangedEventArgs(propertyName));
+                return string.Format(Properties.Resources.MissingKeyFormat, key);
             }
+            return translated;
         }
 
         private static void OnLanguageChanged(CultureInfo e)

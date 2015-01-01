@@ -117,6 +117,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Gu.Localization\Gu.Localization.csproj">
+      <Project>{ef992dc9-c8df-48c4-aa2d-4126cc6cc6d4}</Project>
+      <Name>Gu.Localization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gu.Wpf.Localization.Demo.Controls\Gu.Wpf.Localization.Demo.Controls.csproj">
       <Project>{85009EF0-C922-4EDB-9648-495B56B30CFC}</Project>
       <Name>Gu.Wpf.Localization.Demo.Controls</Name>

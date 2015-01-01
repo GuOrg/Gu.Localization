@@ -4,6 +4,7 @@
     using System.ComponentModel;
     using System.Globalization;
     using System.Linq.Expressions;
+    using System.Resources;
     using System.Runtime.CompilerServices;
 
     using Gu.Localization.Annotations;
@@ -15,6 +16,27 @@
         private bool _disposed = false;
         public Translation(Expression<Func<string>> key)
         {
+            if (ExpressionHelper.IsResourceKey(key))
+            {
+                _key = ExpressionHelper.GetResourceKey(key);
+                _translator = new Translator(ResourceManagerWrapper.Create(key));
+                Translator.LanguageChanged += OnLanguageChanged;
+            }
+            else
+            {
+                _key = key.Compile().Invoke();
+            }
+        }
+
+        public Translation(ResourceManager resourceManager, string key)
+            : this(new ResourceManagerWrapper(resourceManager), key)
+        {
+        }
+
+        public Translation(ResourceManagerWrapper resourceManager, string key)
+        {
+            _translator = new Translator(resourceManager);
+            _key = key;
             Translator.LanguageChanged += OnLanguageChanged;
         }
 
@@ -27,12 +49,19 @@
         {
             get
             {
-                var value = _manager.ResourceManager.GetString(_key, Translator.CurrentCulture);
-                if (value == null)
+                if (_translator == null)
+                {
+                    return string.Format(Properties.Resources.NullManagerFormat, _key);
+                }
+                if (!_translator.HasKey(_key))
                 {
                     return string.Format(Properties.Resources.MissingKeyFormat, _key);
                 }
-                return value;
+                if (!_translator.HasCulture(Translator.CurrentCulture))
+                {
+                    return string.Format(Properties.Resources.MissingTranslationFormat, _key);
+                }
+                return _translator.Translate(_key);
             }
         }
 

@@ -12,7 +12,7 @@
         <StackPanel>
             <ComboBox Grid.Row="0"
                       Grid.Column="0"
-                      ItemsSource="{Binding Source={x:Static l:Translator.Cultures}}"
+                      ItemsSource="{Binding Source={x:Static l:Translator.AllCultures}}"
                       SelectedItem="{Binding CurrentCulture,
                                              Source={x:Static l:Translator.CultureProxy}}" />
             <TextBlock Style="{StaticResource Heading2}" Text="{l:Static p:Resources.TranslatedToAll}" />
