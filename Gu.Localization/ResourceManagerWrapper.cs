@@ -1,21 +1,37 @@
 ﻿namespace Gu.Localization
 {
+    using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Resources;
 
-    internal class ResourceManagerWrapper
+    public class ResourceManagerWrapper
     {
         private static readonly ConcurrentDictionary<ResourceManager, ResourceSetAndCulture[]> Cache = new ConcurrentDictionary<ResourceManager, ResourceSetAndCulture[]>();
 
         internal ResourceManagerWrapper(ResourceManager resourceManager)
         {
-            this.ResourceManager = resourceManager;
+            if (resourceManager == null)
+            {
+                throw new ArgumentNullException("resourceManager");
+            }
+            ResourceManager = resourceManager;
             ResourceSets = Cache.GetOrAdd(
                 resourceManager,
                 r => GetCultures(r).ToArray());
+        }
+
+        public static ResourceManagerWrapper Create(Expression<Func<string>> key)
+        {
+            return new ResourceManagerWrapper(ExpressionHelper.GetResourceManager(key));
+        }
+
+        public static bool IsResourceKey(Expression<Func<string>> key)
+        {
+            return ExpressionHelper.IsResourceKey(key);
         }
 
         public ResourceManager ResourceManager { get; private set; }

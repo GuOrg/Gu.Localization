@@ -8,7 +8,7 @@
         Title="MainWindow"
         Width="800"
         Height="600"
-        l:Translator.Culture="sv">
+        l:TranslatorBehavior.Culture="sv">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <ComboBox Grid.Row="0"
                   Grid.Column="0"
-                  ItemsSource="{Binding Source={x:Static l:Translator.Cultures}}"
+                  ItemsSource="{Binding Source={x:Static l:Translator.AllCultures}}"
                   SelectedItem="{Binding CurrentCulture,
                                          Source={x:Static l:Translator.CultureProxy}}" />
         <WrapPanel Grid.Row="1">

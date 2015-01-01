@@ -34,4 +34,5 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: InternalsVisibleTo("Gu.Wpf.Localization")]
+[assembly: InternalsVisibleTo("Gu.Wpf.Localization", AllInternalsVisible = true)]
+[assembly: InternalsVisibleTo("Gu.Localization.Tests", AllInternalsVisible = true)]

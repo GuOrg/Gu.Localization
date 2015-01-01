@@ -1,8 +1,11 @@
-﻿namespace Gu.Wpf.Localization.Tests
+﻿namespace Gu.Localization.Tests
 {
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+
+    using Gu.Localization;
+
     using NUnit.Framework;
 
     public class TranslatorTests
@@ -14,29 +17,10 @@
         public void Translate(string key, string culture, string expected)
         {
             var cultureInfo = CultureInfo.GetCultureInfo(culture);
-            var translator = new Translator(new ResourceManagerWrapper(Properties.Resources.ResourceManager), key);
+            var translator = new Translator(new ResourceManagerWrapper(Properties.Resources.ResourceManager));
             Translator.CurrentCulture = cultureInfo;
-            var actual = translator.Value;
+            var actual = translator.Translate(key);
             Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void Notifies()
-        {
-            Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
-            var translator = new Translator(new ResourceManagerWrapper(Properties.Resources.ResourceManager), "AllLanguages");
-            var list = new List<string>();
-            translator.PropertyChanged += (sender, args) => list.Add(args.PropertyName);
-            Assert.AreEqual("English", translator.Value);
-            CollectionAssert.IsEmpty(list);
-
-            Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
-            Assert.AreEqual("English", translator.Value);
-            CollectionAssert.IsEmpty(list);
-
-            Translator.CurrentCulture = CultureInfo.GetCultureInfo("sv");
-            Assert.AreEqual("Svenska", translator.Value);
-            CollectionAssert.AreEqual(new[] { "Value" }, list);
         }
 
         [Test]
