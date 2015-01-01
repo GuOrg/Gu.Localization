@@ -12,9 +12,9 @@
         <StackPanel>
             <ComboBox Grid.Row="0"
                       Grid.Column="0"
-                      ItemsSource="{Binding Source={x:Static l:Translator.AllCultures}}"
+                      ItemsSource="{Binding Source={x:Static l:LanguageSelector.AllCultures}}"
                       SelectedItem="{Binding CurrentCulture,
-                                             Source={x:Static l:Translator.CultureProxy}}" />
+                                             Source={x:Static l:LanguageSelector.CultureProxy}}" />
             <TextBlock Style="{StaticResource Heading2}" Text="{l:Static p:Resources.TranslatedToAll}" />
         </StackPanel>
     </Grid>
