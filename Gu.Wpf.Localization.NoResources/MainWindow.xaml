@@ -12,11 +12,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <ComboBox Grid.Row="0"
-                  Grid.Column="0"
-                  ItemsSource="{Binding Source={x:Static l:LanguageSelector.AllCultures}}"
-                  SelectedItem="{Binding CurrentCulture,
-                                         Source={x:Static l:LanguageSelector.CultureProxy}}" />
+        <l:LanguageSelector Grid.Row="0" Grid.Column="0" />
+
         <!--
             <WrapPanel Grid.Row="1">
             <GroupBox BorderBrush="Green"
