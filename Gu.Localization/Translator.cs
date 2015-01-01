@@ -10,10 +10,6 @@
 
     public class Translator
     {
-        /// <summary>
-        /// This is exposed for binding current language see demo.
-        /// </summary>
-        public static readonly CultureProxy CultureProxy = new CultureProxy();
         private static readonly List<CultureInfo> InnerAllCultures = new List<CultureInfo>();
         private readonly List<CultureInfo> _cultures = new List<CultureInfo>();
         private static CultureInfo _currentCulture;

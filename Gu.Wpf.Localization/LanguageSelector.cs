@@ -10,6 +10,7 @@
 namespace Gu.Wpf.Localization
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
@@ -32,21 +33,21 @@ namespace Gu.Wpf.Localization
             typeof(LanguageSelector),
             new PropertyMetadata(
                 new Language(new CultureInfo("en")),
-                OnLanguageChanged));
+                OnCurrentLanguageChanged));
 
         /// <summary>
         /// The cultures property key.
         /// </summary>
-        private static readonly DependencyPropertyKey CulturesPropertyKey = DependencyProperty.RegisterReadOnly(
-            "Cultures",
-            typeof(ObservableCollection<Language>),
+        private static readonly DependencyPropertyKey LanguagesPropertyKey = DependencyProperty.RegisterReadOnly(
+            "Languages",
+            typeof(IEnumerable<Language>),
             typeof(LanguageSelector),
-            new PropertyMetadata(default(ObservableCollection<Language>)));
+            new PropertyMetadata(default(IEnumerable<Language>)));
 
         /// <summary>
         /// The cultures property.
         /// </summary>
-        public static readonly DependencyProperty LanguagesProperty = CulturesPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty LanguagesProperty = LanguagesPropertyKey.DependencyProperty;
 
         /// <summary>
         /// The _disposed.
@@ -89,16 +90,15 @@ namespace Gu.Wpf.Localization
         /// <summary>
         /// Gets or sets the cultures.
         /// </summary>
-        public ObservableCollection<Language> Languages
+        public IEnumerable<Language> Languages
         {
             get
             {
-                return (ObservableCollection<Language>)GetValue(LanguagesProperty);
+                return (IEnumerable<Language>)GetValue(LanguagesProperty);
             }
-
             protected set
             {
-                SetValue(CulturesPropertyKey, value);
+                SetValue(LanguagesPropertyKey, value);
             }
         }
 
@@ -129,11 +129,6 @@ namespace Gu.Wpf.Localization
             {
                 Translator.LanguagesChanged -= OnLanguagesChanged;
                 Translator.LanguageChanged -= OnLanguageChanged;
-                foreach (var language in Languages)
-                {
-                    language.Dispose();
-                }
-                // Free any other managed objects here. 
             }
 
             // Free any unmanaged objects here. 
@@ -143,16 +138,23 @@ namespace Gu.Wpf.Localization
         /// <summary>
         /// The on current culture changed.
         /// </summary>
-        /// <param name="dependencyObject">
+        /// <param name="o">
         /// The dependency object.
         /// </param>
         /// <param name="e">
         /// The e.
         /// </param>
-        private static void OnLanguageChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        private static void OnCurrentLanguageChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var language = e.NewValue as Language;
-            Translator.CurrentCulture = language != null ? language.Culture :;
+            if (language != null)
+            {
+                Translator.CurrentCulture = Translator.AllCultures.FirstOrDefault(x => x.TwoLetterISOLanguageName == language.Culture.TwoLetterISOLanguageName);
+            }
+            else
+            {
+                Translator.CurrentCulture = null;
+            }
         }
 
         /// <summary>
@@ -169,14 +171,11 @@ namespace Gu.Wpf.Localization
             Dispatcher.BeginInvoke(
                 () =>
                 {
-                    foreach (var language in Languages)
+                    Languages = Translator.AllCultures.Select(x => new Language(x)).ToArray();
+                    var currentCulture = Translator.CurrentCulture;
+                    if (currentCulture != null)
                     {
-                        language.Dispose();
-                    }
-                    Languages.Clear();
-                    foreach (var cultureInfo in Translator.AllCultures)
-                    {
-                        Languages.Add(new Language(cultureInfo));
+                        CurrentLanguage = Languages.FirstOrDefault(x => x.Culture.TwoLetterISOLanguageName == currentCulture.TwoLetterISOLanguageName);
                     }
                 });
         }
@@ -192,6 +191,10 @@ namespace Gu.Wpf.Localization
         /// </param>
         private void OnLanguageChanged(object sender, CultureInfo e)
         {
+            if (Languages == null)
+            {
+                return;
+            }
             var currentCulture = Translator.CurrentCulture;
             var language = currentCulture != null
                                ? Languages.FirstOrDefault(

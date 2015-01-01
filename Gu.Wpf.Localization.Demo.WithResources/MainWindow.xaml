@@ -10,16 +10,12 @@
         Height="600"
         l:TranslatorBehavior.Culture="sv">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <ComboBox Grid.Row="0"
-                  Grid.Column="0"
-                  ItemsSource="{Binding Source={x:Static l:LanguageSelector.AllCultures}}"
-                  SelectedItem="{Binding CurrentCulture,
-                                         Source={x:Static l:LanguageSelector.CultureProxy}}" />
-        <WrapPanel Grid.Row="1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <l:LanguageSelector Grid.Column="0" />
+        <WrapPanel Grid.Column="1">
             <GroupBox BorderBrush="Green"
                       BorderThickness="2"
                       Header="No translations">
