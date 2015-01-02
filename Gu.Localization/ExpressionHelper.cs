@@ -8,13 +8,13 @@
 
     internal static class ExpressionHelper
     {
-        private static ConcurrentDictionary<Type, ResourceManager> _typeResourceManagerMap = new ConcurrentDictionary<Type, ResourceManager>();
-        public static bool IsResourceKey(Expression<Func<string>> key)
+        private static readonly ConcurrentDictionary<Type, ResourceManager> TypeResourceManagerMap = new ConcurrentDictionary<Type, ResourceManager>();
+        internal static bool IsResourceKey(Expression<Func<string>> key)
         {
             return GetResourceManager(key) != null;
         }
 
-        public static ResourceManager GetResourceManager(Expression<Func<string>> key)
+        internal static ResourceManager GetResourceManager(Expression<Func<string>> key)
         {
             if (key == null)
             {
@@ -29,7 +29,7 @@
             return FromType(declaringType);
         }
 
-        public static string GetResourceKey(Expression<Func<string>> key)
+        internal static string GetResourceKey(Expression<Func<string>> key)
         {
             if (!IsResourceKey(key))
             {
@@ -47,11 +47,20 @@
             return memberExpression.Member.Name;
         }
 
+        internal static string PropertyName<T>(Expression<Func<T>> prop)
+        {
+            var memberExpression = prop.Body as MemberExpression;
+            if (memberExpression == null)
+            {
+                return null;
+            }
+            return memberExpression.Member.Name;
+        }
 
         private static ResourceManager FromType(Type type)
         {
             ResourceManager manager;
-            if (!_typeResourceManagerMap.TryGetValue(type, out manager))
+            if (!TypeResourceManagerMap.TryGetValue(type, out manager))
             {
                 var propertyInfo = type.GetProperty("ResourceManager", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
                 if (propertyInfo == null)
@@ -61,7 +70,7 @@
                 manager = propertyInfo.GetValue(null) as ResourceManager;
                 if (manager != null)
                 {
-                    _typeResourceManagerMap.TryAdd(type, manager);
+                    TypeResourceManagerMap.TryAdd(type, manager);
                 }
             }
             return manager;
