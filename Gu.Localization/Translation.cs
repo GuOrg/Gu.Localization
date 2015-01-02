@@ -9,22 +9,24 @@
 
     using Gu.Localization.Annotations;
 
-    public class Translation : INotifyPropertyChanged, IDisposable
+    public class Translation : ITranslation
     {
-        private readonly string _key;
-        private readonly Translator _translator;
+        private string _key;
+        private Func<string> _keyGetter;
+        internal readonly Translator Translator;
         private bool _disposed = false;
+        private readonly IDisposable _subscription;
         public Translation(Expression<Func<string>> key)
         {
             if (ExpressionHelper.IsResourceKey(key))
             {
                 _key = ExpressionHelper.GetResourceKey(key);
-                _translator = new Translator(ResourceManagerWrapper.Create(key));
+                Translator = new Translator(ResourceManagerWrapper.Create(key));
                 Translator.LanguageChanged += OnLanguageChanged;
             }
             else
             {
-                _key = key.Compile().Invoke();
+                _keyGetter = key.Compile();
             }
         }
 
@@ -33,9 +35,17 @@
         {
         }
 
-        public Translation(ResourceManagerWrapper resourceManager, string key)
+        public Translation(ResourceManager resourceManager, Func<string> key, IObservable<object> trigger)
+            : this(new ResourceManagerWrapper(resourceManager), null)
         {
-            _translator = new Translator(resourceManager);
+            _keyGetter = key;
+            var propertyName = ExpressionHelper.PropertyName(() => Translated);
+            _subscription = trigger.Subscribe(new Observer(() => OnPropertyChanged(propertyName)));
+        }
+
+        internal Translation(ResourceManagerWrapper resourceManager, string key)
+        {
+            Translator = new Translator(resourceManager);
             _key = key;
             Translator.LanguageChanged += OnLanguageChanged;
         }
@@ -43,25 +53,26 @@
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// The Value for the key in CurrentCulture
+        /// The key Translated to the CurrentCulture
         /// </summary>
-        public string Value
+        public string Translated
         {
             get
             {
-                if (_translator == null)
+                var key = _key ?? _keyGetter();
+                if (Translator == null)
                 {
-                    return string.Format(Properties.Resources.NullManagerFormat, _key);
+                    return string.Format(Properties.Resources.NullManagerFormat, key);
                 }
-                if (!_translator.HasKey(_key))
+                if (!Translator.HasKey(key))
                 {
-                    return string.Format(Properties.Resources.MissingKeyFormat, _key);
+                    return string.Format(Properties.Resources.MissingKeyFormat, key);
                 }
-                if (!_translator.HasCulture(Translator.CurrentCulture))
+                if (!Translator.HasCulture(Translator.CurrentCulture))
                 {
-                    return string.Format(Properties.Resources.MissingTranslationFormat, _key);
+                    return string.Format(Properties.Resources.MissingTranslationFormat, key);
                 }
-                return _translator.Translate(_key);
+                return Translator.Translate(key);
             }
         }
 
@@ -89,6 +100,10 @@
             if (disposing)
             {
                 Translator.LanguageChanged -= OnLanguageChanged;
+                if (_subscription != null)
+                {
+                    _subscription.Dispose();
+                }
             }
             _disposed = true;
         }
@@ -105,7 +120,26 @@
 
         private void OnLanguageChanged(object sender, CultureInfo e)
         {
-            OnPropertyChanged("Value");
+            OnPropertyChanged(ExpressionHelper.PropertyName(() => Translated));
+        }
+    }
+
+    internal class Observer : IObserver<object>
+    {
+        private readonly Action _action;
+        public Observer(Action action)
+        {
+            _action = action;
+        }
+        public void OnNext(object value)
+        {
+            _action();
+        }
+        public void OnError(Exception error)
+        {
+        }
+        public void OnCompleted()
+        {
         }
     }
 }

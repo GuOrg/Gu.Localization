@@ -143,7 +143,7 @@ namespace Gu.Wpf.Localization
                 }
 
                 var translation = new Translation(resourceManager, key);
-                var binding = new Binding("Value")
+                var binding = new Binding("Translated")
                 {
                     Source = translation
                 };

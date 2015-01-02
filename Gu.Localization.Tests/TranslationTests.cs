@@ -1,10 +1,12 @@
 ﻿namespace Gu.Localization.Tests
 {
+    using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
-
+    using Moq;
     using NUnit.Framework;
 
     public class TranslationTests
@@ -14,7 +16,7 @@
         {
             var translation = new Translation(() => Properties.Resources.AllLanguages);
             Translator.CurrentCulture = new CultureInfo("en");
-            Assert.AreEqual("English", translation.Value);
+            Assert.AreEqual("English", translation.Translated);
         }
 
         [Test]
@@ -25,11 +27,11 @@
             var argses = new List<PropertyChangedEventArgs>();
             translation.PropertyChanged += (sender, args) => argses.Add(args);
 
-            Assert.AreEqual("English", translation.Value);
+            Assert.AreEqual("English", translation.Translated);
 
             Translator.CurrentCulture = new CultureInfo("sv");
-            Assert.AreEqual(1, argses.Count(x => x.PropertyName == "Value"));
-            Assert.AreEqual("Svenska", translation.Value);
+            Assert.AreEqual(1, argses.Count(x => x.PropertyName == "Translated"));
+            Assert.AreEqual("Svenska", translation.Translated);
         }
 
         [TestCase("AllLanguages", "en", "English")]
@@ -41,8 +43,37 @@
             var cultureInfo = CultureInfo.GetCultureInfo(culture);
             var translator = new Translation(Properties.Resources.ResourceManager, key);
             Translator.CurrentCulture = cultureInfo;
-            var actual = translator.Value;
+            var actual = translator.Translated;
             Assert.AreEqual(expected, actual);
         }
+
+        [Test]
+        public void NotifiesAndTranslatesObservable()
+        {
+            IObserver<object> observer = null;
+            var mock = new Mock<IObservable<object>>();
+            mock.Setup(x => x.Subscribe(It.IsAny<IObserver<object>>()))
+                .Returns((IDisposable) null)
+                .Callback<IObserver<object>>(x => observer = x);
+            DummyProperty = "Missing";
+            var translation = new Translation(Properties.Resources.ResourceManager, () => DummyProperty, mock.Object);
+            Translator.CurrentCulture = new CultureInfo("en");
+
+            var argses = new List<PropertyChangedEventArgs>();
+            translation.PropertyChanged += (sender, args) => argses.Add(args);
+
+            Assert.AreEqual("!Missing!", translation.Translated);
+            Assert.AreEqual(0, argses.Count(x => x.PropertyName == "Translated"));
+
+            DummyProperty = "AllLanguages";
+            Assert.AreEqual("English", translation.Translated);
+            Assert.AreEqual(0, argses.Count(x => x.PropertyName == "Translated"));
+
+            observer.OnNext(null);
+            Assert.AreEqual("English", translation.Translated);
+            Assert.AreEqual(1, argses.Count(x => x.PropertyName == "Translated"));
+        }
+
+        public string DummyProperty { get; private set; }
     }
 }
