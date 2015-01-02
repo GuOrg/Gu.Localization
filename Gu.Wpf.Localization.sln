@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Tests",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7BCC1395-0ADB-4E76-A6C6-1F77A78022AD}"
 	ProjectSection(SolutionItems) = preProject
+		Gu.Localization\Gu.Localization.nuspec = Gu.Localization\Gu.Localization.nuspec
 		Gu.Wpf.Localization\Gu.Wpf.Localization.nuspec = Gu.Wpf.Localization\Gu.Wpf.Localization.nuspec
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
