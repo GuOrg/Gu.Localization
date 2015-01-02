@@ -24,7 +24,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="DodgerBlue" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{Binding SelectedBrush, RelativeSource={RelativeSource AncestorType={x:Type localization:LanguageSelector}}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -34,6 +34,7 @@
 
     <Style TargetType="{x:Type localization:LanguageSelector}">
         <Setter Property="MinWidth" Value="50" />
+        <Setter Property="SelectedBrush" Value="DodgerBlue" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="FontSize" Value="23" />
         <Setter Property="UseLayoutRounding" Value="True" />

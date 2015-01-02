@@ -11,11 +11,11 @@ namespace Gu.Wpf.Localization
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Media;
 
     using Gu.Localization;
 
@@ -34,6 +34,12 @@ namespace Gu.Wpf.Localization
             new PropertyMetadata(
                 new Language(new CultureInfo("en")),
                 OnCurrentLanguageChanged));
+
+        public static readonly DependencyProperty SelectedBrushProperty = DependencyProperty.Register(
+            "SelectedBrush", 
+            typeof(Brush),
+            typeof(LanguageSelector), 
+            new PropertyMetadata(default(Brush)));
 
         /// <summary>
         /// The cultures property key.
@@ -84,6 +90,18 @@ namespace Gu.Wpf.Localization
             set
             {
                 SetValue(CurrentLanguageProperty, value);
+            }
+        }
+
+        public Brush SelectedBrush
+        {
+            get
+            {
+                return (Brush)GetValue(SelectedBrushProperty);
+            }
+            set
+            {
+                SetValue(SelectedBrushProperty, value);
             }
         }
 
