@@ -8,7 +8,6 @@
 
     internal static class ExpressionHelper
     {
-        private static readonly ConcurrentDictionary<Type, ResourceManager> TypeResourceManagerMap = new ConcurrentDictionary<Type, ResourceManager>();
         internal static bool IsResourceKey(Expression<Func<string>> key)
         {
             return GetResourceManager(key) != null;
@@ -59,21 +58,7 @@
 
         private static ResourceManager FromType(Type type)
         {
-            ResourceManager manager;
-            if (!TypeResourceManagerMap.TryGetValue(type, out manager))
-            {
-                var propertyInfo = type.GetProperty("ResourceManager", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-                if (propertyInfo == null)
-                {
-                    return null;
-                }
-                manager = propertyInfo.GetValue(null) as ResourceManager;
-                if (manager != null)
-                {
-                    TypeResourceManagerMap.TryAdd(type, manager);
-                }
-            }
-            return manager;
+            return ResourceManagerWrapper.FromType(type);
         }
     }
 }
