@@ -27,13 +27,8 @@ namespace Gu.Wpf.Localization
     [MarkupExtensionReturnType(typeof(string))]
     [ContentProperty("Member"), DefaultProperty("Member")]
     [TypeConverter(typeof(StaticExtensionConverter))]
-    public class StaticExtension : System.Windows.Markup.StaticExtension
+    public class StaticExtension : MarkupExtension
     {
-        /// <summary>
-        /// The cache.
-        /// </summary>
-        private static readonly ConcurrentDictionary<Type, ResourceManagerWrapper> Cache = new ConcurrentDictionary<Type, ResourceManagerWrapper>();
-
         /// <summary>
         /// The _xaml type resolver.
         /// </summary>
@@ -49,10 +44,13 @@ namespace Gu.Wpf.Localization
         /// <paramref name="member"/> is null.
         /// </exception>
         public StaticExtension(string member)
-            : base(member)
         {
             Member = member;
         }
+
+        public string Member { get; set; }
+
+        public ResourceManager ResourceManager { get; set; }
 
         /// <summary>
         /// Returns an object value to set on the property where you apply this extension. For <see cref="T:System.Windows.Markup.StaticExtension"/>, the return value is the static value that is evaluated for the requested static member.
@@ -74,76 +72,35 @@ namespace Gu.Wpf.Localization
         /// </exception>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException("serviceProvider");
+            }
+
+            if (string.IsNullOrEmpty(Member))
+            {
+                throw new InvalidOperationException("MarkupExtensionStaticMember");
+            }
+
             try
             {
-                if (Member == null)
-                {
-                    throw new InvalidOperationException("MarkupExtensionStaticMember");
-                }
-
                 if (DesignMode.IsDesignMode && IsTemplate(serviceProvider))
                 {
                     _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
                     return this;
                 }
 
-                var type = MemberType;
-                string key;
-                if (type != (Type)null)
+                if (_xamlTypeResolver == null)
                 {
-                    key = Member;
+                    _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
                 }
-                else
+                var resourceKey = new ResourceKey(Member, _xamlTypeResolver, DesignMode.IsDesignMode);
+                if (resourceKey.HasError)
                 {
-                    var length = Member.IndexOf('.');
-                    if (length < 0)
-                    {
-                        if (DesignMode.IsDesignMode)
-                        {
-                            throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
-                        }
-
-                        return string.Format(Resources.UnknownErrorFormat, Member);
-                    }
-
-                    var qualifiedTypeName = Member.Substring(0, length);
-                    if (string.IsNullOrEmpty(qualifiedTypeName))
-                    {
-                        if (DesignMode.IsDesignMode)
-                        {
-                            throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
-                        }
-
-                        return string.Format(Resources.UnknownErrorFormat, Member);
-                    }
-
-                    type = GetMemberType(serviceProvider, qualifiedTypeName);
-
-                    key = Member.Substring(length + 1, Member.Length - length - 1);
-                    if (string.IsNullOrEmpty(key))
-                    {
-                        if (DesignMode.IsDesignMode)
-                        {
-                            throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
-                        }
-
-                        return string.Format(Resources.UnknownErrorFormat, Member);
-                    }
+                    return string.Format(Resources.UnknownErrorFormat, Member);
                 }
-
-                var resourceManager = Cache.GetOrAdd(type, GetManager);
-                if (resourceManager == null)
-                {
-                    if (DesignMode.IsDesignMode)
-                    {
-                        throw new ArgumentException("Expecting format p:Resources.Key was:" + Member);
-                    }
-
-                    return string.Format(Resources.NullManagerFormat, key);
-                }
-
-                var translation = new Translation(resourceManager, key);
-                var binding = new Binding("Translated")
+                var translation = new Translation(resourceKey.ResourceManager, resourceKey.Key);
+                var binding = new Binding(ExpressionHelper.PropertyName(() => translation.Translated))
                 {
                     Source = translation
                 };
@@ -152,45 +109,24 @@ namespace Gu.Wpf.Localization
             }
             catch (Exception exception)
             {
-                if (DesignMode.IsDesignMode)
-                {
-                    if (exception is XamlParseException)
-                    {
-                        return Member;
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                //if (DesignMode.IsDesignMode)
+                //{
+                //    if (exception is XamlParseException)
+                //    {
+                //        return Member;
+                //    }
+                //    else
+                //    {
+                //        throw;
+                //    }
+                //}
 
                 return string.Format(Resources.UnknownErrorFormat, Member);
             }
         }
 
         /// <summary>
-        /// The get manager.
-        /// </summary>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <returns>
-        /// The <see cref="ResourceManagerWrapper"/>.
-        /// </returns>
-        private static ResourceManagerWrapper GetManager(Type type)
-        {
-            var propertyInfo = type.GetProperty("ResourceManager", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-            var resourceManager = propertyInfo.GetValue(null) as ResourceManager;
-            if (resourceManager == null)
-            {
-                return null;
-            }
-
-            return new ResourceManagerWrapper(resourceManager);
-        }
-
-        /// <summary>
-        /// The is template.
+        /// Checks if in a Template
         /// </summary>
         /// <param name="serviceProvider">
         /// The service provider.
@@ -201,44 +137,7 @@ namespace Gu.Wpf.Localization
         private static bool IsTemplate(IServiceProvider serviceProvider)
         {
             var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-            return target != null &&
-                   !(target.TargetObject is DependencyObject);
-        }
-
-        /// <summary>
-        /// The get member type.
-        /// </summary>
-        /// <param name="serviceProvider">
-        /// The service provider.
-        /// </param>
-        /// <param name="qualifiedTypeName">
-        /// The qualified type name.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Type"/>.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// </exception>
-        private Type GetMemberType(IServiceProvider serviceProvider, string qualifiedTypeName)
-        {
-            if (serviceProvider == null)
-            {
-                throw new ArgumentNullException("serviceProvider");
-            }
-
-            if (_xamlTypeResolver == null)
-            {
-                _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
-            }
-
-            if (_xamlTypeResolver == null)
-            {
-                throw new ArgumentException("MarkupExtensionNoContext IXamlTypeResolver");
-            }
-
-            return _xamlTypeResolver.Resolve(qualifiedTypeName);
+            return target != null && !(target.TargetObject is DependencyObject);
         }
     }
 }
