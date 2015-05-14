@@ -10,9 +10,7 @@
 namespace Gu.Wpf.Localization
 {
     using System;
-    using System.Collections.Concurrent;
     using System.ComponentModel;
-    using System.Reflection;
     using System.Resources;
     using System.Windows;
     using System.Windows.Data;
@@ -22,7 +20,9 @@ namespace Gu.Wpf.Localization
     using Gu.Localization.Properties;
 
     /// <summary>
-    /// Implements a markup extension that returns static field and property references.
+    /// Implements a markup extension that translates resources.
+    /// The reason for the name StaticExtension is that it tricks Resharper into providing Intellisense.
+    /// l:Static p:Resources.YourKey
     /// </summary>
     [MarkupExtensionReturnType(typeof(string))]
     [ContentProperty("Member"), DefaultProperty("Member")]
@@ -48,6 +48,7 @@ namespace Gu.Wpf.Localization
             Member = member;
         }
 
+        [ConstructorArgument("member")]
         public string Member { get; set; }
 
         public ResourceManager ResourceManager { get; set; }
@@ -84,7 +85,7 @@ namespace Gu.Wpf.Localization
 
             try
             {
-                if (DesignMode.IsDesignMode && IsTemplate(serviceProvider))
+                if (DesignMode.IsDesignMode && IsInTemplate(serviceProvider))
                 {
                     _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
                     return this;
@@ -102,6 +103,8 @@ namespace Gu.Wpf.Localization
                 var translation = new Translation(resourceKey.ResourceManager, resourceKey.Key);
                 var binding = new Binding(ExpressionHelper.PropertyName(() => translation.Translated))
                 {
+                    Mode = BindingMode.OneWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                     Source = translation
                 };
                 var provideValue = binding.ProvideValue(serviceProvider);
@@ -125,16 +128,7 @@ namespace Gu.Wpf.Localization
             }
         }
 
-        /// <summary>
-        /// Checks if in a Template
-        /// </summary>
-        /// <param name="serviceProvider">
-        /// The service provider.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        private static bool IsTemplate(IServiceProvider serviceProvider)
+        private static bool IsInTemplate(IServiceProvider serviceProvider)
         {
             var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
             return target != null && !(target.TargetObject is DependencyObject);

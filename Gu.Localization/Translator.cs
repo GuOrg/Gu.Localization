@@ -2,11 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Resources;
+
+    using Gu.Localization.Properties;
 
     public class Translator
     {
@@ -91,7 +92,7 @@
         {
             if (resourceManager == null)
             {
-                return string.Format(Properties.Resources.NullManagerFormat, key);
+                return string.Format(Resources.NullManagerFormat, key);
             }
             if (string.IsNullOrEmpty(key))
             {
@@ -115,7 +116,7 @@
             var translated  = _manager.ResourceManager.GetString(key, CurrentCulture);
             if (translated == null)
             {
-                return string.Format(Properties.Resources.MissingKeyFormat, key);
+                return string.Format(Resources.MissingKeyFormat, key);
             }
             return translated;
         }

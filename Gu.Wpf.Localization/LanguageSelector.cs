@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LanguageSelector.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The language selector.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System;
     using System.Collections.Generic;
@@ -19,14 +10,8 @@ namespace Gu.Wpf.Localization
 
     using Gu.Localization;
 
-    /// <summary>
-    /// The language selector.
-    /// </summary>
     public class LanguageSelector : Control, IDisposable
     {
-        /// <summary>
-        /// The current culture property.
-        /// </summary>
         public static readonly DependencyProperty CurrentLanguageProperty = DependencyProperty.Register(
             "CurrentLanguage",
             typeof(Language),
@@ -36,73 +21,44 @@ namespace Gu.Wpf.Localization
                 OnCurrentLanguageChanged));
 
         public static readonly DependencyProperty SelectedBrushProperty = DependencyProperty.Register(
-            "SelectedBrush", 
+            "SelectedBrush",
             typeof(Brush),
-            typeof(LanguageSelector), 
+            typeof(LanguageSelector),
             new PropertyMetadata(default(Brush)));
 
-        /// <summary>
-        /// The cultures property key.
-        /// </summary>
         private static readonly DependencyPropertyKey LanguagesPropertyKey = DependencyProperty.RegisterReadOnly(
-            "Languages",
-            typeof(IEnumerable<Language>),
-            typeof(LanguageSelector),
-            new PropertyMetadata(default(IEnumerable<Language>)));
+                "Languages",
+                typeof(IEnumerable<Language>),
+                typeof(LanguageSelector),
+                new FrameworkPropertyMetadata(
+                    default(IEnumerable<Language>),
+                    FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
-        /// <summary>
-        /// The cultures property.
-        /// </summary>
         public static readonly DependencyProperty LanguagesProperty = LanguagesPropertyKey.DependencyProperty;
 
-        /// <summary>
-        /// The _disposed.
-        /// </summary>
         private bool _disposed = false;
 
-        /// <summary>
-        /// Initializes static members of the <see cref="LanguageSelector"/> class.
-        /// </summary>
         static LanguageSelector()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(LanguageSelector), new FrameworkPropertyMetadata(typeof(LanguageSelector)));
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LanguageSelector"/> class.
-        /// </summary>
         public LanguageSelector()
         {
             Translator.LanguagesChanged += OnLanguagesChanged;
             Translator.LanguageChanged += OnLanguageChanged;
         }
 
-        /// <summary>
-        /// Gets or sets the current culture.
-        /// </summary>
         public Language CurrentLanguage
         {
-            get
-            {
-                return (Language)GetValue(CurrentLanguageProperty);
-            }
-
-            set
-            {
-                SetValue(CurrentLanguageProperty, value);
-            }
+            get { return (Language)GetValue(CurrentLanguageProperty); }
+            set { SetValue(CurrentLanguageProperty, value); }
         }
 
         public Brush SelectedBrush
         {
-            get
-            {
-                return (Brush)GetValue(SelectedBrushProperty);
-            }
-            set
-            {
-                SetValue(SelectedBrushProperty, value);
-            }
+            get { return (Brush)GetValue(SelectedBrushProperty); }
+            set { SetValue(SelectedBrushProperty, value); }
         }
 
         /// <summary>
@@ -110,14 +66,8 @@ namespace Gu.Wpf.Localization
         /// </summary>
         public IEnumerable<Language> Languages
         {
-            get
-            {
-                return (IEnumerable<Language>)GetValue(LanguagesProperty);
-            }
-            protected set
-            {
-                SetValue(LanguagesPropertyKey, value);
-            }
+            get { return (IEnumerable<Language>)GetValue(LanguagesProperty); }
+            protected set { SetValue(LanguagesPropertyKey, value); }
         }
 
         /// <summary>
@@ -153,15 +103,6 @@ namespace Gu.Wpf.Localization
             _disposed = true;
         }
 
-        /// <summary>
-        /// The on current culture changed.
-        /// </summary>
-        /// <param name="o">
-        /// The dependency object.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         private static void OnCurrentLanguageChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var language = e.NewValue as Language;
@@ -175,15 +116,6 @@ namespace Gu.Wpf.Localization
             }
         }
 
-        /// <summary>
-        /// The on languages changed.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="eventArgs">
-        /// The event args.
-        /// </param>
         private void OnLanguagesChanged(object sender, EventArgs eventArgs)
         {
             Dispatcher.BeginInvoke(
@@ -198,15 +130,6 @@ namespace Gu.Wpf.Localization
                 });
         }
 
-        /// <summary>
-        /// The on language changed.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
         private void OnLanguageChanged(object sender, CultureInfo e)
         {
             if (Languages == null)

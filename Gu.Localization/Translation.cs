@@ -8,6 +8,7 @@
     using System.Runtime.CompilerServices;
 
     using Gu.Localization.Annotations;
+    using Gu.Localization.Properties;
 
     public class Translation : ITranslation
     {
@@ -62,15 +63,15 @@
                 var key = _key ?? _keyGetter();
                 if (Translator == null)
                 {
-                    return string.Format(Properties.Resources.NullManagerFormat, key);
+                    return string.Format(Resources.NullManagerFormat, key);
                 }
                 if (!Translator.HasKey(key))
                 {
-                    return string.Format(Properties.Resources.MissingKeyFormat, key);
+                    return string.Format(Resources.MissingKeyFormat, key);
                 }
                 if (!Translator.HasCulture(Translator.CurrentCulture))
                 {
-                    return string.Format(Properties.Resources.MissingTranslationFormat, key);
+                    return string.Format(Resources.MissingTranslationFormat, key);
                 }
                 return Translator.Translate(key);
             }
