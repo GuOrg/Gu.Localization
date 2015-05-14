@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DispatcherExt.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The dispatcher ext.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System;
     using System.Windows.Threading;
@@ -15,7 +6,7 @@ namespace Gu.Wpf.Localization
     /// <summary>
     /// The dispatcher ext.
     /// </summary>
-    public static class DispatcherExt
+    internal static class DispatcherExt
     {
         /// <summary>
         /// The begin invoke.
@@ -29,7 +20,7 @@ namespace Gu.Wpf.Localization
         /// <returns>
         /// The <see cref="DispatcherOperation"/>.
         /// </returns>
-        public static DispatcherOperation BeginInvoke(this Dispatcher dispatcher, Action a)
+        internal static DispatcherOperation BeginInvoke(this Dispatcher dispatcher, Action a)
         {
             return dispatcher.BeginInvoke(DispatcherPriority.Normal, a);
         }

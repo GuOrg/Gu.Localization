@@ -65,15 +65,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CultureToFlagIconConverter.cs" />
-    <Compile Include="DesignMode.cs" />
-    <Compile Include="DispatcherExt.cs" />
+    <Compile Include="Internals\DesignMode.cs" />
+    <Compile Include="Internals\DesigntimeSandbox.cs" />
+    <Compile Include="Internals\DispatcherExt.cs" />
+    <Compile Include="Internals\TypeNameAndKey.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\GlobalSuppressions.generated.cs" />
-    <Compile Include="ResourceKey.cs" />
+    <Compile Include="Internals\ResourceKey.cs" />
+    <Compile Include="Internals\ServiceProviderExt.cs" />
     <Compile Include="StaticExtension.cs" />
-    <Compile Include="StaticExtensionConverter.cs" />
+    <Compile Include="Internals\StaticExtensionConverter.cs" />
     <Compile Include="LanguageSelector.cs" />
     <Compile Include="TranslatorBehavior.cs" />
   </ItemGroup>

@@ -11,13 +11,18 @@ namespace Gu.Wpf.Localization
 {
     using System;
     using System.ComponentModel;
+    using System.Linq;
     using System.Resources;
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
+    using System.Xaml;
 
     using Gu.Localization;
     using Gu.Localization.Properties;
+    using Gu.Wpf.Localization.Internals;
+
+    using ResourceKey = Gu.Wpf.Localization.Internals.ResourceKey;
 
     /// <summary>
     /// Implements a markup extension that translates resources.
@@ -82,20 +87,23 @@ namespace Gu.Wpf.Localization
             {
                 throw new InvalidOperationException("MarkupExtensionStaticMember");
             }
-
+            if (DesignMode.IsDesignMode)
+            {
+                return DesigntimeSandbox.ProvideValue(serviceProvider, Member);
+            }
             try
             {
-                if (DesignMode.IsDesignMode && IsInTemplate(serviceProvider))
+                if (DesignMode.IsDesignMode && serviceProvider.IsInTemplate())
                 {
-                    _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
+                    _xamlTypeResolver = serviceProvider.XamlTypeResolver();
                     return this;
                 }
 
                 if (_xamlTypeResolver == null)
                 {
-                    _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
+                    _xamlTypeResolver = serviceProvider.XamlTypeResolver();
                 }
-                var resourceKey = new ResourceKey(Member, _xamlTypeResolver, DesignMode.IsDesignMode);
+                var resourceKey = ResourceKey.Resolve(Member, _xamlTypeResolver, DesignMode.IsDesignMode);
                 if (resourceKey.HasError)
                 {
                     return string.Format(Resources.UnknownErrorFormat, Member);
@@ -126,12 +134,6 @@ namespace Gu.Wpf.Localization
 
                 return string.Format(Resources.UnknownErrorFormat, Member);
             }
-        }
-
-        private static bool IsInTemplate(IServiceProvider serviceProvider)
-        {
-            var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-            return target != null && !(target.TargetObject is DependencyObject);
         }
     }
 }
