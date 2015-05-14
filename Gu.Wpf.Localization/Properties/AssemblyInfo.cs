@@ -14,11 +14,13 @@
 // set of attributes. Change these attribute values to modify the information
 
 // associated with an assembly.
+
 using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Markup;
 
 [assembly: AssemblyTitle("Gu.Wpf.Localization")]
 [assembly: AssemblyDescription("")]
@@ -42,8 +44,8 @@ using System.Windows;
 //      Minor Version 
 //      Build Number
 //      Revision
-[assembly: AssemblyVersion("1.3.1.0")]
-[assembly: AssemblyFileVersion("1.3.1.0")]
+[assembly: AssemblyVersion("1.4.0.0")]
+[assembly: AssemblyFileVersion("1.4.0.0")]
 [assembly: NeutralResourcesLanguage("en")]
 [assembly: InternalsVisibleTo("Gu.Wpf.Localization.Tests", AllInternalsVisible = true) ]
 [assembly: ThemeInfo(
@@ -54,3 +56,5 @@ using System.Windows;
     // (used if a resource is not found in the page, 
     // app, or any theme specific resource dictionaries)
 )]
+[assembly: XmlnsDefinition("http://gu.se/Localization", "Gu.Wpf.Localization")]
+[assembly: XmlnsPrefix("http://gu.se/Localization", "l")]

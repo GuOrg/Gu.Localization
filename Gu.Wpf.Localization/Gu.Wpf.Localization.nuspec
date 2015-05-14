@@ -9,7 +9,7 @@
         <description>Translation markup extension</description>
         <copyright>Copyright ©  2014</copyright>
       <dependencies>
-        <dependency id="Gu.Localization" version="1.0.0.0"/>
+        <dependency id="Gu.Localization" version="1.4.0.0"/>
       </dependencies>
       <frameworkAssemblies>
         <frameworkAssembly assemblyName="PresentationCore" />

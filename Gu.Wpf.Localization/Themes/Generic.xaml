@@ -1,15 +1,24 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:localization="clr-namespace:Gu.Wpf.Localization">
+                    xmlns:localization="clr-namespace:Gu.Wpf.Localization"
+                    >
     <localization:CultureToFlagIconConverter x:Key="CultureToFlagIconConverter">
         <localization:CultureToFlagIconConverter.LanguageBindings>
-            <localization:CultureAndFlag Culture="En" Flag="/Gu.Wpf.Localization;component/Flags/England.png" />
-            <localization:CultureAndFlag Culture="Sv" Flag="/Gu.Wpf.Localization;component/Flags/Sweden.png" />
-            <localization:CultureAndFlag Culture="De" Flag="/Gu.Wpf.Localization;component/Flags/Germany.png" />
+            <localization:CultureAndFlag Culture="En"
+                                         Flag="/Gu.Wpf.Localization;component/Flags/England.png"
+                                         />
+            <localization:CultureAndFlag Culture="Sv"
+                                         Flag="/Gu.Wpf.Localization;component/Flags/Sweden.png"
+                                         />
+            <localization:CultureAndFlag Culture="De"
+                                         Flag="/Gu.Wpf.Localization;component/Flags/Germany.png"
+                                         />
         </localization:CultureToFlagIconConverter.LanguageBindings>
     </localization:CultureToFlagIconConverter>
 
-    <Style x:Key="LanguageListBoxItem" TargetType="ListBoxItem">
+    <Style x:Key="LanguageListBoxItem"
+           TargetType="ListBoxItem"
+           >
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -18,7 +27,8 @@
                             BorderThickness="3"
                             CornerRadius="3"
                             Padding="2"
-                            SnapsToDevicePixels="true">
+                            SnapsToDevicePixels="true"
+                            >
                         <ContentPresenter />
 
                     </Border>
@@ -49,7 +59,8 @@
                              ItemContainerStyle="{StaticResource LanguageListBoxItem}"
                              ItemsSource="{TemplateBinding Languages}"
                              SelectedItem="{Binding CurrentLanguage,
-                                                    RelativeSource={RelativeSource TemplatedParent}}">
+                                                    RelativeSource={RelativeSource TemplatedParent}}"
+                             >
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="{x:Type localization:Language}">
                                 <Border Background="Transparent">
@@ -63,8 +74,12 @@
                                         </Grid.ColumnDefinitions>
                                         <Viewbox Grid.Column="0"
                                                  Width="48"
-                                                 Height="48">
-                                            <Image RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Culture, Converter={StaticResource CultureToFlagIconConverter}}" />
+                                                 Height="48"
+                                                 >
+                                            <Image RenderOptions.BitmapScalingMode="HighQuality"
+                                                   Source="{Binding Culture,
+                                                                    Converter={StaticResource CultureToFlagIconConverter}}"
+                                                   />
                                         </Viewbox>
 
                                         <TextBlock Grid.Column="1"
@@ -77,7 +92,8 @@
                                                                       RelativeSource={RelativeSource AncestorType={x:Type localization:LanguageSelector}}}"
                                                    Foreground="{Binding Foreground,
                                                                         RelativeSource={RelativeSource AncestorType={x:Type localization:LanguageSelector}}}"
-                                                   Text="{Binding NativeName}" />
+                                                   Text="{Binding NativeName}"
+                                                   />
                                     </Grid>
                                 </Border>
                             </DataTemplate>

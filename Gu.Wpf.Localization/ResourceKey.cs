@@ -6,7 +6,6 @@
     using System.Windows.Markup;
 
     using Gu.Localization;
-    using Gu.Localization.Properties;
 
     internal class ResourceKey
     {

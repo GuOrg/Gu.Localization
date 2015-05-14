@@ -12,8 +12,8 @@
         public void Languages()
         {
             var resourceManagerWrapper = new ResourceManagerWrapper(Properties.Resources.ResourceManager);
-            var expected = new[]{"en","sv"};
-            CollectionAssert.AreEqual(expected,resourceManagerWrapper.ResourceSets.Select(x=>x.Culture.TwoLetterISOLanguageName));            
+            var expected = new[] { "de", "en", "sv" };
+            CollectionAssert.AreEqual(expected, resourceManagerWrapper.ResourceSets.Select(x => x.Culture.TwoLetterISOLanguageName));
         }
     }
 }

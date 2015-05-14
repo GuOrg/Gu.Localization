@@ -1,6 +1,7 @@
 namespace Gu.Localization
 {
     using System;
+
     /// <summary>
     /// Don't want a reference to Rx in this lib. Doing it manually.
     /// </summary>

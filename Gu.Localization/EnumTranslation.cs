@@ -7,7 +7,8 @@
     using System.Linq;
     using System.Resources;
     using System.Runtime.CompilerServices;
-    using Annotations;
+
+    using Gu.Localization.Annotations;
 
     public class EnumTranslation<T> : ITranslation
         where T : struct, IComparable, IFormattable, IConvertible

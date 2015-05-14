@@ -37,7 +37,7 @@
             Assert.AreEqual("Svenska", actual);
         }
 
-        [Test]
+        [Test, Explicit("Static event, ew")]
         public void NotifiesOnLanguageChanged()
         {
             var cultureInfos = new List<CultureInfo>();
