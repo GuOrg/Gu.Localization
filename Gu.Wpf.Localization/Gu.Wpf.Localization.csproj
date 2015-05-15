@@ -78,7 +78,7 @@
     <Compile Include="StaticExtension.cs" />
     <Compile Include="Internals\StaticExtensionConverter.cs" />
     <Compile Include="LanguageSelector.cs" />
-    <Compile Include="TranslatorBehavior.cs" />
+    <Compile Include="Translator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gu.Localization\Gu.Localization.csproj">

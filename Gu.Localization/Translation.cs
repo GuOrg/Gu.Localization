@@ -12,8 +12,8 @@
 
     public class Translation : ITranslation
     {
-        private string _key;
-        private Func<string> _keyGetter;
+        private readonly string _key;
+        private readonly Func<string> _keyGetter;
         internal readonly Translator Translator;
         private bool _disposed = false;
         private readonly IDisposable _subscription;

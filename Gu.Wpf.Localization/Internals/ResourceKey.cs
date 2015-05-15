@@ -28,20 +28,11 @@
 
         public string Key { get; private set; }
 
-        public static ResourceKey Resolve(string member, IXamlTypeResolver typeResolver, bool throwOnError)
+        public static ResourceKey Resolve(TypeNameAndKey member, IXamlTypeResolver typeResolver, bool throwOnError)
         {
-            TypeNameAndKey typeNameAndKey;
-            if (!TypeNameAndKey.TryParse(member, out typeNameAndKey))
-            {
-                if (throwOnError)
-                {
-                    throw new ArgumentException("Expecting format p:Resources.Key was:" + member);
-                }
-                return new ResourceKey(null, null, true);
-            }
-            var type = typeResolver.Resolve(typeNameAndKey.QualifiedTypeName);
+            var type = typeResolver.Resolve(member.QualifiedTypeName);
             var manager = ResourceManagerWrapper.FromType(type);
-            return new ResourceKey(manager, typeNameAndKey.Key);
+            return new ResourceKey(manager, member.Key);
         }
     }
 }

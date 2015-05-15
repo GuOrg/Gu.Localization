@@ -8,8 +8,6 @@
     using System.Windows.Controls;
     using System.Windows.Media;
 
-    using Gu.Localization;
-
     public class LanguageSelector : Control, IDisposable
     {
         public static readonly DependencyProperty CurrentLanguageProperty = DependencyProperty.Register(
@@ -45,8 +43,8 @@
 
         public LanguageSelector()
         {
-            Translator.LanguagesChanged += OnLanguagesChanged;
-            Translator.LanguageChanged += OnLanguageChanged;
+            Gu.Localization.Translator.LanguagesChanged += OnLanguagesChanged;
+            Gu.Localization.Translator.LanguageChanged += OnLanguageChanged;
         }
 
         public Language CurrentLanguage
@@ -95,8 +93,8 @@
 
             if (disposing)
             {
-                Translator.LanguagesChanged -= OnLanguagesChanged;
-                Translator.LanguageChanged -= OnLanguageChanged;
+                Gu.Localization.Translator.LanguagesChanged -= OnLanguagesChanged;
+                Gu.Localization.Translator.LanguageChanged -= OnLanguageChanged;
             }
 
             // Free any unmanaged objects here. 
@@ -108,11 +106,12 @@
             var language = e.NewValue as Language;
             if (language != null)
             {
-                Translator.CurrentCulture = Translator.AllCultures.FirstOrDefault(x => x.TwoLetterISOLanguageName == language.Culture.TwoLetterISOLanguageName);
+                var match = Gu.Localization.Translator.AllCultures.FirstOrDefault(x => x.TwoLetterISOLanguageName == language.Culture.TwoLetterISOLanguageName);
+                Gu.Localization.Translator.CurrentCulture = match;
             }
             else
             {
-                Translator.CurrentCulture = null;
+                Gu.Localization.Translator.CurrentCulture = null;
             }
         }
 
@@ -121,8 +120,8 @@
             Dispatcher.BeginInvoke(
                 () =>
                 {
-                    Languages = Translator.AllCultures.Select(x => new Language(x)).ToArray();
-                    var currentCulture = Translator.CurrentCulture;
+                    Languages = Gu.Localization.Translator.AllCultures.Select(x => new Language(x)).ToArray();
+                    var currentCulture = Gu.Localization.Translator.CurrentCulture;
                     if (currentCulture != null)
                     {
                         CurrentLanguage = Languages.FirstOrDefault(x => x.Culture.TwoLetterISOLanguageName == currentCulture.TwoLetterISOLanguageName);
@@ -136,7 +135,7 @@
             {
                 return;
             }
-            var currentCulture = Translator.CurrentCulture;
+            var currentCulture = Gu.Localization.Translator.CurrentCulture;
             var language = currentCulture != null
                                ? Languages.FirstOrDefault(
                                    x => x.Culture.TwoLetterISOLanguageName == currentCulture.TwoLetterISOLanguageName)

@@ -1,28 +1,13 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StaticExtension.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   Implements a markup extension that returns static field and property references.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System;
     using System.ComponentModel;
-    using System.Linq;
     using System.Resources;
-    using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
-    using System.Xaml;
-
     using Gu.Localization;
     using Gu.Localization.Properties;
-    using Gu.Wpf.Localization.Internals;
-
-    using ResourceKey = Gu.Wpf.Localization.Internals.ResourceKey;
+    using Internals;
 
     /// <summary>
     /// Implements a markup extension that translates resources.
@@ -30,31 +15,28 @@ namespace Gu.Wpf.Localization
     /// l:Static p:Resources.YourKey
     /// </summary>
     [MarkupExtensionReturnType(typeof(string))]
-    [ContentProperty("Member"), DefaultProperty("Member")]
-    [TypeConverter(typeof(StaticExtensionConverter))]
-    public class StaticExtension : MarkupExtension
+    public class StaticExtension : System.Windows.Markup.StaticExtension
     {
-        /// <summary>
-        /// The _xaml type resolver.
-        /// </summary>
         private IXamlTypeResolver _xamlTypeResolver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Gu.Wpf.Localization.StaticExtension"/> class using the provided <paramref name="member"/> string.
         /// </summary>
         /// <param name="member">
-        /// A string that identifies the member to make a reference to. This string uses the format prefix:typeName.fieldOrPropertyName. prefix is the mapping prefix for a XAML namespace, and is only required to reference static values that are not mapped to the default XAML namespace.
+        /// A string that identifies the member to make a reference to. This string uses the format prefix:typeName.fieldOrPropertyName. 
+        /// prefix is the mapping prefix for a XAML namespace, and is only required to reference static values that are not mapped to the default XAML namespace.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="member"/> is null.
         /// </exception>
         public StaticExtension(string member)
+            : base(member)
         {
-            Member = member;
+            //Member = member;
         }
 
-        [ConstructorArgument("member")]
-        public string Member { get; set; }
+        //[ConstructorArgument("member")]
+        //public string Member { get; set; }
 
         public ResourceManager ResourceManager { get; set; }
 
@@ -87,9 +69,19 @@ namespace Gu.Wpf.Localization
             {
                 throw new InvalidOperationException("MarkupExtensionStaticMember");
             }
+
+            TypeNameAndKey typeNameAndKey;
+            if (!TypeNameAndKey.TryParse(Member, out typeNameAndKey))
+            {
+                if (DesignMode.IsDesignMode)
+                {
+                    throw new ArgumentException("Expecting format p:Resources.Key was: " + Member);
+                }
+                return string.Format(Gu.Localization.Properties.Resources.MissingKeyFormat, Member);
+            }
             if (DesignMode.IsDesignMode)
             {
-                return DesigntimeSandbox.ProvideValue(serviceProvider, Member);
+                return typeNameAndKey.Key; // giving up for now
             }
             try
             {
@@ -103,7 +95,7 @@ namespace Gu.Wpf.Localization
                 {
                     _xamlTypeResolver = serviceProvider.XamlTypeResolver();
                 }
-                var resourceKey = ResourceKey.Resolve(Member, _xamlTypeResolver, DesignMode.IsDesignMode);
+                var resourceKey = ResourceKey.Resolve(typeNameAndKey, _xamlTypeResolver, DesignMode.IsDesignMode);
                 if (resourceKey.HasError)
                 {
                     return string.Format(Resources.UnknownErrorFormat, Member);

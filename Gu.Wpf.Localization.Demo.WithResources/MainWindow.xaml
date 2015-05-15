@@ -6,9 +6,6 @@
         xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.WithResources.Properties"
         xmlns:withResources="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
         Title="MainWindow"
-        Width="800"
-        Height="600"
-        l:TranslatorBehavior.Culture="sv"
         >
     <Grid>
         <Grid.ColumnDefinitions>
@@ -16,7 +13,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <l:LanguageSelector Grid.Column="0" />
-        <WrapPanel Grid.Column="1">
+        <WrapPanel Grid.Column="1" Orientation="Vertical">
             <GroupBox BorderBrush="Green"
                       BorderThickness="2"
                       Header="No translations"
