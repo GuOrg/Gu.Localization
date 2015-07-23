@@ -18,4 +18,5 @@ xmlns:p="clr-namespace:YourProject.Properties"
 --> 
 ```
 
-## Does not use CurrentUICulture, set the culture explicitly.
+## Misc.
+Does not use CurrentUICulture, set the culture explicitly.
