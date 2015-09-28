@@ -5,6 +5,7 @@
     using System.Linq;
 
     using Gu.Localization;
+    using Gu.Localization.Tests.Properties;
 
     using NUnit.Framework;
 
@@ -21,6 +22,16 @@
             Translator.CurrentCulture = cultureInfo;
             var actual = translator.Translate(key);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase("en-US", "English")]
+        [TestCase("sv-SE", "Svenska")]
+        [TestCase("nb-NO", "So neutral")]
+        public void Translate(string cultureName, string expected)
+        {
+            Translator.CurrentCulture = new CultureInfo(cultureName);
+            var translated = Translator.Translate(() => Resources.AllLanguages);
+            Assert.AreEqual(expected, translated);
         }
 
         [Test]

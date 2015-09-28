@@ -1,12 +1,10 @@
 ﻿namespace Gu.Localization.Tests
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
-    using System.Resources;
-    using System.Text;
+
     using NUnit.Framework;
 
     public class EnumTranslationTests
@@ -23,7 +21,7 @@
 
             Translator.CurrentCulture = new CultureInfo("sv");
             Assert.AreEqual("Svenska", translation.Translated);
-            Assert.AreEqual(1, argses.Count(x => x.PropertyName == ExpressionHelper.PropertyName(() => translation.Translated)));
+            Assert.AreEqual(1, argses.Count(x => x.PropertyName == nameof(translation.Translated)));
         }
 
         [Test]

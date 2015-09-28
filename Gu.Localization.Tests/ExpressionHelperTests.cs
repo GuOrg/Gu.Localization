@@ -1,5 +1,10 @@
 ﻿namespace Gu.Localization.Tests
 {
+    using System;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using System.Resources;
+
     using NUnit.Framework;
 
     public class ExpressionHelperTests
@@ -14,8 +19,8 @@
         [Test]
         public void GetResourceManager()
         {
-            var resourceKey = ExpressionHelper.GetResourceManager(() => Properties.Resources.AllLanguages);
-            Assert.AreEqual(Properties.Resources.ResourceManager, resourceKey);
+            var manager = ExpressionHelper.GetResourceManager(() => Properties.Resources.AllLanguages);
+            Assert.AreSame(Properties.Resources.ResourceManager, manager);
         }
 
         [Test]
@@ -29,6 +34,12 @@
         public void IsResourceKeyIsFalseForInvalidKey()
         {
             var actual = ExpressionHelper.IsResourceKey(() => "");
+            Assert.AreEqual(false, actual);
+
+            actual = ExpressionHelper.IsResourceKey(() => Properties.Resources.AllLanguages.Length.ToString());
+            Assert.AreEqual(false, actual);
+
+            actual = ExpressionHelper.IsResourceKey(() => Properties.Resources.Culture.EnglishName);
             Assert.AreEqual(false, actual);
         }
     }

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
@@ -9,7 +10,7 @@
 
     using Gu.Localization.Properties;
 
-    public class Translator
+    public class Translator : ITranslator
     {
         private static readonly List<CultureInfo> InnerAllCultures = new List<CultureInfo>();
         private readonly List<CultureInfo> _cultures = new List<CultureInfo>();
@@ -56,11 +57,23 @@
             }
         }
 
-        public static IEnumerable<CultureInfo> AllCultures
+        public static IReadOnlyList<CultureInfo> AllCultures
         {
             get
             {
                 return InnerAllCultures;
+            }
+        }
+
+        CultureInfo ITranslator.CurrentCulture
+        {
+            get
+            {
+                return CurrentCulture;
+            }
+            set
+            {
+                CurrentCulture = value;
             }
         }
 
@@ -83,13 +96,16 @@
         {
             if (ExpressionHelper.IsResourceKey(key))
             {
-                return Translate(ExpressionHelper.GetResourceManager(key), ExpressionHelper.GetResourceKey(key));
+                var resourceManager = ExpressionHelper.GetResourceManager(key);
+                var resourceKey = ExpressionHelper.GetResourceKey(key);
+                return Translate(resourceManager, resourceKey);
             }
             return Translate(null, key.Compile().Invoke());
         }
 
         public static string Translate(ResourceManager resourceManager, string key)
         {
+            Debug.Assert(!string.IsNullOrEmpty(key));
             if (resourceManager == null)
             {
                 return string.Format(Resources.NullManagerFormat, key);
@@ -100,6 +116,8 @@
             }
             return resourceManager.GetString(key, CurrentCulture);
         }
+
+        IReadOnlyList<CultureInfo> ITranslator.AllCultures => AllCultures;
 
         public bool HasCulture(CultureInfo culture)
         {
@@ -119,6 +137,16 @@
                 return string.Format(Resources.MissingKeyFormat, key);
             }
             return translated;
+        }
+
+        string ITranslator.Translate(Expression<Func<string>> key)
+        {
+            return Translate(key);
+        }
+
+        string ITranslator.Translate(ResourceManager resourceManager, Expression<Func<string>> key)
+        {
+            return Translate(resourceManager, key);
         }
 
         private static void OnLanguageChanged(CultureInfo e)
