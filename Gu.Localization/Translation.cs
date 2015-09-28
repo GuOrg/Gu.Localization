@@ -40,8 +40,8 @@
             : this(new ResourceManagerWrapper(resourceManager), null)
         {
             _keyGetter = key;
-            var propertyName = ExpressionHelper.PropertyName(() => Translated);
-            _subscription = trigger.Subscribe(new Observer(() => OnPropertyChanged(propertyName)));
+            var propertyName = nameof(Translated);
+            _subscription = trigger.Subscribe(new Observer(() => OnPropertyChanged(nameof(Translated))));
         }
 
         internal Translation(ResourceManagerWrapper resourceManager, string key)
@@ -121,7 +121,7 @@
 
         private void OnLanguageChanged(object sender, CultureInfo e)
         {
-            OnPropertyChanged(ExpressionHelper.PropertyName(() => Translated));
+            OnPropertyChanged(nameof(Translated));
         }
     }
 }

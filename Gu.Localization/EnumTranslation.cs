@@ -92,9 +92,9 @@
 
         private void TranslationOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if (propertyChangedEventArgs.PropertyName == ExpressionHelper.PropertyName(() => _translation.Translated))
+            if (propertyChangedEventArgs.PropertyName == nameof(_translation.Translated))
             {
-                OnPropertyChanged(ExpressionHelper.PropertyName(() => Translated));
+                OnPropertyChanged(nameof(Translated));
             }
         }
     }

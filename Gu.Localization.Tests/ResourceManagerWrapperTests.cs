@@ -13,7 +13,8 @@
         {
             var resourceManagerWrapper = new ResourceManagerWrapper(Properties.Resources.ResourceManager);
             var expected = new[] { "de", "en", "sv" };
-            CollectionAssert.AreEqual(expected, resourceManagerWrapper.ResourceSets.Select(x => x.Culture.TwoLetterISOLanguageName));
+            var actual = resourceManagerWrapper.ResourceSets.Select(x => x.Culture.TwoLetterISOLanguageName).ToArray();
+            CollectionAssert.AreEqual(expected, actual);
         }
     }
 }
