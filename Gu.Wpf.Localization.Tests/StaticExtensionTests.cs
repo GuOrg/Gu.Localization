@@ -2,6 +2,9 @@
 {
     using System;
     using System.Windows.Markup;
+
+    using Gu.Wpf.Localization.Internals;
+
     using Moq;
     using NUnit.Framework;
 
@@ -16,7 +19,8 @@
             var serviceProviderMock = new Mock<IServiceProvider>();
             serviceProviderMock.Setup(x => x.GetService(typeof(IXamlTypeResolver)))
                                .Returns(typeResolverMock.Object);
-            var key = Gu.Wpf.Localization.StaticExtension.GetAssemblyAndKey(serviceProviderMock.Object, "p:Resources.Key");
+            var qnk = QualifiedNameAndKey.Parse("p:Resources.Key");
+            var key = Gu.Wpf.Localization.StaticExtension.GetAssemblyAndKey(serviceProviderMock.Object, qnk);
 
             Assert.AreEqual(typeof(Properties.Resources).Assembly, key.Assembly);
             Assert.AreEqual("Key", key.Key);

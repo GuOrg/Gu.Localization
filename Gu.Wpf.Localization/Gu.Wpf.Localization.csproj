@@ -65,7 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Designtime\DesignMode.cs" />
+    <Compile Include="Designtime\DesigntimeTranslation.cs" />
     <Compile Include="Designtime\TemplateTranslation.cs" />
+    <Compile Include="Internals\QualifiedNameAndKey.cs" />
     <Compile Include="Internals\TranslationInfo.cs" />
     <Compile Include="DispatcherExt.cs" />
     <Compile Include="Internals\ServiceProviderExt.cs" />
@@ -97,6 +99,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

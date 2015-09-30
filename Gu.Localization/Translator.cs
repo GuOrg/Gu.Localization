@@ -13,18 +13,16 @@
     public class Translator : ITranslator
     {
         private static CultureInfo _currentCulture;
-
         private static Assembly _executingAssembly;
-
         private static readonly ObservableCollection<CultureInfo> AllCulturesInner = new ObservableCollection<CultureInfo>();
-
-        public static event EventHandler<CultureInfo> CurrentLanguageChanged;
 
         static Translator()
         {
             AllCultures = new ReadOnlyObservableCollection<CultureInfo>(AllCulturesInner);
             ExecutingAssembly = Assembly.GetEntryAssembly();
         }
+
+        public static event EventHandler<CultureInfo> CurrentLanguageChanged;
 
         /// <summary>
         /// The culture to translate to
@@ -65,8 +63,7 @@
                 AllCulturesInner.Clear();
                 if (_executingAssembly != null)
                 {
-                    var languages = LanguageManager.GetOrCreate(value)
-                             .Languages;
+                    var languages = LanguageManager.GetOrCreate(value).Languages;
                     foreach (var cultureInfo in languages)
                     {
                         AllCulturesInner.Add(cultureInfo);
