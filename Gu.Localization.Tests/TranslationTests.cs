@@ -42,8 +42,9 @@
 
         [TestCase("AllLanguages", "en", "English")]
         [TestCase("AllLanguages", "sv", "Svenska")]
-        [TestCase("Missing", "sv", "!Missing!")]
-        [TestCase("EnglishOnly", "sv", "")]
+        [TestCase("Missing", "sv", "-Missing-")]
+        [TestCase("EnglishOnly", "sv", "!EnglishOnly!")]
+        [TestCase("NeutralOnly", "sv", "So neutral")]
         public void Translate(string key, string culture, string expected)
         {
             var cultureInfo = CultureInfo.GetCultureInfo(culture);

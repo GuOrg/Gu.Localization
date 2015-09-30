@@ -1,11 +1,15 @@
 ﻿namespace Gu.Wpf.Localization
 {
+    using System;
     using System.Globalization;
 
-    public class Language 
+    public class Language
     {
-        private readonly CultureInfo _culture;
-        private bool _disposed = false;
+        private CultureInfo _culture;
+
+        public Language()
+        {
+        }
 
         public Language(CultureInfo culture)
         {
@@ -18,28 +22,26 @@
             {
                 return _culture;
             }
-        }
-
-        public string Name
-        {
-            get
+            set
             {
-                return _culture.Name;
+                _culture = value;
             }
         }
 
-        public string EnglishName
-        {
-            get
-            {
-                return _culture.EnglishName;
-            }
-        }
+        public Uri FlagSource { get; set; }
+
+        public string Name => _culture?.Name;
+
+        public string EnglishName => _culture?.EnglishName;
 
         public string NativeName
         {
             get
             {
+                if (_culture == null)
+                {
+                    return "";
+                }
                 var nativeName = _culture.NativeName;
                 if (char.IsUpper(nativeName[0]))
                 {
@@ -51,7 +53,7 @@
 
         public override string ToString()
         {
-            return string.Format("EnglishName: {0}", EnglishName);
+            return EnglishName;
         }
     }
 }

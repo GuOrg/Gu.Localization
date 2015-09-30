@@ -95,5 +95,14 @@ namespace Gu.Localization.Tests.Properties {
                 return ResourceManager.GetString("NoTranslation", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to So neutral.
+        /// </summary>
+        internal static string SwedishAndNeutral {
+            get {
+                return ResourceManager.GetString("SwedishAndNeutral", resourceCulture);
+            }
+        }
     }
 }

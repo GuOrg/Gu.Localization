@@ -120,4 +120,7 @@
   <data name="AllLanguages" xml:space="preserve">
     <value>Svenska</value>
   </data>
+  <data name="SwedishAndNeutral" xml:space="preserve">
+    <value>Svenska</value>
+  </data>
 </root>

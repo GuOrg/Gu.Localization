@@ -56,5 +56,6 @@ using System.Windows.Markup;
     // (used if a resource is not found in the page, 
     // app, or any theme specific resource dictionaries)
 )]
+[assembly: XmlnsDefinition("http://gu.se/Localization", "Gu.Localization")]
 [assembly: XmlnsDefinition("http://gu.se/Localization", "Gu.Wpf.Localization")]
 [assembly: XmlnsPrefix("http://gu.se/Localization", "l")]

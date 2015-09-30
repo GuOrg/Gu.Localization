@@ -1,8 +1,8 @@
 ﻿<Application x:Class="Gu.Wpf.Localization.Demo.WithResources.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:l="clr-namespace:Gu.Wpf.Localization;assembly=Gu.Wpf.Localization"
              xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.WithResources.Properties"
+             xmlns:l="http://gu.se/Localization"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <Style TargetType="{x:Type TextBlock}">

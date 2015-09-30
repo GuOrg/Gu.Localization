@@ -1,14 +1,5 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Annotations.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   Indicates that the value of the marked element could be <c>null</c> sometimes,
-//   so the check for <c>null</c> is necessary before its usage
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-
+﻿
+// ReSharper disable All
 #pragma warning disable 1591
 // ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedParameter.Local
@@ -17,6 +8,7 @@
 // ReSharper disable IntroduceOptionalParameters.Global
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable InconsistentNaming
+
 namespace Gu.Wpf.Localization.Annotations
 {
     using System;
@@ -65,14 +57,10 @@ namespace Gu.Wpf.Localization.Annotations
   /// }
   /// </code></example>
   [AttributeUsage(
-    AttributeTargets.Constructor | AttributeTargets.Method, 
+    AttributeTargets.Constructor | AttributeTargets.Method,
     AllowMultiple = false, Inherited = true)]
   public sealed class StringFormatMethodAttribute : Attribute
   {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StringFormatMethodAttribute"/> class. 
-    /// The string format method attribute.
-    /// </summary>
     /// <param name="formatParameterName">
     /// Specifies which parameter of an annotated method should be treated as format-string
     /// </param>
@@ -81,10 +69,7 @@ namespace Gu.Wpf.Localization.Annotations
       FormatParameterName = formatParameterName;
     }
 
-      /// <summary>
-      /// Gets the format parameter name.
-      /// </summary>
-      public string FormatParameterName { get; private set; }
+    public string FormatParameterName { get; private set; }
   }
 
   /// <summary>
@@ -140,26 +125,13 @@ namespace Gu.Wpf.Localization.Annotations
   [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
   public sealed class NotifyPropertyChangedInvocatorAttribute : Attribute
   {
-      /// <summary>
-      /// Initializes a new instance of the <see cref="NotifyPropertyChangedInvocatorAttribute"/> class.
-      /// </summary>
-      public NotifyPropertyChangedInvocatorAttribute() { }
-
-      /// <summary>
-      /// Initializes a new instance of the <see cref="NotifyPropertyChangedInvocatorAttribute"/> class.
-      /// </summary>
-      /// <param name="parameterName">
-      /// The parameter name.
-      /// </param>
-      public NotifyPropertyChangedInvocatorAttribute(string parameterName)
+    public NotifyPropertyChangedInvocatorAttribute() { }
+    public NotifyPropertyChangedInvocatorAttribute(string parameterName)
     {
       ParameterName = parameterName;
     }
 
-      /// <summary>
-      /// Gets the parameter name.
-      /// </summary>
-      public string ParameterName { get; private set; }
+    public string ParameterName { get; private set; }
   }
 
   /// <summary>
@@ -207,39 +179,17 @@ namespace Gu.Wpf.Localization.Annotations
   [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
   public sealed class ContractAnnotationAttribute : Attribute
   {
-      /// <summary>
-      /// Initializes a new instance of the <see cref="ContractAnnotationAttribute"/> class.
-      /// </summary>
-      /// <param name="contract">
-      /// The contract.
-      /// </param>
-      public ContractAnnotationAttribute([NotNull] string contract)
+    public ContractAnnotationAttribute([NotNull] string contract)
       : this(contract, false) { }
 
-      /// <summary>
-      /// Initializes a new instance of the <see cref="ContractAnnotationAttribute"/> class.
-      /// </summary>
-      /// <param name="contract">
-      /// The contract.
-      /// </param>
-      /// <param name="forceFullStates">
-      /// The force full states.
-      /// </param>
-      public ContractAnnotationAttribute([NotNull] string contract, bool forceFullStates)
+    public ContractAnnotationAttribute([NotNull] string contract, bool forceFullStates)
     {
       Contract = contract;
       ForceFullStates = forceFullStates;
     }
 
-      /// <summary>
-      /// Gets the contract.
-      /// </summary>
-      public string Contract { get; private set; }
-
-      /// <summary>
-      /// Gets a value indicating whether force full states.
-      /// </summary>
-      public bool ForceFullStates { get; private set; }
+    public string Contract { get; private set; }
+    public bool ForceFullStates { get; private set; }
   }
 
   /// <summary>
@@ -254,26 +204,13 @@ namespace Gu.Wpf.Localization.Annotations
   [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
   public sealed class LocalizationRequiredAttribute : Attribute
   {
-      /// <summary>
-      /// Initializes a new instance of the <see cref="LocalizationRequiredAttribute"/> class.
-      /// </summary>
-      public LocalizationRequiredAttribute() : this(true) { }
-
-      /// <summary>
-      /// Initializes a new instance of the <see cref="LocalizationRequiredAttribute"/> class.
-      /// </summary>
-      /// <param name="required">
-      /// The required.
-      /// </param>
-      public LocalizationRequiredAttribute(bool required)
+    public LocalizationRequiredAttribute() : this(true) { }
+    public LocalizationRequiredAttribute(bool required)
     {
       Required = required;
     }
 
-      /// <summary>
-      /// Gets a value indicating whether required.
-      /// </summary>
-      public bool Required { get; private set; }
+    public bool Required { get; private set; }
   }
 
   /// <summary>
@@ -314,21 +251,12 @@ namespace Gu.Wpf.Localization.Annotations
   [BaseTypeRequired(typeof(Attribute))]
   public sealed class BaseTypeRequiredAttribute : Attribute
   {
-      /// <summary>
-      /// Initializes a new instance of the <see cref="BaseTypeRequiredAttribute"/> class.
-      /// </summary>
-      /// <param name="baseType">
-      /// The base type.
-      /// </param>
-      public BaseTypeRequiredAttribute([NotNull] Type baseType)
+    public BaseTypeRequiredAttribute([NotNull] Type baseType)
     {
       BaseType = baseType;
     }
 
-      /// <summary>
-      /// Gets the base type.
-      /// </summary>
-      [NotNull] public Type BaseType { get; private set; }
+    [NotNull] public Type BaseType { get; private set; }
   }
 
   /// <summary>
@@ -339,55 +267,24 @@ namespace Gu.Wpf.Localization.Annotations
   [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
   public sealed class UsedImplicitlyAttribute : Attribute
   {
-      /// <summary>
-      /// Initializes a new instance of the <see cref="UsedImplicitlyAttribute"/> class.
-      /// </summary>
-      public UsedImplicitlyAttribute()
+    public UsedImplicitlyAttribute()
       : this(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.Default) { }
 
-      /// <summary>
-      /// Initializes a new instance of the <see cref="UsedImplicitlyAttribute"/> class.
-      /// </summary>
-      /// <param name="useKindFlags">
-      /// The use kind flags.
-      /// </param>
-      public UsedImplicitlyAttribute(ImplicitUseKindFlags useKindFlags)
+    public UsedImplicitlyAttribute(ImplicitUseKindFlags useKindFlags)
       : this(useKindFlags, ImplicitUseTargetFlags.Default) { }
 
-      /// <summary>
-      /// Initializes a new instance of the <see cref="UsedImplicitlyAttribute"/> class.
-      /// </summary>
-      /// <param name="targetFlags">
-      /// The target flags.
-      /// </param>
-      public UsedImplicitlyAttribute(ImplicitUseTargetFlags targetFlags)
+    public UsedImplicitlyAttribute(ImplicitUseTargetFlags targetFlags)
       : this(ImplicitUseKindFlags.Default, targetFlags) { }
 
-      /// <summary>
-      /// Initializes a new instance of the <see cref="UsedImplicitlyAttribute"/> class.
-      /// </summary>
-      /// <param name="useKindFlags">
-      /// The use kind flags.
-      /// </param>
-      /// <param name="targetFlags">
-      /// The target flags.
-      /// </param>
-      public UsedImplicitlyAttribute(
+    public UsedImplicitlyAttribute(
       ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
     {
       UseKindFlags = useKindFlags;
       TargetFlags = targetFlags;
     }
 
-      /// <summary>
-      /// Gets the use kind flags.
-      /// </summary>
-      public ImplicitUseKindFlags UseKindFlags { get; private set; }
-
-      /// <summary>
-      /// Gets the target flags.
-      /// </summary>
-      public ImplicitUseTargetFlags TargetFlags { get; private set; }
+    public ImplicitUseKindFlags UseKindFlags { get; private set; }
+    public ImplicitUseTargetFlags TargetFlags { get; private set; }
   }
 
   /// <summary>
@@ -398,82 +295,41 @@ namespace Gu.Wpf.Localization.Annotations
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
   public sealed class MeansImplicitUseAttribute : Attribute
   {
-      /// <summary>
-      /// Initializes a new instance of the <see cref="MeansImplicitUseAttribute"/> class.
-      /// </summary>
-      public MeansImplicitUseAttribute() 
+    public MeansImplicitUseAttribute() 
       : this(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.Default) { }
 
-      /// <summary>
-      /// Initializes a new instance of the <see cref="MeansImplicitUseAttribute"/> class.
-      /// </summary>
-      /// <param name="useKindFlags">
-      /// The use kind flags.
-      /// </param>
-      public MeansImplicitUseAttribute(ImplicitUseKindFlags useKindFlags)
+    public MeansImplicitUseAttribute(ImplicitUseKindFlags useKindFlags)
       : this(useKindFlags, ImplicitUseTargetFlags.Default) { }
 
-      /// <summary>
-      /// Initializes a new instance of the <see cref="MeansImplicitUseAttribute"/> class.
-      /// </summary>
-      /// <param name="targetFlags">
-      /// The target flags.
-      /// </param>
-      public MeansImplicitUseAttribute(ImplicitUseTargetFlags targetFlags)
+    public MeansImplicitUseAttribute(ImplicitUseTargetFlags targetFlags)
       : this(ImplicitUseKindFlags.Default, targetFlags) { }
 
-      /// <summary>
-      /// Initializes a new instance of the <see cref="MeansImplicitUseAttribute"/> class.
-      /// </summary>
-      /// <param name="useKindFlags">
-      /// The use kind flags.
-      /// </param>
-      /// <param name="targetFlags">
-      /// The target flags.
-      /// </param>
-      public MeansImplicitUseAttribute(
+    public MeansImplicitUseAttribute(
       ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
     {
       UseKindFlags = useKindFlags;
       TargetFlags = targetFlags;
     }
 
-      /// <summary>
-      /// Gets the use kind flags.
-      /// </summary>
-      [UsedImplicitly] public ImplicitUseKindFlags UseKindFlags { get; private set; }
-
-      /// <summary>
-      /// Gets the target flags.
-      /// </summary>
-      [UsedImplicitly] public ImplicitUseTargetFlags TargetFlags { get; private set; }
+    [UsedImplicitly] public ImplicitUseKindFlags UseKindFlags { get; private set; }
+    [UsedImplicitly] public ImplicitUseTargetFlags TargetFlags { get; private set; }
   }
-
-    /// <summary>
-    /// The implicit use kind flags.
-    /// </summary>
-    [Flags]
+  
+  [Flags]
   public enum ImplicitUseKindFlags
   {
-        /// <summary>
-        /// The default.
-        /// </summary>
-        Default = Access | Assign | InstantiatedWithFixedConstructorSignature, 
-
+    Default = Access | Assign | InstantiatedWithFixedConstructorSignature,
     /// <summary>Only entity marked with attribute considered used</summary>
-    Access = 1, 
-
+    Access = 1,
     /// <summary>Indicates implicit assignment to a member</summary>
-    Assign = 2, 
-
+    Assign = 2,
     /// <summary>
     /// Indicates implicit instantiation of a type with fixed constructor signature.
     /// That means any unused constructor parameters won't be reported as such.
     /// </summary>
-    InstantiatedWithFixedConstructorSignature = 4, 
-
+    InstantiatedWithFixedConstructorSignature = 4,
     /// <summary>Indicates implicit instantiation of a type</summary>
-    InstantiatedNoFixedConstructorSignature = 8, 
+    InstantiatedNoFixedConstructorSignature = 8,
   }
 
   /// <summary>
@@ -484,19 +340,10 @@ namespace Gu.Wpf.Localization.Annotations
   [Flags]
   public enum ImplicitUseTargetFlags
   {
-      /// <summary>
-      /// The default.
-      /// </summary>
-      Default = Itself, 
-
-      /// <summary>
-      /// The itself.
-      /// </summary>
-      Itself = 1, 
-
+    Default = Itself,
+    Itself = 1,
     /// <summary>Members of entity marked with attribute are considered used</summary>
-    Members = 2, 
-
+    Members = 2,
     /// <summary>Entity marked with attribute and all its members considered used</summary>
     WithMembers = Itself | Members
   }
@@ -508,26 +355,13 @@ namespace Gu.Wpf.Localization.Annotations
   [MeansImplicitUse]
   public sealed class PublicAPIAttribute : Attribute
   {
-      /// <summary>
-      /// Initializes a new instance of the <see cref="PublicAPIAttribute"/> class.
-      /// </summary>
-      public PublicAPIAttribute() { }
-
-      /// <summary>
-      /// Initializes a new instance of the <see cref="PublicAPIAttribute"/> class.
-      /// </summary>
-      /// <param name="comment">
-      /// The comment.
-      /// </param>
-      public PublicAPIAttribute([NotNull] string comment)
+    public PublicAPIAttribute() { }
+    public PublicAPIAttribute([NotNull] string comment)
     {
       Comment = comment;
     }
 
-      /// <summary>
-      /// Gets the comment.
-      /// </summary>
-      [NotNull] public string Comment { get; private set; }
+    [NotNull] public string Comment { get; private set; }
   }
 
   /// <summary>
@@ -562,121 +396,53 @@ namespace Gu.Wpf.Localization.Annotations
   [AttributeUsage(AttributeTargets.Parameter)]
   public class PathReferenceAttribute : Attribute
   {
-      /// <summary>
-      /// Initializes a new instance of the <see cref="PathReferenceAttribute"/> class.
-      /// </summary>
-      public PathReferenceAttribute() { }
-
-      /// <summary>
-      /// Initializes a new instance of the <see cref="PathReferenceAttribute"/> class.
-      /// </summary>
-      /// <param name="basePath">
-      /// The base path.
-      /// </param>
-      public PathReferenceAttribute([PathReference] string basePath)
+    public PathReferenceAttribute() { }
+    public PathReferenceAttribute([PathReference] string basePath)
     {
       BasePath = basePath;
     }
 
-      /// <summary>
-      /// Gets the base path.
-      /// </summary>
-      [NotNull] public string BasePath { get; private set; }
+    [NotNull] public string BasePath { get; private set; }
   }
 
   // ASP.NET MVC attributes
 
-    /// <summary>
-    /// The asp mvc area master location format attribute.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class AspMvcAreaMasterLocationFormatAttribute : Attribute
   {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AspMvcAreaMasterLocationFormatAttribute"/> class.
-        /// </summary>
-        /// <param name="format">
-        /// The format.
-        /// </param>
-        public AspMvcAreaMasterLocationFormatAttribute(string format) { }
+    public AspMvcAreaMasterLocationFormatAttribute(string format) { }
   }
 
-    /// <summary>
-    /// The asp mvc area partial view location format attribute.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class AspMvcAreaPartialViewLocationFormatAttribute : Attribute
   {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AspMvcAreaPartialViewLocationFormatAttribute"/> class.
-        /// </summary>
-        /// <param name="format">
-        /// The format.
-        /// </param>
-        public AspMvcAreaPartialViewLocationFormatAttribute(string format) { }
+    public AspMvcAreaPartialViewLocationFormatAttribute(string format) { }
   }
 
-    /// <summary>
-    /// The asp mvc area view location format attribute.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class AspMvcAreaViewLocationFormatAttribute : Attribute
   {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AspMvcAreaViewLocationFormatAttribute"/> class.
-        /// </summary>
-        /// <param name="format">
-        /// The format.
-        /// </param>
-        public AspMvcAreaViewLocationFormatAttribute(string format) { }
+    public AspMvcAreaViewLocationFormatAttribute(string format) { }
   }
 
-    /// <summary>
-    /// The asp mvc master location format attribute.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class AspMvcMasterLocationFormatAttribute : Attribute
   {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AspMvcMasterLocationFormatAttribute"/> class.
-        /// </summary>
-        /// <param name="format">
-        /// The format.
-        /// </param>
-        public AspMvcMasterLocationFormatAttribute(string format) { }
+    public AspMvcMasterLocationFormatAttribute(string format) { }
   }
 
-    /// <summary>
-    /// The asp mvc partial view location format attribute.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class AspMvcPartialViewLocationFormatAttribute : Attribute
   {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AspMvcPartialViewLocationFormatAttribute"/> class.
-        /// </summary>
-        /// <param name="format">
-        /// The format.
-        /// </param>
-        public AspMvcPartialViewLocationFormatAttribute(string format) { }
+    public AspMvcPartialViewLocationFormatAttribute(string format) { }
   }
 
-    /// <summary>
-    /// The asp mvc view location format attribute.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
   public sealed class AspMvcViewLocationFormatAttribute : Attribute
   {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AspMvcViewLocationFormatAttribute"/> class.
-        /// </summary>
-        /// <param name="format">
-        /// The format.
-        /// </param>
-        public AspMvcViewLocationFormatAttribute(string format) { }
+    public AspMvcViewLocationFormatAttribute(string format) { }
   }
   
-
   /// <summary>
   /// ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
   /// is an MVC action. If applied to a method, the MVC action name is calculated
@@ -686,26 +452,13 @@ namespace Gu.Wpf.Localization.Annotations
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class AspMvcActionAttribute : Attribute
   {
-      /// <summary>
-      /// Initializes a new instance of the <see cref="AspMvcActionAttribute"/> class.
-      /// </summary>
-      public AspMvcActionAttribute() { }
-
-      /// <summary>
-      /// Initializes a new instance of the <see cref="AspMvcActionAttribute"/> class.
-      /// </summary>
-      /// <param name="anonymousProperty">
-      /// The anonymous property.
-      /// </param>
-      public AspMvcActionAttribute([NotNull] string anonymousProperty)
+    public AspMvcActionAttribute() { }
+    public AspMvcActionAttribute([NotNull] string anonymousProperty)
     {
       AnonymousProperty = anonymousProperty;
     }
 
-      /// <summary>
-      /// Gets the anonymous property.
-      /// </summary>
-      [NotNull] public string AnonymousProperty { get; private set; }
+    [NotNull] public string AnonymousProperty { get; private set; }
   }
 
   /// <summary>
@@ -716,26 +469,13 @@ namespace Gu.Wpf.Localization.Annotations
   [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class AspMvcAreaAttribute : PathReferenceAttribute
   {
-      /// <summary>
-      /// Initializes a new instance of the <see cref="AspMvcAreaAttribute"/> class.
-      /// </summary>
-      public AspMvcAreaAttribute() { }
-
-      /// <summary>
-      /// Initializes a new instance of the <see cref="AspMvcAreaAttribute"/> class.
-      /// </summary>
-      /// <param name="anonymousProperty">
-      /// The anonymous property.
-      /// </param>
-      public AspMvcAreaAttribute([NotNull] string anonymousProperty)
+    public AspMvcAreaAttribute() { }
+    public AspMvcAreaAttribute([NotNull] string anonymousProperty)
     {
       AnonymousProperty = anonymousProperty;
     }
 
-      /// <summary>
-      /// Gets the anonymous property.
-      /// </summary>
-      [NotNull] public string AnonymousProperty { get; private set; }
+    [NotNull] public string AnonymousProperty { get; private set; }
   }
 
   /// <summary>
@@ -748,26 +488,13 @@ namespace Gu.Wpf.Localization.Annotations
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class AspMvcControllerAttribute : Attribute
   {
-      /// <summary>
-      /// Initializes a new instance of the <see cref="AspMvcControllerAttribute"/> class.
-      /// </summary>
-      public AspMvcControllerAttribute() { }
-
-      /// <summary>
-      /// Initializes a new instance of the <see cref="AspMvcControllerAttribute"/> class.
-      /// </summary>
-      /// <param name="anonymousProperty">
-      /// The anonymous property.
-      /// </param>
-      public AspMvcControllerAttribute([NotNull] string anonymousProperty)
+    public AspMvcControllerAttribute() { }
+    public AspMvcControllerAttribute([NotNull] string anonymousProperty)
     {
       AnonymousProperty = anonymousProperty;
     }
 
-      /// <summary>
-      /// Gets the anonymous property.
-      /// </summary>
-      [NotNull] public string AnonymousProperty { get; private set; }
+    [NotNull] public string AnonymousProperty { get; private set; }
   }
 
   /// <summary>
@@ -850,59 +577,31 @@ namespace Gu.Wpf.Localization.Annotations
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property)]
   public sealed class AspMvcActionSelectorAttribute : Attribute { }
 
-    /// <summary>
-    /// The html element attributes attribute.
-    /// </summary>
-    [AttributeUsage(
+  [AttributeUsage(
     AttributeTargets.Parameter | AttributeTargets.Property |
     AttributeTargets.Field, Inherited = true)]
   public sealed class HtmlElementAttributesAttribute : Attribute
   {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HtmlElementAttributesAttribute"/> class.
-        /// </summary>
-        public HtmlElementAttributesAttribute() { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HtmlElementAttributesAttribute"/> class.
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        public HtmlElementAttributesAttribute([NotNull] string name)
+    public HtmlElementAttributesAttribute() { }
+    public HtmlElementAttributesAttribute([NotNull] string name)
     {
       Name = name;
     }
 
-        /// <summary>
-        /// Gets the name.
-        /// </summary>
-        [NotNull] public string Name { get; private set; }
+    [NotNull] public string Name { get; private set; }
   }
 
-    /// <summary>
-    /// The html attribute value attribute.
-    /// </summary>
-    [AttributeUsage(
+  [AttributeUsage(
     AttributeTargets.Parameter | AttributeTargets.Field |
     AttributeTargets.Property, Inherited = true)]
   public sealed class HtmlAttributeValueAttribute : Attribute
   {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HtmlAttributeValueAttribute"/> class.
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        public HtmlAttributeValueAttribute([NotNull] string name)
+    public HtmlAttributeValueAttribute([NotNull] string name)
     {
       Name = name;
     }
 
-        /// <summary>
-        /// Gets the name.
-        /// </summary>
-        [NotNull] public string Name { get; private set; }
+    [NotNull] public string Name { get; private set; }
   }
 
   // Razor attributes

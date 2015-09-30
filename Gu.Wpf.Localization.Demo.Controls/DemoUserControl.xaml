@@ -7,7 +7,6 @@
              xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.Controls.Properties"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             l:TranslatorBehavior.Culture="sv"
              mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
