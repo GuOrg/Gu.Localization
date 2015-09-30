@@ -1,36 +1,42 @@
 ﻿namespace Gu.Localization.Tests
 {
-    using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
-    using Moq;
+
     using NUnit.Framework;
 
     public class TranslationTests
     {
         [Test]
-        public void Ctor()
+        public void GetOrCreateLambda()
         {
-            var translation = new Translation(() => Properties.Resources.AllLanguages);
-            Translator.CurrentCulture = new CultureInfo("en");
-            Assert.AreEqual("English", translation.Translated);
+            var translation = Translation.GetOrCreate(() => Properties.Resources.AllLanguages);
+            var translation2 = Translation.GetOrCreate(() => Properties.Resources.AllLanguages);
+            Assert.AreSame(translation, translation2);
+        }
+
+        [Test]
+        public void GetOrCreateTypeAndString()
+        {
+            var translation = Translation.GetOrCreate(GetType(), nameof(Properties.Resources.AllLanguages));
+            var translation2 = Translation.GetOrCreate(GetType(), nameof(Properties.Resources.AllLanguages));
+            Assert.AreSame(translation, translation2);
         }
 
         [Test]
         public void NotifiesAndTranslatesWhenLanguageChanges()
         {
             Translator.CurrentCulture = new CultureInfo("en");
-            var translation = new Translation(() => Properties.Resources.AllLanguages);
+            var translation = Translation.GetOrCreate(() => Properties.Resources.AllLanguages);
             var argses = new List<PropertyChangedEventArgs>();
             translation.PropertyChanged += (sender, args) => argses.Add(args);
 
             Assert.AreEqual("English", translation.Translated);
 
             Translator.CurrentCulture = new CultureInfo("sv");
-            Assert.AreEqual(1, argses.Count(x => x.PropertyName == "Translated"));
+            Assert.AreEqual(1, argses.Count(x => x.PropertyName == nameof(translation.Translated)));
             Assert.AreEqual("Svenska", translation.Translated);
         }
 
@@ -41,39 +47,10 @@
         public void Translate(string key, string culture, string expected)
         {
             var cultureInfo = CultureInfo.GetCultureInfo(culture);
-            var translator = new Translation(Properties.Resources.ResourceManager, key);
+            var translator = Translation.GetOrCreate(GetType(), key);
             Translator.CurrentCulture = cultureInfo;
             var actual = translator.Translated;
             Assert.AreEqual(expected, actual);
         }
-
-        [Test]
-        public void NotifiesAndTranslatesObservable()
-        {
-            IObserver<object> observer = null;
-            var mock = new Mock<IObservable<object>>();
-            mock.Setup(x => x.Subscribe(It.IsAny<IObserver<object>>()))
-                .Returns((IDisposable) null)
-                .Callback<IObserver<object>>(x => observer = x);
-            DummyProperty = "Missing";
-            var translation = new Translation(Properties.Resources.ResourceManager, () => DummyProperty, mock.Object);
-            Translator.CurrentCulture = new CultureInfo("en");
-
-            var argses = new List<PropertyChangedEventArgs>();
-            translation.PropertyChanged += (sender, args) => argses.Add(args);
-
-            Assert.AreEqual("!Missing!", translation.Translated);
-            Assert.AreEqual(0, argses.Count(x => x.PropertyName == "Translated"));
-
-            DummyProperty = "AllLanguages";
-            Assert.AreEqual("English", translation.Translated);
-            Assert.AreEqual(0, argses.Count(x => x.PropertyName == "Translated"));
-
-            observer.OnNext(null);
-            Assert.AreEqual("English", translation.Translated);
-            Assert.AreEqual(1, argses.Count(x => x.PropertyName == "Translated"));
-        }
-
-        public string DummyProperty { get; private set; }
     }
 }

@@ -5,7 +5,6 @@
     using System.Linq;
 
     using Gu.Localization;
-    using Gu.Localization.Tests.Properties;
 
     using NUnit.Framework;
 
@@ -18,9 +17,8 @@
         public void Translate(string key, string culture, string expected)
         {
             var cultureInfo = CultureInfo.GetCultureInfo(culture);
-            var translator = new Translator(new ResourceManagerWrapper(Properties.Resources.ResourceManager));
             Translator.CurrentCulture = cultureInfo;
-            var actual = translator.Translate(key);
+            var actual = Translator.Translate(GetType(), key);
             Assert.AreEqual(expected, actual);
         }
 
@@ -30,21 +28,29 @@
         public void Translate(string cultureName, string expected)
         {
             Translator.CurrentCulture = new CultureInfo(cultureName);
-            var translated = Translator.Translate(() => Resources.AllLanguages);
+            var translated = Translator.Translate(() => Properties.Resources.AllLanguages);
             Assert.AreEqual(expected, translated);
         }
 
         [Test]
-        public void TranslateFromCodeBehindTest()
+        public void TranslateFromCodeBehindLambda()
         {
             Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
-            var actual = Translator.Translate(Properties.Resources.ResourceManager, () => Properties.Resources.AllLanguages);
-
+            var actual = Translator.Translate(() => Properties.Resources.AllLanguages);
             Assert.AreEqual("English", actual);
-            var allLanguages = Properties.Resources.AllLanguages;
             Translator.CurrentCulture = CultureInfo.GetCultureInfo("sv");
-            actual = Translator.Translate(Properties.Resources.ResourceManager, () => Properties.Resources.AllLanguages);
-            allLanguages = Properties.Resources.AllLanguages;
+            actual = Translator.Translate(() => Properties.Resources.AllLanguages);
+            Assert.AreEqual("Svenska", actual);
+        }
+
+        [Test]
+        public void TranslateFromCodeBehindTypeAndKey()
+        {
+            Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
+            var actual = Translator.Translate(GetType(), nameof(Properties.Resources.AllLanguages));
+            Assert.AreEqual("English", actual);
+            Translator.CurrentCulture = CultureInfo.GetCultureInfo("sv");
+            actual = Translator.Translate(GetType(), nameof(Properties.Resources.AllLanguages));
             Assert.AreEqual("Svenska", actual);
         }
 
@@ -52,7 +58,7 @@
         public void NotifiesOnLanguageChanged()
         {
             var cultureInfos = new List<CultureInfo>();
-            Translator.LanguageChanged += (sender, info) => cultureInfos.Add(info);
+            Translator.CurrentLanguageChanged += (sender, info) => cultureInfos.Add(info);
 
             Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
             CollectionAssert.AreEqual(new[] { "en" }, cultureInfos.Select(x => x.TwoLetterISOLanguageName));

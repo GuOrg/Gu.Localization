@@ -1,54 +1,32 @@
 ﻿namespace Gu.Localization
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Globalization;
+    using System.Diagnostics;
     using System.Linq.Expressions;
-    using System.Resources;
+    using System.Reflection;
     using System.Runtime.CompilerServices;
 
     using JetBrains.Annotations;
-    using Gu.Localization.Properties;
 
+    [DebuggerDisplay("Key: {_assemblyAndKey} Translated: {Translated}")]
     public class Translation : ITranslation
     {
-        private string _key;
-        private Func<string> _keyGetter;
-        internal readonly Translator Translator;
-        private bool _disposed = false;
-        private readonly IDisposable _subscription;
-        public Translation(Expression<Func<string>> key)
+        private static readonly ConditionalWeakTable<AssemblyAndKey, Translation> Cache = new ConditionalWeakTable<AssemblyAndKey, Translation>();
+        private static readonly HashSet<AssemblyAndKey> Keys = new HashSet<AssemblyAndKey>();
+        private static readonly object Gate = new object();
+        private static readonly PropertyChangedEventArgs TranslatedPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Translated));
+        private readonly AssemblyAndKey _assemblyAndKey;
+
+        static Translation()
         {
-            if (ExpressionHelper.IsResourceKey(key))
-            {
-                _key = ExpressionHelper.GetResourceKey(key);
-                Translator = new Translator(ResourceManagerWrapper.Create(key));
-                Translator.LanguageChanged += OnLanguageChanged;
-            }
-            else
-            {
-                _keyGetter = key.Compile();
-            }
+            Translator.CurrentLanguageChanged += (sender, info) => UpdateTranslations();
         }
 
-        public Translation(ResourceManager resourceManager, string key)
-            : this(new ResourceManagerWrapper(resourceManager), key)
+        private Translation(AssemblyAndKey assemblyAndKey)
         {
-        }
-
-        public Translation(ResourceManager resourceManager, Func<string> key, IObservable<object> trigger)
-            : this(new ResourceManagerWrapper(resourceManager), null)
-        {
-            _keyGetter = key;
-            var propertyName = nameof(Translated);
-            _subscription = trigger.Subscribe(new Observer(() => OnPropertyChanged(nameof(Translated))));
-        }
-
-        internal Translation(ResourceManagerWrapper resourceManager, string key)
-        {
-            Translator = new Translator(resourceManager);
-            _key = key;
-            Translator.LanguageChanged += OnLanguageChanged;
+            _assemblyAndKey = assemblyAndKey;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -56,69 +34,73 @@
         /// <summary>
         /// The key Translated to the CurrentCulture
         /// </summary>
-        public string Translated
+        public string Translated => Translator.Translate(_assemblyAndKey.Assembly, _assemblyAndKey.Key);
+
+
+        public static Translation GetOrCreate(Type typeInAssembly, string key)
         {
-            get
-            {
-                var key = _key ?? _keyGetter();
-                if (Translator == null)
-                {
-                    return string.Format(Resources.NullManagerFormat, key);
-                }
-                if (!Translator.HasKey(key))
-                {
-                    return string.Format(Resources.MissingKeyFormat, key);
-                }
-                if (!Translator.HasCulture(Translator.CurrentCulture))
-                {
-                    return string.Format(Resources.MissingTranslationFormat, key);
-                }
-                return Translator.Translate(key);
-            }
+            return GetOrCreate(AssemblyAndKey.GetOrCreate(typeInAssembly.Assembly, key));
         }
 
-        /// <summary>
-        /// Dispose(true); //I am calling you from Dispose, it's safe
-        /// GC.SuppressFinalize(this); //Hey, GC: don't bother calling finalize later
-        /// </summary>
-        public void Dispose()
+        public static Translation GetOrCreate(Expression<Func<string>> key)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            return GetOrCreate(AssemblyAndKey.GetOrCreate(key));
         }
 
-        /// <summary>
-        /// Protected implementation of Dispose pattern. 
-        /// </summary>
-        /// <param name="disposing">true: safe to free managed resources</param>
-        protected virtual void Dispose(bool disposing)
+        internal static Translation GetOrCreate(AssemblyAndKey key)
         {
-            if (_disposed)
+            Translation result;
+            if (Cache.TryGetValue(key, out result))
             {
-                return;
+                return result;
             }
-
-            if (disposing)
+            lock (Gate)
             {
-                Translator.LanguageChanged -= OnLanguageChanged;
-                if (_subscription != null)
+                if (Cache.TryGetValue(key, out result))
                 {
-                    _subscription.Dispose();
+                    return result;
                 }
+                result = new Translation(key);
+                Cache.Add(key, result);
+                Keys.Add(key);
+                Purge();
             }
-            _disposed = true;
+            return result;
+        }
+
+        public static void Purge()
+        {
+            lock (Gate)
+            {
+                Translation temp;
+                Keys.RemoveWhere(x => !Cache.TryGetValue(x, out temp));
+            }
         }
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, e);
         }
 
+        private static void UpdateTranslations()
+        {
+            lock (Gate)
+            {
+                foreach (var key in Keys)
+                {
+                    Translation translation;
+                    if (Cache.TryGetValue(key, out translation))
+                    {
+                        translation.OnPropertyChanged(TranslatedPropertyChangedEventArgs);
+                    }
+
+                    else
+                    {
+                        Keys.Remove(key);
+                    }
+                }
+            }
         private void OnLanguageChanged(object sender, CultureInfo e)
         {
             OnPropertyChanged(nameof(Translated));

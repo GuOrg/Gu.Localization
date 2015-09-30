@@ -4,6 +4,7 @@
     using System.Windows;
 
     using Gu.Localization;
+    using Gu.Wpf.Localization.Designtime;
 
     public static class TranslatorBehavior
     {

@@ -1,7 +1,8 @@
 ﻿namespace Gu.Localization
 {
     using System;
-    using System.Diagnostics;
+    using System.Collections.Concurrent;
+    using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Resources;
@@ -37,10 +38,29 @@
             }
 
             var declaringType = memberExpression.Member.DeclaringType;
-            return ResourceManagerWrapper.HasResourceManager(declaringType);
+            var match = GetResourceManagerProperty(declaringType);
+            return match != null;
+        }
+
+        internal static PropertyInfo GetResourceManagerProperty(Type type)
+        {
+            var match = type.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+                                               .SingleOrDefault(x => (typeof(ResourceManager).IsAssignableFrom(x.PropertyType)));
+            return match;
         }
 
         internal static ResourceManager GetResourceManager(Expression<Func<string>> key)
+        {
+            var type = GetRootType(key);
+            var match = GetResourceManagerProperty(type);
+            if (match == null)
+            {
+                return null;
+            }
+            return (ResourceManager)match.GetValue(null);
+        }
+
+        internal static Type GetRootType(Expression<Func<string>> key)
         {
             if (key == null)
             {
@@ -54,7 +74,7 @@
             }
 
             var declaringType = memberExpression.Member.DeclaringType;
-            return FromType(declaringType);
+            return declaringType;
         }
 
         internal static string GetResourceKey(Expression<Func<string>> key)
@@ -75,11 +95,6 @@
                 return null;
             }
             return memberExpression.Member.Name;
-        }
-
-        private static ResourceManager FromType(Type type)
-        {
-            return ResourceManagerWrapper.FromType(type);
         }
     }
 }

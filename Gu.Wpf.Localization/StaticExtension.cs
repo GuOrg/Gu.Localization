@@ -11,28 +11,27 @@ namespace Gu.Wpf.Localization
 {
     using System;
     using System.ComponentModel;
-    using System.Resources;
+    using System.Text.RegularExpressions;
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
 
     using Gu.Localization;
     using Gu.Localization.Properties;
+    using Gu.Wpf.Localization.Designtime;
 
     /// <summary>
     /// Implements a markup extension that translates resources.
     /// The reason for the name StaticExtension is that it tricks Resharper into providing Intellisense.
     /// l:Static p:Resources.YourKey
     /// </summary>
-    [MarkupExtensionReturnType(typeof(string))]
+    [MarkupExtensionReturnType(typeof(BindingExpression))]
     [ContentProperty("Member"), DefaultProperty("Member")]
-    [TypeConverter(typeof(StaticExtensionConverter))]
+    //[TypeConverter(typeof(StaticExtensionConverter))]
     public class StaticExtension : MarkupExtension
     {
-        /// <summary>
-        /// The _xaml type resolver.
-        /// </summary>
         private IXamlTypeResolver _xamlTypeResolver;
+        private Translation _translation;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Gu.Wpf.Localization.StaticExtension"/> class using the provided <paramref name="member"/> string.
@@ -50,8 +49,6 @@ namespace Gu.Wpf.Localization
 
         [ConstructorArgument("member")]
         public string Member { get; set; }
-
-        public ResourceManager ResourceManager { get; set; }
 
         /// <summary>
         /// Returns an object value to set on the property where you apply this extension. For <see cref="T:System.Windows.Markup.StaticExtension"/>, the return value is the static value that is evaluated for the requested static member.
@@ -75,7 +72,7 @@ namespace Gu.Wpf.Localization
         {
             if (serviceProvider == null)
             {
-                throw new ArgumentNullException("serviceProvider");
+                throw new ArgumentNullException(nameof(serviceProvider));
             }
 
             if (string.IsNullOrEmpty(Member))
@@ -95,17 +92,17 @@ namespace Gu.Wpf.Localization
                 {
                     _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
                 }
-                var resourceKey = new ResourceKey(Member, _xamlTypeResolver, DesignMode.IsDesignMode);
-                if (resourceKey.HasError)
+                var key = GetAssemblyAndKey(_xamlTypeResolver, Member);
+                if (key == null)
                 {
                     return string.Format(Resources.UnknownErrorFormat, Member);
                 }
-                var translation = new Translation(resourceKey.ResourceManager, resourceKey.Key);
-                var binding = new Binding(nameof(translation.Translated))
+                _translation = Translation.GetOrCreate(key);
+                var binding = new Binding(nameof(_translation.Translated))
                 {
                     Mode = BindingMode.OneWay,
                     UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                    Source = translation
+                    Source = _translation
                 };
                 var provideValue = binding.ProvideValue(serviceProvider);
                 return provideValue;
@@ -132,6 +129,24 @@ namespace Gu.Wpf.Localization
         {
             var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
             return target != null && !(target.TargetObject is DependencyObject);
+        }
+
+        internal static AssemblyAndKey GetAssemblyAndKey(IXamlTypeResolver typeResolver, string member)
+        {
+            var match = Regex.Match(member, @"(?<ns>\w+):(?<resources>\w+)\.(?<key>\w+)");
+            if (!match.Success)
+            {
+                if (DesignMode.IsDesignMode)
+                {
+                    throw new ArgumentException("Expecting format p:Resources.Key was:" + member);
+                }
+                return null;
+            }
+
+            var qualifiedTypeName = $"{match.Groups["ns"].Value}:{match.Groups["resources"].Value}";
+            var type = typeResolver.Resolve(qualifiedTypeName);
+            var key = match.Groups["key"].Value;
+            return AssemblyAndKey.GetOrCreate(type.Assembly, key);
         }
     }
 }
