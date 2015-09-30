@@ -12,6 +12,8 @@
     using Gu.Wpf.Localization.Designtime;
     using Gu.Wpf.Localization.Internals;
 
+    using ResourceKey = System.Windows.ResourceKey;
+
     /// <summary>
     /// Implements a markup extension that translates resources.
     /// The reason for the name StaticExtension is that it tricks Resharper into providing Intellisense.
@@ -20,7 +22,7 @@
     [MarkupExtensionReturnType(typeof(BindingExpression))]
     [ContentProperty("Member"), DefaultProperty("Member")]
     //[TypeConverter(typeof(StaticExtensionConverter))]
-    public class StaticExtension : System.Windows.Markup.StaticExtension
+    public class StaticExtension : System.Windows.Markup.MarkupExtension
     {
         private ITranslation _translation;
 
@@ -68,23 +70,31 @@
 
             try
             {
-                if (DesignMode.IsDesignMode)
+                var qnk = QualifiedNameAndKey.Parse(Member);
+                if (qnk.QualifiedName == null || qnk.Key == null)
                 {
-                    _translation = CreateDesignTimeTranslation(serviceProvider);
+                    _translation = new TranslationInfo(string.Format(Gu.Localization.Properties.Resources.UnknownErrorFormat, Member));
                 }
                 else
                 {
-                    var key = GetAssemblyAndKey(serviceProvider, Member);
-                    if (key == null)
+                    if (DesignMode.IsDesignMode)
                     {
-                        _translation = new TranslationInfo(string.Format(Resources.MissingKeyFormat, Member));
+                        _translation = CreateDesignTimeTranslation(serviceProvider, qnk);
                     }
                     else
                     {
-                        _translation = Translation.GetOrCreate(key);
+
+                        var key = GetAssemblyAndKey(serviceProvider, qnk);
+                        if (key == null)
+                        {
+                            _translation = new TranslationInfo(string.Format(Resources.MissingKeyFormat, Member));
+                        }
+                        else
+                        {
+                            _translation = Translation.GetOrCreate(key);
+                        }
                     }
                 }
-
             }
             catch (Exception exception)
             {
@@ -109,7 +119,7 @@
             return target != null && !(target.TargetObject is DependencyObject);
         }
 
-        private ITranslation CreateDesignTimeTranslation(IServiceProvider serviceProvider)
+        private ITranslation CreateDesignTimeTranslation(IServiceProvider serviceProvider, QualifiedNameAndKey qnk)
         {
             if (serviceProvider == null)
             {
@@ -127,7 +137,7 @@
             //    return new TranslationInfo("_xamlTypeResolver == null");
             //}
 
-            var key = GetAssemblyAndKey(serviceProvider, Member);
+            var key = GetAssemblyAndKey(serviceProvider, qnk);
             if (key == null)
             {
                 return new TranslationInfo($"key == null Member:{Member}");
@@ -144,21 +154,10 @@
             return translation;
         }
 
-        internal static AssemblyAndKey GetAssemblyAndKey(IServiceProvider serviceProvider, string member)
+        internal static AssemblyAndKey GetAssemblyAndKey(IServiceProvider serviceProvider, QualifiedNameAndKey qnk)
         {
-            var match = Regex.Match(member, @"(?<ns>\w+):(?<resources>\w+)\.(?<key>\w+)");
-            if (!match.Success)
-            {
-                if (DesignMode.IsDesignMode)
-                {
-                    throw new ArgumentException($"Expecting format 'p:Resources.Key' was:'{member}'");
-                }
-                return null;
-            }
-            var qualifiedTypeName = $"{match.Groups["ns"].Value}:{match.Groups["resources"].Value}";
-            var type = serviceProvider.Resolve(qualifiedTypeName);
-            var key = match.Groups["key"].Value;
-            return AssemblyAndKey.GetOrCreate(type.Assembly, key);
+            var type = serviceProvider.Resolve(qnk.QualifiedName);
+            return AssemblyAndKey.GetOrCreate(type.Assembly, qnk.Key);
         }
     }
 }

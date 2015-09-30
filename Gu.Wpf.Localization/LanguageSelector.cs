@@ -1,7 +1,6 @@
 ﻿namespace Gu.Wpf.Localization
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
@@ -20,7 +19,6 @@
             new PropertyMetadata(
                 new Language(new CultureInfo("en")),
                 OnCurrentLanguageChanged));
-
 
         private bool _disposed = false;
 
