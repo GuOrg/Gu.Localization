@@ -46,7 +46,7 @@
         public LanguageSelector()
         {
             Translator.LanguagesChanged += OnLanguagesChanged;
-            Translator.LanguageChanged += OnLanguageChanged;
+            Translator.CurrentLanguageChanged += OnCurrentLanguageChanged;
         }
 
         public Language CurrentLanguage
@@ -96,7 +96,7 @@
             if (disposing)
             {
                 Translator.LanguagesChanged -= OnLanguagesChanged;
-                Translator.LanguageChanged -= OnLanguageChanged;
+                Translator.CurrentLanguageChanged -= OnCurrentLanguageChanged;
             }
 
             // Free any unmanaged objects here. 
@@ -130,7 +130,7 @@
                 });
         }
 
-        private void OnLanguageChanged(object sender, CultureInfo e)
+        private void OnCurrentLanguageChanged(object sender, CultureInfo e)
         {
             if (Languages == null)
             {

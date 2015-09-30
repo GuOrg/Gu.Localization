@@ -37,4 +37,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.4.0.0")]
 [assembly: InternalsVisibleTo("Gu.Wpf.Localization", AllInternalsVisible = true)]
 [assembly: InternalsVisibleTo("Gu.Localization.Tests", AllInternalsVisible = true)]
+[assembly: InternalsVisibleTo("Gu.Wpf.Localization.Tests", AllInternalsVisible = true)]
 [assembly: NeutralResourcesLanguage("en")]

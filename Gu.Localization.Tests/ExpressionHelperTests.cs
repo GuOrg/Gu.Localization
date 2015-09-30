@@ -1,10 +1,5 @@
 ﻿namespace Gu.Localization.Tests
 {
-    using System;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using System.Resources;
-
     using NUnit.Framework;
 
     public class ExpressionHelperTests

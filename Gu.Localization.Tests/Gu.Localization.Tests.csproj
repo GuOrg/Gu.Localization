@@ -60,7 +60,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="EnumTranslationTests.cs" />
+    <Compile Include="FileLanguageManagerTests.cs" />
+    <Compile Include="LanguageManagerTests.cs" />
     <Compile Include="ExpressionHelperTests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -20,7 +20,7 @@
         [Test]
         public void XmlnsDefinitions()
         {
-            string[] skip = { ".Annotations", ".Properties", "XamlGeneratedNamespace" };
+            string[] skip = { ".Annotations", ".Properties", "XamlGeneratedNamespace", "Gu.Wpf.Localization.Internals", "Gu.Wpf.Localization.Designtime" };
 
             var strings = _assembly.GetTypes()
                                   .Select(x => x.Namespace)
