@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
@@ -13,14 +14,17 @@
     {
         private static CultureInfo _currentCulture;
 
-        static Translator()
-        {
-            LanguageManager.LanguagesChanged += (_, __) => OnLanguagesChanged();
-        }
+        private static Assembly _executingAssembly;
+
+        private static readonly ObservableCollection<CultureInfo> AllCulturesInner = new ObservableCollection<CultureInfo>();
 
         public static event EventHandler<CultureInfo> CurrentLanguageChanged;
 
-        public static event EventHandler<EventArgs> LanguagesChanged;
+        static Translator()
+        {
+            AllCultures = new ReadOnlyObservableCollection<CultureInfo>(AllCulturesInner);
+            ExecutingAssembly = Assembly.GetEntryAssembly();
+        }
 
         /// <summary>
         /// The culture to translate to
@@ -34,7 +38,7 @@
                     return _currentCulture;
                 }
                 CurrentCulture = AllCultures.FirstOrDefault();
-                return _currentCulture;
+                return _currentCulture ?? CultureInfo.CurrentUICulture;
             }
             set
             {
@@ -43,11 +47,37 @@
                     return;
                 }
                 _currentCulture = value;
-                OnLanguageChanged(value);
+                OnCurrentCultureChanged(value);
             }
         }
 
-        public static IReadOnlyList<CultureInfo> AllCultures => LanguageManager.AllCultures;
+        public static ReadOnlyObservableCollection<CultureInfo> AllCultures { get; }
+
+        public static Assembly ExecutingAssembly
+        {
+            get
+            {
+                return _executingAssembly;
+            }
+            set
+            {
+                _executingAssembly = value;
+                AllCulturesInner.Clear();
+                if (_executingAssembly != null)
+                {
+                    var languages = LanguageManager.GetOrCreate(value)
+                             .Languages;
+                    foreach (var cultureInfo in languages)
+                    {
+                        AllCulturesInner.Add(cultureInfo);
+                    }
+                    if (_currentCulture == null)
+                    {
+                        CurrentCulture = AllCultures.FirstOrDefault();
+                    }
+                }
+            }
+        }
 
         CultureInfo ITranslator.CurrentCulture
         {
@@ -116,21 +146,21 @@
             {
                 return "null";
             }
-            return manager.Translate(CurrentCulture, key);
+            var translated = manager.Translate(CurrentCulture, key);
+            if (translated == null)
+            {
+                return string.Format(Properties.Resources.MissingKeyFormat, key);
+            }
+            return translated;
         }
 
         string ITranslator.Translate(Expression<Func<string>> key) => Translate(key);
 
         string ITranslator.Translate(Type typeInAsembly, string key) => Translate(typeInAsembly, key);
 
-        private static void OnLanguageChanged(CultureInfo e)
+        private static void OnCurrentCultureChanged(CultureInfo e)
         {
             CurrentLanguageChanged?.Invoke(null, e);
-        }
-
-        private static void OnLanguagesChanged()
-        {
-            LanguagesChanged?.Invoke(null, EventArgs.Empty);
         }
     }
 }

@@ -52,8 +52,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CultureToFlagIconConverter.cs" />
     <Compile Include="Designtime\DesignMode.cs" />
+    <Compile Include="Designtime\TemplateTranslation.cs" />
+    <Compile Include="Internals\TranslationInfo.cs" />
     <Compile Include="DispatcherExt.cs" />
     <Compile Include="Internals\ServiceProviderExt.cs" />
     <Compile Include="Language.cs" />

@@ -45,7 +45,11 @@ namespace Gu.Localization
             ResourceSet set;
             if (_culturesAndResourceSets.TryGetValue(culture, out set))
             {
-                return set.GetString(key);
+                var translated = set.GetString(key);
+                if (translated != null)
+                {
+                    return translated;
+                }
             }
             if (!Equals(culture, CultureInfo.InvariantCulture))
             {

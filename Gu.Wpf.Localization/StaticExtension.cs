@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StaticExtension.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   Implements a markup extension that returns static field and property references.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System;
     using System.ComponentModel;
@@ -19,6 +10,7 @@ namespace Gu.Wpf.Localization
     using Gu.Localization;
     using Gu.Localization.Properties;
     using Gu.Wpf.Localization.Designtime;
+    using Gu.Wpf.Localization.Internals;
 
     /// <summary>
     /// Implements a markup extension that translates resources.
@@ -28,10 +20,9 @@ namespace Gu.Wpf.Localization
     [MarkupExtensionReturnType(typeof(BindingExpression))]
     [ContentProperty("Member"), DefaultProperty("Member")]
     //[TypeConverter(typeof(StaticExtensionConverter))]
-    public class StaticExtension : MarkupExtension
+    public class StaticExtension : System.Windows.Markup.StaticExtension
     {
-        private IXamlTypeResolver _xamlTypeResolver;
-        private Translation _translation;
+        private ITranslation _translation;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Gu.Wpf.Localization.StaticExtension"/> class using the provided <paramref name="member"/> string.
@@ -48,7 +39,7 @@ namespace Gu.Wpf.Localization
         }
 
         [ConstructorArgument("member")]
-        public string Member { get; set; }
+        public new string Member { get; set; }
 
         /// <summary>
         /// Returns an object value to set on the property where you apply this extension. For <see cref="T:System.Windows.Markup.StaticExtension"/>, the return value is the static value that is evaluated for the requested static member.
@@ -70,11 +61,6 @@ namespace Gu.Wpf.Localization
         /// </exception>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (serviceProvider == null)
-            {
-                throw new ArgumentNullException(nameof(serviceProvider));
-            }
-
             if (string.IsNullOrEmpty(Member))
             {
                 throw new InvalidOperationException("MarkupExtensionStaticMember");
@@ -82,47 +68,39 @@ namespace Gu.Wpf.Localization
 
             try
             {
-                if (DesignMode.IsDesignMode && IsInTemplate(serviceProvider))
+                if (DesignMode.IsDesignMode)
                 {
-                    _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
-                    return this;
+                    _translation = CreateDesignTimeTranslation(serviceProvider);
+                }
+                else
+                {
+                    var key = GetAssemblyAndKey(serviceProvider, Member);
+                    if (key == null)
+                    {
+                        _translation = new TranslationInfo(string.Format(Resources.MissingKeyFormat, Member));
+                    }
+                    else
+                    {
+                        _translation = Translation.GetOrCreate(key);
+                    }
                 }
 
-                if (_xamlTypeResolver == null)
-                {
-                    _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
-                }
-                var key = GetAssemblyAndKey(_xamlTypeResolver, Member);
-                if (key == null)
-                {
-                    return string.Format(Resources.UnknownErrorFormat, Member);
-                }
-                _translation = Translation.GetOrCreate(key);
-                var binding = new Binding(nameof(_translation.Translated))
-                {
-                    Mode = BindingMode.OneWay,
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                    Source = _translation
-                };
-                var provideValue = binding.ProvideValue(serviceProvider);
-                return provideValue;
             }
             catch (Exception exception)
             {
-                //if (DesignMode.IsDesignMode)
-                //{
-                //    if (exception is XamlParseException)
-                //    {
-                //        return Member;
-                //    }
-                //    else
-                //    {
-                //        throw;
-                //    }
-                //}
-
-                return string.Format(Resources.UnknownErrorFormat, Member);
+                _translation = DesignMode.IsDesignMode
+                                   ? new TranslationInfo(exception.Message)
+                                   : new TranslationInfo(string.Format(Resources.UnknownErrorFormat, Member));
             }
+
+            var binding = new Binding(nameof(_translation.Translated))
+            {
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Source = _translation
+            };
+            var provideValue = binding.ProvideValue(serviceProvider);
+            return provideValue;
         }
 
         private static bool IsInTemplate(IServiceProvider serviceProvider)
@@ -131,20 +109,54 @@ namespace Gu.Wpf.Localization
             return target != null && !(target.TargetObject is DependencyObject);
         }
 
-        internal static AssemblyAndKey GetAssemblyAndKey(IXamlTypeResolver typeResolver, string member)
+        private ITranslation CreateDesignTimeTranslation(IServiceProvider serviceProvider)
+        {
+            if (serviceProvider == null)
+            {
+                return new TranslationInfo("serviceProvider == null");
+            }
+            if (IsInTemplate(serviceProvider))
+            {
+                return new TemplateTranslation(Member, serviceProvider.GetXamlTypeResolver());
+            }
+            //var xamlTypeResolver = serviceProvider.GetXamlTypeResolver();
+            ////Debugger.Break();
+
+            //if (xamlTypeResolver == null)
+            //{
+            //    return new TranslationInfo("_xamlTypeResolver == null");
+            //}
+
+            var key = GetAssemblyAndKey(serviceProvider, Member);
+            if (key == null)
+            {
+                return new TranslationInfo($"key == null Member:{Member}");
+            }
+            if (key.Assembly == null)
+            {
+                return new TranslationInfo($"key.Assembly == null Member:{Member}");
+            }
+            var translation = Translation.GetOrCreate(key);
+            if (translation == null)
+            {
+                return new TranslationInfo($"translation == null Member:{Member}");
+            }
+            return translation;
+        }
+
+        internal static AssemblyAndKey GetAssemblyAndKey(IServiceProvider serviceProvider, string member)
         {
             var match = Regex.Match(member, @"(?<ns>\w+):(?<resources>\w+)\.(?<key>\w+)");
             if (!match.Success)
             {
                 if (DesignMode.IsDesignMode)
                 {
-                    throw new ArgumentException("Expecting format p:Resources.Key was:" + member);
+                    throw new ArgumentException($"Expecting format 'p:Resources.Key' was:'{member}'");
                 }
                 return null;
             }
-
             var qualifiedTypeName = $"{match.Groups["ns"].Value}:{match.Groups["resources"].Value}";
-            var type = typeResolver.Resolve(qualifiedTypeName);
+            var type = serviceProvider.Resolve(qualifiedTypeName);
             var key = match.Groups["key"].Value;
             return AssemblyAndKey.GetOrCreate(type.Assembly, key);
         }

@@ -26,10 +26,6 @@
             var actual = manager.Languages.Select(x => x.TwoLetterISOLanguageName)
                                     .ToArray();
             CollectionAssert.AreEquivalent(expected, actual);
-
-            actual = LanguageManager.AllCultures.Select(x => x.TwoLetterISOLanguageName)
-                                    .ToArray();
-            CollectionAssert.AreEquivalent(expected, actual);
         }
     }
 }

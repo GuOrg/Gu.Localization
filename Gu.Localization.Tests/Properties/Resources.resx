@@ -129,4 +129,7 @@
   <data name="NoTranslation" xml:space="preserve">
     <value />
   </data>
+  <data name="SwedishAndNeutral" xml:space="preserve">
+    <value>So neutral</value>
+  </data>
 </root>

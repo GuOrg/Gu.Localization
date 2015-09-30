@@ -31,22 +31,23 @@
         {
             if (DesignMode.IsDesignMode)
             {
-                var frameworkElement = o as FrameworkElement;
-                if (frameworkElement != null && !frameworkElement.IsLoaded)
-                {
-                    frameworkElement.Loaded += (sender, args) =>
-                    {
-                        Translator.CurrentCulture = (CultureInfo)e.NewValue;
-                    };
-                }
+                Translator.CurrentCulture = (CultureInfo)e.NewValue;
+                //var frameworkElement = o as FrameworkElement;
+                //if (frameworkElement != null && !frameworkElement.IsLoaded)
+                //{
+                //    frameworkElement.Loaded += (sender, args) =>
+                //    {
+                //        Translator.CurrentCulture = (CultureInfo)e.NewValue;
+                //    };
+                //}
 
-                if (frameworkElement != null && !frameworkElement.IsVisible)
-                {
-                    frameworkElement.IsVisibleChanged += (sender, args) =>
-                    {
-                        Translator.CurrentCulture = (CultureInfo)e.NewValue;
-                    };
-                }
+                //if (frameworkElement != null && !frameworkElement.IsVisible)
+                //{
+                //    frameworkElement.IsVisibleChanged += (sender, args) =>
+                //    {
+                //        Translator.CurrentCulture = (CultureInfo)e.NewValue;
+                //    };
+                //}
             }
             else
             {
