@@ -29,7 +29,6 @@
 
         private void OnTranslationChanged(object sender, PropertyChangedEventArgs e)
         {
-            Debugger.Break();
             if (e.PropertyName != nameof(_translation.Translated))
             {
                 return;
