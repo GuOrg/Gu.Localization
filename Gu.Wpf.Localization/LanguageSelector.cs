@@ -1,4 +1,6 @@
-﻿namespace Gu.Wpf.Localization
+﻿using System.Collections;
+
+namespace Gu.Wpf.Localization
 {
     using System;
     using System.Collections.ObjectModel;
@@ -12,14 +14,6 @@
     [ContentProperty("Languages")]
     public class LanguageSelector : Control, IDisposable
     {
-        public static readonly DependencyProperty CurrentLanguageProperty = DependencyProperty.Register(
-            "CurrentLanguage",
-            typeof(Language),
-            typeof(LanguageSelector),
-            new PropertyMetadata(
-                new Language(new CultureInfo("en")),
-                OnCurrentLanguageChanged));
-
         private bool _disposed = false;
 
         static LanguageSelector()
@@ -31,12 +25,6 @@
         {
             Translator.CurrentLanguageChanged += OnCurrentLanguageChanged;
             Languages = new ObservableCollection<Language>();
-        }
-
-        public Language CurrentLanguage
-        {
-            get { return (Language)GetValue(CurrentLanguageProperty); }
-            set { SetValue(CurrentLanguageProperty, value); }
         }
 
         /// <summary>
@@ -76,31 +64,16 @@
             _disposed = true;
         }
 
-        private static void OnCurrentLanguageChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            var language = e.NewValue as Language;
-            if (language != null)
-            {
-                Translator.CurrentCulture = Translator.AllCultures.FirstOrDefault(x => x.TwoLetterISOLanguageName == language.Culture.TwoLetterISOLanguageName);
-            }
-            else
-            {
-                Translator.CurrentCulture = (CultureInfo)e.NewValue;
-            }
-        }
-
         private void OnCurrentLanguageChanged(object sender, CultureInfo e)
         {
             if (Languages == null)
             {
                 return;
             }
-            var currentCulture = Translator.CurrentCulture;
-            var language = currentCulture != null
-                               ? Languages.FirstOrDefault(
-                                   x => x.Culture.TwoLetterISOLanguageName == currentCulture.TwoLetterISOLanguageName)
-                               : null;
-            Dispatcher.BeginInvoke(() => CurrentLanguage = language);
+            foreach (var language in Languages)
+            {
+                language.IsSelected = Equals(language.Culture, Translator.CurrentCulture);
+            }
         }
     }
 }

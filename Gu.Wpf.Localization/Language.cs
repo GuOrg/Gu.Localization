@@ -1,9 +1,15 @@
 ﻿namespace Gu.Wpf.Localization
 {
     using System;
+    using System.ComponentModel;
     using System.Globalization;
+    using System.Linq;
+    using System.Runtime.CompilerServices;
+    using Gu.Localization;
+    using Gu.Localization.Annotations;
 
-    public class Language
+    [TypeConverter(typeof(LanguageConverter))]
+    public class Language : INotifyPropertyChanged
     {
         private CultureInfo _culture;
 
@@ -16,6 +22,8 @@
             _culture = culture;
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public CultureInfo Culture
         {
             get
@@ -24,10 +32,39 @@
             }
             set
             {
+                if (Equals(value, _culture))
+                {
+                    return;
+                }
                 _culture = value;
+                OnPropertyChanged("");
             }
         }
 
+        public bool IsSelected
+        {
+            get { return Equals(Translator.CurrentCulture, Culture); }
+            set
+            {
+                if (value && !Equals(_culture, Translator.CurrentCulture))
+                {
+                    Translator.CurrentCulture = _culture;
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        public bool CanSelect
+        {
+            get
+            {
+                if (_culture == null)
+                {
+                    return false;
+                }
+                return Translator.AllCultures.FirstOrDefault(x => Equals(x, _culture)) != null;
+            }
+        }
         public Uri FlagSource { get; set; }
 
         public string Name => _culture?.Name;
@@ -54,6 +91,12 @@
         public override string ToString()
         {
             return EnglishName;
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

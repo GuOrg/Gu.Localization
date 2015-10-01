@@ -17,10 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Demo.Wi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Demo.Controls", "Gu.Wpf.Localization.Demo.Controls\Gu.Wpf.Localization.Demo.Controls.csproj", "{85009EF0-C922-4EDB-9648-495B56B30CFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.NoResources", "Gu.Wpf.Localization.NoResources\Gu.Wpf.Localization.NoResources.csproj", "{A8722CC6-E477-43B6-A1A0-B7A062FBB290}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Modern.Demo", "Gu.Wpf.Localization.Modern.Demo\Gu.Wpf.Localization.Modern.Demo.csproj", "{D77D4706-D218-4DC6-B117-611AF843FED9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization", "Gu.Localization\Gu.Localization.csproj", "{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization.Tests", "Gu.Localization.Tests\Gu.Localization.Tests.csproj", "{2734F4CB-08E5-445E-9AAD-F88151353B09}"
@@ -47,14 +43,6 @@ Global
 		{85009EF0-C922-4EDB-9648-495B56B30CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85009EF0-C922-4EDB-9648-495B56B30CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85009EF0-C922-4EDB-9648-495B56B30CFC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8722CC6-E477-43B6-A1A0-B7A062FBB290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8722CC6-E477-43B6-A1A0-B7A062FBB290}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8722CC6-E477-43B6-A1A0-B7A062FBB290}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8722CC6-E477-43B6-A1A0-B7A062FBB290}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D77D4706-D218-4DC6-B117-611AF843FED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D77D4706-D218-4DC6-B117-611AF843FED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D77D4706-D218-4DC6-B117-611AF843FED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D77D4706-D218-4DC6-B117-611AF843FED9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}.Release|Any CPU.ActiveCfg = Release|Any CPU

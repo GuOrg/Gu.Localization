@@ -52,7 +52,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Designtime\DesignMode.cs" />
+    <Compile Include="DesignTime.cs" />
     <Compile Include="Designtime\DesigntimeTranslation.cs" />
     <Compile Include="Designtime\TemplateTranslation.cs" />
     <Compile Include="Internals\QualifiedNameAndKey.cs" />
@@ -60,12 +60,12 @@
     <Compile Include="DispatcherExt.cs" />
     <Compile Include="Internals\ServiceProviderExt.cs" />
     <Compile Include="Language.cs" />
+    <Compile Include="LanguageConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\GlobalSuppressions.generated.cs" />
     <Compile Include="StaticExtension.cs" />
     <Compile Include="StaticExtensionConverter.cs" />
     <Compile Include="LanguageSelector.cs" />
-    <Compile Include="Designtime\TranslatorBehavior.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gu.Localization\Gu.Localization.csproj">

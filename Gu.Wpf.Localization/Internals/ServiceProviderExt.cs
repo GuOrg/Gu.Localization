@@ -14,7 +14,7 @@
         public static Type Resolve(this IServiceProvider serviceProvider, string qualifiedTypeName)
         {
             var xamlTypeResolver = serviceProvider.GetXamlTypeResolver();
-            if (xamlTypeResolver == null && Designtime.DesignMode.IsDesignMode)
+            if (xamlTypeResolver == null && DesignTime.IsDesignMode)
             {
                 Debugger.Break();
             }

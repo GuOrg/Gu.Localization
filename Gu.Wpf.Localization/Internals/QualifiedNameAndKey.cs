@@ -4,8 +4,6 @@
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
 
-    using Gu.Wpf.Localization.Designtime;
-
     internal struct QualifiedNameAndKey
     {
         private static Dictionary<string, QualifiedNameAndKey> Cache = new Dictionary<string, QualifiedNameAndKey>();
@@ -27,7 +25,7 @@
                 var match = Regex.Match(member, @"(?<qn>\w+:\w+)\.(?<key>\w+)");
                 if (!match.Success)
                 {
-                    if (DesignMode.IsDesignMode)
+                    if (DesignTime.IsDesignMode)
                     {
                         throw new ArgumentException($"Expecting format 'p:Resources.Key' was:'{member}'");
                     }

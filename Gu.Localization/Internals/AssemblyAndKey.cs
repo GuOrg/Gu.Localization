@@ -36,8 +36,7 @@
                 throw new ArgumentException("Key is not a valid resource key. Expecting a key like: () => Properties.Resources.YourKey");
             }
             var resourceKey = ExpressionHelper.GetResourceKey(key);
-           var  assembly = ExpressionHelper.GetRootType(key)
-                                        .Assembly;
+            var assembly = ExpressionHelper.GetRootType(key).Assembly;
             return GetOrCreate(assembly, resourceKey);
         }
 

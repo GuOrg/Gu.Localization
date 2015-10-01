@@ -11,8 +11,7 @@
         Title="MainWindow"
         Width="1200"
         Height="600"
-        d:DesignHeight="1200"
-        l:TranslatorBehavior.Culture="sv"
+        l:DesignTime.Culture="sv"
         mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -21,6 +20,13 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <Label Content="{x:Static localization:Translator.ExecutingAssembly}" />
+            <ItemsControl ItemsSource="{x:Static localization:Translator.AllCultures}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
             <Label Content="{x:Static localization:Translator.CurrentCulture}" />
         </StackPanel>
         <Grid Grid.Row="1">
@@ -28,11 +34,32 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <l:LanguageSelector Grid.Column="0">
-                <l:Language Culture="sv" FlagSource="/Gu.Wpf.Localization;component/Flags/Sweden.png" />
-                <l:Language Culture="de" FlagSource="/Gu.Wpf.Localization;component/Flags/Germany.png" />
-                <l:Language Culture="en" FlagSource="/Gu.Wpf.Localization;component/Flags/England.png" />
-            </l:LanguageSelector>
+            <StackPanel>
+                <l:LanguageSelector Grid.Column="0">
+                    <l:Language Culture="sv" FlagSource="/Gu.Wpf.Localization;component/Flags/Sweden.png" />
+                    <l:Language Culture="en" FlagSource="/Gu.Wpf.Localization;component/Flags/England.png" />
+                    <l:Language Culture="de" FlagSource="/Gu.Wpf.Localization;component/Flags/Germany.png" />
+                    <l:Language Culture="no" />
+                </l:LanguageSelector>
+
+                <ItemsControl ItemsSource="{x:Static localization:LanguageManager.AssembliesAndLanguages}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Label Content="{Binding Key.ManifestModule}" />
+                                <Label Content="{Binding Key.FullName}" />
+                                <ItemsControl ItemsSource="{Binding Value.Languages}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
 
             <UniformGrid Grid.Column="1" Columns="2">
                 <GroupBox BorderBrush="GreenYellow"
@@ -73,11 +100,11 @@
                     </Grid>
                 </GroupBox>
 
-                <GroupBox BorderBrush="Red"
+                <!--<GroupBox BorderBrush="Red"
                           BorderThickness="2"
                           Header="No translations">
                     <withResources:Errors />
-                </GroupBox>
+                </GroupBox>-->
 
                 <GroupBox BorderBrush="Green"
                           BorderThickness="2"

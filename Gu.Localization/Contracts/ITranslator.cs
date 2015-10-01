@@ -1,7 +1,6 @@
 ﻿namespace Gu.Localization
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq.Expressions;
 
@@ -9,10 +8,10 @@
     {
         CultureInfo CurrentCulture { get; set; }
 
-        IReadOnlyList<CultureInfo> AllCultures { get; }
+        IObservableSet<CultureInfo> AllCultures { get; }
 
         string Translate(Expression<Func<string>> key);
 
-        string Translate(Type typeInAsembly, string key);
+        string Translate(Type typeInAssembly, string key);
     }
 }
