@@ -1,48 +1,42 @@
-﻿using System;
-using System.ComponentModel;
-using System.Text.RegularExpressions;
-using System.Windows.Markup;
-using Gu.Localization;
-using Gu.Wpf.Localization.Internals;
-
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Windows.Data;
+
+    using Gu.Localization;
+
     internal class DesigntimeTranslation : ITranslation
     {
-        private readonly string _member;
-        private readonly IServiceProvider _serviceProvider;
-        private IXamlTypeResolver _xamlTypeResolver;
+        private readonly ITranslation _translation;
+        private readonly BindingExpression _bindingExpression;
 
-        public DesigntimeTranslation(string member, IServiceProvider serviceProvider)
+        public DesigntimeTranslation(ITranslation translation, BindingExpression bindingExpression)
         {
-            _member = member;
-            _serviceProvider = serviceProvider;
-            _xamlTypeResolver = serviceProvider.GetXamlTypeResolver();
+            _translation = translation;
+            _bindingExpression = bindingExpression;
+            _translation.PropertyChanged += OnTranslationChanged;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private IXamlTypeResolver XamlTypeResolver => _xamlTypeResolver ?? (_xamlTypeResolver = _serviceProvider.GetXamlTypeResolver());
+        public string Translated => _translation.Translated;
 
-        public string Translated
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            get
+            PropertyChanged?.Invoke(this, e);
+        }
+
+        private void OnTranslationChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Debugger.Break();
+            if (e.PropertyName != nameof(_translation.Translated))
             {
-                var match = Regex.Match(_member, @"(?<ns>\w+):(?<resources>\w+)\.(?<key>\w+)");
-                if (!match.Success)
-                {
-                    if (DesignTime.IsDesignMode)
-                    {
-                        throw new ArgumentException($"Expecting format 'p:Resources.Key' was:'{_member}'");
-                    }
-                    return null;
-                }
-                var qualifiedTypeName = $"{match.Groups["ns"].Value}:{match.Groups["resources"].Value}";
-                var type = XamlTypeResolver.Resolve(qualifiedTypeName);
-                var key = match.Groups["key"].Value;
-                var assemblyAndKey = AssemblyAndKey.GetOrCreate(type.Assembly, key);
-                return Translator.Translate(assemblyAndKey.Assembly, assemblyAndKey.Key);
+                return;
             }
+
+            _bindingExpression?.UpdateTarget();
+            OnPropertyChanged(e);
         }
     }
 }

@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
@@ -105,6 +106,10 @@
                 Source = _translation
             };
             var provideValue = binding.ProvideValue(serviceProvider);
+            if (DesignTime.IsDesignMode)
+            {
+                _translation = new DesigntimeTranslation(_translation, provideValue as BindingExpression);
+            }
             return provideValue;
         }
 
