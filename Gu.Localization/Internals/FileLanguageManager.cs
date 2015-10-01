@@ -123,9 +123,10 @@ namespace Gu.Localization
             {
                 return false;
             }
-            using (var stream = resourceAssy.GetManifestResourceStream(resourceName))
+            using (var reader = new ResourceReader(resourceAssy.GetManifestResourceStream(resourceName)))
             {
-                var resourceSet = new ResourceSet(stream);
+
+                var resourceSet = new ResourceSet(reader);
                 _culturesAndResourceSets[culture] = resourceSet;
             }
             return true;
@@ -199,7 +200,7 @@ namespace Gu.Localization
             }
         }
 
-        internal class DesigntimeLanguageManagerFactory : FileLanguageManagerFactory
+        private class DesigntimeLanguageManagerFactory : FileLanguageManagerFactory
         {
             private static readonly FileInfo[] EmptyFiles = new FileInfo[0];
 
@@ -222,7 +223,7 @@ namespace Gu.Localization
             }
         }
 
-        internal class DebugLanguageManagerFactory : FileLanguageManagerFactory
+        private class DebugLanguageManagerFactory : FileLanguageManagerFactory
         {
             protected override IReadOnlyList<FileInfo> GetResourceFiles(Assembly assembly)
             {

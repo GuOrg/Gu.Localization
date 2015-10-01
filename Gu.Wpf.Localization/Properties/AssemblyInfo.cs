@@ -58,4 +58,4 @@ using System.Windows.Markup;
 )]
 [assembly: XmlnsDefinition("http://gu.se/Localization", "Gu.Localization", AssemblyName = "Gu.Localization")]
 [assembly: XmlnsDefinition("http://gu.se/Localization", "Gu.Wpf.Localization", AssemblyName = "Gu.Wpf.Localization")]
-[assembly: XmlnsPrefix("http://gu.se/Localization", "l")]
+[assembly: XmlnsPrefix("http://gu.se/Localization", "localization")]
