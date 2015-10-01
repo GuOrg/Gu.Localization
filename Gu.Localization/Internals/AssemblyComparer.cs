@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-
-namespace Gu.Localization.Internals
+﻿namespace Gu.Localization
 {
+    using System.Collections.Generic;
+    using System.Reflection;
+
     internal class AssemblyComparer : IEqualityComparer<Assembly>
     {
         public static readonly AssemblyComparer Default = new AssemblyComparer();

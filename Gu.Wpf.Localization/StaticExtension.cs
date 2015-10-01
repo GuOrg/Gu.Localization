@@ -59,7 +59,6 @@
         /// </exception>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            LanguageManager.IsDesignTime = DesignTime.IsDesignMode;
             if (string.IsNullOrEmpty(Member))
             {
                 throw new InvalidOperationException("MarkupExtensionStaticMember");

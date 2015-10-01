@@ -42,13 +42,15 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyAndLanguages.cs" />
+    <Compile Include="Contracts\ILanguageManagerFactory.cs" />
     <Compile Include="Contracts\IObservableSet.cs" />
+    <Compile Include="Internals\AppDomainExt.cs" />
     <Compile Include="Internals\AssemblyAndKey.cs" />
     <Compile Include="Internals\AssemblyComparer.cs" />
     <Compile Include="Internals\FileLanguageManager.cs" />
     <Compile Include="Contracts\ILanguageManager.cs" />
     <Compile Include="Internals\ObservableSet.cs" />
-    <Compile Include="LanguageManager.cs" />
     <Compile Include="Ensure\Ensure.compare.cs" />
     <Compile Include="Ensure\Ensure.cs" />
     <Compile Include="Ensure\Ensure.format.cs" />
