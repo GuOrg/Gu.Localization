@@ -24,20 +24,66 @@ namespace Gu.Localization
         internal FileLanguageManager(Assembly assembly)
         {
             Assembly = assembly;
-            var resourceFiles = GetResourceFiles(assembly);
+            if (LanguageManager.IsDesignTime)
+            {
+                if (File.Exists(DesignTimeFileName))
+                {
+                    try
+                    {
+                        ResourceFiles = File.ReadAllLines(DesignTimeFileName).Select(x => new FileInfo(x)).ToArray();
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            else
+            {
+                ResourceFiles = GetResourceFiles(assembly);
+
+                try
+                {
+                    File.Delete(DesignTimeFileName);
+                    if (ResourceFiles.Any())
+                    {
+                        File.WriteAllLines(DesignTimeFileName, ResourceFiles.Select(x => x.FullName));
+                    }
+                }
+                catch
+                {
+                }
+            }
+
             TryAddResource(assembly, CultureInfo.InvariantCulture);
-            foreach (var file in resourceFiles)
+            foreach (var file in ResourceFiles)
             {
                 var resourceAssy = Assembly.LoadFile(file.FullName);
-                TryAddResource(resourceAssy,resourceAssy.GetName().CultureInfo);
+                TryAddResource(resourceAssy, resourceAssy.GetName().CultureInfo);
             }
             Languages = _culturesAndResourceSets.Keys.Where(x => !string.IsNullOrEmpty(x.Name))
                                                 .ToArray();
+            Translator.AllCulturesInner.UnionWith(Languages);
         }
+
+        public IReadOnlyList<FileInfo> ResourceFiles { get; }
 
         public Assembly Assembly { get; }
 
         public IReadOnlyList<CultureInfo> Languages { get; }
+
+        private string DesignTimeFileName
+        {
+            get
+            {
+                var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                var designtimeDirectory = System.IO.Path.Combine(localAppData, "Gu.Localization");
+                if (!Directory.Exists(designtimeDirectory))
+                {
+                    Directory.CreateDirectory(designtimeDirectory);
+                }
+                return System.IO.Path.Combine(designtimeDirectory, Assembly.ManifestModule.Name + ".designtime");
+            }
+        }
 
         public string Translate(CultureInfo culture, string key)
         {

@@ -1,26 +1,17 @@
 ﻿namespace Gu.Localization
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-
+    using Gu.Localization.Internals;
     using Gu.Localization.Properties;
 
     public class Translator : ITranslator
     {
         private static CultureInfo _currentCulture;
-        private static Assembly _executingAssembly;
-        private static readonly ObservableCollection<CultureInfo> AllCulturesInner = new ObservableCollection<CultureInfo>();
-
-        static Translator()
-        {
-            AllCultures = new ReadOnlyObservableCollection<CultureInfo>(AllCulturesInner);
-            ExecutingAssembly = Assembly.GetEntryAssembly();
-        }
+        internal static readonly ObservableSet<CultureInfo> AllCulturesInner = new ObservableSet<CultureInfo>();
 
         public static event EventHandler<CultureInfo> CurrentLanguageChanged;
 
@@ -35,8 +26,7 @@
                 {
                     return _currentCulture;
                 }
-                CurrentCulture = AllCultures.FirstOrDefault();
-                return _currentCulture ?? CultureInfo.CurrentUICulture;
+                return CultureInfo.InvariantCulture;
             }
             set
             {
@@ -44,37 +34,15 @@
                 {
                     return;
                 }
-                _currentCulture = value;
+                _currentCulture = value == null
+                    ? CultureInfo.InvariantCulture
+                    : AllCultures.FirstOrDefault(x => Equals(x, value));
+
                 OnCurrentCultureChanged(value);
             }
         }
 
-        public static ReadOnlyObservableCollection<CultureInfo> AllCultures { get; }
-
-        public static Assembly ExecutingAssembly
-        {
-            get
-            {
-                return _executingAssembly;
-            }
-            set
-            {
-                _executingAssembly = value;
-                AllCulturesInner.Clear();
-                if (_executingAssembly != null)
-                {
-                    var languages = LanguageManager.GetOrCreate(value).Languages;
-                    foreach (var cultureInfo in languages)
-                    {
-                        AllCulturesInner.Add(cultureInfo);
-                    }
-                    if (_currentCulture == null)
-                    {
-                        CurrentCulture = AllCultures.FirstOrDefault();
-                    }
-                }
-            }
-        }
+        public static IObservableSet<CultureInfo> AllCultures => AllCulturesInner;
 
         CultureInfo ITranslator.CurrentCulture
         {
@@ -88,7 +56,7 @@
             }
         }
 
-        IReadOnlyList<CultureInfo> ITranslator.AllCultures => AllCultures;
+        IObservableSet<CultureInfo> ITranslator.AllCultures => AllCultures;
 
         public static string Translate(Expression<Func<string>> key)
         {
@@ -101,7 +69,7 @@
             return key.Compile().Invoke();
         }
 
-        public static string Translate(Type typeInAsembly, string key)
+        public static string Translate(Type typeInAssembly, string key)
         {
             if (typeInAsembly == null)
             {
@@ -118,7 +86,7 @@
             {
                 return translate;
             }
-            return string.Format(Properties.Resources.MissingTranslationFormat, key);
+            return string.Format(Resources.MissingTranslationFormat, key);
         }
 
         public static string Translate(Assembly assembly, string key)
@@ -146,14 +114,14 @@
             var translated = manager.Translate(CurrentCulture, key);
             if (translated == null)
             {
-                return string.Format(Properties.Resources.MissingKeyFormat, key);
+                return string.Format(Resources.MissingKeyFormat, key);
             }
             return translated;
         }
 
         string ITranslator.Translate(Expression<Func<string>> key) => Translate(key);
 
-        string ITranslator.Translate(Type typeInAsembly, string key) => Translate(typeInAsembly, key);
+        string ITranslator.Translate(Type typeInAssembly, string key) => Translate(typeInAsembly, key);
 
         private static void OnCurrentCultureChanged(CultureInfo e)
         {

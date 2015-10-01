@@ -2,17 +2,13 @@
 {
     using System;
     using System.ComponentModel;
-    using System.Text.RegularExpressions;
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
 
     using Gu.Localization;
     using Gu.Localization.Properties;
-    using Gu.Wpf.Localization.Designtime;
     using Gu.Wpf.Localization.Internals;
-
-    using ResourceKey = System.Windows.ResourceKey;
 
     /// <summary>
     /// Implements a markup extension that translates resources.
@@ -22,7 +18,7 @@
     [MarkupExtensionReturnType(typeof(BindingExpression))]
     [ContentProperty("Member"), DefaultProperty("Member")]
     //[TypeConverter(typeof(StaticExtensionConverter))]
-    public class StaticExtension : System.Windows.Markup.MarkupExtension
+    public class StaticExtension : System.Windows.Markup.StaticExtension
     {
         private ITranslation _translation;
 
@@ -63,6 +59,7 @@
         /// </exception>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
+            LanguageManager.IsDesignTime = DesignTime.IsDesignMode;
             if (string.IsNullOrEmpty(Member))
             {
                 throw new InvalidOperationException("MarkupExtensionStaticMember");
@@ -77,13 +74,12 @@
                 }
                 else
                 {
-                    if (DesignMode.IsDesignMode)
+                    if (DesignTime.IsDesignMode)
                     {
                         _translation = CreateDesignTimeTranslation(serviceProvider, qnk);
                     }
                     else
                     {
-
                         var key = GetAssemblyAndKey(serviceProvider, qnk);
                         if (key == null)
                         {
@@ -98,7 +94,7 @@
             }
             catch (Exception exception)
             {
-                _translation = DesignMode.IsDesignMode
+                _translation = DesignTime.IsDesignMode
                                    ? new TranslationInfo(exception.Message)
                                    : new TranslationInfo(string.Format(Resources.UnknownErrorFormat, Member));
             }

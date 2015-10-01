@@ -53,9 +53,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IObservableSet.cs" />
     <Compile Include="Internals\AssemblyAndKey.cs" />
+    <Compile Include="Internals\AssemblyComparer.cs" />
     <Compile Include="Internals\FileLanguageManager.cs" />
     <Compile Include="Contracts\ILanguageManager.cs" />
+    <Compile Include="Internals\ObservableSet.cs" />
     <Compile Include="LanguageManager.cs" />
     <Compile Include="Internals\ExpressionHelper.cs" />
     <Compile Include="Contracts\ITranslation.cs" />

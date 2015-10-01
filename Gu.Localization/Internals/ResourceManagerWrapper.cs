@@ -30,6 +30,7 @@
                 }
             }
             Languages = _culturesAndResourceSets.Keys.ToArray();
+            Translator.AllCulturesInner.UnionWith(Languages);
         }
 
         public ResourceManager ResourceManager { get; }
