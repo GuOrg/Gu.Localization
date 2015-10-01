@@ -40,7 +40,7 @@ namespace Gu.Localization
             TryAddResource(assembly, CultureInfo.InvariantCulture);
             foreach (var file in ResourceFiles)
             {
-                var resourceAssy = Assembly.LoadFile(file.FullName);
+                var resourceAssy = Assembly.Load(File.ReadAllBytes(file.FullName));
                 TryAddResource(resourceAssy, resourceAssy.GetName().CultureInfo);
             }
             Languages = _culturesAndResourceSets.Keys.Where(x => !string.IsNullOrEmpty(x.Name))
@@ -63,14 +63,18 @@ namespace Gu.Localization
             if (_culturesAndResourceSets.TryGetValue(culture, out set))
             {
                 var translated = set.GetString(key);
-                if (translated != null)
+                if (!string.IsNullOrEmpty(translated))
                 {
                     return translated;
                 }
             }
             if (!Equals(culture, CultureInfo.InvariantCulture))
             {
-                return Translate(CultureInfo.InvariantCulture, key);
+                var translated = Translate(CultureInfo.InvariantCulture, key);
+                if (!string.IsNullOrEmpty(translated))
+                {
+                    return translated;
+                }
             }
             return string.Format(Properties.Resources.MissingTranslationFormat, key);
         }
@@ -125,7 +129,6 @@ namespace Gu.Localization
             }
             using (var reader = new ResourceReader(resourceAssy.GetManifestResourceStream(resourceName)))
             {
-
                 var resourceSet = new ResourceSet(reader);
                 _culturesAndResourceSets[culture] = resourceSet;
             }
