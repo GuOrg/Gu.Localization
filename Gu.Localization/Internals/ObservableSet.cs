@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using Gu.Localization.Annotations;
-
-namespace Gu.Localization.Internals
+﻿namespace Gu.Localization
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.ComponentModel;
+
+    using Gu.Localization.Annotations;
+
     class ObservableSet<T> : IObservableSet<T>
     {
         private static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Count));

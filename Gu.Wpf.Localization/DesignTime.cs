@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System.ComponentModel;
     using System.Globalization;
@@ -43,18 +39,11 @@ namespace Gu.Wpf.Localization
 
         private static void OnCultureChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            //if (!IsDesignMode)
-            //{
-            //    return;
-            //}
+            if (!IsDesignMode)
+            {
+                return;
+            }
 
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(x => x.EntryPoint != null)
-                .Where(x => File.Exists(new Uri(x.CodeBase, UriKind.Absolute).LocalPath))
-                .ToArray();
-
-            //var assembly = d.GetType().Assembly;
-            Translator.ExecutingAssembly = assemblies.LastOrDefault();
             Translator.CurrentCulture = (CultureInfo)e.NewValue;
         }
     }

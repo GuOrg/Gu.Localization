@@ -1,6 +1,7 @@
 namespace Gu.Localization
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
@@ -10,50 +11,32 @@ namespace Gu.Localization
     using System.Resources;
 
     [DebuggerDisplay(@"Assembly: {Assembly.GetName().Name} Languages: {string.Join("", "", Languages.Select(x=>x.TwoLetterISOLanguageName))}")]
-    internal sealed class FileLanguageManager : ILanguageManager
+    internal class FileLanguageManager : ILanguageManager
     {
+        private static readonly ConcurrentDictionary<Assembly, ILanguageManager> Cache = new ConcurrentDictionary<Assembly, ILanguageManager>(AssemblyComparer.Default);
         private readonly Dictionary<CultureInfo, ResourceSet> _culturesAndResourceSets = new Dictionary<CultureInfo, ResourceSet>();
-
         private bool _disposed;
 
-        internal FileLanguageManager(Type typeInAssembly)
-            : this(typeInAssembly.Assembly)
+        static FileLanguageManager()
         {
-        }
-
-        internal FileLanguageManager(Assembly assembly)
-        {
-            Assembly = assembly;
-            if (LanguageManager.IsDesignTime)
+            if (AppDomain.CurrentDomain.IsDesignTime())
             {
-                if (File.Exists(DesignTimeFileName))
-                {
-                    try
-                    {
-                        ResourceFiles = File.ReadAllLines(DesignTimeFileName).Select(x => new FileInfo(x)).ToArray();
-                    }
-                    catch
-                    {
-                    }
-                }
+                Factory = new DesigntimeLanguageManagerFactory();
+            }
+            else if (AppDomain.CurrentDomain.IsDebug())
+            {
+                Factory = new DebugLanguageManagerFactory();
             }
             else
             {
-                ResourceFiles = GetResourceFiles(assembly);
-
-                try
-                {
-                    File.Delete(DesignTimeFileName);
-                    if (ResourceFiles.Any())
-                    {
-                        File.WriteAllLines(DesignTimeFileName, ResourceFiles.Select(x => x.FullName));
-                    }
-                }
-                catch
-                {
-                }
+                Factory = new FileLanguageManagerFactory();
             }
+        }
 
+        protected FileLanguageManager(Assembly assembly, IReadOnlyList<FileInfo> files)
+        {
+            Assembly = assembly;
+            ResourceFiles = files;
             TryAddResource(assembly, CultureInfo.InvariantCulture);
             foreach (var file in ResourceFiles)
             {
@@ -65,25 +48,13 @@ namespace Gu.Localization
             Translator.AllCulturesInner.UnionWith(Languages);
         }
 
+        public static ILanguageManagerFactory Factory { get; }
+
         public IReadOnlyList<FileInfo> ResourceFiles { get; }
 
         public Assembly Assembly { get; }
 
         public IReadOnlyList<CultureInfo> Languages { get; }
-
-        private string DesignTimeFileName
-        {
-            get
-            {
-                var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                var designtimeDirectory = System.IO.Path.Combine(localAppData, "Gu.Localization");
-                if (!Directory.Exists(designtimeDirectory))
-                {
-                    Directory.CreateDirectory(designtimeDirectory);
-                }
-                return System.IO.Path.Combine(designtimeDirectory, Assembly.ManifestModule.Name + ".designtime");
-            }
-        }
 
         public string Translate(CultureInfo culture, string key)
         {
@@ -105,8 +76,8 @@ namespace Gu.Localization
         }
 
         /// <summary>
-        /// Make the class sealed when using this. 
-        /// Call VerifyDisposed at the start of all public methods
+        /// Dispose(true); //I am calling you from Dispose, it's safe
+        /// GC.SuppressFinalize(this); //Hey, GC: don't bother calling finalize later
         /// </summary>
         public void Dispose()
         {
@@ -115,12 +86,32 @@ namespace Gu.Localization
                 return;
             }
             _disposed = true;
-            foreach (var culturesAndResourceSet in _culturesAndResourceSets)
+            Dispose(true);
+        }
+
+        /// <summary>
+        /// Protected implementation of Dispose pattern. 
+        /// </summary>
+        /// <param name="disposing">true: safe to free managed resources</param>
+        protected virtual void Dispose(bool disposing)
+        {
+
+            if (disposing)
             {
-                culturesAndResourceSet.Value.Dispose();
+                foreach (var culturesAndResourceSet in _culturesAndResourceSets)
+                {
+                    culturesAndResourceSet.Value.Dispose();
+                }
+                _culturesAndResourceSets.Clear();
             }
-            _culturesAndResourceSets.Clear();
-            // Dispose some stuff now
+        }
+
+        protected void VerifyDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
         }
 
         private bool TryAddResource(Assembly resourceAssy, CultureInfo culture)
@@ -140,26 +131,6 @@ namespace Gu.Localization
             return true;
         }
 
-        private void VerifyDisposed()
-        {
-            if (_disposed)
-            {
-                throw new ObjectDisposedException(
-                    GetType()
-                        .FullName);
-            }
-        }
-
-        private static IReadOnlyList<FileInfo> GetResourceFiles(Assembly assembly)
-        {
-            var directory = GetDirectory(assembly);
-            var searchPattern = System.IO.Path.GetFileNameWithoutExtension(assembly.ManifestModule.Name) + ".resources.dll";
-            var resourceFiles = Directory.EnumerateFiles(directory.FullName, searchPattern, SearchOption.AllDirectories)
-                                         .Select(x => new FileInfo(x))
-                                         .ToArray();
-            return resourceFiles;
-        }
-
         private static DirectoryInfo GetDirectory(Assembly assembly)
         {
             var codeBase = assembly.CodeBase;
@@ -170,6 +141,108 @@ namespace Gu.Localization
                 return directory;
             }
             return new DirectoryInfo(assembly.Location);
+        }
+
+        internal class FileLanguageManagerFactory : ILanguageManagerFactory
+        {
+            private static readonly ConcurrentDictionary<Assembly, FileInfo> FileCache = new ConcurrentDictionary<Assembly, FileInfo>(AssemblyComparer.Default);
+            protected FileInfo DesignTimeFile(Assembly assembly)
+            {
+                return FileCache.GetOrAdd(assembly, CreateDeigntimeFileInfo);
+            }
+
+            public ILanguageManager GetOrCreate(Type typeInAssembly)
+            {
+                return GetOrCreate(typeInAssembly.Assembly);
+            }
+
+            public ILanguageManager GetOrCreate(Assembly assembly)
+            {
+                ILanguageManager result;
+                if (Cache.TryGetValue(assembly, out result))
+                {
+                    return result;
+                }
+                var resourceFiles = GetResourceFiles(assembly);
+                result = Cache.GetOrAdd(assembly, a => new FileLanguageManager(a, resourceFiles));
+                Translator.AllCulturesInner.UnionWith(result.Languages);
+                Translator.AllAssembliesAndLanguagesInner.Add(new AssemblyAndLanguages(assembly, result.Languages, resourceFiles));
+                return result;
+            }
+
+            protected virtual IReadOnlyList<FileInfo> GetResourceFiles(Assembly assembly)
+            {
+                var directory = GetDirectory(assembly);
+                var searchPattern = $"{System.IO.Path.GetFileNameWithoutExtension(assembly.ManifestModule.Name)}.resources.dll";
+                var resourceFiles = Directory.EnumerateFiles(directory.FullName, searchPattern, SearchOption.AllDirectories)
+                                             .Select(x => new FileInfo(x))
+                                             .ToArray();
+                return resourceFiles;
+            }
+
+            private FileInfo CreateDeigntimeFileInfo(Assembly assembly)
+            {
+                var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                var designtimeDirectory = System.IO.Path.Combine(localAppData, GetType().Assembly.ManifestModule.Name);
+                try
+                {
+                    if (!Directory.Exists(designtimeDirectory))
+                    {
+                        Directory.CreateDirectory(designtimeDirectory);
+                    }
+                }
+                // ReSharper disable once EmptyGeneralCatchClause
+                catch
+                {
+                }
+                return new FileInfo(System.IO.Path.Combine(designtimeDirectory, assembly.ManifestModule.Name + ".designtime"));
+            }
+        }
+
+        internal class DesigntimeLanguageManagerFactory : FileLanguageManagerFactory
+        {
+            private static readonly FileInfo[] EmptyFiles = new FileInfo[0];
+
+            protected override IReadOnlyList<FileInfo> GetResourceFiles(Assembly assembly)
+            {
+                var designTimeFile = DesignTimeFile(assembly);
+                if (File.Exists(designTimeFile.FullName))
+                {
+                    try
+                    {
+                        var resourceFiles = File.ReadAllLines(designTimeFile.FullName).Select(x => new FileInfo(x)).ToArray();
+                        return resourceFiles;
+                    }
+                    // ReSharper disable once EmptyGeneralCatchClause
+                    catch
+                    {
+                    }
+                }
+                return EmptyFiles;
+            }
+        }
+
+        internal class DebugLanguageManagerFactory : FileLanguageManagerFactory
+        {
+            protected override IReadOnlyList<FileInfo> GetResourceFiles(Assembly assembly)
+            {
+                var resourceFiles = base.GetResourceFiles(assembly);
+                try
+                {
+                    var designTimeFile = DesignTimeFile(assembly);
+                    File.Delete(designTimeFile.FullName);
+                    if (resourceFiles.Any())
+                    {
+                        File.WriteAllLines(designTimeFile.FullName, resourceFiles.Select(x => x.FullName));
+                    }
+                    return resourceFiles;
+                }
+                // ReSharper disable once EmptyGeneralCatchClause
+                catch
+                {
+                }
+                return resourceFiles;
+            }
         }
     }
 }

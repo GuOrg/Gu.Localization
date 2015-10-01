@@ -1,10 +1,11 @@
 ﻿namespace Gu.Localization
 {
     using System;
+    using System.ComponentModel;
     using System.Globalization;
     using System.Linq.Expressions;
 
-    public interface ITranslator
+    public interface ITranslator : INotifyPropertyChanged
     {
         CultureInfo CurrentCulture { get; set; }
 

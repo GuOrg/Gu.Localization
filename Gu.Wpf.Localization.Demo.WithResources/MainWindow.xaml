@@ -19,7 +19,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Label Content="{x:Static localization:Translator.ExecutingAssembly}" />
+            <!--<Label Content="{x:Static localization:Translator.ExecutingAssembly}" />-->
             <ItemsControl ItemsSource="{x:Static localization:Translator.AllCultures}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -27,7 +27,13 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-            <Label Content="{x:Static localization:Translator.CurrentCulture}" />
+            <ContentPresenter Content="{x:Static localization:Translator.Instance}">
+                <ContentPresenter.ContentTemplate>
+                    <DataTemplate DataType="{x:Type localization:ITranslator}">
+                        <Label Content="{Binding CurrentCulture}" />
+                    </DataTemplate>
+                </ContentPresenter.ContentTemplate>
+            </ContentPresenter>
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -42,13 +48,13 @@
                     <l:Language Culture="no" />
                 </l:LanguageSelector>
 
-                <ItemsControl ItemsSource="{x:Static localization:LanguageManager.AssembliesAndLanguages}">
+                <ItemsControl ItemsSource="{x:Static localization:Translator.AllAssembliesAndLanguages}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <Label Content="{Binding Key.ManifestModule}" />
-                                <Label Content="{Binding Key.FullName}" />
-                                <ItemsControl ItemsSource="{Binding Value.Languages}">
+                                <Label Content="{Binding Assembly.ManifestModule}" />
+                                <Label Content="{Binding Assembly.FullName}" />
+                                <ItemsControl ItemsSource="{Binding Cultures}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Horizontal" />
@@ -142,5 +148,4 @@
             </UniformGrid>
         </Grid>
     </Grid>
-
 </Window>
