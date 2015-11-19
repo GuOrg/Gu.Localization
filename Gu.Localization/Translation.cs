@@ -7,7 +7,7 @@
     using System.Resources;
     using System.Runtime.CompilerServices;
 
-    using Gu.Localization.Annotations;
+    using JetBrains.Annotations;
     using Gu.Localization.Properties;
 
     public class Translation : ITranslation

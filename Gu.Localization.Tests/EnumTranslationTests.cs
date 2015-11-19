@@ -1,12 +1,9 @@
 ﻿namespace Gu.Localization.Tests
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
-    using System.Resources;
-    using System.Text;
     using NUnit.Framework;
 
     public class EnumTranslationTests
