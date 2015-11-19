@@ -23,10 +23,10 @@ using System.Windows;
 using System.Windows.Markup;
 
 [assembly: AssemblyTitle("Gu.Wpf.Localization")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("For localization of WPF applications.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Johan Larsson")]
-[assembly: AssemblyProduct("Gu.Wpf.Localization.Properties")]
+[assembly: AssemblyProduct("Gu.Wpf.Localization")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
