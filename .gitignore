@@ -30,3 +30,4 @@ _ReSharper*/
 *.vsp
 *.psess
 packages/*
+publish/*

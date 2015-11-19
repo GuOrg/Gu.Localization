@@ -1,0 +1,9 @@
+type project
+title Gu.Wpf.Localization
+tags wpf xaml markupextension localization
+projectUrl https://github.com/JohanLarsson/Gu.Localization
+licenseUrl http://opensource.org/licenses/MIT
+
+excludeddependencies
+  JetBrains.Annotations
+  StyleCop.Analyzers
