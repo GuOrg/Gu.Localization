@@ -7,60 +7,74 @@
 
     internal static partial class Ensure
     {
-        internal static void Format(string format, object[] args)
+        internal static void Format(string format, object[] args, string formatParameterName, string argsParameterName)
         {
             Ensure.NotNullOrEmpty(format, "format");
-            var matches = Regex.Matches(format, @"{(?<index>\d+)}");
-            if (matches.Count == 0)
+            var items = GetFormatItems(format);
+            if (!AreItemsIntsZeroToN(items))
             {
-                if (args != null && args.Any())
+                var joined = string.Join(", ", items.Select(x => $"{{{x}}}"));
+                var message = $"Expected the format items to be [0..n). They were: {joined}";
+                throw new ArgumentException(message, $"{formatParameterName},{argsParameterName}");
+            }
+            if (items.Count == 0)
+            {
+                if (args == null || args.Length == 0)
                 {
-                    var message = string.Format("The format string: {0} contains no arguments but: {1} was passed as args", format, string.Join(",", args));
-                    throw new InvalidOperationException(message);
+                    return;
                 }
-                return;
-            }
-            var indexes = matches.AsEnumerable()
-                                 .Select(x => int.Parse(x.Groups["index"].Value))
-                                 .Distinct()
-                                 .OrderBy(x => x)
-                                 .ToArray();
-            if (indexes[0] != 0)
-            {
-                throw new InvalidOperationException(string.Format("Indexes must start at zero. String was: {0}", format));
-            }
-            if (indexes.Last() != indexes.Length - 1)
-            {
-                throw new InvalidOperationException(string.Format("Invalid indexes. String was: {0}", format));
+                var message = $"The format string: {format} contains no arguments but: {string.Join(",", args)} was passed as args";
+                throw new ArgumentException(message, $"{formatParameterName},{argsParameterName}");
             }
 
-            if (args == null || !args.Any())
+            if (args == null || args.Length == 0)
             {
-                var message = string.Format("The format string: {0} contains {1} arguments but: no arguments were passed.", format, indexes.Length);
-                throw new InvalidOperationException(message);
+                var message = $"The format string: {format} contains {items.Count} arguments but: no arguments were passed.";
+                throw new ArgumentException(message, $"{formatParameterName},{argsParameterName}");
             }
 
-            if (args.Length != indexes.Length)
+            if (args.Length != items.Count)
             {
-                var message = string.Format("The format string: {0} contains {1} arguments but: {2} arguments were provided", format, indexes.Length, args.Length);
-                throw new InvalidOperationException(message);
+                var message = $"The format string: {format} contains {items.Count} arguments but: {args.Length} arguments were provided";
+                throw new ArgumentException(message, $"{formatParameterName},{argsParameterName}");
             }
         }
 
-        private static IEnumerable<Match> AsEnumerable(this MatchCollection col)
+        internal static bool FormatMatches(string format, object[] args)
         {
-            foreach (Match item in col)
+            var items = GetFormatItems(format);
+            if (!AreItemsIntsZeroToN(items))
             {
-                yield return item;
+                return false;
             }
+            return items.Count == (args?.Length ?? 0);
         }
 
-        private static IEnumerable<Group> AsEnumerable(this GroupCollection col)
+        internal static bool AreItemsIntsZeroToN(IReadOnlyCollection<string> items)
         {
-            foreach (Group item in col)
+            foreach (var item in items)
             {
-                yield return item;
+                int index;
+                if (!int.TryParse(item, out index))
+                {
+                    return false;
+                }
+                if (index < 0 || index >= items.Count)
+                {
+                    return false;
+                }
             }
+            return true;
+        }
+
+        internal static IReadOnlyCollection<string> GetFormatItems(string format)
+        {
+            var matches = Regex.Matches(format, @"{(?<index>\d+)}");
+            var items = matches.Cast<Match>()
+                               .Select(x => x.Groups["index"].Value)
+                               .Distinct()
+                               .ToList();
+            return items;
         }
     }
 }

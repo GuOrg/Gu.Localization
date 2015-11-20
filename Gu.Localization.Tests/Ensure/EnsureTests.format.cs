@@ -9,14 +9,26 @@
         [TestCaseSource(typeof(Valids))]
         public void FormatHappyPath(FormatData data)
         {
-            Assert.DoesNotThrow(() => Ensure.Format(data.Format, data.Args));
+            Assert.DoesNotThrow(() => Ensure.Format(data.Format, data.Args, "format", "args"));
+        }
+
+        [TestCaseSource(typeof(Valids))]
+        public void FormatMatchesHappyPath(FormatData data)
+        {
+            Assert.True(Ensure.FormatMatches(data.Format, data.Args));
         }
 
         [TestCaseSource(typeof(InValids))]
         public void FormatThrows(FormatData data)
         {
-            var ex = Assert.Throws<InvalidOperationException>(() => Ensure.Format(data.Format, data.Args));
+            var ex = Assert.Throws<ArgumentException>(() => Ensure.Format(data.Format, data.Args, "format", "args"));
             Console.WriteLine(ex.Message);
+        }
+
+        [TestCaseSource(typeof(InValids))]
+        public void FormatDoesNotMatch(FormatData data)
+        {
+            Assert.False(Ensure.FormatMatches(data.Format, data.Args));
         }
 
         private class Valids : List<FormatData>
