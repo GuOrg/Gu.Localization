@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
 
-    internal struct QualifiedNameAndKey
+    internal class QualifiedNameAndKey
     {
-        private static Dictionary<string, QualifiedNameAndKey> Cache = new Dictionary<string, QualifiedNameAndKey>();
+        private static readonly Dictionary<string, QualifiedNameAndKey> Cache = new Dictionary<string, QualifiedNameAndKey>();
         public readonly string QualifiedName;
         public readonly string Key;
 
@@ -35,6 +35,7 @@
                 {
                     result = new QualifiedNameAndKey(match.Groups["qn"].Value, match.Groups["key"].Value);
                 }
+
                 Cache[member] = result;
             }
             return result;

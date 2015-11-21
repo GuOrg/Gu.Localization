@@ -35,7 +35,6 @@
         /// </summary>
         public string Translated => Translator.Translate(_assemblyAndKey.Assembly, _assemblyAndKey.Key);
 
-
         public static Translation GetOrCreate(Type typeInAssembly, string key)
         {
             return GetOrCreate(AssemblyAndKey.GetOrCreate(typeInAssembly.Assembly, key));
@@ -100,9 +99,6 @@
                     }
                 }
             }
-        private void OnLanguageChanged(object sender, CultureInfo e)
-        {
-            OnPropertyChanged(nameof(Translated));
         }
     }
 }

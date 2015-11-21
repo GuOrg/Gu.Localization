@@ -3,13 +3,12 @@
     using System;
     using System.ComponentModel;
     using System.Globalization;
-    using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Runtime.CompilerServices;
 
-    using Gu.Localization.Annotations;
     using Gu.Localization.Properties;
+    using JetBrains.Annotations;
 
     public class Translator : ITranslator
     {
@@ -116,15 +115,18 @@
             {
                 return string.Format(Resources.NullManagerFormat, key);
             }
+
             if (string.IsNullOrEmpty(key))
             {
                 return "null";
             }
+
             var translated = manager.Translate(CurrentCulture, key);
             if (translated == null)
             {
                 return string.Format(Resources.MissingKeyFormat, key);
             }
+
             return translated;
         }
 

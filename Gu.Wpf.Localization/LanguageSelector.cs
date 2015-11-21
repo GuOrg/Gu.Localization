@@ -1,11 +1,8 @@
-﻿using System.Collections;
-
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System;
     using System.Collections.ObjectModel;
     using System.Globalization;
-    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Markup;
@@ -54,14 +51,12 @@ namespace Gu.Wpf.Localization
             {
                 return;
             }
+            _disposed = true;
 
             if (disposing)
             {
                 Translator.CurrentLanguageChanged -= OnCurrentLanguageChanged;
             }
-
-            // Free any unmanaged objects here. 
-            _disposed = true;
         }
 
         private void OnCurrentLanguageChanged(object sender, CultureInfo e)

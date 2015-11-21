@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Runtime.CompilerServices;
     using Gu.Localization;
-    using Gu.Localization.Annotations;
+    using JetBrains.Annotations;
 
     [TypeConverter(typeof(LanguageConverter))]
     public class Language : INotifyPropertyChanged

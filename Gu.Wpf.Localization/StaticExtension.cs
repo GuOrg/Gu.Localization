@@ -49,7 +49,7 @@
         /// An object that can provide services for the markup extension. The service provider is expected to provide a service that implements a type resolver (<see cref="T:System.Windows.Markup.IXamlTypeResolver"/>).
         /// </param>
         /// <exception cref="T:System.InvalidOperationException">
-        /// The <paramref name="member"/> value for the extension is null at the time of evaluation.
+        /// The <paramref name="Member"/> value for the extension is null at the time of evaluation.
         /// </exception>
         /// <exception cref="T:System.ArgumentException">
         /// Some part of the <paramref name="member"/> string did not parse properly-or-<paramref name="serviceProvider"/> did not provide a service for <see cref="T:System.Windows.Markup.IXamlTypeResolver"/>-or-<paramref name="member"/> value did not resolve to a static member.
@@ -73,22 +73,31 @@
                 }
                 else
                 {
-                    if (DesignTime.IsDesignMode)
+                    var key = GetAssemblyAndKey(serviceProvider, qnk);
+                    if (key == null)
                     {
-                        _translation = CreateDesignTimeTranslation(serviceProvider, qnk);
+                        _translation = new TranslationInfo(string.Format(Resources.MissingKeyFormat, Member));
                     }
                     else
                     {
-                        var key = GetAssemblyAndKey(serviceProvider, qnk);
-                        if (key == null)
-                        {
-                            _translation = new TranslationInfo(string.Format(Resources.MissingKeyFormat, Member));
-                        }
-                        else
-                        {
-                            _translation = Translation.GetOrCreate(key);
-                        }
+                        _translation = Translation.GetOrCreate(key);
                     }
+                    //if (DesignTime.IsDesignMode)
+                    //{
+                    //    _translation = CreateDesignTimeTranslation(serviceProvider, qnk);
+                    //}
+                    //else
+                    //{
+                    //    var key = GetAssemblyAndKey(serviceProvider, qnk);
+                    //    if (key == null)
+                    //    {
+                    //        _translation = new TranslationInfo(string.Format(Resources.MissingKeyFormat, Member));
+                    //    }
+                    //    else
+                    //    {
+                    //        _translation = Translation.GetOrCreate(key);
+                    //    }
+                    //}
                 }
             }
             catch (Exception exception)
@@ -105,10 +114,10 @@
                 Source = _translation
             };
             var provideValue = binding.ProvideValue(serviceProvider);
-            if (DesignTime.IsDesignMode)
-            {
-                _translation = new DesigntimeTranslation(_translation, provideValue as BindingExpression);
-            }
+            //if (DesignTime.IsDesignMode)
+            //{
+            //    _translation = new DesigntimeTranslation(_translation, provideValue as BindingExpression);
+            //}
             return provideValue;
         }
 

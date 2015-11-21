@@ -4,8 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
-
-    using Gu.Localization.Annotations;
+    using JetBrains.Annotations;
 
     class ObservableSet<T> : IObservableSet<T>
     {
