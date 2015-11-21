@@ -1,11 +1,11 @@
-﻿using System;
-using System.ComponentModel;
-using System.Text.RegularExpressions;
-using System.Windows.Markup;
-using Gu.Localization;
-
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization.Designtime
 {
+    using System;
+    using System.ComponentModel;
+    using System.Text.RegularExpressions;
+    using System.Windows.Markup;
+    using Gu.Localization;
+
     internal class TemplateTranslation : ITranslation
     {
         private readonly string _member;
@@ -26,7 +26,7 @@ namespace Gu.Wpf.Localization
                 var match = Regex.Match(_member, @"(?<ns>\w+):(?<resources>\w+)\.(?<key>\w+)");
                 if (!match.Success)
                 {
-                    if (DesignTime.IsDesignMode)
+                    if (Design.IsDesignMode)
                     {
                         throw new ArgumentException($"Expecting format 'p:Resources.Key' was:'{_member}'");
                     }

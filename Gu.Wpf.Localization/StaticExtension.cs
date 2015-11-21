@@ -8,6 +8,7 @@
 
     using Gu.Localization;
     using Gu.Localization.Properties;
+    using Gu.Wpf.Localization.Designtime;
     using Gu.Wpf.Localization.Internals;
 
     /// <summary>
@@ -82,7 +83,7 @@
                     {
                         _translation = Translation.GetOrCreate(key);
                     }
-                    //if (DesignTime.IsDesignMode)
+                    //if (Design.IsDesignMode)
                     //{
                     //    _translation = CreateDesignTimeTranslation(serviceProvider, qnk);
                     //}
@@ -102,7 +103,7 @@
             }
             catch (Exception exception)
             {
-                _translation = DesignTime.IsDesignMode
+                _translation = Design.IsDesignMode
                                    ? new TranslationInfo(exception.Message)
                                    : new TranslationInfo(string.Format(Resources.UnknownErrorFormat, Member));
             }
@@ -114,7 +115,7 @@
                 Source = _translation
             };
             var provideValue = binding.ProvideValue(serviceProvider);
-            //if (DesignTime.IsDesignMode)
+            //if (Design.IsDesignMode)
             //{
             //    _translation = new DesigntimeTranslation(_translation, provideValue as BindingExpression);
             //}

@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using System.Windows.Markup;
+    using Gu.Wpf.Localization.Designtime;
 
     public static class ServiceProviderExt
     {
@@ -14,7 +15,7 @@
         public static Type Resolve(this IServiceProvider serviceProvider, string qualifiedTypeName)
         {
             var xamlTypeResolver = serviceProvider.GetXamlTypeResolver();
-            if (xamlTypeResolver == null && DesignTime.IsDesignMode)
+            if (xamlTypeResolver == null && Design.IsDesignMode)
             {
                 Debugger.Break();
             }

@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization.Designtime
 {
     using System.ComponentModel;
     using System.Globalization;
@@ -9,12 +9,12 @@
     /// <summary>
     /// The design mode.
     /// </summary>
-    public static class DesignTime
+    public static class Design
     {
         public static readonly DependencyProperty CultureProperty = DependencyProperty.RegisterAttached(
             "Culture",
             typeof(CultureInfo),
-            typeof(DesignTime),
+            typeof(Design),
             new PropertyMetadata(default(CultureInfo), OnCultureChanged));
 
         private static readonly DependencyObject DependencyObject = new DependencyObject();
@@ -30,6 +30,7 @@
         }
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
+        [AttachedPropertyBrowsableForType(typeof(ContentControl))]
         [AttachedPropertyBrowsableForType(typeof(UserControl))]
         [AttachedPropertyBrowsableForType(typeof(Window))]
         public static CultureInfo GetCulture(this ContentControl element)

@@ -1,21 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   AssemblyInfo.cs
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-
-// General Information about an assembly is controlled through the following 
-
-// set of attributes. Change these attribute values to modify the information
-
-// associated with an assembly.
-
-using System.Reflection;
+﻿using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -58,4 +41,7 @@ using System.Windows.Markup;
 )]
 [assembly: XmlnsDefinition("http://gu.se/Localization", "Gu.Localization", AssemblyName = "Gu.Localization")]
 [assembly: XmlnsDefinition("http://gu.se/Localization", "Gu.Wpf.Localization", AssemblyName = "Gu.Wpf.Localization")]
-[assembly: XmlnsPrefix("http://gu.se/Localization", "localization")]
+[assembly: XmlnsPrefix("http://gu.se/Localization", "l")]
+
+//[assembly: XmlnsDefinition("http://schemas.microsoft.com/expression/blend/2008", "Gu.Wpf.Localization.Designtime")]
+//[assembly: XmlnsPrefix("http://schemas.microsoft.com/expression/blend/2008", "d")]

@@ -1,9 +1,7 @@
-﻿namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization.Designtime
 {
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.Windows.Data;
-
     using Gu.Localization;
 
     internal class DesigntimeTranslation : ITranslation

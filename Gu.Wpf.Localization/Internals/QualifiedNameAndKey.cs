@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
+    using Gu.Wpf.Localization.Designtime;
 
     internal class QualifiedNameAndKey
     {
@@ -25,7 +26,7 @@
                 var match = Regex.Match(member, @"(?<qn>\w+:\w+)\.(?<key>\w+)");
                 if (!match.Success)
                 {
-                    if (DesignTime.IsDesignMode)
+                    if (Design.IsDesignMode)
                     {
                         throw new ArgumentException($"Expecting format 'p:Resources.Key' was:'{member}'");
                     }

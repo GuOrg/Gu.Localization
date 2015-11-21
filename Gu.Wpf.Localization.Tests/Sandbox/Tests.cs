@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
-
-namespace Gu.Localization.Tests.Sandbox
+﻿namespace Gu.Localization.Tests.Sandbox
 {
+    using System;
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Resources;
 
