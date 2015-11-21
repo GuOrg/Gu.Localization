@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:Gu.Wpf.Localization.Demo.Controls;assembly=Gu.Wpf.Localization.Demo.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:designtime="clr-namespace:Gu.Wpf.Localization.Designtime;assembly=Gu.Wpf.Localization"
         xmlns:l="http://gu.se/Localization"
         xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,7 +12,7 @@
         Title="MainWindow"
         Width="1200"
         Height="600"
-        d:Design.Culture="sv"
+        designtime:Design.Culture="sv"
         mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -24,10 +25,10 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <l:LanguageSelector Grid.Column="0">
-                <l:Language Culture="sv" FlagSource="/Gu.Wpf.Localization;component/Flags/Sweden.png" />
-                <l:Language Culture="en" FlagSource="/Gu.Wpf.Localization;component/Flags/England.png" />
-                <l:Language Culture="de" FlagSource="/Gu.Wpf.Localization;component/Flags/Germany.png" />
-                <l:Language Culture="no" />
+                <l:Language Culture="sv-SE" FlagSource="/Gu.Wpf.Localization;component/Flags/Sweden.png" />
+                <l:Language Culture="en-GB" FlagSource="/Gu.Wpf.Localization;component/Flags/England.png" />
+                <l:Language Culture="de-DE" FlagSource="/Gu.Wpf.Localization;component/Flags/Germany.png" />
+                <l:Language Culture="nn-NO" />
             </l:LanguageSelector>
 
             <UniformGrid Grid.Column="1" Columns="2">

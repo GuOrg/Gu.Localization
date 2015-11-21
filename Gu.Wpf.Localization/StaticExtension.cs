@@ -83,22 +83,6 @@
                     {
                         _translation = Translation.GetOrCreate(key);
                     }
-                    //if (Design.IsDesignMode)
-                    //{
-                    //    _translation = CreateDesignTimeTranslation(serviceProvider, qnk);
-                    //}
-                    //else
-                    //{
-                    //    var key = GetAssemblyAndKey(serviceProvider, qnk);
-                    //    if (key == null)
-                    //    {
-                    //        _translation = new TranslationInfo(string.Format(Resources.MissingKeyFormat, Member));
-                    //    }
-                    //    else
-                    //    {
-                    //        _translation = Translation.GetOrCreate(key);
-                    //    }
-                    //}
                 }
             }
             catch (Exception exception)
@@ -115,52 +99,7 @@
                 Source = _translation
             };
             var provideValue = binding.ProvideValue(serviceProvider);
-            //if (Design.IsDesignMode)
-            //{
-            //    _translation = new DesigntimeTranslation(_translation, provideValue as BindingExpression);
-            //}
             return provideValue;
-        }
-
-        private static bool IsInTemplate(IServiceProvider serviceProvider)
-        {
-            var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-            return target != null && !(target.TargetObject is DependencyObject);
-        }
-
-        private ITranslation CreateDesignTimeTranslation(IServiceProvider serviceProvider, QualifiedNameAndKey qnk)
-        {
-            if (serviceProvider == null)
-            {
-                return new TranslationInfo("serviceProvider == null");
-            }
-            if (IsInTemplate(serviceProvider))
-            {
-                return new TemplateTranslation(Member, serviceProvider.GetXamlTypeResolver());
-            }
-            //var xamlTypeResolver = serviceProvider.GetXamlTypeResolver();
-            ////Debugger.Break();
-
-            //if (xamlTypeResolver == null)
-            //{
-            //    return new TranslationInfo("_xamlTypeResolver == null");
-            //}
-
-            var key = GetAssemblyAndKey(serviceProvider, qnk);
-            if (key == null)
-            {
-                return new TranslationInfo($"key == null Member:{Member}");
-            }
-            if (key.Assembly == null)
-            {
-                return new TranslationInfo($"key.Assembly == null Member:{Member}");
-            }
-            var translation = Translation.GetOrCreate(key);
-            if (translation == null)
-            {
-                return new TranslationInfo($"translation == null Member:{Member}");
-            }
-            return translation;
         }
 
         internal static AssemblyAndKey GetAssemblyAndKey(IServiceProvider serviceProvider, QualifiedNameAndKey qnk)

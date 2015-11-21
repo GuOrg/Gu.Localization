@@ -2,17 +2,18 @@
 {
     using System;
     using System.Diagnostics;
+    using System.Windows;
     using System.Windows.Markup;
     using Gu.Wpf.Localization.Designtime;
 
-    public static class ServiceProviderExt
+    internal static class ServiceProviderExt
     {
-        public static IXamlTypeResolver GetXamlTypeResolver(this IServiceProvider provider)
+        internal static IXamlTypeResolver GetXamlTypeResolver(this IServiceProvider provider)
         {
             return provider.GetService<IXamlTypeResolver>();
         }
 
-        public static Type Resolve(this IServiceProvider serviceProvider, string qualifiedTypeName)
+        internal static Type Resolve(this IServiceProvider serviceProvider, string qualifiedTypeName)
         {
             var xamlTypeResolver = serviceProvider.GetXamlTypeResolver();
             if (xamlTypeResolver == null && Design.IsDesignMode)
@@ -25,6 +26,12 @@
         internal static T GetService<T>(this IServiceProvider provider)
         {
             return (T)provider.GetService(typeof(T));
+        }
+
+        internal static bool IsInTemplate(this IServiceProvider serviceProvider)
+        {
+            var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
+            return target != null && !(target.TargetObject is DependencyObject);
         }
     }
 }

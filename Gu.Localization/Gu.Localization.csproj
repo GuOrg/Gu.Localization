@@ -48,6 +48,7 @@
     <Compile Include="Internals\AppDomainExt.cs" />
     <Compile Include="Internals\AssemblyAndKey.cs" />
     <Compile Include="Internals\AssemblyComparer.cs" />
+    <Compile Include="Internals\CultureInfoComparer.cs" />
     <Compile Include="Internals\FileLanguageManager.cs" />
     <Compile Include="Contracts\ILanguageManager.cs" />
     <Compile Include="Internals\ObservableSet.cs" />

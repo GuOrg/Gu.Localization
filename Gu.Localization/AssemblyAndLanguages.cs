@@ -14,6 +14,7 @@
             Cultures = cultures;
             ResourceFiles = resourceFiles;
         }
+
         public Assembly Assembly { get; }
 
         public IReadOnlyList<CultureInfo> Cultures { get; }

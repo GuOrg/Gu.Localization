@@ -6,11 +6,12 @@
     using System.Globalization;
     using System.Linq;
     using System.Resources;
+    using Gu.Localization.Internals;
 
     [DebuggerDisplay(@"Assembly: {Assembly.GetName().Name} Languages: {string.Join("", "", Languages.Select(x=>x.TwoLetterISOLanguageName))}")]
     internal class ResourceManagerWrapper : ILanguageManager
     {
-        private readonly Dictionary<CultureInfo, ResourceSet> _culturesAndResourceSets = new Dictionary<CultureInfo, ResourceSet>();
+        private readonly Dictionary<CultureInfo, ResourceSet> _culturesAndResourceSets = new Dictionary<CultureInfo, ResourceSet>(CultureInfoComparer.Default);
         internal ResourceManagerWrapper(ResourceManager resourceManager)
         {
             if (resourceManager == null)
@@ -44,10 +45,12 @@
             {
                 return set.GetString(key);
             }
+
             if (!Equals(culture, CultureInfo.InvariantCulture))
             {
                 return ResourceManager.GetString(key);
             }
+
             return string.Format(Properties.Resources.MissingTranslationFormat, key);
         }
 

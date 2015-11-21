@@ -1,12 +1,13 @@
-﻿using System;
-using System.ComponentModel;
-using System.Globalization;
-
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
+    using System;
+    using System.ComponentModel;
+    using System.Globalization;
+
     internal class LanguageConverter : TypeConverter
     {
         private static readonly CultureInfoConverter CultureInfoConverter = new CultureInfoConverter();
+
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
             return CultureInfoConverter.CanConvertFrom(context, sourceType);

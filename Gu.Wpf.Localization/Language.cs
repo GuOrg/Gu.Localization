@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Runtime.CompilerServices;
     using Gu.Localization;
+    using Gu.Localization.Internals;
     using JetBrains.Annotations;
 
     [TypeConverter(typeof(LanguageConverter))]
@@ -43,13 +44,20 @@
 
         public bool IsSelected
         {
-            get { return Equals(Translator.CurrentCulture, Culture); }
+            get { return CultureInfoComparer.Default.Equals(Translator.CurrentCulture, Culture); }
             set
             {
-                if (value && !Equals(_culture, Translator.CurrentCulture))
+                if (value == IsSelected)
+                {
+                    return;
+                }
+
+                if (value && 
+                    !CultureInfoComparer.Default.Equals(_culture, Translator.CurrentCulture))
                 {
                     Translator.CurrentCulture = _culture;
                 }
+
                 OnPropertyChanged();
             }
         }
@@ -62,7 +70,7 @@
                 {
                     return false;
                 }
-                return Translator.AllCultures.FirstOrDefault(x => Equals(x, _culture)) != null;
+                return Translator.AllCultures.FirstOrDefault(x =>CultureInfoComparer.Default.Equals(x, _culture)) != null;
             }
         }
         public Uri FlagSource { get; set; }

@@ -57,7 +57,7 @@
     <Compile Include="Designtime\TemplateTranslation.cs" />
     <Compile Include="Internals\QualifiedNameAndKey.cs" />
     <Compile Include="Internals\TranslationInfo.cs" />
-    <Compile Include="DispatcherExt.cs" />
+    <Compile Include="Internals\DispatcherExt.cs" />
     <Compile Include="Internals\ServiceProviderExt.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="LanguageConverter.cs" />

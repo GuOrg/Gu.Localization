@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Windows.Markup;
+    using Gu.Localization;
     using NUnit.Framework;
 
     public class NamespacesTests
@@ -20,14 +21,23 @@
         [Test]
         public void XmlnsDefinitions()
         {
-            string[] skip = { ".Annotations", ".Properties", "XamlGeneratedNamespace", "Gu.Wpf.Localization.Internals", "Gu.Wpf.Localization.Designtime" };
+            string[] skip =
+            {
+                ".Annotations",
+                ".Properties",
+                "XamlGeneratedNamespace",
+                "Gu.Localization.Internals",
+                "Gu.Wpf.Localization.Internals",
+                "Gu.Wpf.Localization.Designtime"
+            };
 
-            var strings = _assembly.GetTypes()
-                                  .Select(x => x.Namespace)
-                                  .Distinct()
-                                  .Where(x => !skip.Any(s => x.EndsWith(s)))
-                                  .OrderBy(x => x)
-                                  .ToArray();
+            var strings = new[] {_assembly, typeof (Translator).Assembly}
+                .SelectMany(x => x.GetTypes())
+                .Select(x => x.Namespace)
+                .Distinct()
+                .Where(x => !skip.Any(s => x.EndsWith(s)))
+                .OrderBy(x => x)
+                .ToArray();
             var attributes = _assembly.CustomAttributes.Where(x => x.AttributeType == typeof(XmlnsDefinitionAttribute))
                                      .ToArray();
             var actuals = attributes.Select(a => a.ConstructorArguments[1].Value)

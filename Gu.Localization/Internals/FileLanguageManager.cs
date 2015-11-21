@@ -9,12 +9,13 @@ namespace Gu.Localization
     using System.Linq;
     using System.Reflection;
     using System.Resources;
+    using Gu.Localization.Internals;
 
     [DebuggerDisplay(@"Assembly: {Assembly.GetName().Name} Languages: {string.Join("", "", Languages.Select(x=>x.TwoLetterISOLanguageName))}")]
     internal class FileLanguageManager : ILanguageManager
     {
         private static readonly ConcurrentDictionary<Assembly, ILanguageManager> Cache = new ConcurrentDictionary<Assembly, ILanguageManager>(AssemblyComparer.Default);
-        private readonly Dictionary<CultureInfo, ResourceSet> _culturesAndResourceSets = new Dictionary<CultureInfo, ResourceSet>();
+        private readonly Dictionary<CultureInfo, ResourceSet> _culturesAndResourceSets = new Dictionary<CultureInfo, ResourceSet>(CultureInfoComparer.Default);
         private bool _disposed;
 
         static FileLanguageManager()
@@ -68,6 +69,7 @@ namespace Gu.Localization
                     return translated;
                 }
             }
+
             if (!Equals(culture, CultureInfo.InvariantCulture))
             {
                 var translated = Translate(CultureInfo.InvariantCulture, key);
@@ -170,7 +172,8 @@ namespace Gu.Localization
                 var resourceFiles = GetResourceFiles(assembly);
                 result = Cache.GetOrAdd(assembly, a => new FileLanguageManager(a, resourceFiles));
                 Translator.AllCulturesInner.UnionWith(result.Languages);
-                Translator.AllAssembliesAndLanguagesInner.Add(new AssemblyAndLanguages(assembly, result.Languages, resourceFiles));
+                var assemblyAndLanguages = new AssemblyAndLanguages(assembly, result.Languages, resourceFiles);
+                Translator.AllAssembliesAndLanguagesInner.Add(assemblyAndLanguages);
                 return result;
             }
 

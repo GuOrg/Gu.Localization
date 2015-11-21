@@ -24,6 +24,9 @@
 
             Assert.AreEqual(typeof(Properties.Resources).Assembly, key.Assembly);
             Assert.AreEqual("Key", key.Key);
+
+            var key2 = Gu.Wpf.Localization.StaticExtension.GetAssemblyAndKey(serviceProviderMock.Object, qnk);
+            Assert.AreSame(key, key2);
         }
     }
 }

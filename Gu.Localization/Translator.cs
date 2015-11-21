@@ -6,14 +6,14 @@
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Runtime.CompilerServices;
-
+    using Gu.Localization.Internals;
     using Gu.Localization.Properties;
     using JetBrains.Annotations;
 
     public class Translator : ITranslator
     {
         public static readonly Translator Instance = new Translator();
-        internal static readonly ObservableSet<CultureInfo> AllCulturesInner = new ObservableSet<CultureInfo>();
+        internal static readonly ObservableSet<CultureInfo> AllCulturesInner = new ObservableSet<CultureInfo>(CultureInfoComparer.Default);
         internal static readonly ObservableSet<AssemblyAndLanguages> AllAssembliesAndLanguagesInner = new ObservableSet<AssemblyAndLanguages>();
         private static CultureInfo _currentCulture = CultureInfo.InvariantCulture;
 
@@ -42,7 +42,7 @@
             }
             set
             {
-                if (Equals(_currentCulture, value))
+                if (CultureInfoComparer.Default.Equals(_currentCulture, value))
                 {
                     return;
                 }

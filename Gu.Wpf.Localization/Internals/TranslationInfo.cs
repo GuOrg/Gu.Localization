@@ -13,6 +13,6 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string Translated { get;  }
+        public string Translated { get; }
     }
 }

@@ -6,7 +6,7 @@
     /// <summary>
     /// The dispatcher ext.
     /// </summary>
-    public static class DispatcherExt
+    internal static class DispatcherExt
     {
         internal static DispatcherOperation BeginInvoke(this Dispatcher dispatcher, Action a)
         {
