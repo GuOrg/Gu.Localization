@@ -86,7 +86,7 @@ namespace Gu.Wpf.Localization
 
             try
             {
-                if (DesignMode.IsDesignMode && IsInTemplate(serviceProvider))
+                if (Is.DesignMode && IsInTemplate(serviceProvider))
                 {
                     this.xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
                     return this;
@@ -97,7 +97,7 @@ namespace Gu.Wpf.Localization
                     this.xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
                 }
 
-                var resourceKey = new ResourceKey(this.Member, this.xamlTypeResolver, DesignMode.IsDesignMode);
+                var resourceKey = new ResourceKey(this.Member, this.xamlTypeResolver, Is.DesignMode);
                 if (resourceKey.HasError)
                 {
                     return string.Format(Resources.UnknownErrorFormat, this.Member);

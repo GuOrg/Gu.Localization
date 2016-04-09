@@ -15,7 +15,7 @@ namespace Gu.Wpf.Localization
     /// <summary>
     /// The dispatcher ext.
     /// </summary>
-    public static class DispatcherExt
+    internal static class DispatcherExt
     {
         /// <summary>
         /// The begin invoke.
@@ -29,7 +29,7 @@ namespace Gu.Wpf.Localization
         /// <returns>
         /// The <see cref="DispatcherOperation"/>.
         /// </returns>
-        public static DispatcherOperation BeginInvoke(this Dispatcher dispatcher, Action a)
+        internal static DispatcherOperation BeginInvoke(this Dispatcher dispatcher, Action a)
         {
             return dispatcher.BeginInvoke(DispatcherPriority.Normal, a);
         }

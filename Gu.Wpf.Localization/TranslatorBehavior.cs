@@ -28,7 +28,7 @@
 
         private static void OnCultureChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            if (DesignMode.IsDesignMode)
+            if (Is.DesignMode)
             {
                 var frameworkElement = o as FrameworkElement;
                 if (frameworkElement != null && !frameworkElement.IsLoaded)

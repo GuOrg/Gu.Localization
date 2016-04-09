@@ -42,14 +42,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ensure\Ensure.compare.cs" />
-    <Compile Include="Ensure\Ensure.cs" />
-    <Compile Include="Ensure\Ensure.format.cs" />
-    <Compile Include="Ensure\Ensure.string.cs" />
     <Compile Include="EnumTranslation.cs" />
-    <Compile Include="ExpressionHelper.cs" />
+    <Compile Include="Internals\Ensure\Ensure.compare.cs" />
+    <Compile Include="Internals\Ensure\Ensure.cs" />
+    <Compile Include="Internals\Ensure\Ensure.format.cs" />
+    <Compile Include="Internals\Ensure\Ensure.string.cs" />
+    <Compile Include="Internals\ExpressionHelper.cs" />
     <Compile Include="ITranslation.cs" />
-    <Compile Include="Observer.cs" />
+    <Compile Include="Internals\Observer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
