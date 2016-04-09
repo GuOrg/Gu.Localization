@@ -9,7 +9,7 @@ namespace Gu.Wpf.Localization.Demo.WithResources
     {
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

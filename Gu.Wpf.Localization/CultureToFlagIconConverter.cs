@@ -5,19 +5,12 @@
     using System.Globalization;
     using System.Linq;
     using System.Windows.Data;
-    using System.Windows.Media;
 
     public class CultureToFlagIconConverter : IValueConverter
     {
-        private readonly List<CultureAndFlag> _languageBindings = new List<CultureAndFlag>();
+        private readonly List<CultureAndFlag> languageBindings = new List<CultureAndFlag>();
 
-        public List<CultureAndFlag> LanguageBindings
-        {
-            get
-            {
-                return _languageBindings;
-            }
-        }
+        public List<CultureAndFlag> LanguageBindings => this.languageBindings;
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -26,23 +19,13 @@
             {
                 return null;
             }
-            var binding = _languageBindings.FirstOrDefault(x => x.Culture != null && x.Culture.TwoLetterISOLanguageName == cultureInfo.TwoLetterISOLanguageName);
-            if (binding != null)
-            {
-                return binding.Flag;
-            }
-            return null;
+            var binding = this.languageBindings.FirstOrDefault(x => x.Culture != null && x.Culture.TwoLetterISOLanguageName == cultureInfo.TwoLetterISOLanguageName);
+            return binding?.Flag;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
-    }
-
-    public class CultureAndFlag
-    {
-        public CultureInfo Culture { get; set; }
-        public ImageSource Flag { get; set; }
     }
 }

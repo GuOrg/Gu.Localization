@@ -1,6 +1,7 @@
-source https://www.nuget.org/api/v2/
+source http://www.nuget.org/api/v2/
 
-nuget JetBrains.Annotations
-nuget ModernUI.WPF
 nuget Moq
 nuget NUnit 2.6.4
+nuget JetBrains.Annotations
+nuget StyleCop.Analyzers
+nuget ModernUI.WPF

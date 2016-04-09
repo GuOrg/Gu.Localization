@@ -17,10 +17,10 @@
         {
             if (resourceManager == null)
             {
-                throw new ArgumentNullException("resourceManager");
+                throw new ArgumentNullException(nameof(resourceManager));
             }
-            ResourceManager = resourceManager;
-            ResourceSets = Cache.GetOrAdd(
+            this.ResourceManager = resourceManager;
+            this.ResourceSets = Cache.GetOrAdd(
                 resourceManager,
                 r => GetCultures(r).ToArray());
         }
@@ -56,7 +56,7 @@
         public override string ToString()
         {
             var cultures = string.Join(", ", this.ResourceSets.Select(x => x.Culture.TwoLetterISOLanguageName));
-            return string.Format("ResourceManager: {0}, ResourceSets: {1}", this.ResourceManager.BaseName, cultures);
+            return $"ResourceManager: {this.ResourceManager.BaseName}, ResourceSets: {cultures}";
         }
 
         private static IEnumerable<ResourceSetAndCulture> GetCultures(ResourceManager manager)

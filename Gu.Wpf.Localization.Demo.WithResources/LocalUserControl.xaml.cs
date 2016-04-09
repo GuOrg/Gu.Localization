@@ -9,7 +9,7 @@
     {
         public LocalUserControl()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

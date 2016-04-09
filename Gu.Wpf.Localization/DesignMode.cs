@@ -25,12 +25,6 @@ namespace Gu.Wpf.Localization
         /// <summary>
         /// Gets a value indicating whether is design mode.
         /// </summary>
-        public static bool IsDesignMode
-        {
-            get
-            {
-                return DesignerProperties.GetIsInDesignMode(DependencyObject);
-            }
-        }
+        public static bool IsDesignMode => DesignerProperties.GetIsInDesignMode(DependencyObject);
     }
 }

@@ -12,22 +12,22 @@
 
     public class Translation : ITranslation
     {
-        private string _key;
-        private Func<string> _keyGetter;
+        private readonly string key;
+        private readonly Func<string> keyGetter;
         internal readonly Translator Translator;
-        private bool _disposed = false;
-        private readonly IDisposable _subscription;
+        private bool disposed = false;
+        private readonly IDisposable subscription;
         public Translation(Expression<Func<string>> key)
         {
             if (ExpressionHelper.IsResourceKey(key))
             {
-                _key = ExpressionHelper.GetResourceKey(key);
-                Translator = new Translator(ResourceManagerWrapper.Create(key));
-                Translator.LanguageChanged += OnLanguageChanged;
+                this.key = ExpressionHelper.GetResourceKey(key);
+                this.Translator = new Translator(ResourceManagerWrapper.Create(key));
+                Translator.LanguageChanged += this.OnLanguageChanged;
             }
             else
             {
-                _keyGetter = key.Compile();
+                this.keyGetter = key.Compile();
             }
         }
 
@@ -39,16 +39,16 @@
         public Translation(ResourceManager resourceManager, Func<string> key, IObservable<object> trigger)
             : this(new ResourceManagerWrapper(resourceManager), null)
         {
-            _keyGetter = key;
-            var propertyName = ExpressionHelper.PropertyName(() => Translated);
-            _subscription = trigger.Subscribe(new Observer(() => OnPropertyChanged(propertyName)));
+            this.keyGetter = key;
+            var propertyName = ExpressionHelper.PropertyName(() => this.Translated);
+            this.subscription = trigger.Subscribe(new Observer(() => this.OnPropertyChanged(propertyName)));
         }
 
         internal Translation(ResourceManagerWrapper resourceManager, string key)
         {
-            Translator = new Translator(resourceManager);
-            _key = key;
-            Translator.LanguageChanged += OnLanguageChanged;
+            this.Translator = new Translator(resourceManager);
+            this.key = key;
+            Translator.LanguageChanged += this.OnLanguageChanged;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -60,20 +60,20 @@
         {
             get
             {
-                var key = _key ?? _keyGetter();
-                if (Translator == null)
+                var currentKey = this.key ?? this.keyGetter();
+                if (this.Translator == null)
                 {
-                    return string.Format(Resources.NullManagerFormat, key);
+                    return string.Format(Resources.NullManagerFormat, currentKey);
                 }
-                if (!Translator.HasKey(key))
+                if (!this.Translator.HasKey(currentKey))
                 {
-                    return string.Format(Resources.MissingKeyFormat, key);
+                    return string.Format(Resources.MissingKeyFormat, currentKey);
                 }
-                if (!Translator.HasCulture(Translator.CurrentCulture))
+                if (!this.Translator.HasCulture(Translator.CurrentCulture))
                 {
-                    return string.Format(Resources.MissingTranslationFormat, key);
+                    return string.Format(Resources.MissingTranslationFormat, currentKey);
                 }
-                return Translator.Translate(key);
+                return this.Translator.Translate(currentKey);
             }
         }
 
@@ -83,7 +83,7 @@
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -93,35 +93,28 @@
         /// <param name="disposing">true: safe to free managed resources</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
             if (disposing)
             {
-                Translator.LanguageChanged -= OnLanguageChanged;
-                if (_subscription != null)
-                {
-                    _subscription.Dispose();
-                }
+                Translator.LanguageChanged -= this.OnLanguageChanged;
+                this.subscription?.Dispose();
             }
-            _disposed = true;
+            this.disposed = true;
         }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void OnLanguageChanged(object sender, CultureInfo e)
         {
-            OnPropertyChanged(ExpressionHelper.PropertyName(() => Translated));
+            this.OnPropertyChanged(ExpressionHelper.PropertyName(() => this.Translated));
         }
     }
 }

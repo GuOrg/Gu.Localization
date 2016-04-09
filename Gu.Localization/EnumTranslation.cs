@@ -13,27 +13,27 @@
     public class EnumTranslation<T> : ITranslation
         where T : struct, IComparable, IFormattable, IConvertible
     {
-        private readonly Translation _translation;
-        private bool _disposed = false;
+        private readonly Translation translation;
+        private bool disposed = false;
 
         public EnumTranslation(ResourceManager resourceManager, T member)
         {
-            _translation = new Translation(resourceManager, member.ToString(CultureInfo.InvariantCulture));
-            _translation.PropertyChanged += TranslationOnPropertyChanged;
+            this.translation = new Translation(resourceManager, member.ToString(CultureInfo.InvariantCulture));
+            this.translation.PropertyChanged += this.TranslationOnPropertyChanged;
         }
 
         public EnumTranslation(ResourceManager resourceManager, Func<T> member, IObservable<object> trigger)
         {
-            _translation = new Translation(
+            this.translation = new Translation(
                 resourceManager,
                 () => member().ToString(CultureInfo.InvariantCulture),
                 trigger);
-            _translation.PropertyChanged += TranslationOnPropertyChanged;
+            this.translation.PropertyChanged += this.TranslationOnPropertyChanged;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string Translated { get { return _translation.Translated; } }
+        public string Translated => this.translation.Translated;
 
         /// <summary>
         /// This will probably mostly be used in tests
@@ -44,7 +44,7 @@
             {
                 return Enum.GetValues(typeof(T))
                            .OfType<T>()
-                           .Where(x => !_translation.Translator.HasKey(x.ToString(CultureInfo.InvariantCulture)));
+                           .Where(x => !this.translation.Translator.HasKey(x.ToString(CultureInfo.InvariantCulture)));
             }
         }
 
@@ -54,7 +54,7 @@
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -64,37 +64,33 @@
         /// <param name="disposing">true: safe to free managed resources</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
             if (disposing)
             {
-                _translation.PropertyChanged -= TranslationOnPropertyChanged;
-                _translation.Dispose();
+                this.translation.PropertyChanged -= this.TranslationOnPropertyChanged;
+                this.translation.Dispose();
                 // Free any other managed objects here. 
             }
 
             // Free any unmanaged objects here. 
-            _disposed = true;
+            this.disposed = true;
         }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void TranslationOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if (propertyChangedEventArgs.PropertyName == ExpressionHelper.PropertyName(() => _translation.Translated))
+            if (propertyChangedEventArgs.PropertyName == ExpressionHelper.PropertyName(() => this.translation.Translated))
             {
-                OnPropertyChanged(ExpressionHelper.PropertyName(() => Translated));
+                this.OnPropertyChanged(ExpressionHelper.PropertyName(() => this.Translated));
             }
         }
     }

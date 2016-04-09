@@ -7,14 +7,14 @@ namespace Gu.Localization
     /// </summary>
     internal class Observer : IObserver<object>
     {
-        private readonly Action _action;
+        private readonly Action action;
         public Observer(Action action)
         {
-            _action = action;
+            this.action = action;
         }
         public void OnNext(object value)
         {
-            _action();
+            this.action();
         }
         public void OnError(Exception error)
         {

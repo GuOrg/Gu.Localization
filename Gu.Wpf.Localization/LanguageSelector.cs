@@ -36,7 +36,7 @@
 
         public static readonly DependencyProperty LanguagesProperty = LanguagesPropertyKey.DependencyProperty;
 
-        private bool _disposed = false;
+        private bool disposed = false;
 
         static LanguageSelector()
         {
@@ -45,20 +45,20 @@
 
         public LanguageSelector()
         {
-            Translator.LanguagesChanged += OnLanguagesChanged;
-            Translator.LanguageChanged += OnLanguageChanged;
+            Translator.LanguagesChanged += this.OnLanguagesChanged;
+            Translator.LanguageChanged += this.OnLanguageChanged;
         }
 
         public Language CurrentLanguage
         {
-            get { return (Language)GetValue(CurrentLanguageProperty); }
-            set { SetValue(CurrentLanguageProperty, value); }
+            get { return (Language)this.GetValue(CurrentLanguageProperty); }
+            set { this.SetValue(CurrentLanguageProperty, value); }
         }
 
         public Brush SelectedBrush
         {
-            get { return (Brush)GetValue(SelectedBrushProperty); }
-            set { SetValue(SelectedBrushProperty, value); }
+            get { return (Brush)this.GetValue(SelectedBrushProperty); }
+            set { this.SetValue(SelectedBrushProperty, value); }
         }
 
         /// <summary>
@@ -66,8 +66,8 @@
         /// </summary>
         public IEnumerable<Language> Languages
         {
-            get { return (IEnumerable<Language>)GetValue(LanguagesProperty); }
-            protected set { SetValue(LanguagesPropertyKey, value); }
+            get { return (IEnumerable<Language>)this.GetValue(LanguagesProperty); }
+            protected set { this.SetValue(LanguagesPropertyKey, value); }
         }
 
         /// <summary>
@@ -76,7 +76,7 @@
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -88,60 +88,55 @@
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
             if (disposing)
             {
-                Translator.LanguagesChanged -= OnLanguagesChanged;
-                Translator.LanguageChanged -= OnLanguageChanged;
+                Translator.LanguagesChanged -= this.OnLanguagesChanged;
+                Translator.LanguageChanged -= this.OnLanguageChanged;
             }
 
             // Free any unmanaged objects here. 
-            _disposed = true;
+            this.disposed = true;
         }
 
         private static void OnCurrentLanguageChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var language = e.NewValue as Language;
-            if (language != null)
-            {
-                Translator.CurrentCulture = Translator.AllCultures.FirstOrDefault(x => x.TwoLetterISOLanguageName == language.Culture.TwoLetterISOLanguageName);
-            }
-            else
-            {
-                Translator.CurrentCulture = null;
-            }
+            Translator.CurrentCulture = language != null
+                                            ? Translator.AllCultures.FirstOrDefault(x => x.TwoLetterISOLanguageName == language.Culture.TwoLetterISOLanguageName)
+                                            : null;
         }
 
         private void OnLanguagesChanged(object sender, EventArgs eventArgs)
         {
-            Dispatcher.BeginInvoke(
+            this.Dispatcher.BeginInvoke(
                 () =>
                 {
-                    Languages = Translator.AllCultures.Select(x => new Language(x)).ToArray();
+                    this.Languages = Translator.AllCultures.Select(x => new Language(x)).ToArray();
                     var currentCulture = Translator.CurrentCulture;
                     if (currentCulture != null)
                     {
-                        CurrentLanguage = Languages.FirstOrDefault(x => x.Culture.TwoLetterISOLanguageName == currentCulture.TwoLetterISOLanguageName);
+                        this.CurrentLanguage = this.Languages.FirstOrDefault(x => x.Culture.TwoLetterISOLanguageName == currentCulture.TwoLetterISOLanguageName);
                     }
                 });
         }
 
         private void OnLanguageChanged(object sender, CultureInfo e)
         {
-            if (Languages == null)
+            if (this.Languages == null)
             {
                 return;
             }
             var currentCulture = Translator.CurrentCulture;
             var language = currentCulture != null
-                               ? Languages.FirstOrDefault(
+                               ? this.Languages.FirstOrDefault(
                                    x => x.Culture.TwoLetterISOLanguageName == currentCulture.TwoLetterISOLanguageName)
                                : null;
-            Dispatcher.BeginInvoke(() => CurrentLanguage = language);
+            this.Dispatcher.BeginInvoke(() => this.CurrentLanguage = language);
         }
     }
 }

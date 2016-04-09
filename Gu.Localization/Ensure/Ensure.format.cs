@@ -9,7 +9,7 @@
     {
         internal static void Format(string format, object[] args, string formatParameterName, string argsParameterName)
         {
-            Ensure.NotNullOrEmpty(format, "format");
+            NotNullOrEmpty(format, "format");
             var items = GetFormatItems(format);
             if (!AreItemsIntsZeroToN(items))
             {

@@ -4,43 +4,24 @@
 
     public class Language 
     {
-        private readonly CultureInfo _culture;
-        private bool _disposed = false;
+        private readonly CultureInfo culture;
 
         public Language(CultureInfo culture)
         {
-            _culture = culture;
+            this.culture = culture;
         }
 
-        public CultureInfo Culture
-        {
-            get
-            {
-                return _culture;
-            }
-        }
+        public CultureInfo Culture => this.culture;
 
-        public string Name
-        {
-            get
-            {
-                return _culture.Name;
-            }
-        }
+        public string Name => this.culture.Name;
 
-        public string EnglishName
-        {
-            get
-            {
-                return _culture.EnglishName;
-            }
-        }
+        public string EnglishName => this.culture.EnglishName;
 
         public string NativeName
         {
             get
             {
-                var nativeName = _culture.NativeName;
+                var nativeName = this.culture.NativeName;
                 if (char.IsUpper(nativeName[0]))
                 {
                     return nativeName;
@@ -51,7 +32,7 @@
 
         public override string ToString()
         {
-            return string.Format("EnglishName: {0}", EnglishName);
+            return $"EnglishName: {this.EnglishName}";
         }
     }
 }

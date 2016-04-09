@@ -23,7 +23,6 @@ namespace Gu.Wpf.Localization
         }
 
         [SecurityCritical]
-        [SecurityTreatAsSafe]
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
             if (!(destinationType == typeof(InstanceDescriptor)))

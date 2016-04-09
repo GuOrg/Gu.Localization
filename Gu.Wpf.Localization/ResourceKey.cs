@@ -14,7 +14,7 @@
             var match = Regex.Match(member, @"(?<ns>\w+):(?<resources>\w+)\.(?<key>\w+)");
             if (!match.Success)
             {
-                HasError = true;
+                this.HasError = true;
                 if (throwOnError)
                 {
                     throw new ArgumentException("Expecting format p:Resources.Key was:" + member);
@@ -22,18 +22,18 @@
                 return;
             }
 
-            var qualifiedTypeName = string.Format("{0}:{1}", match.Groups["ns"].Value, match.Groups["resources"].Value);
+            var qualifiedTypeName = $"{match.Groups["ns"].Value}:{match.Groups["resources"].Value}";
             var type = typeResolver.Resolve(qualifiedTypeName);
-            ResourceManager = ResourceManagerWrapper.FromType(type);
+            this.ResourceManager = ResourceManagerWrapper.FromType(type);
 
-            Key = match.Groups["key"].Value;
-            HasError = string.IsNullOrEmpty(Key) || ResourceManager == null;
+            this.Key = match.Groups["key"].Value;
+            this.HasError = string.IsNullOrEmpty(this.Key) || this.ResourceManager == null;
         }
 
-        public bool HasError { get; private set; }
+        public bool HasError { get; }
 
-        public ResourceManager ResourceManager { get; private set; }
+        public ResourceManager ResourceManager { get; }
 
-        public string Key { get; private set; }
+        public string Key { get; }
     }
 }

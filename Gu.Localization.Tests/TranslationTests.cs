@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
@@ -55,8 +54,8 @@
             mock.Setup(x => x.Subscribe(It.IsAny<IObserver<object>>()))
                 .Returns((IDisposable) null)
                 .Callback<IObserver<object>>(x => observer = x);
-            DummyProperty = "Missing";
-            var translation = new Translation(Properties.Resources.ResourceManager, () => DummyProperty, mock.Object);
+            this.DummyProperty = "Missing";
+            var translation = new Translation(Properties.Resources.ResourceManager, () => this.DummyProperty, mock.Object);
             Translator.CurrentCulture = new CultureInfo("en");
 
             var argses = new List<PropertyChangedEventArgs>();
@@ -65,7 +64,7 @@
             Assert.AreEqual("!Missing!", translation.Translated);
             Assert.AreEqual(0, argses.Count(x => x.PropertyName == "Translated"));
 
-            DummyProperty = "AllLanguages";
+            this.DummyProperty = "AllLanguages";
             Assert.AreEqual("English", translation.Translated);
             Assert.AreEqual(0, argses.Count(x => x.PropertyName == "Translated"));
 

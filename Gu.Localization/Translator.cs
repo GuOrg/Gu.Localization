@@ -12,13 +12,13 @@
     public class Translator
     {
         private static readonly List<CultureInfo> InnerAllCultures = new List<CultureInfo>();
-        private readonly List<CultureInfo> _cultures = new List<CultureInfo>();
+        private readonly List<CultureInfo> cultures = new List<CultureInfo>();
         private static CultureInfo _currentCulture;
-        private readonly ResourceManagerWrapper _manager;
+        private readonly ResourceManagerWrapper manager;
 
         internal Translator(ResourceManagerWrapper manager)
         {
-            _manager = manager;
+            this.manager = manager;
             foreach (var resourceSetAndCulture in manager.ResourceSets)
             {
                 var cultureInfo = resourceSetAndCulture.Culture;
@@ -28,7 +28,7 @@
                     OnLanguagesChanged();
                     OnLanguageChanged(cultureInfo);
                 }
-                _cultures.Add(cultureInfo);
+                this.cultures.Add(cultureInfo);
             }
         }
 
@@ -56,13 +56,7 @@
             }
         }
 
-        public static IEnumerable<CultureInfo> AllCultures
-        {
-            get
-            {
-                return InnerAllCultures;
-            }
-        }
+        public static IEnumerable<CultureInfo> AllCultures => InnerAllCultures;
 
         /// <summary>
         /// Translator.Translate(Properties.Resources.ResourceManager, () => Properties.Resources.AllLanguages);
@@ -103,17 +97,17 @@
 
         public bool HasCulture(CultureInfo culture)
         {
-            return _cultures.Any(x => x.TwoLetterISOLanguageName == culture.TwoLetterISOLanguageName);
+            return this.cultures.Any(x => x.TwoLetterISOLanguageName == culture.TwoLetterISOLanguageName);
         }
 
         public bool HasKey(string key)
         {
-            return _manager.ResourceManager.GetString(key, CurrentCulture) != null;
+            return this.manager.ResourceManager.GetString(key, CurrentCulture) != null;
         }
 
         public string Translate(string key)
         {
-            var translated  = _manager.ResourceManager.GetString(key, CurrentCulture);
+            var translated  = this.manager.ResourceManager.GetString(key, CurrentCulture);
             if (translated == null)
             {
                 return string.Format(Resources.MissingKeyFormat, key);
@@ -123,20 +117,12 @@
 
         private static void OnLanguageChanged(CultureInfo e)
         {
-            var handler = LanguageChanged;
-            if (handler != null)
-            {
-                handler(null, e);
-            }
+            LanguageChanged?.Invoke(null, e);
         }
 
         private static void OnLanguagesChanged()
         {
-            var handler = LanguagesChanged;
-            if (handler != null)
-            {
-                handler(null, EventArgs.Empty);
-            }
+            LanguagesChanged?.Invoke(null, EventArgs.Empty);
         }
     }
 }

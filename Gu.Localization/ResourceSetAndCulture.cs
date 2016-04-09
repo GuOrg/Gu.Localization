@@ -10,7 +10,9 @@
             this.ResourceSet = resourceSet;
             this.Culture = culture;
         }
-        public ResourceSet ResourceSet { get; private set; }
-        public CultureInfo Culture { get; private set; }
+
+        public ResourceSet ResourceSet { get; }
+
+        public CultureInfo Culture { get; }
     }
 }

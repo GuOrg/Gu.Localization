@@ -8,13 +8,13 @@
 
     public class NamespacesTests
     {
-        private Assembly _assembly;
+        private Assembly assembly;
         private const string Uri = @"http://gu.se/Localization";
 
         [SetUp]
         public void SetUp()
         {
-            _assembly = typeof(Gu.Wpf.Localization.StaticExtension).Assembly;
+            this.assembly = typeof(Localization.StaticExtension).Assembly;
         }
 
         [Test]
@@ -22,13 +22,13 @@
         {
             string[] skip = { ".Annotations", ".Properties", "XamlGeneratedNamespace" };
 
-            var strings = _assembly.GetTypes()
+            var strings = this.assembly.GetTypes()
                                   .Select(x => x.Namespace)
                                   .Distinct()
-                                  .Where(x => !skip.Any(s => x.EndsWith(s)))
+                                  .Where(x => !skip.Any(x.EndsWith))
                                   .OrderBy(x => x)
                                   .ToArray();
-            var attributes = _assembly.CustomAttributes.Where(x => x.AttributeType == typeof(XmlnsDefinitionAttribute))
+            var attributes = this.assembly.CustomAttributes.Where(x => x.AttributeType == typeof(XmlnsDefinitionAttribute))
                                      .ToArray();
             var actuals = attributes.Select(a => a.ConstructorArguments[1].Value)
                                                              .OrderBy(x => x);
@@ -46,7 +46,7 @@
         [Test]
         public void XmlnsPrefix()
         {
-            var prefixAttribute = _assembly.CustomAttributes.Single(x => x.AttributeType == typeof(XmlnsPrefixAttribute));
+            var prefixAttribute = this.assembly.CustomAttributes.Single(x => x.AttributeType == typeof(XmlnsPrefixAttribute));
             Assert.AreEqual(Uri, prefixAttribute.ConstructorArguments[0].Value);
         }
     }

@@ -33,7 +33,6 @@
             var allLanguages = Properties.Resources.AllLanguages;
             Translator.CurrentCulture = CultureInfo.GetCultureInfo("sv");
             actual = Translator.Translate(Properties.Resources.ResourceManager, () => Properties.Resources.AllLanguages);
-            allLanguages = Properties.Resources.AllLanguages;
             Assert.AreEqual("Svenska", actual);
         }
 

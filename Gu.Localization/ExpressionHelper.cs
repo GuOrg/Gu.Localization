@@ -13,11 +13,7 @@
 
         internal static ResourceManager GetResourceManager(Expression<Func<string>> key)
         {
-            if (key == null)
-            {
-                return null;
-            }
-            var memberExpression = key.Body as MemberExpression;
+            var memberExpression = key?.Body as MemberExpression;
             if (memberExpression == null)
             {
                 return null;
@@ -32,26 +28,15 @@
             {
                 return null;
             }
-            if (key == null)
-            {
-                return null;
-            }
-            var memberExpression = key.Body as MemberExpression;
-            if (memberExpression == null)
-            {
-                return null;
-            }
-            return memberExpression.Member.Name;
+
+            var memberExpression = key?.Body as MemberExpression;
+            return memberExpression?.Member.Name;
         }
 
         internal static string PropertyName<T>(Expression<Func<T>> prop)
         {
             var memberExpression = prop.Body as MemberExpression;
-            if (memberExpression == null)
-            {
-                return null;
-            }
-            return memberExpression.Member.Name;
+            return memberExpression?.Member.Name;
         }
 
         private static ResourceManager FromType(Type type)

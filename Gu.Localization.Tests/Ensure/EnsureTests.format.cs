@@ -1,7 +1,6 @@
 ﻿namespace Gu.Localization.Tests
 {
     using System;
-    using System.Collections.Generic;
     using NUnit.Framework;
 
     public partial class EnsureTests
@@ -31,39 +30,33 @@
             Assert.False(Ensure.FormatMatches(data.Format, data.Args));
         }
 
-        private class Valids : List<FormatData>
-        {
-            public Valids()
-            {
-                Add(new FormatData(@"some string", null));
-                Add(new FormatData(@"some string", new object[0]));
-                Add(new FormatData(@"string with {0} parameter", new object[] { 1 }));
-                Add(new FormatData(@"string with {0} parameter {0} in to places", new object[] { 1 }));
-                Add(new FormatData(@"string with {0} parameter {1} in to places", new object[] { 2, 2 }));
-                Add(new FormatData(@"string with {0} parameter {1} in to places {0}", new object[] { 2, 2 }));
-                Add(new FormatData("string with {0} parameter {1} in {2} places", new object[] { 1, 2, 3 }));
-            }
-        }
+        public static FormatData[] Valids => new[]
+                                          {
+                                              new FormatData(@"some string", null),
+                                              new FormatData(@"some string", new object[0]),
+                                              new FormatData(@"string with {0} parameter", new object[] { 1 }),
+                                              new FormatData(@"string with {0} parameter {0} in to places", new object[] { 1 }),
+                                              new FormatData(@"string with {0} parameter {1} in to places", new object[] { 2, 2 }),
+                                              new FormatData(@"string with {0} parameter {1} in to places {0}", new object[] { 2, 2 }),
+                                              new FormatData("string with {0} parameter {1} in {2} places", new object[] { 1, 2, 3 }),
+                                          };
 
-        private class InValids : List<FormatData>
-        {
-            public InValids()
-            {
-                Add(new FormatData("some string", new object[] { 1 }));
-                Add(new FormatData("string with {0} parameter", null));
-                Add(new FormatData("string with {1} parameter", new object[] { 1 }));
-                Add(new FormatData("string with {0} parameter {2}", new object[] { 1, 2 }));
-                Add(new FormatData("string with {0} parameter", new object[0]));
-                Add(new FormatData("string with {0} parameter", new object[] { 1, 2 }));
-                Add(new FormatData("string with {0} parameter {0} in to places", null));
-                Add(new FormatData("string with {0} parameter {0} in to places", new object[0]));
-                Add(new FormatData("string with {0} parameter {0} in to places", new object[] { 1, 2 }));
-                Add(new FormatData("string with {0} parameter {1} in to places", null));
-                Add(new FormatData("string with {0} parameter {1} in to places", new object[0]));
-                Add(new FormatData("string with {0} parameter {1} in to places", new object[] { 1 }));
-                Add(new FormatData("string with {0} parameter {1} in to places", new object[] { 1, 2, 3 }));
-            }
-        }
+        public static FormatData[] InValids => new[]
+                    {
+                        new FormatData("some string", new object[] { 1 }),
+                        new FormatData("string with {0} parameter", null),
+                        new FormatData("string with {1} parameter", new object[] { 1 }),
+                        new FormatData("string with {0} parameter {2}", new object[] { 1, 2 }),
+                        new FormatData("string with {0} parameter", new object[0]),
+                        new FormatData("string with {0} parameter", new object[] { 1, 2 }),
+                        new FormatData("string with {0} parameter {0} in to places", null),
+                        new FormatData("string with {0} parameter {0} in to places", new object[0]),
+                        new FormatData("string with {0} parameter {0} in to places", new object[] { 1, 2 }),
+                        new FormatData("string with {0} parameter {1} in to places", null),
+                        new FormatData("string with {0} parameter {1} in to places", new object[0]),
+                        new FormatData("string with {0} parameter {1} in to places", new object[] { 1 }),
+                        new FormatData("string with {0} parameter {1} in to places", new object[] { 1, 2, 3 }),
+                    };
 
         public class FormatData
         {
@@ -72,18 +65,18 @@
 
             public FormatData(string format, object[] args)
             {
-                Format = format;
-                Args = args;
+                this.Format = format;
+                this.Args = args;
             }
 
             public override string ToString()
             {
-                var args = Args == null
+                var args = this.Args == null
                                ? "null"
-                               : Args.Length == 0
+                               : this.Args.Length == 0
                                      ? "object[0]"
-                                     : string.Join(",", Args);
-                return $"Format: {Format}, Args: {args}";
+                                     : string.Join(",", this.Args);
+                return $"Format: {this.Format}, Args: {args}";
             }
         }
     }

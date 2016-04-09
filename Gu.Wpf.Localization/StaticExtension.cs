@@ -32,7 +32,7 @@ namespace Gu.Wpf.Localization
         /// <summary>
         /// The _xaml type resolver.
         /// </summary>
-        private IXamlTypeResolver _xamlTypeResolver;
+        private IXamlTypeResolver xamlTypeResolver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Gu.Wpf.Localization.StaticExtension"/> class using the provided <paramref name="member"/> string.
@@ -45,7 +45,7 @@ namespace Gu.Wpf.Localization
         /// </exception>
         public StaticExtension(string member)
         {
-            Member = member;
+            this.Member = member;
         }
 
         [ConstructorArgument("member")]
@@ -63,10 +63,10 @@ namespace Gu.Wpf.Localization
         /// An object that can provide services for the markup extension. The service provider is expected to provide a service that implements a type resolver (<see cref="T:System.Windows.Markup.IXamlTypeResolver"/>).
         /// </param>
         /// <exception cref="T:System.InvalidOperationException">
-        /// The <paramref name="member"/> value for the extension is null at the time of evaluation.
+        /// The <see cref="Member"/> value for the extension is null at the time of evaluation.
         /// </exception>
         /// <exception cref="T:System.ArgumentException">
-        /// Some part of the <paramref name="member"/> string did not parse properly-or-<paramref name="serviceProvider"/> did not provide a service for <see cref="T:System.Windows.Markup.IXamlTypeResolver"/>-or-<paramref name="member"/> value did not resolve to a static member.
+        /// Some part of the <see cref="Member"/> string did not parse properly-or-<paramref name="serviceProvider"/> did not provide a service for <see cref="T:System.Windows.Markup.IXamlTypeResolver"/>-or-<see cref="Member"/> value did not resolve to a static member.
         /// </exception>
         /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="serviceProvider"/> is null.
@@ -75,10 +75,10 @@ namespace Gu.Wpf.Localization
         {
             if (serviceProvider == null)
             {
-                throw new ArgumentNullException("serviceProvider");
+                throw new ArgumentNullException(nameof(serviceProvider));
             }
 
-            if (string.IsNullOrEmpty(Member))
+            if (string.IsNullOrEmpty(this.Member))
             {
                 throw new InvalidOperationException("MarkupExtensionStaticMember");
             }
@@ -87,18 +87,18 @@ namespace Gu.Wpf.Localization
             {
                 if (DesignMode.IsDesignMode && IsInTemplate(serviceProvider))
                 {
-                    _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
+                    this.xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
                     return this;
                 }
 
-                if (_xamlTypeResolver == null)
+                if (this.xamlTypeResolver == null)
                 {
-                    _xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
+                    this.xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
                 }
-                var resourceKey = new ResourceKey(Member, _xamlTypeResolver, DesignMode.IsDesignMode);
+                var resourceKey = new ResourceKey(this.Member, this.xamlTypeResolver, DesignMode.IsDesignMode);
                 if (resourceKey.HasError)
                 {
-                    return string.Format(Resources.UnknownErrorFormat, Member);
+                    return string.Format(Resources.UnknownErrorFormat, this.Member);
                 }
                 var translation = new Translation(resourceKey.ResourceManager, resourceKey.Key);
                 var binding = new Binding(ExpressionHelper.PropertyName(() => translation.Translated))
@@ -124,7 +124,7 @@ namespace Gu.Wpf.Localization
                 //    }
                 //}
 
-                return string.Format(Resources.UnknownErrorFormat, Member);
+                return string.Format(Resources.UnknownErrorFormat, this.Member);
             }
         }
 
