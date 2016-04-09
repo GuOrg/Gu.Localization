@@ -2,7 +2,7 @@
 {
     using System.Globalization;
 
-    public class Language 
+    public class Language
     {
         private readonly CultureInfo culture;
 
@@ -26,6 +26,7 @@
                 {
                     return nativeName;
                 }
+
                 return nativeName.Substring(0, 1).ToUpper() + nativeName.Substring(1);
             }
         }

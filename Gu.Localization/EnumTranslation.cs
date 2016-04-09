@@ -59,7 +59,7 @@
         }
 
         /// <summary>
-        /// Protected implementation of Dispose pattern. 
+        /// Protected implementation of Dispose pattern.
         /// </summary>
         /// <param name="disposing">true: safe to free managed resources</param>
         protected virtual void Dispose(bool disposing)
@@ -73,10 +73,10 @@
             {
                 this.translation.PropertyChanged -= this.TranslationOnPropertyChanged;
                 this.translation.Dispose();
-                // Free any other managed objects here. 
+                // Free any other managed objects here.
             }
 
-            // Free any unmanaged objects here. 
+            // Free any unmanaged objects here.
             this.disposed = true;
         }
 

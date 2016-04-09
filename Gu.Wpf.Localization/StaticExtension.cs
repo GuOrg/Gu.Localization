@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="StaticExtension.cs" company="">
-//   
+//
 // </copyright>
 // <summary>
 //   Implements a markup extension that returns static field and property references.
@@ -25,7 +25,8 @@ namespace Gu.Wpf.Localization
     /// l:Static p:Resources.YourKey
     /// </summary>
     [MarkupExtensionReturnType(typeof(string))]
-    [ContentProperty("Member"), DefaultProperty("Member")]
+    [ContentProperty("Member")]
+    [DefaultProperty("Member")]
     [TypeConverter(typeof(StaticExtensionConverter))]
     public class StaticExtension : MarkupExtension
     {
@@ -35,7 +36,7 @@ namespace Gu.Wpf.Localization
         private IXamlTypeResolver xamlTypeResolver;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Gu.Wpf.Localization.StaticExtension"/> class using the provided <paramref name="member"/> string.
+        /// Initializes a new instance of the <see cref="StaticExtension"/> class using the provided <paramref name="member"/> string.
         /// </summary>
         /// <param name="member">
         /// A string that identifies the member to make a reference to. This string uses the format prefix:typeName.fieldOrPropertyName. prefix is the mapping prefix for a XAML namespace, and is only required to reference static values that are not mapped to the default XAML namespace.
@@ -95,11 +96,13 @@ namespace Gu.Wpf.Localization
                 {
                     this.xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
                 }
+
                 var resourceKey = new ResourceKey(this.Member, this.xamlTypeResolver, DesignMode.IsDesignMode);
                 if (resourceKey.HasError)
                 {
                     return string.Format(Resources.UnknownErrorFormat, this.Member);
                 }
+
                 var translation = new Translation(resourceKey.ResourceManager, resourceKey.Key);
                 var binding = new Binding(ExpressionHelper.PropertyName(() => translation.Translated))
                 {
@@ -112,17 +115,17 @@ namespace Gu.Wpf.Localization
             }
             catch (Exception exception)
             {
-                //if (DesignMode.IsDesignMode)
-                //{
-                //    if (exception is XamlParseException)
-                //    {
-                //        return Member;
-                //    }
-                //    else
-                //    {
-                //        throw;
-                //    }
-                //}
+                ////if (DesignMode.IsDesignMode)
+                ////{
+                ////    if (exception is XamlParseException)
+                ////    {
+                ////        return Member;
+                ////    }
+                ////    else
+                ////    {
+                ////        throw;
+                ////    }
+                ////}
 
                 return string.Format(Resources.UnknownErrorFormat, this.Member);
             }

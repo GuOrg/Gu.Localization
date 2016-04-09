@@ -56,6 +56,7 @@
             {
                 return "null";
             }
+
             return value.ToString();
         }
     }

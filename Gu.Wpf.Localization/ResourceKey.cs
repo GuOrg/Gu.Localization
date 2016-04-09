@@ -19,6 +19,7 @@
                 {
                     throw new ArgumentException("Expecting format p:Resources.Key was:" + member);
                 }
+
                 return;
             }
 

@@ -18,6 +18,7 @@
             {
                 return null;
             }
+
             var declaringType = memberExpression.Member.DeclaringType;
             return FromType(declaringType);
         }

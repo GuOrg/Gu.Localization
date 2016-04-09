@@ -13,12 +13,14 @@
     {
         private static readonly ConcurrentDictionary<ResourceManager, ResourceSetAndCulture[]> Cache = new ConcurrentDictionary<ResourceManager, ResourceSetAndCulture[]>();
         private static readonly ConcurrentDictionary<Type, ResourceManager> TypeResourceManagerMap = new ConcurrentDictionary<Type, ResourceManager>();
+
         internal ResourceManagerWrapper(ResourceManager resourceManager)
         {
             if (resourceManager == null)
             {
                 throw new ArgumentNullException(nameof(resourceManager));
             }
+
             this.ResourceManager = resourceManager;
             this.ResourceSets = Cache.GetOrAdd(
                 resourceManager,
@@ -44,12 +46,14 @@
                 {
                     return null;
                 }
+
                 manager = propertyInfo.GetValue(null) as ResourceManager;
                 if (manager != null)
                 {
                     TypeResourceManagerMap.TryAdd(type, manager);
                 }
             }
+
             return manager;
         }
 

@@ -17,12 +17,14 @@
                 var message = $"Expected the format items to be [0..n). They were: {joined}";
                 throw new ArgumentException(message, $"{formatParameterName},{argsParameterName}");
             }
+
             if (items.Count == 0)
             {
                 if (args == null || args.Length == 0)
                 {
                     return;
                 }
+
                 var message = $"The format string: {format} contains no arguments but: {string.Join(",", args)} was passed as args";
                 throw new ArgumentException(message, $"{formatParameterName},{argsParameterName}");
             }
@@ -47,6 +49,7 @@
             {
                 return false;
             }
+
             return items.Count == (args?.Length ?? 0);
         }
 
@@ -59,11 +62,13 @@
                 {
                     return false;
                 }
+
                 if (index < 0 || index >= items.Count)
                 {
                     return false;
                 }
             }
+
             return true;
         }
 

@@ -12,8 +12,8 @@
     public class Translator
     {
         private static readonly List<CultureInfo> InnerAllCultures = new List<CultureInfo>();
+        private static CultureInfo currentCulture;
         private readonly List<CultureInfo> cultures = new List<CultureInfo>();
-        private static CultureInfo _currentCulture;
         private readonly ResourceManagerWrapper manager;
 
         internal Translator(ResourceManagerWrapper manager)
@@ -28,6 +28,7 @@
                     OnLanguagesChanged();
                     OnLanguageChanged(cultureInfo);
                 }
+
                 this.cultures.Add(cultureInfo);
             }
         }
@@ -43,15 +44,17 @@
         {
             get
             {
-                return _currentCulture ?? AllCultures.FirstOrDefault();
+                return currentCulture ?? AllCultures.FirstOrDefault();
             }
+
             set
             {
-                if (Equals(_currentCulture, value))
+                if (Equals(currentCulture, value))
                 {
                     return;
                 }
-                _currentCulture = value;
+
+                currentCulture = value;
                 OnLanguageChanged(value);
             }
         }
@@ -70,6 +73,7 @@
             {
                 return Translate(resourceManager, ExpressionHelper.GetResourceKey(key));
             }
+
             return Translate(resourceManager, key.Compile().Invoke());
         }
 
@@ -79,6 +83,7 @@
             {
                 return Translate(ExpressionHelper.GetResourceManager(key), ExpressionHelper.GetResourceKey(key));
             }
+
             return Translate(null, key.Compile().Invoke());
         }
 
@@ -88,10 +93,12 @@
             {
                 return string.Format(Resources.NullManagerFormat, key);
             }
+
             if (string.IsNullOrEmpty(key))
             {
                 return "null";
             }
+
             return resourceManager.GetString(key, CurrentCulture);
         }
 
@@ -107,11 +114,12 @@
 
         public string Translate(string key)
         {
-            var translated  = this.manager.ResourceManager.GetString(key, CurrentCulture);
+            var translated = this.manager.ResourceManager.GetString(key, CurrentCulture);
             if (translated == null)
             {
                 return string.Format(Resources.MissingKeyFormat, key);
             }
+
             return translated;
         }
 

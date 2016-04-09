@@ -12,6 +12,8 @@
 
     public class LanguageSelector : Control, IDisposable
     {
+#pragma warning disable SA1202 // Elements must be ordered by access
+
         public static readonly DependencyProperty CurrentLanguageProperty = DependencyProperty.Register(
             "CurrentLanguage",
             typeof(Language),
@@ -35,6 +37,8 @@
                     FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
         public static readonly DependencyProperty LanguagesProperty = LanguagesPropertyKey.DependencyProperty;
+
+#pragma warning restore SA1202 // Elements must be ordered by access
 
         private bool disposed = false;
 
@@ -81,7 +85,7 @@
         }
 
         /// <summary>
-        /// Protected implementation of Dispose pattern. 
+        /// Protected implementation of Dispose pattern.
         /// </summary>
         /// <param name="disposing">
         /// true: safe to free managed resources
@@ -99,7 +103,7 @@
                 Translator.LanguageChanged -= this.OnLanguageChanged;
             }
 
-            // Free any unmanaged objects here. 
+            // Free any unmanaged objects here.
             this.disposed = true;
         }
 
@@ -131,6 +135,7 @@
             {
                 return;
             }
+
             var currentCulture = Translator.CurrentCulture;
             var language = currentCulture != null
                                ? this.Languages.FirstOrDefault(

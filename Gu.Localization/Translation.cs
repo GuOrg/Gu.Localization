@@ -6,17 +6,17 @@
     using System.Linq.Expressions;
     using System.Resources;
     using System.Runtime.CompilerServices;
-
-    using JetBrains.Annotations;
     using Gu.Localization.Properties;
+    using JetBrains.Annotations;
 
     public class Translation : ITranslation
     {
+        internal readonly Translator Translator;
         private readonly string key;
         private readonly Func<string> keyGetter;
-        internal readonly Translator Translator;
-        private bool disposed = false;
         private readonly IDisposable subscription;
+        private bool disposed = false;
+
         public Translation(Expression<Func<string>> key)
         {
             if (ExpressionHelper.IsResourceKey(key))
@@ -65,14 +65,17 @@
                 {
                     return string.Format(Resources.NullManagerFormat, currentKey);
                 }
+
                 if (!this.Translator.HasKey(currentKey))
                 {
                     return string.Format(Resources.MissingKeyFormat, currentKey);
                 }
+
                 if (!this.Translator.HasCulture(Translator.CurrentCulture))
                 {
                     return string.Format(Resources.MissingTranslationFormat, currentKey);
                 }
+
                 return this.Translator.Translate(currentKey);
             }
         }
@@ -88,7 +91,7 @@
         }
 
         /// <summary>
-        /// Protected implementation of Dispose pattern. 
+        /// Protected implementation of Dispose pattern.
         /// </summary>
         /// <param name="disposing">true: safe to free managed resources</param>
         protected virtual void Dispose(bool disposing)
@@ -103,6 +106,7 @@
                 Translator.LanguageChanged -= this.OnLanguageChanged;
                 this.subscription?.Dispose();
             }
+
             this.disposed = true;
         }
 

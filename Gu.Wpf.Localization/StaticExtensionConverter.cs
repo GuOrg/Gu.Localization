@@ -29,6 +29,7 @@ namespace Gu.Wpf.Localization
             {
                 return base.ConvertTo(context, culture, value, destinationType);
             }
+
             var resourceExtension = value as StaticExtension;
             if (resourceExtension == null)
             {

@@ -19,6 +19,7 @@
             {
                 return null;
             }
+
             var binding = this.languageBindings.FirstOrDefault(x => x.Culture != null && x.Culture.TwoLetterISOLanguageName == cultureInfo.TwoLetterISOLanguageName);
             return binding?.Flag;
         }
