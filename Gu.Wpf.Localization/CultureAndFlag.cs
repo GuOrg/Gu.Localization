@@ -6,6 +6,7 @@
     public class CultureAndFlag
     {
         public CultureInfo Culture { get; set; }
+
         public ImageSource Flag { get; set; }
     }
 }

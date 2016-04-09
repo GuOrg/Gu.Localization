@@ -69,15 +69,12 @@
                 return;
             }
 
+            this.disposed = true;
             if (disposing)
             {
                 this.translation.PropertyChanged -= this.TranslationOnPropertyChanged;
                 this.translation.Dispose();
-                // Free any other managed objects here.
             }
-
-            // Free any unmanaged objects here.
-            this.disposed = true;
         }
 
         [NotifyPropertyChangedInvocator]

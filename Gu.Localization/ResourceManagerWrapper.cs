@@ -65,7 +65,7 @@
 
         private static IEnumerable<ResourceSetAndCulture> GetCultures(ResourceManager manager)
         {
-            var cultureInfos = CultureInfo.GetCultures(CultureTypes.NeutralCultures).Where(x => x.Name != "");
+            var cultureInfos = CultureInfo.GetCultures(CultureTypes.NeutralCultures).Where(x => x.Name != string.Empty);
             foreach (var culture in cultureInfos)
             {
                 var resourceSet = manager.GetResourceSet(culture, true, false);
