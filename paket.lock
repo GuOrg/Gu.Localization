@@ -1,7 +1,7 @@
 NUGET
-  remote: https://nuget.org/api/v2
+  remote: https://www.nuget.org/api/v2
   specs:
-    JetBrains.Annotations (10.0.0)
+    JetBrains.Annotations (10.0)
     ModernUI.WPF (1.0.6)
     Moq (4.2.1510.2205)
-    NUnit (3.0.0)
+    NUnit (3.0)

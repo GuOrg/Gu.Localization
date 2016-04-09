@@ -3,4 +3,4 @@ source https://www.nuget.org/api/v2/
 nuget JetBrains.Annotations
 nuget ModernUI.WPF
 nuget Moq
-nuget NUnit
+nuget NUnit 2.6.4
