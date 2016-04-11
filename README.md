@@ -2,8 +2,13 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md) 
 [![Build status](https://ci.appveyor.com/api/projects/status/ili1qk8amyjmd71t?svg=true)](https://ci.appveyor.com/project/JohanLarsson/gu-localization)
 
-
-## Usage in XAML
+## Table of Contents
+- [1. Usage in XAML.](#1-usageinxaml)
+- [2. Usage in code](#2-usageincode)
+- [3. Error formats](#3-errorformats)
+- [3. LanguageSelector](#4-languageselector)
+- 
+## 1. Usage in XAML.
 
 The library has a `StaticExtension` markupextension that is used when translating.
 The reason for naming it `StaticExtension` and not `TranslateExtension` is that Resharper provides intellisense when named `StaticExtension`
@@ -18,7 +23,7 @@ Binding the text like below updates the text when `Translator.CurrentCulture`cha
     ...
 ```
 
-## Usage in code
+## 2. Usage in code.
 ```
 string translated = Translator.Translate(() => Resources.SomeResource);
 ```
@@ -26,7 +31,7 @@ string translated = Translator.Translate(() => Resources.SomeResource);
 ## Misc.
 Does not use CurrentUICulture, set the culture explicitly.
 
-## Error formats
+## 3. Error formats
 | Error               |  Format      |
 |---------------------|:------------:|
 | missing key         |    `!{0}!`   |
@@ -34,3 +39,28 @@ Does not use CurrentUICulture, set the culture explicitly.
 | missing translation |    `_{0}_`   |
 | missing resources   |    `?{0}?`   |
 | unknown error       |    `#{0}#`   |
+
+## 3. LanguageSelector
+A simple control for changing current language.
+
+`AutogenerateLanguages="True"` displays all cultures found in the running application and picks the default flag.
+A few flags are included in the library, many are probably missing.
+
+```
+<l:LanguageSelector AutogenerateLanguages="True" />
+```
+
+Or
+
+```
+<l:LanguageSelector>
+    <l:Language Culture="de-DE"
+                FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/de.png" />
+    <l:Language Culture="en-GB"
+                FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/en.png" />                
+    <l:Language Culture="sv-SE"
+                FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/sv.png" />
+</l:LanguageSelector>
+```
+
+![screenie](http://i.imgur.com/DKfx8WB.png)
