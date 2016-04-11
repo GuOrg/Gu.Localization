@@ -85,9 +85,9 @@
 
         private void TranslationOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if (propertyChangedEventArgs.PropertyName == ExpressionHelper.PropertyName(() => this.translation.Translated))
+            if (propertyChangedEventArgs.PropertyName == nameof(this.Translated))
             {
-                this.OnPropertyChanged(ExpressionHelper.PropertyName(() => this.Translated));
+                this.OnPropertyChanged(nameof(this.Translated));
             }
         }
     }

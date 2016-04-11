@@ -118,7 +118,7 @@
 
         private void OnLanguageChanged(object sender, CultureInfo e)
         {
-            this.OnPropertyChanged(ExpressionHelper.PropertyName(() => this.Translated));
+            this.OnPropertyChanged(nameof(this.Translated));
         }
     }
 }

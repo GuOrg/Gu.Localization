@@ -20,7 +20,7 @@
 
             Translator.CurrentCulture = new CultureInfo("sv");
             Assert.AreEqual("Svenska", translation.Translated);
-            Assert.AreEqual(1, argses.Count(x => x.PropertyName == ExpressionHelper.PropertyName(() => translation.Translated)));
+            Assert.AreEqual(1, argses.Count(x => x.PropertyName == nameof(translation.Translated)));
         }
 
         [Test]

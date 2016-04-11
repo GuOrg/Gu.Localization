@@ -6,13 +6,14 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Resources;
+    using System.Threading;
 
     using Gu.Localization.Properties;
 
     public class Translator
     {
         private static readonly List<CultureInfo> InnerAllCultures = new List<CultureInfo>();
-        private static CultureInfo currentCulture;
+        private static CultureInfo currentCulture = Thread.CurrentThread.CurrentUICulture;
         private readonly List<CultureInfo> cultures = new List<CultureInfo>();
         private readonly ResourceManagerWrapper manager;
 
@@ -33,12 +34,18 @@
             }
         }
 
+        /// <summary>
+        /// Notifies when the current language changes.
+        /// </summary>
         public static event EventHandler<CultureInfo> LanguageChanged;
 
+        /// <summary>
+        /// Notifies when languages are added or removed.
+        /// </summary>
         public static event EventHandler<EventArgs> LanguagesChanged;
 
         /// <summary>
-        /// The culture to translate to
+        /// Gets or sets the culture to translate to
         /// </summary>
         public static CultureInfo CurrentCulture
         {
@@ -62,11 +69,13 @@
         public static IReadOnlyList<CultureInfo> AllCultures => InnerAllCultures;
 
         /// <summary>
-        /// Translator.Translate(Properties.Resources.ResourceManager, () => Properties.Resources.AllLanguages);
+        /// Translator.Translate(Properties.Resources.ResourceManager, () => Properties.Resources.SomeKey);
         /// </summary>
-        /// <param name="resourceManager"></param>
+        /// <param name="resourceManager">
+        /// The <see cref="ResourceManager"/> containing translations
+        /// </param>
         /// <param name="key">() => Properties.Resources.AllLanguages</param>
-        /// <returns>The key translated to the CurrentCulture</returns>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
         public static string Translate(ResourceManager resourceManager, Expression<Func<string>> key)
         {
             if (ExpressionHelper.IsResourceKey(key))
@@ -77,6 +86,11 @@
             return Translate(resourceManager, key.Compile().Invoke());
         }
 
+        /// <summary>
+        /// Call like this () => Properties.Resources.SomeKey
+        /// </summary>
+        /// <param name="key">Path to the key. Must be include Resources.</param>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
         public static string Translate(Expression<Func<string>> key)
         {
             if (ExpressionHelper.IsResourceKey(key))
@@ -87,6 +101,14 @@
             return Translate(null, key.Compile().Invoke());
         }
 
+        /// <summary>
+        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
+        /// </summary>
+        /// <param name="resourceManager">
+        /// The <see cref="ResourceManager"/> containing translations
+        /// </param>
+        /// <param name="key">The key in <paramref name="resourceManager"/></param>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
         public static string Translate(ResourceManager resourceManager, string key)
         {
             if (resourceManager == null)
