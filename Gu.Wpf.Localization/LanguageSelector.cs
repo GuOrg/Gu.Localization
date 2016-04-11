@@ -1,7 +1,6 @@
 ﻿namespace Gu.Wpf.Localization
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Globalization;
@@ -38,10 +37,15 @@
             {
                 using (var reader = new ResourceReader(stream))
                 {
-                    FlagNameResourceMap = reader.OfType<DictionaryEntry>()
-                        .Select(x => x.Key)
-                        .OfType<string>()
-                        .ToDictionary(System.IO.Path.GetFileNameWithoutExtension, x => x, StringComparer.OrdinalIgnoreCase);
+                    var flags = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                    var enumerator = reader.GetEnumerator();
+                    while (enumerator.MoveNext())
+                    {
+                        var flag = (string)enumerator.Key;
+                        flags.Add(System.IO.Path.GetFileNameWithoutExtension(flag), flag);
+                    }
+
+                    FlagNameResourceMap = flags;
                 }
             }
         }
