@@ -29,8 +29,8 @@ Does not use CurrentUICulture, set the culture explicitly.
 ## Error formats
 | Error               |  Format      |
 |---------------------|:------------:|
-| missing key         |     !{0}!    |
-| missing culture     |     ~{0}~    |
-| missing translation |     _{0}_    |
-| missing resources   |     ?{0}?    |
-| unknown error       |     #{0}#    |
+| missing key         |    `!{0}!`   |
+| missing culture     |    `~{0}~`   |
+| missing translation |    `_{0}_`   |
+| missing resources   |    `?{0}?`   |
+| unknown error       |    `#{0}#`   |
