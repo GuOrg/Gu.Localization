@@ -28,9 +28,10 @@
 
                             <TextBlock Grid.Row="0"
                                        Grid.Column="0"
-                                       Text="KeyInControls" />
+                                       Text="KeyInControls " />
                             <TextBlock Grid.Row="0"
                                        Grid.Column="1"
+                                       AutomationProperties.AutomationId="KeyInControls"
                                        Text="{l:Static p:Resources.KeyInControls}" />
                         </Grid>
                     </Border>

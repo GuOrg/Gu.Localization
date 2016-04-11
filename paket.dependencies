@@ -2,6 +2,7 @@ source http://www.nuget.org/api/v2/
 
 nuget Moq
 nuget NUnit 2.6.4
+nuget TestStack.White
 nuget JetBrains.Annotations
 nuget StyleCop.Analyzers
 nuget ModernUI.WPF
