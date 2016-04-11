@@ -1,9 +1,10 @@
 ﻿namespace Gu.Wpf.Localization
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Globalization;
-    using System.IO.Packaging;
     using System.Linq;
     using System.Resources;
     using System.Windows;
@@ -22,11 +23,27 @@
             typeof(LanguageSelector),
             new PropertyMetadata(default(bool), OnAutoGenerateLanguagesChanged));
 
+        private static readonly IReadOnlyDictionary<string, string> FlagNameResourceMap;
+
         private bool disposed = false;
 
         static LanguageSelector()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(LanguageSelector), new FrameworkPropertyMetadata(typeof(LanguageSelector)));
+            var assembly = typeof(LanguageSelector).Assembly;
+            var names = assembly.GetManifestResourceNames();
+            var match = names.Single(x => x.EndsWith(".g.resources"));
+
+            using (var stream = assembly.GetManifestResourceStream(match))
+            {
+                using (var reader = new ResourceReader(stream))
+                {
+                    FlagNameResourceMap = reader.OfType<DictionaryEntry>()
+                        .Select(x => x.Key)
+                        .OfType<string>()
+                        .ToDictionary(System.IO.Path.GetFileNameWithoutExtension, x => x, StringComparer.OrdinalIgnoreCase);
+                }
+            }
         }
 
         public LanguageSelector()
@@ -111,8 +128,13 @@
                     }
 
                     var language = new Language(cultureInfo);
-                    var key = new Uri($"pack://application:,,,/{this.GetType().Assembly.GetName().Name};component/Flags/{cultureInfo.TwoLetterISOLanguageName}.png", UriKind.Absolute);
-                    language.FlagSource = key;
+                    string flag;
+                    if (FlagNameResourceMap.TryGetValue(cultureInfo.TwoLetterISOLanguageName, out flag))
+                    {
+                        var key = new Uri($"pack://application:,,,/{this.GetType().Assembly.GetName().Name};component/{flag}", UriKind.Absolute);
+                        language.FlagSource = key;
+                    }
+
                     this.Languages.Add(language);
                 }
 
