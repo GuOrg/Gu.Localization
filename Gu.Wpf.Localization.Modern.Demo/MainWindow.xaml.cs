@@ -9,7 +9,7 @@ namespace Gu.Wpf.Localization.Modern.Demo
     {
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

@@ -3,11 +3,11 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for UserControl.xaml
+    /// Interaction logic for LanguageSelectorView.xaml
     /// </summary>
-    public partial class LocalUserControl : UserControl
+    public partial class LanguageSelectorView : UserControl
     {
-        public LocalUserControl()
+        public LanguageSelectorView()
         {
             this.InitializeComponent();
         }

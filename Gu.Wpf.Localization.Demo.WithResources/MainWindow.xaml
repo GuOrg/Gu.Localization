@@ -20,7 +20,7 @@
                       AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.LanguagesComboBoxId}"
                       ItemsSource="{x:Static localization:Translator.AllCultures}"
                       SelectionChanged="OnLanguagesComboBoxSelectionChanged" />
-            <!--<l:LanguageSelector />-->
+            <l:LanguageSelector AutogenerateLanguages="True" />
         </StackPanel>
 
         <UniformGrid Grid.Column="1"

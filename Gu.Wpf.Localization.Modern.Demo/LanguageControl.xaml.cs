@@ -22,7 +22,7 @@ namespace Gu.Wpf.Localization.Modern.Demo
     {
         public LanguageControl()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

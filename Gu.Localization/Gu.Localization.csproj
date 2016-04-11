@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumTranslation.cs" />
+    <Compile Include="Internals\CultureInfoComparer.cs" />
     <Compile Include="Internals\Ensure\Ensure.compare.cs" />
     <Compile Include="Internals\Ensure\Ensure.cs" />
     <Compile Include="Internals\Ensure\Ensure.format.cs" />

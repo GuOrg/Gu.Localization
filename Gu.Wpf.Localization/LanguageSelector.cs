@@ -1,44 +1,26 @@
 ﻿namespace Gu.Wpf.Localization
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Globalization;
+    using System.IO.Packaging;
     using System.Linq;
+    using System.Resources;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Media;
+    using System.Windows.Markup;
+    using System.Windows.Threading;
 
     using Gu.Localization;
 
+    [ContentProperty("Languages")]
     public class LanguageSelector : Control, IDisposable
     {
-#pragma warning disable SA1202 // Elements must be ordered by access
-
-        public static readonly DependencyProperty CurrentLanguageProperty = DependencyProperty.Register(
-            "CurrentLanguage",
-            typeof(Language),
+        public static readonly DependencyProperty AutogenerateLanguagesProperty = DependencyProperty.Register(
+            "AutogenerateLanguages",
+            typeof(bool),
             typeof(LanguageSelector),
-            new PropertyMetadata(
-                new Language(new CultureInfo("en")),
-                OnCurrentLanguageChanged));
-
-        public static readonly DependencyProperty SelectedBrushProperty = DependencyProperty.Register(
-            "SelectedBrush",
-            typeof(Brush),
-            typeof(LanguageSelector),
-            new PropertyMetadata(default(Brush)));
-
-        private static readonly DependencyPropertyKey LanguagesPropertyKey = DependencyProperty.RegisterReadOnly(
-                "Languages",
-                typeof(IEnumerable<Language>),
-                typeof(LanguageSelector),
-                new FrameworkPropertyMetadata(
-                    default(IEnumerable<Language>),
-                    FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
-
-        public static readonly DependencyProperty LanguagesProperty = LanguagesPropertyKey.DependencyProperty;
-
-#pragma warning restore SA1202 // Elements must be ordered by access
+            new PropertyMetadata(default(bool), OnAutoGenerateLanguagesChanged));
 
         private bool disposed = false;
 
@@ -49,99 +31,93 @@
 
         public LanguageSelector()
         {
-            Translator.LanguagesChanged += this.OnLanguagesChanged;
             Translator.LanguageChanged += this.OnLanguageChanged;
+            Translator.LanguagesChanged += this.OnLanguagesChanged;
+            this.Languages = new ObservableCollection<Language>();
+            this.Languages.CollectionChanged += (_, __) => this.UpdateSelected();
+            this.UpdateSelected();
         }
 
-        public Language CurrentLanguage
+        public bool AutogenerateLanguages
         {
-            get { return (Language)this.GetValue(CurrentLanguageProperty); }
-            set { this.SetValue(CurrentLanguageProperty, value); }
-        }
-
-        public Brush SelectedBrush
-        {
-            get { return (Brush)this.GetValue(SelectedBrushProperty); }
-            set { this.SetValue(SelectedBrushProperty, value); }
+            get { return (bool)this.GetValue(AutogenerateLanguagesProperty); }
+            set { this.SetValue(AutogenerateLanguagesProperty, value); }
         }
 
         /// <summary>
-        /// Gets or sets the cultures.
+        /// Gets gets or sets the cultures.
         /// </summary>
-        public IEnumerable<Language> Languages
-        {
-            get { return (IEnumerable<Language>)this.GetValue(LanguagesProperty); }
-            protected set { this.SetValue(LanguagesPropertyKey, value); }
-        }
+        public ObservableCollection<Language> Languages { get; }
 
-        /// <summary>
-        /// Dispose(true); //I am calling you from Dispose, it's safe
-        /// GC.SuppressFinalize(this); //Hey, GC: don't bother calling finalize later
-        /// </summary>
         public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Protected implementation of Dispose pattern.
-        /// </summary>
-        /// <param name="disposing">
-        /// true: safe to free managed resources
-        /// </param>
-        protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)
             {
                 return;
             }
 
+            this.disposed = true;
+            this.Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
             if (disposing)
             {
-                Translator.LanguagesChanged -= this.OnLanguagesChanged;
                 Translator.LanguageChanged -= this.OnLanguageChanged;
             }
-
-            // Free any unmanaged objects here.
-            this.disposed = true;
         }
 
-        private static void OnCurrentLanguageChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        private static void OnAutoGenerateLanguagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var language = e.NewValue as Language;
-            Translator.CurrentCulture = language != null
-                                            ? Translator.AllCultures.FirstOrDefault(x => x.TwoLetterISOLanguageName == language.Culture.TwoLetterISOLanguageName)
-                                            : null;
+            ((LanguageSelector)d).OnLanguagesChanged(null, null);
         }
 
-        private void OnLanguagesChanged(object sender, EventArgs eventArgs)
+        private void OnLanguagesChanged(object _, EventArgs __)
         {
-            this.Dispatcher.BeginInvoke(
-                () =>
-                {
-                    this.Languages = Translator.AllCultures.Select(x => new Language(x)).ToArray();
-                    var currentCulture = Translator.CurrentCulture;
-                    if (currentCulture != null)
-                    {
-                        this.CurrentLanguage = this.Languages.FirstOrDefault(x => x.Culture.TwoLetterISOLanguageName == currentCulture.TwoLetterISOLanguageName);
-                    }
-                });
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(this.SyncLanguages));
         }
 
         private void OnLanguageChanged(object sender, CultureInfo e)
         {
-            if (this.Languages == null)
-            {
-                return;
-            }
+            this.UpdateSelected();
+        }
 
-            var currentCulture = Translator.CurrentCulture;
-            var language = currentCulture != null
-                               ? this.Languages.FirstOrDefault(
-                                   x => x.Culture.TwoLetterISOLanguageName == currentCulture.TwoLetterISOLanguageName)
-                               : null;
-            this.Dispatcher.BeginInvoke(() => this.CurrentLanguage = language);
+        private void UpdateSelected()
+        {
+            foreach (var language in this.Languages)
+            {
+                language.IsSelected = CultureInfoComparer.Equals(language.Culture, Translator.CurrentCulture);
+            }
+        }
+
+        private void SyncLanguages()
+        {
+            if (this.AutogenerateLanguages)
+            {
+                for (int i = this.Languages.Count - 1; i >= 0; i--)
+                {
+                    if (!Translator.AllCultures.Contains(this.Languages[i].Culture, CultureInfoComparer.Default))
+                    {
+                        this.Languages.RemoveAt(i);
+                    }
+                }
+
+                foreach (var cultureInfo in Translator.AllCultures)
+                {
+                    if (this.Languages.Any(x => CultureInfoComparer.Equals(x.Culture, cultureInfo)))
+                    {
+                        continue;
+                    }
+
+                    var language = new Language(cultureInfo);
+                    var key = new Uri($"pack://application:,,,/{this.GetType().Assembly.GetName().Name};component/Flags/{cultureInfo.TwoLetterISOLanguageName}.png", UriKind.Absolute);
+                    language.FlagSource = key;
+                    this.Languages.Add(language);
+                }
+
+                this.UpdateSelected();
+            }
         }
     }
 }

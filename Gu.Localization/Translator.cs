@@ -59,7 +59,7 @@
             }
         }
 
-        public static IEnumerable<CultureInfo> AllCultures => InnerAllCultures;
+        public static IReadOnlyList<CultureInfo> AllCultures => InnerAllCultures;
 
         /// <summary>
         /// Translator.Translate(Properties.Resources.ResourceManager, () => Properties.Resources.AllLanguages);
