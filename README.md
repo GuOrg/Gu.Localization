@@ -3,11 +3,11 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/ili1qk8amyjmd71t?svg=true)](https://ci.appveyor.com/project/JohanLarsson/gu-localization)
 
 ## Table of Contents
-- [1. Usage in XAML.](#1-usageinxaml)
-- [2. Usage in code](#2-usageincode)
-- [3. Error formats](#3-errorformats)
-- [3. LanguageSelector](#4-languageselector)
-- 
+- [1. Usage in XAML.](#1-usage-in-xaml)
+- [2. Usage in code](#2-usage-in-code)
+- [3. Error formats](#3-error-formats)
+- [4. LanguageSelector](#4-languageselector)
+
 ## 1. Usage in XAML.
 
 The library has a `StaticExtension` markupextension that is used when translating.
@@ -28,9 +28,6 @@ Binding the text like below updates the text when `Translator.CurrentCulture`cha
 string translated = Translator.Translate(() => Resources.SomeResource);
 ```
 
-## Misc.
-Does not use CurrentUICulture, set the culture explicitly.
-
 ## 3. Error formats
 | Error               |  Format      |
 |---------------------|:------------:|
@@ -40,7 +37,7 @@ Does not use CurrentUICulture, set the culture explicitly.
 | missing resources   |    `?{0}?`   |
 | unknown error       |    `#{0}#`   |
 
-## 3. LanguageSelector
+## 4. LanguageSelector
 A simple control for changing current language.
 
 `AutogenerateLanguages="True"` displays all cultures found in the running application and picks the default flag.
