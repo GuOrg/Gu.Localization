@@ -3,7 +3,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/ili1qk8amyjmd71t?svg=true)](https://ci.appveyor.com/project/JohanLarsson/gu-localization)
 
 
-## Usage in xaml:
+## Usage in XAML
 
 The library has a `StaticExtension` markupextension that is used when translating.
 The reason for naming it `StaticExtension` and not `TranslateExtension` is that Resharper provides intellisense when named `StaticExtension`
@@ -18,10 +18,19 @@ Binding the text like below updates the text when `Translator.CurrentCulture`cha
     ...
 ```
 
-## Usage in code:
+## Usage in code
 ```
 string translated = Translator.Translate(() => Resources.SomeResource);
 ```
 
 ## Misc.
 Does not use CurrentUICulture, set the culture explicitly.
+
+## Error formats
+| Error               |  Format      |
+|---------------------|:------------:|
+| missing key         |     !{0}!    |
+| missing culture     |     ~{0}~    |
+| missing translation |     _{0}_    |
+| missing resources   |     ?{0}?    |
+| unknown error       |     #{0}#    |
