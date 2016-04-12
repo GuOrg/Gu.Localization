@@ -43,12 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumTranslation.cs" />
+    <Compile Include="Internals\Constants.cs" />
     <Compile Include="Internals\CultureInfoComparer.cs" />
     <Compile Include="Internals\Ensure\Ensure.compare.cs" />
     <Compile Include="Internals\Ensure\Ensure.cs" />
     <Compile Include="Internals\Ensure\Ensure.format.cs" />
     <Compile Include="Internals\Ensure\Ensure.string.cs" />
     <Compile Include="Internals\ExpressionHelper.cs" />
+    <Compile Include="Internals\ResourceManagerExt.cs" />
     <Compile Include="ITranslation.cs" />
     <Compile Include="Internals\Observer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
