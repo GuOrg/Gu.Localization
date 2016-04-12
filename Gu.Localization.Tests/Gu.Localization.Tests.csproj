@@ -60,6 +60,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ResourceManagerWrapperTests.cs" />
+    <Compile Include="Internals\CultureTests.cs" />
+    <Compile Include="Sandbox\Translations.cs" />
+    <Compile Include="Sandbox\Translations.FromFiles.cs" />
+    <Compile Include="Sandbox\TranslationsTests.cs" />
     <Compile Include="TranslationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TranslatorTests.cs" />

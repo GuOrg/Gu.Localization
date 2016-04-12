@@ -44,7 +44,9 @@
   <ItemGroup>
     <Compile Include="EnumTranslation.cs" />
     <Compile Include="Internals\Constants.cs" />
+    <Compile Include="Internals\Culture.cs" />
     <Compile Include="Internals\CultureInfoComparer.cs" />
+    <Compile Include="Internals\EmptyReadOnlyDictionary.cs" />
     <Compile Include="Internals\Ensure\Ensure.compare.cs" />
     <Compile Include="Internals\Ensure\Ensure.cs" />
     <Compile Include="Internals\Ensure\Ensure.format.cs" />

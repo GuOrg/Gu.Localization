@@ -10,7 +10,7 @@
     internal static class ResourceManagerExt
     {
         private static readonly ConcurrentDictionary<ResourceManager, IReadOnlyList<CultureInfo>> ManagerCulturesMap = new ConcurrentDictionary<ResourceManager, IReadOnlyList<CultureInfo>>(ResourceManagerComparer.Default);
-        private static readonly IReadOnlyList<CultureInfo> AllCultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures).Where(x => x.Name != CultureInfo.InvariantCulture.Name && x.IsValidCultureName()).ToArray();
+        private static readonly IReadOnlyList<CultureInfo> AllCultures = CultureInfo.GetCultures(CultureTypes.AllCultures).Where(x => x.Name != CultureInfo.InvariantCulture.Name && x.IsValidCultureName()).ToArray();
 
         internal static IReadOnlyList<CultureInfo> GetCultures(this ResourceManager manager)
         {
