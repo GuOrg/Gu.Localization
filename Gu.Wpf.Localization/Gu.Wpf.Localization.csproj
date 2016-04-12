@@ -90,6 +90,32 @@
   </Target>
   -->
   <Import Project="..\.paket\paket.targets" />
+  <ItemGroup>
+    <Resource Include="Flags\brazil.png" />
+    <Resource Include="Flags\cz.png" />
+    <Resource Include="Flags\da.png" />
+    <Resource Include="Flags\de.png" />
+    <Resource Include="Flags\el.png" />
+    <Resource Include="Flags\en.png" />
+    <Resource Include="Flags\es.png" />
+    <Resource Include="Flags\fi.png" />
+    <Resource Include="Flags\fr.png" />
+    <Resource Include="Flags\hu.png" />
+    <Resource Include="Flags\is.png" />
+    <Resource Include="Flags\it.png" />
+    <Resource Include="Flags\ja.png" />
+    <Resource Include="Flags\lt.png" />
+    <Resource Include="Flags\nl.png" />
+    <Resource Include="Flags\nn.png" />
+    <Resource Include="Flags\pl.png" />
+    <Resource Include="Flags\pt.png" />
+    <Content Include="Flags\Readme.txt" />
+    <Resource Include="Flags\ro.png" />
+    <Resource Include="Flags\ru.png" />
+    <Resource Include="Flags\sq.png" />
+    <Resource Include="Flags\sv.png" />
+    <Resource Include="Flags\zh.png" />
+  </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v2.0' Or $(TargetFrameworkVersion) == 'v3.0' Or $(TargetFrameworkVersion) == 'v3.5' Or $(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1')">
       <ItemGroup>
@@ -129,31 +155,5 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers\analyzers\dotnet\cs\StyleCop.Analyzers.dll">
       <Paket>True</Paket>
     </Analyzer>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Flags\brazil.png" />
-    <Resource Include="Flags\cz.png" />
-    <Resource Include="Flags\da.png" />
-    <Resource Include="Flags\de.png" />
-    <Resource Include="Flags\el.png" />
-    <Resource Include="Flags\en.png" />
-    <Resource Include="Flags\es.png" />
-    <Resource Include="Flags\fi.png" />
-    <Resource Include="Flags\fr.png" />
-    <Resource Include="Flags\hu.png" />
-    <Resource Include="Flags\is.png" />
-    <Resource Include="Flags\it.png" />
-    <Resource Include="Flags\ja.png" />
-    <Resource Include="Flags\lt.png" />
-    <Resource Include="Flags\nl.png" />
-    <Resource Include="Flags\nn.png" />
-    <Resource Include="Flags\pl.png" />
-    <Resource Include="Flags\pt.png" />
-    <Content Include="Flags\Readme.txt" />
-    <Resource Include="Flags\ro.png" />
-    <Resource Include="Flags\ru.png" />
-    <Resource Include="Flags\sq.png" />
-    <Resource Include="Flags\sv.png" />
-    <Resource Include="Flags\zh.png" />
   </ItemGroup>
 </Project>

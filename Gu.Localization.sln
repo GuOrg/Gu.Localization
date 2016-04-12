@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.UiTests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization.Tests.NoResources", "Gu.Localization.Tests.NoResources\Gu.Localization.Tests.NoResources.csproj", "{D4DB8F6A-2BA1-4952-8FF9-98CFE23AFA45}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization.Benchmarks", "Gu.Localization.Benchmarks\Gu.Localization.Benchmarks.csproj", "{B9062FDE-5780-40BC-B599-53DADD65F56D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,10 @@ Global
 		{D4DB8F6A-2BA1-4952-8FF9-98CFE23AFA45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4DB8F6A-2BA1-4952-8FF9-98CFE23AFA45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4DB8F6A-2BA1-4952-8FF9-98CFE23AFA45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9062FDE-5780-40BC-B599-53DADD65F56D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9062FDE-5780-40BC-B599-53DADD65F56D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9062FDE-5780-40BC-B599-53DADD65F56D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9062FDE-5780-40BC-B599-53DADD65F56D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

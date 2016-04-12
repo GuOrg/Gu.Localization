@@ -61,8 +61,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ResourceManagerWrapper.cs" />
-    <Compile Include="ResourceSetAndCulture.cs" />
+    <Compile Include="ResourceManager\ResourceManagerWrapper.cs" />
+    <Compile Include="ResourceManager\ResourceSetAndCulture.cs" />
     <Compile Include="Translation.cs" />
     <Compile Include="Translator.cs" />
   </ItemGroup>

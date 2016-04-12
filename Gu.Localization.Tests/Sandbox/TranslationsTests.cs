@@ -12,7 +12,7 @@
         public void GetOrCreate()
         {
             var sw = Stopwatch.StartNew();
-            var translations = Translations.GetOrCreate(this.GetType().Assembly);
+            var translations = Sandbox.Translations.GetOrCreate(this.GetType().Assembly);
             Console.WriteLine($"Getting cultures took {sw.Elapsed.TotalMilliseconds.ToString("F2")} ms");
             Assert.AreEqual(Properties.Resources.ResourceManager.BaseName, translations.BaseName);
             CollectionAssert.AreEqual(new[] { "de", "en", "sv" }, translations.Cultures.Select(x => x.TwoLetterISOLanguageName));

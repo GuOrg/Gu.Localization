@@ -30,7 +30,7 @@
 
         public static Translations GetOrCreate(Assembly assembly)
         {
-            return Cache.GetOrAdd(assembly, FromFiles.FindTranslations);
+            return Cache.GetOrAdd(assembly, Translations.FromFiles.FindTranslations);
         }
     }
 }

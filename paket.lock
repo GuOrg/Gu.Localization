@@ -1,6 +1,7 @@
 NUGET
   remote: http://www.nuget.org/api/v2
   specs:
+    BenchmarkDotNet (0.9.4)
     Castle.Core (3.3.3)
     JetBrains.Annotations (10.0)
     ModernUI.WPF (1.0.9)
