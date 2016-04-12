@@ -87,6 +87,19 @@
         }
 
         /// <summary>
+        /// Translator.Translate{Properties.Resources}(nameof(Properties.Resources.SomeKey));
+        /// </summary>
+        /// <typeparam name="T">
+        /// The <see cref="ResourceManager"/> containing translations
+        /// </typeparam>
+        /// <param name="key">() => Properties.Resources.AllLanguages</param>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        public static object Translate<T>(string key)
+        {
+            return Translate(ResourceManagerWrapper.FromType(typeof(T)), key);
+        }
+
+        /// <summary>
         /// Call like this () => Properties.Resources.SomeKey
         /// </summary>
         /// <param name="key">Path to the key. Must be include Resources.</param>
