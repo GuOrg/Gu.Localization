@@ -50,17 +50,16 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="DummyEnum.cs" />
+    <Compile Include="TranslatorGenericTests.cs" />
     <Compile Include="Internals\AssemblyExtTests.cs" />
     <Compile Include="Internals\Ensure\EnsureTests.format.cs" />
     <Compile Include="EnumTranslationTests.cs" />
-    <Compile Include="ExpressionHelperTests.cs" />
-    <Compile Include="Internals\ResourceManagerExtTests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ResourceManagerWrapperTests.cs" />
     <Compile Include="Internals\CultureTests.cs" />
     <Compile Include="Sandbox\Translations.cs" />
     <Compile Include="Sandbox\Translations.FromFiles.cs" />

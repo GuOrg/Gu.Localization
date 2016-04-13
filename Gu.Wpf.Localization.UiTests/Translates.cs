@@ -5,9 +5,7 @@
     using NUnit.Framework;
 
     using TestStack.White;
-    using TestStack.White.Factory;
     using TestStack.White.UIItems;
-    using TestStack.White.UIItems.Finders;
     using TestStack.White.UIItems.ListBoxItems;
     using TestStack.White.UIItems.WindowItems;
 
@@ -106,7 +104,6 @@
             Assert.AreEqual("From Controls", textBlock.Text);
         }
 
-
         [Test]
         public void CustomControlOtherProject()
         {
@@ -119,6 +116,24 @@
 
             this.languageComboBox.Select("en");
             Assert.AreEqual("From Controls", textBlock.Text);
+        }
+
+        [Test]
+        public void NoTranslations()
+        {
+            var groupBox = this.window.Get<GroupBox>(AutomationIds.NoTranslationsGroupId);
+
+            this.languageComboBox.Select("sv");
+            Assert.AreEqual("!MissingKey!", groupBox.Get<Label>(AutomationIds.MissingKeyTextBlockId).Text);
+            Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
+            Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.NeutralOnlyTextBlockId).Text);
+            Assert.AreEqual("#BadFormat#", groupBox.Get<Label>(AutomationIds.BadFromatTextBlockId).Text);
+
+            this.languageComboBox.Select("en");
+            Assert.AreEqual("!MissingKey!", groupBox.Get<Label>(AutomationIds.MissingKeyTextBlockId).Text);
+            Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
+            Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.NeutralOnlyTextBlockId).Text);
+            Assert.AreEqual("#BadFormat#", groupBox.Get<Label>(AutomationIds.BadFromatTextBlockId).Text);
         }
     }
 }

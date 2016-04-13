@@ -19,6 +19,11 @@
         public static readonly string TranslatedToAllTextBlockId = Create();
         public static readonly string SwedishOnlyTextBlockId = Create();
 
+        public static readonly string MissingKeyTextBlockId = Create();
+        public static readonly string SwedishAndNeutralTextBlockId = Create();
+        public static readonly string NeutralOnlyTextBlockId = Create();
+        public static readonly string BadFromatTextBlockId = Create();
+
         private static string Create([CallerMemberName] string name = null)
         {
             return name;

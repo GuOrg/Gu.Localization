@@ -103,8 +103,8 @@ namespace Gu.Wpf.Localization
                     return string.Format(Resources.UnknownErrorFormat, this.Member);
                 }
 
-                var translation = new Translation(resourceKey.ResourceManager, resourceKey.Key);
-                var binding = new Binding(ExpressionHelper.PropertyName(() => translation.Translated))
+                var translation = Translation.GetOrCreate(resourceKey.ResourceManager, resourceKey.Key);
+                var binding = new Binding(nameof(translation.Translated))
                 {
                     Mode = BindingMode.OneWay,
                     UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,

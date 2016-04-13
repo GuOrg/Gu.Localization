@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumTranslation.cs" />
+    <Compile Include="Internals\AppDomainExt.cs" />
     <Compile Include="Internals\AssemblyExt.cs" />
     <Compile Include="Internals\Constants.cs" />
     <Compile Include="Internals\Culture.cs" />
@@ -52,20 +53,18 @@
     <Compile Include="Internals\Ensure\Ensure.cs" />
     <Compile Include="Internals\Ensure\Ensure.format.cs" />
     <Compile Include="Internals\Ensure\Ensure.string.cs" />
-    <Compile Include="Internals\ExpressionHelper.cs" />
-    <Compile Include="Internals\ResourceManagerExt.cs" />
+    <Compile Include="Internals\ResourceCultures.cs" />
     <Compile Include="ITranslation.cs" />
-    <Compile Include="Internals\Observer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ResourceManager\ResourceManagerWrapper.cs" />
-    <Compile Include="ResourceManager\ResourceSetAndCulture.cs" />
+    <Compile Include="Internals\ResourceManagers.cs" />
     <Compile Include="Translation.cs" />
     <Compile Include="Translator.cs" />
+    <Compile Include="Translator{TResources}.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

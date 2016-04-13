@@ -57,7 +57,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LanguageSelectorTests.cs" />
     <Compile Include="NamespacesTests.cs" />
     <Compile Include="ResourceKeyTests.cs" />
     <Compile Include="StaticExtensionTests.cs" />

@@ -54,7 +54,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Internals\DispatcherExt.cs" />
     <Compile Include="Internals\Is.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="NullImageSourceConverter.cs" />

@@ -16,6 +16,16 @@
         }
 
         [Test]
+        public void AllCultures()
+        {
+            var sw = Stopwatch.StartNew();
+            var assembly = this.GetType().Assembly;
+            var culturesAndFileNames = assembly.AllCultures();
+            Console.WriteLine($"Getting {culturesAndFileNames.Count} cultures took {sw.Elapsed.TotalMilliseconds.ToString("F2")} ms");
+            CollectionAssert.AreEqual(new[] { "de", "en", "sv" }, culturesAndFileNames.Select(x => x.TwoLetterISOLanguageName));
+        }
+
+        [Test]
         public void FindCultureFiles()
         {
             var sw = Stopwatch.StartNew();

@@ -25,7 +25,7 @@
 
             var qualifiedTypeName = $"{match.Groups["ns"].Value}:{match.Groups["resources"].Value}";
             var type = typeResolver.Resolve(qualifiedTypeName);
-            this.ResourceManager = ResourceManagerWrapper.FromType(type);
+            this.ResourceManager = ResourceManagers.ForType(type);
 
             this.Key = match.Groups["key"].Value;
             this.HasError = string.IsNullOrEmpty(this.Key) || this.ResourceManager == null;

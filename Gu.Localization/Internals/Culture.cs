@@ -3,6 +3,7 @@ namespace Gu.Localization
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
 
     internal static class Culture

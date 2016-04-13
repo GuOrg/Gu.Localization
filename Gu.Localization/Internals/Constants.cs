@@ -4,6 +4,6 @@
 
     internal static class Constants
     {
-        internal const String ResFileExtension = ".resources";
+        internal const string ResFileExtension = ".resources";
     }
 }
