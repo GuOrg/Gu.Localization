@@ -1,12 +1,12 @@
 ﻿namespace Gu.Localization
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Resources;
     using System.Threading;
     using Gu.Localization.Properties;
@@ -69,12 +69,22 @@
             var translated = resourceManager.GetString(key, CurrentCulture);
             if (translated == null)
             {
+                return string.Format(Properties.Resources.MissingKeyFormat, key);
+            }
+
+            if (translated == string.Empty)
+            {
                 if (!AllCultures.Contains(CurrentCulture, CultureInfoComparer.Default))
+                {
+                    return string.Format(Properties.Resources.MissingCultureFormat, key);
+                }
+
+                if (resourceManager.GetResourceSet(CurrentCulture, false, false)
+                                   .OfType<DictionaryEntry>()
+                                   .All(x => !Equals(x.Key, key)))
                 {
                     return string.Format(Properties.Resources.MissingTranslationFormat, key);
                 }
-
-                return string.Format(Properties.Resources.MissingKeyFormat, key);
             }
 
             return translated;
@@ -85,9 +95,9 @@
             return AllCultures.Contains(culture, CultureInfoComparer.Default);
         }
 
-        public static bool HasKey(ResourceManager resourceManager, string key)
+        public static bool HasKey(ResourceManager resourceManager, string key, CultureInfo culture)
         {
-            return resourceManager.GetString(key, CurrentCulture) != null;
+            return resourceManager.GetString(key, culture) != null;
         }
 
         private static void OnCurrentCultureChanged(CultureInfo e)
@@ -97,7 +107,7 @@
 
         private static IReadOnlyList<CultureInfo> GetAllCultures()
         {
-            var currentDirectory = Directory.GetCurrentDirectory();
+            var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
             Debug.WriteLine(currentDirectory);
             return ResourceCultures.GetAllCultures(currentDirectory);
         }

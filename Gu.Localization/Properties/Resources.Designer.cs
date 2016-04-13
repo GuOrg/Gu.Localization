@@ -61,6 +61,15 @@ namespace Gu.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ~{0}~.
+        /// </summary>
+        public static string MissingCultureFormat {
+            get {
+                return ResourceManager.GetString("MissingCultureFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to !{0}!.
         /// </summary>
         public static string MissingKeyFormat {
@@ -79,20 +88,11 @@ namespace Gu.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to -{0}-.
+        ///   Looks up a localized string similar to _{0}_.
         /// </summary>
         public static string MissingTranslationFormat {
             get {
                 return ResourceManager.GetString("MissingTranslationFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ~{0}~.
-        /// </summary>
-        public static string NoLanguagesFormat {
-            get {
-                return ResourceManager.GetString("NoLanguagesFormat", resourceCulture);
             }
         }
         

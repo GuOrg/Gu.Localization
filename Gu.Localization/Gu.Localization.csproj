@@ -45,7 +45,6 @@
     <Compile Include="EnumTranslation.cs" />
     <Compile Include="Internals\AppDomainExt.cs" />
     <Compile Include="Internals\AssemblyExt.cs" />
-    <Compile Include="Internals\Constants.cs" />
     <Compile Include="Internals\Culture.cs" />
     <Compile Include="Internals\CultureInfoComparer.cs" />
     <Compile Include="Internals\EmptyReadOnlyDictionary.cs" />
@@ -63,6 +62,7 @@
     </Compile>
     <Compile Include="Internals\ResourceManagers.cs" />
     <Compile Include="Translation.cs" />
+    <Compile Include="Translation.ResourceManagerAndKey.cs" />
     <Compile Include="Translator.cs" />
     <Compile Include="Translator{TResources}.cs" />
   </ItemGroup>

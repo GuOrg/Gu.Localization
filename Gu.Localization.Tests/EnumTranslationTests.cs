@@ -26,7 +26,7 @@
         [Test]
         public void MissingTranslations()
         {
-            var missingTranslations = EnumTranslation<DummyEnum>.MissingTranslations(Properties.Resources.ResourceManager);
+            var missingTranslations = EnumTranslation<DummyEnum>.MissingTranslations(Properties.Resources.ResourceManager, CultureInfo.GetCultureInfo("en"));
             CollectionAssert.AreEqual(new[] { DummyEnum.Missing }, missingTranslations);
         }
     }

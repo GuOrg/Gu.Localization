@@ -17,10 +17,11 @@
         /// <summary>
         /// This will probably mostly be used in tests
         /// </summary>
-        public static IReadOnlyList<T> MissingTranslations(ResourceManager resourceManager)
+        /// <returns>A list with all members that does not have </returns>
+        public static IReadOnlyList<T> MissingTranslations(ResourceManager resourceManager, CultureInfo culture)
         {
             return Enum.GetNames(typeof(T))
-                       .Where(x => !Translator.HasKey(resourceManager, x.ToString(CultureInfo.InvariantCulture)))
+                       .Where(x => !Translator.HasKey(resourceManager, x.ToString(CultureInfo.InvariantCulture), culture))
                        .Select(name => Enum.Parse(typeof(T), name))
                        .OfType<T>()
                        .ToArray();

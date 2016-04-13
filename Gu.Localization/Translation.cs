@@ -1,13 +1,11 @@
 ﻿namespace Gu.Localization
 {
-    using System;
     using System.Collections.Concurrent;
     using System.ComponentModel;
-    using System.Globalization;
     using System.Resources;
     using System.Runtime.CompilerServices;
 
-    public class Translation : ITranslation
+    public partial class Translation : ITranslation
     {
         private static readonly PropertyChangedEventArgs TranslatedPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Translated));
         private static readonly ConcurrentDictionary<ResourceManagerAndKey, Translation> Cache = new ConcurrentDictionary<ResourceManagerAndKey, Translation>();
@@ -34,7 +32,7 @@
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// The key Translated to the <see cref="Translator.CurrentCulture"/>
+        /// Gets the key Translated to the <see cref="Translator.CurrentCulture"/>
         /// </summary>
         public string Translated => Translator.Translate(this.resourceManager, this.key);
 
@@ -54,7 +52,7 @@
             Ensure.NotNull(key, nameof(key));
 
             var rmk = new ResourceManagerAndKey(resourceManager, key);
-            return Cache.GetOrAdd(rmk, x => new Translation(x.resourceManager, x.key));
+            return Cache.GetOrAdd(rmk, x => new Translation(x.ResourceManager, x.Key));
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -65,41 +63,6 @@
         protected virtual void OnCurrentCultureChanged()
         {
             this.PropertyChanged?.Invoke(this, TranslatedPropertyChangedEventArgs);
-        }
-
-        private struct ResourceManagerAndKey : IEquatable<ResourceManagerAndKey>
-        {
-            internal readonly ResourceManager resourceManager;
-            internal readonly string key;
-
-            public ResourceManagerAndKey(ResourceManager resourceManager, string key)
-            {
-                this.resourceManager = resourceManager;
-                this.key = key;
-            }
-
-            public bool Equals(ResourceManagerAndKey other)
-            {
-                return string.Equals(this.resourceManager?.BaseName, other.resourceManager?.BaseName) && string.Equals(this.key, other.key);
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (ReferenceEquals(null, obj))
-                {
-                    return false;
-                }
-
-                return obj is ResourceManagerAndKey && this.Equals((ResourceManagerAndKey)obj);
-            }
-
-            public override int GetHashCode()
-            {
-                unchecked
-                {
-                    return ((this.resourceManager?.BaseName?.GetHashCode() ?? 0) * 397) ^ (this.key?.GetHashCode() ?? 0);
-                }
-            }
         }
     }
 }
