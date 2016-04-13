@@ -10,16 +10,16 @@
 
     public class TranslatorTests
     {
-        [Test]
-        public void TranslateResourceManagerAndNameHappyPath()
+        [TestCase("en", "English")]
+        [TestCase("sv", "Svenska")]
+        [TestCase(null, "So neutral")]
+        public void TranslateResourceManagerAndNameHappyPath(string cultureName, string expected)
         {
-            Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
+            Translator.CurrentCulture = cultureName != null
+                                            ? CultureInfo.GetCultureInfo(cultureName)
+                                            : CultureInfo.InvariantCulture;
             var actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
-
-            Assert.AreEqual("English", actual);
-            Translator.CurrentCulture = CultureInfo.GetCultureInfo("sv");
-            actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
-            Assert.AreEqual("Svenska", actual);
+            Assert.AreEqual(expected, actual);
         }
 
         [TestCase(null, "sv", "null")]

@@ -9,7 +9,8 @@
         Title="{x:Static withResources:AutomationIds.MainWindow}"
         Width="800"
         Height="600"
-        Loaded="OnLoaded">
+        Loaded="OnLoaded"
+        l:DesignTime.Culture="sv">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />

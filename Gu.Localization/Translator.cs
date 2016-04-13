@@ -14,6 +14,7 @@
     public static class Translator
     {
         private static CultureInfo currentCulture = Thread.CurrentThread.CurrentUICulture;
+        private static IReadOnlyList<CultureInfo> allCultures;
 
         /// <summary>
         /// Notifies when the current language changes.
@@ -44,7 +45,7 @@
             }
         }
 
-        public static IReadOnlyList<CultureInfo> AllCultures => GetAllCultures();
+        public static IReadOnlyList<CultureInfo> AllCultures => allCultures ?? (allCultures =  GetAllCultures());
 
         /// <summary>
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));

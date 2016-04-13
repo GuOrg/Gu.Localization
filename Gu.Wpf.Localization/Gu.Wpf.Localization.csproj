@@ -54,11 +54,14 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DesignTime.cs" />
+    <Compile Include="DesignTime\DesignTime.cs" />
+    <Compile Include="Internals\QualifiedNameAndKey.cs" />
     <Compile Include="Internals\Is.cs" />
+    <Compile Include="Internals\ServiceProviderExt.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="NullImageSourceConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceKey.cs" />
     <Compile Include="StaticExtension.cs" />
     <Compile Include="StaticExtensionConverter.cs" />
     <Compile Include="LanguageSelector.cs" />
@@ -155,4 +158,5 @@
       <Paket>True</Paket>
     </Analyzer>
   </ItemGroup>
+  <ItemGroup />
 </Project>

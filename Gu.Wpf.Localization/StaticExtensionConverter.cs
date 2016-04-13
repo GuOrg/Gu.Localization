@@ -1,25 +1,18 @@
 namespace Gu.Wpf.Localization
 {
     using System;
-    using System.Collections;
     using System.ComponentModel;
     using System.ComponentModel.Design.Serialization;
+    using System.Diagnostics;
     using System.Globalization;
-    using System.Reflection;
+    using System.Resources;
     using System.Security;
 
     internal class StaticExtensionConverter : TypeConverter
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
-            if (destinationType == typeof(InstanceDescriptor))
-            {
-                return true;
-            }
-            else
-            {
-                return base.CanConvertTo(context, destinationType);
-            }
+            return destinationType == typeof(InstanceDescriptor) || base.CanConvertTo(context, destinationType);
         }
 
         [SecurityCritical]
@@ -30,16 +23,23 @@ namespace Gu.Wpf.Localization
                 return base.ConvertTo(context, culture, value, destinationType);
             }
 
-            var resourceExtension = value as StaticExtension;
-            if (resourceExtension == null)
+            var staticExtension = value as StaticExtension;
+            if (staticExtension == null)
             {
                 throw new ArgumentException("MustBeOfType: " + typeof(StaticExtension).Name);
             }
+
+            if (staticExtension.ResourceManager != null)
+            {
+                Debugger.Break();
+                var constructorInfo = typeof(StaticExtension).GetConstructor(new[] { typeof(string), typeof(ResourceManager) });
+                return new InstanceDescriptor(constructorInfo, new[] { (object)staticExtension.Member, staticExtension.ResourceManager });
+            }
             else
             {
-                return (object)new InstanceDescriptor(
-                    (MemberInfo)typeof(StaticExtension).GetConstructor(new[] { typeof(string) }),
-                    (ICollection)new[] { (object)resourceExtension.Member });
+                Debugger.Break();
+                var constructorInfo = typeof(StaticExtension).GetConstructor(new[] { typeof(string) });
+                return new InstanceDescriptor(constructorInfo, new[] { (object)staticExtension.Member });
             }
         }
     }

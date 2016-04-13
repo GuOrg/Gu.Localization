@@ -20,8 +20,4 @@
             Assert.AreEqual("#meh#", actual);
         }
     }
-
-    public class SharedDp
-    {
-    }
 }

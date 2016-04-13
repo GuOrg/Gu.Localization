@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
     using System.Resources;
@@ -89,10 +90,15 @@
 
         private static void OnAutoGenerateLanguagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (Is.DesignMode)
+            {
+                DesignTime.Setup();
+            }
+
             var languageSelector = (LanguageSelector)d;
             languageSelector.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(languageSelector.SyncLanguages));
         }
-   
+
         private void OnCurrentCultureChanged(object sender, CultureInfo e)
         {
             this.UpdateSelected();
