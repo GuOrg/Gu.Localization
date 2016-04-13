@@ -50,6 +50,7 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="Internals\AssemblyExtTests.cs" />
     <Compile Include="Internals\Ensure\EnsureTests.format.cs" />
     <Compile Include="EnumTranslationTests.cs" />
     <Compile Include="ExpressionHelperTests.cs" />

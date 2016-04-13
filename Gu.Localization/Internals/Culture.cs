@@ -1,4 +1,4 @@
-namespace Gu.Localization.Tests.Sandbox
+namespace Gu.Localization
 {
     using System;
     using System.Collections.Generic;
