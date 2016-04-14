@@ -25,6 +25,7 @@
             this.culture = culture;
         }
 
+        /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
         public CultureInfo Culture
@@ -33,6 +34,7 @@
             {
                 return this.culture;
             }
+
             set
             {
                 if (Equals(value, this.culture))
@@ -48,6 +50,7 @@
         public bool IsSelected
         {
             get { return CultureInfoComparer.Default.Equals(Translator.CurrentCulture, this.Culture); }
+
             set
             {
                 if (value == this.IsSelected)
@@ -86,6 +89,7 @@
             {
                 return this.flagSource;
             }
+
             set
             {
                 if (Equals(value, this.flagSource))

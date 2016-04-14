@@ -18,6 +18,17 @@ namespace Gu.Localization.Tests
             Assert.AreEqual("Svenska", actual);
         }
 
+        [Test]
+        public void CreateTranslation()
+        {
+            Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
+            var translation = Translator<Properties.Resources>.GetOrCreateTranslation(nameof(Properties.Resources.AllLanguages));
+
+            Assert.AreEqual("English", translation.Translated);
+            Translator.CurrentCulture = CultureInfo.GetCultureInfo("sv");
+            Assert.AreEqual("Svenska", translation.Translated);
+        }
+
         [TestCase(null, "sv", "null")]
         [TestCase("Missing", "sv", "!Missing!")]
         [TestCase("EnglishOnly", "sv", "_EnglishOnly_")]

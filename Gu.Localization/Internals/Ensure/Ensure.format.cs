@@ -1,4 +1,6 @@
-﻿namespace Gu.Localization
+﻿#pragma warning disable SA1600 // Elements must be documented, reason: internal
+#pragma warning disable SA1601 // Partial must be documented, reason: internal
+namespace Gu.Localization
 {
     using System;
     using System.Collections.Generic;
@@ -53,7 +55,7 @@
             return items.Count == (args?.Length ?? 0);
         }
 
-        internal static bool AreItemsIntsZeroToN(IReadOnlyCollection<string> items)
+        private static bool AreItemsIntsZeroToN(IReadOnlyCollection<string> items)
         {
             foreach (var item in items)
             {
@@ -72,7 +74,7 @@
             return true;
         }
 
-        internal static IReadOnlyCollection<string> GetFormatItems(string format)
+        private static IReadOnlyCollection<string> GetFormatItems(string format)
         {
             var matches = Regex.Matches(format, @"{(?<index>\d+)}");
             var items = matches.Cast<Match>()

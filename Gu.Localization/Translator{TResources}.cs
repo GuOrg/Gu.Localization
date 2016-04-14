@@ -28,6 +28,11 @@
             return Translator.Translate(ResourceManager, key);
         }
 
+        /// <summary>
+        /// Create a <see cref="Translation"/> for <paramref name="key"/>
+        /// </summary>
+        /// <param name="key">The key</param>
+        /// <returns>A <see cref="Translation"/></returns>
         public static Translation GetOrCreateTranslation(string key)
         {
             return Translation.GetOrCreate(ResourceManager, key);

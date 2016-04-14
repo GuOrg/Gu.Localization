@@ -1,11 +1,16 @@
-﻿namespace Gu.Localization
+﻿#pragma warning disable SA1600 // Elements must be documented, reason: internal
+#pragma warning disable SA1601 // Partial must be documented, reason: internal
+namespace Gu.Localization
 {
     using System;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
 
+    [SuppressMessage("ReSharper", "UnusedParameter.Global", Justification = "All this class does are precondition checks.")]
     internal static partial class Ensure
     {
-        internal static void NotNull<T>(T value, string parameterName) where T : class
+        internal static void NotNull<T>(T value, string parameterName)
+            where T : class
         {
             Debug.Assert(!string.IsNullOrEmpty(parameterName), $"{nameof(parameterName)} cannot be null");
             if (value == null)

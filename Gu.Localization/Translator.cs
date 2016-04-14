@@ -9,8 +9,8 @@
     using System.Linq;
     using System.Resources;
     using System.Threading;
-    using Gu.Localization.Properties;
 
+    /// <summary> Class for translating resources </summary>
     public static class Translator
     {
         private static CultureInfo currentCulture = Thread.CurrentThread.CurrentUICulture;
@@ -45,7 +45,8 @@
             }
         }
 
-        public static IReadOnlyList<CultureInfo> AllCultures => allCultures ?? (allCultures =  GetAllCultures());
+        /// <summary> Gets a list with all cultures found for the application </summary>
+        public static IReadOnlyList<CultureInfo> AllCultures => allCultures ?? (allCultures = GetAllCultures());
 
         /// <summary>
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
@@ -59,7 +60,7 @@
         {
             if (resourceManager == null)
             {
-                return string.Format(Resources.NullManagerFormat, key);
+                return string.Format(Properties.Resources.NullManagerFormat, key);
             }
 
             if (string.IsNullOrEmpty(key))
@@ -91,12 +92,14 @@
             return translated;
         }
 
-        public static bool HasCulture(CultureInfo culture)
-        {
-            return AllCultures.Contains(culture, CultureInfoComparer.Default);
-        }
-
-        public static bool HasKey(ResourceManager resourceManager, string key, CultureInfo culture)
+        /// <summary>
+        /// Check if the <paramref name="resourceManager"/> has a translation for <paramref name="key"/>
+        /// </summary>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/></param>
+        /// <param name="key">The key</param>
+        /// <param name="culture">The <see cref="CultureInfo"/></param>
+        /// <returns>True if a translation exists</returns>
+        internal static bool HasKey(ResourceManager resourceManager, string key, CultureInfo culture)
         {
             return resourceManager.GetString(key, culture) != null;
         }

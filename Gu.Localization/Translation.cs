@@ -11,6 +11,7 @@
     {
         private static readonly PropertyChangedEventArgs TranslatedPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Translated));
         private static readonly ConcurrentDictionary<ResourceManagerAndKey, Translation> Cache = new ConcurrentDictionary<ResourceManagerAndKey, Translation>();
+
         private readonly string key;
         private readonly ResourceManager resourceManager;
 

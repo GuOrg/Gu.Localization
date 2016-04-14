@@ -2,20 +2,19 @@ namespace Gu.Localization
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Globalization;
 
     /// <summary>A comparer for <see cref="CultureInfo"/> </summary>
-    public class CultureInfoComparer : IEqualityComparer<CultureInfo>
+    internal class CultureInfoComparer : IEqualityComparer<CultureInfo>
     {
         /// <summary> Gets a comparer that compares by <see cref="CultureInfo.TwoLetterISOLanguageName"/> </summary>
-        public static readonly IEqualityComparer<CultureInfo> Default = new CultureInfoComparer(x => x.TwoLetterISOLanguageName);
+        internal static readonly IEqualityComparer<CultureInfo> Default = new CultureInfoComparer(x => x.TwoLetterISOLanguageName);
 
         /// <summary> Gets a comparer that compares by <see cref="CultureInfo.TwoLetterISOLanguageName"/> </summary>
-        public static readonly IEqualityComparer<CultureInfo> ByTwoLetterIsoLanguageName = new CultureInfoComparer(x => x.TwoLetterISOLanguageName);
+        internal static readonly IEqualityComparer<CultureInfo> ByTwoLetterIsoLanguageName = new CultureInfoComparer(x => x.TwoLetterISOLanguageName);
 
         /// <summary> Gets a comparer that compares by <see cref="CultureInfo.Name"/> </summary>
-        public static readonly IEqualityComparer<CultureInfo> ByName = new CultureInfoComparer(x => x.Name);
+        internal static readonly IEqualityComparer<CultureInfo> ByName = new CultureInfoComparer(x => x.Name);
 
         private readonly Func<CultureInfo, string> nameGetter;
 
@@ -53,14 +52,6 @@ namespace Gu.Localization
         {
             Ensure.NotNull(obj, nameof(obj));
             return this.nameGetter(obj).GetHashCode();
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        //// ReSharper disable UnusedParameter.Local
-        private new static bool Equals(object x, object y)
-        //// ReSharper restore UnusedParameter.Local
-        {
-            throw new NotSupportedException("This is meant to be hidden");
         }
     }
 }

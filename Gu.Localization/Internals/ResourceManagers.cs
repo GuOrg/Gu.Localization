@@ -5,10 +5,15 @@ namespace Gu.Localization
     using System.Reflection;
     using System.Resources;
 
+    /// <summary>A cache for resourcemanagers.</summary>
     internal static class ResourceManagers
     {
         private static readonly ConcurrentDictionary<Type, ResourceManager> TypeManagerMap = new ConcurrentDictionary<Type, ResourceManager>();
 
+        /// <summary>Tries to get from cache or create a <see cref="ResourceManager"/> for <paramref name="resourcesType"/> </summary>
+        /// <param name="resourcesType">Ex. typeof(Properties.Resources)</param>
+        /// <param name="result">The <see cref="ResourceManager"/></param>
+        /// <returns>True if a <see cref="ResourceManager"/> could be created for <paramref name="resourcesType"/></returns>
         internal static bool TryGetForType(Type resourcesType, out ResourceManager result)
         {
             result = TypeManagerMap.GetOrAdd(resourcesType, CreateManagerForType);
@@ -26,7 +31,7 @@ namespace Gu.Localization
             if (resourceManager == null)
             {
                 var message = $"{nameof(resourcesType)} must have a property named ResourceManager of type ResourceManager";
-                throw new InvalidOperationException(message);
+                throw new ArgumentException(message);
             }
 
             return resourceManager;
