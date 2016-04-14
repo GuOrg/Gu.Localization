@@ -8,13 +8,16 @@ namespace Gu.Wpf.Localization
     using System.Resources;
     using System.Security;
 
+    /// <inheritdoc />
     internal class StaticExtensionConverter : TypeConverter
     {
+        /// <inheritdoc />
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
             return destinationType == typeof(InstanceDescriptor) || base.CanConvertTo(context, destinationType);
         }
 
+        /// <inheritdoc />
         [SecurityCritical]
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {

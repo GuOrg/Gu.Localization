@@ -23,9 +23,10 @@ namespace Gu.Localization
             this.nameGetter = nameGetter;
         }
 
-        /// <summary>
-        /// Calls Default.Equals(x, y)
-        /// </summary>
+        /// <summary> Calls Default.Equals(x, y) </summary>
+        /// <param name="x">The x</param>
+        /// <param name="y">The y</param>
+        /// <returns>True if <paramref name="x"/> and <paramref name="y"/> are equal.</returns>
         public static bool Equals(CultureInfo x, CultureInfo y)
         {
             return Default.Equals(x, y);
