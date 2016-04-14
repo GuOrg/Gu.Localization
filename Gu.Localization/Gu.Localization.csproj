@@ -43,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumTranslation.cs" />
+    <Compile Include="Errors\MissingTranslation.cs" />
+    <Compile Include="Errors\ParameterCountMismatch.cs" />
+    <Compile Include="Errors\TranslationError.cs" />
     <Compile Include="Internals\Culture.cs" />
     <Compile Include="Internals\CultureInfoComparer.cs" />
     <Compile Include="Internals\EmptyReadOnlyDictionary.cs" />
