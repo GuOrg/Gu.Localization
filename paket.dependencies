@@ -1,6 +1,5 @@
 source http://www.nuget.org/api/v2/
 
-nuget BenchmarkDotNet
 nuget Moq
 nuget NUnit 2.6.4
 nuget TestStack.White
