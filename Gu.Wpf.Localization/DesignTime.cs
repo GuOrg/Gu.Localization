@@ -30,7 +30,6 @@
         {
             if (Is.DesignMode && e.NewValue != null)
             {
-                DesignTime.Setup();
                 Translator.CurrentCulture = (CultureInfo)e.NewValue;
             }
         }

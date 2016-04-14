@@ -90,11 +90,6 @@
 
         private static void OnAutoGenerateLanguagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (Is.DesignMode)
-            {
-                DesignTime.Setup();
-            }
-
             var languageSelector = (LanguageSelector)d;
             languageSelector.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(languageSelector.SyncLanguages));
         }

@@ -55,7 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DesignTime.cs" />
-    <Compile Include="DesignTime\DesignTime.cs" />
     <Compile Include="Internals\QualifiedNameAndKey.cs" />
     <Compile Include="Internals\Is.cs" />
     <Compile Include="Internals\ServiceProviderExt.cs" />
@@ -111,6 +110,7 @@
     <Resource Include="Flags\nn.png" />
     <Resource Include="Flags\pl.png" />
     <Resource Include="Flags\pt.png" />
+    <Resource Include="Flags\ko.png" />
     <Content Include="Flags\Readme.txt" />
     <Resource Include="Flags\ro.png" />
     <Resource Include="Flags\ru.png" />
@@ -158,5 +158,7 @@
       <Paket>True</Paket>
     </Analyzer>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DesignTime\" />
+  </ItemGroup>
 </Project>

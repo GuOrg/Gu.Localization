@@ -5,6 +5,7 @@
              xmlns:l="http://gu.se/Localization"
              xmlns:local="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             l:DesignTime.Culture="sv"
              mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>

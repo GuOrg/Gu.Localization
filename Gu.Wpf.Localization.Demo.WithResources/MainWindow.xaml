@@ -10,7 +10,7 @@
         Width="800"
         Height="600"
         Loaded="OnLoaded"
-        l:DesignTime.Culture="sv">
+        l:DesignTime.Culture="en">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />

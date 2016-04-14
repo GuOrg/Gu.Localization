@@ -65,11 +65,6 @@
         /// </exception>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (Is.DesignMode)
-            {
-                DesignTime.Setup();
-            }
-
             if (this.ResourceManager != null)
             {
                 return CreateBindingExpression(this.ResourceManager, this.Member, serviceProvider);
