@@ -20,12 +20,16 @@ Binding the text like below updates the text when `Translator.CurrentCulture`cha
         xmlns:l="http://gu.se/Localization">
     ...
     <TextBlock Text="{l:Static p:Resources.SomeResource}" />
+    <TextBlock Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager}, 
+                             Member={x:Static local:SomeEnum.SomeMember}}" />    
     ...
 ```
 
 ## 2. Usage in code.
 ```
-string translated = Translator.Translate(() => Resources.SomeResource);
+string translated = Translator<Properties.Resources>.Translate(nameof(Properties.Resources.SomeResource));
+string translated = TranslatorTranslate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource));
+Translation translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource))
 ```
 
 ## 3. Error formats
