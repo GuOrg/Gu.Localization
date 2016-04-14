@@ -62,7 +62,6 @@
     <Compile Include="NullImageSourceConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticExtension.cs" />
-    <Compile Include="StaticExtensionConverter.cs" />
     <Compile Include="LanguageSelector.cs" />
   </ItemGroup>
   <ItemGroup>

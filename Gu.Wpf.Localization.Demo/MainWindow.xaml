@@ -61,11 +61,18 @@
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
                                Text="TranslatedToAll" />
-                    <TextBlock Name="VanillaXaml"
-                               Grid.Row="2"
+                    <TextBlock Grid.Row="2"
                                Grid.Column="1"
                                AutomationProperties.AutomationId="{x:Static local:AutomationIds.TranslatedToAllTextBlockId}"
                                Text="{l:Static p:Resources.TranslatedToAll}" />
+
+                    <!--<TextBlock Grid.Row="3"
+                               Grid.Column="0"
+                               Text="TranslatedEnum" />
+                    <TextBlock Grid.Row="3"
+                                Grid.Column="1"
+                                AutomationProperties.AutomationId="{x:Static local:AutomationIds.TranslatedToAllTextBlockId}"
+                                Text="{l:Static MemberType={x:Type p:Resources}, Member=TranslatedToAll}" />-->
                 </Grid>
             </GroupBox>
 
