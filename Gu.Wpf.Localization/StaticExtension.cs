@@ -9,9 +9,9 @@
     using Gu.Localization.Properties;
 
     /// <summary>
-    /// Implements a markup extension that translates resources.
+    /// A markup extension that translates resources.
     /// The reason for the name StaticExtension is that it tricks Resharper into providing Intellisense.
-    /// l:Static p:Resources.YourKey
+    /// Usage: Text="{l:Static p:Resources.SomeResource}"
     /// </summary>
     [MarkupExtensionReturnType(typeof(BindingExpression))]
     public class StaticExtension : System.Windows.Markup.StaticExtension

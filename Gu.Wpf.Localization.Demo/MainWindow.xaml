@@ -39,6 +39,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
@@ -66,13 +69,14 @@
                                AutomationProperties.AutomationId="{x:Static local:AutomationIds.TranslatedToAllTextBlockId}"
                                Text="{l:Static p:Resources.TranslatedToAll}" />
 
-                    <!--<TextBlock Grid.Row="3"
-                               Grid.Column="0"
-                               Text="TranslatedEnum" />
                     <TextBlock Grid.Row="3"
-                                Grid.Column="1"
-                                AutomationProperties.AutomationId="{x:Static local:AutomationIds.TranslatedToAllTextBlockId}"
-                                Text="{l:Static MemberType={x:Type p:Resources}, Member=TranslatedToAll}" />-->
+                               Grid.Column="0"
+                               Text="Enum" />
+                    <TextBlock Grid.Row="3"
+                               Grid.Column="1"
+                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.EnumTranslatedToAllTextBlockId}"
+                               Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},
+                                             Member={x:Static local:DummyEnum.TranslatedToAll}}" />
                 </Grid>
             </GroupBox>
 

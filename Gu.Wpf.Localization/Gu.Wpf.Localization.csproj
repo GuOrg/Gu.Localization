@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DesignTime.cs" />
+    <Compile Include="EnumExtension.cs" />
     <Compile Include="Internals\QualifiedNameAndKey.cs" />
     <Compile Include="Internals\Is.cs" />
     <Compile Include="Internals\ServiceProviderExt.cs" />

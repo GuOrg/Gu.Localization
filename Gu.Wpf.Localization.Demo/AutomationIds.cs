@@ -17,6 +17,7 @@
         public static readonly string LanguagesComboBoxId = Create();
         public static readonly string DataGridId = Create();
         public static readonly string TranslatedToAllTextBlockId = Create();
+        public static readonly string EnumTranslatedToAllTextBlockId = Create();
         public static readonly string SwedishOnlyTextBlockId = Create();
 
         public static readonly string MissingKeyTextBlockId = Create();
