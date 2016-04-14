@@ -1,48 +1,25 @@
 ﻿namespace Gu.Localization
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Resources;
     using System.Threading;
-
     using Gu.Localization.Properties;
 
-    public class Translator
+    public static class Translator
     {
-        private static readonly List<CultureInfo> InnerAllCultures = new List<CultureInfo>();
         private static CultureInfo currentCulture = Thread.CurrentThread.CurrentUICulture;
-        private readonly List<CultureInfo> cultures = new List<CultureInfo>();
-        private readonly ResourceManagerWrapper manager;
-
-        internal Translator(ResourceManagerWrapper manager)
-        {
-            this.manager = manager;
-            foreach (var resourceSetAndCulture in manager.ResourceSets)
-            {
-                var cultureInfo = resourceSetAndCulture.Culture;
-                if (AllCultures.All(c => cultureInfo != null && c.TwoLetterISOLanguageName != cultureInfo.TwoLetterISOLanguageName))
-                {
-                    InnerAllCultures.Add(cultureInfo);
-                    OnLanguagesChanged();
-                    OnLanguageChanged(cultureInfo);
-                }
-
-                this.cultures.Add(cultureInfo);
-            }
-        }
+        private static IReadOnlyList<CultureInfo> allCultures;
 
         /// <summary>
         /// Notifies when the current language changes.
         /// </summary>
-        public static event EventHandler<CultureInfo> LanguageChanged;
-
-        /// <summary>
-        /// Notifies when languages are added or removed.
-        /// </summary>
-        public static event EventHandler<EventArgs> LanguagesChanged;
+        public static event EventHandler<CultureInfo> CurrentCultureChanged;
 
         /// <summary>
         /// Gets or sets the culture to translate to
@@ -51,68 +28,24 @@
         {
             get
             {
-                return currentCulture ?? AllCultures.FirstOrDefault();
+                return currentCulture ??
+                       AllCultures.FirstOrDefault() ??
+                       CultureInfo.InvariantCulture;
             }
 
             set
             {
-                if (Equals(currentCulture, value))
+                if (CultureInfoComparer.Equals(currentCulture, value))
                 {
                     return;
                 }
 
                 currentCulture = value;
-                OnLanguageChanged(value);
+                OnCurrentCultureChanged(value);
             }
         }
 
-        public static IReadOnlyList<CultureInfo> AllCultures => InnerAllCultures;
-
-        /// <summary>
-        /// Translator.Translate(Properties.Resources.ResourceManager, () => Properties.Resources.SomeKey);
-        /// </summary>
-        /// <param name="resourceManager">
-        /// The <see cref="ResourceManager"/> containing translations
-        /// </param>
-        /// <param name="key">() => Properties.Resources.AllLanguages</param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
-        public static string Translate(ResourceManager resourceManager, Expression<Func<string>> key)
-        {
-            if (ExpressionHelper.IsResourceKey(key))
-            {
-                return Translate(resourceManager, ExpressionHelper.GetResourceKey(key));
-            }
-
-            return Translate(resourceManager, key.Compile().Invoke());
-        }
-
-        /// <summary>
-        /// Translator.Translate{Properties.Resources}(nameof(Properties.Resources.SomeKey));
-        /// </summary>
-        /// <typeparam name="T">
-        /// The <see cref="ResourceManager"/> containing translations
-        /// </typeparam>
-        /// <param name="key">() => Properties.Resources.AllLanguages</param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
-        public static object Translate<T>(string key)
-        {
-            return Translate(ResourceManagerWrapper.FromType(typeof(T)), key);
-        }
-
-        /// <summary>
-        /// Call like this () => Properties.Resources.SomeKey
-        /// </summary>
-        /// <param name="key">Path to the key. Must be include Resources.</param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
-        public static string Translate(Expression<Func<string>> key)
-        {
-            if (ExpressionHelper.IsResourceKey(key))
-            {
-                return Translate(ExpressionHelper.GetResourceManager(key), ExpressionHelper.GetResourceKey(key));
-            }
-
-            return Translate(null, key.Compile().Invoke());
-        }
+        public static IReadOnlyList<CultureInfo> AllCultures => allCultures ?? (allCultures =  GetAllCultures());
 
         /// <summary>
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
@@ -134,38 +67,50 @@
                 return "null";
             }
 
-            return resourceManager.GetString(key, CurrentCulture);
-        }
-
-        public bool HasCulture(CultureInfo culture)
-        {
-            return this.cultures.Any(x => x.TwoLetterISOLanguageName == culture.TwoLetterISOLanguageName);
-        }
-
-        public bool HasKey(string key)
-        {
-            return this.manager.ResourceManager.GetString(key, CurrentCulture) != null;
-        }
-
-        public string Translate(string key)
-        {
-            var translated = this.manager.ResourceManager.GetString(key, CurrentCulture);
+            var translated = resourceManager.GetString(key, CurrentCulture);
             if (translated == null)
             {
-                return string.Format(Resources.MissingKeyFormat, key);
+                return string.Format(Properties.Resources.MissingKeyFormat, key);
+            }
+
+            if (translated == string.Empty)
+            {
+                if (!AllCultures.Contains(CurrentCulture, CultureInfoComparer.Default))
+                {
+                    return string.Format(Properties.Resources.MissingCultureFormat, key);
+                }
+
+                if (resourceManager.GetResourceSet(CurrentCulture, false, false)
+                                   .OfType<DictionaryEntry>()
+                                   .All(x => !Equals(x.Key, key)))
+                {
+                    return string.Format(Properties.Resources.MissingTranslationFormat, key);
+                }
             }
 
             return translated;
         }
 
-        private static void OnLanguageChanged(CultureInfo e)
+        public static bool HasCulture(CultureInfo culture)
         {
-            LanguageChanged?.Invoke(null, e);
+            return AllCultures.Contains(culture, CultureInfoComparer.Default);
         }
 
-        private static void OnLanguagesChanged()
+        public static bool HasKey(ResourceManager resourceManager, string key, CultureInfo culture)
         {
-            LanguagesChanged?.Invoke(null, EventArgs.Empty);
+            return resourceManager.GetString(key, culture) != null;
+        }
+
+        private static void OnCurrentCultureChanged(CultureInfo e)
+        {
+            CurrentCultureChanged?.Invoke(null, e);
+        }
+
+        private static IReadOnlyList<CultureInfo> GetAllCultures()
+        {
+            var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
+            Debug.WriteLine(currentDirectory);
+            return ResourceCultures.GetAllCultures(currentDirectory);
         }
     }
 }

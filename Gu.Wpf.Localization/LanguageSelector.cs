@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
     using System.Resources;
@@ -52,9 +53,7 @@
 
         public LanguageSelector()
         {
-            Translator.LanguageChanged += this.OnLanguageChanged;
-            Translator.LanguagesChanged += this.OnLanguagesChanged;
-            this.Languages = new ObservableCollection<Language>();
+            Translator.CurrentCultureChanged += this.OnCurrentCultureChanged;
             this.Languages.CollectionChanged += (_, __) => this.UpdateSelected();
             this.UpdateSelected();
         }
@@ -68,7 +67,7 @@
         /// <summary>
         /// Gets gets or sets the cultures.
         /// </summary>
-        public ObservableCollection<Language> Languages { get; }
+        public ObservableCollection<Language> Languages { get; } = new ObservableCollection<Language>();
 
         public void Dispose()
         {
@@ -85,21 +84,17 @@
         {
             if (disposing)
             {
-                Translator.LanguageChanged -= this.OnLanguageChanged;
+                Translator.CurrentCultureChanged -= this.OnCurrentCultureChanged;
             }
         }
 
         private static void OnAutoGenerateLanguagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LanguageSelector)d).OnLanguagesChanged(null, null);
+            var languageSelector = (LanguageSelector)d;
+            languageSelector.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(languageSelector.SyncLanguages));
         }
 
-        private void OnLanguagesChanged(object _, EventArgs __)
-        {
-            this.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(this.SyncLanguages));
-        }
-
-        private void OnLanguageChanged(object sender, CultureInfo e)
+        private void OnCurrentCultureChanged(object sender, CultureInfo e)
         {
             this.UpdateSelected();
         }

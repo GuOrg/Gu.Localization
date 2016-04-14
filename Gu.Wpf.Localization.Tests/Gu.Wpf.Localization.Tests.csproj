@@ -57,9 +57,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LanguageSelectorTests.cs" />
     <Compile Include="NamespacesTests.cs" />
-    <Compile Include="ResourceKeyTests.cs" />
+    <Compile Include="QualifiedNameAndKeyTests.cs" />
+    <Compile Include="SharedDp.cs" />
     <Compile Include="StaticExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.generated.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

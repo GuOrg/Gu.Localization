@@ -1,18 +1,8 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StaticExtension.cs" company="">
-//
-// </copyright>
-// <summary>
-//   Implements a markup extension that returns static field and property references.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System;
     using System.ComponentModel;
     using System.Resources;
-    using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
 
@@ -24,17 +14,12 @@ namespace Gu.Wpf.Localization
     /// The reason for the name StaticExtension is that it tricks Resharper into providing Intellisense.
     /// l:Static p:Resources.YourKey
     /// </summary>
-    [MarkupExtensionReturnType(typeof(string))]
+    [MarkupExtensionReturnType(typeof(BindingExpression))]
     [ContentProperty("Member")]
     [DefaultProperty("Member")]
     [TypeConverter(typeof(StaticExtensionConverter))]
-    public class StaticExtension : MarkupExtension
+    public class StaticExtension : System.Windows.Markup.StaticExtension
     {
-        /// <summary>
-        /// The _xaml type resolver.
-        /// </summary>
-        private IXamlTypeResolver xamlTypeResolver;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="StaticExtension"/> class using the provided <paramref name="member"/> string.
         /// </summary>
@@ -47,6 +32,12 @@ namespace Gu.Wpf.Localization
         public StaticExtension(string member)
         {
             this.Member = member;
+        }
+
+        public StaticExtension(string member, ResourceManager resourceManager)
+        {
+            this.Member = member;
+            this.ResourceManager = resourceManager;
         }
 
         [ConstructorArgument("member")]
@@ -74,67 +65,52 @@ namespace Gu.Wpf.Localization
         /// </exception>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (serviceProvider == null)
+            if (this.ResourceManager != null)
             {
-                throw new ArgumentNullException(nameof(serviceProvider));
-            }
-
-            if (string.IsNullOrEmpty(this.Member))
-            {
-                throw new InvalidOperationException("MarkupExtensionStaticMember");
+                return CreateBindingExpression(this.ResourceManager, this.Member, serviceProvider);
             }
 
             try
             {
-                if (Is.DesignMode && IsInTemplate(serviceProvider))
+                if (string.IsNullOrEmpty(this.Member))
                 {
-                    this.xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
-                    return this;
+                    throw new InvalidOperationException("MarkupExtensionStaticMember");
                 }
 
-                if (this.xamlTypeResolver == null)
-                {
-                    this.xamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
-                }
-
-                var resourceKey = new ResourceKey(this.Member, this.xamlTypeResolver, Is.DesignMode);
-                if (resourceKey.HasError)
+                var qnk = QualifiedNameAndKey.Parse(this.Member);
+                if (qnk.QualifiedName == null || qnk.Key == null)
                 {
                     return string.Format(Resources.UnknownErrorFormat, this.Member);
                 }
 
-                var translation = new Translation(resourceKey.ResourceManager, resourceKey.Key);
-                var binding = new Binding(ExpressionHelper.PropertyName(() => translation.Translated))
+                var type = serviceProvider.Resolve(qnk.QualifiedName);
+                if (type == null)
                 {
-                    Mode = BindingMode.OneWay,
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                    Source = translation
-                };
-                var provideValue = binding.ProvideValue(serviceProvider);
-                return provideValue;
-            }
-            catch (Exception exception)
-            {
-                ////if (DesignMode.IsDesignMode)
-                ////{
-                ////    if (exception is XamlParseException)
-                ////    {
-                ////        return Member;
-                ////    }
-                ////    else
-                ////    {
-                ////        throw;
-                ////    }
-                ////}
+                    return string.Format(Resources.MissingResourcesFormat, this.Member);
+                }
 
+                this.ResourceManager = ResourceManagers.ForType(type);
+                this.Member = qnk.Key;
+                return CreateBindingExpression(this.ResourceManager, this.Member, serviceProvider);
+            }
+            catch (Exception)
+            {
                 return string.Format(Resources.UnknownErrorFormat, this.Member);
             }
         }
 
-        private static bool IsInTemplate(IServiceProvider serviceProvider)
+        private static object CreateBindingExpression(ResourceManager resourceManager, string key, IServiceProvider serviceProvider)
         {
-            var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-            return target != null && !(target.TargetObject is DependencyObject);
+            var translation = Translation.GetOrCreate(resourceManager, key);
+            var binding = new Binding(nameof(translation.Translated))
+            {
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Source = translation
+            };
+
+            var provideValue = binding.ProvideValue(serviceProvider);
+            return provideValue;
         }
     }
 }

@@ -5,9 +5,9 @@
     /// <summary>
     /// Interaction logic for Errors.xaml
     /// </summary>
-    public partial class Errors : UserControl
+    public partial class ErrorsView : UserControl
     {
-        public Errors()
+        public ErrorsView()
         {
             this.InitializeComponent();
         }

@@ -8,17 +8,20 @@ namespace Gu.Localization.Tests.Sandbox
     public class CultureTests
     {
         [Test]
-        public void RoundTrip()
+        public void RoundTripAll()
         {
             var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures)
                                       .Where(x => !string.IsNullOrEmpty(x.Name))
                                       .ToArray();
             foreach (var culture in cultures)
             {
-                Assert.IsTrue(Culture.Exists(culture.Name));
-                Assert.IsTrue(Culture.Exists(culture.TwoLetterISOLanguageName));
-                CultureInfo.GetCultureInfo(culture.Name);
-                CultureInfo.GetCultureInfo(culture.TwoLetterISOLanguageName);
+                var name = culture.Name;
+                Assert.IsTrue(Culture.Exists(name));
+                CultureInfo.GetCultureInfo(name);
+
+                name = culture.TwoLetterISOLanguageName;
+                Assert.IsTrue(Culture.Exists(name));
+                CultureInfo.GetCultureInfo(name);
             }
         }
     }

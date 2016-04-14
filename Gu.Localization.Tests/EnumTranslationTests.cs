@@ -11,7 +11,7 @@
         [Test]
         public void TranslateTest()
         {
-            var translation = new EnumTranslation<DummyEnum>(Properties.Resources.ResourceManager, DummyEnum.AllLanguages);
+            var translation = EnumTranslation<DummyEnum>.Create(Properties.Resources.ResourceManager, DummyEnum.AllLanguages);
             Translator.CurrentCulture = new CultureInfo("en");
             Assert.AreEqual("English", translation.Translated);
 
@@ -26,14 +26,8 @@
         [Test]
         public void MissingTranslations()
         {
-            var translation = new EnumTranslation<DummyEnum>(Properties.Resources.ResourceManager, DummyEnum.AllLanguages);
-            CollectionAssert.AreEqual(new[] { DummyEnum.Missing }, translation.MissingTranslations);
+            var missingTranslations = EnumTranslation<DummyEnum>.MissingTranslations(Properties.Resources.ResourceManager, CultureInfo.GetCultureInfo("en"));
+            CollectionAssert.AreEqual(new[] { DummyEnum.Missing }, missingTranslations);
         }
-    }
-
-    public enum DummyEnum
-    {
-        AllLanguages,
-        Missing
     }
 }

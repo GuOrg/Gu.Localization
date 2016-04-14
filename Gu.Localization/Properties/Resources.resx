@@ -124,9 +124,9 @@
     <value>?{0}?</value>
   </data>
   <data name="MissingTranslationFormat" xml:space="preserve">
-    <value>-{0}-</value>
+    <value>_{0}_</value>
   </data>
-  <data name="NoLanguagesFormat" xml:space="preserve">
+  <data name="MissingCultureFormat" xml:space="preserve">
     <value>~{0}~</value>
   </data>
   <data name="NullManagerFormat" xml:space="preserve">
