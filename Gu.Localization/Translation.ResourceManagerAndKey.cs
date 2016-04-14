@@ -3,6 +3,7 @@
     using System;
     using System.Resources;
 
+    /// <summary> Split up nested class  </summary>
     public partial class Translation
     {
         private struct ResourceManagerAndKey : IEquatable<ResourceManagerAndKey>

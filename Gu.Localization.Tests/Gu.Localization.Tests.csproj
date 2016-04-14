@@ -80,10 +80,6 @@
     <EmbeddedResource Include="Properties\Resources.sv.resx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gu.Localization.Tests.NoResources\Gu.Localization.Tests.NoResources.csproj">
-      <Project>{d4db8f6a-2ba1-4952-8ff9-98cfe23afa45}</Project>
-      <Name>Gu.Localization.Tests.NoResources</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Gu.Localization\Gu.Localization.csproj">
       <Project>{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}</Project>
       <Name>Gu.Localization</Name>
