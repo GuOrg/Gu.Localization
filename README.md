@@ -27,6 +27,7 @@ Binding the text like below updates the text when `Translator.CurrentCulture`cha
 
 ## 2. Usage in code.
 ```
+Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
 string translated = Translator<Properties.Resources>.Translate(nameof(Properties.Resources.SomeResource));
 string translated = TranslatorTranslate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource));
 Translation translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource))
