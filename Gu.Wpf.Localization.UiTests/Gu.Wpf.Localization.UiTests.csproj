@@ -65,9 +65,9 @@
       <Project>{85009ef0-c922-4edb-9648-495b56b30cfc}</Project>
       <Name>Gu.Wpf.Localization.Demo.Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Gu.Wpf.Localization.Demo.WithResources\Gu.Wpf.Localization.Demo.WithResources.csproj">
-      <Project>{24a5d9d2-60d8-47b7-8750-48e85a2218de}</Project>
-      <Name>Gu.Wpf.Localization.Demo.WithResources</Name>
+    <ProjectReference Include="..\Gu.Wpf.Localization.Demo\Gu.Wpf.Localization.Demo.csproj">
+      <Project>{24A5D9D2-60D8-47B7-8750-48E85A2218DE}</Project>
+      <Name>Gu.Wpf.Localization.Demo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gu.Wpf.Localization\Gu.Wpf.Localization.csproj">
       <Project>{b5ba2bcc-6ca4-4422-9220-fdedd657ba0e}</Project>

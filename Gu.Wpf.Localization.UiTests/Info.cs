@@ -3,7 +3,7 @@
     using System;
     using System.Diagnostics;
 
-    using Gu.Wpf.Localization.Demo.WithResources;
+    using Gu.Wpf.Localization.Demo;
 
     public static class Info
     {

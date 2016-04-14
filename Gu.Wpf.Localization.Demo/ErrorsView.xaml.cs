@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Localization.Demo.WithResources
+﻿namespace Gu.Wpf.Localization.Demo
 {
     using System.Windows.Controls;
 

@@ -1,12 +1,12 @@
-﻿<UserControl x:Class="Gu.Wpf.Localization.Demo.WithResources.LocalUserControl"
+﻿<UserControl x:Class="Gu.Wpf.Localization.Demo.LocalUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:expressions="clr-namespace:System.Linq.Expressions;assembly=System.Core"
              xmlns:l="clr-namespace:Gu.Wpf.Localization;assembly=Gu.Wpf.Localization"
+             xmlns:local="clr-namespace:Gu.Wpf.Localization.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.WithResources.Properties"
-             xmlns:withResources="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
+             xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.Properties"
              d:DesignHeight="300"
              d:DesignWidth="300"
              l:DesignTime.Culture="sv"
@@ -27,7 +27,7 @@
                    Text="SwedishOnly" />
         <TextBlock Grid.Row="0"
                    Grid.Column="1"
-                   AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.SwedishOnlyTextBlockId}"
+                   AutomationProperties.AutomationId="{x:Static local:AutomationIds.SwedishOnlyTextBlockId}"
                    Text="{l:Static p:Resources.SwedishOnly}" />
 
         <TextBlock Grid.Row="1"
@@ -35,7 +35,7 @@
                    Text="TranslatedToAll" />
         <TextBlock Grid.Row="1"
                    Grid.Column="1"
-                   AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.TranslatedToAllTextBlockId}"
+                   AutomationProperties.AutomationId="{x:Static local:AutomationIds.TranslatedToAllTextBlockId}"
                    Text="{l:Static p:Resources.TranslatedToAll}" />
 
     </Grid>

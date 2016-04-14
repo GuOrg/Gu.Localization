@@ -1,12 +1,12 @@
-﻿<Window x:Class="Gu.Wpf.Localization.Demo.WithResources.MainWindow"
+﻿<Window x:Class="Gu.Wpf.Localization.Demo.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:Gu.Wpf.Localization.Demo.Controls;assembly=Gu.Wpf.Localization.Demo.Controls"
         xmlns:l="http://gu.se/Localization"
+        xmlns:local="clr-namespace:Gu.Wpf.Localization.Demo"
         xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization"
-        xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.WithResources.Properties"
-        xmlns:withResources="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
-        Title="{x:Static withResources:AutomationIds.MainWindow}"
+        xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.Properties"
+        Title="{x:Static local:AutomationIds.MainWindow}"
         Width="800"
         Height="600"
         Loaded="OnLoaded"
@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
             <ComboBox x:Name="LanguagesComboBox"
-                      AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.LanguagesComboBoxId}"
+                      AutomationProperties.AutomationId="{x:Static local:AutomationIds.LanguagesComboBoxId}"
                       ItemsSource="{x:Static localization:Translator.AllCultures}"
                       SelectionChanged="OnLanguagesComboBoxSelectionChanged" />
             <l:LanguageSelector AutogenerateLanguages="True" />
@@ -26,7 +26,7 @@
 
         <UniformGrid Grid.Column="1"
                      Columns="2">
-            <GroupBox AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.VanillaXamlGroupId}"
+            <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.VanillaXamlGroupId}"
                       BorderBrush="GreenYellow"
                       BorderThickness="2"
                       Header="Vanilla xaml">
@@ -47,7 +47,7 @@
                                Text="SwedishOnly" />
                     <TextBlock Grid.Row="0"
                                Grid.Column="1"
-                               AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.SwedishOnlyTextBlockId}"
+                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.SwedishOnlyTextBlockId}"
                                Text="{l:Static p:Resources.SwedishOnly}" />
 
                     <TextBlock Grid.Row="1"
@@ -64,23 +64,23 @@
                     <TextBlock Name="VanillaXaml"
                                Grid.Row="2"
                                Grid.Column="1"
-                               AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.TranslatedToAllTextBlockId}"
+                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.TranslatedToAllTextBlockId}"
                                Text="{l:Static p:Resources.TranslatedToAll}" />
                 </Grid>
             </GroupBox>
 
-            <GroupBox AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.NoTranslationsGroupId}"
+            <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.NoTranslationsGroupId}"
                       BorderBrush="Red"
                       BorderThickness="2"
                       Header="No translations">
-                <withResources:ErrorsView />
+                <local:ErrorsView />
             </GroupBox>
 
-            <GroupBox AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.NotInVisualTreeGroupId}"
+            <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.NotInVisualTreeGroupId}"
                       BorderBrush="Green"
                       BorderThickness="2"
                       Header="Not in visual tree">
-                <DataGrid AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.DataGridId}">
+                <DataGrid AutomationProperties.AutomationId="{x:Static local:AutomationIds.DataGridId}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{l:Static p:Resources.TranslatedToAll}" />
                         <DataGridTextColumn Header="{l:Static p:Resources.SwedishAndNeutral}" />
@@ -89,27 +89,27 @@
                 </DataGrid>
             </GroupBox>
 
-            <GroupBox AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.DataTemplateGroupId}"
+            <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.DataTemplateGroupId}"
                       BorderBrush="BlueViolet"
                       Header="DataTemplate">
                 <ContentPresenter ContentTemplate="{StaticResource DemoTemplate}" />
             </GroupBox>
 
-            <GroupBox AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.UserControlSameProjectGroupId}"
+            <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.UserControlSameProjectGroupId}"
                       BorderBrush="HotPink"
                       BorderThickness="2"
                       Header="UserControl from same project">
-                <withResources:LocalUserControl />
+                <local:LocalUserControl />
             </GroupBox>
 
-            <GroupBox AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.UserControlOtherProjectGroupId}"
+            <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.UserControlOtherProjectGroupId}"
                       BorderBrush="Blue"
                       BorderThickness="2"
                       Header="UserControl from other project">
                 <controls:DemoUserControl />
             </GroupBox>
 
-            <GroupBox AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.CustomControlOtherProjectGroupId}"
+            <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.CustomControlOtherProjectGroupId}"
                       BorderBrush="Gray"
                       BorderThickness="2"
                       Header="Custom control from other project">

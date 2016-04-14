@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="Gu.Wpf.Localization.Demo.WithResources.ErrorsView"
+﻿<UserControl x:Class="Gu.Wpf.Localization.Demo.ErrorsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:l="clr-namespace:Gu.Wpf.Localization;assembly=Gu.Wpf.Localization"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.WithResources.Properties"
-             xmlns:withResources="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
+             xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.Properties"
+             xmlns:local="clr-namespace:Gu.Wpf.Localization.Demo"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
@@ -30,7 +30,7 @@
                        Text="MissingKey" />
             <TextBlock Grid.Row="0"
                        Grid.Column="1"
-                       AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.MissingKeyTextBlockId}"
+                       AutomationProperties.AutomationId="{x:Static local:AutomationIds.MissingKeyTextBlockId}"
                        Text="{l:Static p:Resources.MissingKey}" />
 
             <TextBlock Grid.Row="1"
@@ -38,7 +38,7 @@
                        Text="SwedishAndNeutral" />
             <TextBlock Grid.Row="1"
                        Grid.Column="1"
-                       AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.SwedishAndNeutralTextBlockId}"
+                       AutomationProperties.AutomationId="{x:Static local:AutomationIds.SwedishAndNeutralTextBlockId}"
                        Text="{l:Static p:Resources.SwedishAndNeutral}" />
 
 
@@ -54,7 +54,7 @@
                        Text="NeutralOnly" />
             <TextBlock Grid.Row="3"
                        Grid.Column="1"
-                       AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.NeutralOnlyTextBlockId}"
+                       AutomationProperties.AutomationId="{x:Static local:AutomationIds.NeutralOnlyTextBlockId}"
                        Text="{l:Static p:Resources.NeutralOnly}" />
 
             <TextBlock Grid.Row="4"
@@ -62,7 +62,7 @@
                        Text="BadFormat" />
             <TextBlock Grid.Row="4"
                        Grid.Column="1"
-                       AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.BadFromatTextBlockId}"
+                       AutomationProperties.AutomationId="{x:Static local:AutomationIds.BadFromatTextBlockId}"
                        Text="{l:Static BadFormat}" />
         </Grid>
     </Grid>

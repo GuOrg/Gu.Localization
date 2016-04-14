@@ -1,8 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-
-namespace Gu.Wpf.Localization.Demo.Controls
+﻿namespace Gu.Wpf.Localization.Demo.Controls
 {
+    using System.Windows;
+    using System.Windows.Controls;
+
     public class DemoCustomControl : Control
     {
         static DemoCustomControl()

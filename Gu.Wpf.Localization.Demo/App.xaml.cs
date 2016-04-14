@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Gu.Wpf.Localization.Demo.WithResources
+namespace Gu.Wpf.Localization.Demo
 {
     /// <summary>
     /// Interaction logic for App.xaml

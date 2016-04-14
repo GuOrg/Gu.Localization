@@ -7,8 +7,8 @@
     <ProjectGuid>{24A5D9D2-60D8-47B7-8750-48E85A2218DE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gu.Wpf.Localization.Demo.WithResources</RootNamespace>
-    <AssemblyName>Gu.Wpf.Localization.Demo.WithResources</AssemblyName>
+    <RootNamespace>Gu.Wpf.Localization.Demo</RootNamespace>
+    <AssemblyName>Gu.Wpf.Localization.Demo</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

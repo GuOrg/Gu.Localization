@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="Gu.Wpf.Localization.Demo.WithResources.LanguageSelectorView"
+﻿<UserControl x:Class="Gu.Wpf.Localization.Demo.LanguageSelectorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:l="http://gu.se/Localization"
-             xmlns:local="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
+             xmlns:local="clr-namespace:Gu.Wpf.Localization.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              l:DesignTime.Culture="sv"
              mc:Ignorable="d">

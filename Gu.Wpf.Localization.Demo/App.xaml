@@ -1,9 +1,9 @@
-﻿<Application x:Class="Gu.Wpf.Localization.Demo.WithResources.App"
+﻿<Application x:Class="Gu.Wpf.Localization.Demo.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:l="http://gu.se/Localization"
-             xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.WithResources.Properties"
-             xmlns:withResources="clr-namespace:Gu.Wpf.Localization.Demo.WithResources"
+             xmlns:local="clr-namespace:Gu.Wpf.Localization.Demo"
+             xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.Properties"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <Style TargetType="{x:Type TextBlock}">
@@ -27,7 +27,7 @@
                            Text="SwedishOnly" />
                 <TextBlock Grid.Row="0"
                            Grid.Column="1"
-                           AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.SwedishOnlyTextBlockId}"
+                           AutomationProperties.AutomationId="{x:Static local:AutomationIds.SwedishOnlyTextBlockId}"
                            Text="{l:Static p:Resources.SwedishOnly}" />
 
                 <TextBlock Grid.Row="1"
@@ -35,7 +35,7 @@
                            Text="TranslatedToAll" />
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
-                           AutomationProperties.AutomationId="{x:Static withResources:AutomationIds.TranslatedToAllTextBlockId}"
+                           AutomationProperties.AutomationId="{x:Static local:AutomationIds.TranslatedToAllTextBlockId}"
                            Text="{l:Static p:Resources.TranslatedToAll}" />
             </Grid>
         </DataTemplate>
