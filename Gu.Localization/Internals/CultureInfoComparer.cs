@@ -5,10 +5,16 @@ namespace Gu.Localization
     using System.ComponentModel;
     using System.Globalization;
 
+    /// <summary>A comparer for <see cref="CultureInfo"/> </summary>
     public class CultureInfoComparer : IEqualityComparer<CultureInfo>
     {
+        /// <summary> Gets a comparer that compares by <see cref="CultureInfo.TwoLetterISOLanguageName"/> </summary>
         public static readonly IEqualityComparer<CultureInfo> Default = new CultureInfoComparer(x => x.TwoLetterISOLanguageName);
+
+        /// <summary> Gets a comparer that compares by <see cref="CultureInfo.TwoLetterISOLanguageName"/> </summary>
         public static readonly IEqualityComparer<CultureInfo> ByTwoLetterIsoLanguageName = new CultureInfoComparer(x => x.TwoLetterISOLanguageName);
+
+        /// <summary> Gets a comparer that compares by <see cref="CultureInfo.Name"/> </summary>
         public static readonly IEqualityComparer<CultureInfo> ByName = new CultureInfoComparer(x => x.Name);
 
         private readonly Func<CultureInfo, string> nameGetter;
@@ -26,6 +32,7 @@ namespace Gu.Localization
             return Default.Equals(x, y);
         }
 
+        /// <inheritdoc />
         bool IEqualityComparer<CultureInfo>.Equals(CultureInfo x, CultureInfo y)
         {
             if (x == null && y == null)
@@ -41,6 +48,7 @@ namespace Gu.Localization
             return this.nameGetter(x) == this.nameGetter(y);
         }
 
+        /// <inheritdoc />
         int IEqualityComparer<CultureInfo>.GetHashCode(CultureInfo obj)
         {
             Ensure.NotNull(obj, nameof(obj));
@@ -48,7 +56,9 @@ namespace Gu.Localization
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
+        //// ReSharper disable UnusedParameter.Local
         private new static bool Equals(object x, object y)
+        //// ReSharper restore UnusedParameter.Local
         {
             throw new NotSupportedException("This is meant to be hidden");
         }

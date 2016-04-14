@@ -52,7 +52,6 @@
   <ItemGroup>
     <Compile Include="DummyEnum.cs" />
     <Compile Include="TranslatorGenericTests.cs" />
-    <Compile Include="Internals\AssemblyExtTests.cs" />
     <Compile Include="Internals\Ensure\EnsureTests.format.cs" />
     <Compile Include="EnumTranslationTests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

@@ -2,10 +2,14 @@
 {
     using System.ComponentModel;
 
+    /// <summary>
+    /// A translated key
+    /// </summary>
     public interface ITranslation : INotifyPropertyChanged
     {
         /// <summary>
-        /// The key Translated to the CurrentCulture
+        /// Gets the key Translated to the CurrentCulture
+        /// This valus updates when <see cref="Translator.CurrentCulture"/> changes
         /// </summary>
         string Translated { get; }
     }

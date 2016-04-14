@@ -5,10 +5,14 @@ namespace Gu.Localization
     using System.Globalization;
     using System.Linq;
 
+    /// <summary> Utility class for <see cref="CultureInfo"/> </summary>
     internal static class Culture
     {
         private static readonly HashSet<string> CultureNames = CreateCultureNames();
 
+        /// <summary>Check if <paramref name="name"/> is the name of a culture</summary>
+        /// <param name="name">The name</param>
+        /// <returns>True if <paramref name="name"/> is a culture name.</returns>
         internal static bool Exists(string name)
         {
             return CultureNames.Contains(name);

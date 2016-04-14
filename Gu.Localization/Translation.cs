@@ -5,6 +5,8 @@
     using System.Resources;
     using System.Runtime.CompilerServices;
 
+    /// <inheritdoc />
+    // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
     public partial class Translation : ITranslation
     {
         private static readonly PropertyChangedEventArgs TranslatedPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Translated));
@@ -29,11 +31,10 @@
             this.key = key;
         }
 
+        /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// Gets the key Translated to the <see cref="Translator.CurrentCulture"/>
-        /// </summary>
+        /// <inheritdoc />
         public string Translated => Translator.Translate(this.resourceManager, this.key);
 
         /// <summary>
@@ -55,11 +56,15 @@
             return Cache.GetOrAdd(rmk, x => new Translation(x.ResourceManager, x.Key));
         }
 
+        /// <summary> Use this to raise propertychanged</summary>
+        /// <param name="propertyName">The name of the property</param>
+        // ReSharper disable once UnusedMember.Global
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary> Called when <see cref="Translator.CurrentCulture"/> changes</summary>
         protected virtual void OnCurrentCultureChanged()
         {
             this.PropertyChanged?.Invoke(this, TranslatedPropertyChangedEventArgs);

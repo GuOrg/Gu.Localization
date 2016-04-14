@@ -43,8 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumTranslation.cs" />
-    <Compile Include="Internals\AppDomainExt.cs" />
-    <Compile Include="Internals\AssemblyExt.cs" />
     <Compile Include="Internals\Culture.cs" />
     <Compile Include="Internals\CultureInfoComparer.cs" />
     <Compile Include="Internals\EmptyReadOnlyDictionary.cs" />
