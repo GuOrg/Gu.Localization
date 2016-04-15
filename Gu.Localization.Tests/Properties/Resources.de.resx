@@ -120,4 +120,7 @@
   <data name="AllLanguages" xml:space="preserve">
     <value>Deutsch</value>
   </data>
+  <data name="first___0___second__1_" xml:space="preserve">
+    <value>zuerst: {0}, die zweite: {1}</value>
+  </data>
 </root>

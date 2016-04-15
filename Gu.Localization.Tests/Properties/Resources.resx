@@ -129,4 +129,10 @@
   <data name="NoTranslation" xml:space="preserve">
     <value />
   </data>
+  <data name="first___0___second__1_" xml:space="preserve">
+    <value>first: {0}, second:{1}</value>
+  </data>
+  <data name="Value___0_" xml:space="preserve">
+    <value>Value: {0}</value>
+  </data>
 </root>

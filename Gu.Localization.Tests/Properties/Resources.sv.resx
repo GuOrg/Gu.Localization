@@ -120,4 +120,10 @@
   <data name="AllLanguages" xml:space="preserve">
     <value>Svenska</value>
   </data>
+  <data name="first___0___second__1_" xml:space="preserve">
+    <value>första: {0}, andra:{1}</value>
+  </data>
+  <data name="Value___0_" xml:space="preserve">
+    <value>Värde: </value>
+  </data>
 </root>

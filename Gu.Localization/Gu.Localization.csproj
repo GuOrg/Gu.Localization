@@ -36,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Gu.Localization.XML</DocumentationFile>
     <CodeAnalysisRuleSet>Gu.Localization.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -43,12 +44,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumTranslation.cs" />
+    <Compile Include="Errors\MissingTranslation.cs" />
+    <Compile Include="Errors\FormatError.cs" />
+    <Compile Include="Errors\ResourceManagerErrors.cs" />
+    <Compile Include="Errors\TranslationError.cs" />
     <Compile Include="Internals\Culture.cs" />
     <Compile Include="Internals\CultureInfoComparer.cs" />
     <Compile Include="Internals\EmptyReadOnlyDictionary.cs" />
     <Compile Include="Internals\Ensure\Ensure.cs" />
     <Compile Include="Internals\Ensure\Ensure.format.cs" />
     <Compile Include="Internals\Ensure\Ensure.string.cs" />
+    <Compile Include="Internals\EnumerableExt.cs" />
+    <Compile Include="Internals\FormatString.cs" />
     <Compile Include="Internals\ResourceCultures.cs" />
     <Compile Include="ITranslation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -4,12 +4,15 @@
     using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
+
+    using Gu.Localization.Tests.Errors;
+
     using NUnit.Framework;
 
     public class EnumTranslationTests
     {
         [Test]
-        public void TranslateTest()
+        public void Create()
         {
             var translation = EnumTranslation<DummyEnum>.Create(Properties.Resources.ResourceManager, DummyEnum.AllLanguages);
             Translator.CurrentCulture = new CultureInfo("en");
@@ -21,13 +24,6 @@
             Translator.CurrentCulture = new CultureInfo("sv");
             Assert.AreEqual("Svenska", translation.Translated);
             Assert.AreEqual(1, argses.Count(x => x.PropertyName == nameof(translation.Translated)));
-        }
-
-        [Test]
-        public void MissingTranslations()
-        {
-            var missingTranslations = EnumTranslation<DummyEnum>.MissingTranslations(Properties.Resources.ResourceManager, CultureInfo.GetCultureInfo("en"));
-            CollectionAssert.AreEqual(new[] { DummyEnum.Missing }, missingTranslations);
         }
     }
 }

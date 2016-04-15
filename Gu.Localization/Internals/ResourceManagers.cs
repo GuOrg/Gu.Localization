@@ -20,9 +20,7 @@ namespace Gu.Localization
             return result != null;
         }
 
-        /// <summary>
-        /// Call with typeof(Properties.Resources)
-        /// </summary>
+        /// <summary>Call with typeof(Properties.Resources)</summary>
         /// <param name="resourcesType">typeof(Properties.Resources)</param>
         /// <returns>A resource manager</returns>
         internal static ResourceManager ForType(Type resourcesType)

@@ -1,4 +1,4 @@
-namespace Gu.Localization.Tests.Sandbox
+namespace Gu.Localization.Tests.Internals
 {
     using System.Globalization;
     using System.Linq;
