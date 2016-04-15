@@ -35,6 +35,8 @@ Translation translation = Translation.GetOrCreate(Properties.Resources.ResourceM
 ```
 
 ## 3. Validation.
+Conveience API for unit testing localization. The methods are not optimized for performance and loads all resources for all cultures into memory.
+
 Validate a `ResourceManager` like this:
 ```
 var errors = Validate.Translations(Properties.Resources.ResourceManager);
@@ -56,7 +58,21 @@ Checks:
 - That all enum members has keys in the `ResourceManager`
 - That all keys has non null value for all cultures in `Translator.AllCultures`
 
-## 3. Error formats
+### 3.1. TranslationErrors
+`errors.ToString("  ", Environment.NewLine);`
+Prints a formatted report with the errors found, sample:
+
+```
+Key: EnglishOnly
+  Missing for: { de, sv }
+Key: Value___0_
+  Has format errors, the formats are:
+    Value: {0}
+    null
+    Värde: {0} {1}
+```
+
+## 4. Error formats
 | Error               |  Format      |
 |---------------------|:------------:|
 | missing key         |    `!{0}!`   |
@@ -65,7 +81,7 @@ Checks:
 | missing resources   |    `?{0}?`   |
 | unknown error       |    `#{0}#`   |
 
-## 4. LanguageSelector
+## 5. LanguageSelector
 A simple control for changing current language.
 
 `AutogenerateLanguages="True"` displays all cultures found in the running application and picks the default flag.
