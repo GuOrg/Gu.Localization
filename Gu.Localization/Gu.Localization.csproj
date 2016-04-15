@@ -69,6 +69,7 @@
     <Compile Include="Translation.ResourceManagerAndKey.cs" />
     <Compile Include="Translator.cs" />
     <Compile Include="Translator{TResources}.cs" />
+    <Compile Include="Validate.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

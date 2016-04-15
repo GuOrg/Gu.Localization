@@ -12,6 +12,7 @@
             this.Key = key;
         }
 
+        /// <summary>Gets the key for which errors were found.</summary>
         public string Key { get; }
 
         /// <summary>Append self to <paramref name="writer"/>.</summary>
