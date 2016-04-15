@@ -4,6 +4,12 @@
     using System.Collections.Generic;
     using System.Globalization;
 
+    /// <summary>
+    /// A key that has errors in format parameters.
+    /// Errors can be:
+    /// 'First: {1}' (deos not start at zero)
+    /// If different languages have different number of parameters
+    /// </summary>
     public class FormatError : TranslationError
     {
         public FormatError(string key, IReadOnlyDictionary<CultureInfo, string> formats)
@@ -12,6 +18,7 @@
             this.Formats = formats;
         }
 
+        /// <summary>Gets all formats for all cultures</summary>
         public IReadOnlyDictionary<CultureInfo, string> Formats { get; }
 
         internal override void WriteTo(IndentedTextWriter writer)

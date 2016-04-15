@@ -9,10 +9,12 @@
     using System.Linq;
     using System.Resources;
 
+    /// <summary>A collection of errors.</summary>
     public class ResourceManagerErrors : IReadOnlyDictionary<string, IReadOnlyList<TranslationError>>
     {
-        private static readonly IReadOnlyList<TranslationError> EmptyErrors = new TranslationError[0];
         public static readonly ResourceManagerErrors Empty = new ResourceManagerErrors(EmptyReadOnlyDictionary<string, IReadOnlyList<TranslationError>>.Default);
+
+        private static readonly IReadOnlyList<TranslationError> EmptyErrors = new TranslationError[0];
 
         private readonly IReadOnlyDictionary<string, IReadOnlyList<TranslationError>> errors;
 
@@ -26,38 +28,6 @@
         /// <inheritdoc />
         public int Count => this.errors.Count;
 
-        /// <summary>
-        /// Dumps the errors to a formatted string
-        /// </summary>
-        /// <param name="tabString">The string to use for indentation</param>
-        /// <param name="newLine">The newline ex. <see cref="Environment.NewLine"/></param>
-        /// <returns>A formatted string with all errors or empty if none.</returns>
-        public string ToString(string tabString, string newLine)
-        {
-            if (this.errors.Count == 0)
-            {
-                return string.Empty;
-            }
-
-            using (var writer = new IndentedTextWriter(new StringWriter(), tabString) { NewLine = newLine })
-            {
-                foreach (var keyAndErrors in this.errors)
-                {
-                    writer.Write("Key: ");
-                    writer.WriteLine(keyAndErrors.Key);
-                    writer.Indent++;
-                    foreach (var error in keyAndErrors.Value)
-                    {
-                        error.WriteTo(writer);
-                    }
-
-                    writer.Indent--;
-                }
-
-                return writer.InnerWriter.ToString();
-            }
-        }
-
         /// <inheritdoc />
         public IEnumerable<string> Keys => this.errors.Keys;
 
@@ -67,9 +37,37 @@
         /// <inheritdoc />
         public IReadOnlyList<TranslationError> this[string key] => this.errors[key];
 
+        /// <summary>
+        /// This is meant to be used in unit tests.
+        /// Performance is probably very poor and we load all resources into memory.
+        /// Checks that:
+        /// 1) All keys in <paramref name="resourceManager"/> have non null values for all cultures in <see cref="Translator.AllCultures"/>
+        /// 2) If the resource is a format string it checks that
+        ///   - All formats have the same number of parameters.
+        ///   - All formats have numbering 0..1..n for the parameters.
+        /// </summary>
+        /// <param name="resourceManager">The resource managerr to check</param>
+        /// <returns>An <see cref="ResourceManagerErrors"/> with all errors found in <paramref name="resourceManager"/></returns>
         public static ResourceManagerErrors For(ResourceManager resourceManager)
         {
-            var resources = GetResources(resourceManager, Translator.AllCultures.Prepend(CultureInfo.InvariantCulture));
+            return For(resourceManager, Translator.AllCultures.Prepend(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
+        /// This is meant to be used in unit tests.
+        /// Performance is probably very poor and we load all resources into memory.
+        /// Checks that:
+        /// 1) All keys in <paramref name="resourceManager"/> have non null values for all cultures in <paramref name="cultures"/>
+        /// 2) If the resource is a format string it checks that
+        ///   - All formats have the same number of parameters.
+        ///   - All formats have numbering 0..1..n for the parameters.
+        /// </summary>
+        /// <param name="resourceManager">The resource managerr to check</param>
+        /// <param name="cultures">The cultures to check resources for</param>
+        /// <returns>An <see cref="ResourceManagerErrors"/> with all errors found in <paramref name="resourceManager"/></returns>
+        public static ResourceManagerErrors For(ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
+        {
+            var resources = GetResources(resourceManager, cultures);
             var keys = GetKeys(resourceManager);
             Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
             foreach (var key in keys)
@@ -94,7 +92,10 @@
         }
 
         /// <summary>
-        /// This will probably mostly be used in tests
+        /// This is meant to be used in unit tests.
+        /// Performance is probably very poor and we load all resources into memory.
+        /// Checks that all members of <typeparamref name="T"/> have corresponding key in <paramref name="resourceManager"/>
+        /// and that the key has a non null value for all cultures in <see cref="Translator.AllCultures"/>
         /// </summary>
         /// <typeparam name="T">An enum type</typeparam>
         /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <typeparamref name="T"/></param>
@@ -125,15 +126,72 @@
                        : new ResourceManagerErrors(errors);
         }
 
+        /// <summary>
+        /// This is meant to be used in unit tests.
+        /// Performance is probably very poor and we load all resources into memory.
+        /// Checks that:
+        /// 1) <paramref name="key"/> has non null values for all cultures in <see cref="Translator.AllCultures"/>
+        /// 2) If the resource is a format string it checks that
+        ///   - All formats have the same number of parameters.
+        ///   - All formats have numbering 0..1..n for the parameters.
+        /// </summary>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <paramref name="key"/></param>
+        /// <param name="key">The key</param>
+        /// <returns>A list with all errors for the key or an empty list if no errors.</returns>
         public static IReadOnlyList<TranslationError> For(ResourceManager resourceManager, string key)
         {
             return For(resourceManager, key, Translator.AllCultures.Prepend(CultureInfo.InvariantCulture));
         }
 
+        /// <summary>
+        /// This is meant to be used in unit tests.
+        /// Performance is probably very poor and we load all resources into memory.
+        /// Checks that:
+        /// 1) <paramref name="key"/> has non null values for all cultures in <see cref="Translator.AllCultures"/>
+        /// 2) If the resource is a format string it checks that
+        ///   - All formats have the same number of parameters.
+        ///   - All formats have numbering 0..1..n for the parameters.
+        /// </summary>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <paramref name="key"/></param>
+        /// <param name="key">The key</param>
+        /// <param name="cultures">The cultures to check</param>
+        /// <returns>A list with all errors for the key or an empty list if no errors.</returns>
         public static IReadOnlyList<TranslationError> For(ResourceManager resourceManager, string key, IEnumerable<CultureInfo> cultures)
         {
             var resources = GetResources(resourceManager, cultures);
             return For(resources, key);
+        }
+
+        /// <summary>
+        /// Dumps the errors to a formatted string
+        /// </summary>
+        /// <param name="tabString">The string to use for indentation</param>
+        /// <param name="newLine">The newline ex. <see cref="Environment.NewLine"/></param>
+        /// <returns>A formatted string with all errors or srting.Empty if none.</returns>
+        public string ToString(string tabString, string newLine)
+        {
+            if (this.errors.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            using (var writer = new IndentedTextWriter(new StringWriter(), tabString) { NewLine = newLine })
+            {
+                foreach (var keyAndErrors in this.errors)
+                {
+                    writer.Write("Key: ");
+                    writer.WriteLine(keyAndErrors.Key);
+                    writer.Indent++;
+                    foreach (var error in keyAndErrors.Value)
+                    {
+                        error.WriteTo(writer);
+                    }
+
+                    writer.Indent--;
+                }
+
+                return writer.InnerWriter.ToString();
+            }
         }
 
         /// <inheritdoc />

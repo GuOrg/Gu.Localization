@@ -5,19 +5,22 @@
     using System.Globalization;
     using System.Linq;
 
+    /// <summary>A key that does not have a translation to one or more languages.</summary>
     public class MissingTranslation : TranslationError
     {
-        public MissingTranslation(string key, IReadOnlyList<CultureInfo> missingCultures)
+        public MissingTranslation(string key, IReadOnlyList<CultureInfo> cultures)
             : base(key)
         {
-            this.MissingCultures = missingCultures;
+            this.Cultures = cultures;
         }
 
-        public IReadOnlyList<CultureInfo> MissingCultures { get; }
+        /// <summary> Gets a list of <see cref="CultureInfo"/> for which there is no translation for the Key.</summary>
+        public IReadOnlyList<CultureInfo> Cultures { get; }
 
+        /// <inheritdoc />
         public override string ToString()
         {
-            var cultureNames = $" {string.Join(", ", this.MissingCultures.Select(CultureName))} ";
+            var cultureNames = $" {string.Join(", ", this.Cultures.Select(CultureName))} ";
             return $"Missing for: {{{cultureNames}}}";
         }
 
