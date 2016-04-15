@@ -34,7 +34,7 @@ string translated = TranslatorTranslate(Properties.Resources.ResourceManager, na
 Translation translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource))
 ```
 
-## 2. Validation.
+## 3. Validation.
 Validate a `ResourceManager` like this:
 ```
 var errors = Validate.Translations(Properties.Resources.ResourceManager);
