@@ -79,6 +79,15 @@ namespace Gu.Localization.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to first: {0}, second:{1}.
+        /// </summary>
+        internal static string first___0___second__1_ {
+            get {
+                return ResourceManager.GetString("first___0___second__1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to So neutral.
         /// </summary>
         internal static string NeutralOnly {
@@ -93,6 +102,15 @@ namespace Gu.Localization.Tests.Properties {
         internal static string NoTranslation {
             get {
                 return ResourceManager.GetString("NoTranslation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value: {0}.
+        /// </summary>
+        internal static string Value___0_ {
+            get {
+                return ResourceManager.GetString("Value___0_", resourceCulture);
             }
         }
     }

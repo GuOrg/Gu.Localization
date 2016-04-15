@@ -28,8 +28,8 @@
         public void AreItemsValid(string itemsString, bool expected)
         {
             var items = itemsString.Split(',')
-                                .Select(x => x.Trim())
-                                .ToArray();
+                                   .Select(x => x.Trim())
+                                   .ToArray();
             var actual = FormatString.AreItemsValid(items);
             Assert.AreEqual(expected, actual);
 
@@ -50,8 +50,8 @@
         public void Count(string itemsString, int expected)
         {
             var items = itemsString.Split(',')
-                                .Select(x => x.Trim())
-                                .ToArray();
+                                   .Select(x => x.Trim())
+                                   .ToArray();
             var actual = FormatString.CountUnique(items);
             Assert.AreEqual(expected, actual);
 
