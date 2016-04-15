@@ -46,7 +46,7 @@
     <Compile Include="EnumTranslation.cs" />
     <Compile Include="Errors\MissingTranslation.cs" />
     <Compile Include="Errors\FormatError.cs" />
-    <Compile Include="Errors\ResourceManagerErrors.cs" />
+    <Compile Include="Errors\TranslationErrors.cs" />
     <Compile Include="Errors\TranslationError.cs" />
     <Compile Include="Internals\Culture.cs" />
     <Compile Include="Internals\CultureInfoComparer.cs" />

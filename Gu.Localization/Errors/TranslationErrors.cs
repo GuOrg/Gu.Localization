@@ -6,15 +6,15 @@
     using System.IO;
 
     /// <summary>A collection of errors.</summary>
-    public class ResourceManagerErrors : IReadOnlyDictionary<string, IReadOnlyList<TranslationError>>
+    public class TranslationErrors : IReadOnlyDictionary<string, IReadOnlyList<TranslationError>>
     {
-        public static readonly ResourceManagerErrors Empty = new ResourceManagerErrors(EmptyReadOnlyDictionary<string, IReadOnlyList<TranslationError>>.Default);
+        public static readonly TranslationErrors Empty = new TranslationErrors(EmptyReadOnlyDictionary<string, IReadOnlyList<TranslationError>>.Default);
 
         private static readonly IReadOnlyList<TranslationError> EmptyErrors = new TranslationError[0];
 
         private readonly IReadOnlyDictionary<string, IReadOnlyList<TranslationError>> errors;
 
-        public ResourceManagerErrors(IReadOnlyDictionary<string, IReadOnlyList<TranslationError>> errors)
+        public TranslationErrors(IReadOnlyDictionary<string, IReadOnlyList<TranslationError>> errors)
         {
             this.errors = errors;
         }

@@ -25,8 +25,8 @@
         ///   - All formats have numbering 0..1..n for the parameters.
         /// </summary>
         /// <param name="resourceManager">The resource managerr to check</param>
-        /// <returns>An <see cref="ResourceManagerErrors"/> with all errors found in <paramref name="resourceManager"/></returns>
-        public static ResourceManagerErrors Translations(ResourceManager resourceManager)
+        /// <returns>An <see cref="TranslationErrors"/> with all errors found in <paramref name="resourceManager"/></returns>
+        public static TranslationErrors Translations(ResourceManager resourceManager)
         {
             return Translations(resourceManager, Translator.AllCultures.Prepend(CultureInfo.InvariantCulture));
         }
@@ -42,8 +42,8 @@
         /// </summary>
         /// <param name="resourceManager">The resource managerr to check</param>
         /// <param name="cultures">The cultures to check resources for</param>
-        /// <returns>An <see cref="ResourceManagerErrors"/> with all errors found in <paramref name="resourceManager"/></returns>
-        public static ResourceManagerErrors Translations(ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
+        /// <returns>An <see cref="TranslationErrors"/> with all errors found in <paramref name="resourceManager"/></returns>
+        public static TranslationErrors Translations(ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
         {
             var resources = GetResources(resourceManager, cultures);
             var keys = GetKeys(resourceManager);
@@ -65,8 +65,8 @@
             }
 
             return errors == null
-                       ? ResourceManagerErrors.Empty
-                       : new ResourceManagerErrors(errors);
+                       ? TranslationErrors.Empty
+                       : new TranslationErrors(errors);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@
         /// <typeparam name="T">An enum type</typeparam>
         /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <typeparamref name="T"/></param>
         /// <returns>A list with all members that does not have </returns>
-        public static ResourceManagerErrors EnumTranslations<T>(ResourceManager resourceManager)
+        public static TranslationErrors EnumTranslations<T>(ResourceManager resourceManager)
             where T : struct, IComparable, IFormattable, IConvertible
         {
             var resources = GetResources(resourceManager, Translator.AllCultures.Prepend(CultureInfo.InvariantCulture));
@@ -100,8 +100,8 @@
             }
 
             return errors == null
-                       ? ResourceManagerErrors.Empty
-                       : new ResourceManagerErrors(errors);
+                       ? TranslationErrors.Empty
+                       : new TranslationErrors(errors);
         }
 
         /// <summary>
