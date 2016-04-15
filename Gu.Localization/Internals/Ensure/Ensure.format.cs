@@ -3,17 +3,15 @@
 namespace Gu.Localization
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text.RegularExpressions;
 
     internal static partial class Ensure
     {
         internal static void Format(string format, object[] args, string formatParameterName, string argsParameterName)
         {
             NotNullOrEmpty(format, "format");
-            var items = GetFormatItems(format);
-            if (!AreItemsIntsZeroToN(items))
+            var items = FormatString.GetFormatItems(format);
+            if (!FormatString.AreItemsValid(items))
             {
                 var joined = string.Join(", ", items.Select(x => $"{{{x}}}"));
                 var message = $"Expected the format items to be [0..n). They were: {joined}";
@@ -37,7 +35,7 @@ namespace Gu.Localization
                 throw new ArgumentException(message, $"{formatParameterName},{argsParameterName}");
             }
 
-            if (args.Length != items.Count)
+            if (args.Length != FormatString.CountUnique(items))
             {
                 var message = $"The format string: {format} contains {items.Count} arguments but: {args.Length} arguments were provided";
                 throw new ArgumentException(message, $"{formatParameterName},{argsParameterName}");
@@ -46,42 +44,13 @@ namespace Gu.Localization
 
         internal static bool FormatMatches(string format, object[] args)
         {
-            var items = GetFormatItems(format);
-            if (!AreItemsIntsZeroToN(items))
+            var items = FormatString.GetFormatItems(format);
+            if (!FormatString.AreItemsValid(items))
             {
                 return false;
             }
 
-            return items.Count == (args?.Length ?? 0);
-        }
-
-        private static bool AreItemsIntsZeroToN(IReadOnlyCollection<string> items)
-        {
-            foreach (var item in items)
-            {
-                int index;
-                if (!int.TryParse(item, out index))
-                {
-                    return false;
-                }
-
-                if (index < 0 || index >= items.Count)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private static IReadOnlyCollection<string> GetFormatItems(string format)
-        {
-            var matches = Regex.Matches(format, @"{(?<index>\d+)}");
-            var items = matches.Cast<Match>()
-                               .Select(x => x.Groups["index"].Value)
-                               .Distinct()
-                               .ToList();
-            return items;
+            return FormatString.CountUnique(items) == (args?.Length ?? 0);
         }
     }
 }

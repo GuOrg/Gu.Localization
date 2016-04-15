@@ -1,4 +1,4 @@
-﻿namespace Gu.Localization.Tests
+﻿namespace Gu.Localization.Tests.Errors
 {
     public enum DummyEnum
     {

@@ -1,6 +1,7 @@
-﻿namespace Gu.Localization.Tests
+﻿namespace Gu.Localization.Tests.Internals
 {
     using System;
+
     using NUnit.Framework;
 
     public partial class EnsureTests

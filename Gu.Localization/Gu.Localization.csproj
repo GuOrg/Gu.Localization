@@ -45,6 +45,7 @@
     <Compile Include="EnumTranslation.cs" />
     <Compile Include="Errors\MissingTranslation.cs" />
     <Compile Include="Errors\ParameterCountMismatch.cs" />
+    <Compile Include="Errors\ResourceManagerErrors.cs" />
     <Compile Include="Errors\TranslationError.cs" />
     <Compile Include="Internals\Culture.cs" />
     <Compile Include="Internals\CultureInfoComparer.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Internals\Ensure\Ensure.cs" />
     <Compile Include="Internals\Ensure\Ensure.format.cs" />
     <Compile Include="Internals\Ensure\Ensure.string.cs" />
+    <Compile Include="Internals\FormatString.cs" />
     <Compile Include="Internals\ResourceCultures.cs" />
     <Compile Include="ITranslation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

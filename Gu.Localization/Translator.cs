@@ -10,8 +10,6 @@
     using System.Resources;
     using System.Threading;
 
-    using Gu.Localization.Errors;
-
     /// <summary> Class for translating resources </summary>
     public static class Translator
     {
@@ -93,8 +91,6 @@
 
             return translated;
         }
-
-        public static TranslationError 
 
         /// <summary>
         /// Check if the <paramref name="resourceManager"/> has a translation for <paramref name="key"/>
