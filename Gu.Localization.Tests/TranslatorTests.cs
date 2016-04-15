@@ -15,10 +15,27 @@
         [TestCase(null, "So neutral")]
         public void TranslateResourceManagerAndNameHappyPath(string cultureName, string expected)
         {
+            var culture = cultureName != null
+                                     ? CultureInfo.GetCultureInfo(cultureName)
+                                     : CultureInfo.InvariantCulture;
+            Translator.CurrentCulture = culture;
+            var actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
+            Assert.AreEqual(expected, actual);
+
+            Translator.CurrentCulture = CultureInfo.GetCultureInfo("it");
+            actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages), culture);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase("en", 1, "Value: 1")]
+        [TestCase("sv", 1, "Värde: 1")]
+        [TestCase(null, 1, "Neutral: 1")]
+        public void TranslateOneParameter(string cultureName, object arg, string expected)
+        {
             Translator.CurrentCulture = cultureName != null
                                             ? CultureInfo.GetCultureInfo(cultureName)
                                             : CultureInfo.InvariantCulture;
-            var actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
+            var actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Value___0_), arg);
             Assert.AreEqual(expected, actual);
         }
 

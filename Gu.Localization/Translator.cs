@@ -51,12 +51,22 @@
         /// <summary>
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
         /// </summary>
-        /// <param name="resourceManager">
-        /// The <see cref="ResourceManager"/> containing translations
-        /// </param>
+        /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
         /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
         public static string Translate(ResourceManager resourceManager, string key)
+        {
+            return Translate(resourceManager, key, CurrentCulture);
+        }
+
+        /// <summary>
+        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
+        /// </summary>
+        /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
+        /// <param name="key">The key in <paramref name="resourceManager"/></param>
+        /// <param name="culture">The culture.</param>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        public static string Translate(ResourceManager resourceManager, string key, CultureInfo culture)
         {
             if (resourceManager == null)
             {
@@ -68,7 +78,7 @@
                 return "null";
             }
 
-            var translated = resourceManager.GetString(key, CurrentCulture);
+            var translated = resourceManager.GetString(key, culture);
             if (translated == null)
             {
                 return string.Format(Properties.Resources.MissingKeyFormat, key);
@@ -76,12 +86,12 @@
 
             if (translated == string.Empty)
             {
-                if (!AllCultures.Contains(CurrentCulture, CultureInfoComparer.Default))
+                if (!AllCultures.Contains(culture, CultureInfoComparer.Default))
                 {
                     return string.Format(Properties.Resources.MissingCultureFormat, key);
                 }
 
-                if (resourceManager.GetResourceSet(CurrentCulture, false, false)
+                if (resourceManager.GetResourceSet(culture, false, false)
                                    .OfType<DictionaryEntry>()
                                    .All(x => !Equals(x.Key, key)))
                 {
@@ -90,6 +100,34 @@
             }
 
             return translated;
+        }
+
+        /// <summary>
+        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
+        /// This assumes that the resource is something like 'Value: {0}' i.e. having one format parameter.
+        /// </summary>
+        /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
+        /// <param name="key">The key in <paramref name="resourceManager"/></param>
+        /// <param name="arg">The argument will be used as string.Format(format, <paramref name="arg"/>)</param>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        public static string Translate(ResourceManager resourceManager, string key, object arg)
+        {
+            return Translate(resourceManager, key, CurrentCulture, arg);
+        }
+
+        /// <summary>
+        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
+        /// This assumes that the resource is something like 'Value: {0}' i.e. having one format parameter.
+        /// </summary>
+        /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
+        /// <param name="key">The key in <paramref name="resourceManager"/></param>
+        /// <param name="culture">The culture.</param>
+        /// <param name="arg">The argument will be used as string.Format(format, <paramref name="arg"/>)</param>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        public static string Translate(ResourceManager resourceManager, string key, CultureInfo culture, object arg)
+        {
+            var format = Translate(resourceManager, key, culture);
+            return string.Format(format, arg);
         }
 
         /// <summary>

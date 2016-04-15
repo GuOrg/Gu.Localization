@@ -13,7 +13,7 @@
         {
             if (!typeof(T).IsEnum)
             {
-                throw new InvalidOperationException("T must be an enum when used in EnumTranslation<T>. Can't constrain it better than it is.");
+                throw new InvalidOperationException("T must be an enum when used in EnumTranslation<T>. Can't constrain it better this.");
             }
         }
 
