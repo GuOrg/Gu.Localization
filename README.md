@@ -5,8 +5,9 @@
 ## Table of Contents
 - [1. Usage in XAML.](#1-usage-in-xaml)
 - [2. Usage in code](#2-usage-in-code)
-- [3. Error formats](#3-error-formats)
-- [4. LanguageSelector](#4-languageselector)
+- [3. Validation](#3-validation)
+- [4. Error formats](#4-error-formats)
+- [5. LanguageSelector](#5-languageselector)
 
 ## 1. Usage in XAML.
 
@@ -32,6 +33,28 @@ string translated = Translator<Properties.Resources>.Translate(nameof(Properties
 string translated = TranslatorTranslate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource));
 Translation translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource))
 ```
+
+## 2. Validation.
+Validate a `ResourceManager` like this:
+```
+var errors = Validate.Translations(Properties.Resources.ResourceManager);
+Assert.IsTrue(errors.IsEmpty);
+```
+
+Checks:
+- That all keys has a non null value for all cultures in `Translator.AllCultures`
+- If the resource is a format string like `"First: {0}, second{1}"` it checks that.
+  - The number of format items are the same for all cultures.
+  - That all format strings has format items numbered 0..1..n
+
+Validate an `enum` like this:
+```
+var errors = Validate.EnumTranslations<DummyEnum>(Properties.Resources.ResourceManager);
+Assert.IsTrue(errors.IsEmpty);
+```
+Checks:
+- That all enum members has keys in the `ResourceManager`
+- That all keys has non null value for all cultures in `Translator.AllCultures`
 
 ## 3. Error formats
 | Error               |  Format      |
