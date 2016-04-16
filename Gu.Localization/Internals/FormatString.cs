@@ -11,9 +11,7 @@
         private static readonly IReadOnlyList<string> Empty = new string[0];
         private static readonly ThreadLocal<SortedSet<int>> Indexes = new ThreadLocal<SortedSet<int>>(() => new SortedSet<int>());
 
-        /// <summary>
-        /// Call with "first: {0}, second {1} returns new []{"0", "1"};
-        /// </summary>
+        /// <summary>Call with "first: {0}, second {1} returns new []{"0", "1"};</summary>
         /// <param name="format">The format string</param>
         /// <returns>An unordered list of format items found in <paramref name="format"/></returns>
         internal static IReadOnlyCollection<string> GetFormatItems(string format)
@@ -23,7 +21,7 @@
                 return Empty;
             }
 
-            var matches = Regex.Matches(format, @"{(?<index>\d+)}");
+            var matches = Regex.Matches(format, @"{(?<index>\d+)([^}]+)?}", RegexOptions.ExplicitCapture);
             var items = matches.Cast<Match>()
                                .Select(x => x.Groups["index"].Value)
                                .ToList();
@@ -54,9 +52,9 @@
             return indexes.Count;
         }
 
-        /// <summary>Checks that <paramref name="items"/> are 0-n with no gaps.</summary>
-        /// <param name="items">The format items</param>
-        /// <returns>True if <paramref name="items"/> are 0-n with no gaps</returns>
+        /// <summary>Checks that <paramref name="items"/> are 0..1..n.</summary>
+        /// <param name="items">The format items.</param>
+        /// <returns>True if <paramref name="items"/> are 0..1..n.</returns>
         internal static bool AreItemsValid(IReadOnlyCollection<string> items)
         {
             if (items.Count == 0)

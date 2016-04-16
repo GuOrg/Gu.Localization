@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Errors\DummyEnum.cs" />
+    <Compile Include="Sandbox\FormatString.cs" />
     <Compile Include="ValidateTests.cs" />
     <Compile Include="Internals\FormatStringTests.cs" />
     <Compile Include="Internals\ResourceManagers.cs" />

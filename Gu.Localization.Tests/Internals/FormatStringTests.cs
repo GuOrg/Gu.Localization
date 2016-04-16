@@ -7,6 +7,8 @@
     public class FormatStringTests
     {
         [TestCase("first: {0}, second {1}", "0, 1")]
+        [TestCase("first: {0:F2}, second {1}", "0, 1")]
+        [TestCase("first: {{{0:F2}}}, second {{{1}}}", "0, 1")]
         [TestCase("second: {1}, first {0}", "1, 0")]
         [TestCase("second: {1}, first {0}, first: {0}", "1, 0, 0")]
         public void GetFormatItems(string format, string expecteds)
