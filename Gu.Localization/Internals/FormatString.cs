@@ -37,8 +37,24 @@
             anyItemHasFormat = false;
             var indices = Indices.Value;
             indices.Clear();
-            while (TrySkipTo(format, '{', ref pos))
+            while (TrySkipTo(format, '{', '}', ref pos))
             {
+                if (format[pos] == '}')
+                {
+                    if (TrySkipEscaped(format, '}', ref pos))
+                    {
+                        continue;
+                    }
+
+                    indexCount = -1;
+                    return false;
+                }
+
+                if (TrySkipEscaped(format, '{', ref pos))
+                {
+                    continue;
+                }
+
                 int index;
                 bool? itemHasFormat;
                 if (!TryParseItemFormat(format, ref pos, out index, out itemHasFormat))
@@ -68,6 +84,27 @@
             return false;
         }
 
+        private static bool TrySkipEscaped(string text, char c, ref int pos)
+        {
+            if (pos < text.Length - 1 && text[pos] == c && text[pos + 1] == c)
+            {
+                pos += 2;
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool TrySkipTo(string text, char c1, char c2, ref int pos)
+        {
+            while (pos < text.Length && text[pos] != c1 && text[pos] != c2)
+            {
+                pos++;
+            }
+
+            return pos < text.Length;
+        }
+
         private static bool TrySkipTo(string text, char c, ref int pos)
         {
             while (pos < text.Length && text[pos] != c)
@@ -75,7 +112,7 @@
                 pos++;
             }
 
-            return pos < text.Length && text[pos] == c;
+            return pos < text.Length;
         }
 
         private static bool TryParseItemFormat(string text, ref int pos, out int index, out bool? itemHasFormat)

@@ -7,6 +7,8 @@
         [TestCase("", true, 0, false)]
         [TestCase("First", true, 0, false)]
         [TestCase("First: {{0}}", true, 0, false)]
+        [TestCase("First: {{0}", false, -1, false)]
+        [TestCase("First: {0}}", false, -1, false)]
         [TestCase("First: {0}", true, 1, false)]
         [TestCase("First: {{{0}}}", true, 1, false)]
         [TestCase("First: {{{0:F3}}}", true, 1, true)]

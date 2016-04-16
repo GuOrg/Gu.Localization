@@ -62,7 +62,10 @@
             return new DirectoryInfo(System.IO.Path.GetDirectoryName(new Uri(assembly.CodeBase).LocalPath));
         }
 
-        private static bool Contains(this DirectoryInfo directory, string fileName, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        private static bool Contains(
+            this DirectoryInfo directory,
+            string fileName,
+            SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
             return directory.EnumerateFiles(fileName, searchOption)
                             .Any();
