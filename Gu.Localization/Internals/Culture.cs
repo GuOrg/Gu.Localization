@@ -18,6 +18,11 @@ namespace Gu.Localization
             return CultureNames.Contains(name);
         }
 
+        internal static bool IsInvariant(this CultureInfo culture)
+        {
+            return CultureInfoComparer.Equals(culture, CultureInfo.InvariantCulture);
+        }
+
         private static HashSet<string> CreateCultureNames()
         {
             var cultureInfos = CultureInfo.GetCultures(CultureTypes.AllCultures)

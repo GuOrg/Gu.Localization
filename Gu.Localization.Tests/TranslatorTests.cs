@@ -32,10 +32,15 @@
         [TestCase(null, 1, "Neutral: 1")]
         public void TranslateOneParameter(string cultureName, object arg, string expected)
         {
-            Translator.CurrentCulture = cultureName != null
-                                            ? CultureInfo.GetCultureInfo(cultureName)
-                                            : CultureInfo.InvariantCulture;
+            var culture = cultureName != null
+                                     ? CultureInfo.GetCultureInfo(cultureName)
+                                     : CultureInfo.InvariantCulture;
+            Translator.CurrentCulture = culture;
             var actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Value___0_), arg);
+            Assert.AreEqual(expected, actual);
+
+            Translator.CurrentCulture = CultureInfo.GetCultureInfo("it");
+            actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Value___0_), culture, arg);
             Assert.AreEqual(expected, actual);
         }
 
@@ -65,6 +70,13 @@
 
             Translator.CurrentCulture = CultureInfo.GetCultureInfo("sv");
             CollectionAssert.AreEqual(new[] { "en", "sv" }, cultureInfos.Select(x => x.TwoLetterISOLanguageName));
+        }
+
+        [Test]
+        public void Cultures()
+        {
+            var cultures = Translator.Cultures.Select(x => x.Name).ToArray();
+            CollectionAssert.AreEqual(new[] { "de", "en", "sv" }, cultures);
         }
     }
 }

@@ -16,10 +16,31 @@
         private static CultureInfo currentCulture = Thread.CurrentThread.CurrentUICulture;
         private static IReadOnlyList<CultureInfo> allCultures;
 
+        private static DirectoryInfo resourceDirectory = ResourceCultures.DefaultResourceDirectory();
+
         /// <summary>
         /// Notifies when the current language changes.
         /// </summary>
         public static event EventHandler<CultureInfo> CurrentCultureChanged;
+
+        /// <summary>
+        /// Gets or sets set the current directory where resources are found.
+        /// Default is Directory.GetCurrentDirectory()
+        /// Changing the default is perhaps useful in tests.
+        /// </summary>
+        public static DirectoryInfo ResourceDirectory
+        {
+            get
+            {
+                return resourceDirectory;
+            }
+
+            set
+            {
+                resourceDirectory = value;
+                allCultures = GetAllCultures();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the culture to translate to
@@ -29,7 +50,7 @@
             get
             {
                 return currentCulture ??
-                       AllCultures.FirstOrDefault() ??
+                       Cultures.FirstOrDefault() ??
                        CultureInfo.InvariantCulture;
             }
 
@@ -46,7 +67,7 @@
         }
 
         /// <summary> Gets a list with all cultures found for the application </summary>
-        public static IReadOnlyList<CultureInfo> AllCultures => allCultures ?? (allCultures = GetAllCultures());
+        public static IReadOnlyList<CultureInfo> Cultures => allCultures ?? (allCultures = GetAllCultures());
 
         /// <summary>
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
@@ -86,7 +107,7 @@
 
             if (translated == string.Empty)
             {
-                if (!AllCultures.Contains(culture, CultureInfoComparer.Default))
+                if (!Cultures.Contains(culture, CultureInfoComparer.Default))
                 {
                     return string.Format(Properties.Resources.MissingCultureFormat, key);
                 }
@@ -149,9 +170,10 @@
 
         private static IReadOnlyList<CultureInfo> GetAllCultures()
         {
-            var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
-            Debug.WriteLine(currentDirectory);
-            return ResourceCultures.GetAllCultures(currentDirectory);
+            Debug.WriteLine(resourceDirectory);
+            return resourceDirectory?.Exists == true
+                       ? ResourceCultures.GetAllCultures(resourceDirectory)
+                       : new CultureInfo[0];
         }
     }
 }

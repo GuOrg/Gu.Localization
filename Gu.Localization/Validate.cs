@@ -19,7 +19,7 @@
         /// This is meant to be used in unit tests.
         /// Performance is probably very poor and we load all resources into memory.
         /// Checks that:
-        /// 1) All keys in <paramref name="resourceManager"/> have non null values for all cultures in <see cref="Translator.AllCultures"/>
+        /// 1) All keys in <paramref name="resourceManager"/> have non null values for all cultures in <see cref="Translator.Cultures"/>
         /// 2) If the resource is a format string it checks that
         ///   - All formats have the same number of parameters.
         ///   - All formats have numbering 0..1..n for the parameters.
@@ -28,7 +28,7 @@
         /// <returns>An <see cref="TranslationErrors"/> with all errors found in <paramref name="resourceManager"/></returns>
         public static TranslationErrors Translations(ResourceManager resourceManager)
         {
-            return Translations(resourceManager, Translator.AllCultures.Prepend(CultureInfo.InvariantCulture));
+            return Translations(resourceManager, Translator.Cultures.Prepend(CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -73,7 +73,7 @@
         /// This is meant to be used in unit tests.
         /// Performance is probably very poor and we load all resources into memory.
         /// Checks that all members of <typeparamref name="T"/> have corresponding key in <paramref name="resourceManager"/>
-        /// and that the key has a non null value for all cultures in <see cref="Translator.AllCultures"/>
+        /// and that the key has a non null value for all cultures in <see cref="Translator.Cultures"/>
         /// </summary>
         /// <typeparam name="T">An enum type</typeparam>
         /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <typeparamref name="T"/></param>
@@ -81,9 +81,25 @@
         public static TranslationErrors EnumTranslations<T>(ResourceManager resourceManager)
             where T : struct, IComparable, IFormattable, IConvertible
         {
-            var resources = GetResources(resourceManager, Translator.AllCultures.Prepend(CultureInfo.InvariantCulture));
+            return EnumTranslations<T>(resourceManager, Translator.Cultures.Prepend(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
+        /// This is meant to be used in unit tests.
+        /// Performance is probably very poor and we load all resources into memory.
+        /// Checks that all members of <typeparamref name="T"/> have corresponding key in <paramref name="resourceManager"/>
+        /// and that the key has a non null value for all cultures in <see cref="Translator.Cultures"/>
+        /// </summary>
+        /// <typeparam name="T">An enum type</typeparam>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <typeparamref name="T"/></param>
+        /// <param name="cultures">The cultures to check for.</param>
+        /// <returns>A list with all members that does not have </returns>
+        public static TranslationErrors EnumTranslations<T>(ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
+            where T : struct, IComparable, IFormattable, IConvertible
+        {
+            var resources = GetResources(resourceManager, cultures);
             Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
-            foreach (var key in System.Enum.GetNames(typeof(T)))
+            foreach (var key in Enum.GetNames(typeof(T)))
             {
                 var keyErrors = Translations(resources, key);
                 if (keyErrors.Count == 0)
@@ -108,7 +124,7 @@
         /// This is meant to be used in unit tests.
         /// Performance is probably very poor and we load all resources into memory.
         /// Checks that:
-        /// 1) <paramref name="key"/> has non null values for all cultures in <see cref="Translator.AllCultures"/>
+        /// 1) <paramref name="key"/> has non null values for all cultures in <see cref="Translator.Cultures"/>
         /// 2) If the resource is a format string it checks that
         ///   - All formats have the same number of parameters.
         ///   - All formats have numbering 0..1..n for the parameters.
@@ -118,14 +134,14 @@
         /// <returns>A list with all errors for the key or an empty list if no errors.</returns>
         public static IReadOnlyList<TranslationError> Translations(ResourceManager resourceManager, string key)
         {
-            return Translations(resourceManager, key, Translator.AllCultures.Prepend(CultureInfo.InvariantCulture));
+            return Translations(resourceManager, key, Translator.Cultures.Prepend(CultureInfo.InvariantCulture));
         }
 
         /// <summary>
         /// This is meant to be used in unit tests.
         /// Performance is probably very poor and we load all resources into memory.
         /// Checks that:
-        /// 1) <paramref name="key"/> has non null values for all cultures in <see cref="Translator.AllCultures"/>
+        /// 1) <paramref name="key"/> has non null values for all cultures in <see cref="Translator.Cultures"/>
         /// 2) If the resource is a format string it checks that
         ///   - All formats have the same number of parameters.
         ///   - All formats have numbering 0..1..n for the parameters.
@@ -145,21 +161,11 @@
             // not optimized at all here, only expecting this to be called in tests.
             List<TranslationError> errors = new List<TranslationError>();
             var translations = resources.ToDictionary(x => x.Key, x => x.Value.GetString(key));
-            throw new NotImplementedException("message");
-            
-            //if (translations.Any(x => FormatString.GetFormatIndices(x.Value).Count > 0))
-            //{
-            //    if (translations.Any(x => !FormatString.AreItemsValid(FormatString.GetFormatIndices(x.Value))))
-            //    {
-            //        errors.Add(new FormatError(key, translations));
-            //    }
-            //    else if (translations.Select(x => FormatString.CountUnique(FormatString.GetFormatIndices(x.Value)))
-            //                    .Distinct()
-            //                    .Count() > 1)
-            //    {
-            //        errors.Add(new FormatError(key, translations));
-            //    }
-            //}
+            FormatError formatErrors;
+            if (TryGetFormatErrors(key, translations, out formatErrors))
+            {
+                errors.Add(formatErrors);
+            }
 
             if (translations.Any(x => x.Value == null))
             {
@@ -167,6 +173,36 @@
             }
 
             return errors;
+        }
+
+        private static bool TryGetFormatErrors(string key, IReadOnlyDictionary<CultureInfo, string> translations, out FormatError formatErrors)
+        {
+            int? count = null;
+            foreach (var translation in translations.Values)
+            {
+                int indexCount;
+                bool? anyItemHasFormat;
+                if (!FormatString.IsValidFormat(translation, out indexCount, out anyItemHasFormat))
+                {
+                    formatErrors = new FormatError(key, translations);
+                    return true;
+                }
+
+                if (count == null)
+                {
+                    count = indexCount;
+                    continue;
+                }
+
+                if (count != indexCount)
+                {
+                    formatErrors = new FormatError(key, translations);
+                    return true;
+                }
+            }
+
+            formatErrors = null;
+            return false;
         }
 
         private static IReadOnlyList<string> GetKeys(ResourceManager resourceManager)

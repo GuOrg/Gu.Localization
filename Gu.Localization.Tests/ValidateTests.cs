@@ -68,6 +68,16 @@
         }
 
         [Test]
+        public void EnumTranslationsExplicitCultures()
+        {
+            var cultures = new[] { CultureInfo.GetCultureInfo("sv"), CultureInfo.GetCultureInfo("en") };
+            var errors = Validate.EnumTranslations<DummyEnum>(Properties.Resources.ResourceManager, cultures);
+            Assert.IsFalse(errors.IsEmpty);
+            CollectionAssert.AreEqual(new[] { DummyEnum.MissingTranslation.ToString() }, errors.Keys);
+            Assert.AreEqual("Key: MissingTranslation Missing for: { sv, en } ", errors.ToString("", " "));
+        }
+
+        [Test]
         public void FormatsHappyPath()
         {
             var errors = Validate.Translations(Properties.Resources.ResourceManager, nameof(Properties.Resources.first___0___second__1_));
