@@ -66,6 +66,8 @@
             }
         }
 
+        public static ErrorHandling ErrorHandling { get; set; } = ErrorHandling.Throw;
+
         /// <summary> Gets a list with all cultures found for the application </summary>
         public static IReadOnlyList<CultureInfo> Cultures => allCultures ?? (allCultures = GetAllCultures());
 
@@ -89,34 +91,92 @@
         /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
         public static string Translate(ResourceManager resourceManager, string key, CultureInfo culture)
         {
+            return Translate(resourceManager, key, culture, ErrorHandling);
+        }
+
+        /// <summary>
+        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
+        /// </summary>
+        /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
+        /// <param name="key">The key in <paramref name="resourceManager"/></param>
+        /// <param name="culture">The culture.</param>
+        /// <param name="errorHandling">How to handle errors.</param>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        public static string Translate(ResourceManager resourceManager, string key, CultureInfo culture, ErrorHandling errorHandling)
+        {
             if (resourceManager == null)
             {
-                return string.Format(Properties.Resources.NullManagerFormat, key);
+                switch (errorHandling)
+                {
+                    case ErrorHandling.Default:
+                    case ErrorHandling.Throw:
+                        throw new ArgumentNullException(nameof(resourceManager));
+                    case ErrorHandling.ReturnInfo:
+                        return string.Format(Properties.Resources.NullManagerFormat, key);
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
 
             if (string.IsNullOrEmpty(key))
             {
-                return "null";
+                switch (errorHandling)
+                {
+                    case ErrorHandling.Default:
+                    case ErrorHandling.Throw:
+                        throw new ArgumentNullException(nameof(key));
+                    case ErrorHandling.ReturnInfo:
+                        return "key == null";
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
 
             var translated = resourceManager.GetString(key, culture);
             if (translated == null)
             {
-                return string.Format(Properties.Resources.MissingKeyFormat, key);
+                switch (errorHandling)
+                {
+                    case ErrorHandling.Default:
+                    case ErrorHandling.Throw:
+                        throw new ArgumentOutOfRangeException($"The resourcemanager {resourceManager.BaseName} does not have the key: {key}");
+                    case ErrorHandling.ReturnInfo:
+                        return string.Format(Properties.Resources.MissingKeyFormat, key);
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
 
             if (translated == string.Empty)
             {
                 if (!Cultures.Contains(culture, CultureInfoComparer.Default))
                 {
-                    return string.Format(Properties.Resources.MissingCultureFormat, key);
+                    switch (errorHandling)
+                    {
+                        case ErrorHandling.Default:
+                        case ErrorHandling.Throw:
+                            throw new ArgumentOutOfRangeException($"The resourcemanager {resourceManager.BaseName} does not have a translation to: {culture.DisplayName}");
+                        case ErrorHandling.ReturnInfo:
+                            return string.Format(Properties.Resources.MissingCultureFormat, key);
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                 }
 
                 if (resourceManager.GetResourceSet(culture, false, false)
                                    .OfType<DictionaryEntry>()
                                    .All(x => !Equals(x.Key, key)))
                 {
-                    return string.Format(Properties.Resources.MissingTranslationFormat, key);
+                    switch (errorHandling)
+                    {
+                        case ErrorHandling.Default:
+                        case ErrorHandling.Throw:
+                            throw new ArgumentOutOfRangeException($"The resourcemanager {resourceManager.BaseName} does not have a translations for the key: {key}");
+                        case ErrorHandling.ReturnInfo:
+                            return string.Format(Properties.Resources.MissingTranslationFormat, key);
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                 }
             }
 

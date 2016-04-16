@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnumTranslation.cs" />
+    <Compile Include="ErrorHandling.cs" />
     <Compile Include="Errors\MissingTranslation.cs" />
     <Compile Include="Errors\FormatError.cs" />
     <Compile Include="Errors\TranslationErrors.cs" />
