@@ -9,12 +9,12 @@
     internal static class FormatString
     {
         private static readonly IReadOnlyList<string> Empty = new string[0];
-        private static readonly ThreadLocal<SortedSet<int>> Indexes = new ThreadLocal<SortedSet<int>>(() => new SortedSet<int>());
+        private static readonly ThreadLocal<SortedSet<int>> Indices = new ThreadLocal<SortedSet<int>>(() => new SortedSet<int>());
 
         /// <summary>Call with "first: {0}, second {1} returns new []{"0", "1"};</summary>
         /// <param name="format">The format string</param>
         /// <returns>An unordered list of format items found in <paramref name="format"/></returns>
-        internal static IReadOnlyCollection<string> GetFormatItems(string format)
+        internal static IReadOnlyCollection<string> GetFormatIndices(string format)
         {
             if (string.IsNullOrEmpty(format))
             {
@@ -35,7 +35,7 @@
                 return 0;
             }
 
-            var indexes = Indexes.Value;
+            var indexes = Indices.Value;
             indexes.Clear();
 
             foreach (var item in items)
@@ -62,7 +62,7 @@
                 return true;
             }
 
-            var indexes = Indexes.Value;
+            var indexes = Indices.Value;
             indexes.Clear();
 
             foreach (var item in items)

@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Gu.Localization.Tests.Sandbox
+﻿namespace Gu.Localization.Tests.Sandbox
 {
     using NUnit.Framework;
 
     public class FormatString
     {
-        [TestCase("First: {0}")]
-        public void FastParseFormat(string text)
+        [TestCase("First: {0}", 0, null)]
+        [TestCase("First: {0:N}", 0, "N")]
+        [TestCase("First: {0} ", 0, null)]
+        [TestCase("First: {1}", 1, null)]
+        public void FastParseFormat(string text, int expectedIndex, string expectedFormat)
         {
             int pos = 0;
-            Assert.IsTrue(TrySkipPast(text, '{', ref pos));
-            Assert.AreEqual('0', text[pos]);
-            int value;
-            Assert.IsTrue(TryParseUnsignedInt(text, ref pos, out value));
-            Assert.AreEqual(0, value);
-            Assert.IsTrue(TrySkipPast(text, '}', ref pos));
-            Assert.AreEqual(pos, text.Length - 1);
+            Assert.IsTrue(TrySkipTo(text, '{', ref pos));
+            Assert.AreEqual('{', text[pos]);
+            int index;
+            string format;
+            Assert.IsTrue(TryParseFormat(text, ref pos, out index, out format));
+            Assert.AreEqual(expectedIndex, index);
+            Assert.AreEqual(expectedFormat, format);
+            Assert.IsFalse(TrySkipTo(text, '{', ref pos));
+            Assert.AreEqual(pos, text.Length);
         }
 
         [Test]
@@ -35,19 +34,67 @@ namespace Gu.Localization.Tests.Sandbox
             }
         }
 
-        private static bool TrySkipPast(string text, char c, ref int pos)
+        private static bool TrySkipTo(string text, char c, ref int pos)
         {
             while (pos < text.Length && text[pos] != c)
             {
                 pos++;
             }
 
-            if (pos == text.Length - 1)
+            return pos < text.Length && text[pos] == c;
+        }
+
+        private static bool TryParseFormat(string text, ref int pos, out int index, out string format)
+        {
+            if (text[pos] != '{')
             {
+                index = -1;
+                format = null;
                 return false;
             }
 
             pos++;
+            if (!TryParseUnsignedInt(text, ref pos, out index))
+            {
+                format = null;
+                return false;
+            }
+
+            TryParseFormatSuffix(text, ref pos, out format);
+            if (!TrySkipTo(text, '}', ref pos))
+            {
+                index = -1;
+                format = null;
+                return false;
+            }
+
+            pos++;
+            return true;
+        }
+
+        private static bool TryParseFormatSuffix(string text, ref int pos, out string result)
+        {
+            if (text[pos] != ':')
+            {
+                result = null;
+                return false;
+            }
+
+            if (pos < text.Length - 1 && text[pos + 1] == '}')
+            {
+                result = null;
+                return false;
+            }
+
+            pos++;
+            var start = pos;
+            if (!TrySkipTo(text, '}', ref pos))
+            {
+                result = null;
+                return false;
+            }
+
+            result = text.Slice(start, pos - 1);
             return true;
         }
 

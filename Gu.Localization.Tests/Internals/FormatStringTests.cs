@@ -16,7 +16,7 @@
             var expected = expecteds.Split(',')
                                     .Select(x => x.Trim())
                                     .ToArray();
-            var actual = FormatString.GetFormatItems(format);
+            var actual = FormatString.GetFormatIndices(format);
             CollectionAssert.AreEqual(expected, actual);
         }
 

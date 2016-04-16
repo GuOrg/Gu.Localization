@@ -145,13 +145,13 @@
             // not optimized at all here, only expecting this to be called in tests.
             List<TranslationError> errors = new List<TranslationError>();
             var translations = resources.ToDictionary(x => x.Key, x => x.Value.GetString(key));
-            if (translations.Any(x => FormatString.GetFormatItems(x.Value).Count > 0))
+            if (translations.Any(x => FormatString.GetFormatIndices(x.Value).Count > 0))
             {
-                if (translations.Any(x => !FormatString.AreItemsValid(FormatString.GetFormatItems(x.Value))))
+                if (translations.Any(x => !FormatString.AreItemsValid(FormatString.GetFormatIndices(x.Value))))
                 {
                     errors.Add(new FormatError(key, translations));
                 }
-                else if (translations.Select(x => FormatString.CountUnique(FormatString.GetFormatItems(x.Value)))
+                else if (translations.Select(x => FormatString.CountUnique(FormatString.GetFormatIndices(x.Value)))
                                 .Distinct()
                                 .Count() > 1)
                 {

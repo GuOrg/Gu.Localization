@@ -10,7 +10,7 @@ namespace Gu.Localization
         internal static void Format(string format, object[] args, string formatParameterName, string argsParameterName)
         {
             NotNullOrEmpty(format, "format");
-            var items = FormatString.GetFormatItems(format);
+            var items = FormatString.GetFormatIndices(format);
             if (!FormatString.AreItemsValid(items))
             {
                 var joined = string.Join(", ", items.Select(x => $"{{{x}}}"));
@@ -44,7 +44,7 @@ namespace Gu.Localization
 
         internal static bool FormatMatches(string format, object[] args)
         {
-            var items = FormatString.GetFormatItems(format);
+            var items = FormatString.GetFormatIndices(format);
             if (!FormatString.AreItemsValid(items))
             {
                 return false;
