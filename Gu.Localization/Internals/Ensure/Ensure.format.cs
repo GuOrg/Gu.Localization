@@ -1,6 +1,4 @@
-﻿#pragma warning disable SA1600 // Elements must be documented, reason: internal
-#pragma warning disable SA1601 // Partial must be documented, reason: internal
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
 

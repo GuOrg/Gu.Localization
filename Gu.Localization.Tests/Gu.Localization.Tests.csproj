@@ -53,6 +53,7 @@
     <Compile Include="Errors\DummyEnum.cs" />
     <Compile Include="Internals\ResourceManagerExtTests.cs" />
     <Compile Include="Internals\StringExtTests.cs" />
+    <Compile Include="TranslatorTests.Parameters.cs" />
     <Compile Include="ValidateTests.cs" />
     <Compile Include="Internals\FormatStringTests.cs" />
     <Compile Include="Internals\ResourceManagersTests.cs" />

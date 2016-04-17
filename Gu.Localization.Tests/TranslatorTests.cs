@@ -9,7 +9,7 @@
 
     using NUnit.Framework;
 
-    public class TranslatorTests
+    public partial class TranslatorTests
     {
         [TestCase("en", "English")]
         [TestCase("sv", "Svenska")]
@@ -17,14 +17,19 @@
         public void TranslateResourceManagerAndNameHappyPath(string cultureName, string expected)
         {
             var culture = cultureName != null
-                                     ? CultureInfo.GetCultureInfo(cultureName)
-                                     : CultureInfo.InvariantCulture;
+                              ? CultureInfo.GetCultureInfo(cultureName)
+                              : CultureInfo.InvariantCulture;
             Translator.CurrentCulture = culture;
-            var actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
+            var actual = Translator.Translate(
+                Properties.Resources.ResourceManager,
+                nameof(Properties.Resources.AllLanguages));
             Assert.AreEqual(expected, actual);
 
             Translator.CurrentCulture = CultureInfo.GetCultureInfo("it");
-            actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages), culture);
+            actual = Translator.Translate(
+                Properties.Resources.ResourceManager,
+                nameof(Properties.Resources.AllLanguages),
+                culture);
             Assert.AreEqual(expected, actual);
         }
 
@@ -40,35 +45,20 @@
             var actual = Translator.Translate(Properties.Resources.ResourceManager, key);
             Assert.AreEqual(expected, actual);
 
-            foreach (var errorHandling in Enum.GetValues(typeof(ErrorHandling)).OfType<ErrorHandling>())
+            foreach (var errorHandling in Enum.GetValues(typeof(ErrorHandling))
+                                              .OfType<ErrorHandling>())
             {
                 actual = Translator.Translate(Properties.Resources.ResourceManager, key, errorHandling);
                 Assert.AreEqual(expected, actual);
             }
 
-            foreach (var errorHandling in Enum.GetValues(typeof(ErrorHandling)).OfType<ErrorHandling>())
+            foreach (var errorHandling in Enum.GetValues(typeof(ErrorHandling))
+                                              .OfType<ErrorHandling>())
             {
                 Translator.ErrorHandling = errorHandling;
                 actual = Translator.Translate(Properties.Resources.ResourceManager, key);
                 Assert.AreEqual(expected, actual);
             }
-        }
-
-        [TestCase("en", 1, "Value: 1")]
-        [TestCase("sv", 1, "Värde: 1")]
-        [TestCase(null, 1, "Neutral: 1")]
-        public void TranslateOneParameter(string cultureName, object arg, string expected)
-        {
-            var culture = cultureName != null
-                                     ? CultureInfo.GetCultureInfo(cultureName)
-                                     : CultureInfo.InvariantCulture;
-            Translator.CurrentCulture = culture;
-            var actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Value___0_), arg);
-            Assert.AreEqual(expected, actual);
-
-            Translator.CurrentCulture = CultureInfo.GetCultureInfo("it");
-            actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Value___0_), culture, arg);
-            Assert.AreEqual(expected, actual);
         }
 
         [TestCase(null, "sv", "key == null")]
@@ -88,12 +78,24 @@
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase("Missing", null, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
-        [TestCase("Missing", "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
-        [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the key: EnglishOnly for the culture: sv\r\nParameter name: key")]
-        [TestCase(nameof(Properties.Resources.AllLanguages), "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture")]
-        [TestCase(nameof(Properties.Resources.NeutralOnly), "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture")]
-        [TestCase("MissingKey", "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture")]
+        [TestCase("Missing", null,
+            "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key"
+            )]
+        [TestCase("Missing", "sv",
+            "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key"
+            )]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "sv",
+            "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the key: EnglishOnly for the culture: sv\r\nParameter name: key"
+            )]
+        [TestCase(nameof(Properties.Resources.AllLanguages), "it",
+            "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture"
+            )]
+        [TestCase(nameof(Properties.Resources.NeutralOnly), "it",
+            "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture"
+            )]
+        [TestCase("MissingKey", "it",
+            "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture"
+            )]
         public void Throws(string key, string culture, string expected)
         {
             Translator.CurrentCulture = culture == null
@@ -101,17 +103,25 @@
                                             : CultureInfo.GetCultureInfo(culture);
             Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
 
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Throw));
+            var exception =
+                Assert.Throws<ArgumentOutOfRangeException>(
+                    () => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Throw));
             Assert.AreEqual(expected, exception.Message);
 
             Translator.ErrorHandling = ErrorHandling.Throw;
-            exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key));
+            exception =
+                Assert.Throws<ArgumentOutOfRangeException>(
+                    () => Translator.Translate(Properties.Resources.ResourceManager, key));
             Assert.AreEqual(expected, exception.Message);
 
-            exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Default));
+            exception =
+                Assert.Throws<ArgumentOutOfRangeException>(
+                    () => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Default));
             Assert.AreEqual(expected, exception.Message);
 
-            exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Throw));
+            exception =
+                Assert.Throws<ArgumentOutOfRangeException>(
+                    () => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Throw));
             Assert.AreEqual(expected, exception.Message);
         }
 
@@ -140,7 +150,8 @@
             Translator<Properties.Resources>.Translate(key, italian, ErrorHandling.ReturnErrorInfo);
             Translator<Properties.Resources>.Translate(key, italian, ErrorHandling.ReturnErrorInfo);
 
-            var cultures = Translator.Cultures.Select(x => x.Name).ToArray();
+            var cultures = Translator.Cultures.Select(x => x.Name)
+                                     .ToArray();
             CollectionAssert.AreEqual(new[] { "de", "en", "sv" }, cultures);
         }
     }

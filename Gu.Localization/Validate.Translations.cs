@@ -13,7 +13,7 @@
     /// This class is meant to be used in unit tests.
     /// Contains helper methods for asserting properties on localization.
     /// </summary>
-    public static class Validate
+    public static partial class Validate
     {
         /// <summary>
         /// This is meant to be used in unit tests.

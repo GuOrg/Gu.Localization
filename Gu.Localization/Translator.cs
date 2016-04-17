@@ -111,7 +111,7 @@
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
         /// <param name="culture">The culture, if null CultureInfo.InvariantCulture is used</param>
-        /// <param name="errorHandling">How to handle errors.</param>
+        /// <param name="errorHandling">Specifies how to handle errors.</param>
         /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
         public static string Translate(
             ResourceManager resourceManager,
@@ -119,12 +119,60 @@
             CultureInfo culture,
             ErrorHandling errorHandling)
         {
-            if (errorHandling == ErrorHandling.Default)
+            string result;
+            TryTranslateOrThrow(resourceManager, key, culture, errorHandling, out result);
+            return result;
+        }
+
+        /// <summary>
+        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
+        /// This assumes that the resource is something like 'Value: {0}' i.e. having one format parameter.
+        /// </summary>
+        /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
+        /// <param name="key">The key in <paramref name="resourceManager"/></param>
+        /// <param name="arg">The argument will be used as string.Format(format, <paramref name="arg"/>)</param>
+        /// <param name="errorHandling">Specifies how to handle errors.</param>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        internal static string Translate(ResourceManager resourceManager, string key, object arg, ErrorHandling errorHandling = ErrorHandling.Default)
+        {
+            return Translate(resourceManager, key, CurrentCulture, arg, errorHandling);
+        }
+
+        /// <summary>
+        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
+        /// This assumes that the resource is something like 'Value: {0}' i.e. having one format parameter.
+        /// </summary>
+        /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
+        /// <param name="key">The key in <paramref name="resourceManager"/></param>
+        /// <param name="culture">The culture.</param>
+        /// <param name="arg">The argument will be used as string.Format(format, <paramref name="arg"/>)</param>
+        /// <param name="errorHandling">Specifies how to handle errors.</param>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        internal static string Translate(ResourceManager resourceManager, string key, CultureInfo culture, object arg, ErrorHandling errorHandling = ErrorHandling.Default)
+        {
+            string format;
+            if (!TryTranslateOrThrow(resourceManager, key, culture, errorHandling, out format))
             {
-                errorHandling = ErrorHandling;
+                return format;
             }
 
-            var shouldThrow = errorHandling != ErrorHandling.ReturnErrorInfo;
+            if (ShouldThrow(errorHandling))
+            {
+                Validate.Format(format, arg);
+                return string.Format(format, arg);
+            }
+
+            throw new NotImplementedException("message");
+        }
+
+        private static bool TryTranslateOrThrow(
+            ResourceManager resourceManager,
+            string key,
+            CultureInfo culture,
+            ErrorHandling errorHandling,
+            out string result)
+        {
+            var shouldThrow = ShouldThrow(errorHandling);
             if (resourceManager == null)
             {
                 if (shouldThrow)
@@ -132,7 +180,8 @@
                     throw new ArgumentNullException(nameof(resourceManager));
                 }
 
-                return string.Format(Properties.Resources.NullManagerFormat, key);
+                result = string.Format(Properties.Resources.NullManagerFormat, key);
+                return false;
             }
 
             if (string.IsNullOrEmpty(key))
@@ -142,7 +191,8 @@
                     throw new ArgumentNullException(nameof(key));
                 }
 
-                return "key == null";
+                result = "key == null";
+                return false;
             }
 
             if (culture != null &&
@@ -169,10 +219,12 @@
                     var trnslated = resourceManager.GetString(key, culture);
                     if (!string.IsNullOrEmpty(trnslated))
                     {
-                        return string.Format(Properties.Resources.MissingCultureFormat, trnslated);
+                        result = string.Format(Properties.Resources.MissingCultureFormat, trnslated);
+                        return false;
                     }
 
-                    return string.Format(Properties.Resources.MissingCultureFormat, key);
+                    result = string.Format(Properties.Resources.MissingCultureFormat, key);
+                    return false;
                 }
             }
 
@@ -185,7 +237,8 @@
                     throw new ArgumentOutOfRangeException(nameof(key), message);
                 }
 
-                return string.Format(Properties.Resources.MissingKeyFormat, key);
+                result = string.Format(Properties.Resources.MissingKeyFormat, key);
+                return false;
             }
 
             if (translated == string.Empty)
@@ -198,39 +251,24 @@
                         throw new ArgumentOutOfRangeException(nameof(key), message);
                     }
 
-                    return string.Format(Properties.Resources.MissingTranslationFormat, key);
+                    result = string.Format(Properties.Resources.MissingTranslationFormat, key);
+                    return false;
                 }
             }
 
-            return translated;
+            result = translated;
+            return true;
         }
 
-        /// <summary>
-        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
-        /// This assumes that the resource is something like 'Value: {0}' i.e. having one format parameter.
-        /// </summary>
-        /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
-        /// <param name="key">The key in <paramref name="resourceManager"/></param>
-        /// <param name="arg">The argument will be used as string.Format(format, <paramref name="arg"/>)</param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
-        public static string Translate(ResourceManager resourceManager, string key, object arg)
+        private static bool ShouldThrow(ErrorHandling errorHandling)
         {
-            return Translate(resourceManager, key, CurrentCulture, arg);
-        }
+            if (errorHandling == ErrorHandling.Default)
+            {
+                errorHandling = ErrorHandling;
+            }
 
-        /// <summary>
-        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
-        /// This assumes that the resource is something like 'Value: {0}' i.e. having one format parameter.
-        /// </summary>
-        /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
-        /// <param name="key">The key in <paramref name="resourceManager"/></param>
-        /// <param name="culture">The culture.</param>
-        /// <param name="arg">The argument will be used as string.Format(format, <paramref name="arg"/>)</param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
-        public static string Translate(ResourceManager resourceManager, string key, CultureInfo culture, object arg)
-        {
-            var format = Translate(resourceManager, key, culture);
-            return string.Format(format, arg);
+            var shouldThrow = errorHandling != ErrorHandling.ReturnErrorInfo;
+            return shouldThrow;
         }
 
         private static void OnCurrentCultureChanged(CultureInfo e)
