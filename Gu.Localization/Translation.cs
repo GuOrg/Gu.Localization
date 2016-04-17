@@ -36,7 +36,7 @@
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <inheritdoc />
-        public string Translated => Translator.Translate(this.resourceManager, this.key, ErrorHandling.ReturnInfo);
+        public string Translated => Translator.Translate(this.resourceManager, this.key, ErrorHandling.ReturnErrorInfo);
 
         /// <summary>
         /// Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey))

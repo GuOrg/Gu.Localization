@@ -56,10 +56,10 @@ namespace Gu.Localization.Tests
                                             ? CultureInfo.InvariantCulture
                                             : CultureInfo.GetCultureInfo(culture);
             Translator.ErrorHandling = ErrorHandling.Throw;
-            var actual = Translator<Properties.Resources>.Translate(key, ErrorHandling.ReturnInfo);
+            var actual = Translator<Properties.Resources>.Translate(key, ErrorHandling.ReturnErrorInfo);
             Assert.AreEqual(expected, actual);
 
-            Translator.ErrorHandling = ErrorHandling.ReturnInfo;
+            Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
             actual = Translator<Properties.Resources>.Translate(key);
             Assert.AreEqual(expected, actual);
         }
@@ -75,7 +75,7 @@ namespace Gu.Localization.Tests
             Translator.CurrentCulture = culture == null
                                             ? CultureInfo.InvariantCulture
                                             : CultureInfo.GetCultureInfo(culture);
-            Translator.ErrorHandling = ErrorHandling.ReturnInfo;
+            Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
 
             var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(key, ErrorHandling.Throw));
             Assert.AreEqual(expected, exception.Message);
@@ -96,7 +96,7 @@ namespace Gu.Localization.Tests
         {
             var key = (string)null;
             var expected = "Value cannot be null.\r\nParameter name: key";
-            Translator.ErrorHandling = ErrorHandling.ReturnInfo;
+            Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
 
             var exception = Assert.Throws<ArgumentNullException>(() => Translator<Properties.Resources>.Translate(key, ErrorHandling.Throw));
             Assert.AreEqual(expected, exception.Message);

@@ -58,6 +58,7 @@
     <Compile Include="Internals\EnumerableExt.cs" />
     <Compile Include="Internals\FormatString.cs" />
     <Compile Include="Internals\ResourceCultures.cs" />
+    <Compile Include="Internals\ResourceManagerExt.cs" />
     <Compile Include="Internals\StringExt.cs" />
     <Compile Include="ITranslation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

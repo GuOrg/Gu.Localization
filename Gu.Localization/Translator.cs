@@ -1,7 +1,6 @@
 ﻿namespace Gu.Localization
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
@@ -14,9 +13,8 @@
     public static class Translator
     {
         private static CultureInfo currentCulture = Thread.CurrentThread.CurrentUICulture;
-        private static IReadOnlyList<CultureInfo> allCultures;
-
         private static DirectoryInfo resourceDirectory = ResourceCultures.DefaultResourceDirectory();
+        private static List<CultureInfo> cultures = GetAllCultures();
 
         /// <summary>
         /// Notifies when the current language changes.
@@ -38,7 +36,7 @@
             set
             {
                 resourceDirectory = value;
-                allCultures = GetAllCultures();
+                cultures = GetAllCultures();
             }
         }
 
@@ -70,7 +68,7 @@
         public static ErrorHandling ErrorHandling { get; set; } = ErrorHandling.Throw;
 
         /// <summary> Gets a list with all cultures found for the application </summary>
-        public static IReadOnlyList<CultureInfo> Cultures => allCultures ?? (allCultures = GetAllCultures());
+        public static IReadOnlyList<CultureInfo> Cultures => cultures;
 
         /// <summary>
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
@@ -126,7 +124,7 @@
                 errorHandling = ErrorHandling;
             }
 
-            var shouldThrow = errorHandling != ErrorHandling.ReturnInfo;
+            var shouldThrow = errorHandling != ErrorHandling.ReturnErrorInfo;
             if (resourceManager == null)
             {
                 if (shouldThrow)
@@ -147,6 +145,31 @@
                 return "key == null";
             }
 
+            if (culture != null &&
+                !CultureInfoComparer.Equals(culture, CultureInfo.InvariantCulture) &&
+                cultures?.Contains(culture, CultureInfoComparer.Default) == false)
+            {
+                if (resourceManager.HasCulture(culture))
+                {
+                    if (cultures == null)
+                    {
+                        cultures = new List<CultureInfo>();
+                    }
+
+                    cultures.Add(culture);
+                }
+                else
+                {
+                    if (shouldThrow)
+                    {
+                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation to: {culture.Name} for the key: {key}";
+                        throw new ArgumentOutOfRangeException(nameof(culture), message);
+                    }
+
+                    return string.Format(Properties.Resources.MissingCultureFormat, key);
+                }
+            }
+
             var translated = resourceManager.GetString(key, culture);
             if (translated == null)
             {
@@ -161,24 +184,11 @@
 
             if (translated == string.Empty)
             {
-                if (!Cultures.Contains(culture, CultureInfoComparer.Default))
+                if (!resourceManager.HasKey(key, culture, false))
                 {
                     if (shouldThrow)
                     {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation to: {culture.DisplayName} for the key: {key}";
-                        throw new ArgumentOutOfRangeException(nameof(culture), message);
-                    }
-
-                    return string.Format(Properties.Resources.MissingCultureFormat, key);
-                }
-
-                if (resourceManager.GetResourceSet(culture, false, false)
-                                   .OfType<DictionaryEntry>()
-                                   .Any(x => Equals(x.Key, key)))
-                {
-                    if (shouldThrow)
-                    {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key}";
+                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {culture.Name}";
                         throw new ArgumentOutOfRangeException(nameof(key), message);
                     }
 
@@ -217,29 +227,17 @@
             return string.Format(format, arg);
         }
 
-        /// <summary>
-        /// Check if the <paramref name="resourceManager"/> has a translation for <paramref name="key"/>
-        /// </summary>
-        /// <param name="resourceManager">The <see cref="ResourceManager"/></param>
-        /// <param name="key">The key</param>
-        /// <param name="culture">The <see cref="CultureInfo"/></param>
-        /// <returns>True if a translation exists</returns>
-        internal static bool HasKey(ResourceManager resourceManager, string key, CultureInfo culture)
-        {
-            return resourceManager.GetString(key, culture) != null;
-        }
-
         private static void OnCurrentCultureChanged(CultureInfo e)
         {
             CurrentCultureChanged?.Invoke(null, e);
         }
 
-        private static IReadOnlyList<CultureInfo> GetAllCultures()
+        private static List<CultureInfo> GetAllCultures()
         {
             Debug.WriteLine(resourceDirectory);
             return resourceDirectory?.Exists == true
-                       ? ResourceCultures.GetAllCultures(resourceDirectory)
-                       : new CultureInfo[0];
+                       ? ResourceCultures.GetAllCultures(resourceDirectory).ToList()
+                       : new List<CultureInfo>();
         }
     }
 }

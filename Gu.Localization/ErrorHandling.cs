@@ -4,6 +4,6 @@
     {
         Default,
         Throw,
-        ReturnInfo
+        ReturnErrorInfo
     }
 }

@@ -72,17 +72,17 @@
 
         [TestCase(null, "sv", "key == null")]
         [TestCase("Missing", "sv", "!Missing!")]
-        [TestCase("EnglishOnly", "sv", "_EnglishOnly_")]
-        [TestCase("EnglishOnly", "it", "~EnglishOnly~")]
-        [TestCase("AllLanguages", "it", "So neutral")]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "_EnglishOnly_")]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "~EnglishOnly~")]
+        [TestCase(nameof(Properties.Resources.AllLanguages), "it", "~So neutral~")]
         public void ErrorMessages(string key, string culture, string expected)
         {
             Translator.CurrentCulture = CultureInfo.GetCultureInfo(culture);
             Translator.ErrorHandling = ErrorHandling.Throw;
-            var actual = Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.ReturnInfo);
+            var actual = Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.ReturnErrorInfo);
             Assert.AreEqual(expected, actual);
 
-            Translator.ErrorHandling = ErrorHandling.ReturnInfo;
+            Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
             actual = Translator.Translate(Properties.Resources.ResourceManager, key);
             Assert.AreEqual(expected, actual);
         }
@@ -98,7 +98,7 @@
             Translator.CurrentCulture = culture == null
                                             ? CultureInfo.InvariantCulture
                                             : CultureInfo.GetCultureInfo(culture);
-            Translator.ErrorHandling = ErrorHandling.ReturnInfo;
+            Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
 
             var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Throw));
             Assert.AreEqual(expected, exception.Message);
