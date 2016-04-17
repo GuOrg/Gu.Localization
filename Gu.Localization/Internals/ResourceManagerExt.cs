@@ -1,8 +1,10 @@
 ﻿namespace Gu.Localization
 {
+    using System;
     using System.Collections;
     using System.Globalization;
     using System.Linq;
+    using System.Reflection;
     using System.Resources;
 
     internal static class ResourceManagerExt
@@ -23,11 +25,12 @@
         {
             if (createIfNotExits)
             {
-                using (var set = resourceManager.GetResourceSet(culture, true, false))
+                var tempManager = resourceManager.Clone();
+                using (var resourceSet = tempManager.GetResourceSet(culture, true, false))
                 {
-                    var result = set?.OfType<DictionaryEntry>()
+                    var result = resourceSet?.OfType<DictionaryEntry>()
                                 .Any(x => Equals(x.Key, key)) == true;
-                    resourceManager.ReleaseAllResources(); // don't think there is a way around this
+                    tempManager.ReleaseAllResources(); // don't think there is a way around this
                     return result;
                 }
             }
@@ -44,11 +47,19 @@
                 return true;
             }
 
-            using (var resourceSet = resourceManager.GetResourceSet(culture, true, false))
+            var tempManager = resourceManager.Clone();
+            using (var resourceSet = tempManager.GetResourceSet(culture, true, false))
             {
-                resourceManager.ReleaseAllResources(); // don't think there is a way around this
+                tempManager.ReleaseAllResources(); // don't think there is a way around this
                 return resourceSet != null;
             }
+        }
+
+        private static ResourceManager Clone(this ResourceManager resourceManager)
+        {
+            var type = Type.ReflectionOnlyGetType(resourceManager.BaseName, true, false);
+            var assembly = Assembly.GetAssembly(type);
+            return new ResourceManager(resourceManager.BaseName, assembly, resourceManager.ResourceSetType);
         }
     }
 }

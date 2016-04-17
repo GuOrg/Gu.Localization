@@ -134,10 +134,10 @@
         public void Cultures()
         {
             var key = nameof(Properties.Resources.EnglishOnly);
-            var it = CultureInfo.GetCultureInfo("it");
-            // This call is for side effects to assert that it is not added, YES NEEDS TO BE CALLED TWICE
-            Translator<Properties.Resources>.Translate(key, it, ErrorHandling.ReturnErrorInfo);
-            Translator<Properties.Resources>.Translate(key, it, ErrorHandling.ReturnErrorInfo);
+            var italian = CultureInfo.GetCultureInfo("it");
+            // This call is for side effects to assert that 'it' is not added, YES NEEDS TO BE CALLED TWICE
+            Translator<Properties.Resources>.Translate(key, italian, ErrorHandling.ReturnErrorInfo);
+            Translator<Properties.Resources>.Translate(key, italian, ErrorHandling.ReturnErrorInfo);
 
             var cultures = Translator.Cultures.Select(x => x.Name).ToArray();
             CollectionAssert.AreEqual(new[] { "de", "en", "sv" }, cultures);
