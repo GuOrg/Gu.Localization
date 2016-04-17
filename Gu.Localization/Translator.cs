@@ -100,7 +100,7 @@
         /// </summary>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
-        /// <param name="culture">The culture.</param>
+        /// <param name="culture">The culture, if null CultureInfo.InvariantCulture is used</param>
         /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
         public static string Translate(ResourceManager resourceManager, string key, CultureInfo culture)
         {
@@ -112,7 +112,7 @@
         /// </summary>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
-        /// <param name="culture">The culture.</param>
+        /// <param name="culture">The culture, if null CultureInfo.InvariantCulture is used</param>
         /// <param name="errorHandling">How to handle errors.</param>
         /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
         public static string Translate(
@@ -165,7 +165,7 @@
                 {
                     if (shouldThrow)
                     {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation to: {culture.DisplayName}";
+                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation to: {culture.DisplayName} for the key: {key}";
                         throw new ArgumentOutOfRangeException(nameof(culture), message);
                     }
 
@@ -174,11 +174,11 @@
 
                 if (resourceManager.GetResourceSet(culture, false, false)
                                    .OfType<DictionaryEntry>()
-                                   .All(x => !Equals(x.Key, key)))
+                                   .Any(x => Equals(x.Key, key)))
                 {
                     if (shouldThrow)
                     {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translations for the key: {key}";
+                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key}";
                         throw new ArgumentOutOfRangeException(nameof(key), message);
                     }
 

@@ -1,5 +1,6 @@
 ﻿namespace Gu.Localization
 {
+    using System.Globalization;
     using System.Resources;
 
     /// <summary>
@@ -32,11 +33,34 @@
         /// Call like this Translator{Properties.Resources}.Translate(nameof(Properties.Resources.SomeKey));
         /// </summary>
         /// <param name="key">Path to the key. Must be included <typeparamref name="TResources"/>.</param>
+        /// <param name="culture">The culture, if null CultureInfo.InvariantCulture is used</param>
+        /// <returns>The key translated to the <paramref name="culture"/></returns>
+        public static string Translate(string key, CultureInfo culture)
+        {
+            return Translator.Translate(ResourceManager, key, culture, ErrorHandling.Default);
+        }
+
+        /// <summary>
+        /// Call like this Translator{Properties.Resources}.Translate(nameof(Properties.Resources.SomeKey));
+        /// </summary>
+        /// <param name="key">Path to the key. Must be included <typeparamref name="TResources"/>.</param>
         /// <param name="errorHandling">Specifies how errors are handled.</param>
         /// <returns>The key translated to the <see cref="Translator.CurrentCulture"/></returns>
         public static string Translate(string key, ErrorHandling errorHandling)
         {
             return Translator.Translate(ResourceManager, key, errorHandling);
+        }
+
+        /// <summary>
+        /// Call like this Translator{Properties.Resources}.Translate(nameof(Properties.Resources.SomeKey));
+        /// </summary>
+        /// <param name="key">Path to the key. Must be included <typeparamref name="TResources"/>.</param>
+        /// <param name="culture">The culture, if null CultureInfo.InvariantCulture is used</param>
+        /// <param name="errorHandling">Specifies how errors are handled.</param>
+        /// <returns>The key translated to the <paramref name="culture"/></returns>
+        public static string Translate(string key, CultureInfo culture, ErrorHandling errorHandling)
+        {
+            return Translator.Translate(ResourceManager, key, culture, errorHandling);
         }
 
         /// <summary>

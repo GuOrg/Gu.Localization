@@ -1,5 +1,6 @@
 ﻿namespace Gu.Localization.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
@@ -27,6 +28,31 @@
             Assert.AreEqual(expected, actual);
         }
 
+        [TestCase(nameof(Properties.Resources.AllLanguages), "en", "English")]
+        [TestCase(nameof(Properties.Resources.AllLanguages), "sv", "Svenska")]
+        [TestCase(nameof(Properties.Resources.AllLanguages), null, "So neutral")]
+        public void HappyPath(string key, string culture, string expected)
+        {
+            Translator.CurrentCulture = culture == null
+                                            ? CultureInfo.InvariantCulture
+                                            : CultureInfo.GetCultureInfo(culture);
+            var actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
+            Assert.AreEqual(expected, actual);
+
+            foreach (var errorHandling in Enum.GetValues(typeof(ErrorHandling)).OfType<ErrorHandling>())
+            {
+                actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages), errorHandling);
+                Assert.AreEqual(expected, actual);
+            }
+
+            foreach (var errorHandling in Enum.GetValues(typeof(ErrorHandling)).OfType<ErrorHandling>())
+            {
+                Translator.ErrorHandling = errorHandling;
+                actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
         [TestCase("en", 1, "Value: 1")]
         [TestCase("sv", 1, "Värde: 1")]
         [TestCase(null, 1, "Neutral: 1")]
@@ -44,7 +70,7 @@
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase(null, "sv", "null")]
+        [TestCase(null, "sv", "key == null")]
         [TestCase("Missing", "sv", "!Missing!")]
         [TestCase("EnglishOnly", "sv", "_EnglishOnly_")]
         [TestCase("EnglishOnly", "it", "~EnglishOnly~")]
@@ -52,8 +78,40 @@
         public void ErrorMessages(string key, string culture, string expected)
         {
             Translator.CurrentCulture = CultureInfo.GetCultureInfo(culture);
-            var actual = Translator.Translate(Properties.Resources.ResourceManager, key);
+            Translator.ErrorHandling = ErrorHandling.Throw;
+            var actual = Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.ReturnInfo);
             Assert.AreEqual(expected, actual);
+
+            Translator.ErrorHandling = ErrorHandling.ReturnInfo;
+            actual = Translator.Translate(Properties.Resources.ResourceManager, key);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase("Missing", null, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
+        [TestCase("Missing", "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the key: EnglishOnly for the culture: sv\r\nParameter name: key")]
+        [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translations for the key: EnglishOnly\r\nParameter name: key")]
+        [TestCase(nameof(Properties.Resources.AllLanguages), "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translations for the culture: it\r\nParameter name: culture")]
+        [TestCase(nameof(Properties.Resources.NeutralOnly), "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translations for the culture: it\r\nParameter name: culture")]
+        public void Throws(string key, string culture, string expected)
+        {
+            Translator.CurrentCulture = culture == null
+                                            ? CultureInfo.InvariantCulture
+                                            : CultureInfo.GetCultureInfo(culture);
+            Translator.ErrorHandling = ErrorHandling.ReturnInfo;
+
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Throw));
+            Assert.AreEqual(expected, exception.Message);
+
+            Translator.ErrorHandling = ErrorHandling.Throw;
+            exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key));
+            Assert.AreEqual(expected, exception.Message);
+
+            exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Default));
+            Assert.AreEqual(expected, exception.Message);
+
+            exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Throw));
+            Assert.AreEqual(expected, exception.Message);
         }
 
         [Test]

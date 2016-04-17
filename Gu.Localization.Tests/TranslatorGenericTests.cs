@@ -44,16 +44,18 @@ namespace Gu.Localization.Tests
             Assert.AreEqual("Svenska", translation.Translated);
         }
 
-        [TestCase(null, "sv", "null")]
+        [TestCase(null, "sv", "key == null")]
         [TestCase("Missing", "sv", "!Missing!")]
-        [TestCase("EnglishOnly", "sv", "_EnglishOnly_")]
-        [TestCase("EnglishOnly", "it", "~EnglishOnly~")]
-        [TestCase("AllLanguages", "it", "So neutral")]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "_EnglishOnly_")]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "~EnglishOnly~")]
+        [TestCase(nameof(Properties.Resources.AllLanguages), "it", "So neutral")]
+        [TestCase(nameof(Properties.Resources.NeutralOnly), "it", "So neutral")]
         public void ErrorMessages(string key, string culture, string expected)
         {
             Translator.CurrentCulture = culture == null
                                             ? CultureInfo.InvariantCulture
                                             : CultureInfo.GetCultureInfo(culture);
+            Translator.ErrorHandling = ErrorHandling.Throw;
             var actual = Translator<Properties.Resources>.Translate(key, ErrorHandling.ReturnInfo);
             Assert.AreEqual(expected, actual);
 
@@ -62,21 +64,52 @@ namespace Gu.Localization.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase(null, "sv", "null")]
-        [TestCase("Missing", "sv", "!Missing!")]
-        [TestCase("EnglishOnly", "sv", "_EnglishOnly_")]
-        [TestCase("EnglishOnly", "it", "~EnglishOnly~")]
-        [TestCase("AllLanguages", "it", "So neutral")]
+        [TestCase("Missing", null, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
+        [TestCase("Missing", "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the key: EnglishOnly for the culture: sv\r\nParameter name: key")]
+        [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translations for the key: EnglishOnly\r\nParameter name: key")]
+        [TestCase(nameof(Properties.Resources.AllLanguages), "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources ")]
+        [TestCase(nameof(Properties.Resources.NeutralOnly), "it", "So neutral")]
         public void Throws(string key, string culture, string expected)
         {
             Translator.CurrentCulture = culture == null
                                             ? CultureInfo.InvariantCulture
                                             : CultureInfo.GetCultureInfo(culture);
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(key, ErrorHandling.Default));
-            Assert.AreEqual("", exception.Message);
+            Translator.ErrorHandling = ErrorHandling.ReturnInfo;
+
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(key, ErrorHandling.Throw));
+            Assert.AreEqual(expected, exception.Message);
+
+            Translator.ErrorHandling = ErrorHandling.Throw;
+            exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(key));
+            Assert.AreEqual(expected, exception.Message);
+
+            exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(key, ErrorHandling.Default));
+            Assert.AreEqual(expected, exception.Message);
 
             exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(key, ErrorHandling.Throw));
-            Assert.AreEqual("", exception.Message);
+            Assert.AreEqual(expected, exception.Message);
+        }
+
+        [Test]
+        public void ThrowsWhenKeyIsNull()
+        {
+            var key = (string)null;
+            var expected = "Value cannot be null.\r\nParameter name: key";
+            Translator.ErrorHandling = ErrorHandling.ReturnInfo;
+
+            var exception = Assert.Throws<ArgumentNullException>(() => Translator<Properties.Resources>.Translate(key, ErrorHandling.Throw));
+            Assert.AreEqual(expected, exception.Message);
+
+            Translator.ErrorHandling = ErrorHandling.Throw;
+            exception = Assert.Throws<ArgumentNullException>(() => Translator<Properties.Resources>.Translate(key));
+            Assert.AreEqual(expected, exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => Translator<Properties.Resources>.Translate(key, ErrorHandling.Default));
+            Assert.AreEqual(expected, exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => Translator<Properties.Resources>.Translate(key, ErrorHandling.Throw));
+            Assert.AreEqual(expected, exception.Message);
         }
     }
 }
