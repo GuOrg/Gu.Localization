@@ -36,26 +36,12 @@
                     return $"{nameof(EnumExtension)} {nameof(this.Member)} must be an enum";
                 }
 
-                return CreateBindingExpression(this.ResourceManager, this.Member.ToString(), serviceProvider);
+                return StaticExtension.CreateBindingExpression(this.ResourceManager, this.Member.ToString(), serviceProvider);
             }
             catch (Exception)
             {
                 return string.Format(Resources.UnknownErrorFormat, this.Member);
             }
-        }
-
-        private static object CreateBindingExpression(ResourceManager resourceManager, string key, IServiceProvider serviceProvider)
-        {
-            var translation = Translation.GetOrCreate(resourceManager, key);
-            var binding = new Binding(nameof(translation.Translated))
-            {
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                Source = translation
-            };
-
-            var provideValue = binding.ProvideValue(serviceProvider);
-            return provideValue;
         }
     }
 }

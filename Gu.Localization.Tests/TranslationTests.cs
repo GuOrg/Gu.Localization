@@ -40,7 +40,7 @@
         public void Translate(string key, string culture, string expected)
         {
             var cultureInfo = CultureInfo.GetCultureInfo(culture);
-            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, key);
+            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, key, ErrorHandling.ReturnErrorInfo);
             Translator.CurrentCulture = cultureInfo;
             var actual = translation.Translated;
             Assert.AreEqual(expected, actual);

@@ -74,9 +74,9 @@
             }
         }
 
-        private static object CreateBindingExpression(ResourceManager resourceManager, string key, IServiceProvider serviceProvider)
+        internal static object CreateBindingExpression(ResourceManager resourceManager, string key, IServiceProvider serviceProvider)
         {
-            var translation = Translation.GetOrCreate(resourceManager, key);
+            var translation = Translation.GetOrCreate(resourceManager, key, ErrorHandling.ReturnErrorInfo);
             var binding = new Binding(nameof(translation.Translated))
             {
                 Mode = BindingMode.OneWay,

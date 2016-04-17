@@ -20,10 +20,11 @@
         /// <summary> Create a translation for <paramref name="member"/> </summary>
         /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <paramref name="member"/></param>
         /// <param name="member"> The member to translate</param>
+        /// <param name="errorHandling">Specifies how errors are handled.</param>
         /// <returns> A <see cref="Translation"/></returns>
-        public static Translation Create(ResourceManager resourceManager, T member)
+        public static Translation Create(ResourceManager resourceManager, T member, ErrorHandling errorHandling = ErrorHandling.Default)
         {
-            return Translation.GetOrCreate(resourceManager, member.ToString(CultureInfo.InvariantCulture));
+            return Translation.GetOrCreate(resourceManager, member.ToString(CultureInfo.InvariantCulture), errorHandling);
         }
     }
 }

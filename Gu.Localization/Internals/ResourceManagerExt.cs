@@ -45,7 +45,9 @@
         }
 
         // Clones the resourcemanager and gets the resource set for the culture
-        // This is slow and backwards but 
+        // This is slow and backwards but can't think of another way that does not load a the resourceset into memory.
+        // Also calling resourceManager.ReleaseAllResources() feels really nasty in a lib like this.
+        // Keeping it slow and dumb until something better.
         private static Disposer GetTempResourceSet(this ResourceManager resourceManager, CultureInfo culture)
         {
             var type = AppDomain.CurrentDomain.GetAssemblies()
@@ -71,8 +73,8 @@
 
         private class Disposer : IDisposable
         {
-            private readonly ResourceManager resourceManager;
             internal readonly ResourceSet ResourceSet;
+            private readonly ResourceManager resourceManager;
 
             public Disposer(ResourceManager resourceManager, ResourceSet resourceSet)
             {

@@ -67,10 +67,11 @@
         /// Create a <see cref="Translation"/> for <paramref name="key"/>
         /// </summary>
         /// <param name="key">The key</param>
+        /// <param name="errorHandling">Specifies how errors are handled.</param>
         /// <returns>A <see cref="Translation"/></returns>
-        public static Translation GetOrCreateTranslation(string key)
+        public static Translation GetOrCreateTranslation(string key, ErrorHandling errorHandling = ErrorHandling.Default)
         {
-            return Translation.GetOrCreate(ResourceManager, key);
+            return Translation.GetOrCreate(ResourceManager, key, errorHandling);
         }
     }
 }

@@ -2,6 +2,7 @@
 {
     using System.Collections.Concurrent;
     using System.ComponentModel;
+    using System.Globalization;
     using System.Resources;
     using System.Runtime.CompilerServices;
 
@@ -13,6 +14,7 @@
         private static readonly ConcurrentDictionary<ResourceManagerAndKey, Translation> Cache = new ConcurrentDictionary<ResourceManagerAndKey, Translation>();
 
         private readonly string key;
+        private readonly ErrorHandling errorHandling;
         private readonly ResourceManager resourceManager;
 
         static Translation()
@@ -26,17 +28,18 @@
                 };
         }
 
-        private Translation(ResourceManager resourceManager, string key)
+        private Translation(ResourceManager resourceManager, string key, ErrorHandling errorHandling = ErrorHandling.Default)
         {
             this.resourceManager = resourceManager;
             this.key = key;
+            this.errorHandling = errorHandling;
         }
 
         /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <inheritdoc />
-        public string Translated => Translator.Translate(this.resourceManager, this.key, ErrorHandling.ReturnErrorInfo);
+        public string Translated => Translator.Translate(this.resourceManager, this.key, this.errorHandling);
 
         /// <summary>
         /// Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey))
@@ -47,14 +50,26 @@
         /// <param name="key">
         /// The key to translate
         /// </param>
+        /// <param name="errorHandling">Specifies how errors are handled.</param>
         /// <returns>A <see cref="Translation"/> that notifies when <see cref="Translator.CurrentCulture"/> changes</returns>
-        public static Translation GetOrCreate(ResourceManager resourceManager, string key)
+        public static Translation GetOrCreate(ResourceManager resourceManager, string key, ErrorHandling errorHandling = ErrorHandling.Default)
         {
             Ensure.NotNull(resourceManager, nameof(resourceManager));
             Ensure.NotNull(key, nameof(key));
 
-            var rmk = new ResourceManagerAndKey(resourceManager, key);
-            return Cache.GetOrAdd(rmk, x => new Translation(x.ResourceManager, x.Key));
+            var rmk = new ResourceManagerAndKey(resourceManager, key, errorHandling);
+            return Cache.GetOrAdd(rmk, x => new Translation(x.ResourceManager, x.Key, errorHandling));
+        }
+
+        /// <summary>
+        /// Calls <see cref="Translator.Translate(ResourceManager, string, CultureInfo, ErrorHandling)"/> with the key.
+        /// </summary>
+        /// <param name="culture">The culture.</param>
+        /// <param name="errorHandlingStrategy">Specifiec how errors are handled</param>
+        /// <returns>The translated string.</returns>
+        public string Translate(CultureInfo culture, ErrorHandling errorHandlingStrategy = ErrorHandling.Default)
+        {
+            return Translator.Translate(this.resourceManager, this.key, culture, errorHandlingStrategy);
         }
 
         /// <summary> Use this to raise propertychanged</summary>
