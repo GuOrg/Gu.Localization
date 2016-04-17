@@ -162,8 +162,14 @@
                 {
                     if (shouldThrow)
                     {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation to: {culture.Name} for the key: {key}";
-                        throw new ArgumentOutOfRangeException(nameof(culture), message);
+                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation to the culture: {culture.Name} for the key: {key}";
+                        throw new ArgumentOutOfRangeException($"{nameof(culture)}, {nameof(key)}", message);
+                    }
+
+                    var trnslated = resourceManager.GetString(key, culture);
+                    if (!string.IsNullOrEmpty(trnslated))
+                    {
+                        return string.Format(Properties.Resources.MissingCultureFormat, trnslated);
                     }
 
                     return string.Format(Properties.Resources.MissingCultureFormat, key);

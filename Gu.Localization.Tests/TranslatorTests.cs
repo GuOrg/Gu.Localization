@@ -28,6 +28,7 @@
             Assert.AreEqual(expected, actual);
         }
 
+        [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "So neutral")]
         [TestCase(nameof(Properties.Resources.AllLanguages), "en", "English")]
         [TestCase(nameof(Properties.Resources.AllLanguages), "sv", "Svenska")]
         [TestCase(nameof(Properties.Resources.AllLanguages), null, "So neutral")]
@@ -36,19 +37,19 @@
             Translator.CurrentCulture = culture == null
                                             ? CultureInfo.InvariantCulture
                                             : CultureInfo.GetCultureInfo(culture);
-            var actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
+            var actual = Translator.Translate(Properties.Resources.ResourceManager, key);
             Assert.AreEqual(expected, actual);
 
             foreach (var errorHandling in Enum.GetValues(typeof(ErrorHandling)).OfType<ErrorHandling>())
             {
-                actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages), errorHandling);
+                actual = Translator.Translate(Properties.Resources.ResourceManager, key, errorHandling);
                 Assert.AreEqual(expected, actual);
             }
 
             foreach (var errorHandling in Enum.GetValues(typeof(ErrorHandling)).OfType<ErrorHandling>())
             {
                 Translator.ErrorHandling = errorHandling;
-                actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
+                actual = Translator.Translate(Properties.Resources.ResourceManager, key);
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -90,9 +91,8 @@
         [TestCase("Missing", null, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
         [TestCase("Missing", "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
         [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the key: EnglishOnly for the culture: sv\r\nParameter name: key")]
-        [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translations for the key: EnglishOnly\r\nParameter name: key")]
         [TestCase(nameof(Properties.Resources.AllLanguages), "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translations for the culture: it\r\nParameter name: culture")]
-        [TestCase(nameof(Properties.Resources.NeutralOnly), "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translations for the culture: it\r\nParameter name: culture")]
+        [TestCase(nameof(Properties.Resources.NeutralOnly), "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation to the culture: it for the key: NeutralOnly\r\nParameter name: culture, key")]
         public void Throws(string key, string culture, string expected)
         {
             Translator.CurrentCulture = culture == null
@@ -133,6 +133,12 @@
         [Test]
         public void Cultures()
         {
+            var key = nameof(Properties.Resources.EnglishOnly);
+            var it = CultureInfo.GetCultureInfo("it");
+            // This call is for side effects to assert that it is not added, YES NEEDS TO BE CALLED TWICE
+            Translator<Properties.Resources>.Translate(key, it, ErrorHandling.ReturnErrorInfo);
+            Translator<Properties.Resources>.Translate(key, it, ErrorHandling.ReturnErrorInfo);
+
             var cultures = Translator.Cultures.Select(x => x.Name).ToArray();
             CollectionAssert.AreEqual(new[] { "de", "en", "sv" }, cultures);
         }

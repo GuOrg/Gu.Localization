@@ -4,7 +4,6 @@
     using System.Globalization;
     using System.Linq;
     using System.Resources;
-    using System.Threading;
 
     internal static class ResourceManagerExt
     {
@@ -26,14 +25,16 @@
             {
                 using (var set = resourceManager.GetResourceSet(culture, true, false))
                 {
-                    return set.OfType<DictionaryEntry>()
-                              .Any(x => Equals(x.Key, key));
+                    var result = set?.OfType<DictionaryEntry>()
+                                .Any(x => Equals(x.Key, key)) == true;
+                    resourceManager.ReleaseAllResources(); // don't think there is a way around this
+                    return result;
                 }
             }
 
             return resourceManager.GetResourceSet(culture, false, false)
-                                  .OfType<DictionaryEntry>()
-                                  .Any(x => Equals(x.Key, key));
+                                  ?.OfType<DictionaryEntry>()
+                                  .Any(x => Equals(x.Key, key)) == true;
         }
 
         internal static bool HasCulture(this ResourceManager resourceManager, CultureInfo culture)
@@ -45,6 +46,7 @@
 
             using (var resourceSet = resourceManager.GetResourceSet(culture, true, false))
             {
+                resourceManager.ReleaseAllResources(); // don't think there is a way around this
                 return resourceSet != null;
             }
         }

@@ -51,10 +51,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Errors\DummyEnum.cs" />
+    <Compile Include="Internals\ResourceManagerExtTests.cs" />
     <Compile Include="Internals\StringExtTests.cs" />
     <Compile Include="ValidateTests.cs" />
     <Compile Include="Internals\FormatStringTests.cs" />
-    <Compile Include="Internals\ResourceManagers.cs" />
+    <Compile Include="Internals\ResourceManagersTests.cs" />
     <Compile Include="TranslatorGenericTests.cs" />
     <Compile Include="Internals\Ensure\EnsureTests.format.cs" />
     <Compile Include="EnumTranslationTests.cs" />
