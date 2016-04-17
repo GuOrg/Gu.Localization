@@ -33,16 +33,16 @@
             CollectionAssert.AreEqual(new[] { nameof(Translation.Translated), nameof(Translation.Translated) }, changes);
         }
 
-        [TestCase("AllLanguages", "en", "English")]
-        [TestCase("AllLanguages", "sv", "Svenska")]
+        [TestCase(nameof(Properties.Resources.AllLanguages), "en", "English")]
+        [TestCase(nameof(Properties.Resources.AllLanguages), "sv", "Svenska")]
         [TestCase("Missing", "sv", "!Missing!")]
-        [TestCase("EnglishOnly", "sv", "_EnglishOnly_")]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "_EnglishOnly_")]
         public void Translate(string key, string culture, string expected)
         {
             var cultureInfo = CultureInfo.GetCultureInfo(culture);
-            var translator = Translation.GetOrCreate(Properties.Resources.ResourceManager, key);
+            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, key, ErrorHandling.ReturnErrorInfo);
             Translator.CurrentCulture = cultureInfo;
-            var actual = translator.Translated;
+            var actual = translation.Translated;
             Assert.AreEqual(expected, actual);
         }
     }

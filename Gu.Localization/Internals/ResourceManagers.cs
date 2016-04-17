@@ -6,7 +6,7 @@ namespace Gu.Localization
     using System.Resources;
 
     /// <summary>A cache for resourcemanagers.</summary>
-    internal static class ResourceManagers
+        internal static class ResourceManagers
     {
         private static readonly ConcurrentDictionary<Type, ResourceManager> TypeManagerMap = new ConcurrentDictionary<Type, ResourceManager>();
 

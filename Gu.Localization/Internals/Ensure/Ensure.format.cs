@@ -1,24 +1,21 @@
-﻿#pragma warning disable SA1600 // Elements must be documented, reason: internal
-#pragma warning disable SA1601 // Partial must be documented, reason: internal
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
-    using System.Linq;
 
     internal static partial class Ensure
     {
         internal static void Format(string format, object[] args, string formatParameterName, string argsParameterName)
         {
             NotNullOrEmpty(format, "format");
-            var items = FormatString.GetFormatItems(format);
-            if (!FormatString.AreItemsValid(items))
+            int count;
+            bool? anyItemHasFormat;
+            if (!FormatString.IsValidFormat(format, out count, out anyItemHasFormat) || count < 0)
             {
-                var joined = string.Join(", ", items.Select(x => $"{{{x}}}"));
-                var message = $"Expected the format items to be [0..n). They were: {joined}";
+                var message = $"Expected the format items to be [0..1..n). They format was: {format}";
                 throw new ArgumentException(message, $"{formatParameterName},{argsParameterName}");
             }
 
-            if (items.Count == 0)
+            if (count == 0)
             {
                 if (args == null || args.Length == 0)
                 {
@@ -31,26 +28,27 @@ namespace Gu.Localization
 
             if (args == null || args.Length == 0)
             {
-                var message = $"The format string: {format} contains {items.Count} arguments but: no arguments were passed.";
+                var message = $"The format string: {format} contains {count} arguments but: no arguments were passed.";
                 throw new ArgumentException(message, $"{formatParameterName},{argsParameterName}");
             }
 
-            if (args.Length != FormatString.CountUnique(items))
+            if (args.Length != count)
             {
-                var message = $"The format string: {format} contains {items.Count} arguments but: {args.Length} arguments were provided";
+                var message = $"The format string: {format} contains {count} arguments but: {args.Length} arguments were provided";
                 throw new ArgumentException(message, $"{formatParameterName},{argsParameterName}");
             }
         }
 
         internal static bool FormatMatches(string format, object[] args)
         {
-            var items = FormatString.GetFormatItems(format);
-            if (!FormatString.AreItemsValid(items))
+            int count;
+            bool? anyItemHasFormat;
+            if (!FormatString.IsValidFormat(format, out count, out anyItemHasFormat) || count < 0)
             {
                 return false;
             }
 
-            return FormatString.CountUnique(items) == (args?.Length ?? 0);
+            return count == (args?.Length ?? 0);
         }
     }
 }

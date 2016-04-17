@@ -1,5 +1,6 @@
 ﻿namespace Gu.Localization
 {
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
@@ -46,6 +47,28 @@
             }
 
             return cultures ?? EmptyCultures;
+        }
+
+        internal static DirectoryInfo DefaultResourceDirectory()
+        {
+            var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
+            var assembly = typeof(ResourceCultures).Assembly;
+            var name = $"{assembly.GetName().Name}.dll";
+            if (currentDirectory.Contains(name))
+            {
+                return currentDirectory;
+            }
+
+            return new DirectoryInfo(System.IO.Path.GetDirectoryName(new Uri(assembly.CodeBase).LocalPath));
+        }
+
+        private static bool Contains(
+            this DirectoryInfo directory,
+            string fileName,
+            SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return directory.EnumerateFiles(fileName, searchOption)
+                            .Any();
         }
     }
 }

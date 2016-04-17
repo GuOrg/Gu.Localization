@@ -5,16 +5,16 @@ namespace Gu.Localization
     using System.Globalization;
 
     /// <summary>A comparer for <see cref="CultureInfo"/> </summary>
-    internal class CultureInfoComparer : IEqualityComparer<CultureInfo>
+    internal class CultureInfoComparer : IEqualityComparer<CultureInfo>, IComparer<CultureInfo>
     {
         /// <summary> Gets a comparer that compares by <see cref="CultureInfo.TwoLetterISOLanguageName"/> </summary>
-        internal static readonly IEqualityComparer<CultureInfo> Default = new CultureInfoComparer(x => x.TwoLetterISOLanguageName);
+        internal static readonly CultureInfoComparer Default = new CultureInfoComparer(x => x?.TwoLetterISOLanguageName);
 
         /// <summary> Gets a comparer that compares by <see cref="CultureInfo.TwoLetterISOLanguageName"/> </summary>
-        internal static readonly IEqualityComparer<CultureInfo> ByTwoLetterIsoLanguageName = new CultureInfoComparer(x => x.TwoLetterISOLanguageName);
+        internal static readonly CultureInfoComparer ByTwoLetterIsoLanguageName = new CultureInfoComparer(x => x?.TwoLetterISOLanguageName);
 
         /// <summary> Gets a comparer that compares by <see cref="CultureInfo.Name"/> </summary>
-        internal static readonly IEqualityComparer<CultureInfo> ByName = new CultureInfoComparer(x => x.Name);
+        internal static readonly CultureInfoComparer ByName = new CultureInfoComparer(x => x?.Name);
 
         private readonly Func<CultureInfo, string> nameGetter;
 
@@ -27,13 +27,13 @@ namespace Gu.Localization
         /// <param name="x">The x</param>
         /// <param name="y">The y</param>
         /// <returns>True if <paramref name="x"/> and <paramref name="y"/> are equal.</returns>
-        public static bool Equals(CultureInfo x, CultureInfo y)
+        public static bool DefaultEquals(CultureInfo x, CultureInfo y)
         {
             return Default.Equals(x, y);
         }
 
         /// <inheritdoc />
-        bool IEqualityComparer<CultureInfo>.Equals(CultureInfo x, CultureInfo y)
+        public bool Equals(CultureInfo x, CultureInfo y)
         {
             if (x == null && y == null)
             {
@@ -49,10 +49,15 @@ namespace Gu.Localization
         }
 
         /// <inheritdoc />
-        int IEqualityComparer<CultureInfo>.GetHashCode(CultureInfo obj)
+        public int GetHashCode(CultureInfo obj)
         {
             Ensure.NotNull(obj, nameof(obj));
             return this.nameGetter(obj).GetHashCode();
+        }
+
+        public int Compare(CultureInfo x, CultureInfo y)
+        {
+            return string.Compare(this.nameGetter(x), this.nameGetter(y), StringComparison.Ordinal);
         }
     }
 }

@@ -5,18 +5,16 @@
 
     using Gu.Wpf.Localization.Demo;
 
-    public static class Info
+    public static class StartInfo
     {
-        public static ProcessStartInfo ProcessStartInfo
+        public static ProcessStartInfo DemoProject
         {
             get
             {
                 var assembly = typeof(MainWindow).Assembly;
-                var uri = new Uri(assembly.CodeBase, UriKind.Absolute);
-                var fileName = uri.AbsolutePath;
                 var processStartInfo = new ProcessStartInfo
                 {
-                    FileName = fileName,
+                    FileName = new Uri(assembly.CodeBase, UriKind.Absolute).LocalPath,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true

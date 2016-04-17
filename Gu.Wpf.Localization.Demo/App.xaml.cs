@@ -1,7 +1,7 @@
-﻿using System.Windows;
-
-namespace Gu.Wpf.Localization.Demo
+﻿namespace Gu.Wpf.Localization.Demo
 {
+    using System.Windows;
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>

@@ -1,5 +1,7 @@
 ﻿namespace Gu.Wpf.Localization.UiTests
 {
+    using System.Diagnostics;
+
     using Gu.Wpf.Localization.Demo;
 
     using NUnit.Framework;
@@ -16,16 +18,16 @@
 
         private ComboBox languageComboBox;
 
-        [TestFixtureSetUp]
-        public void TestFixtureSetUp()
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
-            this.application = Application.AttachOrLaunch(Info.ProcessStartInfo);
+            this.application = Application.AttachOrLaunch(StartInfo.DemoProject);
             this.window = this.application.GetWindow("MainWindow");
             this.languageComboBox = this.window.Get<ComboBox>(AutomationIds.LanguagesComboBoxId);
         }
 
-        [TestFixtureTearDown]
-        public void TestFixtureTearDown()
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
         {
             this.application?.Dispose();
         }

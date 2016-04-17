@@ -8,7 +8,7 @@
     public interface ITranslation : INotifyPropertyChanged
     {
         /// <summary>
-        /// Gets the key Translated to the CurrentCulture
+        /// Gets the key Translated to the <see cref="Translator.CurrentCulture"/>
         /// This valus updates when <see cref="Translator.CurrentCulture"/> changes
         /// </summary>
         string Translated { get; }

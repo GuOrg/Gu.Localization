@@ -59,7 +59,7 @@
         {
             get
             {
-                return CultureInfoComparer.Default.Equals(Translator.CurrentCulture, this.Culture);
+                return CultureInfoComparer.DefaultEquals(Translator.CurrentCulture, this.Culture);
             }
 
             set
@@ -71,7 +71,7 @@
                 }
 
                 if (value &&
-                    !CultureInfoComparer.Default.Equals(this.culture, Translator.CurrentCulture))
+                    !CultureInfoComparer.DefaultEquals(this.culture, Translator.CurrentCulture))
                 {
                     Translator.CurrentCulture = this.culture;
                 }
@@ -90,7 +90,7 @@
                     return false;
                 }
 
-                return Translator.AllCultures.Contains(this.culture, CultureInfoComparer.Default);
+                return Translator.Cultures.Contains(this.culture, CultureInfoComparer.Default);
             }
         }
 
