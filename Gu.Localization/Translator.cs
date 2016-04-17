@@ -88,6 +88,18 @@
         /// </summary>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
+        /// <param name="errorHandling">Specifies how error handling is performed.</param>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        public static string Translate(ResourceManager resourceManager, string key, ErrorHandling errorHandling)
+        {
+            return Translate(resourceManager, key, CurrentCulture, errorHandling);
+        }
+
+        /// <summary>
+        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
+        /// </summary>
+        /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
+        /// <param name="key">The key in <paramref name="resourceManager"/></param>
         /// <param name="culture">The culture.</param>
         /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
         public static string Translate(ResourceManager resourceManager, string key, CultureInfo culture)
