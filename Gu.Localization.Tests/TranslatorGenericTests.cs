@@ -48,8 +48,7 @@ namespace Gu.Localization.Tests
         [TestCase("Missing", "sv", "!Missing!")]
         [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "_EnglishOnly_")]
         [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "~EnglishOnly~")]
-        [TestCase(nameof(Properties.Resources.AllLanguages), "it", "So neutral")]
-        [TestCase(nameof(Properties.Resources.NeutralOnly), "it", "So neutral")]
+        [TestCase(nameof(Properties.Resources.AllLanguages), "it", "~So neutral~")]
         public void ErrorMessages(string key, string culture, string expected)
         {
             Translator.CurrentCulture = culture == null
@@ -67,9 +66,9 @@ namespace Gu.Localization.Tests
         [TestCase("Missing", null, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
         [TestCase("Missing", "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
         [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the key: EnglishOnly for the culture: sv\r\nParameter name: key")]
-        [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translations for the key: EnglishOnly\r\nParameter name: key")]
-        [TestCase(nameof(Properties.Resources.AllLanguages), "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources ")]
-        [TestCase(nameof(Properties.Resources.NeutralOnly), "it", "So neutral")]
+        [TestCase(nameof(Properties.Resources.AllLanguages), "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture")]
+        [TestCase(nameof(Properties.Resources.NeutralOnly), "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture")]
+        [TestCase("MissingKey", "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture")]
         public void Throws(string key, string culture, string expected)
         {
             Translator.CurrentCulture = culture == null

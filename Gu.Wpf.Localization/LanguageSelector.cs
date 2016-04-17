@@ -115,7 +115,7 @@
         {
             foreach (var language in this.Languages)
             {
-                language.IsSelected = CultureInfoComparer.Equals(language.Culture, Translator.CurrentCulture);
+                language.IsSelected = CultureInfoComparer.DefaultEquals(language.Culture, Translator.CurrentCulture);
             }
         }
 
@@ -133,7 +133,7 @@
 
                 foreach (var cultureInfo in Translator.Cultures)
                 {
-                    if (this.Languages.Any(x => CultureInfoComparer.Equals(x.Culture, cultureInfo)))
+                    if (this.Languages.Any(x => CultureInfoComparer.DefaultEquals(x.Culture, cultureInfo)))
                     {
                         continue;
                     }

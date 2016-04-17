@@ -15,8 +15,9 @@
                                  ? CultureInfo.InvariantCulture
                                  : CultureInfo.GetCultureInfo(cultureName);
 
-            Assert.AreEqual(expected, Properties.Resources.ResourceManager.HasCulture(culture));
-            Assert.IsNull(Properties.Resources.ResourceManager.GetResourceSet(culture, false, false));
+            var resourceManager = Properties.Resources.ResourceManager;
+            Assert.AreEqual(expected, resourceManager.HasCulture(culture));
+            Assert.IsNull(resourceManager.GetResourceSet(culture, false, false));
         }
 
         [TestCase(nameof(Properties.Resources.AllLanguages), "sv", true)]
@@ -28,10 +29,11 @@
                                  ? CultureInfo.InvariantCulture
                                  : CultureInfo.GetCultureInfo(cultureName);
 
-            Properties.Resources.ResourceManager.GetString(key, culture); // warmup
+            var resourceManager = Properties.Resources.ResourceManager;
+            resourceManager.GetString(key, culture); // warmup
 
-            Assert.AreEqual(expected, Properties.Resources.ResourceManager.HasKey(key, culture, false));
-            Assert.IsNull(Properties.Resources.ResourceManager.GetResourceSet(culture, false, false));
+            Assert.AreEqual(expected, resourceManager.HasKey(key, culture));
+            Assert.IsNull(resourceManager.GetResourceSet(culture, false, false));
         }
 
         [Test]
@@ -40,10 +42,10 @@
             var italian = CultureInfo.GetCultureInfo("it");
             var key = nameof(Properties.Resources.AllLanguages);
 
-            Assert.AreEqual(false, Properties.Resources.ResourceManager.HasCulture(italian));
-            Properties.Resources.ResourceManager.GetString(key, italian); // warmup
-
-            Assert.AreEqual(false, Properties.Resources.ResourceManager.HasKey(key, italian, false));
+            var resourceManager = Properties.Resources.ResourceManager;
+            Assert.AreEqual(false, resourceManager.HasCulture(italian));
+            Assert.AreEqual(false, resourceManager.HasKey(key, italian));
+            Assert.IsNull(resourceManager.GetResourceSet(italian, false, false));
         }
 
         [Test]
@@ -52,10 +54,10 @@
             var italian = CultureInfo.GetCultureInfo("it");
             var key = nameof(Properties.Resources.AllLanguages);
 
-            Assert.AreEqual(false, Properties.Resources.ResourceManager.HasCulture(italian));
-            Properties.Resources.ResourceManager.GetString(key, italian); // warmup
-
-            Assert.AreEqual(false, Properties.Resources.ResourceManager.HasKey(key, italian, false));
+            var resourceManager = Properties.Resources.ResourceManager;
+            Assert.AreEqual(false, resourceManager.HasCulture(italian));
+            Assert.AreEqual(false, resourceManager.HasKey(key, italian));
+            Assert.IsNull(resourceManager.GetResourceSet(italian, false, false));
         }
     }
 }

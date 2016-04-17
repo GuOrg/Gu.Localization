@@ -31,7 +31,7 @@
 
         private static string CultureName(CultureInfo culture)
         {
-            return CultureInfoComparer.Equals(culture, CultureInfo.InvariantCulture)
+            return CultureInfoComparer.DefaultEquals(culture, CultureInfo.InvariantCulture)
                        ? "invariant"
                        : culture.TwoLetterISOLanguageName;
         }

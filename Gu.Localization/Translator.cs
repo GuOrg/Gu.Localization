@@ -14,7 +14,7 @@
     {
         private static CultureInfo currentCulture = Thread.CurrentThread.CurrentUICulture;
         private static DirectoryInfo resourceDirectory = ResourceCultures.DefaultResourceDirectory();
-        private static List<CultureInfo> cultures = GetAllCultures();
+        private static SortedSet<CultureInfo> cultures = GetAllCultures();
 
         /// <summary>
         /// Notifies when the current language changes.
@@ -54,7 +54,7 @@
 
             set
             {
-                if (CultureInfoComparer.Equals(currentCulture, value))
+                if (CultureInfoComparer.DefaultEquals(currentCulture, value))
                 {
                     return;
                 }
@@ -68,7 +68,7 @@
         public static ErrorHandling ErrorHandling { get; set; } = ErrorHandling.Throw;
 
         /// <summary> Gets a list with all cultures found for the application </summary>
-        public static IReadOnlyList<CultureInfo> Cultures => cultures;
+        public static IEnumerable<CultureInfo> Cultures => cultures;
 
         /// <summary>
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
@@ -146,14 +146,14 @@
             }
 
             if (culture != null &&
-                !CultureInfoComparer.Equals(culture, CultureInfo.InvariantCulture) &&
+                !CultureInfoComparer.DefaultEquals(culture, CultureInfo.InvariantCulture) &&
                 cultures?.Contains(culture, CultureInfoComparer.Default) == false)
             {
                 if (resourceManager.HasCulture(culture))
                 {
                     if (cultures == null)
                     {
-                        cultures = new List<CultureInfo>();
+                        cultures = new SortedSet<CultureInfo>();
                     }
 
                     cultures.Add(culture);
@@ -162,8 +162,8 @@
                 {
                     if (shouldThrow)
                     {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation to the culture: {culture.Name} for the key: {key}";
-                        throw new ArgumentOutOfRangeException($"{nameof(culture)}, {nameof(key)}", message);
+                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the culture: {culture.Name}";
+                        throw new ArgumentOutOfRangeException(nameof(culture), message);
                     }
 
                     var trnslated = resourceManager.GetString(key, culture);
@@ -190,7 +190,7 @@
 
             if (translated == string.Empty)
             {
-                if (!resourceManager.HasKey(key, culture, false))
+                if (!resourceManager.HasKey(key, culture))
                 {
                     if (shouldThrow)
                     {
@@ -238,12 +238,12 @@
             CurrentCultureChanged?.Invoke(null, e);
         }
 
-        private static List<CultureInfo> GetAllCultures()
+        private static SortedSet<CultureInfo> GetAllCultures()
         {
             Debug.WriteLine(resourceDirectory);
             return resourceDirectory?.Exists == true
-                       ? ResourceCultures.GetAllCultures(resourceDirectory).ToList()
-                       : new List<CultureInfo>();
+                       ? new SortedSet<CultureInfo>(ResourceCultures.GetAllCultures(resourceDirectory), CultureInfoComparer.Default)
+                       : new SortedSet<CultureInfo>(CultureInfoComparer.Default);
         }
     }
 }

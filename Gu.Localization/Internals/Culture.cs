@@ -20,7 +20,7 @@ namespace Gu.Localization
 
         internal static bool IsInvariant(this CultureInfo culture)
         {
-            return CultureInfoComparer.Equals(culture, CultureInfo.InvariantCulture);
+            return CultureInfoComparer.DefaultEquals(culture, CultureInfo.InvariantCulture);
         }
 
         private static HashSet<string> CreateCultureNames()

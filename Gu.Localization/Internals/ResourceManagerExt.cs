@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
@@ -11,55 +12,81 @@
     {
         /// <summary>
         /// Check if the <paramref name="resourceManager"/> has a translation for <paramref name="key"/>
+        /// This is a pretty expensive call but should only happen in the error path.
+        /// No memoization is done.
         /// </summary>
         /// <param name="resourceManager">The <see cref="ResourceManager"/></param>
         /// <param name="key">The key</param>
         /// <param name="culture">The <see cref="CultureInfo"/></param>
-        /// <param name="createIfNotExits">true to load the resource set, if it has not been loaded yet; otherwise, false.</param>
         /// <returns>True if a translation exists</returns>
-        internal static bool HasKey(
-            this ResourceManager resourceManager,
-            string key,
-            CultureInfo culture,
-            bool createIfNotExits)
+        internal static bool HasKey(this ResourceManager resourceManager, string key, CultureInfo culture)
         {
-            if (createIfNotExits)
+            using (var resourceSet = resourceManager.GetTempResourceSet(culture))
             {
-                var tempManager = resourceManager.Clone();
-                using (var resourceSet = tempManager.GetResourceSet(culture, true, false))
-                {
-                    var result = resourceSet?.OfType<DictionaryEntry>()
-                                .Any(x => Equals(x.Key, key)) == true;
-                    tempManager.ReleaseAllResources(); // don't think there is a way around this
-                    return result;
-                }
+                return resourceSet?.ResourceSet.OfType<DictionaryEntry>()
+                                   .Any(x => Equals(x.Key, key)) == true;
             }
-
-            return resourceManager.GetResourceSet(culture, false, false)
-                                  ?.OfType<DictionaryEntry>()
-                                  .Any(x => Equals(x.Key, key)) == true;
         }
 
+        /// <summary>
+        /// Check if the <paramref name="resourceManager"/> has translations for <paramref name="culture"/>
+        /// This is a pretty expensive call but should only happen in the error path.
+        /// No memoization is done.
+        /// </summary>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/></param>
+        /// <param name="culture">The <see cref="CultureInfo"/></param>
+        /// <returns>True if a translation exists</returns>
         internal static bool HasCulture(this ResourceManager resourceManager, CultureInfo culture)
         {
-            if (resourceManager.GetResourceSet(culture, false, false) != null)
+            using (var resourceSet = resourceManager.GetTempResourceSet(culture))
             {
-                return true;
-            }
-
-            var tempManager = resourceManager.Clone();
-            using (var resourceSet = tempManager.GetResourceSet(culture, true, false))
-            {
-                tempManager.ReleaseAllResources(); // don't think there is a way around this
                 return resourceSet != null;
             }
         }
 
-        private static ResourceManager Clone(this ResourceManager resourceManager)
+        // Clones the resourcemanager and gets the resource set for the culture
+        // This is slow and backwards but 
+        private static Disposer GetTempResourceSet(this ResourceManager resourceManager, CultureInfo culture)
         {
-            var type = Type.ReflectionOnlyGetType(resourceManager.BaseName, true, false);
-            var assembly = Assembly.GetAssembly(type);
-            return new ResourceManager(resourceManager.BaseName, assembly, resourceManager.ResourceSetType);
+            var type = AppDomain.CurrentDomain.GetAssemblies()
+                                .Select(x => x.GetType(resourceManager.BaseName))
+                                .SingleOrDefault(x => x != null &&
+                                                        x.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)
+                                                        .Any(p => p.PropertyType == typeof(ResourceManager)));
+            if (type == null)
+            {
+                return null;
+            }
+
+            var clone = new ResourceManager(resourceManager.BaseName, type.Assembly);
+            var resourceSet = clone.GetResourceSet(culture, true, false);
+            if (resourceSet == null)
+            {
+                resourceManager.ReleaseAllResources();
+                return null;
+            }
+
+            return new Disposer(resourceManager, resourceSet);
+        }
+
+        private class Disposer : IDisposable
+        {
+            private readonly ResourceManager resourceManager;
+            internal readonly ResourceSet ResourceSet;
+
+            public Disposer(ResourceManager resourceManager, ResourceSet resourceSet)
+            {
+                Debug.Assert(resourceManager != null, "resourceManager == null");
+                Debug.Assert(resourceSet != null, "resourceSet == null");
+                this.resourceManager = resourceManager;
+                this.ResourceSet = resourceSet;
+            }
+
+            public void Dispose()
+            {
+                this.resourceManager.ReleaseAllResources();
+                this.ResourceSet.Dispose();
+            }
         }
     }
 }
