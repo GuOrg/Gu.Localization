@@ -6,6 +6,12 @@
 
     public class ResourceManagerExtTests
     {
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            Properties.Resources.ResourceManager.ReleaseAllResources();
+        }
+
         [TestCase(null, true)]
         [TestCase("sv", true)]
         [TestCase("it", false)]
@@ -30,8 +36,6 @@
                                  : CultureInfo.GetCultureInfo(cultureName);
 
             var resourceManager = Properties.Resources.ResourceManager;
-            resourceManager.GetString(key, culture); // warmup
-
             Assert.AreEqual(expected, resourceManager.HasKey(key, culture));
             Assert.IsNull(resourceManager.GetResourceSet(culture, false, false));
         }

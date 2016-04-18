@@ -45,28 +45,31 @@
         /// <returns>An <see cref="TranslationErrors"/> with all errors found in <paramref name="resourceManager"/></returns>
         public static TranslationErrors Translations(ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
         {
-            var resources = GetResources(resourceManager, cultures);
-            var keys = GetKeys(resourceManager);
-            Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
-            foreach (var key in keys)
+            using (var clone = resourceManager.Clone())
             {
-                var keyErrors = Translations(resources, key);
-                if (keyErrors.Count == 0)
+                var resources = GetResources(clone, cultures);
+                var keys = GetKeys(resourceManager);
+                Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
+                foreach (var key in keys)
                 {
-                    continue;
+                    var keyErrors = Translations(resources, key);
+                    if (keyErrors.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    if (errors == null)
+                    {
+                        errors = new Dictionary<string, IReadOnlyList<TranslationError>>();
+                    }
+
+                    errors.Add(key, keyErrors);
                 }
 
-                if (errors == null)
-                {
-                    errors = new Dictionary<string, IReadOnlyList<TranslationError>>();
-                }
-
-                errors.Add(key, keyErrors);
+                return errors == null
+                           ? TranslationErrors.Empty
+                           : new TranslationErrors(errors);
             }
-
-            return errors == null
-                       ? TranslationErrors.Empty
-                       : new TranslationErrors(errors);
         }
 
         /// <summary>
@@ -97,27 +100,30 @@
         public static TranslationErrors EnumTranslations<T>(ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
             where T : struct, IComparable, IFormattable, IConvertible
         {
-            var resources = GetResources(resourceManager, cultures);
-            Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
-            foreach (var key in Enum.GetNames(typeof(T)))
+            using (var clone = resourceManager.Clone())
             {
-                var keyErrors = Translations(resources, key);
-                if (keyErrors.Count == 0)
+                var resources = GetResources(clone, cultures);
+                Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
+                foreach (var key in Enum.GetNames(typeof(T)))
                 {
-                    continue;
+                    var keyErrors = Translations(resources, key);
+                    if (keyErrors.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    if (errors == null)
+                    {
+                        errors = new Dictionary<string, IReadOnlyList<TranslationError>>();
+                    }
+
+                    errors.Add(key, keyErrors);
                 }
 
-                if (errors == null)
-                {
-                    errors = new Dictionary<string, IReadOnlyList<TranslationError>>();
-                }
-
-                errors.Add(key, keyErrors);
+                return errors == null
+                           ? TranslationErrors.Empty
+                           : new TranslationErrors(errors);
             }
-
-            return errors == null
-                       ? TranslationErrors.Empty
-                       : new TranslationErrors(errors);
         }
 
         /// <summary>
@@ -152,8 +158,11 @@
         /// <returns>A list with all errors for the key or an empty list if no errors.</returns>
         public static IReadOnlyList<TranslationError> Translations(ResourceManager resourceManager, string key, IEnumerable<CultureInfo> cultures)
         {
-            var resources = GetResources(resourceManager, cultures);
-            return Translations(resources, key);
+            using (var clone = resourceManager.Clone())
+            {
+                var resources = GetResources(clone, cultures);
+                return Translations(resources, key);
+            }
         }
 
         private static IReadOnlyList<TranslationError> Translations(IReadOnlyDictionary<CultureInfo, ResourceSet> resources, string key)
@@ -214,9 +223,14 @@
                              .ToArray();
         }
 
-        private static IReadOnlyDictionary<CultureInfo, ResourceSet> GetResources(ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
+        private static IReadOnlyDictionary<CultureInfo, ResourceSet> GetResources(ResourceManagerExt.ResourceManagerClone clone, IEnumerable<CultureInfo> cultures)
         {
-            return cultures.ToDictionary(c => c, c => resourceManager.GetResourceSet(c, true, false), CultureInfoComparer.Default);
+            if (clone == null || clone.ResourceManager == null)
+            {
+                return EmptyReadOnlyDictionary<CultureInfo, ResourceSet>.Default;
+            }
+
+            return cultures.ToDictionary(c => c, c => clone.ResourceManager.GetResourceSet(c, true, false), CultureInfoComparer.Default);
         }
     }
 }

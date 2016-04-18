@@ -88,6 +88,15 @@ namespace Gu.Localization.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Value: {0}.
+        /// </summary>
+        internal static string InvalidFormat__0__ {
+            get {
+                return ResourceManager.GetString("InvalidFormat__0__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to So neutral.
         /// </summary>
         internal static string NeutralOnly {
@@ -106,11 +115,29 @@ namespace Gu.Localization.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value: {0}.
+        ///   Looks up a localized string similar to Neutral: {0}.
         /// </summary>
-        internal static string Value___0_ {
+        internal static string ValidFormat__0__ {
             get {
-                return ResourceManager.GetString("Value___0_", resourceCulture);
+                return ResourceManager.GetString("ValidFormat__0__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neutral first: {0}, second {1:F2}.
+        /// </summary>
+        internal static string ValidFormat__0__1__ {
+            get {
+                return ResourceManager.GetString("ValidFormat__0__1__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neutral first: {0}, second {1:F2}, third: {2}.
+        /// </summary>
+        internal static string ValidFormat__0__1__2__ {
+            get {
+                return ResourceManager.GetString("ValidFormat__0__1__2__", resourceCulture);
             }
         }
     }

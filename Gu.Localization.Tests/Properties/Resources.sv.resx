@@ -123,7 +123,16 @@
   <data name="first___0___second__1_" xml:space="preserve">
     <value>första: {0}, andra:{1}</value>
   </data>
-  <data name="Value___0_" xml:space="preserve">
+  <data name="InvalidFormat__0__" xml:space="preserve">
     <value>Värde: </value>
+  </data>
+  <data name="ValidFormat__0__" xml:space="preserve">
+    <value>Värde: {0}</value>
+  </data>
+  <data name="ValidFormat__0__1__" xml:space="preserve">
+    <value>första: {0}, andra: {1:F2}</value>
+  </data>
+  <data name="ValidFormat__0__1__2__" xml:space="preserve">
+    <value>första: {0}, andra: {1:F2}, tredje: {2}</value>
   </data>
 </root>

@@ -61,6 +61,15 @@ namespace Gu.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {{&quot;{0}&quot; : {1}}}.
+        /// </summary>
+        public static string InvalidFormat {
+            get {
+                return ResourceManager.GetString("InvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ~{0}~.
         /// </summary>
         public static string MissingCultureFormat {
