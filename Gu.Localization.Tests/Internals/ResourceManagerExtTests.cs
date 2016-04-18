@@ -6,6 +6,12 @@
 
     public class ResourceManagerExtTests
     {
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            Properties.Resources.ResourceManager.ReleaseAllResources();
+        }
+
         [TestCase(null, true)]
         [TestCase("sv", true)]
         [TestCase("it", false)]

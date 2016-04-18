@@ -44,6 +44,11 @@
                 return string.Format(culture, format, arg);
             }
 
+            if (!Validate.IsValidFormat(format, arg))
+            {
+                return string.Format(culture, Properties.Resources.InvalidFormat, format, arg);
+            }
+
             try
             {
                 return string.Format(format, arg);

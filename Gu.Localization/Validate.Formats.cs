@@ -19,13 +19,13 @@ namespace Gu.Localization
             bool? anyItemHasFormat;
             if (!FormatString.IsValidFormat(format, out count, out anyItemHasFormat))
             {
-                throw new FormatException($"Invalid format string: {format}.");
+                throw new FormatException($"Invalid format string: \"{format}\".");
             }
 
             // not sure if we should bother with checking individual format items here
             if (count != 1)
             {
-                throw new FormatException($"Invalid format string: {format} for the single argument: {arg}.");
+                throw new FormatException($"Invalid format string: \"{format}\" for the single argument: {arg}.");
             }
         }
 
