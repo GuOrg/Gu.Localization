@@ -81,7 +81,7 @@ namespace Gu.Localization
 
             if (count != args.Length)
             {
-                throw new FormatException($"Invalid format string: \"{format}\" for the arguments {{{string.Join(", ", args)}}}.");
+                throw new FormatException($"Invalid format string: \"{format}\" for the arguments: {string.Join(", ", args)}.");
             }
         }
 
@@ -113,7 +113,7 @@ namespace Gu.Localization
         /// <returns>True if <paramref name="format"/> is valid for <paramref name="args"/>.</returns>
         public static bool IsValidFormat(string format, params object[] args)
         {
-            return IsValidFormat(format, args?.Length);
+            return IsValidFormat(format, args?.Length ?? 0);
         }
 
         private static bool IsValidFormat(string format, int argumentCount)

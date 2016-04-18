@@ -101,6 +101,15 @@
                 errors = Validate.Translations(resourceManager, key, cultures);
                 CollectionAssert.IsEmpty(errors);
             }
+
+            [TestCase(nameof(Properties.Resources.InvalidFormat__0__))]
+            [TestCase(nameof(Properties.Resources.EnglishOnly))]
+            public void KeyWithErrors(string key)
+            {
+                var resourceManager = Properties.Resources.ResourceManager;
+                var errors = Validate.Translations(resourceManager, key);
+                CollectionAssert.IsNotEmpty(errors);
+            }
         }
     }
 }
