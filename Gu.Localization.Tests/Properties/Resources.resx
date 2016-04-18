@@ -138,4 +138,7 @@
   <data name="ValidFormat__0__" xml:space="preserve">
     <value>Neutral: {0}</value>
   </data>
+  <data name="ValidFormat__0__1__" xml:space="preserve">
+    <value>Neutral first: {0}, second {1:F2}</value>
+  </data>
 </root>

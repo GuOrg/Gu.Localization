@@ -1,6 +1,7 @@
 ﻿namespace Gu.Localization.Tests
 {
     using System;
+    using System.Globalization;
 
     using NUnit.Framework;
 
@@ -8,6 +9,15 @@
     {
         public class Formats
         {
+            [Test]
+            public void KeyWithErrors()
+            {
+                var errors = Validate.Translations(
+                    Properties.Resources.ResourceManager,
+                    Properties.Resources.InvalidFormat__0__);
+                CollectionAssert.IsNotEmpty(errors);
+            }
+
             [TestCase("Hej")]
             [TestCase("First: {1}")]
             [TestCase("First: {0}, Second: {1}")]

@@ -13,7 +13,7 @@
         public class Translations
         {
             [Test]
-            public void ForResourceManager()
+            public void ResourceManager()
             {
                 var errors = Validate.Translations(Properties.Resources.ResourceManager);
                 Assert.IsFalse(errors.IsEmpty);
@@ -24,7 +24,7 @@
                        .AppendLine("  Has format errors, the formats are:")
                        .AppendLine("    Value: {0}")
                        .AppendLine("    null")
-                       .AppendLine("    Value: {0} {1}")
+                       .AppendLine("    Value: {0} {2}")
                        .AppendLine("    Värde: ")
                        .AppendLine("  Missing for: { de }")
                        .AppendLine("Key: NeutralOnly")
@@ -39,7 +39,7 @@
             }
 
             [Test]
-            public void TranslationsForResourceManagerExplicitCultures()
+            public void ResourceManagerExplicitCultures()
             {
                 var cultures = new[] { CultureInfo.GetCultureInfo("sv"), CultureInfo.GetCultureInfo("en") };
                 var errors = Validate.Translations(Properties.Resources.ResourceManager, cultures);
@@ -50,7 +50,7 @@
                 builder.AppendLine("Key: InvalidFormat__0__")
                        .AppendLine("  Has format errors, the formats are:")
                        .AppendLine("    Värde: ")
-                       .AppendLine("    Value: {0} {1}")
+                       .AppendLine("    Value: {0} {2}")
                        .AppendLine("Key: NeutralOnly")
                        .AppendLine("  Missing for: { sv, en }")
                        .AppendLine("Key: EnglishOnly")
@@ -83,12 +83,13 @@
                 Assert.AreEqual("Key: MissingTranslation Missing for: { sv, en } ", errors.ToString("", " "));
             }
 
-            [Test]
-            public void FormatsHappyPath()
+            [TestCase(nameof(Properties.Resources.AllLanguages))]
+            [TestCase(nameof(Properties.Resources.ValidFormat__0__))]
+            [TestCase(nameof(Properties.Resources.ValidFormat__0__1__))]
+            public void KeyWhenNoErrors(string key)
             {
-                var errors = Validate.Translations(
-                    Properties.Resources.ResourceManager,
-                    nameof(Properties.Resources.first___0___second__1_));
+                var resourceManager = Properties.Resources.ResourceManager;
+                var errors = Validate.Translations(resourceManager, key);
                 CollectionAssert.IsEmpty(errors);
 
                 var cultures = new[]
@@ -97,40 +98,7 @@
                                        CultureInfo.GetCultureInfo("en"),
                                        CultureInfo.GetCultureInfo("sv")
                                    };
-                errors = Validate.Translations(
-                    Properties.Resources.ResourceManager,
-                    nameof(Properties.Resources.first___0___second__1_),
-                    cultures);
-                CollectionAssert.IsEmpty(errors);
-            }
-
-            [Test]
-            public void FormatsWithErrors()
-            {
-                var errors = Validate.Translations(
-                    Properties.Resources.ResourceManager,
-                    Properties.Resources.InvalidFormat__0__);
-                CollectionAssert.IsNotEmpty(errors);
-            }
-
-            [Test]
-            public void TranslationsForKeyWhenNoErrors()
-            {
-                var errors = Validate.Translations(
-                    Properties.Resources.ResourceManager,
-                    nameof(Properties.Resources.AllLanguages));
-                CollectionAssert.IsEmpty(errors);
-
-                var cultures = new[]
-                                   {
-                                       CultureInfo.InvariantCulture,
-                                       CultureInfo.GetCultureInfo("en"),
-                                       CultureInfo.GetCultureInfo("sv")
-                                   };
-                errors = Validate.Translations(
-                    Properties.Resources.ResourceManager,
-                    nameof(Properties.Resources.AllLanguages),
-                    cultures);
+                errors = Validate.Translations(resourceManager, key, cultures);
                 CollectionAssert.IsEmpty(errors);
             }
         }

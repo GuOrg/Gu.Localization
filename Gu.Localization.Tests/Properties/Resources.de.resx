@@ -126,4 +126,7 @@
   <data name="ValidFormat__0__" xml:space="preserve">
     <value>Wert: {0}</value>
   </data>
+  <data name="ValidFormat__0__1__" xml:space="preserve">
+    <value>zuerst: {0}, die zweite: {1:F2}</value>
+  </data>
 </root>

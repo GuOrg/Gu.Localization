@@ -127,9 +127,12 @@
     <value>first: {0}, second:{1}</value>
   </data>
   <data name="InvalidFormat__0__" xml:space="preserve">
-    <value>Value: {0} {1}</value>
+    <value>Value: {0} {2}</value>
   </data>
   <data name="ValidFormat__0__" xml:space="preserve">
     <value>Value: {0}</value>
+  </data>
+  <data name="ValidFormat__0__1__" xml:space="preserve">
+    <value>English first: {0}, second {1:F2}</value>
   </data>
 </root>
