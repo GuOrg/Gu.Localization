@@ -5,7 +5,6 @@
     using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
-    using System.Reflection;
     using System.Resources;
 
     internal static class ResourceManagerExt
@@ -21,10 +20,18 @@
         /// <returns>True if a translation exists</returns>
         internal static bool HasKey(this ResourceManager resourceManager, string key, CultureInfo culture)
         {
-            using (var resourceSet = resourceManager.GetTempResourceSet(culture))
+            using (var clone = resourceManager.Clone())
             {
-                return resourceSet?.ResourceSet.OfType<DictionaryEntry>()
-                                   .Any(x => Equals(x.Key, key)) == true;
+                if (clone?.ResourceManager == null)
+                {
+                    return false;
+                }
+
+                using (var resourceSet = clone.ResourceManager.GetResourceSet(culture, true, false))
+                {
+                    return resourceSet?.OfType<DictionaryEntry>()
+                                       .Any(x => Equals(x.Key, key)) == true;
+                }
             }
         }
 
@@ -38,56 +45,47 @@
         /// <returns>True if a translation exists</returns>
         internal static bool HasCulture(this ResourceManager resourceManager, CultureInfo culture)
         {
-            using (var resourceSet = resourceManager.GetTempResourceSet(culture))
+            using (var clone = resourceManager.Clone())
             {
-                return resourceSet != null;
+                return clone?.ResourceManager?.GetResourceSet(culture, true, false) != null;
             }
         }
 
-        // Clones the resourcemanager and gets the resource set for the culture
+        // Clones the resourcemanager
         // This is slow and backwards but can't think of another way that does not load a the resourceset into memory.
         // Also calling resourceManager.ReleaseAllResources() feels really nasty in a lib like this.
         // Keeping it slow and dumb until something better.
-        private static Disposer GetTempResourceSet(this ResourceManager resourceManager, CultureInfo culture)
+        internal static ResourceManagerClone Clone(this ResourceManager resourceManager)
         {
-            var type = AppDomain.CurrentDomain.GetAssemblies()
-                                .Select(x => x.GetType(resourceManager.BaseName))
-                                .SingleOrDefault(x => x != null &&
-                                                        x.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)
-                                                        .Any(p => p.PropertyType == typeof(ResourceManager)));
-            if (type == null)
-            {
-                return null;
-            }
-
-            var clone = new ResourceManager(resourceManager.BaseName, type.Assembly);
-            var resourceSet = clone.GetResourceSet(culture, true, false);
-            if (resourceSet == null)
-            {
-                resourceManager.ReleaseAllResources();
-                return null;
-            }
-
-            return new Disposer(resourceManager, resourceSet);
+            return new ResourceManagerClone(resourceManager);
         }
 
-        private class Disposer : IDisposable
+        internal static Type ContainingType(this ResourceManager resourceManager)
         {
-            internal readonly ResourceSet ResourceSet;
-            private readonly ResourceManager resourceManager;
+            return ResourceManagers.TypeManagerCache.GetOrAdd(resourceManager);
+        }
 
-            public Disposer(ResourceManager resourceManager, ResourceSet resourceSet)
+        /// <summary>Creates a clone of the <see cref="ResourceManager"/> passed in. Releases all resources on dispose.</summary>
+        internal sealed class ResourceManagerClone : IDisposable
+        {
+            internal readonly ResourceManager ResourceManager;
+
+            public ResourceManagerClone(ResourceManager source)
             {
-                Debug.Assert(resourceManager != null, "resourceManager == null");
-                Debug.Assert(resourceSet != null, "resourceSet == null");
-                this.resourceManager = resourceManager;
-                this.ResourceSet = resourceSet;
+                Debug.Assert(source != null, "resourceManager == null");
+                var containingType = source.ContainingType();
+                Debug.Assert(containingType != null, "containingType == null");
+
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse want this check in release build
+                if (containingType != null)
+                {
+                    this.ResourceManager = new ResourceManager(source.BaseName, containingType.Assembly);
+                }
             }
 
             public void Dispose()
             {
-                this.resourceManager.ReleaseAllResources();
-                this.ResourceSet.Dispose();
+                this.ResourceManager?.ReleaseAllResources();
             }
         }
     }

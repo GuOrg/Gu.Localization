@@ -135,4 +135,7 @@
   <data name="UnknownErrorFormat" xml:space="preserve">
     <value>#{0}#</value>
   </data>
+  <data name="InvalidFormat" xml:space="preserve">
+    <value>{{{0} : {1}}}</value>
+  </data>
 </root>
