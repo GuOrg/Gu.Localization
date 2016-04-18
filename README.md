@@ -73,13 +73,14 @@ Key: Value___0_
 ```
 
 ## 4. Error formats
-| Error               |  Format      |
-|---------------------|:------------:|
-| missing key         |    `!{0}!`   |
-| missing culture     |    `~{0}~`   |
-| missing translation |    `_{0}_`   |
-| missing resources   |    `?{0}?`   |
-| unknown error       |    `#{0}#`   |
+| Error               |  Format       |
+|---------------------|:-------------:|
+| missing key         |    `!{0}!`    |
+| missing culture     |    `~{0}~`    |
+| missing translation |    `_{0}_`    |
+| missing resources   |    `?{0}?`    |
+| invalid format      |`{{{0} : {1}}}`|
+| unknown error       |    `#{0}#`    |
 
 ## 5. LanguageSelector
 A simple control for changing current language.
