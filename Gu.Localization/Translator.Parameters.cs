@@ -119,5 +119,67 @@
                 return string.Format(culture, Properties.Resources.InvalidFormat, format, string.Join(", ", arg0, arg1));
             }
         }
+
+        /////// <summary>
+        /////// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
+        /////// This assumes that the resource is something like 'Value: {0}' i.e. having one format parameter.
+        /////// </summary>
+        /////// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
+        /////// <param name="key">The key in <paramref name="resourceManager"/></param>
+        /////// <param name="errorHandling">Specifies how to handle errors.</param>
+        /////// <param name="args">The arguments will be used as first arguyment in string.Format(culture, format, <paramref name="args"/>)</param>
+        /////// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        ////public static string Translate(
+        ////    ResourceManager resourceManager,
+        ////    string key,
+        ////    ErrorHandling errorHandling = ErrorHandling.Default,
+        ////    params object[] args)
+        ////{
+        ////    return Translate(resourceManager, key, CurrentCulture, errorHandling, args);
+        ////}
+
+        /////// <summary>
+        /////// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
+        /////// This assumes that the resource is something like 'Value: {0}' i.e. having one format parameter.
+        /////// </summary>
+        /////// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
+        /////// <param name="key">The key in <paramref name="resourceManager"/></param>
+        /////// <param name="culture">The culture.</param>
+        /////// <param name="errorHandling">Specifies how to handle errors.</param>
+        /////// <param name="args">The arguments will be used as first arguyment in string.Format(culture, format, <paramref name="args"/>)</param>
+        /////// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        ////public static string Translate(
+        ////    ResourceManager resourceManager,
+        ////    string key,
+        ////    CultureInfo culture,
+        ////    ErrorHandling errorHandling = ErrorHandling.Default,
+        ////    params object[] args)
+        ////{
+        ////    string format;
+        ////    if (!TryTranslateOrThrow(resourceManager, key, culture, errorHandling, out format))
+        ////    {
+        ////        return format;
+        ////    }
+
+        ////    if (ShouldThrow(errorHandling))
+        ////    {
+        ////        Validate.Format(format, args);
+        ////        return string.Format(culture, format, args);
+        ////    }
+
+        ////    if (!Validate.IsValidFormat(format, args))
+        ////    {
+        ////        return string.Format(culture, Properties.Resources.InvalidFormat, format, string.Join(", ", args));
+        ////    }
+
+        ////    try
+        ////    {
+        ////        return string.Format(format, args);
+        ////    }
+        ////    catch (Exception)
+        ////    {
+        ////        return string.Format(culture, Properties.Resources.InvalidFormat, format, string.Join(", ", args));
+        ////    }
+        ////}
     }
 }

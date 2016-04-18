@@ -131,5 +131,14 @@ namespace Gu.Localization.Tests.Properties {
                 return ResourceManager.GetString("ValidFormat__0__1__", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neutral first: {0}, second {1:F2}, third: {2}.
+        /// </summary>
+        internal static string ValidFormat__0__1__2__ {
+            get {
+                return ResourceManager.GetString("ValidFormat__0__1__2__", resourceCulture);
+            }
+        }
     }
 }

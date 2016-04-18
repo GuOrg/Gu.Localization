@@ -135,4 +135,7 @@
   <data name="ValidFormat__0__1__" xml:space="preserve">
     <value>English first: {0}, second {1:F2}</value>
   </data>
+  <data name="ValidFormat__0__1__2__" xml:space="preserve">
+    <value>English first: {0}, second {1:F2}, third: {2}</value>
+  </data>
 </root>

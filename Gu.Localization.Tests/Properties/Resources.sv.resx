@@ -132,4 +132,7 @@
   <data name="ValidFormat__0__1__" xml:space="preserve">
     <value>första: {0}, andra: {1:F2}</value>
   </data>
+  <data name="ValidFormat__0__1__2__" xml:space="preserve">
+    <value>första: {0}, andra: {1:F2}, tredje: {2}</value>
+  </data>
 </root>
