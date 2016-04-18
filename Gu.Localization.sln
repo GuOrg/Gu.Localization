@@ -30,6 +30,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.UiTests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Demo", "Gu.Wpf.Localization.Demo\Gu.Wpf.Localization.Demo.csproj", "{24A5D9D2-60D8-47B7-8750-48E85A2218DE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{EFFBB24C-1FAE-4E2A-B445-8C88ED2A7552}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.md = LICENSE.md
+		README.md = README.md
+		.paket\Readme.paket.md = .paket\Readme.paket.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
