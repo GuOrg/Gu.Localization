@@ -1,5 +1,5 @@
 type project
-title Gu.Wpf.Localization
+title Gu.Localization
 tags resourcemanager localization translate language
 projectUrl https://github.com/JohanLarsson/Gu.Localization
 licenseUrl http://opensource.org/licenses/MIT
