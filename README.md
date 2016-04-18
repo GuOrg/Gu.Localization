@@ -1,6 +1,8 @@
 # Gu.Localization
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md) 
 [![Build status](https://ci.appveyor.com/api/projects/status/ili1qk8amyjmd71t?svg=true)](https://ci.appveyor.com/project/JohanLarsson/gu-localization)
+[![NuGet](https://img.shields.io/nuget/v/Gu.Localization.svg)](https://www.nuget.org/packages/Gu.Localization/)
+[![NuGet](https://img.shields.io/nuget/v/Gu.Wpf.Localization.svg)](https://www.nuget.org/packages/Gu.Wpf.Localization/)
 
 ## Table of Contents
 - [1. Usage in XAML.](#1-usage-in-xaml)
