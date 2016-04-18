@@ -27,7 +27,7 @@ Binding the text like below updates the text when `Translator.CurrentCulture`cha
 ```
 
 ## 2. Usage in code.
-```
+```c#
 Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
 string translated = Translator<Properties.Resources>.Translate(nameof(Properties.Resources.SomeResource));
 string translated = TranslatorTranslate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource));
@@ -38,7 +38,7 @@ Translation translation = Translation.GetOrCreate(Properties.Resources.ResourceM
 Conveience API for unit testing localization. The methods are not optimized for performance and loads all resources for all cultures into memory.
 
 Validate a `ResourceManager` like this:
-```csharp
+```c#
 var errors = Validate.Translations(Properties.Resources.ResourceManager);
 Assert.IsTrue(errors.IsEmpty);
 ```
@@ -50,7 +50,7 @@ Checks:
   - That all format strings has format items numbered 0..1..n
 
 Validate an `enum` like this:
-```csharp
+```c#
 var errors = Validate.EnumTranslations<DummyEnum>(Properties.Resources.ResourceManager);
 Assert.IsTrue(errors.IsEmpty);
 ```
