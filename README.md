@@ -21,7 +21,7 @@
     - [5.2. EnumTranslations&lt;T&gt;.](#52-enumtranslationst)
     - [5.3. TranslationErrors](#53-translationerrors)
     - [5.4. Format](#54-format)
-    - [6. ErrorFormats](#6-errorformats)
+  - [6. ErrorFormats](#6-errorformats)
   - [7. LanguageSelector](#7-languageselector)
 
 ## 1. Usage in XAML.
@@ -175,7 +175,7 @@ Validate.Format("Value: {0}", 1);
 Debug.Assert(Validate.IsValidFormat("Value: {0}", 1), "Invalid format...");
 ```
 
-### 6. ErrorFormats
+## 6. ErrorFormats
 When `ReturnErrorInfo` is used the following formats are used to encode errors.
 
 | Error               |         Format          |
