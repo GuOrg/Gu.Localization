@@ -6,7 +6,7 @@ namespace Gu.Localization.Tests
 
     using NUnit.Framework;
 
-    public class TranslatorGenericTests
+    public partial class TranslatorGenericTests
     {
         [TestCase("AllLanguages", "en", "English")]
         [TestCase("AllLanguages", "sv", "Svenska")]

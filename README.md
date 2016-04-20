@@ -1,21 +1,32 @@
 # Gu.Localization
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md) 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 [![Build status](https://ci.appveyor.com/api/projects/status/ili1qk8amyjmd71t?svg=true)](https://ci.appveyor.com/project/JohanLarsson/gu-localization)
 [![NuGet](https://img.shields.io/nuget/v/Gu.Localization.svg)](https://www.nuget.org/packages/Gu.Localization/)
 [![NuGet](https://img.shields.io/nuget/v/Gu.Wpf.Localization.svg)](https://www.nuget.org/packages/Gu.Wpf.Localization/)
 
+
 ## Table of Contents
-- [1. Usage in XAML.](#1-usage-in-xaml)
-- [2. Usage in code](#2-usage-in-code)
-- [3. Validation](#3-validation)
-- [4. Errors](#4-errors)
-- [5. LanguageSelector](#5-languageselector)
+  - [Table of Contents](#table-of-contents)
+  - [1. Usage in XAML.](#1-usage-in-xaml)
+  - [2. Usage in code.](#2-usage-in-code)
+    - [2.1 Translator](#21-translator)
+      - [2.1.1 Culture](#211-culture)
+      - [2.1.1 Cultures](#211-cultures)
+      - [2.1.2 ErrorHandling](#212-errorhandling)
+      - [2.1.3 Translate](#213-translate)
+  - [3. Validation.](#3-validation)
+    - [3.1. TranslationErrors](#31-translationerrors)
+  - [4. Errors](#4-errors)
+    - [4.1. ErrorFormats](#41-errorformats)
+  - [5. LanguageSelector](#5-languageselector)
 
 ## 1. Usage in XAML.
 
 The library has a `StaticExtension` markupextension that is used when translating.
 The reason for naming it `StaticExtension` and not `TranslateExtension` is that Resharper provides intellisense when named `StaticExtension`
 Binding the text like below updates the text when `Translator.CurrentCulture`changes enabling runtime selection of language.
+
+The markupextension never throws, it encodes errors in the result, see [ErrorFormats](#41-errorformats)
 
 ```xaml
 <Window ...
@@ -29,6 +40,41 @@ Binding the text like below updates the text when `Translator.CurrentCulture`cha
 ```
 
 ## 2. Usage in code.
+### 2.1 Translator
+
+#### 2.1.1 Culture
+Get or set the current culture. The default is `Thread.CurrentThread.CurrentUICulture`
+Changing culture updates all translations.
+
+#### 2.1.1 Cultures
+Get a list with the available cultures. Cultures are found by looking in current directory and scanning for satellite assemblies.
+
+#### 2.1.2 ErrorHandling
+Get or set how errors are handled. The default behaviour is throw on errors.
+
+#### 2.1.3 Translate
+Translate a key in a ResourceManager.
+
+```c#
+Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
+string inEnglish = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource));
+```
+
+```c#
+Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
+string neutral = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource), null);
+```
+
+```c#
+Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
+string inSwedish = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource), CultureInfo.GetCultureInfo("sv"));
+```
+
+```c#
+Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
+string inSwedish = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource), CultureInfo.GetCultureInfo("sv"));
+```
+
 ```c#
 Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
 string translated = Translator<Properties.Resources>.Translate(nameof(Properties.Resources.SomeResource));
@@ -79,7 +125,7 @@ When calling the translate methods an ErrorHandling argument can be provided.
 If `ErrorHandling.ReturnErrorInfo` is passed in the method does not throw but returns information about the error in the string.
 There is also a property `Translator.ErrorHandling` that sets default behaviour. If an explicit errorhandling is passed in to a method it overrides the global setting.
 
-### 4.1. TranslationErrors
+### 4.1. ErrorFormats
 When `ReturnErrorInfo` is used the following formats are used to encode errors.
 
 | Error               |         Format          |

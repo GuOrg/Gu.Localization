@@ -31,7 +31,7 @@
         /// <param name="culture">The culture.</param>
         /// <param name="arg0">The argument will be used as string.Format(format, <paramref name="arg0"/>)</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        /// <returns>The key translated to the <paramref name="culture"/></returns>
         public static string Translate<T>(ResourceManager resourceManager, string key, CultureInfo culture, T arg0, ErrorHandling errorHandling = ErrorHandling.Default)
         {
             string format;
@@ -90,7 +90,7 @@
         /// <param name="arg0">The argument will be used as first arguyment in string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>)</param>
         /// <param name="arg1">The argument will be used as second argument string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>)</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        /// <returns>The key translated to the <paramref name="culture"/></returns>
         public static string Translate<T0, T1>(ResourceManager resourceManager, string key, CultureInfo culture, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Default)
         {
             string format;
