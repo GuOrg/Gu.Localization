@@ -8,20 +8,20 @@
 ## Contents.
   - [1. Usage in XAML.](#1-usage-in-xaml)
   - [2. Usage in code.](#2-usage-in-code)
-    - [2.1 Translator.](#21-translator)
+    - [2.1. Translator.](#21-translator)
       - [2.1.1. Culture.](#211-culture)
       - [2.1.2. Cultures.](#212-cultures)
       - [2.1.3. ErrorHandling.](#213-errorhandling)
       - [2.1.4. Translate.](#214-translate)
     - [2.2. Translator&lt;T&gt;.](#22-translatort)
-  - [3. Translation.](#3-translation)
-  - [4. ErrorHandling.](#4-errorhandling)
-  - [5. Validation.](#5-validation)
-    - [5.1. Translations.](#51-translations)
-    - [5.2. EnumTranslations&lt;T&gt;.](#52-enumtranslationst)
-    - [5.3. TranslationErrors](#53-translationerrors)
-    - [5.4. Format](#54-format)
-  - [6. ErrorFormats](#6-errorformats)
+    - [2.3 Translation.](#23-translation)
+  - [3. ErrorHandling.](#3-errorhandling)
+  - [4. Validation.](#4-validation)
+    - [4.1. Translations.](#41-translations)
+    - [4.2. EnumTranslations&lt;T&gt;.](#42-enumtranslationst)
+    - [4.3. TranslationErrors](#43-translationerrors)
+    - [4.4. Format](#44-format)
+  - [5. ErrorFormats](#5-errorformats)
   - [7. LanguageSelector](#7-languageselector)
 
 ## 1. Usage in XAML.
@@ -44,7 +44,7 @@ The markupextension never throws, it encodes errors in the result, see [ErrorFor
 ```
 
 ## 2. Usage in code.
-### 2.1 Translator.
+### 2.1. Translator.
 
 #### 2.1.1. Culture.
 Get or set the current culture. The default is `Thread.CurrentThread.CurrentUICulture`
@@ -111,7 +111,7 @@ string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
 
 Same as translator but used like `Translator<Properties.Resources>.Translate(...)`
 
-## 3. Translation.
+### 2.3 Translation.
 An object with a Translated property that is a string with the value in `Translator.CurrentCulture` 
 Implements ÌNotifyPropertyChanged` and notifies when `Translator.CurrentCulture` changes.
 
@@ -119,15 +119,15 @@ Implements ÌNotifyPropertyChanged` and notifies when `Translator.CurrentCulture
 Translation translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource))
 ```
 
-## 4. ErrorHandling.
+## 3. ErrorHandling.
 When calling the translate methods an ErrorHandling argument can be provided.
 If `ErrorHandling.ReturnErrorInfo` is passed in the method does not throw but returns information about the error in the string.
 There is also a property `Translator.ErrorHandling` that sets default behaviour. If an explicit errorhandling is passed in to a method it overrides the global setting.
 
-## 5. Validation.
+## 4. Validation.
 Conveience API for unit testing localization. 
 
-### 5.1. Translations.
+### 4.1. Translations.
 Not optimized for performance and should probably not.
 
 Validate a `ResourceManager` like this:
@@ -142,7 +142,7 @@ Checks:
   - The number of format items are the same for all cultures.
   - That all format strings has format items numbered 0..1..n
 
-### 5.2. EnumTranslations&lt;T&gt;.
+### 4.2. EnumTranslations&lt;T&gt;.
 Validate an `enum` like this:
 ```c#
 TranslationErrors errors = Validate.EnumTranslations<DummyEnum>(Properties.Resources.ResourceManager);
@@ -152,7 +152,7 @@ Checks:
 - That all enum members has keys in the `ResourceManager`
 - That all keys has non null value for all cultures in `Translator.AllCultures`
 
-### 5.3. TranslationErrors
+### 4.3. TranslationErrors
 `errors.ToString("  ", Environment.NewLine);`
 Prints a formatted report with the errors found, sample:
 
@@ -165,7 +165,7 @@ Key: Value___0_
     null
     Värde: {0} {1}
 ```
-### 5.4. Format
+### 4.4. Format
 Validate a formatstring like this:
 ```c#
 Validate.Format("Value: {0}", 1);
@@ -175,7 +175,7 @@ Validate.Format("Value: {0}", 1);
 Debug.Assert(Validate.IsValidFormat("Value: {0}", 1), "Invalid format...");
 ```
 
-## 6. ErrorFormats
+## 5. ErrorFormats
 When `ReturnErrorInfo` is used the following formats are used to encode errors.
 
 | Error               |         Format          |
