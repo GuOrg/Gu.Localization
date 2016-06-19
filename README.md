@@ -1,4 +1,6 @@
 # Gu.Localization.
+
+[![Join the chat at https://gitter.im/JohanLarsson/Gu.Localization](https://badges.gitter.im/JohanLarsson/Gu.Localization.svg)](https://gitter.im/JohanLarsson/Gu.Localization?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 [![Build status](https://ci.appveyor.com/api/projects/status/ili1qk8amyjmd71t?svg=true)](https://ci.appveyor.com/project/JohanLarsson/gu-localization)
 [![NuGet](https://img.shields.io/nuget/v/Gu.Localization.svg)](https://www.nuget.org/packages/Gu.Localization/)
