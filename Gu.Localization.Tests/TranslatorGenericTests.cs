@@ -44,31 +44,23 @@ namespace Gu.Localization.Tests
             Assert.AreEqual("Svenska", translation.Translated);
         }
 
-        [TestCase(null, "sv", "key == null")]
-        [TestCase("Missing", "sv", "!Missing!")]
-        [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "_EnglishOnly_")]
-        [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "~EnglishOnly~")]
-        [TestCase(nameof(Properties.Resources.AllLanguages), "it", "~So neutral~")]
-        public void ErrorMessages(string key, string culture, string expected)
-        {
-            Translator.CurrentCulture = culture == null
-                                            ? CultureInfo.InvariantCulture
-                                            : CultureInfo.GetCultureInfo(culture);
-            Translator.ErrorHandling = ErrorHandling.Throw;
-            var actual = Translator<Properties.Resources>.Translate(key, ErrorHandling.ReturnErrorInfo);
-            Assert.AreEqual(expected, actual);
-
-            Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
-            actual = Translator<Properties.Resources>.Translate(key);
-            Assert.AreEqual(expected, actual);
-        }
-
+        [TestCase(null, "sv", "key == null", ErrorHandling.ReturnErrorInfo)]
         [TestCase(null, "sv", "key == null", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+        [TestCase("Missing", "sv", "!Missing!", ErrorHandling.ReturnErrorInfo)]
         [TestCase("Missing", "sv", "!Missing!", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "en", "English", ErrorHandling.ReturnErrorInfo)]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "en", "English", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
         [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "_EnglishOnly_", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "_EnglishOnly_", ErrorHandling.ReturnErrorInfo)]
         [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "~EnglishOnly~", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "~EnglishOnly~", ErrorHandling.ReturnErrorInfo)]
+        [TestCase(nameof(Properties.Resources.AllLanguages), "en", "English", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+        [TestCase(nameof(Properties.Resources.AllLanguages), "en", "English", ErrorHandling.ReturnErrorInfo)]
         [TestCase(nameof(Properties.Resources.AllLanguages), "it", "So neutral", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
-        public void WithNeutral(string key, string culture, string expected, ErrorHandling errorHandling)
+        [TestCase(nameof(Properties.Resources.AllLanguages), "it", "~So neutral~", ErrorHandling.ReturnErrorInfo)]
+        [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "So neutral", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+        [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "~So neutral~", ErrorHandling.ReturnErrorInfo)]
+        public void WithErrorhandling(string key, string culture, string expected, ErrorHandling errorHandling)
         {
             Translator.CurrentCulture = culture == null
                                             ? CultureInfo.InvariantCulture

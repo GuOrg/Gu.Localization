@@ -180,16 +180,16 @@
                         throw new ArgumentOutOfRangeException(nameof(culture), message);
                     }
 
-                    var trnslated = resourceManager.GetString(key, culture);
-                    if (!string.IsNullOrEmpty(trnslated))
+                    var neutral = resourceManager.GetString(key, CultureInfo.InvariantCulture);
+                    if (!string.IsNullOrEmpty(neutral))
                     {
                         if (errorHandling == ErrorHandling.ReturnErrorInfoPreserveNeutral)
                         {
-                            result = trnslated;
+                            result = neutral;
                             return true;
                         }
 
-                        result = string.Format(Properties.Resources.MissingCultureFormat, trnslated);
+                        result = string.Format(Properties.Resources.MissingCultureFormat, neutral);
                         return false;
                     }
 
@@ -217,7 +217,7 @@
                 {
                     if (shouldThrow)
                     {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {culture.Name}";
+                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {culture?.Name}";
                         throw new ArgumentOutOfRangeException(nameof(key), message);
                     }
 
