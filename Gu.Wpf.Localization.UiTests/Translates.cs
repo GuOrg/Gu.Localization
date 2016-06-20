@@ -40,11 +40,31 @@
             this.languageComboBox.Select("sv");
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
             this.languageComboBox.Select("en");
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
             Assert.AreEqual("_SwedishOnly_", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual("~So neutral~", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
+            Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
+        }
+
+        [Test]
+        public void VanillaXamlWithErrorHandling()
+        {
+            var groupBox = this.window.Get<GroupBox>(AutomationIds.VanillaXamlGroupWithErrorHandlingId);
+
+            this.languageComboBox.Select("sv");
+            Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
+            Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
+            Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
+
+            this.languageComboBox.Select("en");
+            Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
+            Assert.AreEqual("_SwedishOnly_", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
         }
 
