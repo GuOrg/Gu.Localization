@@ -131,6 +131,11 @@
             ErrorHandling errorHandling,
             out string result)
         {
+            if (errorHandling == ErrorHandling.Default)
+            {
+                errorHandling = ErrorHandling;
+            }
+
             var shouldThrow = ShouldThrow(errorHandling);
             if (resourceManager == null)
             {
@@ -178,6 +183,12 @@
                     var trnslated = resourceManager.GetString(key, culture);
                     if (!string.IsNullOrEmpty(trnslated))
                     {
+                        if (errorHandling == ErrorHandling.ReturnErrorInfoPreserveNeutral)
+                        {
+                            result = trnslated;
+                            return true;
+                        }
+
                         result = string.Format(Properties.Resources.MissingCultureFormat, trnslated);
                         return false;
                     }
@@ -226,7 +237,10 @@
                 errorHandling = ErrorHandling;
             }
 
-            var shouldThrow = errorHandling != ErrorHandling.ReturnErrorInfo;
+            var shouldThrow =
+                errorHandling != ErrorHandling.ReturnErrorInfo &&
+                errorHandling != ErrorHandling.ReturnErrorInfoPreserveNeutral;
+
             return shouldThrow;
         }
 

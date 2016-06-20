@@ -63,6 +63,25 @@ namespace Gu.Localization.Tests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestCase(null, "sv", "key == null", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+        [TestCase("Missing", "sv", "!Missing!", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "_EnglishOnly_", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "~EnglishOnly~", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+        [TestCase(nameof(Properties.Resources.AllLanguages), "it", "So neutral", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+        public void WithNeutral(string key, string culture, string expected, ErrorHandling errorHandling)
+        {
+            Translator.CurrentCulture = culture == null
+                                            ? CultureInfo.InvariantCulture
+                                            : CultureInfo.GetCultureInfo(culture);
+            Translator.ErrorHandling = ErrorHandling.Throw;
+            var actual = Translator<Properties.Resources>.Translate(key, errorHandling);
+            Assert.AreEqual(expected, actual);
+
+            Translator.ErrorHandling = errorHandling;
+            actual = Translator<Properties.Resources>.Translate(key);
+            Assert.AreEqual(expected, actual);
+        }
+
         [TestCase("Missing", null, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
         [TestCase("Missing", "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
         [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the key: EnglishOnly for the culture: sv\r\nParameter name: key")]

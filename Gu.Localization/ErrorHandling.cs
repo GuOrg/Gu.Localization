@@ -10,6 +10,9 @@
         Throw,
 
         /// <summary>Returns information about the error in the result.</summary>
-        ReturnErrorInfo
+        ReturnErrorInfo,
+
+        /// <summary>Returns information about the error in the result but leaves neutral strings intact</summary>
+        ReturnErrorInfoPreserveNeutral
     }
 }
