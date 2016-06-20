@@ -16,14 +16,15 @@
         private readonly string key;
         private readonly ErrorHandling errorHandling;
         private readonly ResourceManager resourceManager;
+        private readonly CachedTranslation cachedTranslation;
 
         static Translation()
         {
             Translator.CurrentCultureChanged += (_, __) =>
                 {
-                    foreach (var translation in Cache)
+                    foreach (var translation in Cache.Values)
                     {
-                        translation.Value.OnCurrentCultureChanged();
+                        translation.OnCurrentCultureChanged();
                     }
                 };
         }
@@ -33,13 +34,14 @@
             this.resourceManager = resourceManager;
             this.key = key;
             this.errorHandling = errorHandling;
+            this.cachedTranslation = new CachedTranslation(this);
         }
 
         /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <inheritdoc />
-        public string Translated => Translator.Translate(this.resourceManager, this.key, this.errorHandling);
+        public string Translated => this.cachedTranslation.Value;
 
         /// <summary>
         /// Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey))
@@ -84,6 +86,42 @@
         protected virtual void OnCurrentCultureChanged()
         {
             this.PropertyChanged?.Invoke(this, TranslatedPropertyChangedEventArgs);
+        }
+
+        private class CachedTranslation
+        {
+            private readonly Translation translation;
+            private readonly object gate = new object();
+            private CultureInfo culture;
+            private string value;
+
+            public CachedTranslation(Translation translation)
+            {
+                this.translation = translation;
+            }
+
+            public string Value
+            {
+                get
+                {
+                    if (!CultureInfoComparer.DefaultEquals(Translator.CurrentCulture, this.culture))
+                    {
+                        lock (this.gate)
+                        {
+                            if (!CultureInfoComparer.DefaultEquals(Translator.CurrentCulture, this.culture))
+                            {
+                                this.culture = Translator.CurrentCulture;
+                                this.value = Translator.Translate(
+                                    this.translation.resourceManager,
+                                    this.translation.key,
+                                    this.translation.errorHandling);
+                            }
+                        }
+                    }
+
+                    return this.value;
+                }
+            }
         }
     }
 }
