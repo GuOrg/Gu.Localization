@@ -68,7 +68,10 @@ namespace Gu.Localization.Tests
         [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "_EnglishOnly_", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
         [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "~EnglishOnly~", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
         [TestCase(nameof(Properties.Resources.AllLanguages), "it", "So neutral", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
-        public void WithNeutral(string key, string culture, string expected, ErrorHandling errorHandling)
+        [TestCase(nameof(Properties.Resources.AllLanguages), "it", "~So neutral~", ErrorHandling.ReturnErrorInfo)]
+        [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "So neutral", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+        [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "~So neutral~", ErrorHandling.ReturnErrorInfo)]
+        public void WithErrorhandling(string key, string culture, string expected, ErrorHandling errorHandling)
         {
             Translator.CurrentCulture = culture == null
                                             ? CultureInfo.InvariantCulture
