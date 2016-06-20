@@ -9,8 +9,8 @@
         Title="{x:Static local:AutomationIds.MainWindow}"
         Width="800"
         Height="600"
-        Loaded="OnLoaded"
-        l:DesignTime.Culture="en">
+        l:DesignTime.Culture="en"
+        Loaded="OnLoaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -24,8 +24,7 @@
             <l:LanguageSelector AutogenerateLanguages="True" />
         </StackPanel>
 
-        <UniformGrid Grid.Column="1"
-                     Columns="2">
+        <UniformGrid Grid.Column="1" Columns="2">
             <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.VanillaXamlGroupId}"
                       BorderBrush="GreenYellow"
                       BorderThickness="2"
@@ -55,24 +54,93 @@
 
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
-                               Text="TranslatedToAll Run" />
+                               Text="SwedishAndNeutral" />
                     <TextBlock Grid.Row="1"
-                               Grid.Column="1">
-                        <Run Text="{l:Static p:Resources.TranslatedToAll}" />
-                    </TextBlock>
+                               Grid.Column="1"
+                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.SwedishAndNeutralTextBlockId}"
+                               Text="{l:Static p:Resources.SwedishAndNeutral}" />
 
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
+                               Text="TranslatedToAll Run" />
+                    <TextBlock Grid.Row="2" Grid.Column="1">
+                        <Run Text="{l:Static p:Resources.TranslatedToAll}" />
+                    </TextBlock>
+
+                    <TextBlock Grid.Row="3"
+                               Grid.Column="0"
                                Text="TranslatedToAll" />
-                    <TextBlock Grid.Row="2"
+                    <TextBlock Grid.Row="3"
                                Grid.Column="1"
                                AutomationProperties.AutomationId="{x:Static local:AutomationIds.TranslatedToAllTextBlockId}"
                                Text="{l:Static p:Resources.TranslatedToAll}" />
 
-                    <TextBlock Grid.Row="3"
+                    <TextBlock Grid.Row="4"
                                Grid.Column="0"
                                Text="Enum" />
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="1"
+                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.EnumTranslatedToAllTextBlockId}"
+                               Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},
+                                             Member={x:Static local:DummyEnum.TranslatedToAll}}" />
+                </Grid>
+            </GroupBox>
+
+            <GroupBox l:ErrorHandling.Mode="ReturnErrorInfoPreserveNeutral"
+                      AutomationProperties.AutomationId="{x:Static local:AutomationIds.VanillaXamlGroupWithErrorHandlingId}"
+                      BorderBrush="GreenYellow"
+                      BorderThickness="2"
+                      Header="Vanilla xaml with ReturnErrorInfoPreserveNeutral">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Text="SwedishOnly" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.SwedishOnlyTextBlockId}"
+                               Text="{l:Static p:Resources.SwedishOnly}" />
+
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Text="SwedishAndNeutral" />
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="1"
+                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.SwedishAndNeutralTextBlockId}"
+                               Text="{l:Static p:Resources.SwedishAndNeutral}" />
+
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="0"
+                               Text="TranslatedToAll Run" />
+                    <TextBlock Grid.Row="2" Grid.Column="1">
+                        <Run Text="{l:Static p:Resources.TranslatedToAll}" />
+                    </TextBlock>
+
                     <TextBlock Grid.Row="3"
+                               Grid.Column="0"
+                               Text="TranslatedToAll" />
+                    <TextBlock Grid.Row="3"
+                               Grid.Column="1"
+                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.TranslatedToAllTextBlockId}"
+                               Text="{l:Static p:Resources.TranslatedToAll}" />
+
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="0"
+                               Text="Enum" />
+                    <TextBlock Grid.Row="4"
                                Grid.Column="1"
                                AutomationProperties.AutomationId="{x:Static local:AutomationIds.EnumTranslatedToAllTextBlockId}"
                                Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},

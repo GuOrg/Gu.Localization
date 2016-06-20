@@ -8,6 +8,11 @@ namespace Gu.Wpf.Localization
 
     internal static class ServiceProviderExt
     {
+        internal static IProvideValueTarget ProvideValueTarget(this IServiceProvider serviceProvider)
+        {
+            return serviceProvider.GetService<IProvideValueTarget>();
+        }
+
         internal static Type Resolve(this IServiceProvider serviceProvider, string qualifiedTypeName)
         {
             var xamlTypeResolver = serviceProvider.GetXamlTypeResolver();
