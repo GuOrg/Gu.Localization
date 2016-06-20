@@ -8,6 +8,12 @@ namespace Gu.Localization.Tests
 
     public partial class TranslatorGenericTests
     {
+        [OneTimeSetUp]
+        public void SetUp()
+        {
+            TestHelpers.ClearTranslationCache();
+        }
+
         [TestCase("AllLanguages", "en", "English")]
         [TestCase("AllLanguages", "sv", "Svenska")]
         [TestCase("AllLanguages", null, "So neutral")]
@@ -82,6 +88,7 @@ namespace Gu.Localization.Tests
         [TestCase("MissingKey", "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture")]
         public void Throws(string key, string culture, string expected)
         {
+            TestHelpers.ClearTranslationCache();
             Translator.CurrentCulture = culture == null
                                             ? CultureInfo.InvariantCulture
                                             : CultureInfo.GetCultureInfo(culture);

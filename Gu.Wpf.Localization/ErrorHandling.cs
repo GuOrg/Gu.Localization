@@ -2,8 +2,14 @@
 {
     using System.Windows;
 
+    /// <summary>Provides an attached property for setting how the <see cref="StaticExtension"/> handles errors</summary>
     public class ErrorHandling
     {
+        /// <summary>
+        /// Identifies the mode property.
+        /// Inherits so setting it on window or panel may make sense.
+        /// Not data bindable.
+        /// </summary>
         public static readonly DependencyProperty ModeProperty = DependencyProperty.RegisterAttached(
             "Mode",
             typeof(Gu.Localization.ErrorHandling?),
@@ -12,11 +18,17 @@
                 default(Gu.Localization.ErrorHandling?),
                 FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.NotDataBindable));
 
+        /// <summary>Sets how translation errors are handled by <see cref="StaticExtension"/> for <paramref name="element"/> and it's children.</summary>
+        /// <param name="element">The element to set errorhandling for.</param>
+        /// <param name="value">The value</param>
         public static void SetMode(DependencyObject element, Gu.Localization.ErrorHandling? value)
         {
             element.SetValue(ModeProperty, value);
         }
 
+        /// <summary>Gets how translation errors are handled by <see cref="StaticExtension"/> for <paramref name="element"/> and it's children.</summary>
+        /// <param name="element">The element to get <see cref="ErrorHandling"/> for</param>
+        /// <returns>A value indicating how translation errors are handled by the <see cref="StaticExtension"/> for this <paramref name="element"/></returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static Gu.Localization.ErrorHandling? GetMode(DependencyObject element)

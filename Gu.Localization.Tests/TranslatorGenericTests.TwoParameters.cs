@@ -9,6 +9,12 @@ namespace Gu.Localization.Tests
     {
         public class TwoParameters
         {
+            [OneTimeSetUp]
+            public void SetUp()
+            {
+                TestHelpers.ClearTranslationCache();
+            }
+
             [TestCase("en", 1, 2.0, "English first: 1, second 2.00")]
             [TestCase("sv", 1, 2.0, "första: 1, andra: 2,00")]
             [TestCase(null, 1, 2.0, "Neutral first: 1, second 2.00")]

@@ -9,6 +9,12 @@
     {
         public class OneParameter
         {
+            [OneTimeSetUp]
+            public void SetUp()
+            {
+                TestHelpers.ClearTranslationCache();
+            }
+
             [TestCase("en", 1, "Value: 1")]
             [TestCase("sv", 1, "Värde: 1")]
             [TestCase(null, 1, "Neutral: 1")]
