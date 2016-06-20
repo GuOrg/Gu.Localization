@@ -20,7 +20,7 @@
         public void NotifiesAndTranslatesWhenLanguageChanges()
         {
             Translator.CurrentCulture = new CultureInfo("sv");
-            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
+            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages), ErrorHandling.ReturnErrorInfo);
             var changes = new List<string>();
             translation.PropertyChanged += (_, e) => changes.Add(e.PropertyName);
 

@@ -133,13 +133,14 @@
         {
             if (errorHandling == ErrorHandling.Default)
             {
-                errorHandling = ErrorHandling;
+                errorHandling = ErrorHandling == ErrorHandling.Default
+                                    ? ErrorHandling.Throw
+                                    : ErrorHandling;
             }
 
-            var shouldThrow = ShouldThrow(errorHandling);
             if (resourceManager == null)
             {
-                if (shouldThrow)
+                if (errorHandling == ErrorHandling.Throw)
                 {
                     throw new ArgumentNullException(nameof(resourceManager));
                 }
@@ -150,7 +151,7 @@
 
             if (string.IsNullOrEmpty(key))
             {
-                if (shouldThrow)
+                if (errorHandling == ErrorHandling.Throw)
                 {
                     throw new ArgumentNullException(nameof(key));
                 }
@@ -159,74 +160,57 @@
                 return false;
             }
 
-            if (culture != null &&
-                !CultureInfoComparer.DefaultEquals(culture, CultureInfo.InvariantCulture) &&
-                cultures?.Contains(culture, CultureInfoComparer.Default) == false)
+            if (!resourceManager.HasCulture(culture))
             {
-                if (resourceManager.HasCulture(culture))
+                if (errorHandling == ErrorHandling.Throw)
                 {
-                    if (cultures == null)
-                    {
-                        cultures = new SortedSet<CultureInfo>();
-                    }
-
-                    cultures.Add(culture);
+                    var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the culture: {culture.Name}";
+                    throw new ArgumentOutOfRangeException(nameof(culture), message);
                 }
-                else
+
+                var neutral = resourceManager.GetString(key, CultureInfo.InvariantCulture);
+                if (string.IsNullOrEmpty(neutral))
                 {
-                    if (shouldThrow)
-                    {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the culture: {culture.Name}";
-                        throw new ArgumentOutOfRangeException(nameof(culture), message);
-                    }
-
-                    var trnslated = resourceManager.GetString(key, culture);
-                    if (!string.IsNullOrEmpty(trnslated))
-                    {
-                        if (errorHandling == ErrorHandling.ReturnErrorInfoPreserveNeutral)
-                        {
-                            result = trnslated;
-                            return true;
-                        }
-
-                        result = string.Format(Properties.Resources.MissingCultureFormat, trnslated);
-                        return false;
-                    }
-
                     result = string.Format(Properties.Resources.MissingCultureFormat, key);
                     return false;
                 }
+
+                if (errorHandling == ErrorHandling.ReturnErrorInfoPreserveNeutral)
+                {
+                    result = neutral;
+                    return true;
+                }
+
+                result = string.Format(Properties.Resources.MissingCultureFormat, neutral);
+                return false;
             }
 
-            var translated = resourceManager.GetString(key, culture);
-            if (translated == null)
+            if (!resourceManager.HasKey(key, culture))
             {
-                if (shouldThrow)
+                if (errorHandling == ErrorHandling.Throw)
                 {
-                    var message = $"The resourcemanager {resourceManager.BaseName} does not have the key: {key}";
+                    var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {culture.Name}";
                     throw new ArgumentOutOfRangeException(nameof(key), message);
+                }
+
+                var neutral = resourceManager.GetString(key, CultureInfo.InvariantCulture);
+                if (!string.IsNullOrEmpty(neutral))
+                {
+                    if (errorHandling == ErrorHandling.ReturnErrorInfoPreserveNeutral)
+                    {
+                        result = neutral;
+                        return false;
+                    }
+
+                    result = string.Format(Properties.Resources.MissingTranslationFormat, key);
+                    return false;
                 }
 
                 result = string.Format(Properties.Resources.MissingKeyFormat, key);
                 return false;
             }
 
-            if (translated == string.Empty)
-            {
-                if (!resourceManager.HasKey(key, culture))
-                {
-                    if (shouldThrow)
-                    {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {culture.Name}";
-                        throw new ArgumentOutOfRangeException(nameof(key), message);
-                    }
-
-                    result = string.Format(Properties.Resources.MissingTranslationFormat, key);
-                    return false;
-                }
-            }
-
-            result = translated;
+            result = resourceManager.GetString(key, culture);
             return true;
         }
 

@@ -12,8 +12,8 @@
     {
         private static readonly PropertyChangedEventArgs TranslatedPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Translated));
         private static readonly ConcurrentDictionary<ResourceManagerAndKey, Translation> Cache = new ConcurrentDictionary<ResourceManagerAndKey, Translation>();
-
-        internal readonly ResourceManager ResourceManager;
+        private readonly ResourceManager resourceManager;
+        private string translated;
 
         static Translation()
         {
@@ -28,9 +28,10 @@
 
         private Translation(ResourceManager resourceManager, string key, ErrorHandling errorHandling = ErrorHandling.Default)
         {
-            this.ResourceManager = resourceManager;
+            this.resourceManager = resourceManager;
             this.Key = key;
             this.ErrorHandling = errorHandling;
+            this.translated = Translator.Translate(resourceManager, key, errorHandling);
         }
 
         /// <inheritdoc />
@@ -43,7 +44,24 @@
         public ErrorHandling ErrorHandling { get; }
 
         /// <inheritdoc />
-        public string Translated => Translator.Translate(this.ResourceManager, this.Key, this.ErrorHandling);
+        public string Translated
+        {
+            get
+            {
+                return this.translated;
+            }
+
+            private set
+            {
+                if (this.translated == value)
+                {
+                    return;
+                }
+
+                this.translated = value;
+                this.PropertyChanged?.Invoke(this, TranslatedPropertyChangedEventArgs);
+            }
+        }
 
         /// <summary>
         /// Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey))
@@ -73,7 +91,7 @@
         /// <returns>The translated string.</returns>
         public string Translate(CultureInfo culture, ErrorHandling errorHandlingStrategy = ErrorHandling.Default)
         {
-            return Translator.Translate(this.ResourceManager, this.Key, culture, errorHandlingStrategy);
+            return Translator.Translate(this.resourceManager, this.Key, culture, errorHandlingStrategy);
         }
 
         /// <summary> Use this to raise propertychanged</summary>
@@ -87,7 +105,7 @@
         /// <summary> Called when <see cref="Translator.CurrentCulture"/> changes</summary>
         protected virtual void OnCurrentCultureChanged()
         {
-            this.PropertyChanged?.Invoke(this, TranslatedPropertyChangedEventArgs);
+            this.Translated = Translator.Translate(this.resourceManager, this.Key, this.ErrorHandling);
         }
     }
 }

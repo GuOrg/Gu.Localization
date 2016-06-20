@@ -12,7 +12,7 @@
 
     internal static class ResourceManagerExt
     {
-        private static readonly ConditionalWeakTable<ResourceManager, CulturesAndKeys> Cache = new ConditionalWeakTable<ResourceManager, CulturesAndKeys>();
+        private static readonly ConcurrentDictionary<ResourceManager, CulturesAndKeys> Cache = new ConcurrentDictionary<ResourceManager, CulturesAndKeys>();
 
         /// <summary>
         /// Check if the <paramref name="resourceManager"/> has a translation for <paramref name="key"/>
@@ -25,7 +25,7 @@
         /// <returns>True if a translation exists</returns>
         internal static bool HasKey(this ResourceManager resourceManager, string key, CultureInfo culture)
         {
-            var culturesAndKeys = Cache.GetValue(resourceManager, r => new CulturesAndKeys(r));
+            var culturesAndKeys = Cache.GetOrAdd(resourceManager, r => new CulturesAndKeys(r));
             return culturesAndKeys.HasKey(culture, key);
         }
 
@@ -39,7 +39,7 @@
         /// <returns>True if a translation exists</returns>
         internal static bool HasCulture(this ResourceManager resourceManager, CultureInfo culture)
         {
-            var culturesAndKeys = Cache.GetValue(resourceManager, r => new CulturesAndKeys(r));
+            var culturesAndKeys = Cache.GetOrAdd(resourceManager, r => new CulturesAndKeys(r));
             return culturesAndKeys.HasCulture(culture);
         }
 
@@ -83,7 +83,7 @@
 
         internal sealed class CulturesAndKeys
         {
-            private readonly ConcurrentDictionary<CultureInfo, HashSet<string>> culturesAndKeys = new ConcurrentDictionary<CultureInfo, HashSet<string>>();
+            private readonly ConcurrentDictionary<CultureInfo, HashSet<string>> culturesAndKeys = new ConcurrentDictionary<CultureInfo, HashSet<string>>(CultureInfoComparer.Default);
             private readonly ResourceManager resourceManager;
 
             public CulturesAndKeys(ResourceManager resourceManager)
@@ -93,13 +93,13 @@
 
             public bool HasKey(CultureInfo culture, string key)
             {
-                var keys = this.culturesAndKeys.GetOrAdd(culture, this.CreateKeysForCulture);
+                var keys = this.culturesAndKeys.GetOrAdd(culture ?? CultureInfo.InvariantCulture, this.CreateKeysForCulture);
                 return keys?.Contains(key) == true;
             }
 
             public bool HasCulture(CultureInfo culture)
             {
-                var keys = this.culturesAndKeys.GetOrAdd(culture, this.CreateKeysForCulture);
+                var keys = this.culturesAndKeys.GetOrAdd(culture ?? CultureInfo.InvariantCulture, this.CreateKeysForCulture);
                 return keys != null;
             }
 
