@@ -13,9 +13,7 @@
         private static readonly PropertyChangedEventArgs TranslatedPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Translated));
         private static readonly ConcurrentDictionary<ResourceManagerAndKey, Translation> Cache = new ConcurrentDictionary<ResourceManagerAndKey, Translation>();
 
-        private readonly string key;
-        private readonly ErrorHandling errorHandling;
-        private readonly ResourceManager resourceManager;
+        internal readonly ResourceManager ResourceManager;
 
         static Translation()
         {
@@ -30,16 +28,22 @@
 
         private Translation(ResourceManager resourceManager, string key, ErrorHandling errorHandling = ErrorHandling.Default)
         {
-            this.resourceManager = resourceManager;
-            this.key = key;
-            this.errorHandling = errorHandling;
+            this.ResourceManager = resourceManager;
+            this.Key = key;
+            this.ErrorHandling = errorHandling;
         }
 
         /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>Gets the key that is used by this translation.</summary>
+        public string Key { get; }
+
+        /// <summary>Gets the errorhandling mode used by this translation.</summary>
+        public ErrorHandling ErrorHandling { get; }
+
         /// <inheritdoc />
-        public string Translated => Translator.Translate(this.resourceManager, this.key, this.errorHandling);
+        public string Translated => Translator.Translate(this.ResourceManager, this.Key, this.ErrorHandling);
 
         /// <summary>
         /// Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey))
@@ -62,14 +66,14 @@
         }
 
         /// <summary>
-        /// Calls <see cref="Translator.Translate(ResourceManager, string, CultureInfo, ErrorHandling)"/> with the key.
+        /// Calls <see cref="Translator.Translate(System.Resources.ResourceManager, string, CultureInfo, Localization.ErrorHandling)"/> with the key.
         /// </summary>
         /// <param name="culture">The culture.</param>
         /// <param name="errorHandlingStrategy">Specifiec how errors are handled</param>
         /// <returns>The translated string.</returns>
         public string Translate(CultureInfo culture, ErrorHandling errorHandlingStrategy = ErrorHandling.Default)
         {
-            return Translator.Translate(this.resourceManager, this.key, culture, errorHandlingStrategy);
+            return Translator.Translate(this.ResourceManager, this.Key, culture, errorHandlingStrategy);
         }
 
         /// <summary> Use this to raise propertychanged</summary>

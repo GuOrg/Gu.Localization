@@ -2,8 +2,10 @@
 {
     using System;
     using System.Resources;
+    using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
+    using System.Windows.Threading;
 
     using Gu.Localization;
     using Gu.Localization.Properties;
@@ -16,6 +18,8 @@
     [MarkupExtensionReturnType(typeof(BindingExpression))]
     public class StaticExtension : System.Windows.Markup.StaticExtension
     {
+        private static readonly PropertyPath TranslatedPropertyPath = new PropertyPath(nameof(Gu.Localization.Translation.Translated));
+
         /// <summary> Initializes a new instance of the <see cref="StaticExtension"/> class.</summary>
         public StaticExtension()
         {
@@ -43,7 +47,7 @@
             {
                 if (this.MemberType != null)
                 {
-                    var resourceManager = ResourceManagers.ForType(this.MemberType);
+                    var resourceManager = Gu.Localization.ResourceManagers.ForType(this.MemberType);
                     return CreateBindingExpression(resourceManager, this.Member, serviceProvider);
                 }
 
@@ -64,7 +68,7 @@
                     return string.Format(Resources.MissingResourcesFormat, this.Member);
                 }
 
-                var manager = ResourceManagers.ForType(type);
+                var manager = Gu.Localization.ResourceManagers.ForType(type);
                 this.Member = qnk.Key;
                 return CreateBindingExpression(manager, this.Member, serviceProvider);
             }
@@ -76,9 +80,12 @@
 
         internal static object CreateBindingExpression(ResourceManager resourceManager, string key, IServiceProvider serviceProvider)
         {
-            var translation = Translation.GetOrCreate(resourceManager, key, ErrorHandling.ReturnErrorInfo);
-            var binding = new Binding(nameof(translation.Translated))
+            var errorHandling = ErrorHandling.GetMode(serviceProvider.ProvideValueTarget()?.TargetObject as DependencyObject) ??
+                                              Gu.Localization.ErrorHandling.ReturnErrorInfo;
+            var translation = Gu.Localization.Translation.GetOrCreate(resourceManager, key, errorHandling);
+            var binding = new Binding
             {
+                Path = TranslatedPropertyPath,
                 Mode = BindingMode.OneWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                 Source = translation

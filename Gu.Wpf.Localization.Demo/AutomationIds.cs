@@ -8,6 +8,7 @@
 
         public static readonly string NoTranslationsGroupId = Create();
         public static readonly string VanillaXamlGroupId = Create();
+        public static readonly string VanillaXamlGroupWithErrorHandlingId = Create();
         public static readonly string DataTemplateGroupId = Create();
         public static readonly string NotInVisualTreeGroupId = Create();
         public static readonly string UserControlSameProjectGroupId = Create();
