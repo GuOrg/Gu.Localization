@@ -7,7 +7,6 @@
     using System.IO;
     using System.Linq;
     using System.Resources;
-    using System.Threading;
 
     /// <summary> Class for translating resources </summary>
     public static partial class Translator
