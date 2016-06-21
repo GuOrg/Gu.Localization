@@ -57,6 +57,8 @@
     <Compile Include="Internals\Ensure\Ensure.string.cs" />
     <Compile Include="Internals\EnumerableExt.cs" />
     <Compile Include="Internals\FormatString.cs" />
+    <Compile Include="Internals\ReadOnlySet.cs" />
+    <Compile Include="Internals\ReadOnlySet{T}.cs" />
     <Compile Include="Internals\ResourceCultures.cs" />
     <Compile Include="Internals\ResourceManagerExt.cs" />
     <Compile Include="Internals\StringExt.cs" />

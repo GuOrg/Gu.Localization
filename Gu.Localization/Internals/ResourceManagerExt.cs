@@ -82,7 +82,7 @@
 
         internal sealed class CulturesAndKeys
         {
-            private readonly ConcurrentDictionary<CultureInfo, HashSet<string>> culturesAndKeys = new ConcurrentDictionary<CultureInfo, HashSet<string>>(CultureInfoComparer.Default);
+            private readonly ConcurrentDictionary<CultureInfo, ReadOnlySet<string>> culturesAndKeys = new ConcurrentDictionary<CultureInfo, ReadOnlySet<string>>(CultureInfoComparer.Default);
             private readonly ResourceManager resourceManager;
 
             public CulturesAndKeys(ResourceManager resourceManager)
@@ -102,7 +102,7 @@
                 return keys != null;
             }
 
-            private HashSet<string> CreateKeysForCulture(CultureInfo culture)
+            private ReadOnlySet<string> CreateKeysForCulture(CultureInfo culture)
             {
                 using (var clone = this.resourceManager.Clone())
                 {
@@ -118,7 +118,7 @@
                             return null;
                         }
 
-                        return new HashSet<string>(resourceSet.OfType<DictionaryEntry>().Select(x => x.Key).OfType<string>());
+                        return ReadOnlySet.Create(resourceSet.OfType<DictionaryEntry>().Select(x => x.Key).OfType<string>());
                     }
                 }
             }
