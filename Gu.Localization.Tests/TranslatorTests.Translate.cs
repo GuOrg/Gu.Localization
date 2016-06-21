@@ -29,31 +29,49 @@
                 Assert.AreEqual(expected, actual);
             }
 
-            [TestCase(nameof(Properties.Resources.NeutralOnly), null, "So neutral")]
-            [TestCase(nameof(Properties.Resources.AllLanguages), "en", "English")]
-            [TestCase(nameof(Properties.Resources.AllLanguages), "sv", "Svenska")]
-            [TestCase(nameof(Properties.Resources.AllLanguages), null, "So neutral")]
-            public void HappyPath(string key, string culture, string expected)
+            [TestCaseSource(typeof(TranslationSource))]
+            public void TranslateWithGlobalCulture(TranslationSource.Row row)
             {
-                Translator.CurrentCulture = culture == null
-                                                ? CultureInfo.InvariantCulture
-                                                : CultureInfo.GetCultureInfo(culture);
-                var actual = Translator.Translate(Properties.Resources.ResourceManager, key);
-                Assert.AreEqual(expected, actual);
+                Translator.CurrentCulture = row.Culture;
+                var actual = Translator.Translate(Properties.Resources.ResourceManager, row.Key);
+                Assert.AreEqual(row.ExpectedTranslation, actual);
 
                 foreach (var errorHandling in Enum.GetValues(typeof(ErrorHandling))
                                                   .OfType<ErrorHandling>())
                 {
-                    actual = Translator.Translate(Properties.Resources.ResourceManager, key, errorHandling);
-                    Assert.AreEqual(expected, actual);
+                    actual = Translator.Translate(Properties.Resources.ResourceManager, row.Key, errorHandling);
+                    Assert.AreEqual(row.ExpectedTranslation, actual);
                 }
 
                 foreach (var errorHandling in Enum.GetValues(typeof(ErrorHandling))
-                                                  .OfType<ErrorHandling>())
+                                  .OfType<ErrorHandling>())
                 {
                     Translator.ErrorHandling = errorHandling;
-                    actual = Translator.Translate(Properties.Resources.ResourceManager, key);
-                    Assert.AreEqual(expected, actual);
+                    actual = Translator.Translate(Properties.Resources.ResourceManager, row.Key);
+                    Assert.AreEqual(row.ExpectedTranslation, actual);
+                }
+            }
+
+            [TestCaseSource(typeof(TranslationSource))]
+            public void TranslateWithExplicitCulture(TranslationSource.Row row)
+            {
+                Translator.CurrentCulture = null;
+                var actual = Translator.Translate(Properties.Resources.ResourceManager, row.Key, row.Culture);
+                Assert.AreEqual(row.ExpectedTranslation, actual);
+
+                foreach (var errorHandling in Enum.GetValues(typeof(ErrorHandling))
+                                                  .OfType<ErrorHandling>())
+                {
+                    actual = Translator.Translate(Properties.Resources.ResourceManager, row.Key, row.Culture, errorHandling);
+                    Assert.AreEqual(row.ExpectedTranslation, actual);
+                }
+
+                foreach (var errorHandling in Enum.GetValues(typeof(ErrorHandling))
+                                  .OfType<ErrorHandling>())
+                {
+                    Translator.ErrorHandling = errorHandling;
+                    actual = Translator.Translate(Properties.Resources.ResourceManager, row.Key, row.Culture);
+                    Assert.AreEqual(row.ExpectedTranslation, actual);
                 }
             }
 

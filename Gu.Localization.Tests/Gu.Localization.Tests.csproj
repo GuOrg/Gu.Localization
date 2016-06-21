@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Errors\DummyEnum.cs" />
+    <Compile Include="Helpers\TranslationSource.cs" />
     <Compile Include="Helpers\TranslationThrowSource.cs" />
     <Compile Include="Internals\ResourceManagerExtTests.cs" />
     <Compile Include="Internals\StringExtTests.cs" />

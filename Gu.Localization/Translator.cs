@@ -14,13 +14,13 @@
     {
         private static CultureInfo currentCulture;
         private static DirectoryInfo resourceDirectory = ResourceCultures.DefaultResourceDirectory();
-        private static SortedSet<CultureInfo> cultures = GetAllCultures();
+        private static SortedSet<CultureInfo> allCultures = GetAllCultures();
 
         static Translator()
         {
-            currentCulture = cultures.Contains(CultureInfo.CurrentUICulture)
+            currentCulture = allCultures.Contains(CultureInfo.CurrentUICulture)
                                  ? CultureInfo.CurrentUICulture
-                                 : cultures.FirstOrDefault(x => Culture.TwoLetterIsoLanguageNameEquals(x, CultureInfo.CurrentUICulture));
+                                 : allCultures.FirstOrDefault(x => Culture.TwoLetterIsoLanguageNameEquals(x, CultureInfo.CurrentUICulture));
         }
 
         /// <summary>
@@ -43,7 +43,7 @@
             set
             {
                 resourceDirectory = value;
-                cultures = GetAllCultures();
+                allCultures = GetAllCultures();
             }
         }
 
@@ -64,7 +64,7 @@
                     return;
                 }
 
-                if (value != null && !value.IsInvariant() && cultures?.Contains(value) == false)
+                if (value != null && !value.IsInvariant() && allCultures?.Contains(value) == false)
                 {
                     var message = "Can only set culture to an existing culture.\r\n" +
                                   $"Check the property {nameof(Cultures)} for a list of valid cultures.";
@@ -80,7 +80,7 @@
         public static ErrorHandling ErrorHandling { get; set; } = ErrorHandling.Throw;
 
         /// <summary> Gets a list with all cultures found for the application </summary>
-        public static IEnumerable<CultureInfo> Cultures => cultures;
+        public static IEnumerable<CultureInfo> Cultures => allCultures;
 
         /// <summary>
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
@@ -138,7 +138,7 @@
 
         public static bool ContainsCulture(CultureInfo culture)
         {
-            return cultures?.Contains(culture) == true;
+            return allCultures?.Contains(culture) == true;
         }
 
         private static bool TryTranslateOrThrow(
@@ -179,16 +179,16 @@
 
             if (culture != null &&
                 !culture.IsInvariant() &&
-                cultures.Contains(culture) == false)
+                allCultures.Contains(culture) == false)
             {
                 if (resourceManager.HasCulture(culture))
                 {
-                    if (cultures == null)
+                    if (allCultures == null)
                     {
-                        cultures = new SortedSet<CultureInfo>(CultureInfoComparer.ByName);
+                        allCultures = new SortedSet<CultureInfo>(CultureInfoComparer.ByName);
                     }
 
-                    cultures.Add(culture);
+                    allCultures.Add(culture);
                 }
             }
 
