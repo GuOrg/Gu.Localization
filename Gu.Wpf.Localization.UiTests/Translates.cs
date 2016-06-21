@@ -1,6 +1,7 @@
 ﻿namespace Gu.Wpf.Localization.UiTests
 {
     using System.Diagnostics;
+    using System.Globalization;
 
     using Gu.Wpf.Localization.Demo;
 
@@ -36,6 +37,10 @@
         public void VanillaXaml()
         {
             var groupBox = this.window.Get<GroupBox>(AutomationIds.VanillaXamlGroupId);
+            Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
+            Assert.AreEqual("_SwedishOnly_", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual("_So neutral_", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
+            Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
             this.languageComboBox.Select("sv");
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
@@ -54,6 +59,10 @@
         public void VanillaXamlWithErrorHandling()
         {
             var groupBox = this.window.Get<GroupBox>(AutomationIds.VanillaXamlGroupWithErrorHandlingId);
+            Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
+            Assert.AreEqual("", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
+            Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
             this.languageComboBox.Select("sv");
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
@@ -86,13 +95,22 @@
         {
             var groupBox = this.window.Get<GroupBox>(AutomationIds.DataTemplateGroupId);
 
+            Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
+            Assert.AreEqual("_SwedishOnly_", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual("_So neutral_", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
+            Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
+
             this.languageComboBox.Select("sv");
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
+            Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
             this.languageComboBox.Select("en");
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
             Assert.AreEqual("_SwedishOnly_", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual("_So neutral_", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
+            Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
         }
 
         [Test]
@@ -100,13 +118,22 @@
         {
             var groupBox = this.window.Get<GroupBox>(AutomationIds.UserControlSameProjectGroupId);
 
+            Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
+            Assert.AreEqual("_SwedishOnly_", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual("_So neutral_", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
+            Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
+
             this.languageComboBox.Select("sv");
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
+            Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
             this.languageComboBox.Select("en");
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
             Assert.AreEqual("_SwedishOnly_", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual("_So neutral_", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
+            Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
         }
 
         [Test]

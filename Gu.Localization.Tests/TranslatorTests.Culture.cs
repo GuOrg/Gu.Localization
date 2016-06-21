@@ -12,9 +12,9 @@
         public class Culture
         {
             [Test, Explicit("Must be run separately due to static")]
-            public void InitializesToCurrentUiCulture()
+            public void InitializesToCurrentCulture()
             {
-                Assert.AreEqual(Translator.CurrentCulture.ThreeLetterISOLanguageName, CultureInfo.CurrentUICulture.ThreeLetterISOLanguageName);
+                Assert.AreEqual(Translator.CurrentCulture.ThreeLetterISOLanguageName, CultureInfo.CurrentCulture.ThreeLetterISOLanguageName);
             }
 
             [Test]
