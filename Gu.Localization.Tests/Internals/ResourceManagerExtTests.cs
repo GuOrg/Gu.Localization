@@ -12,6 +12,14 @@
             Properties.Resources.ResourceManager.ReleaseAllResources();
         }
 
+        [Test]
+        public void HasNeutralCulture()
+        {
+            var resourceManager = Properties.Resources.ResourceManager;
+            Assert.AreEqual(true, resourceManager.HasCulture(null));
+            Assert.AreEqual(true, resourceManager.HasCulture(CultureInfo.InvariantCulture));
+        }
+
         [TestCase(null, true)]
         [TestCase("sv", true)]
         [TestCase("it", false)]
@@ -40,12 +48,20 @@
             Assert.IsNull(resourceManager.GetResourceSet(culture, false, false));
         }
 
+        [TestCase(nameof(Properties.Resources.AllLanguages),  true)]
+        //[TestCase(nameof(Properties.Resources.EnglishOnly), false)]
+        public void HasKeyInvariantAndNullCulture(string key, bool expected)
+        {
+            var resourceManager = Properties.Resources.ResourceManager;
+            Assert.AreEqual(expected, resourceManager.HasKey(key, null));
+            Assert.AreEqual(expected, resourceManager.HasKey(key, CultureInfo.InvariantCulture));
+        }
+
         [Test]
         public void HasCultureThenHasKey()
         {
             var italian = CultureInfo.GetCultureInfo("it");
             var key = nameof(Properties.Resources.AllLanguages);
-
             var resourceManager = Properties.Resources.ResourceManager;
             Assert.AreEqual(false, resourceManager.HasCulture(italian));
             Assert.AreEqual(false, resourceManager.HasKey(key, italian));

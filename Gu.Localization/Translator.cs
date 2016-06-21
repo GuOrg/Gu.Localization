@@ -133,13 +133,14 @@
         {
             if (errorHandling == ErrorHandling.Default)
             {
-                errorHandling = ErrorHandling;
+                errorHandling = ErrorHandling == ErrorHandling.Default
+                                    ? ErrorHandling.Throw
+                                    : ErrorHandling;
             }
 
-            var shouldThrow = ShouldThrow(errorHandling);
             if (resourceManager == null)
             {
-                if (shouldThrow)
+                if (errorHandling == ErrorHandling.Throw)
                 {
                     throw new ArgumentNullException(nameof(resourceManager));
                 }
@@ -150,7 +151,7 @@
 
             if (string.IsNullOrEmpty(key))
             {
-                if (shouldThrow)
+                if (errorHandling == ErrorHandling.Throw)
                 {
                     throw new ArgumentNullException(nameof(key));
                 }
@@ -159,6 +160,7 @@
                 return false;
             }
 
+            var shouldThrow = ShouldThrow(errorHandling);
             if (culture != null &&
                 !CultureInfoComparer.DefaultEquals(culture, CultureInfo.InvariantCulture) &&
                 cultures?.Contains(culture, CultureInfoComparer.Default) == false)

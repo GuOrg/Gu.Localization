@@ -104,6 +104,7 @@
 
             private ReadOnlySet<string> CreateKeysForCulture(CultureInfo culture)
             {
+                // I don't remember if this cloning solves a problem or if it is some old thing.
                 using (var clone = this.resourceManager.Clone())
                 {
                     if (clone?.ResourceManager == null)
