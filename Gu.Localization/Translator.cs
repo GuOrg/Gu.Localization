@@ -165,7 +165,6 @@
                 return false;
             }
 
-            var shouldThrow = ShouldThrow(errorHandling);
             if (culture != null &&
                 !culture.IsInvariant() &&
                 cultures.Contains(culture) == false)
@@ -183,22 +182,25 @@
 
             if (!resourceManager.HasCulture(culture))
             {
-                if (shouldThrow)
+                if (errorHandling == ErrorHandling.Throw)
                 {
                     var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the culture: {culture?.Name ?? "null"}";
                     throw new ArgumentOutOfRangeException(nameof(culture), message);
                 }
 
-                var neutral = resourceManager.GetString(key, culture);
-                if (!string.IsNullOrEmpty(neutral))
+                if (resourceManager.HasKey(key, CultureInfo.InvariantCulture))
                 {
+                    var neutral = resourceManager.GetString(key, CultureInfo.InvariantCulture);
                     if (errorHandling == ErrorHandling.ReturnErrorInfoPreserveNeutral)
                     {
                         result = neutral;
                         return true;
                     }
 
-                    result = string.Format(Properties.Resources.MissingCultureFormat, neutral);
+                    var arg = string.IsNullOrEmpty(neutral)
+                                  ? key
+                                  : neutral;
+                    result = string.Format(Properties.Resources.MissingCultureFormat, arg);
                     return false;
                 }
 
@@ -206,10 +208,31 @@
                 return false;
             }
 
-            var translated = resourceManager.GetString(key, culture);
-            if (translated == null)
+            if (!resourceManager.HasKey(key, culture))
             {
-                if (shouldThrow)
+                if (resourceManager.HasKey(key, CultureInfo.InvariantCulture))
+                {
+                    if (errorHandling == ErrorHandling.Throw)
+                    {
+                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {culture?.Name}";
+                        throw new ArgumentOutOfRangeException(nameof(key), message);
+                    }
+
+                    var neutral = resourceManager.GetString(key, CultureInfo.InvariantCulture);
+                    if (errorHandling == ErrorHandling.ReturnErrorInfoPreserveNeutral)
+                    {
+                        result = neutral;
+                        return true;
+                    }
+
+                    var arg = string.IsNullOrEmpty(neutral)
+                                  ? key
+                                  : neutral;
+                    result = string.Format(Properties.Resources.MissingTranslationFormat, arg);
+                    return false;
+                }
+
+                if (errorHandling == ErrorHandling.Throw)
                 {
                     var message = $"The resourcemanager {resourceManager.BaseName} does not have the key: {key}";
                     throw new ArgumentOutOfRangeException(nameof(key), message);
@@ -219,22 +242,7 @@
                 return false;
             }
 
-            if (translated == string.Empty)
-            {
-                if (!resourceManager.HasKey(key, culture))
-                {
-                    if (shouldThrow)
-                    {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {culture?.Name}";
-                        throw new ArgumentOutOfRangeException(nameof(key), message);
-                    }
-
-                    result = string.Format(Properties.Resources.MissingTranslationFormat, key);
-                    return false;
-                }
-            }
-
-            result = translated;
+            result = resourceManager.GetString(key, culture);
             return true;
         }
 

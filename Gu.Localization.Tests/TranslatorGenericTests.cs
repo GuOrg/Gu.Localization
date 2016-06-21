@@ -56,16 +56,16 @@ namespace Gu.Localization.Tests
         [TestCase("Missing", "sv", "!Missing!", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
         [TestCase(nameof(Properties.Resources.EnglishOnly), "en", "English", ErrorHandling.ReturnErrorInfo)]
         [TestCase(nameof(Properties.Resources.EnglishOnly), "en", "English", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
-        [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "_EnglishOnly_", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
         [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "_EnglishOnly_", ErrorHandling.ReturnErrorInfo)]
-        [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "~EnglishOnly~", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
         [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "~EnglishOnly~", ErrorHandling.ReturnErrorInfo)]
         [TestCase(nameof(Properties.Resources.AllLanguages), "en", "English", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
         [TestCase(nameof(Properties.Resources.AllLanguages), "en", "English", ErrorHandling.ReturnErrorInfo)]
         [TestCase(nameof(Properties.Resources.AllLanguages), "it", "So neutral", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
         [TestCase(nameof(Properties.Resources.AllLanguages), "it", "~So neutral~", ErrorHandling.ReturnErrorInfo)]
         [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "So neutral", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
-        [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "~So neutral~", ErrorHandling.ReturnErrorInfo)]
+        [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "_So neutral_", ErrorHandling.ReturnErrorInfo)]
         public void WithErrorhandling(string key, string culture, string expected, ErrorHandling errorHandling)
         {
             Translator.CurrentCulture = culture == null
