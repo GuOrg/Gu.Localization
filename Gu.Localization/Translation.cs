@@ -111,7 +111,7 @@
                 {
                     if (this.culture == null)
                     {
-                        this.TryUpdate(Translator.CurrentCulture);
+                        this.TryUpdate(Translator.CurrentCultureOrDefault());
                     }
 
                     return this.value;

@@ -23,7 +23,7 @@
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            this.LanguagesComboBox.SelectedItem = Translator.CurrentCulture;
+            this.LanguagesComboBox.SelectedItem = Translator.CurrentCultureOrDefault();
         }
     }
 }

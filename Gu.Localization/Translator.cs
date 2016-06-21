@@ -76,14 +76,15 @@
 
         /// <summary>
         /// If <see cref="CurrentCulture"/> is not null it is returned.
-        /// If not <see cref="CultureInfo.CurrentUICulture"/> is returned if there is a translation in <see cref="Cultures"/>.
+        /// If not <see cref="CultureInfo.CurrentCulture"/> is returned if there is a translation in <see cref="Cultures"/>.
         /// </summary>
         /// <returns>The effective culture.</returns>
         public static CultureInfo CurrentCultureOrDefault()
         {
             return currentCulture ??
-                   allCultures.FirstOrDefault(c => Culture.NameEquals(c, CultureInfo.CurrentUICulture)) ??
-                   allCultures.FirstOrDefault(c => Culture.TwoLetterIsoLanguageNameEquals(c, CultureInfo.CurrentUICulture));
+                   allCultures.FirstOrDefault(c => Culture.NameEquals(c, CultureInfo.CurrentCulture)) ??
+                   allCultures.FirstOrDefault(c => Culture.TwoLetterIsoLanguageNameEquals(c, CultureInfo.CurrentCulture)) ??
+                   CultureInfo.InvariantCulture;
         }
 
         /// <summary>
