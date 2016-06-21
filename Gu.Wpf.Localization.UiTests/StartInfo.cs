@@ -14,6 +14,7 @@
                 var assembly = typeof(MainWindow).Assembly;
                 var processStartInfo = new ProcessStartInfo
                 {
+                    Arguments = "en",
                     FileName = new Uri(assembly.CodeBase, UriKind.Absolute).LocalPath,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
