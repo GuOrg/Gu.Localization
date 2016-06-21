@@ -117,7 +117,7 @@
         {
             foreach (var language in this.Languages)
             {
-                language.IsSelected = Gu.Localization.Culture.NameEquals(language.Culture, Translator.CurrentCulture);
+                language.IsSelected = Gu.Localization.Culture.NameEquals(language.Culture, Translator.CurrentCultureOrDefault());
             }
         }
 

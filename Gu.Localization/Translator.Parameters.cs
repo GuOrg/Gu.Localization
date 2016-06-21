@@ -18,7 +18,7 @@
         /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
         public static string Translate<T>(ResourceManager resourceManager, string key, T arg0, ErrorHandling errorHandling = ErrorHandling.Default)
         {
-            return Translate(resourceManager, key, CurrentCulture, arg0, errorHandling);
+            return Translate(resourceManager, key, CurrentCultureOrDefault(), arg0, errorHandling);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@
         /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
         public static string Translate<T0, T1>(ResourceManager resourceManager, string key, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Default)
         {
-            return Translate(resourceManager, key, CurrentCulture, arg0, arg1, errorHandling);
+            return Translate(resourceManager, key, CurrentCultureOrDefault(), arg0, arg1, errorHandling);
         }
 
         /// <summary>

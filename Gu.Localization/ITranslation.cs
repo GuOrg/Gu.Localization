@@ -8,8 +8,8 @@
     public interface ITranslation : INotifyPropertyChanged
     {
         /// <summary>
-        /// Gets the key Translated to the <see cref="Translator.CurrentCulture"/>
-        /// This valus updates when <see cref="Translator.CurrentCulture"/> changes
+        /// Gets the key Translated to the <see cref="Translator.CurrentCultureOrDefault()"/>
+        /// This valus updates when <see cref="Translator.CurrentCultureOrDefault()"/> changes
         /// </summary>
         string Translated { get; }
     }

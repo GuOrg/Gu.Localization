@@ -15,13 +15,6 @@
         private static DirectoryInfo resourceDirectory = ResourceCultures.DefaultResourceDirectory();
         private static SortedSet<CultureInfo> allCultures = GetAllCultures();
 
-        static Translator()
-        {
-            currentCulture = allCultures.Contains(CultureInfo.CurrentUICulture)
-                                 ? CultureInfo.CurrentUICulture
-                                 : allCultures.FirstOrDefault(x => Culture.TwoLetterIsoLanguageNameEquals(x, CultureInfo.CurrentUICulture));
-        }
-
         /// <summary>
         /// Notifies when the current language changes.
         /// </summary>
@@ -82,14 +75,26 @@
         public static IEnumerable<CultureInfo> Cultures => allCultures;
 
         /// <summary>
+        /// If <see cref="CurrentCulture"/> is not null it is returned.
+        /// If not <see cref="CultureInfo.CurrentUICulture"/> is returned if there is a translation in <see cref="Cultures"/>.
+        /// </summary>
+        /// <returns>The effective culture.</returns>
+        public static CultureInfo CurrentCultureOrDefault()
+        {
+            return currentCulture ??
+                   allCultures.FirstOrDefault(c => Culture.NameEquals(c, CultureInfo.CurrentUICulture)) ??
+                   allCultures.FirstOrDefault(c => Culture.TwoLetterIsoLanguageNameEquals(c, CultureInfo.CurrentUICulture));
+        }
+
+        /// <summary>
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
         /// </summary>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        /// <returns>The key translated to the <see cref="CurrentCultureOrDefault()"/></returns>
         public static string Translate(ResourceManager resourceManager, string key)
         {
-            return Translate(resourceManager, key, CurrentCulture);
+            return Translate(resourceManager, key, CurrentCultureOrDefault());
         }
 
         /// <summary>
@@ -98,7 +103,7 @@
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
         /// <param name="errorHandling">Specifies how error handling is performed.</param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        /// <returns>The key translated to the <see cref="CurrentCultureOrDefault()"/></returns>
         public static string Translate(ResourceManager resourceManager, string key, ErrorHandling errorHandling)
         {
             return Translate(resourceManager, key, CurrentCulture, errorHandling);
@@ -110,7 +115,7 @@
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
         /// <param name="culture">The culture, if null CultureInfo.InvariantCulture is used</param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        /// <returns>The key translated to the <paramref name="culture"/></returns>
         public static string Translate(ResourceManager resourceManager, string key, CultureInfo culture)
         {
             return Translate(resourceManager, key, culture, ErrorHandling);
@@ -123,7 +128,7 @@
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
         /// <param name="culture">The culture, if null CultureInfo.InvariantCulture is used</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        /// <returns>The key translated to the <paramref name="culture"/></returns>
         public static string Translate(
             ResourceManager resourceManager,
             string key,

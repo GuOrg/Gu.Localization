@@ -22,9 +22,10 @@
         {
             Translator.CurrentCultureChanged += (_, c) =>
                 {
+                    var culture = c ?? Translator.CurrentCultureOrDefault();
                     foreach (var translation in Cache.Values)
                     {
-                        translation.OnCurrentCultureChanged(c);
+                        translation.OnCurrentCultureChanged(culture);
                     }
                 };
         }
