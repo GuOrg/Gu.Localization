@@ -7,9 +7,6 @@
         xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization"
         xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.Properties"
         Title="{x:Static local:AutomationIds.MainWindow}"
-        Width="800"
-        Height="600"
-        l:DesignTime.Culture="en"
         Loaded="OnLoaded">
     <Grid>
         <Grid.ColumnDefinitions>
