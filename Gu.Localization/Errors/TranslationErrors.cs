@@ -4,6 +4,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     /// <summary>A collection of errors.</summary>
     public class TranslationErrors : IReadOnlyDictionary<string, IReadOnlyList<TranslationError>>
@@ -25,7 +26,7 @@
         public int Count => this.errors.Count;
 
         /// <inheritdoc />
-        public IEnumerable<string> Keys => this.errors.Keys;
+        public IEnumerable<string> Keys => this.errors.Keys.OrderBy(x => x);
 
         /// <inheritdoc />
         public IEnumerable<IReadOnlyList<TranslationError>> Values => this.errors.Values;
@@ -48,7 +49,7 @@
 
             using (var writer = new IndentedTextWriter(new StringWriter(), tabString) { NewLine = newLine })
             {
-                foreach (var keyAndErrors in this.errors)
+                foreach (var keyAndErrors in this.errors.OrderBy(x => x.Key))
                 {
                     writer.Write("Key: ");
                     writer.WriteLine(keyAndErrors.Key);

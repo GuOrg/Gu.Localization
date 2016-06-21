@@ -1,10 +1,9 @@
-﻿namespace Gu.Localization
+﻿// ReSharper disable PossibleMultipleEnumeration
+namespace Gu.Localization
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
     using System.Resources;
 
     using Gu.Localization.Errors;
@@ -15,6 +14,8 @@
     /// </summary>
     public static partial class Validate
     {
+        private static readonly IReadOnlyList<TranslationError> EmptyErrors = new TranslationError[0];
+
         /// <summary>
         /// This is meant to be used in unit tests.
         /// Performance is probably very poor and we load all resources into memory.
@@ -45,19 +46,13 @@
         /// <returns>An <see cref="TranslationErrors"/> with all errors found in <paramref name="resourceManager"/></returns>
         public static TranslationErrors Translations(ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
         {
-            using (var clone = resourceManager.Clone())
+            var culturesAndKeys = resourceManager.GetCulturesAndKeys(cultures);
+            Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
+            foreach (var key in culturesAndKeys.AllKeys)
             {
-                var resources = GetResources(clone, cultures);
-                var keys = GetKeys(resourceManager);
-                Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
-                foreach (var key in keys)
+                IReadOnlyList<TranslationError> keyErrors;
+                if (TryGetTranslationErrors(culturesAndKeys, cultures, key, out keyErrors))
                 {
-                    var keyErrors = Translations(resources, key);
-                    if (keyErrors.Count == 0)
-                    {
-                        continue;
-                    }
-
                     if (errors == null)
                     {
                         errors = new Dictionary<string, IReadOnlyList<TranslationError>>();
@@ -65,11 +60,12 @@
 
                     errors.Add(key, keyErrors);
                 }
-
-                return errors == null
-                           ? TranslationErrors.Empty
-                           : new TranslationErrors(errors);
             }
+
+            resourceManager.ReleaseAllResources();
+            return errors == null
+                       ? TranslationErrors.Empty
+                       : new TranslationErrors(errors);
         }
 
         /// <summary>
@@ -100,18 +96,13 @@
         public static TranslationErrors EnumTranslations<T>(ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
             where T : struct, IComparable, IFormattable, IConvertible
         {
-            using (var clone = resourceManager.Clone())
+            var culturesAndKeys = resourceManager.GetCulturesAndKeys(cultures);
+            Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
+            foreach (var key in Enum.GetNames(typeof(T)))
             {
-                var resources = GetResources(clone, cultures);
-                Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
-                foreach (var key in Enum.GetNames(typeof(T)))
+                IReadOnlyList<TranslationError> keyErrors;
+                if (TryGetTranslationErrors(culturesAndKeys, cultures, key, out keyErrors))
                 {
-                    var keyErrors = Translations(resources, key);
-                    if (keyErrors.Count == 0)
-                    {
-                        continue;
-                    }
-
                     if (errors == null)
                     {
                         errors = new Dictionary<string, IReadOnlyList<TranslationError>>();
@@ -119,11 +110,12 @@
 
                     errors.Add(key, keyErrors);
                 }
-
-                return errors == null
-                           ? TranslationErrors.Empty
-                           : new TranslationErrors(errors);
             }
+
+            resourceManager.ReleaseAllResources();
+            return errors == null
+                       ? TranslationErrors.Empty
+                       : new TranslationErrors(errors);
         }
 
         /// <summary>
@@ -158,40 +150,62 @@
         /// <returns>A list with all errors for the key or an empty list if no errors.</returns>
         public static IReadOnlyList<TranslationError> Translations(ResourceManager resourceManager, string key, IEnumerable<CultureInfo> cultures)
         {
-            using (var clone = resourceManager.Clone())
+            IReadOnlyList<TranslationError> errors;
+            if (TryGetTranslationErrors(resourceManager, key, cultures, out errors))
             {
-                var resources = GetResources(clone, cultures);
-                return Translations(resources, key);
+                return errors;
             }
+
+            return EmptyErrors;
         }
 
-        private static IReadOnlyList<TranslationError> Translations(IReadOnlyDictionary<CultureInfo, ResourceSet> resources, string key)
+        public static bool TryGetTranslationErrors(ResourceManager resourceManager, string key, IEnumerable<CultureInfo> cultures, out IReadOnlyList<TranslationError> errors)
         {
-            // not optimized at all here, only expecting this to be called in tests.
-            List<TranslationError> errors = new List<TranslationError>();
-            var translations = resources.ToDictionary(x => x.Key, x => x.Value?.GetString(key));
-            FormatError formatErrors;
-            if (TryGetFormatErrors(key, translations, out formatErrors))
-            {
-                errors.Add(formatErrors);
-            }
-
-            if (translations.Any(x => x.Value == null))
-            {
-                errors.Add(new MissingTranslation(key, translations.Where(x => x.Value == null).Select(x => x.Key).ToArray()));
-            }
-
-            return errors;
+            var culturesAndKeys = resourceManager.GetCulturesAndKeys(cultures);
+            var result = TryGetTranslationErrors(culturesAndKeys, cultures, key, out errors);
+            resourceManager.ReleaseAllResources();
+            return result;
         }
 
-        private static bool TryGetFormatErrors(string key, IReadOnlyDictionary<CultureInfo, string> translations, out FormatError formatErrors)
+        private static bool TryGetTranslationErrors(ResourceManagerExt.CulturesAndKeys culturesAndKeys, IEnumerable<CultureInfo> cultures, string key, out IReadOnlyList<TranslationError> errors)
+        {
+            List<TranslationError> foundErrors = null;
+            FormatError formatErrors;
+            if (TryGetFormatErrors(key, culturesAndKeys, cultures, out formatErrors))
+            {
+                foundErrors = new List<TranslationError>(1) { formatErrors };
+            }
+
+            MissingTranslation missingTranslation;
+            if (TryGetMissingTranslations(key, culturesAndKeys, cultures, out missingTranslation))
+            {
+                if (foundErrors == null)
+                {
+                    foundErrors = new List<TranslationError>(1) { missingTranslation };
+                }
+                else
+                {
+                    foundErrors.Add(missingTranslation);
+                }
+            }
+
+            errors = foundErrors;
+            return errors != null;
+        }
+
+        private static bool TryGetFormatErrors(
+            string key,
+            ResourceManagerExt.CulturesAndKeys culturesAndKeys,
+            IEnumerable<CultureInfo> cultures,
+            out FormatError formatErrors)
         {
             int? count = null;
-            foreach (var translation in translations.Values)
+            var translations = culturesAndKeys.GetTranslationsFor(key, cultures);
+            foreach (var translation in translations)
             {
                 int indexCount;
                 bool? anyItemHasFormat;
-                if (!FormatString.IsValidFormat(translation, out indexCount, out anyItemHasFormat))
+                if (!FormatString.IsValidFormat(translation.Value, out indexCount, out anyItemHasFormat))
                 {
                     formatErrors = new FormatError(key, translations);
                     return true;
@@ -214,23 +228,34 @@
             return false;
         }
 
-        private static IReadOnlyList<string> GetKeys(ResourceManager resourceManager)
+        private static bool TryGetMissingTranslations(
+            string key,
+            ResourceManagerExt.CulturesAndKeys culturesAndKeys,
+            IEnumerable<CultureInfo> cultures,
+            out MissingTranslation missingTranslations)
         {
-            return resourceManager.GetResourceSet(CultureInfo.InvariantCulture, true, false)
-                             .OfType<DictionaryEntry>()
-                             .Select(x => x.Key)
-                             .OfType<string>()
-                             .ToArray();
-        }
-
-        private static IReadOnlyDictionary<CultureInfo, ResourceSet> GetResources(ResourceManagerExt.ResourceManagerClone clone, IEnumerable<CultureInfo> cultures)
-        {
-            if (clone?.ResourceManager == null)
+            List<CultureInfo> missing = null;
+            foreach (var culture in cultures)
             {
-                return EmptyReadOnlyDictionary<CultureInfo, ResourceSet>.Default;
+                if (!culturesAndKeys.HasKey(culture, key))
+                {
+                    if (missing == null)
+                    {
+                        missing = new List<CultureInfo>();
+                    }
+
+                    missing.Add(culture);
+                }
             }
 
-            return cultures.ToDictionary(c => c, c => clone.ResourceManager.GetResourceSet(c, true, false), CultureInfoComparer.ByName);
+            if (missing == null)
+            {
+                missingTranslations = null;
+                return false;
+            }
+
+            missingTranslations = new MissingTranslation(key, missing);
+            return true;
         }
     }
 }

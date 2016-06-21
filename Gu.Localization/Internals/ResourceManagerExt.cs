@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
@@ -41,13 +42,11 @@
             return culturesAndKeys.HasCulture(culture);
         }
 
-        // Clones the resourcemanager
-        // This is slow and backwards but can't think of another way that does not load a the resourceset into memory.
-        // Also calling resourceManager.ReleaseAllResources() feels really nasty in a lib like this.
-        // Keeping it slow and dumb until something better.
-        internal static ResourceManagerClone Clone(this ResourceManager resourceManager)
+        internal static CulturesAndKeys GetCulturesAndKeys(this ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
         {
-            return new ResourceManagerClone(resourceManager);
+            var culturesAndKeys = Cache.GetOrAdd(resourceManager, r => new CulturesAndKeys(r));
+            culturesAndKeys.CreateKeysForCultures(cultures);
+            return culturesAndKeys;
         }
 
         internal static Type ContainingType(this ResourceManager resourceManager)
@@ -55,56 +54,105 @@
             return ResourceManagers.TypeManagerCache.GetOrAdd(resourceManager);
         }
 
-        /// <summary>Creates a clone of the <see cref="ResourceManager"/> passed in. Releases all resources on dispose.</summary>
-        internal sealed class ResourceManagerClone : IDisposable
-        {
-            internal readonly ResourceManager ResourceManager;
-
-            public ResourceManagerClone(ResourceManager source)
-            {
-                Debug.Assert(source != null, "resourceManager == null");
-                var containingType = source.ContainingType();
-                Debug.Assert(containingType != null, "containingType == null");
-
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalse want this check in release build
-                if (containingType != null)
-                {
-                    this.ResourceManager = new ResourceManager(source.BaseName, containingType.Assembly);
-                }
-            }
-
-            public void Dispose()
-            {
-                this.ResourceManager?.ReleaseAllResources();
-            }
-        }
-
         internal sealed class CulturesAndKeys
         {
             private readonly ConcurrentDictionary<CultureInfo, ReadOnlySet<string>> culturesAndKeys = new ConcurrentDictionary<CultureInfo, ReadOnlySet<string>>(CultureInfoComparer.ByName);
             private readonly ResourceManager resourceManager;
+            private readonly HashSet<string> allKeys = new HashSet<string>();
 
             public CulturesAndKeys(ResourceManager resourceManager)
             {
                 this.resourceManager = resourceManager;
             }
 
-            public bool HasKey(CultureInfo culture, string key)
+            public IEnumerable<string> AllKeys => this.allKeys;
+
+            public IEnumerable<CultureInfo> Cultures => this.culturesAndKeys.Keys;
+
+            internal bool HasKey(CultureInfo culture, string key)
             {
                 var keys = this.culturesAndKeys.GetOrAdd(culture ?? CultureInfo.InvariantCulture, this.CreateKeysForCulture);
                 return keys?.Contains(key) == true;
             }
 
-            public bool HasCulture(CultureInfo culture)
+            internal bool HasCulture(CultureInfo culture)
             {
                 var keys = this.culturesAndKeys.GetOrAdd(culture ?? CultureInfo.InvariantCulture, this.CreateKeysForCulture);
                 return keys != null;
             }
 
+            internal IReadOnlyDictionary<CultureInfo, string> GetTranslationsFor(string key, IEnumerable<CultureInfo> cultures)
+            {
+                return new Translations(this, key, cultures);
+            }
+
+            internal void CreateKeysForCultures(IEnumerable<CultureInfo> cultures)
+            {
+                if ((cultures?.Any() != true || cultures.All(this.culturesAndKeys.ContainsKey)) && this.culturesAndKeys.ContainsKey(CultureInfo.InvariantCulture))
+                {
+                    return;
+                }
+
+                // I don't remember if this cloning solves a problem or if it is some old thing.
+                using (var clone = new ResourceManagerClone(this.resourceManager))
+                {
+                    if (clone?.ResourceManager == null)
+                    {
+                        return;
+                    }
+
+                    bool hasAddedNeutral = false;
+                    lock (this.culturesAndKeys)
+                    {
+                        foreach (var culture in cultures)
+                        {
+                            hasAddedNeutral |= culture.IsInvariant();
+                            using (var resourceSet = clone.ResourceManager.GetResourceSet(culture, true, false))
+                            {
+                                if (resourceSet == null)
+                                {
+                                    this.culturesAndKeys.TryAdd(culture, null);
+                                }
+                                else
+                                {
+                                    var keys = ReadOnlySet.Create(resourceSet.OfType<DictionaryEntry>().Select(x => x.Key).OfType<string>());
+                                    this.allKeys.UnionWith(keys);
+                                    this.culturesAndKeys.TryAdd(culture, keys);
+                                }
+                            }
+                        }
+
+                        if (!hasAddedNeutral)
+                        {
+                            using (var resourceSet = clone.ResourceManager.GetResourceSet(CultureInfo.InvariantCulture, true, false))
+                            {
+                                if (resourceSet == null)
+                                {
+                                    this.culturesAndKeys.TryAdd(CultureInfo.InvariantCulture, null);
+                                }
+                                else
+                                {
+                                    var keys = ReadOnlySet.Create(resourceSet.OfType<DictionaryEntry>().Select(x => x.Key).OfType<string>());
+                                    this.allKeys.UnionWith(keys);
+                                    this.culturesAndKeys.TryAdd(CultureInfo.InvariantCulture, keys);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            private string GetString(string key, CultureInfo cultureInfo)
+            {
+                return this.HasKey(cultureInfo, key)
+                           ? this.resourceManager.GetString(key, cultureInfo)
+                           : null;
+            }
+
             private ReadOnlySet<string> CreateKeysForCulture(CultureInfo culture)
             {
                 // I don't remember if this cloning solves a problem or if it is some old thing.
-                using (var clone = this.resourceManager.Clone())
+                using (var clone = new ResourceManagerClone(this.resourceManager))
                 {
                     if (clone?.ResourceManager == null)
                     {
@@ -118,8 +166,86 @@
                             return null;
                         }
 
-                        return ReadOnlySet.Create(resourceSet.OfType<DictionaryEntry>().Select(x => x.Key).OfType<string>());
+                        var keys = ReadOnlySet.Create(resourceSet.OfType<DictionaryEntry>().Select(x => x.Key).OfType<string>());
+                        this.allKeys.UnionWith(keys);
+                        return keys;
                     }
+                }
+            }
+
+            /// <summary>Creates a clone of the <see cref="ResourceManager"/> passed in. Releases all resources on dispose.</summary>
+            private sealed class ResourceManagerClone : IDisposable
+            {
+                internal readonly ResourceManager ResourceManager;
+
+                public ResourceManagerClone(ResourceManager source)
+                {
+                    Debug.Assert(source != null, "resourceManager == null");
+                    var containingType = source.ContainingType();
+                    Debug.Assert(containingType != null, "containingType == null");
+
+                    // ReSharper disable once ConditionIsAlwaysTrueOrFalse want this check in release build
+                    if (containingType != null)
+                    {
+                        this.ResourceManager = new ResourceManager(source.BaseName, containingType.Assembly);
+                    }
+                }
+
+                public void Dispose()
+                {
+                    this.ResourceManager?.ReleaseAllResources();
+                }
+            }
+
+            private class Translations : IReadOnlyDictionary<CultureInfo, string>
+            {
+                private readonly IReadOnlyList<KeyValuePair<CultureInfo, string>> translations;
+
+                public Translations(CulturesAndKeys culturesAndKeys, string key, IEnumerable<CultureInfo> cultures)
+                {
+                    this.translations = cultures.Select(c => new KeyValuePair<CultureInfo, string>(c, culturesAndKeys.GetString(key, c)))
+                                                .ToList();
+                }
+
+                public int Count => this.translations.Count;
+
+                IEnumerable<CultureInfo> IReadOnlyDictionary<CultureInfo, string>.Keys => this.translations.Select(x => x.Key);
+
+                IEnumerable<string> IReadOnlyDictionary<CultureInfo, string>.Values => this.translations.Select(x => x.Value);
+
+                public string this[CultureInfo key]
+                {
+                    get
+                    {
+                        string value;
+                        if (this.TryGetValue(key, out value))
+                        {
+                            return value;
+                        }
+
+                        throw new ArgumentOutOfRangeException(nameof(key));
+                    }
+                }
+
+                public IEnumerator<KeyValuePair<CultureInfo, string>> GetEnumerator() => this.translations.GetEnumerator();
+
+                IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+
+                public bool ContainsKey(CultureInfo key) => this.translations.Any(x => Culture.NameEquals(x.Key, key));
+
+                public bool TryGetValue(CultureInfo key, out string value)
+                {
+                    foreach (var keyValuePair in this.translations)
+                    {
+                        if (Culture.NameEquals(keyValuePair.Key, key))
+                        {
+                            value = keyValuePair.Value;
+                            return true;
+                        }
+                    }
+
+                    value = null;
+                    return false;
                 }
             }
         }

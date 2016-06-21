@@ -17,10 +17,12 @@
             {
                 var errors = Validate.Translations(Properties.Resources.ResourceManager);
                 Assert.IsFalse(errors.IsEmpty);
-                var expectedKeys = new[] { "InvalidFormat__0__", "NeutralOnly", "EnglishOnly", "NoTranslation" };
+                var expectedKeys = new[] { "EnglishOnly", "InvalidFormat__0__", "NeutralOnly", "NoTranslation" };
                 CollectionAssert.AreEqual(expectedKeys, errors.Keys);
                 var builder = new StringBuilder();
-                builder.AppendLine("Key: InvalidFormat__0__")
+                builder.AppendLine("Key: EnglishOnly")
+                       .AppendLine("  Missing for: { de, sv }")
+                       .AppendLine("Key: InvalidFormat__0__")
                        .AppendLine("  Has format errors, the formats are:")
                        .AppendLine("    Value: {0}")
                        .AppendLine("    null")
@@ -29,12 +31,14 @@
                        .AppendLine("  Missing for: { de }")
                        .AppendLine("Key: NeutralOnly")
                        .AppendLine("  Missing for: { de, en, sv }")
-                       .AppendLine("Key: EnglishOnly")
-                       .AppendLine("  Missing for: { de, sv }")
                        .AppendLine("Key: NoTranslation")
                        .AppendLine("  Missing for: { de, en, sv }");
                 var expected = builder.ToString();
                 var actual = errors.ToString("  ", Environment.NewLine);
+                Console.Write(actual);
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.Write(expected);
                 Assert.AreEqual(expected, actual);
             }
 
@@ -44,17 +48,17 @@
                 var cultures = new[] { CultureInfo.GetCultureInfo("sv"), CultureInfo.GetCultureInfo("en") };
                 var errors = Validate.Translations(Properties.Resources.ResourceManager, cultures);
                 Assert.IsFalse(errors.IsEmpty);
-                var expectedKeys = new[] { "InvalidFormat__0__", "NeutralOnly", "EnglishOnly", "NoTranslation" };
+                var expectedKeys = new[] { "EnglishOnly", "InvalidFormat__0__", "NeutralOnly", "NoTranslation" };
                 CollectionAssert.AreEqual(expectedKeys, errors.Keys);
                 var builder = new StringBuilder();
-                builder.AppendLine("Key: InvalidFormat__0__")
+                builder.AppendLine("Key: EnglishOnly")
+                       .AppendLine("  Missing for: { sv }")
+                       .AppendLine("Key: InvalidFormat__0__")
                        .AppendLine("  Has format errors, the formats are:")
                        .AppendLine("    Värde: ")
                        .AppendLine("    Value: {0} {2}")
                        .AppendLine("Key: NeutralOnly")
                        .AppendLine("  Missing for: { sv, en }")
-                       .AppendLine("Key: EnglishOnly")
-                       .AppendLine("  Missing for: { sv }")
                        .AppendLine("Key: NoTranslation")
                        .AppendLine("  Missing for: { sv, en }");
                 var expected = builder.ToString();
