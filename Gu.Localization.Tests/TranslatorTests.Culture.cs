@@ -1,5 +1,6 @@
 ﻿namespace Gu.Localization.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
@@ -10,6 +11,32 @@
     {
         public class Culture
         {
+            [Test]
+            public void InitializesToCurrentUiCulture()
+            {
+                Assert.AreEqual(Translator.CurrentCulture, CultureInfo.CurrentUICulture);
+            }
+
+            [Test]
+            public void ChangeCultureToIllegalThrows()
+            {
+                Assert.Throws<ArgumentException>(() => Translator.CurrentCulture = CultureInfo.GetCultureInfo("it"));
+            }
+
+            [Test]
+            public void SetCurrentCultureToNull()
+            {
+                Translator.CurrentCulture = null;
+                Assert.AreEqual(null, Translator.CurrentCulture);
+            }
+
+            [Test]
+            public void SetCurrentCultureToInvariant()
+            {
+                Translator.CurrentCulture = CultureInfo.InvariantCulture;
+                Assert.AreEqual(CultureInfo.InvariantCulture, Translator.CurrentCulture);
+            }
+
             [Test]
             public void ChangeCurrentCulture()
             {

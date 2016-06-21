@@ -23,7 +23,7 @@
 ////                var actual = Translator.Translate(Properties.Resources.ResourceManager, key, arg0, arg1, arg2);
 ////                Assert.AreEqual(expected, actual);
 
-////                Translator.CurrentCulture = CultureInfo.GetCultureInfo("it");
+////                Translator.CurrentCulture = null;
 ////                actual = Translator.Translate(Properties.Resources.ResourceManager, key, culture, arg0, arg1, arg2);
 ////                Assert.AreEqual(expected, actual);
 ////            }
@@ -41,7 +41,7 @@
 ////                var actual = Assert.Throws<FormatException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, arg0, arg1, arg2));
 ////                Assert.AreEqual(expected, actual.Message);
 
-////                Translator.CurrentCulture = CultureInfo.GetCultureInfo("it");
+////                Translator.CurrentCulture = null;
 ////                actual = Assert.Throws<FormatException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, culture, arg0, arg1, arg2));
 ////                Assert.AreEqual(expected, actual.Message);
 ////            }
@@ -61,7 +61,7 @@
 ////                Assert.AreEqual(expected, actual);
 
 ////                Translator.ErrorHandling = ErrorHandling.Throw;
-////                Translator.CurrentCulture = CultureInfo.GetCultureInfo("it");
+////                Translator.CurrentCulture = null;
 ////                actual = Translator.Translate(Properties.Resources.ResourceManager, key, culture, ErrorHandling.ReturnErrorInfo, arg0, arg1, arg2);
 ////                Assert.AreEqual(expected, actual);
 ////            }

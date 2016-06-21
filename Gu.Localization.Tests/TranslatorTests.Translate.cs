@@ -22,16 +22,11 @@
                                   ? CultureInfo.GetCultureInfo(cultureName)
                                   : CultureInfo.InvariantCulture;
                 Translator.CurrentCulture = culture;
-                var actual = Translator.Translate(
-                    Properties.Resources.ResourceManager,
-                    nameof(Properties.Resources.AllLanguages));
+                var actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
                 Assert.AreEqual(expected, actual);
 
-                Translator.CurrentCulture = CultureInfo.GetCultureInfo("it");
-                actual = Translator.Translate(
-                    Properties.Resources.ResourceManager,
-                    nameof(Properties.Resources.AllLanguages),
-                    culture);
+                Translator.CurrentCulture = null;
+                actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages), culture);
                 Assert.AreEqual(expected, actual);
             }
 
@@ -80,6 +75,36 @@
                 Assert.AreEqual(expected, actual);
             }
 
+            [TestCase(null, "sv", "key == null", ErrorHandling.ReturnErrorInfo)]
+            [TestCase(null, "sv", "key == null", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+            [TestCase("Missing", "sv", "!Missing!", ErrorHandling.ReturnErrorInfo)]
+            [TestCase("Missing", "sv", "!Missing!", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+            [TestCase(nameof(Properties.Resources.EnglishOnly), "en", "English", ErrorHandling.ReturnErrorInfo)]
+            [TestCase(nameof(Properties.Resources.EnglishOnly), "en", "English", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+            [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+            [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "_EnglishOnly_", ErrorHandling.ReturnErrorInfo)]
+            [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+            [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "~EnglishOnly~", ErrorHandling.ReturnErrorInfo)]
+            [TestCase(nameof(Properties.Resources.AllLanguages), "en", "English", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+            [TestCase(nameof(Properties.Resources.AllLanguages), "en", "English", ErrorHandling.ReturnErrorInfo)]
+            [TestCase(nameof(Properties.Resources.AllLanguages), "it", "So neutral", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+            [TestCase(nameof(Properties.Resources.AllLanguages), "it", "~So neutral~", ErrorHandling.ReturnErrorInfo)]
+            [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "So neutral", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
+            [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "_So neutral_", ErrorHandling.ReturnErrorInfo)]
+            public void WithErrorhandling(string key, string culture, string expected, ErrorHandling errorHandling)
+            {
+                Translator.CurrentCulture = culture == null
+                                                ? CultureInfo.InvariantCulture
+                                                : CultureInfo.GetCultureInfo(culture);
+                Translator.ErrorHandling = ErrorHandling.Throw;
+                var actual = Translator.Translate(Properties.Resources.ResourceManager, key, errorHandling);
+                Assert.AreEqual(expected, actual);
+
+                Translator.ErrorHandling = errorHandling;
+                actual = Translator.Translate(Properties.Resources.ResourceManager,key);
+                Assert.AreEqual(expected, actual);
+            }
+
             [TestCase("Missing", null, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
             [TestCase("Missing", "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
             [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the key: EnglishOnly for the culture: sv\r\nParameter name: key")]
@@ -93,25 +118,17 @@
                                                 : CultureInfo.GetCultureInfo(culture);
                 Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
 
-                var exception =
-                    Assert.Throws<ArgumentOutOfRangeException>(
-                        () => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Throw));
+                var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Throw));
                 Assert.AreEqual(expected, exception.Message);
 
                 Translator.ErrorHandling = ErrorHandling.Throw;
-                exception =
-                    Assert.Throws<ArgumentOutOfRangeException>(
-                        () => Translator.Translate(Properties.Resources.ResourceManager, key));
+                exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key));
                 Assert.AreEqual(expected, exception.Message);
 
-                exception =
-                    Assert.Throws<ArgumentOutOfRangeException>(
-                        () => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Default));
+                exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Default));
                 Assert.AreEqual(expected, exception.Message);
 
-                exception =
-                    Assert.Throws<ArgumentOutOfRangeException>(
-                        () => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Throw));
+                exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Throw));
                 Assert.AreEqual(expected, exception.Message);
             }
 

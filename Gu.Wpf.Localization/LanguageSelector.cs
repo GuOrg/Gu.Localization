@@ -40,6 +40,7 @@
             var names = assembly.GetManifestResourceNames();
             var match = names.Single(x => x.EndsWith(".g.resources"));
 
+            //// ReSharper disable once AssignNullToNotNullAttribute not null here
             using (var reader = new ResourceReader(assembly.GetManifestResourceStream(match)))
             {
                 var flags = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -48,6 +49,7 @@
                 {
                     var flag = (string)enumerator.Key;
                     Debug.Assert(flag != null, "flag == null");
+                    //// ReSharper disable once AssignNullToNotNullAttribute not null here
                     flags.Add(System.IO.Path.GetFileNameWithoutExtension(flag), flag);
                 }
 

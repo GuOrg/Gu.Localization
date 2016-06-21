@@ -12,9 +12,16 @@
     /// <summary> Class for translating resources </summary>
     public static partial class Translator
     {
-        private static CultureInfo currentCulture = Thread.CurrentThread.CurrentUICulture;
+        private static CultureInfo currentCulture;
         private static DirectoryInfo resourceDirectory = ResourceCultures.DefaultResourceDirectory();
         private static SortedSet<CultureInfo> cultures = GetAllCultures();
+
+        static Translator()
+        {
+            currentCulture = cultures.Contains(CultureInfo.CurrentUICulture)
+                                 ? CultureInfo.CurrentUICulture
+                                 : cultures.FirstOrDefault(x => Culture.TwoLetterIsoLanguageNameEquals(x, CultureInfo.CurrentUICulture));
+        }
 
         /// <summary>
         /// Notifies when the current language changes.
@@ -47,9 +54,7 @@
         {
             get
             {
-                return currentCulture ??
-                       Cultures.FirstOrDefault() ??
-                       CultureInfo.InvariantCulture;
+                return currentCulture;
             }
 
             set
@@ -57,6 +62,13 @@
                 if (CultureInfoComparer.ByName.Equals(currentCulture, value))
                 {
                     return;
+                }
+
+                if (value != null && !value.IsInvariant() && cultures?.Contains(value) == false)
+                {
+                    var message = "Can only set culture to an existing culture.\r\n" +
+                                  $"Check the property {nameof(Cultures)} for a list of valid cultures.";
+                    throw new ArgumentException(message);
                 }
 
                 currentCulture = value;

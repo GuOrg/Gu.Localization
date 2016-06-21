@@ -58,7 +58,7 @@
     <Compile Include="TranslatorGenericTests.TwoParameters.cs" />
     <Compile Include="TranslatorTests.OneParameter.cs" />
     <Compile Include="TranslatorTests.Params.cs" />
-    <Compile Include="TranslatorTests.Part.cs" />
+    <Compile Include="TranslatorTests.Culture.cs" />
     <Compile Include="TranslatorTests.TwoParameters.cs" />
     <Compile Include="ValidateTests.Formats.cs" />
     <Compile Include="ValidateTests.Translations.cs" />
