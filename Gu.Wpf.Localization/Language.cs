@@ -59,7 +59,7 @@
         {
             get
             {
-                return CultureInfoComparer.DefaultEquals(Translator.CurrentCulture, this.Culture);
+                return Gu.Localization.Culture.NameEquals(Translator.CurrentCulture, this.Culture);
             }
 
             set
@@ -71,7 +71,7 @@
                 }
 
                 if (value &&
-                    !CultureInfoComparer.DefaultEquals(this.culture, Translator.CurrentCulture))
+                    !Gu.Localization.Culture.NameEquals(this.culture, Translator.CurrentCulture))
                 {
                     Translator.CurrentCulture = this.culture;
                 }

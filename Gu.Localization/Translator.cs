@@ -162,7 +162,7 @@
 
             var shouldThrow = ShouldThrow(errorHandling);
             if (culture != null &&
-                !CultureInfoComparer.DefaultEquals(culture, CultureInfo.InvariantCulture) &&
+                !culture.IsInvariant() &&
                 cultures?.Contains(culture, CultureInfoComparer.Default) == false)
             {
                 if (resourceManager.HasCulture(culture))

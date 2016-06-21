@@ -119,11 +119,11 @@
 
             public bool TryUpdate(CultureInfo cultureInfo)
             {
-                if (!CultureInfoComparer.DefaultEquals(cultureInfo, this.culture))
+                if (!Culture.NameEquals(cultureInfo, this.culture))
                 {
                     lock (this.gate)
                     {
-                        if (!CultureInfoComparer.DefaultEquals(cultureInfo, this.culture))
+                        if (!Culture.NameEquals(cultureInfo, this.culture))
                         {
                             this.culture = cultureInfo;
                             var newValue = Translator.Translate(
