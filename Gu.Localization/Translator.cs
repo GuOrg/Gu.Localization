@@ -170,7 +170,7 @@
             {
                 if (errorHandling == ErrorHandling.Throw)
                 {
-                    throw new ArgumentNullException(nameof(key));
+                    throw new ArgumentOutOfRangeException(nameof(key), "key == null");
                 }
 
                 result = "key == null";

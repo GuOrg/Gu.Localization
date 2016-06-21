@@ -1,7 +1,6 @@
 ﻿namespace Gu.Localization.Tests
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
 
@@ -58,80 +57,82 @@
                 }
             }
 
-            [TestCase(null, "sv", "key == null")]
-            [TestCase("Missing", "sv", "!Missing!")]
-            [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "_EnglishOnly_")]
-            [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "~EnglishOnly~")]
-            [TestCase(nameof(Properties.Resources.AllLanguages), "it", "~So neutral~")]
-            public void ErrorMessages(string key, string culture, string expected)
+            [TestCaseSource(typeof(TranslationErrorsSource))]
+            public void WithGlobalErrorhandling(TranslationErrorsSource.ErrorData data)
             {
-                Translator.CurrentCulture = CultureInfo.GetCultureInfo(culture);
-                Translator.ErrorHandling = ErrorHandling.Throw;
-                var actual = Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.ReturnErrorInfo);
-                Assert.AreEqual(expected, actual);
+                if (!Translator.ContainsCulture(data.Culture))
+                {
+                    Assert.Pass("nop");
+                }
 
+                Translator.CurrentCulture = data.Culture;
+                Translator.ErrorHandling = data.ErrorHandling;
+                var actual = Translator.Translate(Properties.Resources.ResourceManager, data.Key);
+                Assert.AreEqual(data.ExpectedTranslation, actual);
+            }
+
+            [TestCaseSource(typeof(TranslationErrorsSource))]
+            public void WithExplicitErrorhandling(TranslationErrorsSource.ErrorData data)
+            {
+                if (!Translator.ContainsCulture(data.Culture))
+                {
+                    Assert.Pass("nop");
+                }
+
+                Translator.CurrentCulture = data.Culture;
+                Translator.ErrorHandling = ErrorHandling.Throw;
+                var actual = Translator.Translate(Properties.Resources.ResourceManager, data.Key, data.ErrorHandling);
+                Assert.AreEqual(data.ExpectedTranslation, actual);
+            }
+
+            [TestCaseSource(typeof(TranslationErrorsSource))]
+            public void WithExplicitErrorhandlingAndCulture(TranslationErrorsSource.ErrorData data)
+            {
+                Translator.CurrentCulture = null;
+                Translator.ErrorHandling = ErrorHandling.Throw;
+                var actual = Translator.Translate(Properties.Resources.ResourceManager, data.Key, data.Culture, data.ErrorHandling);
+                Assert.AreEqual(data.ExpectedTranslation, actual);
+            }
+
+            [TestCaseSource(typeof(TranslationThrowSource))]
+            public void ThrowsWithGlobalErrorhandling(TranslationThrowSource.ErrorData data)
+            {
+                if (!Translator.ContainsCulture(data.Culture))
+                {
+                    Assert.Pass("nop");
+                }
+
+                Translator.CurrentCulture = data.Culture;
+                Translator.ErrorHandling = data.ErrorHandling;
+                var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, data.Key));
+                Assert.AreEqual(data.ExpectedMessage, actual.Message);
+
+                actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, data.Key, ErrorHandling.Default));
+                Assert.AreEqual(data.ExpectedMessage, actual.Message);
+            }
+
+            [TestCaseSource(typeof(TranslationThrowSource))]
+            public void ThrowsWithExplicitErrorhandling(TranslationThrowSource.ErrorData data)
+            {
+                if (!Translator.ContainsCulture(data.Culture))
+                {
+                    Assert.Pass("nop");
+                }
+
+                Translator.CurrentCulture = data.Culture;
                 Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
-                actual = Translator.Translate(Properties.Resources.ResourceManager, key);
-                Assert.AreEqual(expected, actual);
+                var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, data.Key, data.ErrorHandling));
+                Assert.AreEqual(data.ExpectedMessage, actual.Message);
             }
 
-            [TestCase(null, "sv", "key == null", ErrorHandling.ReturnErrorInfo)]
-            [TestCase(null, "sv", "key == null", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
-            [TestCase("Missing", "sv", "!Missing!", ErrorHandling.ReturnErrorInfo)]
-            [TestCase("Missing", "sv", "!Missing!", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
-            [TestCase(nameof(Properties.Resources.EnglishOnly), "en", "English", ErrorHandling.ReturnErrorInfo)]
-            [TestCase(nameof(Properties.Resources.EnglishOnly), "en", "English", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
-            [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
-            [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "_EnglishOnly_", ErrorHandling.ReturnErrorInfo)]
-            [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
-            [TestCase(nameof(Properties.Resources.EnglishOnly), "it", "~EnglishOnly~", ErrorHandling.ReturnErrorInfo)]
-            [TestCase(nameof(Properties.Resources.AllLanguages), "en", "English", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
-            [TestCase(nameof(Properties.Resources.AllLanguages), "en", "English", ErrorHandling.ReturnErrorInfo)]
-            [TestCase(nameof(Properties.Resources.AllLanguages), "it", "So neutral", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
-            [TestCase(nameof(Properties.Resources.AllLanguages), "it", "~So neutral~", ErrorHandling.ReturnErrorInfo)]
-            [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "So neutral", ErrorHandling.ReturnErrorInfoPreserveNeutral)]
-            [TestCase(nameof(Properties.Resources.NeutralOnly), "sv", "_So neutral_", ErrorHandling.ReturnErrorInfo)]
-            public void WithErrorhandling(string key, string culture, string expected, ErrorHandling errorHandling)
+            [TestCaseSource(typeof(TranslationThrowSource))]
+            public void ThrowsWithExplicitErrorhandlingAndCulture(TranslationThrowSource.ErrorData data)
             {
-                Translator.CurrentCulture = culture == null
-                                                ? CultureInfo.InvariantCulture
-                                                : CultureInfo.GetCultureInfo(culture);
-                Translator.ErrorHandling = ErrorHandling.Throw;
-                var actual = Translator.Translate(Properties.Resources.ResourceManager, key, errorHandling);
-                Assert.AreEqual(expected, actual);
-
-                Translator.ErrorHandling = errorHandling;
-                actual = Translator.Translate(Properties.Resources.ResourceManager,key);
-                Assert.AreEqual(expected, actual);
-            }
-
-            [TestCase("Missing", null, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
-            [TestCase("Missing", "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key")]
-            [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the key: EnglishOnly for the culture: sv\r\nParameter name: key")]
-            [TestCase(nameof(Properties.Resources.AllLanguages), "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture")]
-            [TestCase(nameof(Properties.Resources.NeutralOnly), "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture")]
-            [TestCase("MissingKey", "it", "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture")]
-            public void Throws(string key, string culture, string expected)
-            {
-                Translator.CurrentCulture = culture == null
-                                                ? CultureInfo.InvariantCulture
-                                                : CultureInfo.GetCultureInfo(culture);
+                Translator.CurrentCulture = null;
                 Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
-
-                var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Throw));
-                Assert.AreEqual(expected, exception.Message);
-
-                Translator.ErrorHandling = ErrorHandling.Throw;
-                exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key));
-                Assert.AreEqual(expected, exception.Message);
-
-                exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Default));
-                Assert.AreEqual(expected, exception.Message);
-
-                exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, ErrorHandling.Throw));
-                Assert.AreEqual(expected, exception.Message);
+                var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, data.Key, data.Culture, data.ErrorHandling));
+                Assert.AreEqual(data.ExpectedMessage, actual.Message);
             }
-
         }
     }
 }
