@@ -2,7 +2,6 @@ namespace Gu.Localization
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Resources;
@@ -64,7 +63,7 @@ namespace Gu.Localization
         internal static class TypeManagerCache
         {
             private static readonly ConcurrentDictionary<Type, ResourceManager> TypeManagerMap = new ConcurrentDictionary<Type, ResourceManager>();
-            private static readonly ConcurrentDictionary<ResourceManager, Type> ManagerTypeMap = new ConcurrentDictionary<ResourceManager, Type>(ResourceManagerComparer.Default);
+            private static readonly ConcurrentDictionary<ResourceManager, Type> ManagerTypeMap = new ConcurrentDictionary<ResourceManager, Type>(ResourceManagerComparer.ByBaseName);
 
             internal static ResourceManager GetOrAdd(Type type, Func<Type, ResourceManager> create)
             {
@@ -96,26 +95,6 @@ namespace Gu.Localization
                                                    x.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)
                                                     .Any(p => p.PropertyType == typeof(ResourceManager)));
                 return resourcesType;
-            }
-
-            private class ResourceManagerComparer : IEqualityComparer<ResourceManager>
-            {
-                public static readonly ResourceManagerComparer Default = new ResourceManagerComparer();
-                private static readonly StringComparer StringComparer = StringComparer.Ordinal;
-
-                private ResourceManagerComparer()
-                {
-                }
-
-                public bool Equals(ResourceManager x, ResourceManager y)
-                {
-                    return StringComparer.Equals(x.BaseName, y.BaseName);
-                }
-
-                public int GetHashCode(ResourceManager obj)
-                {
-                    return StringComparer.GetHashCode(obj.BaseName);
-                }
             }
         }
     }

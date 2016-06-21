@@ -22,6 +22,7 @@
 
         [TestCase(null, true)]
         [TestCase("sv", true)]
+        [TestCase("en", true)]
         [TestCase("it", false)]
         public void HasCulture(string cultureName, bool expected)
         {
@@ -34,7 +35,9 @@
             Assert.IsNull(resourceManager.GetResourceSet(culture, false, false));
         }
 
+        [TestCase(nameof(Properties.Resources.AllLanguages), null, true)]
         [TestCase(nameof(Properties.Resources.AllLanguages), "sv", true)]
+        [TestCase(nameof(Properties.Resources.AllLanguages), "en", true)]
         [TestCase(nameof(Properties.Resources.EnglishOnly), "sv", false)]
         [TestCase(nameof(Properties.Resources.EnglishOnly), "en", true)]
         public void HasKey(string key, string cultureName, bool expected)

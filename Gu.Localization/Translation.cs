@@ -129,6 +129,7 @@
                             var newValue = Translator.Translate(
                                 this.translation.resourceManager,
                                 this.translation.key,
+                                cultureInfo,
                                 this.translation.errorHandling);
                             var changed = newValue != this.value;
                             this.value = newValue;

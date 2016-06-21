@@ -68,9 +68,7 @@
                 var errors = Validate.EnumTranslations<DummyEnum>(Properties.Resources.ResourceManager);
                 Assert.IsFalse(errors.IsEmpty);
                 CollectionAssert.AreEqual(new[] { DummyEnum.MissingTranslation.ToString() }, errors.Keys);
-                Assert.AreEqual(
-                    "Key: MissingTranslation Missing for: { invariant, de, en, sv } ",
-                    errors.ToString("", " "));
+                Assert.AreEqual("Key: MissingTranslation Missing for: { invariant, de, en, sv } ", errors.ToString("", " "));
             }
 
             [Test]

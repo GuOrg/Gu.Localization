@@ -54,7 +54,7 @@
 
             set
             {
-                if (CultureInfoComparer.DefaultEquals(currentCulture, value))
+                if (CultureInfoComparer.ByName.Equals(currentCulture, value))
                 {
                     return;
                 }
@@ -174,30 +174,31 @@
 
                     cultures.Add(culture);
                 }
-                else
+            }
+
+            if (!resourceManager.HasCulture(culture))
+            {
+                if (shouldThrow)
                 {
-                    if (shouldThrow)
+                    var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the culture: {culture?.Name ?? "null"}";
+                    throw new ArgumentOutOfRangeException(nameof(culture), message);
+                }
+
+                var neutral = resourceManager.GetString(key, culture);
+                if (!string.IsNullOrEmpty(neutral))
+                {
+                    if (errorHandling == ErrorHandling.ReturnErrorInfoPreserveNeutral)
                     {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the culture: {culture.Name}";
-                        throw new ArgumentOutOfRangeException(nameof(culture), message);
+                        result = neutral;
+                        return true;
                     }
 
-                    var neutral = resourceManager.GetString(key, CultureInfo.InvariantCulture);
-                    if (!string.IsNullOrEmpty(neutral))
-                    {
-                        if (errorHandling == ErrorHandling.ReturnErrorInfoPreserveNeutral)
-                        {
-                            result = neutral;
-                            return true;
-                        }
-
-                        result = string.Format(Properties.Resources.MissingCultureFormat, neutral);
-                        return false;
-                    }
-
-                    result = string.Format(Properties.Resources.MissingCultureFormat, key);
+                    result = string.Format(Properties.Resources.MissingCultureFormat, neutral);
                     return false;
                 }
+
+                result = string.Format(Properties.Resources.MissingCultureFormat, key);
+                return false;
             }
 
             var translated = resourceManager.GetString(key, culture);

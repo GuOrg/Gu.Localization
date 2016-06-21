@@ -169,7 +169,7 @@
         {
             // not optimized at all here, only expecting this to be called in tests.
             List<TranslationError> errors = new List<TranslationError>();
-            var translations = resources.ToDictionary(x => x.Key, x => x.Value.GetString(key));
+            var translations = resources.ToDictionary(x => x.Key, x => x.Value?.GetString(key));
             FormatError formatErrors;
             if (TryGetFormatErrors(key, translations, out formatErrors))
             {
