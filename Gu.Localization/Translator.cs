@@ -124,6 +124,11 @@
             return result;
         }
 
+        public static bool ContainsCulture(CultureInfo culture)
+        {
+            return cultures?.Contains(culture) == true;
+        }
+
         private static bool TryTranslateOrThrow(
             ResourceManager resourceManager,
             string key,
@@ -163,13 +168,13 @@
             var shouldThrow = ShouldThrow(errorHandling);
             if (culture != null &&
                 !culture.IsInvariant() &&
-                cultures?.Contains(culture, CultureInfoComparer.Default) == false)
+                cultures.Contains(culture) == false)
             {
                 if (resourceManager.HasCulture(culture))
                 {
                     if (cultures == null)
                     {
-                        cultures = new SortedSet<CultureInfo>();
+                        cultures = new SortedSet<CultureInfo>(CultureInfoComparer.ByName);
                     }
 
                     cultures.Add(culture);
@@ -256,8 +261,8 @@
         {
             Debug.WriteLine(resourceDirectory);
             return resourceDirectory?.Exists == true
-                       ? new SortedSet<CultureInfo>(ResourceCultures.GetAllCultures(resourceDirectory), CultureInfoComparer.Default)
-                       : new SortedSet<CultureInfo>(CultureInfoComparer.Default);
+                       ? new SortedSet<CultureInfo>(ResourceCultures.GetAllCultures(resourceDirectory), CultureInfoComparer.ByName)
+                       : new SortedSet<CultureInfo>(CultureInfoComparer.ByName);
         }
     }
 }

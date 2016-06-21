@@ -90,7 +90,7 @@
                     return false;
                 }
 
-                return Translator.Cultures.Contains(this.culture, CultureInfoComparer.Default);
+                return Translator.ContainsCulture(this.culture);
             }
         }
 

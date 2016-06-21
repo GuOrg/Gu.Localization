@@ -125,7 +125,7 @@
             {
                 for (int i = this.Languages.Count - 1; i >= 0; i--)
                 {
-                    if (!Translator.Cultures.Contains(this.Languages[i].Culture, CultureInfoComparer.Default))
+                    if (!Translator.ContainsCulture(this.Languages[i].Culture))
                     {
                         this.Languages.RemoveAt(i);
                     }

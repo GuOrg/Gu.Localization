@@ -225,12 +225,12 @@
 
         private static IReadOnlyDictionary<CultureInfo, ResourceSet> GetResources(ResourceManagerExt.ResourceManagerClone clone, IEnumerable<CultureInfo> cultures)
         {
-            if (clone == null || clone.ResourceManager == null)
+            if (clone?.ResourceManager == null)
             {
                 return EmptyReadOnlyDictionary<CultureInfo, ResourceSet>.Default;
             }
 
-            return cultures.ToDictionary(c => c, c => clone.ResourceManager.GetResourceSet(c, true, false), CultureInfoComparer.Default);
+            return cultures.ToDictionary(c => c, c => clone.ResourceManager.GetResourceSet(c, true, false), CultureInfoComparer.ByName);
         }
     }
 }

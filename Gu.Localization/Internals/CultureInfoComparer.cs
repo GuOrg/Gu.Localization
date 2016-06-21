@@ -8,9 +8,6 @@ namespace Gu.Localization
     internal class CultureInfoComparer : IEqualityComparer<CultureInfo>, IComparer<CultureInfo>
     {
         /// <summary> Gets a comparer that compares by <see cref="CultureInfo.TwoLetterISOLanguageName"/> </summary>
-        internal static readonly CultureInfoComparer Default = new CultureInfoComparer(x => x?.TwoLetterISOLanguageName);
-
-        /// <summary> Gets a comparer that compares by <see cref="CultureInfo.TwoLetterISOLanguageName"/> </summary>
         internal static readonly CultureInfoComparer ByTwoLetterIsoLanguageName = new CultureInfoComparer(x => x?.TwoLetterISOLanguageName);
 
         /// <summary> Gets a comparer that compares by <see cref="CultureInfo.Name"/> </summary>
