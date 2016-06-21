@@ -91,7 +91,7 @@
                         var cultureInfo = CultureInfo.GetCultureInfo(folderName);
                         if (cultures == null)
                         {
-                            cultures = new Dictionary<CultureInfo, string>(CultureInfoComparer.Default);
+                            cultures = new Dictionary<CultureInfo, string>(CultureInfoComparer.ByName);
                         }
 
                         cultures.Add(cultureInfo, "");

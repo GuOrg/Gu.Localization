@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections;
+    using System.Collections.Concurrent;
     using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
@@ -9,6 +10,8 @@
 
     internal static class ResourceManagerExt
     {
+        private static readonly ConcurrentDictionary<ResourceManager, CulturesAndKeys> Cache = new ConcurrentDictionary<ResourceManager, CulturesAndKeys>(ResourceManagerComparer.ByBaseName);
+
         /// <summary>
         /// Check if the <paramref name="resourceManager"/> has a translation for <paramref name="key"/>
         /// This is a pretty expensive call but should only happen in the error path.
@@ -20,19 +23,8 @@
         /// <returns>True if a translation exists</returns>
         internal static bool HasKey(this ResourceManager resourceManager, string key, CultureInfo culture)
         {
-            using (var clone = resourceManager.Clone())
-            {
-                if (clone?.ResourceManager == null)
-                {
-                    return false;
-                }
-
-                using (var resourceSet = clone.ResourceManager.GetResourceSet(culture, true, false))
-                {
-                    return resourceSet?.OfType<DictionaryEntry>()
-                                       .Any(x => Equals(x.Key, key)) == true;
-                }
-            }
+            var culturesAndKeys = Cache.GetOrAdd(resourceManager, r => new CulturesAndKeys(r));
+            return culturesAndKeys.HasKey(culture, key);
         }
 
         /// <summary>
@@ -45,10 +37,8 @@
         /// <returns>True if a translation exists</returns>
         internal static bool HasCulture(this ResourceManager resourceManager, CultureInfo culture)
         {
-            using (var clone = resourceManager.Clone())
-            {
-                return clone?.ResourceManager?.GetResourceSet(culture, true, false) != null;
-            }
+            var culturesAndKeys = Cache.GetOrAdd(resourceManager, r => new CulturesAndKeys(r));
+            return culturesAndKeys.HasCulture(culture);
         }
 
         // Clones the resourcemanager
@@ -86,6 +76,51 @@
             public void Dispose()
             {
                 this.ResourceManager?.ReleaseAllResources();
+            }
+        }
+
+        internal sealed class CulturesAndKeys
+        {
+            private readonly ConcurrentDictionary<CultureInfo, ReadOnlySet<string>> culturesAndKeys = new ConcurrentDictionary<CultureInfo, ReadOnlySet<string>>(CultureInfoComparer.ByName);
+            private readonly ResourceManager resourceManager;
+
+            public CulturesAndKeys(ResourceManager resourceManager)
+            {
+                this.resourceManager = resourceManager;
+            }
+
+            public bool HasKey(CultureInfo culture, string key)
+            {
+                var keys = this.culturesAndKeys.GetOrAdd(culture ?? CultureInfo.InvariantCulture, this.CreateKeysForCulture);
+                return keys?.Contains(key) == true;
+            }
+
+            public bool HasCulture(CultureInfo culture)
+            {
+                var keys = this.culturesAndKeys.GetOrAdd(culture ?? CultureInfo.InvariantCulture, this.CreateKeysForCulture);
+                return keys != null;
+            }
+
+            private ReadOnlySet<string> CreateKeysForCulture(CultureInfo culture)
+            {
+                // I don't remember if this cloning solves a problem or if it is some old thing.
+                using (var clone = this.resourceManager.Clone())
+                {
+                    if (clone?.ResourceManager == null)
+                    {
+                        return null;
+                    }
+
+                    using (var resourceSet = clone.ResourceManager.GetResourceSet(culture, true, false))
+                    {
+                        if (resourceSet == null)
+                        {
+                            return null;
+                        }
+
+                        return ReadOnlySet.Create(resourceSet.OfType<DictionaryEntry>().Select(x => x.Key).OfType<string>());
+                    }
+                }
             }
         }
     }

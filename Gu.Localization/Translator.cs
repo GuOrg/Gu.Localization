@@ -12,9 +12,16 @@
     /// <summary> Class for translating resources </summary>
     public static partial class Translator
     {
-        private static CultureInfo currentCulture = Thread.CurrentThread.CurrentUICulture;
+        private static CultureInfo currentCulture;
         private static DirectoryInfo resourceDirectory = ResourceCultures.DefaultResourceDirectory();
-        private static SortedSet<CultureInfo> cultures = GetAllCultures();
+        private static SortedSet<CultureInfo> allCultures = GetAllCultures();
+
+        static Translator()
+        {
+            currentCulture = allCultures.Contains(CultureInfo.CurrentUICulture)
+                                 ? CultureInfo.CurrentUICulture
+                                 : allCultures.FirstOrDefault(x => Culture.TwoLetterIsoLanguageNameEquals(x, CultureInfo.CurrentUICulture));
+        }
 
         /// <summary>
         /// Notifies when the current language changes.
@@ -36,7 +43,7 @@
             set
             {
                 resourceDirectory = value;
-                cultures = GetAllCultures();
+                allCultures = GetAllCultures();
             }
         }
 
@@ -47,16 +54,21 @@
         {
             get
             {
-                return currentCulture ??
-                       Cultures.FirstOrDefault() ??
-                       CultureInfo.InvariantCulture;
+                return currentCulture;
             }
 
             set
             {
-                if (CultureInfoComparer.DefaultEquals(currentCulture, value))
+                if (CultureInfoComparer.ByName.Equals(currentCulture, value))
                 {
                     return;
+                }
+
+                if (value != null && !value.IsInvariant() && allCultures?.Contains(value) == false)
+                {
+                    var message = "Can only set culture to an existing culture.\r\n" +
+                                  $"Check the property {nameof(Cultures)} for a list of valid cultures.";
+                    throw new ArgumentException(message);
                 }
 
                 currentCulture = value;
@@ -68,7 +80,7 @@
         public static ErrorHandling ErrorHandling { get; set; } = ErrorHandling.Throw;
 
         /// <summary> Gets a list with all cultures found for the application </summary>
-        public static IEnumerable<CultureInfo> Cultures => cultures;
+        public static IEnumerable<CultureInfo> Cultures => allCultures;
 
         /// <summary>
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
@@ -124,6 +136,11 @@
             return result;
         }
 
+        public static bool ContainsCulture(CultureInfo culture)
+        {
+            return allCultures?.Contains(culture) == true;
+        }
+
         private static bool TryTranslateOrThrow(
             ResourceManager resourceManager,
             string key,
@@ -133,13 +150,14 @@
         {
             if (errorHandling == ErrorHandling.Default)
             {
-                errorHandling = ErrorHandling;
+                errorHandling = ErrorHandling == ErrorHandling.Default
+                                    ? ErrorHandling.Throw
+                                    : ErrorHandling;
             }
 
-            var shouldThrow = ShouldThrow(errorHandling);
             if (resourceManager == null)
             {
-                if (shouldThrow)
+                if (errorHandling == ErrorHandling.Throw)
                 {
                     throw new ArgumentNullException(nameof(resourceManager));
                 }
@@ -150,9 +168,9 @@
 
             if (string.IsNullOrEmpty(key))
             {
-                if (shouldThrow)
+                if (errorHandling == ErrorHandling.Throw)
                 {
-                    throw new ArgumentNullException(nameof(key));
+                    throw new ArgumentOutOfRangeException(nameof(key), "key == null");
                 }
 
                 result = "key == null";
@@ -160,48 +178,73 @@
             }
 
             if (culture != null &&
-                !CultureInfoComparer.DefaultEquals(culture, CultureInfo.InvariantCulture) &&
-                cultures?.Contains(culture, CultureInfoComparer.Default) == false)
+                !culture.IsInvariant() &&
+                allCultures.Contains(culture) == false)
             {
                 if (resourceManager.HasCulture(culture))
                 {
-                    if (cultures == null)
+                    if (allCultures == null)
                     {
-                        cultures = new SortedSet<CultureInfo>();
+                        allCultures = new SortedSet<CultureInfo>(CultureInfoComparer.ByName);
                     }
 
-                    cultures.Add(culture);
-                }
-                else
-                {
-                    if (shouldThrow)
-                    {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the culture: {culture.Name}";
-                        throw new ArgumentOutOfRangeException(nameof(culture), message);
-                    }
-
-                    var neutral = resourceManager.GetString(key, CultureInfo.InvariantCulture);
-                    if (!string.IsNullOrEmpty(neutral))
-                    {
-                        if (errorHandling == ErrorHandling.ReturnErrorInfoPreserveNeutral)
-                        {
-                            result = neutral;
-                            return true;
-                        }
-
-                        result = string.Format(Properties.Resources.MissingCultureFormat, neutral);
-                        return false;
-                    }
-
-                    result = string.Format(Properties.Resources.MissingCultureFormat, key);
-                    return false;
+                    allCultures.Add(culture);
                 }
             }
 
-            var translated = resourceManager.GetString(key, culture);
-            if (translated == null)
+            if (!resourceManager.HasCulture(culture))
             {
-                if (shouldThrow)
+                if (errorHandling == ErrorHandling.Throw)
+                {
+                    var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the culture: {culture?.Name ?? "null"}";
+                    throw new ArgumentOutOfRangeException(nameof(culture), message);
+                }
+
+                if (resourceManager.HasKey(key, CultureInfo.InvariantCulture))
+                {
+                    var neutral = resourceManager.GetString(key, CultureInfo.InvariantCulture);
+                    if (errorHandling == ErrorHandling.ReturnErrorInfoPreserveNeutral)
+                    {
+                        result = neutral;
+                        return true;
+                    }
+
+                    var arg = string.IsNullOrEmpty(neutral)
+                                  ? key
+                                  : neutral;
+                    result = string.Format(Properties.Resources.MissingCultureFormat, arg);
+                    return false;
+                }
+
+                result = string.Format(Properties.Resources.MissingCultureFormat, key);
+                return false;
+            }
+
+            if (!resourceManager.HasKey(key, culture))
+            {
+                if (resourceManager.HasKey(key, CultureInfo.InvariantCulture))
+                {
+                    if (errorHandling == ErrorHandling.Throw)
+                    {
+                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {culture?.Name}";
+                        throw new ArgumentOutOfRangeException(nameof(key), message);
+                    }
+
+                    var neutral = resourceManager.GetString(key, CultureInfo.InvariantCulture);
+                    if (errorHandling == ErrorHandling.ReturnErrorInfoPreserveNeutral)
+                    {
+                        result = neutral;
+                        return true;
+                    }
+
+                    var arg = string.IsNullOrEmpty(neutral)
+                                  ? key
+                                  : neutral;
+                    result = string.Format(Properties.Resources.MissingTranslationFormat, arg);
+                    return false;
+                }
+
+                if (errorHandling == ErrorHandling.Throw)
                 {
                     var message = $"The resourcemanager {resourceManager.BaseName} does not have the key: {key}";
                     throw new ArgumentOutOfRangeException(nameof(key), message);
@@ -211,22 +254,7 @@
                 return false;
             }
 
-            if (translated == string.Empty)
-            {
-                if (!resourceManager.HasKey(key, culture))
-                {
-                    if (shouldThrow)
-                    {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {culture?.Name}";
-                        throw new ArgumentOutOfRangeException(nameof(key), message);
-                    }
-
-                    result = string.Format(Properties.Resources.MissingTranslationFormat, key);
-                    return false;
-                }
-            }
-
-            result = translated;
+            result = resourceManager.GetString(key, culture);
             return true;
         }
 
@@ -253,8 +281,8 @@
         {
             Debug.WriteLine(resourceDirectory);
             return resourceDirectory?.Exists == true
-                       ? new SortedSet<CultureInfo>(ResourceCultures.GetAllCultures(resourceDirectory), CultureInfoComparer.Default)
-                       : new SortedSet<CultureInfo>(CultureInfoComparer.Default);
+                       ? new SortedSet<CultureInfo>(ResourceCultures.GetAllCultures(resourceDirectory), CultureInfoComparer.ByName)
+                       : new SortedSet<CultureInfo>(CultureInfoComparer.ByName);
         }
     }
 }

@@ -18,9 +18,19 @@ namespace Gu.Localization
             return CultureNames.Contains(name);
         }
 
+        internal static bool NameEquals(CultureInfo first, CultureInfo other)
+        {
+            return CultureInfoComparer.ByName.Equals(first, other);
+        }
+
+        internal static bool TwoLetterIsoLanguageNameEquals(CultureInfo first, CultureInfo other)
+        {
+            return CultureInfoComparer.ByTwoLetterIsoLanguageName.Equals(first, other);
+        }
+
         internal static bool IsInvariant(this CultureInfo culture)
         {
-            return CultureInfoComparer.DefaultEquals(culture, CultureInfo.InvariantCulture);
+            return NameEquals(culture, CultureInfo.InvariantCulture);
         }
 
         private static HashSet<string> CreateCultureNames()

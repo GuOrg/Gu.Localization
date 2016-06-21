@@ -53,7 +53,7 @@
 
             try
             {
-                return string.Format(format, arg0);
+                return string.Format(culture, format, arg0);
             }
             catch (Exception)
             {
@@ -112,7 +112,7 @@
 
             try
             {
-                return string.Format(format, arg0, arg1);
+                return string.Format(culture, format, arg0, arg1);
             }
             catch (Exception)
             {
@@ -174,7 +174,7 @@
 
         ////    try
         ////    {
-        ////        return string.Format(format, args);
+        ////        return string.Format(culture, format, args);
         ////    }
         ////    catch (Exception)
         ////    {

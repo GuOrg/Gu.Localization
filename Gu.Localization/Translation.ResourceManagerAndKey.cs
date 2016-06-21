@@ -1,7 +1,6 @@
 ﻿namespace Gu.Localization
 {
     using System;
-    using System.Diagnostics;
     using System.Resources;
 
     /// <summary> Split up nested class  </summary>

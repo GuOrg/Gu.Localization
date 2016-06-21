@@ -40,6 +40,7 @@
             var names = assembly.GetManifestResourceNames();
             var match = names.Single(x => x.EndsWith(".g.resources"));
 
+            //// ReSharper disable once AssignNullToNotNullAttribute not null here
             using (var reader = new ResourceReader(assembly.GetManifestResourceStream(match)))
             {
                 var flags = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -48,6 +49,7 @@
                 {
                     var flag = (string)enumerator.Key;
                     Debug.Assert(flag != null, "flag == null");
+                    //// ReSharper disable once AssignNullToNotNullAttribute not null here
                     flags.Add(System.IO.Path.GetFileNameWithoutExtension(flag), flag);
                 }
 
@@ -115,7 +117,7 @@
         {
             foreach (var language in this.Languages)
             {
-                language.IsSelected = CultureInfoComparer.DefaultEquals(language.Culture, Translator.CurrentCulture);
+                language.IsSelected = Gu.Localization.Culture.NameEquals(language.Culture, Translator.CurrentCulture);
             }
         }
 
@@ -125,7 +127,7 @@
             {
                 for (int i = this.Languages.Count - 1; i >= 0; i--)
                 {
-                    if (!Translator.Cultures.Contains(this.Languages[i].Culture, CultureInfoComparer.Default))
+                    if (!Translator.ContainsCulture(this.Languages[i].Culture))
                     {
                         this.Languages.RemoveAt(i);
                     }
@@ -133,7 +135,7 @@
 
                 foreach (var cultureInfo in Translator.Cultures)
                 {
-                    if (this.Languages.Any(x => CultureInfoComparer.DefaultEquals(x.Culture, cultureInfo)))
+                    if (this.Languages.Any(x => Gu.Localization.Culture.NameEquals(x.Culture, cultureInfo)))
                     {
                         continue;
                     }

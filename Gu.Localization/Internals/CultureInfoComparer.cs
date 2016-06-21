@@ -8,9 +8,6 @@ namespace Gu.Localization
     internal class CultureInfoComparer : IEqualityComparer<CultureInfo>, IComparer<CultureInfo>
     {
         /// <summary> Gets a comparer that compares by <see cref="CultureInfo.TwoLetterISOLanguageName"/> </summary>
-        internal static readonly CultureInfoComparer Default = new CultureInfoComparer(x => x?.TwoLetterISOLanguageName);
-
-        /// <summary> Gets a comparer that compares by <see cref="CultureInfo.TwoLetterISOLanguageName"/> </summary>
         internal static readonly CultureInfoComparer ByTwoLetterIsoLanguageName = new CultureInfoComparer(x => x?.TwoLetterISOLanguageName);
 
         /// <summary> Gets a comparer that compares by <see cref="CultureInfo.Name"/> </summary>
@@ -21,15 +18,6 @@ namespace Gu.Localization
         private CultureInfoComparer(Func<CultureInfo, string> nameGetter)
         {
             this.nameGetter = nameGetter;
-        }
-
-        /// <summary> Calls Default.Equals(x, y) </summary>
-        /// <param name="x">The x</param>
-        /// <param name="y">The y</param>
-        /// <returns>True if <paramref name="x"/> and <paramref name="y"/> are equal.</returns>
-        public static bool DefaultEquals(CultureInfo x, CultureInfo y)
-        {
-            return Default.Equals(x, y);
         }
 
         /// <inheritdoc />

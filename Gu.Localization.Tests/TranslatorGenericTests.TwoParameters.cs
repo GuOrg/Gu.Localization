@@ -29,7 +29,7 @@ namespace Gu.Localization.Tests
                 var actual = Translator<Properties.Resources>.Translate(key, arg0, arg1);
                 Assert.AreEqual(expected, actual);
 
-                Translator.CurrentCulture = CultureInfo.GetCultureInfo("it");
+                Translator.CurrentCulture = null;
                 actual = Translator<Properties.Resources>.Translate(key, culture, arg0, arg1);
                 Assert.AreEqual(expected, actual);
             }
@@ -47,7 +47,7 @@ namespace Gu.Localization.Tests
                 var actual = Assert.Throws<FormatException>(() => Translator<Properties.Resources>.Translate(key, arg0, arg1));
                 Assert.AreEqual(expected, actual.Message);
 
-                Translator.CurrentCulture = CultureInfo.GetCultureInfo("it");
+                Translator.CurrentCulture = null;
                 actual = Assert.Throws<FormatException>(() => Translator<Properties.Resources>.Translate(key, culture, arg0, arg1));
                 Assert.AreEqual(expected, actual.Message);
             }
@@ -67,7 +67,7 @@ namespace Gu.Localization.Tests
                 Assert.AreEqual(expected, actual);
 
                 Translator.ErrorHandling = ErrorHandling.Throw;
-                Translator.CurrentCulture = CultureInfo.GetCultureInfo("it");
+                Translator.CurrentCulture = null;
                 actual = Translator<Properties.Resources>.Translate(key, culture, arg0, arg1, ErrorHandling.ReturnErrorInfo);
                 Assert.AreEqual(expected, actual);
             }
