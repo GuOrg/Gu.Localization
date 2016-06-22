@@ -2,7 +2,6 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:Gu.Wpf.Localization.Demo.Controls;assembly=Gu.Wpf.Localization.Demo.Controls"
-        xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:l="http://gu.se/Localization"
         xmlns:local="clr-namespace:Gu.Wpf.Localization.Demo"
         xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization"

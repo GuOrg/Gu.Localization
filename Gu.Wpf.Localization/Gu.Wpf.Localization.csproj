@@ -55,7 +55,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EffectiveCultureExtension.cs" />
     <Compile Include="DesignTime.cs" />
+    <Compile Include="EffectiveCultureProxy.cs" />
+    <Compile Include="EffectiveXmlLanguageExtension.cs" />
     <Compile Include="EnumExtension.cs" />
     <Compile Include="ErrorHandling.cs" />
     <Compile Include="Internals\QualifiedNameAndKey.cs" />
