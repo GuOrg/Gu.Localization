@@ -1,19 +1,53 @@
 ﻿namespace Gu.Localization
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading;
 
     /// <summary>Optimized this a lot to avoid caching of results.</summary>
-    internal static class FormatString
+    public static class FormatString
     {
         private static readonly ThreadLocal<SortedSet<int>> Indices = new ThreadLocal<SortedSet<int>>(() => new SortedSet<int>());
 
-        internal static bool IsFormat(string format)
+        /// <summary>Checks if <paramref name="format"/> has argument placeholders like 'Value: {0}'</summary>
+        /// <param name="format">A format string.</param>
+        /// <returns>True if the string contains format placeholders.</returns>
+        public static bool IsFormatString(string format)
         {
             int count;
             bool? anyItemHasFormat;
-            IsValidFormat(format, out count, out anyItemHasFormat);
-            return count != 0;
+            if (IsValidFormat(format, out count, out anyItemHasFormat))
+            {
+                return count != 0;
+            }
+
+            return false;
+        }
+
+        /// <summary>Check if <paramref name="format"/> is a valid format string for <paramref name="numberOfArguments"/></summary>
+        /// <param name="format">The format string.</param>
+        /// <param name="numberOfArguments">The number of format arguments.</param>
+        /// <returns>True if <paramref name="format"/> is well formed and matches <paramref name="numberOfArguments"/></returns>
+        public static bool IsValidFormatString(string format, int numberOfArguments)
+        {
+            if (string.IsNullOrEmpty(format))
+            {
+                return numberOfArguments == 0;
+            }
+
+            if (numberOfArguments < 0)
+            {
+                throw new ArgumentException(nameof(numberOfArguments));
+            }
+
+            int indexCount;
+            bool? anyItemHasFormat;
+            if (IsValidFormat(format, out indexCount, out anyItemHasFormat))
+            {
+                return indexCount == numberOfArguments;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -172,6 +206,12 @@
 
         private static bool TryParseFormatSuffix(string text, ref int pos, out bool? itemHasFormat)
         {
+            if (pos >= text.Length)
+            {
+                itemHasFormat = null;
+                return false;
+            }
+
             if (text[pos] == '}')
             {
                 itemHasFormat = false;
