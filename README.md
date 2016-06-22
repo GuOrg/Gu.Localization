@@ -11,6 +11,7 @@
 - [1. Usage in XAML.](#1-usage-in-xaml)
   - [1.1. Bind a localized string.](#11-bind-a-localized-string)
   - [1.2. Errorhandling.](#12-errorhandling)
+  - [1.3. EffectiveCulture.](#13-effectiveculture)
 - [2. Usage in code.](#2-usage-in-code)
   - [2.1. Translator.](#21-translator)
     - [2.1.1. Culture.](#211-culture)
@@ -76,6 +77,19 @@ The above will show SomeResource in the `Translator.EffectiveCulture` and update
 ```
 
 By setting the attached property `ErrorHandling.Mode` we override how translation errors are handled by the `StaticExtension` for the child elements.
+
+## 1.3. EffectiveCulture.
+A markupextension for accessing `Translator.EffectiveCulture` from xaml. Retruns a binding that updates when EffectiveCulture changes.
+
+```xaml
+<Grid numeric:NumericBox.Culture="{l:EffectiveCulture}"
+     ...   >
+    ...
+    <TextBlock Text="{l:Static p:Resources.SomeResource}" />
+    <TextBlock Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager}, 
+                             Member={x:Static local:SomeEnum.SomeMember}}" />    
+    ...
+```
 
 # 2. Usage in code.
 ## 2.1. Translator.
