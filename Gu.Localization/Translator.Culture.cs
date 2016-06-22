@@ -39,7 +39,7 @@
                     return;
                 }
 
-                if (value != null && !value.IsInvariant() && allCultures?.Contains(value) == false)
+                if (value != null && !value.IsInvariant() && !ContainsCulture(value))
                 {
                     if (!allCultures.Any(c => Culture.TwoLetterIsoLanguageNameEquals(c, value)))
                     {
@@ -84,7 +84,18 @@
 
         public static bool ContainsCulture(CultureInfo culture)
         {
-            return allCultures?.Contains(culture) == true;
+            if (culture == null)
+            {
+                return false;
+            }
+
+            if (allCultures == null || allCultures.Count == 0)
+            {
+                return false;
+            }
+
+            return allCultures?.Contains(culture) == true ||
+                   allCultures?.Any(c => Culture.TwoLetterIsoLanguageNameEquals(c, culture)) == true;
         }
 
         private static CultureInfo GetEffectiveCulture(CultureInfo cultureInfo)
