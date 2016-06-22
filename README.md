@@ -29,11 +29,14 @@
 - [3. ErrorHandling.](#3-errorhandling)
   - [3.1. Global setting](#31-global-setting)
   - [3.2. ErrorFormats](#32-errorformats)
-- [4. Validation.](#4-validation)
+- [4. Validate.](#4-validate)
   - [4.1. Translations.](#41-translations)
   - [4.2. EnumTranslations&lt;T&gt;.](#42-enumtranslationst)
   - [4.3. TranslationErrors](#43-translationerrors)
   - [4.4. Format](#44-format)
+- [5. FormatString.](#5-formatstring)
+  - [5.1. IsFormatString](#51-isformatstring)
+  - [5.2. IsValidFormatString](#52-isvalidformatstring)
 - [6. LanguageSelector](#6-languageselector)
   - [6.1. AutogenerateLanguages](#61-autogeneratelanguages)
   - [6.2. Explicit languages.](#62-explicit-languages)
@@ -180,7 +183,7 @@ When `ReturnErrorInfo` or `ReturnErrorInfoPreserveNeutral` is used the following
 | unknown error       |    `#{key}#`            |
 
 
-# 4. Validation.
+# 4. Validate.
 Conveience API for unit testing localization. 
 
 ## 4.1. Translations.
@@ -229,6 +232,16 @@ Validate.Format("Value: {0}", 1);
 ```c#
 Debug.Assert(Validate.IsValidFormat("Value: {0}", 1), "Invalid format...");
 ```
+
+# 5. FormatString.
+Conveience API for testing formatstrings.
+
+## 5.1. IsFormatString
+Returns true if the string contains placeholders like `"Value: {0}"` and is a valid format string.
+
+## 5.2. IsValidFormatString
+Returns true if the string contains placeholders like `"Value: {0}"` that matches the number of parameters and is a valid format string.
+
 
 # 6. LanguageSelector
 A simple control for changing current language.
