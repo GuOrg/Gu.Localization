@@ -8,23 +8,33 @@
 
 
 ## Contents.
+- [Gu.Localization.](#gulocalization)
+  - [Contents.](#contents)
   - [1. Usage in XAML.](#1-usage-in-xaml)
+    - [1.1. Bind a localized string.](#11-bind-a-localized-string)
+    - [1.1. Errorhandling.](#11-errorhandling)
   - [2. Usage in code.](#2-usage-in-code)
     - [2.1. Translator.](#21-translator)
       - [2.1.1. Culture.](#211-culture)
       - [2.1.2. Cultures.](#212-cultures)
       - [2.1.3. ErrorHandling.](#213-errorhandling)
       - [2.1.4. Translate.](#214-translate)
+        - [2.1.4.1 Translate to neutral culture:](#2141-translate-to-neutral-culture)
+        - [2.1.4.2 Translate to explicit culture:](#2142-translate-to-explicit-culture)
+        - [2.1.4.3 Override global error handling (throw on error):](#2143-override-global-error-handling--throw-on-error)
+        - [2.1.4.5 Override global error handling (return info about error):](#2145-override-global-error-handling--return-info-about-error)
+        - [2.1.4.5 Translate with parameter:](#2145-translate-with-parameter)
     - [2.2. Translator&lt;T&gt;.](#22-translatort)
     - [2.3 Translation.](#23-translation)
   - [3. ErrorHandling.](#3-errorhandling)
+    - [3.1. Global setting](#31-global-setting)
+  - [3.2 ErrorFormats](#32-errorformats)
   - [4. Validation.](#4-validation)
     - [4.1. Translations.](#41-translations)
     - [4.2. EnumTranslations&lt;T&gt;.](#42-enumtranslationst)
     - [4.3. TranslationErrors](#43-translationerrors)
     - [4.4. Format](#44-format)
-  - [5. ErrorFormats](#5-errorformats)
-  - [7. LanguageSelector](#7-languageselector)
+  - [6. LanguageSelector](#6-languageselector)
 
 ## 1. Usage in XAML.
 
@@ -32,7 +42,8 @@ The library has a `StaticExtension` markupextension that is used when translatin
 The reason for naming it `StaticExtension` and not `TranslateExtension` is that Resharper provides intellisense when named `StaticExtension`
 Binding the text like below updates the text when `Translator.CurrentCulture`changes enabling runtime selection of language.
 
-The markupextension never throws, it encodes errors in the result, see [ErrorFormats](#41-errorformats)
+The markupextension has ErrorHandling = ErrorHandling.ReturnErrorInfo as default, it encodes errors in the result, see [ErrorFormats](#3-errorhandling))
+### 1.1. Bind a localized string.
 
 ```xaml
 <Window ...
@@ -44,6 +55,22 @@ The markupextension never throws, it encodes errors in the result, see [ErrorFor
                              Member={x:Static local:SomeEnum.SomeMember}}" />    
     ...
 ```
+
+The above will show SomeResource in the `Translator.CurrentCulture` and update when culture changes.
+
+### 1.1. Errorhandling.
+
+```xaml
+<Grid l:ErrorHandling.Mode="ReturnErrorInfoPreserveNeutral"
+     ...   >
+    ...
+    <TextBlock Text="{l:Static p:Resources.SomeResource}" />
+    <TextBlock Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager}, 
+                             Member={x:Static local:SomeEnum.SomeMember}}" />    
+    ...
+```
+
+By setting the attached property `ErrorHandling.Mode` we override how translation errors are handled by the `StaticExtension` for the child elements.
 
 ## 2. Usage in code.
 ### 2.1. Translator.
@@ -68,7 +95,7 @@ string inEnglish = Translator.Translate(Properties.Resources.ResourceManager,
                                         nameof(Properties.Resources.SomeResource));
 ```
 
-Translate to neutral culture:
+##### 2.1.4.1 Translate to neutral culture:
 ```c#
 Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
 string neutral = Translator.Translate(Properties.Resources.ResourceManager, 
@@ -76,7 +103,7 @@ string neutral = Translator.Translate(Properties.Resources.ResourceManager,
                                       null);
 ```
 
-Translate to explicit culture:
+##### 2.1.4.2 Translate to explicit culture:
 ```c#
 Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
 string inSwedish = Translator.Translate(Properties.Resources.ResourceManager, 
@@ -84,7 +111,7 @@ string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
                                         CultureInfo.GetCultureInfo("sv"));
 ```
 
-Override global error handling (throw on error):
+##### 2.1.4.3 Override global error handling (throw on error):
 ```c#
 Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
 string inSwedish = Translator.Translate(Properties.Resources.ResourceManager, 
@@ -92,7 +119,7 @@ string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
                                         ErrorHandling.Throw);
 ```
 
-Override global error handling (return info about error):
+##### 2.1.4.5 Override global error handling (return info about error):
 ```c#
 Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
 Translator.ErrorHandling = ErrorHandling.Throw;
@@ -101,7 +128,7 @@ string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
                                         ErrorHandling.ReturnErrorInfo);
 ```
 
-Translate with parameter:
+##### 2.1.4.5 Translate with parameter:
 ```c#
 Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
 string inSwedish = Translator.Translate(Properties.Resources.ResourceManager, 
@@ -126,11 +153,26 @@ When calling the translate methods an ErrorHandling argument can be provided.
 If `ErrorHandling.ReturnErrorInfo` is passed in the method does not throw but returns information about the error in the string.
 There is also a property `Translator.ErrorHandling` that sets default behaviour. If an explicit errorhandling is passed in to a method it overrides the global setting.
 
+### 3.1. Global setting
+By setting `Translator.Errorhandling` the global default is changed.
+
+## 3.2 ErrorFormats
+When `ReturnErrorInfo` or `ReturnErrorInfoPreserveNeutral` is used the following formats are used to encode errors.
+
+| Error               |         Format          |
+|---------------------|:-----------------------:|
+| missing key         |        `!{key}!`        |
+| missing culture     |        `~{key}~`        |
+| missing translation |        `_{key}_`        |
+| missing resources   |        `?{key}?`        |
+| invalid format      |`{{"{format}" : {args}}}`|
+| unknown error       |    `#{key}#`            |
+
+
 ## 4. Validation.
 Conveience API for unit testing localization. 
 
 ### 4.1. Translations.
-Not optimized for performance and should probably not.
 
 Validate a `ResourceManager` like this:
 ```c#
@@ -177,19 +219,7 @@ Validate.Format("Value: {0}", 1);
 Debug.Assert(Validate.IsValidFormat("Value: {0}", 1), "Invalid format...");
 ```
 
-## 5. ErrorFormats
-When `ReturnErrorInfo` is used the following formats are used to encode errors.
-
-| Error               |         Format          |
-|---------------------|:-----------------------:|
-| missing key         |        `!{key}!`        |
-| missing culture     |        `~{key}~`        |
-| missing translation |        `_{key}_`        |
-| missing resources   |        `?{key}?`        |
-| invalid format      |`{{"{format}" : {args}}}`|
-| unknown error       |    `#{key}#`            |
-
-## 7. LanguageSelector
+## 6. LanguageSelector
 A simple control for changing current language.
 
 `AutogenerateLanguages="True"` displays all cultures found in the running application and picks the default flag.
