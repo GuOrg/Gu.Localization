@@ -10,6 +10,9 @@ namespace Gu.Localization
         /// <summary> Gets a comparer that compares by <see cref="CultureInfo.TwoLetterISOLanguageName"/> </summary>
         internal static readonly CultureInfoComparer ByTwoLetterIsoLanguageName = new CultureInfoComparer(x => x?.TwoLetterISOLanguageName);
 
+        /////// <summary> Gets a comparer that compares by <see cref="CultureInfo.ThreeLetterISOLanguageName"/> </summary>
+        ////internal static readonly CultureInfoComparer ByThreeLetterISOLanguageName = new CultureInfoComparer(x => x?.ThreeLetterISOLanguageName);
+
         /// <summary> Gets a comparer that compares by <see cref="CultureInfo.Name"/> </summary>
         internal static readonly CultureInfoComparer ByName = new CultureInfoComparer(x => x?.Name);
 

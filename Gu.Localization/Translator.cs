@@ -11,14 +11,7 @@
     /// <summary> Class for translating resources </summary>
     public static partial class Translator
     {
-        private static CultureInfo currentCulture;
         private static DirectoryInfo resourceDirectory = ResourceCultures.DefaultResourceDirectory();
-        private static SortedSet<CultureInfo> allCultures = GetAllCultures();
-
-        /// <summary>
-        /// Notifies when the current language changes.
-        /// </summary>
-        public static event EventHandler<CultureInfo> CurrentCultureChanged;
 
         /// <summary>
         /// Gets or sets set the current directory where resources are found.
@@ -39,63 +32,18 @@
             }
         }
 
-        /// <summary>
-        /// Gets or sets the culture to translate to
-        /// </summary>
-        public static CultureInfo CurrentCulture
-        {
-            get
-            {
-                return currentCulture;
-            }
-
-            set
-            {
-                if (CultureInfoComparer.ByName.Equals(currentCulture, value))
-                {
-                    return;
-                }
-
-                if (value != null && !value.IsInvariant() && allCultures?.Contains(value) == false)
-                {
-                    var message = "Can only set culture to an existing culture.\r\n" +
-                                  $"Check the property {nameof(Cultures)} for a list of valid cultures.";
-                    throw new ArgumentException(message);
-                }
-
-                currentCulture = value;
-                OnCurrentCultureChanged(value);
-            }
-        }
-
         /// <summary>Gets or sets a value indicating how errors are handled. The default is throw</summary>
-        public static ErrorHandling ErrorHandling { get; set; } = ErrorHandling.Throw;
-
-        /// <summary> Gets a list with all cultures found for the application </summary>
-        public static IEnumerable<CultureInfo> Cultures => allCultures;
-
-        /// <summary>
-        /// If <see cref="CurrentCulture"/> is not null it is returned.
-        /// If not <see cref="CultureInfo.CurrentCulture"/> is returned if there is a translation in <see cref="Cultures"/>.
-        /// </summary>
-        /// <returns>The effective culture.</returns>
-        public static CultureInfo CurrentCultureOrDefault()
-        {
-            return currentCulture ??
-                   allCultures.FirstOrDefault(c => Culture.NameEquals(c, CultureInfo.CurrentCulture)) ??
-                   allCultures.FirstOrDefault(c => Culture.TwoLetterIsoLanguageNameEquals(c, CultureInfo.CurrentCulture)) ??
-                   CultureInfo.InvariantCulture;
-        }
+        public static ErrorHandling ErrorHandling { get; set; } = ErrorHandling.ReturnErrorInfoPreserveNeutral;
 
         /// <summary>
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
         /// </summary>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
-        /// <returns>The key translated to the <see cref="CurrentCultureOrDefault()"/></returns>
+        /// <returns>The key translated to the <see cref="EffectiveCulture"/></returns>
         public static string Translate(ResourceManager resourceManager, string key)
         {
-            return Translate(resourceManager, key, CurrentCultureOrDefault());
+            return Translate(resourceManager, key, EffectiveCulture);
         }
 
         /// <summary>
@@ -104,7 +52,7 @@
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
         /// <param name="errorHandling">Specifies how error handling is performed.</param>
-        /// <returns>The key translated to the <see cref="CurrentCultureOrDefault()"/></returns>
+        /// <returns>The key translated to the <see cref="EffectiveCulture()"/></returns>
         public static string Translate(ResourceManager resourceManager, string key, ErrorHandling errorHandling)
         {
             return Translate(resourceManager, key, CurrentCulture, errorHandling);
@@ -141,11 +89,6 @@
             return result;
         }
 
-        public static bool ContainsCulture(CultureInfo culture)
-        {
-            return allCultures?.Contains(culture) == true;
-        }
-
         private static bool TryTranslateOrThrow(
             ResourceManager resourceManager,
             string key,
@@ -153,10 +96,10 @@
             ErrorHandling errorHandling,
             out string result)
         {
-            if (errorHandling == ErrorHandling.Default)
+            if (errorHandling == ErrorHandling.Inherit)
             {
-                errorHandling = ErrorHandling == ErrorHandling.Default
-                                    ? ErrorHandling.Throw
+                errorHandling = ErrorHandling == ErrorHandling.Inherit
+                                    ? ErrorHandling.ReturnErrorInfoPreserveNeutral
                                     : ErrorHandling;
             }
 
@@ -272,7 +215,7 @@
 
         private static bool ShouldThrow(ErrorHandling errorHandling)
         {
-            if (errorHandling == ErrorHandling.Default)
+            if (errorHandling == ErrorHandling.Inherit)
             {
                 errorHandling = ErrorHandling;
             }
@@ -282,19 +225,6 @@
                 errorHandling != ErrorHandling.ReturnErrorInfoPreserveNeutral;
 
             return shouldThrow;
-        }
-
-        private static void OnCurrentCultureChanged(CultureInfo e)
-        {
-            CurrentCultureChanged?.Invoke(null, e);
-        }
-
-        private static SortedSet<CultureInfo> GetAllCultures()
-        {
-            Debug.WriteLine(resourceDirectory);
-            return resourceDirectory?.Exists == true
-                       ? new SortedSet<CultureInfo>(ResourceCultures.GetAllCultures(resourceDirectory), CultureInfoComparer.ByName)
-                       : new SortedSet<CultureInfo>(CultureInfoComparer.ByName);
         }
     }
 }

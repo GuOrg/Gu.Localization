@@ -13,7 +13,7 @@
         public MainWindow()
         {
             this.InitializeComponent();
-            Translator.CurrentCultureChanged += (_, __) => this.LanguagesComboBox.SelectedItem = Translator.CurrentCulture;
+            Translator.EffectiveCultureChanged += (_, __) => this.LanguagesComboBox.SelectedItem = Translator.CurrentCulture;
         }
 
         private void OnLanguagesComboBoxSelectionChanged(object sender, RoutedEventArgs e)
@@ -23,7 +23,7 @@
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            this.LanguagesComboBox.SelectedItem = Translator.CurrentCultureOrDefault();
+            this.LanguagesComboBox.SelectedItem = Translator.EffectiveCulture;
         }
     }
 }

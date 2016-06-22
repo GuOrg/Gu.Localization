@@ -20,17 +20,16 @@
 
         static Translation()
         {
-            Translator.CurrentCultureChanged += (_, c) =>
+            Translator.EffectiveCultureChanged += (_, c) =>
                 {
-                    var culture = c ?? Translator.CurrentCultureOrDefault();
                     foreach (var translation in Cache.Values)
                     {
-                        translation.OnCurrentCultureChanged(culture);
+                        translation.OnCurrentCultureChanged(c);
                     }
                 };
         }
 
-        private Translation(ResourceManager resourceManager, string key, ErrorHandling errorHandling = ErrorHandling.Default)
+        private Translation(ResourceManager resourceManager, string key, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             this.resourceManager = resourceManager;
             this.key = key;
@@ -55,7 +54,7 @@
         /// </param>
         /// <param name="errorHandling">Specifies how errors are handled.</param>
         /// <returns>A <see cref="Translation"/> that notifies when <see cref="Translator.CurrentCulture"/> changes</returns>
-        public static Translation GetOrCreate(ResourceManager resourceManager, string key, ErrorHandling errorHandling = ErrorHandling.Default)
+        public static Translation GetOrCreate(ResourceManager resourceManager, string key, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             Ensure.NotNull(resourceManager, nameof(resourceManager));
             Ensure.NotNull(key, nameof(key));
@@ -64,13 +63,8 @@
             return Cache.GetOrAdd(rmk, x => new Translation(x.ResourceManager, x.Key, errorHandling));
         }
 
-        /// <summary>
-        /// Calls <see cref="Translator.Translate(ResourceManager, string, CultureInfo, ErrorHandling)"/> with the key.
-        /// </summary>
-        /// <param name="culture">The culture.</param>
-        /// <param name="errorHandlingStrategy">Specifiec how errors are handled</param>
-        /// <returns>The translated string.</returns>
-        public string Translate(CultureInfo culture, ErrorHandling errorHandlingStrategy = ErrorHandling.Default)
+        /// <inheritdoc />
+        public string Translate(CultureInfo culture, ErrorHandling errorHandlingStrategy = ErrorHandling.Inherit)
         {
             return Translator.Translate(this.resourceManager, this.key, culture, errorHandlingStrategy);
         }
@@ -111,7 +105,7 @@
                 {
                     if (this.culture == null)
                     {
-                        this.TryUpdate(Translator.CurrentCultureOrDefault());
+                        this.TryUpdate(Translator.EffectiveCulture);
                     }
 
                     return this.value;

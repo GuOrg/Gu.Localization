@@ -59,7 +59,7 @@
         {
             get
             {
-                return Gu.Localization.Culture.NameEquals(Translator.CurrentCultureOrDefault(), this.Culture);
+                return Gu.Localization.Culture.NameEquals(Translator.EffectiveCulture, this.Culture);
             }
 
             set

@@ -121,7 +121,7 @@ namespace Gu.Localization.Tests
             var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(data.Key));
             Assert.AreEqual(data.ExpectedMessage, actual.Message);
 
-            actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(data.Key, ErrorHandling.Default));
+            actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(data.Key, ErrorHandling.Inherit));
             Assert.AreEqual(data.ExpectedMessage, actual.Message);
         }
 

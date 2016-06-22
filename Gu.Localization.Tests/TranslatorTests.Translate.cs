@@ -125,7 +125,7 @@
                 var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, data.Key));
                 Assert.AreEqual(data.ExpectedMessage, actual.Message);
 
-                actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, data.Key, ErrorHandling.Default));
+                actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, data.Key, ErrorHandling.Inherit));
                 Assert.AreEqual(data.ExpectedMessage, actual.Message);
             }
 

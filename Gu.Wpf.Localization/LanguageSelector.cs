@@ -60,7 +60,7 @@
         /// <summary>Initializes a new instance of the <see cref="LanguageSelector"/> class.</summary>
         public LanguageSelector()
         {
-            Translator.CurrentCultureChanged += this.OnCurrentCultureChanged;
+            Translator.EffectiveCultureChanged += this.OnEffectiveCultureChanged;
             this.Languages.CollectionChanged += (_, __) => this.UpdateSelected();
             this.UpdateSelected();
         }
@@ -98,7 +98,7 @@
         {
             if (disposing)
             {
-                Translator.CurrentCultureChanged -= this.OnCurrentCultureChanged;
+                Translator.EffectiveCultureChanged -= this.OnEffectiveCultureChanged;
             }
         }
 
@@ -108,7 +108,7 @@
             languageSelector.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(languageSelector.SyncLanguages));
         }
 
-        private void OnCurrentCultureChanged(object sender, CultureInfo e)
+        private void OnEffectiveCultureChanged(object sender, CultureInfo e)
         {
             this.UpdateSelected();
         }
@@ -117,7 +117,7 @@
         {
             foreach (var language in this.Languages)
             {
-                language.IsSelected = Gu.Localization.Culture.NameEquals(language.Culture, Translator.CurrentCultureOrDefault());
+                language.IsSelected = Gu.Localization.Culture.NameEquals(language.Culture, Translator.EffectiveCulture);
             }
         }
 

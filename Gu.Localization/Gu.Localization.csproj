@@ -75,6 +75,7 @@
     <Compile Include="Translation.ResourceManagerAndKey.cs" />
     <Compile Include="Translator.cs" />
     <Compile Include="Translator.Parameters.cs" />
+    <Compile Include="Translator.Culture.cs" />
     <Compile Include="Translator{TResources}.cs" />
     <Compile Include="Validate.Formats.cs" />
     <Compile Include="Validate.Translations.cs" />

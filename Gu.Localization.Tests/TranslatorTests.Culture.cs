@@ -41,7 +41,7 @@
             public void ChangeCurrentCulture()
             {
                 var changes = new List<CultureInfo>();
-                Translator.CurrentCultureChanged += (sender, info) => changes.Add(info);
+                Translator.EffectiveCultureChanged += (sender, info) => changes.Add(info);
 
                 Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
                 Assert.AreSame(Translator.Cultures.Single(c => c.Name == "en"), Translator.CurrentCulture);

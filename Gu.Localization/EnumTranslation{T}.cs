@@ -22,7 +22,7 @@
         /// <param name="member"> The member to translate</param>
         /// <param name="errorHandling">Specifies how errors are handled.</param>
         /// <returns> A <see cref="Translation"/></returns>
-        public static Translation Create(ResourceManager resourceManager, T member, ErrorHandling errorHandling = ErrorHandling.Default)
+        public static Translation Create(ResourceManager resourceManager, T member, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             return Translation.GetOrCreate(resourceManager, member.ToString(CultureInfo.InvariantCulture), errorHandling);
         }

@@ -26,7 +26,7 @@
         /// <returns>The key translated to the <see cref="Translator.CurrentCulture"/></returns>
         public static string Translate(string key)
         {
-            return Translate(key, ErrorHandling.Default);
+            return Translate(key, ErrorHandling.Inherit);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@
         /// <returns>The key translated to the <paramref name="culture"/></returns>
         public static string Translate(string key, CultureInfo culture)
         {
-            return Translator.Translate(ResourceManager, key, culture, ErrorHandling.Default);
+            return Translator.Translate(ResourceManager, key, culture, ErrorHandling.Inherit);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@
         /// <param name="arg0">The argument will be used as string.Format(format, <paramref name="arg0"/>)</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
         /// <returns>The key translated to the <see cref="Translator.CurrentCulture"/></returns>
-        public static string Translate<T>(string key, T arg0, ErrorHandling errorHandling = ErrorHandling.Default)
+        public static string Translate<T>(string key, T arg0, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             return Translator.Translate(ResourceManager, key, Translator.CurrentCulture, arg0, errorHandling);
         }
@@ -87,7 +87,7 @@
         /// <param name="arg0">The argument will be used as string.Format(format, <paramref name="arg0"/>)</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
         /// <returns>The key translated to the <paramref name="culture"/></returns>
-        public static string Translate<T>(string key, CultureInfo culture, T arg0, ErrorHandling errorHandling = ErrorHandling.Default)
+        public static string Translate<T>(string key, CultureInfo culture, T arg0, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             return Translator.Translate(ResourceManager, key, culture, arg0, errorHandling);
         }
@@ -103,7 +103,7 @@
         /// <param name="arg1">The argument will be used as second argument string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>)</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
         /// <returns>The key translated to the <see cref="Translator.CurrentCulture"/></returns>
-        public static string Translate<T0, T1>(string key, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Default)
+        public static string Translate<T0, T1>(string key, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             return Translator.Translate(ResourceManager, key, Translator.CurrentCulture, arg0, arg1, errorHandling);
         }
@@ -120,7 +120,7 @@
         /// <param name="arg1">The argument will be used as second argument string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>)</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
         /// <returns>The key translated to the <paramref name="culture"/></returns>
-        public static string Translate<T0, T1>(string key, CultureInfo culture, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Default)
+        public static string Translate<T0, T1>(string key, CultureInfo culture, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             return Translator.Translate(ResourceManager, key, culture, arg0, arg1, errorHandling);
         }
@@ -131,7 +131,7 @@
         /// <param name="key">The key</param>
         /// <param name="errorHandling">Specifies how errors are handled.</param>
         /// <returns>A <see cref="Translation"/></returns>
-        public static Translation GetOrCreateTranslation(string key, ErrorHandling errorHandling = ErrorHandling.Default)
+        public static Translation GetOrCreateTranslation(string key, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             return Translation.GetOrCreate(ResourceManager, key, errorHandling);
         }

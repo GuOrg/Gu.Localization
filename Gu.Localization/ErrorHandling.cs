@@ -4,7 +4,7 @@
     public enum ErrorHandling
     {
         /// <summary>Inherits behaviour from <see cref="Translator.ErrorHandling"/> or defaults to throw.</summary>
-        Default,
+        Inherit,
 
         /// <summary>Throws if something is wrong.</summary>
         Throw,

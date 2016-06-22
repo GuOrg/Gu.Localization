@@ -28,6 +28,11 @@ namespace Gu.Localization
             return CultureInfoComparer.ByTwoLetterIsoLanguageName.Equals(first, other);
         }
 
+        ////internal static bool ThreeLetterIsoLanguageNameEquals(CultureInfo first, CultureInfo other)
+        ////{
+        ////    return CultureInfoComparer.ByThreeLetterISOLanguageName.Equals(first, other);
+        ////}
+
         internal static bool IsInvariant(this CultureInfo culture)
         {
             return NameEquals(culture, CultureInfo.InvariantCulture);
