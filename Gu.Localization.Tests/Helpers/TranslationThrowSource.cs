@@ -13,11 +13,27 @@ namespace Gu.Localization.Tests
         {
             this.Add(null, Sv, ErrorHandling.Throw, "key == null\r\nParameter name: key");
             this.Add(null, null, ErrorHandling.Throw, "key == null\r\nParameter name: key");
-            this.Add("Missing", Sv, ErrorHandling.Throw, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key");
-            this.Add("Missing", null, ErrorHandling.Throw, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\nParameter name: key");
-            this.Add(nameof(Properties.Resources.EnglishOnly), Sv, ErrorHandling.Throw, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the key: EnglishOnly for the culture: sv\r\nParameter name: key");
-            this.Add(nameof(Properties.Resources.AllLanguages), It, ErrorHandling.Throw, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture");
-            this.Add(nameof(Properties.Resources.NeutralOnly), It, ErrorHandling.Throw, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\nParameter name: culture");
+            this.Add("Missing", Sv, ErrorHandling.Throw, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\n" +
+                                                         "Fix the problem by adding a translation for the key 'Missing'\r\n" +
+                                                         "Parameter name: key");
+            this.Add("Missing", null, ErrorHandling.Throw, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\n" +
+                                                           "Fix the problem by adding a translation for the key 'Missing'\r\n" +
+                                                           "Parameter name: key");
+            this.Add(nameof(Properties.Resources.EnglishOnly), Sv, ErrorHandling.Throw, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the key: EnglishOnly for the culture: sv\r\n" +
+                                                                                        "Fix by either of:\r\n" +
+                                                                                        "  - Add a translation for the key 'EnglishOnly' for the culture 'sv'\r\n" +
+                                                                                        "  - If falling back to neutral is desired specify ErrorHandling.ReturnErrorInfoPreserveNeutral\r\n" +
+                                                                                        "Parameter name: key");
+            this.Add(nameof(Properties.Resources.AllLanguages), It, ErrorHandling.Throw, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\n" +
+                                                                                         "Fix by either of:\r\n" +
+                                                                                         "  - Add a resource file for the culture it\r\n" +
+                                                                                         "  - If falling back to neutral is desired specify ErrorHandling.ReturnErrorInfoPreserveNeutral\r\n" +
+                                                                                         "Parameter name: culture");
+            this.Add(nameof(Properties.Resources.NeutralOnly), It, ErrorHandling.Throw, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\n" +
+                                                                                        "Fix by either of:\r\n" +
+                                                                                        "  - Add a resource file for the culture it\r\n" +
+                                                                                        "  - If falling back to neutral is desired specify ErrorHandling.ReturnErrorInfoPreserveNeutral\r\n" + 
+                                                                                        "Parameter name: culture");
         }
 
         private void Add(string key, CultureInfo culture, ErrorHandling errorHandling, string expected)

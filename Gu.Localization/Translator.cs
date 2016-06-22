@@ -201,7 +201,10 @@
             {
                 if (errorHandling == ErrorHandling.Throw)
                 {
-                    var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the culture: {culture?.Name ?? "null"}";
+                    var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the culture: {culture?.Name ?? "null"}\r\n" +
+                                   "Fix by either of:\r\n" +
+                                  $"  - Add a resource file for the culture {culture?.Name ?? "null"}\r\n" +
+                                  $"  - If falling back to neutral is desired specify {typeof(ErrorHandling).Name}.{nameof(ErrorHandling.ReturnErrorInfoPreserveNeutral)}";
                     throw new ArgumentOutOfRangeException(nameof(culture), message);
                 }
 
@@ -231,7 +234,10 @@
                 {
                     if (errorHandling == ErrorHandling.Throw)
                     {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {culture?.Name}";
+                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {culture?.Name}\r\n" +
+                                       "Fix by either of:\r\n" +
+                                      $"  - Add a translation for the key '{key}' for the culture '{culture?.Name ?? "null"}'\r\n" +
+                                      $"  - If falling back to neutral is desired specify {typeof(ErrorHandling).Name}.{nameof(ErrorHandling.ReturnErrorInfoPreserveNeutral)}";
                         throw new ArgumentOutOfRangeException(nameof(key), message);
                     }
 
@@ -251,7 +257,8 @@
 
                 if (errorHandling == ErrorHandling.Throw)
                 {
-                    var message = $"The resourcemanager {resourceManager.BaseName} does not have the key: {key}";
+                    var message = $"The resourcemanager {resourceManager.BaseName} does not have the key: {key}\r\n" +
+                                  $"Fix the problem by adding a translation for the key '{key}'";
                     throw new ArgumentOutOfRangeException(nameof(key), message);
                 }
 

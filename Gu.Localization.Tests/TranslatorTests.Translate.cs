@@ -140,6 +140,10 @@
                 Translator.CurrentCulture = data.Culture;
                 Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
                 var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, data.Key, data.ErrorHandling));
+#if DEBUG
+                Console.Write(actual.Message);
+#endif
+
                 Assert.AreEqual(data.ExpectedMessage, actual.Message);
             }
 
@@ -149,6 +153,9 @@
                 Translator.CurrentCulture = null;
                 Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
                 var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator.Translate(Properties.Resources.ResourceManager, data.Key, data.Culture, data.ErrorHandling));
+#if DEBUG
+                Console.Write(actual.Message);
+#endif
                 Assert.AreEqual(data.ExpectedMessage, actual.Message);
             }
         }
