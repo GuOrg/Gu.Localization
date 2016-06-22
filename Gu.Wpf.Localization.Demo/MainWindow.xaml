@@ -14,6 +14,10 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Effective culture: " />
+                <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIds.EffectiveCultureTextBlockId}" Text="{l:EffectiveCulture}" />
+            </StackPanel>
             <ComboBox x:Name="LanguagesComboBox"
                       AutomationProperties.AutomationId="{x:Static local:AutomationIds.LanguagesComboBoxId}"
                       ItemsSource="{x:Static localization:Translator.Cultures}"

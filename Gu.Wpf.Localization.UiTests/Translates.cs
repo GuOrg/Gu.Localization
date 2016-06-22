@@ -34,6 +34,14 @@
         }
 
         [Test]
+        public void EffectiveCulture()
+        {
+            Assert.AreEqual("en", this.window.Get<Label>(AutomationIds.EffectiveCultureTextBlockId).Text);
+            this.languageComboBox.Select("sv");
+            Assert.AreEqual("sv", this.window.Get<Label>(AutomationIds.EffectiveCultureTextBlockId).Text);
+        }
+
+        [Test]
         public void VanillaXaml()
         {
             var groupBox = this.window.Get<GroupBox>(AutomationIds.VanillaXamlGroupId);

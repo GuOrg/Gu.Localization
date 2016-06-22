@@ -21,6 +21,7 @@
         public static readonly string EnumTranslatedToAllTextBlockId = Create();
         public static readonly string SwedishOnlyTextBlockId = Create();
 
+        public static readonly string EffectiveCultureTextBlockId = Create();
         public static readonly string MissingKeyTextBlockId = Create();
         public static readonly string SwedishAndNeutralTextBlockId = Create();
         public static readonly string NeutralOnlyTextBlockId = Create();
