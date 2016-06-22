@@ -85,9 +85,10 @@ A markupextension for accessing `Translator.EffectiveCulture` from xaml. Retruns
 <Grid numeric:NumericBox.Culture="{l:EffectiveCulture}"
      ...   >
     ...
-    <TextBlock Text="{l:Static p:Resources.SomeResource}" />
-    <TextBlock Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager}, 
-                             Member={x:Static local:SomeEnum.SomeMember}}" />    
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Effective culture: " />
+            <TextBlock Text="{l:EffectiveCulture}" />
+        </StackPanel>    
     ...
 ```
 
