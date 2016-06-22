@@ -15,7 +15,10 @@ namespace Gu.Localization.Tests.Sandbox
         {
             var sw = Stopwatch.StartNew();
             var translations = Sandbox.Translations.GetOrCreate(this.GetType().Assembly);
-            Console.WriteLine($"Getting cultures took {sw.Elapsed.TotalMilliseconds.ToString("F2")} ms");
+#if DEBUG
+    Console.WriteLine($"Getting cultures took {sw.Elapsed.TotalMilliseconds.ToString("F2")} ms");
+#endif
+
             Assert.AreEqual(Properties.Resources.ResourceManager.BaseName, translations.BaseName);
             CollectionAssert.AreEqual(new[] { "de", "en", "sv" }, translations.Cultures.Select(x => x.TwoLetterISOLanguageName));
         }
@@ -28,7 +31,10 @@ namespace Gu.Localization.Tests.Sandbox
             var uri = new Uri(assembly.CodeBase, UriKind.Absolute);
             var resourceName = $"{assembly.GetName().Name}.resources.dll";
             var files = Directory.EnumerateFiles(System.IO.Path.GetDirectoryName(uri.LocalPath), resourceName, SearchOption.AllDirectories).ToArray();
+#if DEBUG
             Console.WriteLine($"Getting {files.Length} cultures took {sw.Elapsed.TotalMilliseconds.ToString("F2")} ms");
+#endif
+
             //CollectionAssert.AreEqual(new[] { "de", "en", "sv" }, translations.Cultures.Select(x => x.TwoLetterISOLanguageName));
         }
 
@@ -44,7 +50,10 @@ namespace Gu.Localization.Tests.Sandbox
             {
                 Directory.EnumerateFiles(directory, resourceName, SearchOption.TopDirectoryOnly).Any();
             }
+#if DEBUG
             Console.WriteLine($"Getting {directories.Length} cultures took {sw.Elapsed.TotalMilliseconds.ToString("F2")} ms");
+#endif
+
             //CollectionAssert.AreEqual(new[] { "de", "en", "sv" }, translations.Cultures.Select(x => x.TwoLetterISOLanguageName));
         }
     }

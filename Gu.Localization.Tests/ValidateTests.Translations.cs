@@ -35,10 +35,13 @@
                        .AppendLine("  Missing for: { de, en, sv }");
                 var expected = builder.ToString();
                 var actual = errors.ToString("  ", Environment.NewLine);
+#if DEBUG
                 Console.Write(actual);
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.Write(expected);
+#endif
+
                 Assert.AreEqual(expected, actual);
             }
 
@@ -63,6 +66,55 @@
                        .AppendLine("  Missing for: { sv, en }");
                 var expected = builder.ToString();
                 var actual = errors.ToString("  ", Environment.NewLine);
+                Assert.AreEqual(expected, actual);
+            }
+
+            [Test]
+            public void ResourceManagerExplicitMissingCultures()
+            {
+                var cultures = new[] { CultureInfo.GetCultureInfo("it") };
+                var errors = Validate.Translations(Properties.Resources.ResourceManager, cultures);
+                Assert.IsFalse(errors.IsEmpty);
+                var expectedKeys = new[]
+                                       {
+                                           "AllLanguages",
+                                           "EnglishOnly",
+                                           "first___0___second__1_",
+                                           "InvalidFormat__0__",
+                                           "NeutralOnly",
+                                           "NoTranslation",
+                                           "ValidFormat__0__",
+                                           "ValidFormat__0__1__",
+                                           "ValidFormat__0__1__2__"
+                                       };
+                CollectionAssert.AreEqual(expectedKeys, errors.Keys);
+                var builder = new StringBuilder();
+                builder.AppendLine("Key: AllLanguages")
+                       .AppendLine("  Missing for: { it }")
+                       .AppendLine("Key: EnglishOnly")
+                       .AppendLine("  Missing for: { it }")
+                       .AppendLine("Key: first___0___second__1_")
+                       .AppendLine("  Missing for: { it }")
+                       .AppendLine("Key: InvalidFormat__0__")
+                       .AppendLine("  Missing for: { it }")
+                       .AppendLine("Key: NeutralOnly")
+                       .AppendLine("  Missing for: { it }")
+                       .AppendLine("Key: NoTranslation")
+                       .AppendLine("  Missing for: { it }")
+                       .AppendLine("Key: ValidFormat__0__")
+                       .AppendLine("  Missing for: { it }")
+                       .AppendLine("Key: ValidFormat__0__1__")
+                       .AppendLine("  Missing for: { it }")
+                       .AppendLine("Key: ValidFormat__0__1__2__")
+                       .AppendLine("  Missing for: { it }");
+                var expected = builder.ToString();
+                var actual = errors.ToString("  ", Environment.NewLine);
+#if DEBUG
+                Console.Write(actual);
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.Write(expected);
+#endif
                 Assert.AreEqual(expected, actual);
             }
 

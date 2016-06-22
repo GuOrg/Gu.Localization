@@ -22,7 +22,9 @@
         public void FormatThrows(FormatData data)
         {
             var ex = Assert.Throws<ArgumentException>(() => Ensure.Format(data.Format, data.Args, "format", "args"));
+#if DEBUG
             Console.WriteLine(ex.Message);
+#endif
         }
 
         [TestCaseSource(nameof(InValids))]
