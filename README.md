@@ -194,7 +194,11 @@ namespace YourNamespace.Properties
         /// <returns>A translation for the key.</returns>
         public static ITranslation Key(string key)
         {
-            Debug.Assert(typeof(Resources).GetType().GetProperty(key) != null, $"Resources does not have key: {key}");
+            if (typeof(Resources).GetProperty(key) == null)
+            {
+                throw new ArgumentOutOfRangeException(nameof(key), $"{typeof(Resources).FullName} does not have key: {key}");
+            }
+            
             return Gu.Localization.Translation.GetOrCreate(Resources.ResourceManager, key);
         }
     }
