@@ -18,10 +18,17 @@
                 <TextBlock Text="Effective culture: " />
                 <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIds.EffectiveCultureTextBlockId}" Text="{l:EffectiveCulture}" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Effective xml language: " />
+                <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIds.EffectiveCultureTextBlockId}" Text="{l:EffectiveXmlLanguage}" />
+            </StackPanel>
+
+            <TextBox Text="{Binding Path=(localization:Translator.CurrentCulture)}" />
             <ComboBox x:Name="LanguagesComboBox"
                       AutomationProperties.AutomationId="{x:Static local:AutomationIds.LanguagesComboBoxId}"
                       ItemsSource="{x:Static localization:Translator.Cultures}"
                       SelectionChanged="OnLanguagesComboBoxSelectionChanged" />
+
             <l:LanguageSelector AutogenerateLanguages="True" />
         </StackPanel>
 

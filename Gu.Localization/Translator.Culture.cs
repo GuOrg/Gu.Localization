@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
@@ -13,10 +14,11 @@
 
         private static CultureInfo effectiveCulture;
 
-        /// <summary>
-        /// Notifies when the current language changes.
-        /// </summary>
+        /// <summary>Notifies when the current language changes.</summary>
         public static event EventHandler<CultureInfo> EffectiveCultureChanged;
+
+        /// <summary>For binding to static properties in XAML.</summary>
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
         /// <summary> Gets a list with all cultures found for the application </summary>
         public static IEnumerable<CultureInfo> Cultures => allCultures;
@@ -50,6 +52,7 @@
                 }
 
                 currentCulture = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(CurrentCulture)));
                 EffectiveCulture = GetEffectiveCulture(currentCulture);
             }
         }
@@ -79,6 +82,7 @@
 
                 effectiveCulture = value;
                 OnCurrentCultureChanged(value);
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(CurrentCulture)));
             }
         }
 
