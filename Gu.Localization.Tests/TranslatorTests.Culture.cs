@@ -41,19 +41,27 @@
             public void ChangeCurrentCulture()
             {
                 var changes = new List<CultureInfo>();
+                var propertyChanges = new List<string>();
+                Translator.StaticPropertyChanged += (_, e) => propertyChanges.Add(e.PropertyName);
                 Translator.EffectiveCultureChanged += (sender, info) => changes.Add(info);
 
                 Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
                 Assert.AreSame(Translator.Cultures.Single(c => c.Name == "en"), Translator.CurrentCulture);
+                Assert.AreSame(Translator.Cultures.Single(c => c.Name == "en"), Translator.EffectiveCulture);
                 CollectionAssert.AreEqual(new[] { "en" }, changes.Select(x => x.TwoLetterISOLanguageName));
+                CollectionAssert.AreEqual(new[] { "CurrentCulture", "EffectiveCulture" }, propertyChanges);
 
                 Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
                 Assert.AreSame(Translator.Cultures.Single(c => c.Name == "en"), Translator.CurrentCulture);
+                Assert.AreSame(Translator.Cultures.Single(c => c.Name == "en"), Translator.EffectiveCulture);
+                CollectionAssert.AreEqual(new[] { "CurrentCulture", "EffectiveCulture" }, propertyChanges);
                 Assert.AreEqual(1, changes.Count);
 
                 Translator.CurrentCulture = CultureInfo.GetCultureInfo("sv");
                 Assert.AreSame(Translator.Cultures.Single(c => c.Name == "sv"), Translator.CurrentCulture);
+                Assert.AreSame(Translator.Cultures.Single(c => c.Name == "sv"), Translator.EffectiveCulture);
                 CollectionAssert.AreEqual(new[] { "en", "sv" }, changes.Select(x => x.TwoLetterISOLanguageName));
+                CollectionAssert.AreEqual(new[] { "CurrentCulture", "EffectiveCulture", "CurrentCulture", "EffectiveCulture" }, propertyChanges);
             }
 
             [Test]

@@ -6,22 +6,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <GroupBox Grid.Row="0" Header="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Column="0" Header="Auto">
             <l:LanguageSelector AutogenerateLanguages="True" />
         </GroupBox>
 
-        <GroupBox Grid.Row="1" Header="Explicit">
+        <GroupBox Grid.Column="1" Header="Explicit">
             <l:LanguageSelector>
                 <l:Language Culture="sv-SE" FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/sv.png" />
                 <l:Language Culture="en-GB" FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/en.png" />
                 <l:Language Culture="de-DE" FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/de.png" />
-                <l:Language Culture="nn-NO" />
+                <l:Language Culture="fi-FI" FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/fi.png" />
             </l:LanguageSelector>
         </GroupBox>
     </Grid>

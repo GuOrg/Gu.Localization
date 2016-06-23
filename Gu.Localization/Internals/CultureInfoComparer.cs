@@ -16,6 +16,8 @@ namespace Gu.Localization
         /// <summary> Gets a comparer that compares by <see cref="CultureInfo.Name"/> </summary>
         internal static readonly CultureInfoComparer ByName = new CultureInfoComparer(x => x?.Name);
 
+        private static readonly StringComparer StringComparer = StringComparer.OrdinalIgnoreCase;
+
         private readonly Func<CultureInfo, string> nameGetter;
 
         private CultureInfoComparer(Func<CultureInfo, string> nameGetter)
@@ -36,14 +38,14 @@ namespace Gu.Localization
                 return false;
             }
 
-            return this.nameGetter(x) == this.nameGetter(y);
+            return StringComparer.Equals(this.nameGetter(x), this.nameGetter(y));
         }
 
         /// <inheritdoc />
         public int GetHashCode(CultureInfo obj)
         {
             Ensure.NotNull(obj, nameof(obj));
-            return this.nameGetter(obj).GetHashCode();
+            return StringComparer.GetHashCode(this.nameGetter(obj));
         }
 
         public int Compare(CultureInfo x, CultureInfo y)
