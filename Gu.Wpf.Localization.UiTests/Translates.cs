@@ -35,9 +35,15 @@
         [Test]
         public void EffectiveCulture()
         {
+            Assert.AreEqual("en", this.window.Get<Label>(AutomationIds.CurrentCultureTextBlockId).Text);
             Assert.AreEqual("en", this.window.Get<Label>(AutomationIds.EffectiveCultureTextBlockId).Text);
+            Assert.AreEqual("en", this.window.Get<TextBox>(AutomationIds.BoundCurrentCultureTextBoxId).Text);
+            Assert.AreEqual("en", this.window.Get<Label>(AutomationIds.BoundEffectiveCultureTextBlockId).Text);
             this.languageComboBox.Select("sv");
+            Assert.AreEqual("sv", this.window.Get<Label>(AutomationIds.CurrentCultureTextBlockId).Text);
             Assert.AreEqual("sv", this.window.Get<Label>(AutomationIds.EffectiveCultureTextBlockId).Text);
+            Assert.AreEqual("sv", this.window.Get<TextBox>(AutomationIds.BoundCurrentCultureTextBoxId).Text);
+            Assert.AreEqual("sv", this.window.Get<Label>(AutomationIds.BoundEffectiveCultureTextBlockId).Text);
         }
 
         [Test]

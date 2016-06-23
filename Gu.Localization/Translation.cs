@@ -23,7 +23,7 @@
                 {
                     foreach (var translation in Cache.Values)
                     {
-                        translation.OnCurrentCultureChanged(c);
+                        translation.OnCurrentCultureChanged(c.Culture);
                     }
                 };
         }

@@ -43,7 +43,7 @@
                 var changes = new List<CultureInfo>();
                 var propertyChanges = new List<string>();
                 Translator.StaticPropertyChanged += (_, e) => propertyChanges.Add(e.PropertyName);
-                Translator.EffectiveCultureChanged += (sender, info) => changes.Add(info);
+                Translator.EffectiveCultureChanged += (sender, info) => changes.Add(info.Culture);
 
                 Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
                 Assert.AreSame(Translator.Cultures.Single(c => c.Name == "en"), Translator.CurrentCulture);

@@ -108,7 +108,7 @@
             languageSelector.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(languageSelector.SyncLanguages));
         }
 
-        private void OnEffectiveCultureChanged(object sender, CultureInfo e)
+        private void OnEffectiveCultureChanged(object sender, CultureChangedEventArgs e)
         {
             this.UpdateSelected();
         }

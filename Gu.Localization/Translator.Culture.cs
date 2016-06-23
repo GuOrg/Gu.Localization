@@ -14,11 +14,11 @@
 
         private static CultureInfo effectiveCulture;
 
-        /// <summary>Notifies when the current language changes.</summary>
-        public static event EventHandler<CultureInfo> EffectiveCultureChanged;
-
         /// <summary>For binding to static properties in XAML.</summary>
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
+        /// <summary>Notifies when the current language changes.</summary>
+        public static event EventHandler<CultureChangedEventArgs> EffectiveCultureChanged;
 
         /// <summary> Gets a list with all cultures found for the application </summary>
         public static IEnumerable<CultureInfo> Cultures => allCultures;
@@ -121,7 +121,7 @@
 
         private static void OnCurrentCultureChanged(CultureInfo e)
         {
-            EffectiveCultureChanged?.Invoke(null, e);
+            EffectiveCultureChanged?.Invoke(null, new CultureChangedEventArgs(e));
         }
 
         private static SortedSet<CultureInfo> GetAllCultures()

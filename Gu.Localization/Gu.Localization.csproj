@@ -43,6 +43,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CultureChangedEventArgs.cs" />
     <Compile Include="EnumTranslation{T}.cs" />
     <Compile Include="ErrorHandling.cs" />
     <Compile Include="Errors\MissingTranslation.cs" />
