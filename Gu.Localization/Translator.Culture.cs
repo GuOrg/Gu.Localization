@@ -82,7 +82,7 @@
 
                 effectiveCulture = value;
                 OnCurrentCultureChanged(value);
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(CurrentCulture)));
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(EffectiveCulture)));
             }
         }
 
