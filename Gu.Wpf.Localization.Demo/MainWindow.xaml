@@ -87,11 +87,11 @@
                 </Grid>
             </GroupBox>
 
-            <GroupBox l:ErrorHandling.Mode="ReturnErrorInfoPreserveNeutral"
-                      AutomationProperties.AutomationId="{x:Static local:AutomationIds.VanillaXamlGroupWithErrorHandlingId}"
+            <GroupBox l:ErrorHandling.Mode="ReturnErrorInfo"
+                      AutomationProperties.AutomationId="{x:Static local:AutomationIds.VanillaXamlGroupWithReturnErrorInfoId}"
                       BorderBrush="GreenYellow"
                       BorderThickness="2"
-                      Header="Vanilla xaml with ReturnErrorInfoPreserveNeutral">
+                      Header="Vanilla xaml with ReturnErrorInfo">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -153,6 +153,14 @@
                       BorderBrush="Red"
                       BorderThickness="2"
                       Header="No translations">
+                <local:ErrorsView />
+            </GroupBox>
+
+            <GroupBox l:ErrorHandling.Mode="ReturnErrorInfo"
+                      AutomationProperties.AutomationId="{x:Static local:AutomationIds.NoTranslationsWithReturnErrorInfoId}"
+                      BorderBrush="Red"
+                      BorderThickness="2"
+                      Header="No translations with ReturnErrorInfo">
                 <local:ErrorsView />
             </GroupBox>
 

@@ -48,7 +48,7 @@ The library has a `StaticExtension` markupextension that is used when translatin
 The reason for naming it `StaticExtension` and not `TranslateExtension` is that Resharper provides intellisense when named `StaticExtension`
 Binding the text like below updates the text when `Translator.EffectiveCulture`changes enabling runtime selection of language.
 
-The markupextension has ErrorHandling = ErrorHandling.ReturnErrorInfo as default, it encodes errors in the result, see [ErrorFormats](#3-errorhandling))
+The markupextension has ErrorHandling = ErrorHandling.ReturnErrorInfoPreserveNeutral as default, it encodes errors in the result, see [ErrorFormats](#3-errorhandling))
 ## 1.1. Bind a localized string.
 
 ```xaml
@@ -65,7 +65,8 @@ The markupextension has ErrorHandling = ErrorHandling.ReturnErrorInfo as default
 The above will show SomeResource in the `Translator.EffectiveCulture` and update when culture changes.
 
 ## 1.2. Errorhandling.
-
+By setting the attached property `ErrorHandling.Mode` we override how translation errors are handled by the `StaticExtension` for the child elements.
+When null the `StaticExtension` uses ReturnErrorInfoPreserveNeutral
 ```xaml
 <Grid l:ErrorHandling.Mode="ReturnErrorInfo"
      ...   >
@@ -76,7 +77,7 @@ The above will show SomeResource in the `Translator.EffectiveCulture` and update
     ...
 ```
 
-By setting the attached property `ErrorHandling.Mode` we override how translation errors are handled by the `StaticExtension` for the child elements.
+
 
 ## 1.3. EffectiveCulture.
 A markupextension for accessing `Translator.EffectiveCulture` from xaml. Retruns a binding that updates when EffectiveCulture changes.
