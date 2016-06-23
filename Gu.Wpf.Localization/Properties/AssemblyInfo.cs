@@ -22,8 +22,8 @@ using System.Windows.Markup;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("8b5013e4-ebfd-48b4-b6b4-34d6df4fb982")]
 
-[assembly: AssemblyVersion("4.1.0.0")]
-[assembly: AssemblyFileVersion("4.1.0.0")]
+[assembly: AssemblyVersion("4.2.0.0")]
+[assembly: AssemblyFileVersion("4.2.0.0")]
 [assembly: NeutralResourcesLanguage("en")]
 [assembly: InternalsVisibleTo("Gu.Wpf.Localization.Tests", AllInternalsVisible = true)]
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]

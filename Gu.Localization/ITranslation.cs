@@ -10,10 +10,16 @@
     public interface ITranslation : INotifyPropertyChanged
     {
         /// <summary>
-        /// Gets the key Translated to the <see cref="Translator.EffectiveCulture"/>
+        /// Gets the <see cref="Key"/> Translated to the <see cref="Translator.EffectiveCulture"/>
         /// This valus updates when <see cref="Translator.EffectiveCulture"/> changes
         /// </summary>
         string Translated { get; }
+
+        /// <summary>Gets the key for the resource in the resourcemanager.</summary>
+        string Key { get; }
+
+        /// <summary>Gets the <see cref="ErrorHandling"/> used by this translation.</summary>
+        ErrorHandling ErrorHandling { get; }
 
         /// <summary>Calls <see cref="Translator.Translate(ResourceManager, string, CultureInfo, ErrorHandling)"/> with the key.</summary>
         /// <param name="culture">The culture.</param>

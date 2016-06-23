@@ -13,8 +13,6 @@
         private static readonly PropertyChangedEventArgs TranslatedPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Translated));
         private static readonly ConcurrentDictionary<ResourceManagerAndKey, Translation> Cache = new ConcurrentDictionary<ResourceManagerAndKey, Translation>();
 
-        private readonly string key;
-        private readonly ErrorHandling errorHandling;
         private readonly ResourceManager resourceManager;
         private readonly CachedTranslation cachedTranslation;
 
@@ -32,8 +30,8 @@
         private Translation(ResourceManager resourceManager, string key, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             this.resourceManager = resourceManager;
-            this.key = key;
-            this.errorHandling = errorHandling;
+            this.Key = key;
+            this.ErrorHandling = errorHandling;
             this.cachedTranslation = new CachedTranslation(this);
         }
 
@@ -42,6 +40,12 @@
 
         /// <inheritdoc />
         public string Translated => this.cachedTranslation.Value;
+
+        /// <inheritdoc />
+        public string Key { get; }
+
+        /// <inheritdoc />
+        public ErrorHandling ErrorHandling { get; }
 
         /// <summary>
         /// Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey))
@@ -66,7 +70,7 @@
         /// <inheritdoc />
         public string Translate(CultureInfo culture, ErrorHandling errorHandlingStrategy = ErrorHandling.Inherit)
         {
-            return Translator.Translate(this.resourceManager, this.key, culture, errorHandlingStrategy);
+            return Translator.Translate(this.resourceManager, this.Key, culture, errorHandlingStrategy);
         }
 
         /// <summary> Use this to raise propertychanged</summary>
@@ -123,9 +127,9 @@
                             this.culture = cultureInfo;
                             var newValue = Translator.Translate(
                                 this.translation.resourceManager,
-                                this.translation.key,
+                                this.translation.Key,
                                 cultureInfo,
-                                this.translation.errorHandling);
+                                this.translation.ErrorHandling);
                             var changed = newValue != this.value;
                             this.value = newValue;
                             return changed;
