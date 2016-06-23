@@ -72,6 +72,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Internals\ResourceManagers.cs" />
+    <Compile Include="StaticTranslation.cs" />
     <Compile Include="Translation.cs" />
     <Compile Include="Translation.ResourceManagerAndKey.cs" />
     <Compile Include="Translator.cs" />
