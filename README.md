@@ -178,6 +178,29 @@ Implements ÌNotifyPropertyChanged` and notifies when `Translator.EffectiveCultu
 Translation translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource))
 ```
 
+Creating it like the above is pretty verbose. Introducing a helper like below can help some.
+
+```c#
+namespace YourNamespace.Properties
+{
+    using System.Diagnostics;
+
+    using Gu.Localization;
+
+    public static class Translate
+    {
+        /// <summary>Call like this: Translate.Key(nameof(Resources.Saved_file__0_)).</summary>
+        /// <param name="key">A key in Properties.Resources</param>
+        /// <returns>A translation for the key.</returns>
+        public static ITranslation Key(string key)
+        {
+            Debug.Assert(typeof(Resources).GetType().GetProperty(key) != null, $"Resources does not have key: {key}");
+            return Gu.Localization.Translation.GetOrCreate(Resources.ResourceManager, key);
+        }
+    }
+}
+```
+
 # 3. ErrorHandling.
 When calling the translate methods an ErrorHandling argument can be provided.
 If `ErrorHandling.ReturnErrorInfo` is passed in the method does not throw but returns information about the error in the string.
