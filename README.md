@@ -12,6 +12,7 @@
   - [1.1. Bind a localized string.](#11-bind-a-localized-string)
   - [1.2. Errorhandling.](#12-errorhandling)
   - [1.3. EffectiveCulture.](#13-effectiveculture)
+  - [1.4. Binding to CurrentCulture and EffectiveCulture in XAML.](#14-binding-to-currentculture-and-effectiveculture-in-xaml)
 - [2. Usage in code.](#2-usage-in-code)
   - [2.1. Translator.](#21-translator)
     - [2.1.1. Culture.](#211-culture)
@@ -77,8 +78,6 @@ When null the `StaticExtension` uses ReturnErrorInfoPreserveNeutral
     ...
 ```
 
-
-
 ## 1.3. EffectiveCulture.
 A markupextension for accessing `Translator.EffectiveCulture` from xaml. Retruns a binding that updates when EffectiveCulture changes.
 
@@ -91,6 +90,12 @@ A markupextension for accessing `Translator.EffectiveCulture` from xaml. Retruns
             <TextBlock Text="{l:EffectiveCulture}" />
         </StackPanel>    
     ...
+```
+
+## 1.4. Binding to CurrentCulture and EffectiveCulture in XAML.
+The static properties support binding. Use this XAML for a twoway binding:
+```xaml
+<TextBox Text="{Binding Path=(localization:Translator.CurrentCulture)}" />
 ```
 
 # 2. Usage in code.

@@ -23,7 +23,8 @@
                 <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIds.EffectiveCultureTextBlockId}" Text="{l:EffectiveXmlLanguage}" />
             </StackPanel>
 
-            <TextBox Text="{Binding Path=(localization:Translator.CurrentCulture)}" />
+            <TextBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.BoundCurrentCultureTextBoxId}" Text="{Binding Path=(localization:Translator.CurrentCulture)}" />
+            <!--<Button AutomationProperties.AutomationId="{x:Static local:AutomationIds.LoseFocusButtonId}">Lose focus here</Button>-->
             <ComboBox x:Name="LanguagesComboBox"
                       AutomationProperties.AutomationId="{x:Static local:AutomationIds.LanguagesComboBoxId}"
                       ItemsSource="{x:Static localization:Translator.Cultures}"

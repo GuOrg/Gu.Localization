@@ -22,6 +22,8 @@
             this.application = Application.AttachOrLaunch(StartInfo.DemoProject);
             this.window = this.application.GetWindow("MainWindow");
             this.languageComboBox = this.window.Get<ComboBox>(AutomationIds.LanguagesComboBoxId);
+            //this.cultureTextBox = this.window.Get<TextBox>(AutomationIds.BoundCurrentCultureTextBoxId);
+            //this.loseFocusButton = this.window.Get<Button>(AutomationIds.LoseFocusButtonId);
         }
 
         [OneTimeTearDown]

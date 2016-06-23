@@ -17,6 +17,10 @@
         public static readonly string CustomControlOtherProjectGroupId = Create();
 
         public static readonly string LanguagesComboBoxId = Create();
+        public static readonly string BoundCurrentCultureTextBoxId = Create();
+        public static readonly string LoseFocusButtonId = Create();
+
+
         public static readonly string DataGridId = Create();
         public static readonly string TranslatedToAllTextBlockId = Create();
         public static readonly string EnumTranslatedToAllTextBlockId = Create();

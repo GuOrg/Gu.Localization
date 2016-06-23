@@ -86,6 +86,9 @@
             }
         }
 
+        /// <summary>Check if <see cref="Cultures"/> contains a culture matching <paramref name="culture"/>.</summary>
+        /// <param name="culture">The culture to test.</param>
+        /// <returns>True if <see cref="Cultures"/> contains a match for <paramref name="culture"/></returns>
         public static bool ContainsCulture(CultureInfo culture)
         {
             if (culture == null)
