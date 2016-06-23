@@ -29,6 +29,20 @@
         }
 
         /// <summary>
+        /// Check if the <paramref name="resourceManager"/> has a translation for <paramref name="key"/>
+        /// This is a pretty expensive call but should only happen in the error path.
+        /// No memoization is done.
+        /// </summary>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/></param>
+        /// <param name="key">The key</param>
+        /// <returns>True if a translation exists</returns>
+        internal static bool HasKey(this ResourceManager resourceManager, string key)
+        {
+            return resourceManager.HasKey(key, Translator.EffectiveCulture) ||
+                   resourceManager.HasKey(key, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
         /// Check if the <paramref name="resourceManager"/> has translations for <paramref name="culture"/>
         /// This is a pretty expensive call but should only happen in the error path.
         /// No memoization is done.

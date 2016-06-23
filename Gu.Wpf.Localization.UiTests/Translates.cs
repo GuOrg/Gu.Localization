@@ -1,8 +1,5 @@
 ﻿namespace Gu.Wpf.Localization.UiTests
 {
-    using System.Diagnostics;
-    using System.Globalization;
-
     using Gu.Wpf.Localization.Demo;
 
     using NUnit.Framework;

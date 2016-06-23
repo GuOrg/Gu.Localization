@@ -4,7 +4,6 @@
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
-    using System.Linq;
     using System.Runtime.CompilerServices;
 
     using Gu.Localization;

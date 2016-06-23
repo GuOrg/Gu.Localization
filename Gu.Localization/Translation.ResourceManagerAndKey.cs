@@ -12,10 +12,8 @@
             internal readonly string Key;
             private readonly ErrorHandling errorHandling;
 
-            public ResourceManagerAndKey(ResourceManager resourceManager, string key, ErrorHandling errorHandling)
+            internal ResourceManagerAndKey(ResourceManager resourceManager, string key, ErrorHandling errorHandling)
             {
-                Ensure.NotNull(resourceManager, nameof(resourceManager));
-                Ensure.NotNull(key, nameof(key));
                 this.ResourceManager = resourceManager;
                 this.Key = key;
                 this.errorHandling = errorHandling;

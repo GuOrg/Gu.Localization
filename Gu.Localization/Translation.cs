@@ -1,5 +1,6 @@
 ﻿namespace Gu.Localization
 {
+    using System;
     using System.Collections.Concurrent;
     using System.ComponentModel;
     using System.Globalization;
@@ -29,6 +30,11 @@
 
         private Translation(ResourceManager resourceManager, string key, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
+            if (!resourceManager.HasKey(key))
+            {
+                throw new ArgumentOutOfRangeException(nameof(key), $"The resourcemanager: {resourceManager.BaseName} does not have the key: {key}");
+            }
+
             this.resourceManager = resourceManager;
             this.Key = key;
             this.ErrorHandling = errorHandling;

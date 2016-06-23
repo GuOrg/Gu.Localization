@@ -5,7 +5,6 @@
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
-    using System.Windows.Threading;
 
     using Gu.Localization;
     using Gu.Localization.Properties;
@@ -70,6 +69,11 @@
 
                 var manager = Gu.Localization.ResourceManagers.ForType(type);
                 this.Member = qnk.Key;
+                if (!manager.HasKey(qnk.Key))
+                {
+                    return string.Format(Resources.MissingKeyFormat, this.Member);
+                }
+
                 return CreateBindingExpression(manager, this.Member, serviceProvider);
             }
             catch (Exception)
