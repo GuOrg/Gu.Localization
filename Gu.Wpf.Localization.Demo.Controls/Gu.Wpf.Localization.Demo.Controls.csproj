@@ -60,6 +60,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoCustomControlAutomationPeer.cs" />
     <Compile Include="DemoUserControl.xaml.cs">
       <DependentUpon>DemoUserControl.xaml</DependentUpon>
     </Compile>
