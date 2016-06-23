@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="StartInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Todo.cs" />
     <Compile Include="Translates.cs" />
   </ItemGroup>
   <ItemGroup>
