@@ -14,16 +14,11 @@
         private Application application;
         private Window window;
 
-        private ComboBox languageComboBox;
-
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
             this.application = Application.AttachOrLaunch(StartInfo.DemoProject);
             this.window = this.application.GetWindow("MainWindow");
-            this.languageComboBox = this.window.Get<ComboBox>(AutomationIds.LanguagesComboBoxId);
-            //this.cultureTextBox = this.window.Get<TextBox>(AutomationIds.BoundCurrentCultureTextBoxId);
-            //this.loseFocusButton = this.window.Get<Button>(AutomationIds.LoseFocusButtonId);
         }
 
         [OneTimeTearDown]
@@ -39,7 +34,8 @@
             Assert.AreEqual("en", this.window.Get<Label>(AutomationIds.EffectiveCultureTextBlockId).Text);
             Assert.AreEqual("en", this.window.Get<TextBox>(AutomationIds.BoundCurrentCultureTextBoxId).Text);
             Assert.AreEqual("en", this.window.Get<Label>(AutomationIds.BoundEffectiveCultureTextBlockId).Text);
-            this.languageComboBox.Select("sv");
+
+            this.window.Get<RadioButton>("sv").Click();
             Assert.AreEqual("sv", this.window.Get<Label>(AutomationIds.CurrentCultureTextBlockId).Text);
             Assert.AreEqual("sv", this.window.Get<Label>(AutomationIds.EffectiveCultureTextBlockId).Text);
             Assert.AreEqual("sv", this.window.Get<TextBox>(AutomationIds.BoundCurrentCultureTextBoxId).Text);
@@ -55,13 +51,13 @@
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
-            this.languageComboBox.Select("sv");
+            this.window.Get<RadioButton>("sv").Click();
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
-            this.languageComboBox.Select("en");
+            this.window.Get<RadioButton>("en").Click();
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
             Assert.AreEqual("", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
@@ -77,13 +73,13 @@
             Assert.AreEqual("_So neutral_", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
-            this.languageComboBox.Select("sv");
+            this.window.Get<RadioButton>("sv").Click();
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
-            this.languageComboBox.Select("en");
+            this.window.Get<RadioButton>("en").Click();
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
             Assert.AreEqual("_SwedishOnly_", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
             Assert.AreEqual("_So neutral_", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
@@ -96,10 +92,10 @@
             var groupBox = this.window.Get<GroupBox>(AutomationIds.NotInVisualTreeGroupId);
             var dataGrid = groupBox.Get<ListView>(AutomationIds.DataGridId);
 
-            this.languageComboBox.Select("sv");
+            this.window.Get<RadioButton>("sv").Click();
             Assert.AreEqual("Svenska", dataGrid.Header.Columns[0].Text);
 
-            this.languageComboBox.Select("en");
+            this.window.Get<RadioButton>("en").Click();
             Assert.AreEqual("English", dataGrid.Header.Columns[0].Text);
         }
 
@@ -113,13 +109,13 @@
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
-            this.languageComboBox.Select("sv");
+            this.window.Get<RadioButton>("sv").Click();
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
-            this.languageComboBox.Select("en");
+            this.window.Get<RadioButton>("en").Click();
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
             Assert.AreEqual("", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
@@ -136,13 +132,13 @@
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
-            this.languageComboBox.Select("sv");
+            this.window.Get<RadioButton>("sv").Click();
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
-            this.languageComboBox.Select("en");
+            this.window.Get<RadioButton>("en").Click();
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
             Assert.AreEqual("", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
@@ -155,10 +151,10 @@
             var groupBox = this.window.Get<GroupBox>(AutomationIds.UserControlOtherProjectGroupId);
             var textBlock = groupBox.Get<Label>("KeyInControls");
 
-            this.languageComboBox.Select("sv");
+            this.window.Get<RadioButton>("sv").Click();
             Assert.AreEqual("Från controls", textBlock.Text);
 
-            this.languageComboBox.Select("en");
+            this.window.Get<RadioButton>("en").Click();
             Assert.AreEqual("From Controls", textBlock.Text);
         }
 
@@ -170,10 +166,10 @@
             var groupBox = this.window.Get<GroupBox>(AutomationIds.CustomControlOtherProjectGroupId);
             var textBlock = groupBox.Get<Label>("KeyInControls");
 
-            this.languageComboBox.Select("sv");
+            this.window.Get<RadioButton>("sv").Click();
             Assert.AreEqual("Från controls", textBlock.Text);
 
-            this.languageComboBox.Select("en");
+            this.window.Get<RadioButton>("en").Click();
             Assert.AreEqual("From Controls", textBlock.Text);
         }
 
@@ -182,13 +178,13 @@
         {
             var groupBox = this.window.Get<GroupBox>(AutomationIds.NoTranslationsGroupId);
 
-            this.languageComboBox.Select("sv");
+            this.window.Get<RadioButton>("sv").Click();
             Assert.AreEqual("!MissingKey!", groupBox.Get<Label>(AutomationIds.MissingKeyTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.NeutralOnlyTextBlockId).Text);
             Assert.AreEqual("#BadFormat#", groupBox.Get<Label>(AutomationIds.BadFromatTextBlockId).Text);
 
-            this.languageComboBox.Select("en");
+            this.window.Get<RadioButton>("en").Click();
             Assert.AreEqual("!MissingKey!", groupBox.Get<Label>(AutomationIds.MissingKeyTextBlockId).Text);
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.NeutralOnlyTextBlockId).Text);
@@ -202,13 +198,13 @@
             // fixing this can be slightly messy
             var groupBox = this.window.Get<GroupBox>(AutomationIds.NoTranslationsWithReturnErrorInfoId);
 
-            this.languageComboBox.Select("sv");
+            this.window.Get<RadioButton>("sv").Click();
             Assert.AreEqual("!MissingKey!", groupBox.Get<Label>(AutomationIds.MissingKeyTextBlockId).Text);
             Assert.AreEqual("Svenska", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("_So neutral_", groupBox.Get<Label>(AutomationIds.NeutralOnlyTextBlockId).Text);
             Assert.AreEqual("#BadFormat#", groupBox.Get<Label>(AutomationIds.BadFromatTextBlockId).Text);
 
-            this.languageComboBox.Select("en");
+            this.window.Get<RadioButton>("en").Click();
             Assert.AreEqual("!MissingKey!", groupBox.Get<Label>(AutomationIds.MissingKeyTextBlockId).Text);
             Assert.AreEqual("_So neutral_", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("_So neutral_", groupBox.Get<Label>(AutomationIds.NeutralOnlyTextBlockId).Text);

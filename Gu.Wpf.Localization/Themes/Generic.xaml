@@ -3,8 +3,7 @@
                     xmlns:localization="clr-namespace:Gu.Wpf.Localization">
     <localization:NullImageSourceConverter x:Key="NullImageSourceConverter" />
 
-    <Style x:Key="LanguageRadioButton"
-           TargetType="{x:Type RadioButton}">
+    <Style x:Key="LanguageRadioButton" TargetType="{x:Type RadioButton}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -48,7 +47,8 @@
                                                         RelativeSource={RelativeSource AncestorType={x:Type localization:LanguageSelector}}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type localization:Language}">
-                                <RadioButton GroupName="LanguagesGroup"
+                                <RadioButton AutomationProperties.AutomationId="{Binding Culture.Name}"
+                                             GroupName="LanguagesGroup"
                                              IsChecked="{Binding IsSelected}"
                                              IsEnabled="{Binding CanSelect,
                                                                  Mode=OneWay}"

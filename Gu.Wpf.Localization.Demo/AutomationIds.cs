@@ -17,6 +17,7 @@
         public static readonly string CustomControlOtherProjectGroupId = Create();
 
         public static readonly string LanguagesComboBoxId = Create();
+        public static readonly string LanguageSelectorId = Create();
         public static readonly string CurrentCultureTextBlockId = Create();
         public static readonly string EffectiveCultureTextBlockId = Create();
         public static readonly string BoundCurrentCultureTextBoxId = Create();
