@@ -56,19 +56,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MarkupExtensions\CurrentCultureExtension.cs" />
-    <Compile Include="DesignTime.cs" />
+    <Compile Include="AttachedProperties\DesignTime.cs" />
     <Compile Include="MarkupExtensions\CurrentCultureProxy.cs" />
     <Compile Include="MarkupExtensions\CurrentXmlLanguageExtension.cs" />
     <Compile Include="MarkupExtensions\EnumExtension.cs" />
-    <Compile Include="ErrorHandling.cs" />
+    <Compile Include="AttachedProperties\ErrorHandling.cs" />
     <Compile Include="Internals\QualifiedNameAndKey.cs" />
     <Compile Include="Internals\Is.cs" />
     <Compile Include="Internals\ServiceProviderExt.cs" />
-    <Compile Include="Language.cs" />
-    <Compile Include="NullImageSourceConverter.cs" />
+    <Compile Include="LanguageSelector\Language.cs" />
+    <Compile Include="LanguageSelector\NullImageSourceConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MarkupExtensions\StaticExtension.cs" />
-    <Compile Include="LanguageSelector.cs" />
+    <Compile Include="LanguageSelector\LanguageSelector.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gu.Localization\Gu.Localization.csproj">
@@ -123,9 +123,7 @@
     <Resource Include="Flags\sv.png" />
     <Resource Include="Flags\zh.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DesignTime\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v2.0' Or $(TargetFrameworkVersion) == 'v3.0' Or $(TargetFrameworkVersion) == 'v3.5' Or $(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1')">
       <ItemGroup>
