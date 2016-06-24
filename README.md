@@ -11,13 +11,13 @@
 - [1. Usage in XAML.](#1-usage-in-xaml)
   - [1.1. Bind a localized string.](#11-bind-a-localized-string)
   - [1.2. Errorhandling.](#12-errorhandling)
-  - [1.3. EffectiveCulture.](#13-effectiveculture)
-  - [1.4. Binding to CurrentCulture and EffectiveCulture in XAML.](#14-binding-to-currentculture-and-effectiveculture-in-xaml)
+  - [1.3. CurrentCulture.](#13-currentculture)
+  - [1.4. Binding to CurrentCulture and CurrentCulture in XAML.](#14-binding-to-currentculture-and-currentculture-in-xaml)
 - [2. Usage in code.](#2-usage-in-code)
   - [2.1. Translator.](#21-translator)
     - [2.1.1. Culture.](#211-culture)
     - [2.1.2. Culture.](#212-culture)
-    - [2.1.3. EffectiveCulture.](#213-effectiveculture)
+    - [2.1.3. CurrentCulture.](#213-currentculture)
     - [2.1.4. Cultures.](#214-cultures)
     - [2.1.5. ErrorHandling.](#215-errorhandling)
     - [2.1.6. Translate.](#216-translate)
@@ -28,6 +28,8 @@
       - [2.1.6.5. Translate with parameter:](#2165-translate-with-parameter)
   - [2.2. Translator&lt;T&gt;.](#22-translatort)
   - [2.3. Translation.](#23-translation)
+  - [2.3.1 GetOrCreate.](#231-getorcreate)
+  - [2.4. StaticTranslation.](#24-statictranslation)
 - [3. ErrorHandling.](#3-errorhandling)
   - [3.1. Global setting](#31-global-setting)
   - [3.2. ErrorFormats](#32-errorformats)
@@ -47,7 +49,7 @@
 
 The library has a `StaticExtension` markupextension that is used when translating.
 The reason for naming it `StaticExtension` and not `TranslateExtension` is that Resharper provides intellisense when named `StaticExtension`
-Binding the text like below updates the text when `Translator.EffectiveCulture`changes enabling runtime selection of language.
+Binding the text like below updates the text when `Translator.CurrentCulture`changes enabling runtime selection of language.
 
 The markupextension has ErrorHandling = ErrorHandling.ReturnErrorInfoPreserveNeutral as default, it encodes errors in the result, see [ErrorFormats](#3-errorhandling))
 ## 1.1. Bind a localized string.
@@ -63,7 +65,7 @@ The markupextension has ErrorHandling = ErrorHandling.ReturnErrorInfoPreserveNeu
     ...
 ```
 
-The above will show SomeResource in the `Translator.EffectiveCulture` and update when culture changes.
+The above will show SomeResource in the `Translator.CurrentCulture` and update when culture changes.
 
 ## 1.2. Errorhandling.
 By setting the attached property `ErrorHandling.Mode` we override how translation errors are handled by the `StaticExtension` for the child elements.
@@ -78,21 +80,21 @@ When null the `StaticExtension` uses ReturnErrorInfoPreserveNeutral
     ...
 ```
 
-## 1.3. EffectiveCulture.
-A markupextension for accessing `Translator.EffectiveCulture` from xaml. Retruns a binding that updates when EffectiveCulture changes.
+## 1.3. CurrentCulture.
+A markupextension for accessing `Translator.CurrentCulture` from xaml. Retruns a binding that updates when CurrentCulture changes.
 
 ```xaml
-<Grid numeric:NumericBox.Culture="{l:EffectiveCulture}"
+<Grid numeric:NumericBox.Culture="{l:CurrentCulture}"
      ...   >
     ...
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Effective culture: " />
-            <TextBlock Text="{l:EffectiveCulture}" />
+            <TextBlock Text="{l:CurrentCulture}" />
         </StackPanel>    
     ...
 ```
 
-## 1.4. Binding to CurrentCulture and EffectiveCulture in XAML.
+## 1.4. Binding to CurrentCulture and CurrentCulture in XAML.
 The static properties support binding. Use this XAML for a twoway binding:
 ```xaml
 <TextBox Text="{Binding Path=(localization:Translator.CurrentCulture)}" />
@@ -109,13 +111,13 @@ Changing culture updates all translations. Setting culture to a culture for whic
 Get or set the current culture. The default is `null`
 Changing culture updates all translations. Setting culture to a culture for which there is no translation throws. Check ContainsCulture() first.
 
-### 2.1.3. EffectiveCulture.
+### 2.1.3. CurrentCulture.
 Get the culture used in translations. By the following mechanism:
   1) CurrentCulture if not null.
   2) Any Culture in <see cref="Cultures"/> matching <see cref="CultureInfo.CurrentCulture"/> by name.
   3) Any Culture in <see cref="Cultures"/> matching <see cref="CultureInfo.CurrentCulture"/> by name.
   4) CultureInfo.InvariantCulture
-When this value changes EffectiveCultureChanged is raised and all translatins updates and notifies.
+When this value changes CurrentCultureChanged is raised and all translatins updates and notifies.
 
 ### 2.1.4. Cultures.
 Get a list with the available cultures. Cultures are found by looking in current directory and scanning for satellite assemblies.
@@ -176,8 +178,12 @@ string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
 Same as translator but used like `Translator<Properties.Resources>.Translate(...)`
 
 ## 2.3. Translation.
-An object with a Translated property that is a string with the value in `Translator.EffectiveCulture` 
-Implements ÌNotifyPropertyChanged` and notifies when `Translator.EffectiveCulture` changes.
+An object with a Translated property that is a string with the value in `Translator.CurrentCulture` 
+Implements ÌNotifyPropertyChanged` and notifies when for the property `Translated` if a change in `Translator.CurrentCulture` updates the translation.
+
+## 2.3.1 GetOrCreate.
+Returns an `ITranslation` from cache or creates and caches a new instance.
+If ErrorHandling is Throw it throws if the key is missing. If other than throw a `StaticTranslation` is returned.
 
 ```c#
 Translation translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource))
@@ -209,6 +215,10 @@ namespace YourNamespace.Properties
     }
 }
 ```
+
+## 2.4. StaticTranslation.
+An implementation of `ITranslation` that never updates the `Translated`property and returns the value of `Translated` when calling `Translate()`on it with any paramaters.
+This is returned from `Translation.GetOrCreate(...)` if the key is missing.
 
 # 3. ErrorHandling.
 When calling the translate methods an ErrorHandling argument can be provided.
