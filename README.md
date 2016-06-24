@@ -102,6 +102,37 @@ The static properties support binding. Use this XAML for a twoway binding:
 
 # 2. Usage in code.
 ## 2.1. Translator.
+The API is not super clean, introducing a helper like this can clean things up a bit.
+
+Creating it like the above is pretty verbose. Introducing a helper like below can help some.
+
+```c#
+namespace YourNamespace.Properties
+{
+    using Gu.Localization;
+
+    public static class Translate
+    {
+        /// <summary>Call like this: Translate.Key(nameof(Resources.Saved_file__0_)).</summary>
+        /// <param name="key">A key in Properties.Resources</param>
+        /// <param name="errorHandling">How to handle translation errors like missing key or culture.</param>
+        /// <returns>A translation for the key.</returns>
+        public static string Key(string key, ErrorHandling errorHandling = ErrorHandling.ReturnErrorInfoPreserveNeutral)
+        {
+            return TranslationFor(key, errorHandling).Translated;
+        }
+
+        /// <summary>Call like this: Translate.Key(nameof(Resources.Saved_file__0_)).</summary>
+        /// <param name="key">A key in Properties.Resources</param>
+        /// <param name="errorHandling">How to handle translation errors like missing key or culture.</param>
+        /// <returns>A translation for the key.</returns>
+        public static ITranslation TranslationFor(string key, ErrorHandling errorHandling = ErrorHandling.ReturnErrorInfoPreserveNeutral)
+        {
+            return Gu.Localization.Translation.GetOrCreate(Resources.ResourceManager, key, errorHandling);
+        }
+    }
+}
+```
 
 ### 2.1.1. Culture.
 Get or set the current culture. The default is `null`
@@ -187,33 +218,6 @@ If ErrorHandling is Throw it throws if the key is missing. If other than throw a
 
 ```c#
 Translation translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource))
-```
-
-Creating it like the above is pretty verbose. Introducing a helper like below can help some.
-
-```c#
-namespace YourNamespace.Properties
-{
-    using System.Diagnostics;
-
-    using Gu.Localization;
-
-    public static class Translate
-    {
-        /// <summary>Call like this: Translate.Key(nameof(Resources.Saved_file__0_)).</summary>
-        /// <param name="key">A key in Properties.Resources</param>
-        /// <returns>A translation for the key.</returns>
-        public static ITranslation Key(string key)
-        {
-            if (typeof(Resources).GetProperty(key) == null)
-            {
-                throw new ArgumentOutOfRangeException(nameof(key), $"{typeof(Resources).FullName} does not have key: {key}");
-            }
-            
-            return Gu.Localization.Translation.GetOrCreate(Resources.ResourceManager, key);
-        }
-    }
-}
 ```
 
 ## 2.4. StaticTranslation.
