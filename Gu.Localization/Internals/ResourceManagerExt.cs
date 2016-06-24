@@ -38,7 +38,7 @@
         /// <returns>True if a translation exists</returns>
         internal static bool HasKey(this ResourceManager resourceManager, string key)
         {
-            return resourceManager.HasKey(key, Translator.EffectiveCulture) ||
+            return resourceManager.HasKey(key, Translator.CurrentCulture) ||
                    resourceManager.HasKey(key, CultureInfo.InvariantCulture);
         }
 

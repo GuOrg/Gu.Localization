@@ -15,10 +15,10 @@
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
         /// <param name="arg0">The argument will be used as string.Format(format, <paramref name="arg0"/>)</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        /// <returns>The key translated to the <see cref="Culture"/></returns>
         public static string Translate<T>(ResourceManager resourceManager, string key, T arg0, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
-            return Translate(resourceManager, key, EffectiveCulture, arg0, errorHandling);
+            return Translate(resourceManager, key, CurrentCulture, arg0, errorHandling);
         }
 
         /// <summary>
@@ -72,10 +72,10 @@
         /// <param name="arg0">The argument will be used as first arguyment in string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>)</param>
         /// <param name="arg1">The argument will be used as second argument string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>)</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        /// <returns>The key translated to the <see cref="Culture"/></returns>
         public static string Translate<T0, T1>(ResourceManager resourceManager, string key, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
-            return Translate(resourceManager, key, EffectiveCulture, arg0, arg1, errorHandling);
+            return Translate(resourceManager, key, CurrentCulture, arg0, arg1, errorHandling);
         }
 
         /// <summary>
@@ -128,14 +128,14 @@
         /////// <param name="key">The key in <paramref name="resourceManager"/></param>
         /////// <param name="errorHandling">Specifies how to handle errors.</param>
         /////// <param name="args">The arguments will be used as first arguyment in string.Format(culture, format, <paramref name="args"/>)</param>
-        /////// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        /////// <returns>The key translated to the <see cref="Culture"/></returns>
         ////public static string Translate(
         ////    ResourceManager resourceManager,
         ////    string key,
         ////    ErrorHandling errorHandling = ErrorHandling.Default,
         ////    params object[] args)
         ////{
-        ////    return Translate(resourceManager, key, CurrentCulture, errorHandling, args);
+        ////    return Translate(resourceManager, key, Culture, errorHandling, args);
         ////}
 
         /////// <summary>
@@ -147,7 +147,7 @@
         /////// <param name="culture">The culture.</param>
         /////// <param name="errorHandling">Specifies how to handle errors.</param>
         /////// <param name="args">The arguments will be used as first arguyment in string.Format(culture, format, <paramref name="args"/>)</param>
-        /////// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        /////// <returns>The key translated to the <see cref="Culture"/></returns>
         ////public static string Translate(
         ////    ResourceManager resourceManager,
         ////    string key,

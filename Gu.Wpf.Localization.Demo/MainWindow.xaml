@@ -16,15 +16,15 @@
         <StackPanel Grid.Column="0">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Effective culture: " />
-                <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIds.CurrentCultureTextBlockId}" Text="{l:EffectiveCulture}" />
+                <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIds.CurrentCultureTextBlockId}" Text="{l:CurrentCulture}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Effective xml language: " />
-                <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIds.EffectiveCultureTextBlockId}" Text="{l:EffectiveXmlLanguage}" />
+                <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIds.EffectiveCultureTextBlockId}" Text="{l:CurrentXmlLanguage}" />
             </StackPanel>
 
-            <TextBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.BoundCurrentCultureTextBoxId}" Text="{Binding Path=(localization:Translator.CurrentCulture)}" />
-            <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIds.BoundEffectiveCultureTextBlockId}" Text="{Binding Path=(localization:Translator.EffectiveCulture)}" />
+            <TextBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.BoundCurrentCultureTextBoxId}" Text="{Binding Path=(localization:Translator.Culture)}" />
+            <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIds.BoundEffectiveCultureTextBlockId}" Text="{Binding Path=(localization:Translator.CurrentCulture)}" />
             <!--<Button AutomationProperties.AutomationId="{x:Static local:AutomationIds.LoseFocusButtonId}">Lose focus here</Button>-->
             <ComboBox x:Name="LanguagesComboBox"
                       AutomationProperties.AutomationId="{x:Static local:AutomationIds.LanguagesComboBoxId}"

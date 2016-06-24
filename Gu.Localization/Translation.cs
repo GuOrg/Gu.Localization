@@ -19,7 +19,7 @@
 
         static Translation()
         {
-            Translator.EffectiveCultureChanged += (_, c) =>
+            Translator.CurrentCultureChanged += (_, c) =>
                 {
                     foreach (var translation in Cache.Values)
                     {
@@ -63,7 +63,7 @@
         /// The key to translate
         /// </param>
         /// <param name="errorHandling">Specifies how errors are handled.</param>
-        /// <returns>A <see cref="Translation"/> that notifies when <see cref="Translator.CurrentCulture"/> changes</returns>
+        /// <returns>A <see cref="Translation"/> that notifies when <see cref="Translator.Culture"/> changes</returns>
         public static Translation GetOrCreate(ResourceManager resourceManager, string key, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             Ensure.NotNull(resourceManager, nameof(resourceManager));
@@ -87,7 +87,7 @@
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        /// <summary> Called when <see cref="Translator.CurrentCulture"/> changes</summary>
+        /// <summary> Called when <see cref="Translator.Culture"/> changes</summary>
         /// <param name="culture">The new culture</param>
         protected virtual void OnCurrentCultureChanged(CultureInfo culture)
         {
@@ -115,7 +115,7 @@
                 {
                     if (this.culture == null)
                     {
-                        this.TryUpdate(Translator.EffectiveCulture);
+                        this.TryUpdate(Translator.CurrentCulture);
                     }
 
                     return this.value;

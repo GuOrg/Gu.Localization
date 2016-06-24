@@ -17,7 +17,7 @@ namespace Gu.Localization.Tests
         [TestCaseSource(typeof(TranslationSource))]
         public void TranslateWithGlobalCulture(TranslationSource.Row row)
         {
-            Translator.CurrentCulture = row.Culture;
+            Translator.Culture = row.Culture;
             var actual = Translator<Properties.Resources>.Translate(row.Key);
             Assert.AreEqual(row.ExpectedTranslation, actual);
 
@@ -40,7 +40,7 @@ namespace Gu.Localization.Tests
         [TestCaseSource(typeof(TranslationSource))]
         public void TranslateWithExplicitCulture(TranslationSource.Row row)
         {
-            Translator.CurrentCulture = null;
+            Translator.Culture = null;
             var actual = Translator<Properties.Resources>.Translate(row.Key, row.Culture);
             Assert.AreEqual(row.ExpectedTranslation, actual);
 
@@ -63,11 +63,11 @@ namespace Gu.Localization.Tests
         [Test]
         public void CreateTranslation()
         {
-            Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
+            Translator.Culture = CultureInfo.GetCultureInfo("en");
             var translation = Translator<Properties.Resources>.GetOrCreateTranslation(nameof(Properties.Resources.AllLanguages));
 
             Assert.AreEqual("English", translation.Translated);
-            Translator.CurrentCulture = CultureInfo.GetCultureInfo("sv");
+            Translator.Culture = CultureInfo.GetCultureInfo("sv");
             Assert.AreEqual("Svenska", translation.Translated);
         }
 
@@ -79,7 +79,7 @@ namespace Gu.Localization.Tests
                 Assert.Pass("nop");
             }
 
-            Translator.CurrentCulture = data.Culture;
+            Translator.Culture = data.Culture;
             Translator.ErrorHandling = data.ErrorHandling;
             var actual = Translator<Properties.Resources>.Translate(data.Key);
             Assert.AreEqual(data.ExpectedTranslation, actual);
@@ -93,7 +93,7 @@ namespace Gu.Localization.Tests
                 Assert.Pass("nop");
             }
 
-            Translator.CurrentCulture = data.Culture;
+            Translator.Culture = data.Culture;
             Translator.ErrorHandling = ErrorHandling.Throw;
             var actual = Translator<Properties.Resources>.Translate(data.Key, data.ErrorHandling);
             Assert.AreEqual(data.ExpectedTranslation, actual);
@@ -102,7 +102,7 @@ namespace Gu.Localization.Tests
         [TestCaseSource(typeof(TranslationErrorsSource))]
         public void WithExplicitErrorhandlingAndCulture(TranslationErrorsSource.ErrorData data)
         {
-            Translator.CurrentCulture = null;
+            Translator.Culture = null;
             Translator.ErrorHandling = ErrorHandling.Throw;
             var actual = Translator<Properties.Resources>.Translate(data.Key, data.Culture, data.ErrorHandling);
             Assert.AreEqual(data.ExpectedTranslation, actual);
@@ -116,7 +116,7 @@ namespace Gu.Localization.Tests
                 Assert.Pass("nop");
             }
 
-            Translator.CurrentCulture = data.Culture;
+            Translator.Culture = data.Culture;
             Translator.ErrorHandling = data.ErrorHandling;
             var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(data.Key));
             Assert.AreEqual(data.ExpectedMessage, actual.Message);
@@ -133,7 +133,7 @@ namespace Gu.Localization.Tests
                 Assert.Pass("nop");
             }
 
-            Translator.CurrentCulture = data.Culture;
+            Translator.Culture = data.Culture;
             Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
             var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(data.Key, data.ErrorHandling));
             Assert.AreEqual(data.ExpectedMessage, actual.Message);
@@ -142,7 +142,7 @@ namespace Gu.Localization.Tests
         [TestCaseSource(typeof(TranslationThrowSource))]
         public void ThrowsWithExplicitErrorhandlingAndCulture(TranslationThrowSource.ErrorData data)
         {
-            Translator.CurrentCulture = null;
+            Translator.Culture = null;
             Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
             var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(data.Key, data.Culture, data.ErrorHandling));
             Assert.AreEqual(data.ExpectedMessage, actual.Message);

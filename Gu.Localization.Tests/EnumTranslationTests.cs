@@ -15,13 +15,13 @@
         public void Create()
         {
             var translation = EnumTranslation<DummyEnum>.Create(Properties.Resources.ResourceManager, DummyEnum.AllLanguages, ErrorHandling.ReturnErrorInfo);
-            Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
+            Translator.Culture = CultureInfo.GetCultureInfo("en");
             Assert.AreEqual("English", translation.Translated);
 
             var argses = new List<PropertyChangedEventArgs>();
             translation.PropertyChanged += (sender, args) => argses.Add(args);
 
-            Translator.CurrentCulture = CultureInfo.GetCultureInfo("sv");
+            Translator.Culture = CultureInfo.GetCultureInfo("sv");
             Assert.AreEqual("Svenska", translation.Translated);
             Assert.AreEqual(1, argses.Count(x => x.PropertyName == nameof(translation.Translated)));
         }

@@ -23,7 +23,7 @@
         /// Call like this Translator&lt;Properties.Resources&gt;.Translate(nameof(Properties.Resources.SomeKey));
         /// </summary>
         /// <param name="key">Path to the key. Must be included <typeparamref name="TResources"/>.</param>
-        /// <returns>The key translated to the <see cref="Translator.CurrentCulture"/></returns>
+        /// <returns>The key translated to the <see cref="Translator.Culture"/></returns>
         public static string Translate(string key)
         {
             return Translate(key, ErrorHandling.Inherit);
@@ -45,7 +45,7 @@
         /// </summary>
         /// <param name="key">Path to the key. Must be included <typeparamref name="TResources"/>.</param>
         /// <param name="errorHandling">Specifies how errors are handled.</param>
-        /// <returns>The key translated to the <see cref="Translator.CurrentCulture"/></returns>
+        /// <returns>The key translated to the <see cref="Translator.Culture"/></returns>
         public static string Translate(string key, ErrorHandling errorHandling)
         {
             return Translator.Translate(ResourceManager, key, errorHandling);
@@ -71,10 +71,10 @@
         /// <param name="key">The key in</param>
         /// <param name="arg0">The argument will be used as string.Format(format, <paramref name="arg0"/>)</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
-        /// <returns>The key translated to the <see cref="Translator.CurrentCulture"/></returns>
+        /// <returns>The key translated to the <see cref="Translator.Culture"/></returns>
         public static string Translate<T>(string key, T arg0, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
-            return Translator.Translate(ResourceManager, key, Translator.CurrentCulture, arg0, errorHandling);
+            return Translator.Translate(ResourceManager, key, Translator.Culture, arg0, errorHandling);
         }
 
         /// <summary>
@@ -102,10 +102,10 @@
         /// <param name="arg0">The argument will be used as first arguyment in string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>)</param>
         /// <param name="arg1">The argument will be used as second argument string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>)</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
-        /// <returns>The key translated to the <see cref="Translator.CurrentCulture"/></returns>
+        /// <returns>The key translated to the <see cref="Translator.Culture"/></returns>
         public static string Translate<T0, T1>(string key, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
-            return Translator.Translate(ResourceManager, key, Translator.CurrentCulture, arg0, arg1, errorHandling);
+            return Translator.Translate(ResourceManager, key, Translator.Culture, arg0, arg1, errorHandling);
         }
 
         /// <summary>

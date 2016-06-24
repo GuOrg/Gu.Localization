@@ -5,19 +5,20 @@
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
+    using Gu.Localization;
 
-    /// <summary>MarkupExtension for binging to <see cref="Gu.Localization.Translator.EffectiveCulture"/>.</summary>
+    /// <summary>MarkupExtension for binging to <see cref="Translator.CurrentCulture"/>.</summary>
     [MarkupExtensionReturnType(typeof(BindingExpression))]
-    public class EffectiveXmlLanguageExtension : MarkupExtension
+    public class CurrentXmlLanguageExtension : MarkupExtension
     {
-        private static readonly PropertyPath ValuePath = new PropertyPath(nameof(EffectiveCultureProxy.Value));
+        private static readonly PropertyPath ValuePath = new PropertyPath(nameof(CurrentCultureProxy.Value));
 
         /// <inheritdoc />
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             var binding = new Binding()
             {
-                Source = EffectiveCultureProxy.Instance,
+                Source = CurrentCultureProxy.Instance,
                 Path = ValuePath,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                 Mode = BindingMode.OneWay,

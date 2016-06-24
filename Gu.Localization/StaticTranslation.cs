@@ -10,7 +10,7 @@ namespace Gu.Localization
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StaticTranslation"/> class.
-        /// Note that <see cref="Translated"/> does not change when <see cref="Translator.EffectiveCulture"/> changed.
+        /// Note that <see cref="Translated"/> does not change when <see cref="Translator.CurrentCulture"/> changed.
         /// </summary>
         /// <param name="translated">
         /// The text will be used as <see cref="Translated"/> and returned for every culture.
@@ -22,7 +22,7 @@ namespace Gu.Localization
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StaticTranslation"/> class.
-        /// Note that <see cref="Translated"/> does not change when <see cref="Translator.EffectiveCulture"/> changed.
+        /// Note that <see cref="Translated"/> does not change when <see cref="Translator.CurrentCulture"/> changed.
         /// </summary>
         /// <param name="translated">
         /// The text will be used as <see cref="Translated"/> and returned for every culture.
@@ -39,7 +39,7 @@ namespace Gu.Localization
         /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>Gets the ~translated~ value. Note that this value does not change when <see cref="Translator.EffectiveCulture"/> changed.</summary>
+        /// <summary>Gets the ~translated~ value. Note that this value does not change when <see cref="Translator.CurrentCulture"/> changed.</summary>
         public string Translated { get; }
 
         /// <inheritdoc />

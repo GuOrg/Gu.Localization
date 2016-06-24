@@ -53,12 +53,12 @@
             }
         }
 
-        /// <summary>Gets or sets a value indicating whether gets or sets if the <see cref="Culture"/> is the same as <see cref="Translator.CurrentCulture"/></summary>
+        /// <summary>Gets or sets a value indicating whether gets or sets if the <see cref="Culture"/> is the same as <see cref="Translator.Culture"/></summary>
         public bool IsSelected
         {
             get
             {
-                return Gu.Localization.Culture.NameEquals(Translator.EffectiveCulture, this.Culture);
+                return Gu.Localization.Culture.NameEquals(Translator.CurrentCulture, this.Culture);
             }
 
             set
@@ -70,16 +70,16 @@
                 }
 
                 if (value &&
-                    !Gu.Localization.Culture.NameEquals(this.culture, Translator.CurrentCulture))
+                    !Gu.Localization.Culture.NameEquals(this.culture, Translator.Culture))
                 {
-                    Translator.CurrentCulture = this.culture;
+                    Translator.Culture = this.culture;
                 }
 
                 this.OnPropertyChanged();
             }
         }
 
-        /// <summary>Gets a value indicating whether gets a value indicating wheter the <see cref="Culture"/> can be used as <see cref="Translator.CurrentCulture"/></summary>
+        /// <summary>Gets a value indicating whether gets a value indicating wheter the <see cref="Culture"/> can be used as <see cref="Translator.Culture"/></summary>
         public bool CanSelect
         {
             get

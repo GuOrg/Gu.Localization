@@ -9,41 +9,40 @@
 
     public static partial class Translator
     {
-        private static CultureInfo currentCulture;
         private static SortedSet<CultureInfo> allCultures = GetAllCultures();
-
+        private static CultureInfo culture;
         private static CultureInfo effectiveCulture;
 
         /// <summary>For binding to static properties in XAML.</summary>
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
         /// <summary>Notifies when the current language changes.</summary>
-        public static event EventHandler<CultureChangedEventArgs> EffectiveCultureChanged;
+        public static event EventHandler<CultureChangedEventArgs> CurrentCultureChanged;
 
         /// <summary> Gets a list with all cultures found for the application </summary>
         public static IEnumerable<CultureInfo> Cultures => allCultures;
 
         /// <summary>
         /// Gets or sets the culture to translate to.
-        /// If setting to null EffectiveCulture is set to <see cref="CultureInfo.CurrentCulture"/> if there is a translation for it in <see cref="Cultures"/>
+        /// If setting to null CurrentCulture is set to <see cref="CultureInfo.CurrentCulture"/> if there is a translation for it in <see cref="Cultures"/>
         /// </summary>
-        public static CultureInfo CurrentCulture
+        public static CultureInfo Culture
         {
             get
             {
-                return currentCulture;
+                return culture;
             }
 
             set
             {
-                if (CultureInfoComparer.ByName.Equals(currentCulture, value))
+                if (CultureInfoComparer.ByName.Equals(culture, value))
                 {
                     return;
                 }
 
                 if (value != null && !value.IsInvariant() && !ContainsCulture(value))
                 {
-                    if (!allCultures.Any(c => Culture.TwoLetterIsoLanguageNameEquals(c, value)))
+                    if (!allCultures.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, value)))
                     {
                         var message = "Can only set culture to an existing culture.\r\n" +
                                       $"Check the property {nameof(Cultures)} for a list of valid cultures.";
@@ -51,22 +50,22 @@
                     }
                 }
 
-                currentCulture = value;
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(CurrentCulture)));
-                EffectiveCulture = GetEffectiveCulture(currentCulture);
+                culture = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Culture)));
+                CurrentCulture = GetEffectiveCulture(culture);
             }
         }
 
         /// <summary>
         /// Gets the culture that is used when translating.
         /// Uses a fallback mechanism:
-        /// 1) CurrentCulture if not null.
+        /// 1) Culture if not null.
         /// 2) Any Culture in <see cref="Cultures"/> matching <see cref="CultureInfo.CurrentCulture"/> by name.
         /// 3) Any Culture in <see cref="Cultures"/> matching <see cref="CultureInfo.CurrentCulture"/> by name.
         /// 4) CultureInfo.InvariantCulture
         /// </summary>
         /// <returns>The effective culture.</returns>
-        public static CultureInfo EffectiveCulture
+        public static CultureInfo CurrentCulture
         {
             get
             {
@@ -75,23 +74,23 @@
 
             private set
             {
-                if (Culture.NameEquals(value, effectiveCulture))
+                if (Localization.Culture.NameEquals(value, effectiveCulture))
                 {
                     return;
                 }
 
                 effectiveCulture = value;
                 OnCurrentCultureChanged(value);
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(EffectiveCulture)));
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(CurrentCulture)));
             }
         }
 
-        /// <summary>Check if <see cref="Cultures"/> contains a culture matching <paramref name="culture"/>.</summary>
-        /// <param name="culture">The culture to test.</param>
-        /// <returns>True if <see cref="Cultures"/> contains a match for <paramref name="culture"/></returns>
-        public static bool ContainsCulture(CultureInfo culture)
+        /// <summary>Check if <see cref="Cultures"/> contains a culture matching <paramref name="language"/>.</summary>
+        /// <param name="language">The culture to test.</param>
+        /// <returns>True if <see cref="Cultures"/> contains a match for <paramref name="language"/></returns>
+        public static bool ContainsCulture(CultureInfo language)
         {
-            if (culture == null)
+            if (language == null)
             {
                 return false;
             }
@@ -101,27 +100,27 @@
                 return false;
             }
 
-            return allCultures?.Contains(culture) == true ||
-                   allCultures?.Any(c => Culture.TwoLetterIsoLanguageNameEquals(c, culture)) == true;
+            return allCultures?.Contains(language) == true ||
+                   allCultures?.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, language)) == true;
         }
 
         private static CultureInfo GetEffectiveCulture(CultureInfo cultureInfo)
         {
             if (cultureInfo == null)
             {
-                return allCultures?.FirstOrDefault(c => Culture.NameEquals(c, CultureInfo.CurrentCulture)) ??
-                       allCultures?.FirstOrDefault(c => Culture.TwoLetterIsoLanguageNameEquals(c, CultureInfo.CurrentCulture)) ??
+                return allCultures?.FirstOrDefault(c => Localization.Culture.NameEquals(c, CultureInfo.CurrentCulture)) ??
+                       allCultures?.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, CultureInfo.CurrentCulture)) ??
                        CultureInfo.InvariantCulture;
             }
 
-            return allCultures?.FirstOrDefault(c => Culture.NameEquals(c, cultureInfo)) ??
-                   allCultures?.FirstOrDefault(c => Culture.TwoLetterIsoLanguageNameEquals(c, cultureInfo)) ??
+            return allCultures?.FirstOrDefault(c => Localization.Culture.NameEquals(c, cultureInfo)) ??
+                   allCultures?.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, cultureInfo)) ??
                    CultureInfo.InvariantCulture;
         }
 
         private static void OnCurrentCultureChanged(CultureInfo e)
         {
-            EffectiveCultureChanged?.Invoke(null, new CultureChangedEventArgs(e));
+            CurrentCultureChanged?.Invoke(null, new CultureChangedEventArgs(e));
         }
 
         private static SortedSet<CultureInfo> GetAllCultures()

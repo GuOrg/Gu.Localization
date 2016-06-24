@@ -12,7 +12,7 @@ namespace Gu.Localization.Tests
         [Test]
         public void GetOrCreateResourceManagerAndKeyCaches1()
         {
-            Translator.CurrentCulture = new CultureInfo("sv");
+            Translator.Culture = new CultureInfo("sv");
             var translation1 = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
             var translation2 = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
             Assert.AreSame(translation1, translation2);
@@ -21,7 +21,7 @@ namespace Gu.Localization.Tests
         [Test]
         public void GetOrCreateResourceManagerAndKeyCaches2()
         {
-            Translator.CurrentCulture = new CultureInfo("sv");
+            Translator.Culture = new CultureInfo("sv");
             var translation1 = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages), ErrorHandling.ReturnErrorInfo);
             var translation2 = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages), ErrorHandling.ReturnErrorInfo);
             Assert.AreSame(translation1, translation2);
@@ -40,7 +40,7 @@ namespace Gu.Localization.Tests
         [Test]
         public void GetOrCreateResourceManagerAndKeyThrowsForMissing()
         {
-            Translator.CurrentCulture = new CultureInfo("sv");
+            Translator.Culture = new CultureInfo("sv");
             var exception = Assert.Throws<ArgumentOutOfRangeException>(()=> Translation.GetOrCreate(Properties.Resources.ResourceManager, "Missing"));
             var expected = "The resourcemanager: Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\n" +
                            "Parameter name: key";
@@ -50,16 +50,16 @@ namespace Gu.Localization.Tests
         [Test]
         public void NotifiesAndTranslatesWhenLanguageChanges()
         {
-            Translator.CurrentCulture = new CultureInfo("sv");
+            Translator.Culture = new CultureInfo("sv");
             var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
             var changes = new List<string>();
             translation.PropertyChanged += (_, e) => changes.Add(e.PropertyName);
 
-            Translator.CurrentCulture = new CultureInfo("en");
+            Translator.Culture = new CultureInfo("en");
             Assert.AreEqual("English", translation.Translated);
             CollectionAssert.AreEqual(new[] { nameof(Translation.Translated) }, changes);
 
-            Translator.CurrentCulture = new CultureInfo("sv");
+            Translator.Culture = new CultureInfo("sv");
             Assert.AreEqual("Svenska", translation.Translated);
             CollectionAssert.AreEqual(new[] { nameof(Translation.Translated), nameof(Translation.Translated) }, changes);
         }
@@ -71,7 +71,7 @@ namespace Gu.Localization.Tests
         {
             var cultureInfo = CultureInfo.GetCultureInfo(culture);
             var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, key, ErrorHandling.ReturnErrorInfo);
-            Translator.CurrentCulture = cultureInfo;
+            Translator.Culture = cultureInfo;
             var actual = translation.Translated;
             Assert.AreEqual(expected, actual);
         }

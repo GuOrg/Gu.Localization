@@ -36,7 +36,7 @@ namespace Gu.Wpf.Localization
         {
             if (Is.DesignMode && e.NewValue != null)
             {
-                Translator.CurrentCulture = (CultureInfo)e.NewValue;
+                Translator.Culture = (CultureInfo)e.NewValue;
             }
         }
     }

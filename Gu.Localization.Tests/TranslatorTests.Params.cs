@@ -19,11 +19,11 @@
 ////                                         : CultureInfo.InvariantCulture;
 ////                var key = nameof(Properties.Resources.ValidFormat__0__1__2__);
 
-////                Translator.CurrentCulture = culture;
+////                Translator.Culture = culture;
 ////                var actual = Translator.Translate(Properties.Resources.ResourceManager, key, arg0, arg1, arg2);
 ////                Assert.AreEqual(expected, actual);
 
-////                Translator.CurrentCulture = null;
+////                Translator.Culture = null;
 ////                actual = Translator.Translate(Properties.Resources.ResourceManager, key, culture, arg0, arg1, arg2);
 ////                Assert.AreEqual(expected, actual);
 ////            }
@@ -37,11 +37,11 @@
 ////                                         : CultureInfo.InvariantCulture;
 ////                var key = nameof(Properties.Resources.InvalidFormat__0__);
 
-////                Translator.CurrentCulture = culture;
+////                Translator.Culture = culture;
 ////                var actual = Assert.Throws<FormatException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, arg0, arg1, arg2));
 ////                Assert.AreEqual(expected, actual.Message);
 
-////                Translator.CurrentCulture = null;
+////                Translator.Culture = null;
 ////                actual = Assert.Throws<FormatException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, culture, arg0, arg1, arg2));
 ////                Assert.AreEqual(expected, actual.Message);
 ////            }
@@ -56,12 +56,12 @@
 ////                var key = nameof(Properties.Resources.InvalidFormat__0__);
 
 ////                Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
-////                Translator.CurrentCulture = culture;
+////                Translator.Culture = culture;
 ////                var actual = Translator.Translate(Properties.Resources.ResourceManager, key, arg0, arg1, arg2);
 ////                Assert.AreEqual(expected, actual);
 
 ////                Translator.ErrorHandling = ErrorHandling.Throw;
-////                Translator.CurrentCulture = null;
+////                Translator.Culture = null;
 ////                actual = Translator.Translate(Properties.Resources.ResourceManager, key, culture, ErrorHandling.ReturnErrorInfo, arg0, arg1, arg2);
 ////                Assert.AreEqual(expected, actual);
 ////            }

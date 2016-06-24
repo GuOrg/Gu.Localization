@@ -38,10 +38,10 @@
         /// </summary>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
-        /// <returns>The key translated to the <see cref="EffectiveCulture"/></returns>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
         public static string Translate(ResourceManager resourceManager, string key)
         {
-            return Translate(resourceManager, key, EffectiveCulture);
+            return Translate(resourceManager, key, CurrentCulture);
         }
 
         /// <summary>
@@ -50,10 +50,10 @@
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
         /// <param name="errorHandling">Specifies how error handling is performed.</param>
-        /// <returns>The key translated to the <see cref="EffectiveCulture()"/></returns>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
         public static string Translate(ResourceManager resourceManager, string key, ErrorHandling errorHandling)
         {
-            return Translate(resourceManager, key, CurrentCulture, errorHandling);
+            return Translate(resourceManager, key, Culture, errorHandling);
         }
 
         /// <summary>
