@@ -28,12 +28,12 @@ namespace Gu.Localization.Tests
                                                                                          "Fix by either of:\r\n" +
                                                                                          "  - Add a resource file for the culture it\r\n" +
                                                                                          "  - If falling back to neutral is desired specify ErrorHandling.ReturnErrorInfoPreserveNeutral\r\n" +
-                                                                                         "Parameter name: culture");
+                                                                                         "Parameter name: language");
             this.Add(nameof(Properties.Resources.NeutralOnly), It, ErrorHandling.Throw, "The resourcemanager Gu.Localization.Tests.Properties.Resources does not have a translation for the culture: it\r\n" +
                                                                                         "Fix by either of:\r\n" +
                                                                                         "  - Add a resource file for the culture it\r\n" +
-                                                                                        "  - If falling back to neutral is desired specify ErrorHandling.ReturnErrorInfoPreserveNeutral\r\n" + 
-                                                                                        "Parameter name: culture");
+                                                                                        "  - If falling back to neutral is desired specify ErrorHandling.ReturnErrorInfoPreserveNeutral\r\n" +
+                                                                                        "Parameter name: language");
         }
 
         private void Add(string key, CultureInfo culture, ErrorHandling errorHandling, string expected)

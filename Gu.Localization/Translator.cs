@@ -61,11 +61,11 @@
         /// </summary>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
-        /// <param name="culture">The culture, if null CultureInfo.InvariantCulture is used</param>
-        /// <returns>The key translated to the <paramref name="culture"/></returns>
-        public static string Translate(ResourceManager resourceManager, string key, CultureInfo culture)
+        /// <param name="language">The culture, if null CultureInfo.InvariantCulture is used</param>
+        /// <returns>The key translated to the <paramref name="language"/></returns>
+        public static string Translate(ResourceManager resourceManager, string key, CultureInfo language)
         {
-            return Translate(resourceManager, key, culture, ErrorHandling);
+            return Translate(resourceManager, key, language, ErrorHandling);
         }
 
         /// <summary>
@@ -73,33 +73,28 @@
         /// </summary>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
-        /// <param name="culture">The culture, if null CultureInfo.InvariantCulture is used</param>
+        /// <param name="language">The culture, if null CultureInfo.InvariantCulture is used</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
-        /// <returns>The key translated to the <paramref name="culture"/></returns>
+        /// <returns>The key translated to the <paramref name="language"/></returns>
         public static string Translate(
             ResourceManager resourceManager,
             string key,
-            CultureInfo culture,
+            CultureInfo language,
             ErrorHandling errorHandling)
         {
             string result;
-            TryTranslateOrThrow(resourceManager, key, culture, errorHandling, out result);
+            TryTranslateOrThrow(resourceManager, key, language, errorHandling, out result);
             return result;
         }
 
         private static bool TryTranslateOrThrow(
             ResourceManager resourceManager,
             string key,
-            CultureInfo culture,
+            CultureInfo language,
             ErrorHandling errorHandling,
             out string result)
         {
-            if (errorHandling == ErrorHandling.Inherit)
-            {
-                errorHandling = ErrorHandling == ErrorHandling.Inherit
-                                    ? ErrorHandling.ReturnErrorInfoPreserveNeutral
-                                    : ErrorHandling;
-            }
+            errorHandling = errorHandling.Coerce();
 
             if (resourceManager == null)
             {
@@ -123,30 +118,30 @@
                 return false;
             }
 
-            if (culture != null &&
-                !culture.IsInvariant() &&
-                allCultures.Contains(culture) == false)
+            if (language != null &&
+                !language.IsInvariant() &&
+                allCultures.Contains(language) == false)
             {
-                if (resourceManager.HasCulture(culture))
+                if (resourceManager.HasCulture(language))
                 {
                     if (allCultures == null)
                     {
                         allCultures = new SortedSet<CultureInfo>(CultureInfoComparer.ByName);
                     }
 
-                    allCultures.Add(culture);
+                    allCultures.Add(language);
                 }
             }
 
-            if (!resourceManager.HasCulture(culture))
+            if (!resourceManager.HasCulture(language))
             {
                 if (errorHandling == ErrorHandling.Throw)
                 {
-                    var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the culture: {culture?.Name ?? "null"}\r\n" +
+                    var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the culture: {language?.Name ?? "null"}\r\n" +
                                    "Fix by either of:\r\n" +
-                                  $"  - Add a resource file for the culture {culture?.Name ?? "null"}\r\n" +
+                                  $"  - Add a resource file for the culture {language?.Name ?? "null"}\r\n" +
                                   $"  - If falling back to neutral is desired specify {typeof(ErrorHandling).Name}.{nameof(ErrorHandling.ReturnErrorInfoPreserveNeutral)}";
-                    throw new ArgumentOutOfRangeException(nameof(culture), message);
+                    throw new ArgumentOutOfRangeException(nameof(language), message);
                 }
 
                 if (resourceManager.HasKey(key, CultureInfo.InvariantCulture))
@@ -169,15 +164,15 @@
                 return false;
             }
 
-            if (!resourceManager.HasKey(key, culture))
+            if (!resourceManager.HasKey(key, language))
             {
                 if (resourceManager.HasKey(key, CultureInfo.InvariantCulture))
                 {
                     if (errorHandling == ErrorHandling.Throw)
                     {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {culture?.Name}\r\n" +
+                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {language?.Name}\r\n" +
                                        "Fix by either of:\r\n" +
-                                      $"  - Add a translation for the key '{key}' for the culture '{culture?.Name ?? "null"}'\r\n" +
+                                      $"  - Add a translation for the key '{key}' for the culture '{language?.Name ?? "null"}'\r\n" +
                                       $"  - If falling back to neutral is desired specify {typeof(ErrorHandling).Name}.{nameof(ErrorHandling.ReturnErrorInfoPreserveNeutral)}";
                         throw new ArgumentOutOfRangeException(nameof(key), message);
                     }
@@ -207,22 +202,13 @@
                 return false;
             }
 
-            result = resourceManager.GetString(key, culture);
+            result = resourceManager.GetString(key, language);
             return true;
         }
 
         private static bool ShouldThrow(ErrorHandling errorHandling)
         {
-            if (errorHandling == ErrorHandling.Inherit)
-            {
-                errorHandling = ErrorHandling;
-            }
-
-            var shouldThrow =
-                errorHandling != ErrorHandling.ReturnErrorInfo &&
-                errorHandling != ErrorHandling.ReturnErrorInfoPreserveNeutral;
-
-            return shouldThrow;
+            return errorHandling.Coerce() == ErrorHandling.Throw;
         }
     }
 }

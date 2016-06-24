@@ -4,6 +4,7 @@
     using System.Collections.Concurrent;
     using System.ComponentModel;
     using System.Globalization;
+    using System.Linq;
     using System.Resources;
     using System.Runtime.CompilerServices;
 
@@ -12,7 +13,7 @@
     public partial class Translation : ITranslation
     {
         private static readonly PropertyChangedEventArgs TranslatedPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Translated));
-        private static readonly ConcurrentDictionary<ResourceManagerAndKey, Translation> Cache = new ConcurrentDictionary<ResourceManagerAndKey, Translation>();
+        private static readonly ConcurrentDictionary<ResourceManagerAndKey, ITranslation> Cache = new ConcurrentDictionary<ResourceManagerAndKey, ITranslation>();
 
         private readonly ResourceManager resourceManager;
         private readonly CachedTranslation cachedTranslation;
@@ -21,7 +22,7 @@
         {
             Translator.CurrentCultureChanged += (_, c) =>
                 {
-                    foreach (var translation in Cache.Values)
+                    foreach (var translation in Cache.Values.OfType<Translation>())
                     {
                         translation.OnCurrentCultureChanged(c.Culture);
                     }
@@ -30,11 +31,6 @@
 
         private Translation(ResourceManager resourceManager, string key, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
-            if (!resourceManager.HasKey(key))
-            {
-                throw new ArgumentOutOfRangeException(nameof(key), $"The resourcemanager: {resourceManager.BaseName} does not have the key: {key}");
-            }
-
             this.resourceManager = resourceManager;
             this.Key = key;
             this.ErrorHandling = errorHandling;
@@ -55,6 +51,8 @@
 
         /// <summary>
         /// Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey))
+        /// If <paramref name="resourceManager"/> contains the resource <paramref name="key"/> an <see cref="Translation"/> is returned.
+        /// If not a static translation is returned if errorhandling is not throw.
         /// </summary>
         /// <param name="resourceManager">
         /// The resourcemanager with the key
@@ -62,15 +60,18 @@
         /// <param name="key">
         /// The key to translate
         /// </param>
-        /// <param name="errorHandling">Specifies how errors are handled.</param>
-        /// <returns>A <see cref="Translation"/> that notifies when <see cref="Translator.Culture"/> changes</returns>
-        public static Translation GetOrCreate(ResourceManager resourceManager, string key, ErrorHandling errorHandling = ErrorHandling.Inherit)
+        /// <param name="errorHandlingStrategy">Specifies how errors are handled.</param>
+        /// <returns>
+        /// A <see cref="Translation"/> that notifies when <see cref="Translator.Culture"/> changes.
+        /// </returns>
+        public static ITranslation GetOrCreate(ResourceManager resourceManager, string key, ErrorHandling errorHandlingStrategy = ErrorHandling.Inherit)
         {
             Ensure.NotNull(resourceManager, nameof(resourceManager));
             Ensure.NotNull(key, nameof(key));
 
-            var rmk = new ResourceManagerAndKey(resourceManager, key, errorHandling);
-            return Cache.GetOrAdd(rmk, x => new Translation(x.ResourceManager, x.Key, errorHandling));
+            errorHandlingStrategy = errorHandlingStrategy.Coerce();
+            var rmk = new ResourceManagerAndKey(resourceManager, key, errorHandlingStrategy);
+            return Cache.GetOrAdd(rmk, x => CreateTranslation(x.ResourceManager, x.Key, errorHandlingStrategy));
         }
 
         /// <inheritdoc />
@@ -95,6 +96,21 @@
             {
                 this.PropertyChanged?.Invoke(this, TranslatedPropertyChangedEventArgs);
             }
+        }
+
+        private static ITranslation CreateTranslation(ResourceManager resourceManager, string key, ErrorHandling errorHandling)
+        {
+            if (resourceManager.HasKey(key))
+            {
+                return new Translation(resourceManager, key, errorHandling);
+            }
+
+            if (errorHandling == ErrorHandling.Throw)
+            {
+                throw new ArgumentOutOfRangeException(nameof(key), $"The resourcemanager: {resourceManager.BaseName} does not have the key: {key}");
+            }
+
+            return new StaticTranslation(string.Format(Properties.Resources.MissingKeyFormat, key), key, errorHandling);
         }
 
         private class CachedTranslation

@@ -131,7 +131,7 @@
         /// <param name="key">The key</param>
         /// <param name="errorHandling">Specifies how errors are handled.</param>
         /// <returns>A <see cref="Translation"/></returns>
-        public static Translation GetOrCreateTranslation(string key, ErrorHandling errorHandling = ErrorHandling.Inherit)
+        public static ITranslation GetOrCreateTranslation(string key, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             return Translation.GetOrCreate(ResourceManager, key, errorHandling);
         }

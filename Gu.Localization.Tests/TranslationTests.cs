@@ -27,24 +27,49 @@ namespace Gu.Localization.Tests
             Assert.AreSame(translation1, translation2);
             Assert.AreEqual(ErrorHandling.ReturnErrorInfo, translation1.ErrorHandling);
 
+            Translator.ErrorHandling = ErrorHandling.Throw;
             var translation3 = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages), ErrorHandling.Inherit);
             Assert.AreNotSame(translation1, translation3);
-            Assert.AreEqual(ErrorHandling.Inherit, translation3.ErrorHandling);
+            Assert.AreEqual(ErrorHandling.Throw, translation3.ErrorHandling);
 
             var translation4 = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages), ErrorHandling.Throw);
             Assert.AreNotSame(translation1, translation4);
-            Assert.AreNotSame(translation3, translation4);
+            Assert.AreSame(translation3, translation4);
             Assert.AreEqual(ErrorHandling.Throw, translation4.ErrorHandling);
         }
 
         [Test]
-        public void GetOrCreateResourceManagerAndKeyThrowsForMissing()
+        public void GetOrCreateThrowsForMissing()
         {
             Translator.Culture = new CultureInfo("sv");
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(()=> Translation.GetOrCreate(Properties.Resources.ResourceManager, "Missing"));
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translation.GetOrCreate(Properties.Resources.ResourceManager, "Missing", ErrorHandling.Throw));
             var expected = "The resourcemanager: Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\n" +
                            "Parameter name: key";
             Assert.AreEqual(expected, exception.Message);
+
+            Translator.ErrorHandling = ErrorHandling.Throw;
+            exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translation.GetOrCreate(Properties.Resources.ResourceManager, "Missing", ErrorHandling.Inherit));
+            Assert.AreEqual(expected, exception.Message);
+        }
+
+        [Test]
+        public void GetOrCreateReturnsStaticIfMissing()
+        {
+            Translator.Culture = new CultureInfo("sv");
+            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, "Missing", ErrorHandling.ReturnErrorInfo);
+            Assert.IsInstanceOf<StaticTranslation>(translation);
+            Assert.AreEqual("!Missing!", translation.Translated);
+            Assert.AreEqual("!Missing!", translation.Translate(CultureInfo.GetCultureInfo("it")));
+            Assert.AreEqual("Missing", translation.Key);
+            Assert.AreEqual(ErrorHandling.ReturnErrorInfo, translation.ErrorHandling);
+
+            Translator.ErrorHandling = ErrorHandling.ReturnErrorInfoPreserveNeutral;
+            translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, "Missing", ErrorHandling.Inherit);
+            Assert.IsInstanceOf<StaticTranslation>(translation);
+            Assert.AreEqual("!Missing!", translation.Translated);
+            Assert.AreEqual("!Missing!", translation.Translate(CultureInfo.GetCultureInfo("it")));
+            Assert.AreEqual("Missing", translation.Key);
+            Assert.AreEqual(ErrorHandling.ReturnErrorInfoPreserveNeutral, translation.ErrorHandling);
         }
 
         [Test]
