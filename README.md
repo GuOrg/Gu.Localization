@@ -101,7 +101,7 @@ The static properties support binding. Use this XAML for a twoway binding:
 ```
 
 # 2. Usage in code.
-## 2.1. Translator.
+
 The API is not super clean, introducing a helper like this can clean things up a bit.
 
 Creating it like the above is pretty verbose. Introducing a helper like below can help some.
@@ -133,6 +133,8 @@ namespace YourNamespace.Properties
     }
 }
 ```
+
+## 2.1. Translator.
 
 ### 2.1.1. Culture.
 Get or set the current culture. The default is `null`
