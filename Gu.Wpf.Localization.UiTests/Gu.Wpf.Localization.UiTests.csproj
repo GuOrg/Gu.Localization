@@ -39,6 +39,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Xaml" />
+    <Reference Include="UIAutomationClient" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
@@ -49,10 +50,12 @@
     </When>
   </Choose>
   <ItemGroup>
-    <Compile Include="StartInfo.cs" />
+    <Compile Include="Helpers\StartInfo.cs" />
+    <Compile Include="Helpers\UiItemExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Todo.cs" />
-    <Compile Include="Translates.cs" />
+    <Compile Include="TranslatesDemoProject.cs" />
+    <Compile Include="TranslatesWithNeutralLanguage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />

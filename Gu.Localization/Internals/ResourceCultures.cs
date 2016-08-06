@@ -5,6 +5,8 @@
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
+    using System.Resources;
 
     /// <summary>Utility class for finding resources.</summary>
     internal static class ResourceCultures
@@ -17,7 +19,7 @@
         /// 2) Check that the folder contains resource files
         /// The result is not cached
         /// </summary>
-        /// <param name="executingDirectory">The directory to chek</param>
+        /// <param name="executingDirectory">The directory to check</param>
         /// <returns>The cultures found. If none an empty list is returned.</returns>
         internal static IReadOnlyList<CultureInfo> GetAllCultures(DirectoryInfo executingDirectory)
         {
@@ -26,8 +28,8 @@
                 return EmptyCultures;
             }
 
-            List<CultureInfo> cultures = null;
-            foreach (var directory in executingDirectory.EnumerateDirectories())
+            HashSet<CultureInfo> cultures = null;
+            foreach (var directory in executingDirectory.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
             {
                 var cultureName = directory.Name;
                 if (!Culture.Exists(directory.Name))
@@ -37,16 +39,37 @@
 
                 if (directory.EnumerateFiles("*.resources.dll", SearchOption.TopDirectoryOnly).Any())
                 {
-                    if (cultures == null)
+                    CultureInfo culture;
+                    if (Culture.TryGet(cultureName, out culture))
                     {
-                        cultures = new List<CultureInfo>();
-                    }
+                        if (cultures == null)
+                        {
+                            cultures = new HashSet<CultureInfo>(CultureInfoComparer.ByName);
+                        }
 
-                    cultures.Add(CultureInfo.GetCultureInfo(cultureName));
+                        cultures.Add(culture);
+                    }
                 }
             }
 
-            return cultures ?? EmptyCultures;
+            var entryAssembly = Assembly.GetEntryAssembly();
+            if (entryAssembly != null)
+            {
+                var neutralLanguageAttribute = (NeutralResourcesLanguageAttribute)Attribute.GetCustomAttribute(entryAssembly, typeof(NeutralResourcesLanguageAttribute));
+                var name = neutralLanguageAttribute?.CultureName;
+                CultureInfo neutralCulture;
+                if (name != null && Culture.TryGet(name, out neutralCulture))
+                {
+                    if (cultures == null)
+                    {
+                        cultures = new HashSet<CultureInfo>(CultureInfoComparer.ByName);
+                    }
+
+                    cultures.Add(neutralCulture);
+                }
+            }
+
+            return cultures?.OrderBy(x => x.Name).ToArray() ?? EmptyCultures;
         }
 
         internal static DirectoryInfo DefaultResourceDirectory()

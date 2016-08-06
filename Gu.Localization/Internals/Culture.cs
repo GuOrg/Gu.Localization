@@ -18,6 +18,18 @@ namespace Gu.Localization
             return CultureNames.Contains(name);
         }
 
+        internal static bool TryGet(string name, out CultureInfo culture)
+        {
+            if (Exists(name))
+            {
+                culture = CultureInfo.GetCultureInfo(name);
+                return true;
+            }
+
+            culture = null;
+            return false;
+        }
+
         internal static bool NameEquals(CultureInfo first, CultureInfo other)
         {
             return CultureInfoComparer.ByName.Equals(first, other);

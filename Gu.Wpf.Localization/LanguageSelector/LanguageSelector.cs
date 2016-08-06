@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
+    using System.Globalization;
     using System.Linq;
     using System.Resources;
     using System.Windows;
@@ -28,7 +29,7 @@
                 default(bool),
                 OnAutoGenerateLanguagesChanged));
 
-        private static readonly IReadOnlyDictionary<string, string> FlagNameResourceMap;
+        private static readonly IReadOnlyDictionary<CultureInfo, string> FlagNameResourceMap;
 
         private bool disposed = false;
 
@@ -38,18 +39,22 @@
             var assembly = typeof(LanguageSelector).Assembly;
             var names = assembly.GetManifestResourceNames();
             var match = names.Single(x => x.EndsWith(".g.resources"));
+            Debug.Assert(match != null, "match != null");
 
-            //// ReSharper disable once AssignNullToNotNullAttribute not null here
             using (var reader = new ResourceReader(assembly.GetManifestResourceStream(match)))
             {
-                var flags = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                var flags = new Dictionary<CultureInfo, string>(CultureInfoComparer.ByName);
                 var enumerator = reader.GetEnumerator();
                 while (enumerator.MoveNext())
                 {
-                    var flag = (string)enumerator.Key;
-                    Debug.Assert(flag != null, "flag == null");
-                    //// ReSharper disable once AssignNullToNotNullAttribute not null here
-                    flags.Add(System.IO.Path.GetFileNameWithoutExtension(flag), flag);
+                    var flagName = (string)enumerator.Key;
+                    Debug.Assert(flagName != null, "flag == null");
+                    var name = System.IO.Path.GetFileNameWithoutExtension(flagName);
+                    CultureInfo culture;
+                    if (Culture.TryGet(name, out culture))
+                    {
+                        flags.Add(culture, flagName);
+                    }
                 }
 
                 FlagNameResourceMap = flags;
@@ -134,14 +139,14 @@
 
                 foreach (var cultureInfo in Translator.Cultures)
                 {
-                    if (this.Languages.Any(x => Gu.Localization.Culture.NameEquals(x.Culture, cultureInfo)))
+                    if (this.Languages.Any(x => Culture.NameEquals(x.Culture, cultureInfo)))
                     {
                         continue;
                     }
 
                     var language = new Language(cultureInfo);
                     string flag;
-                    if (FlagNameResourceMap.TryGetValue(cultureInfo.TwoLetterISOLanguageName, out flag))
+                    if (FlagNameResourceMap.TryGetValue(cultureInfo, out flag))
                     {
                         var key = new Uri($"pack://application:,,,/{this.GetType().Assembly.GetName().Name};component/{flag}", UriKind.Absolute);
                         language.FlagSource = key;

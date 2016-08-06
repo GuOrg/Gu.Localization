@@ -8,7 +8,7 @@
     using TestStack.White.UIItems;
     using TestStack.White.UIItems.WindowItems;
 
-    public class Translates
+    public class TranslatesDemoProject
     {
         private Application application;
         private Window window;

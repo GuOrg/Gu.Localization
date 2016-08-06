@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{867813BE-358B-4C9E-9FA6-07168882AA9D}"
 	ProjectSection(SolutionItems) = preProject
@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{EFFBB24C-1
 		README.md = README.md
 		.paket\Readme.paket.md = .paket\Readme.paket.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.WithNeutralLanguage", "Gu.Wpf.Localization.WithNeutralLanguage\Gu.Wpf.Localization.WithNeutralLanguage.csproj", "{8F238B89-C06A-4935-8EE9-1E84D297DC4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +81,10 @@ Global
 		{24A5D9D2-60D8-47B7-8750-48E85A2218DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24A5D9D2-60D8-47B7-8750-48E85A2218DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24A5D9D2-60D8-47B7-8750-48E85A2218DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F238B89-C06A-4935-8EE9-1E84D297DC4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F238B89-C06A-4935-8EE9-1E84D297DC4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F238B89-C06A-4935-8EE9-1E84D297DC4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F238B89-C06A-4935-8EE9-1E84D297DC4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,5 +93,6 @@ Global
 		{85009EF0-C922-4EDB-9648-495B56B30CFC} = {7C464917-49E0-40F2-BB85-EB16977B87A5}
 		{A8722CC6-E477-43B6-A1A0-B7A062FBB290} = {7C464917-49E0-40F2-BB85-EB16977B87A5}
 		{D77D4706-D218-4DC6-B117-611AF843FED9} = {7C464917-49E0-40F2-BB85-EB16977B87A5}
+		{8F238B89-C06A-4935-8EE9-1E84D297DC4E} = {7C464917-49E0-40F2-BB85-EB16977B87A5}
 	EndGlobalSection
 EndGlobal
