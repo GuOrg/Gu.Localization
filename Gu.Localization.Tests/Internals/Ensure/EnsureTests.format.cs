@@ -1,4 +1,5 @@
-﻿namespace Gu.Localization.Tests.Internals
+﻿// ReSharper disable UnusedVariable
+namespace Gu.Localization.Tests.Internals
 {
     using System;
 

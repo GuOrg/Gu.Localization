@@ -1,2 +1,5 @@
-JetBrains.Annotations
-ModernUI.WPF
+group Analyzers
+  JetBrains.Annotations
+
+group Demo
+  ModernUI.WPF

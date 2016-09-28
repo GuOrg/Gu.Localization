@@ -1,9 +1,21 @@
 source http://www.nuget.org/api/v2/
 framework: >= net4.5
 
-nuget Moq
-nuget NUnit
-nuget TestStack.White
-nuget JetBrains.Annotations
-nuget StyleCop.Analyzers
-nuget ModernUI.WPF
+group Analyzers
+  source http://www.nuget.org/api/v2/
+  framework: >= net45
+  nuget StyleCop.Analyzers
+  nuget WpfAnalyzers
+  nuget JetBrains.Annotations
+
+group Test
+  source http://www.nuget.org/api/v2/
+  framework: >= net45
+  nuget NUnit
+  nuget Moq
+  nuget TestStack.White
+
+group Demo
+  source http://www.nuget.org/api/v2/
+  framework: >= net45
+  nuget ModernUI.WPF

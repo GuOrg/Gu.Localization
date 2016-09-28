@@ -16,17 +16,7 @@ namespace Gu.Wpf.Localization
         internal static Type Resolve(this IServiceProvider serviceProvider, string qualifiedTypeName)
         {
             var xamlTypeResolver = serviceProvider.GetXamlTypeResolver();
-            if (xamlTypeResolver == null)
-            {
-                ////if (Is.DesignMode)
-                ////{
-                ////    Debugger.Break();
-                ////}
-
-                return null;
-            }
-
-            return xamlTypeResolver.Resolve(qualifiedTypeName);
+            return xamlTypeResolver?.Resolve(qualifiedTypeName);
         }
 
         private static IXamlTypeResolver GetXamlTypeResolver(this IServiceProvider provider)
@@ -37,12 +27,6 @@ namespace Gu.Wpf.Localization
         private static T GetService<T>(this IServiceProvider provider)
         {
             return (T)provider.GetService(typeof(T));
-        }
-
-        private static bool IsInTemplate(this IServiceProvider serviceProvider)
-        {
-            var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-            return target != null && !(target.TargetObject is DependencyObject);
         }
     }
 }

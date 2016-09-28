@@ -1,3 +1,6 @@
-JetBrains.Annotations
-Moq
-NUnit
+group Analyzers
+  JetBrains.Annotations
+
+group Test
+  Moq
+  NUnit

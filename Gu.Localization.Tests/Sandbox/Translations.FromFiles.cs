@@ -1,4 +1,5 @@
-﻿namespace Gu.Localization.Tests.Sandbox
+﻿// ReSharper disable AssignNullToNotNullAttribute
+namespace Gu.Localization.Tests.Sandbox
 {
     using System;
     using System.Collections;
@@ -99,56 +100,6 @@
                 }
 
                 return cultures ?? (IReadOnlyDictionary<CultureInfo, string>)EmptyReadOnlyDictionary<CultureInfo, string>.Default;
-            }
-
-            internal static IReadOnlyDictionary<CultureInfo, string> CulturesAndFileNames(DirectoryInfo executingDirectory)
-            {
-                throw new NotImplementedException("message");
-                //if (!executingDirectory.Exists)
-                //{
-                //    return EmptyReadOnlyDictionary<CultureInfo, string>.Default;
-                //}
-
-                //var resourcePattern = $"{System.IO.Path.GetFileNameWithoutExtension(assemblyPath)}.resources.dll";
-                //var directories = Directory.EnumerateDirectories(directoryName).ToArray();
-                //Dictionary<CultureInfo, string> culturesAndFiles = null;
-                //foreach (var directory in directories)
-                //{
-                //    CultureInfo culture;
-                //    string fileName;
-                //    if (TryGetCultureAndFile(directory, resourcePattern, out culture, out fileName))
-                //    {
-                //        if (culturesAndFiles == null)
-                //        {
-                //            culturesAndFiles = new Dictionary<CultureInfo, string>();
-                //        }
-
-                //        culturesAndFiles.Add(culture, fileName);
-                //    }
-                //}
-
-                //return culturesAndFiles ?? (IReadOnlyDictionary<CultureInfo, string>)EmptyReadOnlyDictionary<CultureInfo, string>.Default;
-            }
-
-            private static bool TryGetCultureAndFile(string directory, string searchPattern, out CultureInfo culture, out string fileName)
-            {
-                var folderName = System.IO.Path.GetFileName(directory);
-                if (!Culture.Exists(folderName))
-                {
-                    culture = null;
-                    fileName = null;
-                    return false;
-                }
-
-                fileName = Directory.EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly).SingleOrDefault();
-                if (fileName == null)
-                {
-                    culture = null;
-                    return false;
-                }
-
-                culture = CultureInfo.GetCultureInfo(folderName);
-                return true;
             }
 
             private static string FindResourceName(Assembly assembly)

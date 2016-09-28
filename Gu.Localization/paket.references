@@ -1,2 +1,4 @@
-JetBrains.Annotations
-StyleCop.Analyzers
+group Analyzers
+  StyleCop.Analyzers
+  WpfAnalyzers
+  JetBrains.Annotations

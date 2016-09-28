@@ -1,4 +1,6 @@
 ﻿using System.IO;
+// ReSharper disable UnusedVariable
+// ReSharper disable AssignNullToNotNullAttribute
 
 namespace Gu.Localization.Tests.Sandbox
 {
@@ -48,7 +50,7 @@ namespace Gu.Localization.Tests.Sandbox
             var directories = Directory.EnumerateDirectories(System.IO.Path.GetDirectoryName(uri.LocalPath)).ToArray();
             foreach (var directory in directories)
             {
-                Directory.EnumerateFiles(directory, resourceName, SearchOption.TopDirectoryOnly).Any();
+                var count = Directory.EnumerateFiles(directory, resourceName, SearchOption.TopDirectoryOnly).Count();
             }
 #if DEBUG
             Console.WriteLine($"Getting {directories.Length} cultures took {sw.Elapsed.TotalMilliseconds.ToString("F2")} ms");

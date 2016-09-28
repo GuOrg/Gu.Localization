@@ -41,6 +41,7 @@
             var match = names.Single(x => x.EndsWith(".g.resources"));
             Debug.Assert(match != null, "match != null");
 
+            // ReSharper disable once AssignNullToNotNullAttribute
             using (var reader = new ResourceReader(assembly.GetManifestResourceStream(match)))
             {
                 var flags = new Dictionary<CultureInfo, string>(CultureInfoComparer.ByName);
