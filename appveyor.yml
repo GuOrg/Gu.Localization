@@ -1,5 +1,7 @@
 version: 1.0.{build}
 configuration: Release
 platform: Any CPU
+cache: .paket -> paket.lock
+cache: packages -> paket.lock
 build:
   verbosity: minimal
