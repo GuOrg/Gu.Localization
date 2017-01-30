@@ -36,7 +36,7 @@ namespace Gu.Localization.Tests.Sandbox
             Console.WriteLine($"Getting {files.Length} cultures took {sw.Elapsed.TotalMilliseconds.ToString("F2")} ms");
 #endif
 
-            //CollectionAssert.AreEqual(new[] { "de", "en", "sv" }, translations.Cultures.Select(x => x.TwoLetterISOLanguageName));
+            ////CollectionAssert.AreEqual(new[] { "de", "en", "sv" }, translations.Cultures.Select(x => x.TwoLetterISOLanguageName));
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace Gu.Localization.Tests.Sandbox
             Console.WriteLine($"Getting {directories.Length} cultures took {sw.Elapsed.TotalMilliseconds.ToString("F2")} ms");
 #endif
 
-            //CollectionAssert.AreEqual(new[] { "de", "en", "sv" }, translations.Cultures.Select(x => x.TwoLetterISOLanguageName));
+            ////CollectionAssert.AreEqual(new[] { "de", "en", "sv" }, translations.Cultures.Select(x => x.TwoLetterISOLanguageName));
         }
     }
 }

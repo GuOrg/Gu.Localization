@@ -157,7 +157,8 @@
             Assert.AreEqual("From Controls", textBlock.Text);
         }
 
-        [Test, Explicit(Todo.FixThisTest)]
+        [Test]
+        [Explicit(Todo.FixThisTest)]
         public void CustomControlOtherProject()
         {
             // Assert.Inconclusive("Can't get KeyInControls");

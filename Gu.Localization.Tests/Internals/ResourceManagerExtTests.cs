@@ -52,7 +52,7 @@
         }
 
         [TestCase(nameof(Properties.Resources.AllLanguages),  true)]
-        //[TestCase(nameof(Properties.Resources.EnglishOnly), false)]
+        [TestCase(nameof(Properties.Resources.EnglishOnly), true)]
         public void HasKeyInvariantAndNullCulture(string key, bool expected)
         {
             var resourceManager = Properties.Resources.ResourceManager;

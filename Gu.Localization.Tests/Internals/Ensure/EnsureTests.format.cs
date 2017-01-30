@@ -5,7 +5,7 @@ namespace Gu.Localization.Tests.Internals
 
     using NUnit.Framework;
 
-    public partial class EnsureTests
+    public class EnsureTests
     {
         public static FormatData[] Valids => new[]
                                           {
@@ -64,14 +64,15 @@ namespace Gu.Localization.Tests.Internals
 
         public class FormatData
         {
-            public readonly string Format;
-            public readonly object[] Args;
-
             public FormatData(string format, object[] args)
             {
                 this.Format = format;
                 this.Args = args;
             }
+
+            public string Format { get; }
+
+            public object[] Args { get; }
 
             public override string ToString()
             {
