@@ -27,7 +27,7 @@
             typeof(LanguageSelector),
             new PropertyMetadata(
                 default(bool),
-                OnAutoGenerateLanguagesChanged));
+                OnAutogenerateLanguagesChanged));
 
         private static readonly IReadOnlyDictionary<CultureInfo, string> FlagNameResourceMap;
 
@@ -107,7 +107,7 @@
             }
         }
 
-        private static void OnAutoGenerateLanguagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnAutogenerateLanguagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var languageSelector = (LanguageSelector)d;
             languageSelector.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(languageSelector.SyncLanguages));
