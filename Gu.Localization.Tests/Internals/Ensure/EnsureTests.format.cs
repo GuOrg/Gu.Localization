@@ -7,33 +7,6 @@ namespace Gu.Localization.Tests.Internals
 
     public partial class EnsureTests
     {
-        [TestCaseSource(nameof(Valids))]
-        public void FormatHappyPath(FormatData data)
-        {
-            Assert.DoesNotThrow(() => Ensure.Format(data.Format, data.Args, "format", "args"));
-        }
-
-        [TestCaseSource(nameof(Valids))]
-        public void FormatMatchesHappyPath(FormatData data)
-        {
-            Assert.True(Ensure.FormatMatches(data.Format, data.Args));
-        }
-
-        [TestCaseSource(nameof(InValids))]
-        public void FormatThrows(FormatData data)
-        {
-            var ex = Assert.Throws<ArgumentException>(() => Ensure.Format(data.Format, data.Args, "format", "args"));
-#if DEBUG
-            Console.WriteLine(ex.Message);
-#endif
-        }
-
-        [TestCaseSource(nameof(InValids))]
-        public void FormatDoesNotMatch(FormatData data)
-        {
-            Assert.False(Ensure.FormatMatches(data.Format, data.Args));
-        }
-
         public static FormatData[] Valids => new[]
                                           {
                                               new FormatData(@"some string", null),
@@ -61,6 +34,33 @@ namespace Gu.Localization.Tests.Internals
                         new FormatData("string with {0} parameter {1} in to places", new object[] { 1 }),
                         new FormatData("string with {0} parameter {1} in to places", new object[] { 1, 2, 3 }),
                     };
+
+        [TestCaseSource(nameof(Valids))]
+        public void FormatHappyPath(FormatData data)
+        {
+            Assert.DoesNotThrow(() => Ensure.Format(data.Format, data.Args, "format", "args"));
+        }
+
+        [TestCaseSource(nameof(Valids))]
+        public void FormatMatchesHappyPath(FormatData data)
+        {
+            Assert.True(Ensure.FormatMatches(data.Format, data.Args));
+        }
+
+        [TestCaseSource(nameof(InValids))]
+        public void FormatThrows(FormatData data)
+        {
+            var ex = Assert.Throws<ArgumentException>(() => Ensure.Format(data.Format, data.Args, "format", "args"));
+#if DEBUG
+            Console.WriteLine(ex.Message);
+#endif
+        }
+
+        [TestCaseSource(nameof(InValids))]
+        public void FormatDoesNotMatch(FormatData data)
+        {
+            Assert.False(Ensure.FormatMatches(data.Format, data.Args));
+        }
 
         public class FormatData
         {

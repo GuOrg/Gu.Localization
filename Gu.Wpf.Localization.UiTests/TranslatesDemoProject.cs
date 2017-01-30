@@ -46,7 +46,7 @@
         {
             var groupBox = this.window.Get<GroupBox>(AutomationIds.VanillaXamlGroupId);
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
-            Assert.AreEqual("", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual(string.Empty, groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
@@ -58,7 +58,7 @@
 
             this.window.Get<RadioButton>("en").Click();
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
-            Assert.AreEqual("", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual(string.Empty, groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
         }
@@ -104,7 +104,7 @@
             var groupBox = this.window.Get<GroupBox>(AutomationIds.DataTemplateGroupId);
 
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
-            Assert.AreEqual("", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual(string.Empty, groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
@@ -116,7 +116,7 @@
 
             this.window.Get<RadioButton>("en").Click();
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
-            Assert.AreEqual("", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual(string.Empty, groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
         }
@@ -127,7 +127,7 @@
             var groupBox = this.window.Get<GroupBox>(AutomationIds.UserControlSameProjectGroupId);
 
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
-            Assert.AreEqual("", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual(string.Empty, groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
 
@@ -139,7 +139,7 @@
 
             this.window.Get<RadioButton>("en").Click();
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.TranslatedToAllTextBlockId).Text);
-            Assert.AreEqual("", groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
+            Assert.AreEqual(string.Empty, groupBox.Get<Label>(AutomationIds.SwedishOnlyTextBlockId).Text);
             Assert.AreEqual("So neutral", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("English", groupBox.Get<Label>(AutomationIds.EnumTranslatedToAllTextBlockId).Text);
         }
@@ -190,7 +190,8 @@
             Assert.AreEqual("#BadFormat#", groupBox.Get<Label>(AutomationIds.BadFromatTextBlockId).Text);
         }
 
-        [Test, Explicit(Todo.FixThisTest)]
+        [Test]
+        [Explicit(Todo.FixThisTest)]
         public void NoTranslationsWithReturnErrorInfo()
         {
             // looks like the static extension is called before the ErrorInfo.Mode has trickled down.

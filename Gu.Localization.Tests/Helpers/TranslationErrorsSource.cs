@@ -17,9 +17,9 @@
             this.Add("Missing", Sv, ErrorHandling.ReturnErrorInfoPreserveNeutral, "!Missing!");
             this.Add(nameof(Properties.Resources.EnglishOnly), En, ErrorHandling.ReturnErrorInfo, "English");
             this.Add(nameof(Properties.Resources.EnglishOnly), En, ErrorHandling.ReturnErrorInfoPreserveNeutral, "English");
-            this.Add(nameof(Properties.Resources.EnglishOnly), Sv, ErrorHandling.ReturnErrorInfoPreserveNeutral, "");
+            this.Add(nameof(Properties.Resources.EnglishOnly), Sv, ErrorHandling.ReturnErrorInfoPreserveNeutral, string.Empty);
             this.Add(nameof(Properties.Resources.EnglishOnly), Sv, ErrorHandling.ReturnErrorInfo, "_EnglishOnly_");
-            this.Add(nameof(Properties.Resources.EnglishOnly), It, ErrorHandling.ReturnErrorInfoPreserveNeutral, "");
+            this.Add(nameof(Properties.Resources.EnglishOnly), It, ErrorHandling.ReturnErrorInfoPreserveNeutral, string.Empty);
             this.Add(nameof(Properties.Resources.EnglishOnly), It, ErrorHandling.ReturnErrorInfo, "~EnglishOnly~");
             this.Add(nameof(Properties.Resources.AllLanguages), En, ErrorHandling.ReturnErrorInfoPreserveNeutral, "English");
             this.Add(nameof(Properties.Resources.AllLanguages), En, ErrorHandling.ReturnErrorInfo, "English");
@@ -45,6 +45,7 @@
             }
 
             public string Key { get; }
+
             public CultureInfo Culture { get; }
 
             public ErrorHandling ErrorHandling { get; }

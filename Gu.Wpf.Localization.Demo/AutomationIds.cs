@@ -24,7 +24,6 @@
         public static readonly string BoundEffectiveCultureTextBlockId = Create();
         public static readonly string LoseFocusButtonId = Create();
 
-
         public static readonly string DataGridId = Create();
         public static readonly string TranslatedToAllTextBlockId = Create();
         public static readonly string EnumTranslatedToAllTextBlockId = Create();

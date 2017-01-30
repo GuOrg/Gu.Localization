@@ -11,7 +11,8 @@
     {
         public class Culture
         {
-            [Test, Explicit("Must be run separately due to static")]
+            [Test]
+            [Explicit("Must be run separately due to static")]
             public void InitializesToCurrentCulture()
             {
                 Assert.AreEqual(Translator.Culture.ThreeLetterISOLanguageName, CultureInfo.CurrentCulture.ThreeLetterISOLanguageName);

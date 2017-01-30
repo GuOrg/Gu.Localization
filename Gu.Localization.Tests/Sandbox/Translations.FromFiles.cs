@@ -95,7 +95,7 @@ namespace Gu.Localization.Tests.Sandbox
                             cultures = new Dictionary<CultureInfo, string>(CultureInfoComparer.ByName);
                         }
 
-                        cultures.Add(cultureInfo, "");
+                        cultures.Add(cultureInfo, string.Empty);
                     }
                 }
 

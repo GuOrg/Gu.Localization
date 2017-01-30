@@ -1,6 +1,5 @@
 ﻿namespace Gu.Wpf.Localization.Tests
 {
-    using System;
     using System.Linq;
     using System.Reflection;
     using System.Windows.Markup;
@@ -8,8 +7,9 @@
 
     public class NamespacesTests
     {
-        private Assembly assembly;
         private const string Uri = @"http://gu.se/Localization";
+
+        private Assembly assembly;
 
         [SetUp]
         public void SetUp()

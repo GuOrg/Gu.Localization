@@ -52,6 +52,7 @@ namespace Gu.Localization.Tests
             }
 
             public string Key { get; }
+
             public CultureInfo Culture { get; }
 
             public ErrorHandling ErrorHandling { get; }

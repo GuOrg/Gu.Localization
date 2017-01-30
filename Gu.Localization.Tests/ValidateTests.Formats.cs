@@ -55,7 +55,6 @@
                 Assert.IsFalse(Validate.IsValidFormat(format, 1, 2));
             }
 
-
             [TestCase("Hej", "Invalid format string: \"Hej\" for the arguments: 1, 2, 3.")]
             [TestCase("First: {1}", "Invalid format string: \"First: {1}\".")]
             [TestCase("First: {0}, second: {1}, third: {2} {3}", "Invalid format string: \"First: {0}, second: {1}, third: {2} {3}\" for the arguments: 1, 2, 3.")]

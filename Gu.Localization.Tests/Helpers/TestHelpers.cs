@@ -7,7 +7,7 @@
     {
         public static void ClearTranslationCache()
         {
-            var fieldInfo = typeof(Translation).GetField("Cache", BindingFlags.Static|BindingFlags.NonPublic);
+            var fieldInfo = typeof(Translation).GetField("Cache", BindingFlags.Static | BindingFlags.NonPublic);
             var cache = (IDictionary)fieldInfo.GetValue(null);
             cache.Clear();
         }

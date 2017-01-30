@@ -124,7 +124,7 @@
                 var errors = Validate.EnumTranslations<DummyEnum>(Properties.Resources.ResourceManager);
                 Assert.IsFalse(errors.IsEmpty);
                 CollectionAssert.AreEqual(new[] { DummyEnum.MissingTranslation.ToString() }, errors.Keys);
-                Assert.AreEqual("Key: MissingTranslation Missing for: { invariant, de, en, sv } ", errors.ToString("", " "));
+                Assert.AreEqual("Key: MissingTranslation Missing for: { invariant, de, en, sv } ", errors.ToString(string.Empty, " "));
             }
 
             [Test]
@@ -134,7 +134,7 @@
                 var errors = Validate.EnumTranslations<DummyEnum>(Properties.Resources.ResourceManager, cultures);
                 Assert.IsFalse(errors.IsEmpty);
                 CollectionAssert.AreEqual(new[] { DummyEnum.MissingTranslation.ToString() }, errors.Keys);
-                Assert.AreEqual("Key: MissingTranslation Missing for: { sv, en } ", errors.ToString("", " "));
+                Assert.AreEqual("Key: MissingTranslation Missing for: { sv, en } ", errors.ToString(string.Empty, " "));
             }
 
             [TestCase(nameof(Properties.Resources.AllLanguages))]

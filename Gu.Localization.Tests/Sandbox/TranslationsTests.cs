@@ -1,13 +1,12 @@
-﻿using System.IO;
-// ReSharper disable UnusedVariable
+﻿// ReSharper disable UnusedVariable
 // ReSharper disable AssignNullToNotNullAttribute
 
 namespace Gu.Localization.Tests.Sandbox
 {
     using System;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
-
     using NUnit.Framework;
 
     public class TranslationsTests
