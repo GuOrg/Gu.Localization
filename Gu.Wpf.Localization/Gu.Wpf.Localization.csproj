@@ -11,15 +11,7 @@
     <AssemblyName>Gu.Wpf.Localization</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
-    <NuGetPackageImportStamp>a518c47f</NuGetPackageImportStamp>
-    <!--<StyleCopOverrideSettingsFile>Settings.StyleCop</StyleCopOverrideSettingsFile>-->
-    <BuildToolsStyleCopVersion>4.7.44.0</BuildToolsStyleCopVersion>
     <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\..\Git\Kasta\Gu.Wpf.Localization\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

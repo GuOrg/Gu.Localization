@@ -39,6 +39,7 @@ namespace Gu.Localization.Tests.Sandbox
                 return FindCultureFileNames(new Uri(assembly.EscapedCodeBase, UriKind.Absolute));
             }
 
+            // ReSharper disable once UnusedMember.Local
             internal static IReadOnlyDictionary<string, string> ReadResourceSet(string filename)
             {
                 try
