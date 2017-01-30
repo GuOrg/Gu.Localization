@@ -1,5 +1,8 @@
 group Analyzers
   JetBrains.Annotations
+  Gu.Analyzers
+  StyleCop.Analyzers
+  WpfAnalyzers
 
 group Test
   Moq
