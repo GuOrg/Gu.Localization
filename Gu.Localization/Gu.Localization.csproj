@@ -46,6 +46,7 @@
     <Compile Include="Errors\FormatError.cs" />
     <Compile Include="Errors\TranslationErrors.cs" />
     <Compile Include="Errors\TranslationError.cs" />
+    <Compile Include="Internals\CachedEventArgs.cs" />
     <Compile Include="Internals\Culture.cs" />
     <Compile Include="Internals\CultureInfoComparer.cs" />
     <Compile Include="Internals\EmptyReadOnlyDictionary.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Internals\EnumerableExt.cs" />
     <Compile Include="FormatString.cs" />
     <Compile Include="Internals\ErrorHandlingExt.cs" />
+    <Compile Include="ObservableSortedSet.cs" />
     <Compile Include="Internals\ReadOnlySet.cs" />
     <Compile Include="Internals\ReadOnlySet{T}.cs" />
     <Compile Include="Internals\ResourceCultures.cs" />
@@ -87,6 +89,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json">
+      <Link>stylecop.json</Link>
+    </AdditionalFiles>
     <None Include="Gu.Localization.ruleset" />
     <None Include="paket.references" />
     <None Include="paket.template" />

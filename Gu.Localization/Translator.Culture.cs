@@ -9,7 +9,7 @@
 
     public static partial class Translator
     {
-        private static SortedSet<CultureInfo> allCultures = GetAllCultures();
+        private static readonly ObservableSortedSet<CultureInfo> AllCultures = new ObservableSortedSet<CultureInfo>(GetAllCultures(), CultureInfoComparer.ByName);
         private static CultureInfo culture;
         private static CultureInfo effectiveCulture;
 
@@ -19,8 +19,8 @@
         /// <summary>Notifies when the current language changes.</summary>
         public static event EventHandler<CultureChangedEventArgs> CurrentCultureChanged;
 
-        /// <summary> Gets a list with all cultures found for the application </summary>
-        public static IEnumerable<CultureInfo> Cultures => allCultures;
+        /// <summary> Gets a set with all cultures found for the application </summary>
+        public static ObservableSortedSet<CultureInfo> Cultures => AllCultures;
 
         /// <summary>
         /// Gets or sets the culture to translate to.
@@ -42,7 +42,7 @@
 
                 if (value != null && !value.IsInvariant() && !ContainsCulture(value))
                 {
-                    if (!allCultures.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, value)))
+                    if (!AllCultures.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, value)))
                     {
                         var message = "Can only set culture to an existing culture.\r\n" +
                                       $"Check the property {nameof(Cultures)} for a list of valid cultures.";
@@ -95,26 +95,26 @@
                 return false;
             }
 
-            if (allCultures == null || allCultures.Count == 0)
+            if (AllCultures == null || AllCultures.Count == 0)
             {
                 return false;
             }
 
-            return allCultures?.Contains(language) == true ||
-                   allCultures?.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, language)) == true;
+            return AllCultures?.Contains(language) == true ||
+                   AllCultures?.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, language)) == true;
         }
 
         private static CultureInfo GetEffectiveCulture(CultureInfo cultureInfo)
         {
             if (cultureInfo == null)
             {
-                return allCultures?.FirstOrDefault(c => Localization.Culture.NameEquals(c, CultureInfo.CurrentCulture)) ??
-                       allCultures?.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, CultureInfo.CurrentCulture)) ??
+                return AllCultures?.FirstOrDefault(c => Localization.Culture.NameEquals(c, CultureInfo.CurrentCulture)) ??
+                       AllCultures?.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, CultureInfo.CurrentCulture)) ??
                        CultureInfo.InvariantCulture;
             }
 
-            return allCultures?.FirstOrDefault(c => Localization.Culture.NameEquals(c, cultureInfo)) ??
-                   allCultures?.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, cultureInfo)) ??
+            return AllCultures?.FirstOrDefault(c => Localization.Culture.NameEquals(c, cultureInfo)) ??
+                   AllCultures?.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, cultureInfo)) ??
                    CultureInfo.InvariantCulture;
         }
 
@@ -123,12 +123,12 @@
             CurrentCultureChanged?.Invoke(null, new CultureChangedEventArgs(e));
         }
 
-        private static SortedSet<CultureInfo> GetAllCultures()
+        private static IEnumerable<CultureInfo> GetAllCultures()
         {
             Debug.WriteLine(resourceDirectory);
             return resourceDirectory?.Exists == true
-                       ? new SortedSet<CultureInfo>(ResourceCultures.GetAllCultures(resourceDirectory), CultureInfoComparer.ByName)
-                       : new SortedSet<CultureInfo>(CultureInfoComparer.ByName);
+                       ? ResourceCultures.GetAllCultures(resourceDirectory)
+                       : Enumerable.Empty<CultureInfo>();
         }
     }
 }

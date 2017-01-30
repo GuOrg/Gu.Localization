@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Resources;
 
     /// <summary> Class for translating resources </summary>
@@ -26,7 +27,7 @@
             set
             {
                 resourceDirectory = value;
-                allCultures = GetAllCultures();
+                AllCultures.UpdateWith(GetAllCultures().ToArray());
             }
         }
 
@@ -120,16 +121,11 @@
 
             if (language != null &&
                 !language.IsInvariant() &&
-                allCultures.Contains(language) == false)
+                AllCultures.Contains(language) == false)
             {
                 if (resourceManager.HasCulture(language))
                 {
-                    if (allCultures == null)
-                    {
-                        allCultures = new SortedSet<CultureInfo>(CultureInfoComparer.ByName);
-                    }
-
-                    allCultures.Add(language);
+                    AllCultures.Add(language);
                 }
             }
 

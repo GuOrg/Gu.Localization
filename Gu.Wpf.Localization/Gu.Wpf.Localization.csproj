@@ -76,6 +76,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json">
+      <Link>stylecop.json</Link>
+    </AdditionalFiles>
     <None Include="Gu.Wpf.Localization.ruleset" />
     <None Include="paket.references" />
     <None Include="paket.template" />
