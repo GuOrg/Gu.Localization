@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
     <StyleCopEnabled>False</StyleCopEnabled>
     <CodeAnalysisRuleSet>Gu.Wpf.Localization.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\Gu.Wpf.Localization.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

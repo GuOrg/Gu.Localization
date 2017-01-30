@@ -7,7 +7,6 @@
     {
         private static readonly CultureInfo Sv = CultureInfo.GetCultureInfo("sv");
         private static readonly CultureInfo En = CultureInfo.GetCultureInfo("en");
-        private static readonly CultureInfo It = CultureInfo.GetCultureInfo("it");
 
         public TranslationSource()
         {

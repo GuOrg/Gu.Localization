@@ -176,6 +176,7 @@
             return true;
         }
 
+        // ReSharper disable once UnusedMember.Local
         private static bool TryParseItemFormat(string text, ref int pos, out int index, out string format)
         {
             if (text[pos] != '{')

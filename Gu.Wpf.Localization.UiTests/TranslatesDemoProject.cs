@@ -1,5 +1,6 @@
 ﻿namespace Gu.Wpf.Localization.UiTests
 {
+    using System;
     using Gu.Wpf.Localization.Demo;
 
     using NUnit.Framework;
@@ -8,15 +9,18 @@
     using TestStack.White.UIItems;
     using TestStack.White.UIItems.WindowItems;
 
-    public class TranslatesDemoProject
+    public sealed class TranslatesDemoProject : IDisposable
     {
         private Application application;
         private Window window;
+        private bool disposed;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
+            this.application?.Dispose();
             this.application = Application.AttachOrLaunch(StartInfo.DemoProject);
+            this.window?.Dispose();
             this.window = this.application.GetWindow("MainWindow");
         }
 
@@ -210,6 +214,18 @@
             Assert.AreEqual("_So neutral_", groupBox.Get<Label>(AutomationIds.SwedishAndNeutralTextBlockId).Text);
             Assert.AreEqual("_So neutral_", groupBox.Get<Label>(AutomationIds.NeutralOnlyTextBlockId).Text);
             Assert.AreEqual("#BadFormat#", groupBox.Get<Label>(AutomationIds.BadFromatTextBlockId).Text);
+        }
+
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.application?.Dispose();
+            this.window?.Dispose();
         }
     }
 }

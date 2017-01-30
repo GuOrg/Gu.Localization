@@ -72,6 +72,8 @@
     <Rule Id="SA1401" Action="None" />
     <Rule Id="SA1600" Action="Info" />
     <Rule Id="SA1601" Action="Info" />
+    <Rule Id="SA1611" Action="None" />
+    <Rule Id="SA1623" Action="None" />
     <Rule Id="SA1633" Action="None" />
   </Rules>
   <Rules AnalyzerId="WpfAnalyzers.Analyzers" RuleNamespace="WpfAnalyzers.Analyzers">

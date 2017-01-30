@@ -3,7 +3,6 @@
 namespace Gu.Wpf.Localization
 {
     using System;
-    using System.Windows;
     using System.Windows.Markup;
 
     internal static class ServiceProviderExt

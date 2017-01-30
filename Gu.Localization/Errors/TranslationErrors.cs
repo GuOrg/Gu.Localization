@@ -9,17 +9,24 @@
     /// <summary>A collection of errors.</summary>
     public class TranslationErrors : IReadOnlyDictionary<string, IReadOnlyList<TranslationError>>
     {
+        /// <summary>
+        /// An empty collection of <see cref="TranslationError"/>
+        /// </summary>
         public static readonly TranslationErrors Empty = new TranslationErrors(EmptyReadOnlyDictionary<string, IReadOnlyList<TranslationError>>.Default);
-
-        private static readonly IReadOnlyList<TranslationError> EmptyErrors = new TranslationError[0];
 
         private readonly IReadOnlyDictionary<string, IReadOnlyList<TranslationError>> errors;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TranslationErrors"/> class.
+        /// </summary>
         public TranslationErrors(IReadOnlyDictionary<string, IReadOnlyList<TranslationError>> errors)
         {
             this.errors = errors;
         }
 
+        /// <summary>
+        /// Returns true if the collection is empty.
+        /// </summary>
         public bool IsEmpty => this.errors.Count == 0;
 
         /// <inheritdoc />

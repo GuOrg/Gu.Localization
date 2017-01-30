@@ -21,7 +21,7 @@
         /// <summary>Gets the <see cref="ErrorHandling"/> used by this translation.</summary>
         ErrorHandling ErrorHandling { get; }
 
-        /// <summary>Calls <see cref="Translator.Translate(ResourceManager, string, CultureInfo, ErrorHandling)"/> with the key.</summary>
+        /// <summary>Calls <see cref="Translator.Translate(System.Resources.ResourceManager, string, CultureInfo, ErrorHandling)"/> with the key.</summary>
         /// <param name="culture">The culture.</param>
         /// <param name="errorHandlingStrategy">Specifiec how errors are handled</param>
         /// <returns>The translated string.</returns>
