@@ -1,7 +1,6 @@
 ﻿namespace Gu.Localization
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -83,8 +82,7 @@
             CultureInfo language,
             ErrorHandling errorHandling)
         {
-            string result;
-            TryTranslateOrThrow(resourceManager, key, language, errorHandling, out result);
+            TryTranslateOrThrow(resourceManager, key, language, errorHandling, out string result);
             return result;
         }
 

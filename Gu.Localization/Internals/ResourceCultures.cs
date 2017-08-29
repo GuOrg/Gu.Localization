@@ -39,8 +39,7 @@
 
                 if (directory.EnumerateFiles("*.resources.dll", SearchOption.TopDirectoryOnly).Any())
                 {
-                    CultureInfo culture;
-                    if (Culture.TryGet(cultureName, out culture))
+                    if (Culture.TryGet(cultureName, out CultureInfo culture))
                     {
                         if (cultures == null)
                         {
@@ -57,8 +56,7 @@
             {
                 var neutralLanguageAttribute = (NeutralResourcesLanguageAttribute)Attribute.GetCustomAttribute(entryAssembly, typeof(NeutralResourcesLanguageAttribute));
                 var name = neutralLanguageAttribute?.CultureName;
-                CultureInfo neutralCulture;
-                if (name != null && Culture.TryGet(name, out neutralCulture))
+                if (name != null && Culture.TryGet(name, out CultureInfo neutralCulture))
                 {
                     if (cultures == null)
                     {

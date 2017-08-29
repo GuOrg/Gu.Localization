@@ -121,7 +121,7 @@
                         foreach (var culture in cultures)
                         {
                             hasAddedNeutral |= culture.IsInvariant();
-                            using (var resourceSet = clone.ResourceManager.GetResourceSet(culture, true, false))
+                            using (var resourceSet = clone.ResourceManager.GetResourceSet(culture, createIfNotExists: true, tryParents: false))
                             {
                                 if (resourceSet == null)
                                 {
@@ -138,7 +138,7 @@
 
                         if (!hasAddedNeutral)
                         {
-                            using (var resourceSet = clone.ResourceManager.GetResourceSet(CultureInfo.InvariantCulture, true, false))
+                            using (var resourceSet = clone.ResourceManager.GetResourceSet(CultureInfo.InvariantCulture, createIfNotExists: true, tryParents: false))
                             {
                                 if (resourceSet == null)
                                 {
@@ -173,7 +173,7 @@
                         return null;
                     }
 
-                    using (var resourceSet = clone.ResourceManager.GetResourceSet(culture, true, false))
+                    using (var resourceSet = clone.ResourceManager.GetResourceSet(culture, createIfNotExists: true, tryParents: false))
                     {
                         if (resourceSet == null)
                         {
@@ -231,8 +231,7 @@
                 {
                     get
                     {
-                        string value;
-                        if (this.TryGetValue(key, out value))
+                        if (this.TryGetValue(key, out string value))
                         {
                             return value;
                         }
