@@ -21,8 +21,7 @@ namespace Gu.Wpf.Localization
 
         internal static QualifiedNameAndKey Parse(string member)
         {
-            QualifiedNameAndKey result;
-            if (Cache.TryGetValue(member, out result))
+            if (Cache.TryGetValue(member, out QualifiedNameAndKey result))
             {
                 return result;
             }

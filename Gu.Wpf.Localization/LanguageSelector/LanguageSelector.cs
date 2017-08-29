@@ -51,8 +51,7 @@
                     var flagName = (string)enumerator.Key;
                     Debug.Assert(flagName != null, "flag == null");
                     var name = System.IO.Path.GetFileNameWithoutExtension(flagName);
-                    CultureInfo culture;
-                    if (Culture.TryGet(name, out culture))
+                    if (Culture.TryGet(name, out CultureInfo culture))
                     {
                         flags.Add(culture, flagName);
                     }
@@ -146,8 +145,7 @@
                     }
 
                     var language = new Language(cultureInfo);
-                    string flag;
-                    if (FlagNameResourceMap.TryGetValue(cultureInfo, out flag))
+                    if (FlagNameResourceMap.TryGetValue(cultureInfo, out string flag))
                     {
                         var key = new Uri($"pack://application:,,,/{this.GetType().Assembly.GetName().Name};component/{flag}", UriKind.Absolute);
                         language.FlagSource = key;
