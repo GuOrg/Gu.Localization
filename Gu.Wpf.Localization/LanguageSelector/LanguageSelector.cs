@@ -31,7 +31,7 @@
 
         private static readonly IReadOnlyDictionary<CultureInfo, string> FlagNameResourceMap;
 
-        private bool disposed = false;
+        private bool disposed;
 
         static LanguageSelector()
         {
@@ -75,8 +75,8 @@
         /// </summary>
         public bool AutogenerateLanguages
         {
-            get { return (bool)this.GetValue(AutogenerateLanguagesProperty); }
-            set { this.SetValue(AutogenerateLanguagesProperty, value); }
+            get => (bool)this.GetValue(AutogenerateLanguagesProperty);
+            set => this.SetValue(AutogenerateLanguagesProperty, value);
         }
 
         /// <summary>

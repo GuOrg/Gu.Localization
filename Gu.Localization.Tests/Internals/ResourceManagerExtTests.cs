@@ -32,7 +32,7 @@
 
             var resourceManager = Properties.Resources.ResourceManager;
             Assert.AreEqual(expected, resourceManager.HasCulture(culture));
-            Assert.IsNull(resourceManager.GetResourceSet(culture, false, false));
+            Assert.IsNull(resourceManager.GetResourceSet(culture, createIfNotExists: false, tryParents: false));
         }
 
         [TestCase(nameof(Properties.Resources.AllLanguages), null, true)]
@@ -48,7 +48,7 @@
 
             var resourceManager = Properties.Resources.ResourceManager;
             Assert.AreEqual(expected, resourceManager.HasKey(key, culture));
-            Assert.IsNull(resourceManager.GetResourceSet(culture, false, false));
+            Assert.IsNull(resourceManager.GetResourceSet(culture, createIfNotExists: false, tryParents: false));
         }
 
         [TestCase(nameof(Properties.Resources.AllLanguages),  true)]
@@ -68,7 +68,7 @@
             var resourceManager = Properties.Resources.ResourceManager;
             Assert.AreEqual(false, resourceManager.HasCulture(italian));
             Assert.AreEqual(false, resourceManager.HasKey(key, italian));
-            Assert.IsNull(resourceManager.GetResourceSet(italian, false, false));
+            Assert.IsNull(resourceManager.GetResourceSet(italian, createIfNotExists: false, tryParents: false));
         }
 
         [Test]
@@ -80,7 +80,7 @@
             var resourceManager = Properties.Resources.ResourceManager;
             Assert.AreEqual(false, resourceManager.HasCulture(italian));
             Assert.AreEqual(false, resourceManager.HasKey(key, italian));
-            Assert.IsNull(resourceManager.GetResourceSet(italian, false, false));
+            Assert.IsNull(resourceManager.GetResourceSet(italian, createIfNotExists: false, tryParents: false));
         }
     }
 }

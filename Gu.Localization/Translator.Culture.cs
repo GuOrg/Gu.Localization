@@ -28,10 +28,7 @@
         /// </summary>
         public static CultureInfo Culture
         {
-            get
-            {
-                return culture;
-            }
+            get => culture;
 
             set
             {
@@ -67,10 +64,7 @@
         /// <returns>The effective culture.</returns>
         public static CultureInfo CurrentCulture
         {
-            get
-            {
-                return effectiveCulture ?? (effectiveCulture = GetEffectiveCulture(null));
-            }
+            get => effectiveCulture ?? (effectiveCulture = GetEffectiveCulture(null));
 
             private set
             {

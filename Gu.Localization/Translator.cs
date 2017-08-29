@@ -18,10 +18,7 @@
         /// </summary>
         public static DirectoryInfo ResourceDirectory
         {
-            get
-            {
-                return resourceDirectory;
-            }
+            get => resourceDirectory;
 
             set
             {

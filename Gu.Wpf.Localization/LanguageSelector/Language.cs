@@ -36,10 +36,7 @@
         /// <summary>Gets or sets the <see cref="CultureInfo"/></summary>
         public CultureInfo Culture
         {
-            get
-            {
-                return this.culture;
-            }
+            get => this.culture;
 
             set
             {
@@ -56,10 +53,7 @@
         /// <summary>Gets or sets a value indicating whether gets or sets if the <see cref="Culture"/> is the same as <see cref="Translator.Culture"/></summary>
         public bool IsSelected
         {
-            get
-            {
-                return Gu.Localization.Culture.NameEquals(Translator.CurrentCulture, this.Culture);
-            }
+            get => Gu.Localization.Culture.NameEquals(Translator.CurrentCulture, this.Culture);
 
             set
             {
@@ -98,10 +92,7 @@
         /// </summary>
         public Uri FlagSource
         {
-            get
-            {
-                return this.flagSource;
-            }
+            get => this.flagSource;
 
             set
             {

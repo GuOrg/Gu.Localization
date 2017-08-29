@@ -25,10 +25,7 @@ namespace Gu.Localization
         public IEnumerable<TValue> Values => Enumerable.Empty<TValue>();
 
         /// <inheritdoc />
-        TValue IReadOnlyDictionary<TKey, TValue>.this[TKey key]
-        {
-            get { throw new ArgumentOutOfRangeException(nameof(key)); }
-        }
+        TValue IReadOnlyDictionary<TKey, TValue>.this[TKey key] => throw new ArgumentOutOfRangeException(nameof(key));
 
         /// <inheritdoc />
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => Enumerable.Empty<KeyValuePair<TKey, TValue>>().GetEnumerator();
