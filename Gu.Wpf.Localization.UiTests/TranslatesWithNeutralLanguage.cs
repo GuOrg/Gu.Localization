@@ -27,9 +27,9 @@ namespace Gu.Wpf.Localization.UiTests
         [Test]
         public void EffectiveCulture()
         {
-            Assert.AreEqual("en", this.window.FindLabel("CurrentCultureTextBlock").Text);
+            Assert.AreEqual("en", this.window.FindTextBlock("CurrentCultureTextBlock").Text);
             this.window.FindRadioButton("pt").Click();
-            Assert.AreEqual("pt", this.window.FindLabel("CurrentCultureTextBlock").Text);
+            Assert.AreEqual("pt", this.window.FindTextBlock("CurrentCultureTextBlock").Text);
         }
 
         [Test]
@@ -37,13 +37,13 @@ namespace Gu.Wpf.Localization.UiTests
         {
             this.window.FindRadioButton("en").Click();
             var groupBox = this.window.FindGroupBox("Vanilla xaml");
-            Assert.AreEqual("English", groupBox.FindLabel("AllLanguagesTextBlock").Text);
+            Assert.AreEqual("English", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
 
             this.window.FindRadioButton("pt").Click();
-            Assert.AreEqual("Português", groupBox.FindLabel("AllLanguagesTextBlock").Text);
+            Assert.AreEqual("Português", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
 
             this.window.FindRadioButton("en").Click();
-            Assert.AreEqual("English", groupBox.FindLabel("AllLanguagesTextBlock").Text);
+            Assert.AreEqual("English", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
         }
 
         public void Dispose()
