@@ -16,7 +16,7 @@
         {
             this.application?.Dispose();
             this.application = Application.AttachOrLaunch(StartInfo.DemoProject);
-            this.window = this.application.MainWindow();
+            this.window = this.application.MainWindow;
         }
 
         [SetUp]
@@ -97,10 +97,10 @@
             var dataGrid = groupBox.FindDataGrid(DataGridId);
 
             this.window.FindRadioButton("sv").Click();
-            Assert.AreEqual("Svenska", dataGrid.Header.Columns[0].Text);
+            Assert.AreEqual("Svenska", dataGrid.ColumnHeaders[0].Text);
 
             this.window.FindRadioButton("en").Click();
-            Assert.AreEqual("English", dataGrid.Header.Columns[0].Text);
+            Assert.AreEqual("English", dataGrid.ColumnHeaders[0].Text);
         }
 
         [Test]

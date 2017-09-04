@@ -15,7 +15,7 @@ namespace Gu.Wpf.Localization.UiTests
         {
             this.application?.Dispose();
             this.application = Application.AttachOrLaunch(StartInfo.WithNeutralLanguageProject);
-            this.window = this.application.MainWindow();
+            this.window = this.application.MainWindow;
         }
 
         [OneTimeTearDown]
