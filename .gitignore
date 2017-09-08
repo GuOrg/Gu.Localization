@@ -32,3 +32,4 @@ _ReSharper*/
 packages/*
 publish/*
 .vs/*
+*.orig
