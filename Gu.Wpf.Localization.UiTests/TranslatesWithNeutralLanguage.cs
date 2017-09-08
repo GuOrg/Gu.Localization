@@ -4,57 +4,43 @@ namespace Gu.Wpf.Localization.UiTests
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public sealed class TranslatesWithNeutralLanguage : IDisposable
+    public sealed class TranslatesWithNeutralLanguage
     {
-        private Application application;
-        private Window window;
-        private bool disposed;
-
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
-        {
-            this.application?.Dispose();
-            this.application = Application.AttachOrLaunch(StartInfo.WithNeutralLanguageProject);
-            this.window = this.application.MainWindow;
-        }
-
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            this.application?.Dispose();
+            Application.KillLaunched(StartInfo.WithNeutralLanguageProject.FileName);
         }
 
         [Test]
         public void EffectiveCulture()
         {
-            Assert.AreEqual("en", this.window.FindTextBlock("CurrentCultureTextBlock").Text);
-            this.window.FindRadioButton("pt").Click();
-            Assert.AreEqual("pt", this.window.FindTextBlock("CurrentCultureTextBlock").Text);
+            using (var application = Application.AttachOrLaunch(StartInfo.WithNeutralLanguageProject))
+            {
+                var window = application.MainWindow;
+                window.FindRadioButton("en").Click();
+                Assert.AreEqual("en", window.FindTextBlock("CurrentCultureTextBlock").Text);
+                window.FindRadioButton("pt").Click();
+                Assert.AreEqual("pt", window.FindTextBlock("CurrentCultureTextBlock").Text);
+            }
         }
 
         [Test]
         public void VanillaXaml()
         {
-            this.window.FindRadioButton("en").Click();
-            var groupBox = this.window.FindGroupBox("Vanilla xaml");
-            Assert.AreEqual("English", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
-
-            this.window.FindRadioButton("pt").Click();
-            Assert.AreEqual("Português", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
-
-            this.window.FindRadioButton("en").Click();
-            Assert.AreEqual("English", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
-        }
-
-        public void Dispose()
-        {
-            if (this.disposed)
+            using (var application = Application.AttachOrLaunch(StartInfo.WithNeutralLanguageProject))
             {
-                return;
-            }
+                var window = application.MainWindow;
+                window.FindRadioButton("en").Click();
+                var groupBox = window.FindGroupBox("Vanilla xaml");
+                Assert.AreEqual("English", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
 
-            this.disposed = true;
-            this.application?.Dispose();
+                window.FindRadioButton("pt").Click();
+                Assert.AreEqual("Português", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
+
+                window.FindRadioButton("en").Click();
+                Assert.AreEqual("English", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
+            }
         }
     }
 }
