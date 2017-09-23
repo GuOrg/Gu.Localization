@@ -211,13 +211,13 @@
                 Assert.AreEqual("!MissingKey!", groupBox.FindTextBlock("MissingKeyTextBlockId").Text);
                 Assert.AreEqual("Svenska", groupBox.FindTextBlock("SwedishAndNeutralTextBlockId").Text);
                 Assert.AreEqual("So neutral", groupBox.FindTextBlock("NeutralOnlyTextBlockId").Text);
-                Assert.AreEqual("#BadFormat#", groupBox.FindTextBlock("BadFromatTextBlockId").Text);
+                Assert.AreEqual("#BadFormat#", groupBox.FindTextBlock("BadFormatTextBlockId").Text);
 
                 window.FindRadioButton("en").Click();
                 Assert.AreEqual("!MissingKey!", groupBox.FindTextBlock("MissingKeyTextBlockId").Text);
                 Assert.AreEqual("So neutral", groupBox.FindTextBlock("SwedishAndNeutralTextBlockId").Text);
                 Assert.AreEqual("So neutral", groupBox.FindTextBlock("NeutralOnlyTextBlockId").Text);
-                Assert.AreEqual("#BadFormat#", groupBox.FindTextBlock("BadFromatTextBlockId").Text);
+                Assert.AreEqual("#BadFormat#", groupBox.FindTextBlock("BadFormatTextBlockId").Text);
             }
         }
 
@@ -237,13 +237,13 @@
                 Assert.AreEqual("!MissingKey!", groupBox.FindTextBlock("MissingKeyTextBlockId").Text);
                 Assert.AreEqual("Svenska", groupBox.FindTextBlock("SwedishAndNeutralTextBlockId").Text);
                 Assert.AreEqual("_So neutral_", groupBox.FindTextBlock("NeutralOnlyTextBlockId").Text);
-                Assert.AreEqual("#BadFormat#", groupBox.FindTextBlock("BadFromatTextBlockId").Text);
+                Assert.AreEqual("#BadFormat#", groupBox.FindTextBlock("BadFormatTextBlockId").Text);
 
                 window.FindRadioButton("en").Click();
                 Assert.AreEqual("!MissingKey!", groupBox.FindTextBlock("MissingKeyTextBlockId").Text);
                 Assert.AreEqual("_So neutral_", groupBox.FindTextBlock("SwedishAndNeutralTextBlockId").Text);
                 Assert.AreEqual("_So neutral_", groupBox.FindTextBlock("NeutralOnlyTextBlockId").Text);
-                Assert.AreEqual("#BadFormat#", groupBox.FindTextBlock("BadFromatTextBlockId").Text);
+                Assert.AreEqual("#BadFormat#", groupBox.FindTextBlock("BadFormatTextBlockId").Text);
             }
         }
     }

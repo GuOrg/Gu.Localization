@@ -32,7 +32,7 @@
         public static readonly string MissingKeyTextBlockId = Create();
         public static readonly string SwedishAndNeutralTextBlockId = Create();
         public static readonly string NeutralOnlyTextBlockId = Create();
-        public static readonly string BadFromatTextBlockId = Create();
+        public static readonly string BadFormatTextBlockId = Create();
 
         private static string Create([CallerMemberName] string name = null)
         {

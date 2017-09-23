@@ -64,7 +64,7 @@
                        Text="BadFormat" />
             <TextBlock Grid.Row="4"
                        Grid.Column="1"
-                       AutomationProperties.AutomationId="{x:Static local:AutomationIds.BadFromatTextBlockId}"
+                       AutomationProperties.AutomationId="{x:Static local:AutomationIds.BadFormatTextBlockId}"
                        Text="{l:Static BadFormat}" />
         </Grid>
     </Grid>
