@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Gu.Wpf.Localization.Demo"
         xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization"
         xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.Properties"
-        Title="{x:Static local:AutomationIds.MainWindow}"
+        Title="MainWindow"
         Loaded="OnLoaded">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -16,18 +16,18 @@
         <StackPanel Grid.Column="0">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Effective culture: " />
-                <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIds.CurrentCultureTextBlockId}" Text="{l:CurrentCulture}" />
+                <TextBlock AutomationProperties.AutomationId="CurrentCultureTextBlockId" Text="{l:CurrentCulture}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Effective xml language: " />
-                <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIds.EffectiveCultureTextBlockId}" Text="{l:CurrentXmlLanguage}" />
+                <TextBlock AutomationProperties.AutomationId="EffectiveCultureTextBlockId" Text="{l:CurrentXmlLanguage}" />
             </StackPanel>
 
-            <TextBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.BoundCurrentCultureTextBoxId}" Text="{Binding Path=(localization:Translator.Culture)}" />
-            <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIds.BoundEffectiveCultureTextBlockId}" Text="{Binding Path=(localization:Translator.CurrentCulture)}" />
-            <!--<Button AutomationProperties.AutomationId="{x:Static local:AutomationIds.LoseFocusButtonId}">Lose focus here</Button>-->
+            <TextBox AutomationProperties.AutomationId="BoundCurrentCultureTextBoxId" Text="{Binding Path=(localization:Translator.Culture)}" />
+            <TextBlock AutomationProperties.AutomationId="BoundEffectiveCultureTextBlockId" Text="{Binding Path=(localization:Translator.CurrentCulture)}" />
+            <!--<Button AutomationProperties.AutomationId="LoseFocusButtonId">Lose focus here</Button>-->
             <ComboBox x:Name="LanguagesComboBox"
-                      AutomationProperties.AutomationId="{x:Static local:AutomationIds.LanguagesComboBoxId}"
+                      AutomationProperties.AutomationId="LanguagesComboBoxId"
                       ItemsSource="{x:Static localization:Translator.Cultures}"
                       SelectionChanged="OnLanguagesComboBoxSelectionChanged" />
 
@@ -35,7 +35,7 @@
         </StackPanel>
 
         <UniformGrid Grid.Column="1" Columns="2">
-            <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.VanillaXamlGroupId}"
+            <GroupBox AutomationProperties.AutomationId="VanillaXamlGroupId"
                       BorderBrush="GreenYellow"
                       BorderThickness="2"
                       Header="Vanilla xaml">
@@ -59,7 +59,7 @@
                                Text="SwedishOnly" />
                     <TextBlock Grid.Row="0"
                                Grid.Column="1"
-                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.SwedishOnlyTextBlockId}"
+                               AutomationProperties.AutomationId="SwedishOnlyTextBlockId"
                                Text="{l:Static p:Resources.SwedishOnly}" />
 
                     <TextBlock Grid.Row="1"
@@ -67,7 +67,7 @@
                                Text="SwedishAndNeutral" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="1"
-                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.SwedishAndNeutralTextBlockId}"
+                               AutomationProperties.AutomationId="SwedishAndNeutralTextBlockId"
                                Text="{l:Static p:Resources.SwedishAndNeutral}" />
 
                     <TextBlock Grid.Row="2"
@@ -82,7 +82,7 @@
                                Text="TranslatedToAll" />
                     <TextBlock Grid.Row="3"
                                Grid.Column="1"
-                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.TranslatedToAllTextBlockId}"
+                               AutomationProperties.AutomationId="TranslatedToAllTextBlockId"
                                Text="{l:Static p:Resources.TranslatedToAll}" />
 
                     <TextBlock Grid.Row="4"
@@ -90,14 +90,14 @@
                                Text="Enum" />
                     <TextBlock Grid.Row="4"
                                Grid.Column="1"
-                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.EnumTranslatedToAllTextBlockId}"
+                               AutomationProperties.AutomationId="EnumTranslatedToAllTextBlockId"
                                Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},
                                              Member={x:Static local:DummyEnum.TranslatedToAll}}" />
                 </Grid>
             </GroupBox>
 
             <GroupBox l:ErrorHandling.Mode="ReturnErrorInfo"
-                      AutomationProperties.AutomationId="{x:Static local:AutomationIds.VanillaXamlGroupWithReturnErrorInfoId}"
+                      AutomationProperties.AutomationId="VanillaXamlGroupWithReturnErrorInfoId"
                       BorderBrush="GreenYellow"
                       BorderThickness="2"
                       Header="Vanilla xaml with ReturnErrorInfo">
@@ -121,7 +121,7 @@
                                Text="SwedishOnly" />
                     <TextBlock Grid.Row="0"
                                Grid.Column="1"
-                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.SwedishOnlyTextBlockId}"
+                               AutomationProperties.AutomationId="SwedishOnlyTextBlockId"
                                Text="{l:Static p:Resources.SwedishOnly}" />
 
                     <TextBlock Grid.Row="1"
@@ -129,7 +129,7 @@
                                Text="SwedishAndNeutral" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="1"
-                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.SwedishAndNeutralTextBlockId}"
+                               AutomationProperties.AutomationId="SwedishAndNeutralTextBlockId"
                                Text="{l:Static p:Resources.SwedishAndNeutral}" />
 
                     <TextBlock Grid.Row="2"
@@ -144,7 +144,7 @@
                                Text="TranslatedToAll" />
                     <TextBlock Grid.Row="3"
                                Grid.Column="1"
-                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.TranslatedToAllTextBlockId}"
+                               AutomationProperties.AutomationId="TranslatedToAllTextBlockId"
                                Text="{l:Static p:Resources.TranslatedToAll}" />
 
                     <TextBlock Grid.Row="4"
@@ -152,13 +152,13 @@
                                Text="Enum" />
                     <TextBlock Grid.Row="4"
                                Grid.Column="1"
-                               AutomationProperties.AutomationId="{x:Static local:AutomationIds.EnumTranslatedToAllTextBlockId}"
+                               AutomationProperties.AutomationId="EnumTranslatedToAllTextBlockId"
                                Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},
                                              Member={x:Static local:DummyEnum.TranslatedToAll}}" />
                 </Grid>
             </GroupBox>
 
-            <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.NoTranslationsGroupId}"
+            <GroupBox AutomationProperties.AutomationId="NoTranslationsGroupId"
                       BorderBrush="Red"
                       BorderThickness="2"
                       Header="No translations">
@@ -166,18 +166,18 @@
             </GroupBox>
 
             <GroupBox l:ErrorHandling.Mode="ReturnErrorInfo"
-                      AutomationProperties.AutomationId="{x:Static local:AutomationIds.NoTranslationsWithReturnErrorInfoId}"
+                      AutomationProperties.AutomationId="NoTranslationsWithReturnErrorInfoId"
                       BorderBrush="Red"
                       BorderThickness="2"
                       Header="No translations with ReturnErrorInfo">
                 <local:ErrorsView />
             </GroupBox>
 
-            <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.NotInVisualTreeGroupId}"
+            <GroupBox AutomationProperties.AutomationId="NotInVisualTreeGroupId"
                       BorderBrush="Green"
                       BorderThickness="2"
                       Header="Not in visual tree">
-                <DataGrid AutomationProperties.AutomationId="{x:Static local:AutomationIds.DataGridId}">
+                <DataGrid AutomationProperties.AutomationId="DataGridId">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="{l:Static p:Resources.TranslatedToAll}" />
                         <DataGridTextColumn Header="{l:Static p:Resources.SwedishAndNeutral}" />
@@ -186,27 +186,27 @@
                 </DataGrid>
             </GroupBox>
 
-            <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.DataTemplateGroupId}"
+            <GroupBox AutomationProperties.AutomationId="DataTemplateGroupId"
                       BorderBrush="BlueViolet"
                       Header="DataTemplate">
                 <ContentPresenter ContentTemplate="{StaticResource DemoTemplate}" />
             </GroupBox>
 
-            <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.UserControlSameProjectGroupId}"
+            <GroupBox AutomationProperties.AutomationId="UserControlSameProjectGroupId"
                       BorderBrush="HotPink"
                       BorderThickness="2"
                       Header="UserControl from same project">
                 <local:LocalUserControl />
             </GroupBox>
 
-            <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.UserControlOtherProjectGroupId}"
+            <GroupBox AutomationProperties.AutomationId="UserControlOtherProjectGroupId"
                       BorderBrush="Blue"
                       BorderThickness="2"
                       Header="UserControl from other project">
                 <controls:DemoUserControl />
             </GroupBox>
 
-            <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIds.CustomControlOtherProjectGroupId}"
+            <GroupBox AutomationProperties.AutomationId="CustomControlOtherProjectGroupId"
                       BorderBrush="Gray"
                       BorderThickness="2"
                       Header="Custom control from other project">

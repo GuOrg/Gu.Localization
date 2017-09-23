@@ -52,7 +52,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AutomationIds.cs" />
     <Compile Include="DummyEnum.cs" />
     <Compile Include="ErrorsView.xaml.cs">
       <DependentUpon>ErrorsView.xaml</DependentUpon>

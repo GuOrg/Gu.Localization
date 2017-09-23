@@ -32,7 +32,7 @@
                        Text="MissingKey" />
             <TextBlock Grid.Row="0"
                        Grid.Column="1"
-                       AutomationProperties.AutomationId="{x:Static local:AutomationIds.MissingKeyTextBlockId}"
+                       AutomationProperties.AutomationId="MissingKeyTextBlockId"
                        Text="{l:Static p:Resources.MissingKey}" />
 
             <TextBlock Grid.Row="1"
@@ -40,7 +40,7 @@
                        Text="SwedishAndNeutral" />
             <TextBlock Grid.Row="1"
                        Grid.Column="1"
-                       AutomationProperties.AutomationId="{x:Static local:AutomationIds.SwedishAndNeutralTextBlockId}"
+                       AutomationProperties.AutomationId="SwedishAndNeutralTextBlockId"
                        Text="{l:Static p:Resources.SwedishAndNeutral}" />
 
 
@@ -56,7 +56,7 @@
                        Text="NeutralOnly" />
             <TextBlock Grid.Row="3"
                        Grid.Column="1"
-                       AutomationProperties.AutomationId="{x:Static local:AutomationIds.NeutralOnlyTextBlockId}"
+                       AutomationProperties.AutomationId="NeutralOnlyTextBlockId"
                        Text="{l:Static p:Resources.NeutralOnly}" />
 
             <TextBlock Grid.Row="4"
@@ -64,7 +64,7 @@
                        Text="BadFormat" />
             <TextBlock Grid.Row="4"
                        Grid.Column="1"
-                       AutomationProperties.AutomationId="{x:Static local:AutomationIds.BadFormatTextBlockId}"
+                       AutomationProperties.AutomationId="BadFormatTextBlockId"
                        Text="{l:Static BadFormat}" />
         </Grid>
     </Grid>
