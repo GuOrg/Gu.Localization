@@ -1,3 +1,6 @@
+group Build
+  SourceLink
+
 group Analyzers
   StyleCop.Analyzers
   WpfAnalyzers

@@ -1,9 +1,12 @@
 source http://www.nuget.org/api/v2/
 framework: >= net4.5
 
+group Build
+  source http://www.nuget.org/api/v2/
+  nuget SourceLink
+
 group Analyzers
   source http://www.nuget.org/api/v2/
-  framework: >= net45
   nuget StyleCop.Analyzers
   nuget WpfAnalyzers
   nuget Gu.Analyzers
