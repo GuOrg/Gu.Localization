@@ -17,6 +17,7 @@ group Test
   framework: >= net45
   nuget NUnit
   nuget Moq
+  nuget Castle.Core 4.1.1
   nuget Gu.Wpf.UiAutomation
 
 group Demo
