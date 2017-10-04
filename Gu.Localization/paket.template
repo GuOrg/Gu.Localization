@@ -6,7 +6,7 @@ projectUrl https://github.com/JohanLarsson/Gu.Localization
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-  FEATURE: sign
+  BUGFIX: Exclude SourceLink dependency in packages.
 
 excludeddependencies
   SourceLink
