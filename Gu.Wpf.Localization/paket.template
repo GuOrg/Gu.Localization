@@ -1,4 +1,5 @@
 type project
+include-pdbs true
 title Gu.Wpf.Localization
 tags wpf xaml markupextension resourcemanager localization translate language
 projectUrl https://github.com/JohanLarsson/Gu.Localization
@@ -8,6 +9,7 @@ releasenotes
   FEATURE: sign
 
 excludeddependencies
+  SourceLink
   JetBrains.Annotations
   StyleCop.Analyzers
   WpfAnalyzers
