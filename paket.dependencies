@@ -7,9 +7,11 @@ group Build
 
 group Analyzers
   source http://www.nuget.org/api/v2/
-  nuget StyleCop.Analyzers
-  nuget WpfAnalyzers
   nuget Gu.Analyzers
+  nuget IDisposableAnalyzers
+  nuget StyleCop.Analyzers
+  nuget PropertyChangedAnalyzers
+  nuget WpfAnalyzers
   nuget JetBrains.Annotations
 
 group Test
@@ -17,7 +19,7 @@ group Test
   framework: >= net45
   nuget NUnit
   nuget Moq
-  nuget Castle.Core 4.1.1
+  nuget Castle.Core
   nuget Gu.Wpf.UiAutomation
 
 group Demo

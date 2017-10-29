@@ -12,6 +12,7 @@ namespace Gu.Wpf.Localization
     /// <summary>Designtime properties for the localization extension.</summary>
     public static class DesignTime
     {
+        /// <summary>Identifies the <see cref="Culture"/> dependency property.</summary>
         public static readonly DependencyProperty CultureProperty = DependencyProperty.RegisterAttached(
             "Culture",
             typeof(CultureInfo),

@@ -6,8 +6,8 @@
     {
         internal static void Format(string format, object[] args, string formatParameterName, string argsParameterName)
         {
-            NotNullOrEmpty(format, "format");
-            if (!FormatString.IsValidFormat(format, out int count, out bool? anyItemHasFormat) || count < 0)
+            NotNullOrEmpty(format, nameof(format));
+            if (!FormatString.IsValidFormat(format, out var count, out _) || count < 0)
             {
                 var message = $"Expected the format items to be [0..1..n). They format was: {format}";
                 throw new ArgumentException(message, $"{formatParameterName},{argsParameterName}");
@@ -39,7 +39,7 @@
 
         internal static bool FormatMatches(string format, object[] args)
         {
-            if (!FormatString.IsValidFormat(format, out int count, out bool? anyItemHasFormat) || count < 0)
+            if (!FormatString.IsValidFormat(format, out var count, out _) || count < 0)
             {
                 return false;
             }

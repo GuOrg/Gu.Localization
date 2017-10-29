@@ -1,9 +1,9 @@
-group Analyzers
-  JetBrains.Annotations
-  Gu.Analyzers
-  StyleCop.Analyzers
-  WpfAnalyzers
-
 group Test
   Moq
   NUnit
+
+group Analyzers
+  Gu.Analyzers
+  IDisposableAnalyzers
+  StyleCop.Analyzers
+  JetBrains.Annotations

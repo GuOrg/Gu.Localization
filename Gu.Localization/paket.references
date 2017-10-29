@@ -2,7 +2,8 @@ group Build
   SourceLink
 
 group Analyzers
-  StyleCop.Analyzers
-  WpfAnalyzers
   Gu.Analyzers
+  IDisposableAnalyzers
+  StyleCop.Analyzers
+  PropertyChangedAnalyzers
   JetBrains.Annotations

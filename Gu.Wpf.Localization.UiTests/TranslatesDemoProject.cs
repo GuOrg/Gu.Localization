@@ -185,8 +185,6 @@
             {
                 var window = application.MainWindow;
                 window.FindRadioButton("en").Click();
-                // Assert.Inconclusive("Can't get KeyInControls");
-                // maybe this is a white bug?
                 var groupBox = window.FindGroupBox("CustomControlOtherProjectGroupId");
                 var textBlock = groupBox.FindTextBlock("KeyInControls");
 
@@ -229,6 +227,7 @@
             {
                 var window = application.MainWindow;
                 window.FindRadioButton("en").Click();
+
                 // looks like the static extension is called before the ErrorInfo.Mode has trickled down.
                 // fixing this can be slightly messy
                 var groupBox = window.FindGroupBox("NoTranslationsWithReturnErrorInfoId");

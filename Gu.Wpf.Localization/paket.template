@@ -8,9 +8,6 @@ licenseUrl http://opensource.org/licenses/MIT
 releasenotes
   BUGFIX: Exclude SourceLink dependency in packages.
 
-excludeddependencies
-  SourceLink
-  JetBrains.Annotations
-  StyleCop.Analyzers
-  WpfAnalyzers
-  Gu.Analyzers
+excludedgroups
+  Analyzers
+  Build

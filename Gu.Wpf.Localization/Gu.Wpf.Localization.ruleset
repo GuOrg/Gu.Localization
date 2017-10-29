@@ -75,5 +75,7 @@
     <Rule Id="WA1201" Action="Error" />
     <Rule Id="WA1202" Action="Error" />
     <Rule Id="WA1210" Action="Error" />
+    <Rule Id="WPF0060" Action="Warning" />
+    <Rule Id="WPF0052" Action="Warning" />
   </Rules>
 </RuleSet>
