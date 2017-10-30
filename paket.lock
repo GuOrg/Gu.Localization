@@ -4,8 +4,8 @@ GROUP Analyzers
 NUGET
   remote: http://www.nuget.org/api/v2
     Gu.Analyzers (1.0.0.1-dev)
-    IDisposableAnalyzers (0.1.0.2-dev)
-    JetBrains.Annotations (11.0)
+    IDisposableAnalyzers (0.1.1-dev)
+    JetBrains.Annotations (11.1)
       System.Runtime (>= 4.1) - restriction: && (< net10) (>= netstandard1.0)
     Microsoft.NETCore.Platforms (2.0) - restriction: || (&& (< monoandroid) (< net10) (>= netstandard1.0) (< netstandard1.2) (< win8) (< wp8)) (&& (< monoandroid) (< net10) (>= netstandard1.2) (< netstandard1.3) (< win8) (< wpa81)) (&& (< monoandroid) (< net10) (>= netstandard1.3) (< netstandard1.5) (< win8) (< wpa81)) (&& (< monotouch) (< net10) (>= netstandard1.5) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< net10) (>= netstandard1.0) (< portable-net45+win8+wp8+wpa81))
     Microsoft.NETCore.Targets (2.0) - restriction: || (&& (< monoandroid) (< net10) (>= netstandard1.0) (< netstandard1.2) (< win8) (< wp8)) (&& (< monoandroid) (< net10) (>= netstandard1.2) (< netstandard1.3) (< win8) (< wpa81)) (&& (< monoandroid) (< net10) (>= netstandard1.3) (< netstandard1.5) (< win8) (< wpa81)) (&& (< monotouch) (< net10) (>= netstandard1.5) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< net10) (>= netstandard1.0) (< portable-net45+win8+wp8+wpa81))
