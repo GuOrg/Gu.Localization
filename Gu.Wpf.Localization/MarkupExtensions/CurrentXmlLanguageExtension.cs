@@ -16,14 +16,14 @@
         /// <inheritdoc />
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            var binding = new Binding()
-            {
-                Source = CurrentCultureProxy.Instance,
-                Path = ValuePath,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                Mode = BindingMode.OneWay,
-                Converter = CultureToXmlLanguageConverter.Default
-            };
+            var binding = new Binding
+                          {
+                              Source = CurrentCultureProxy.Instance,
+                              Path = ValuePath,
+                              UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                              Mode = BindingMode.OneWay,
+                              Converter = CultureToXmlLanguageConverter.Default
+                          };
 
             return binding.ProvideValue(serviceProvider);
         }

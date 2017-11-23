@@ -15,7 +15,7 @@
         /// <inheritdoc />
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            var binding = new Binding()
+            var binding = new Binding
             {
                 Source = CurrentCultureProxy.Instance,
                 Path = ValuePath,
