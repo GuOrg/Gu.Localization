@@ -6,8 +6,8 @@
 
     public class ResourceManagerExtTests
     {
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        [SetUp]
+        public void SetUp()
         {
             Properties.Resources.ResourceManager.ReleaseAllResources();
         }
