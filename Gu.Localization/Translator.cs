@@ -79,7 +79,7 @@
             CultureInfo language,
             ErrorHandling errorHandling)
         {
-            TryTranslateOrThrow(resourceManager, key, language, errorHandling, out string result);
+            TryTranslateOrThrow(resourceManager, key, language, errorHandling, out var result);
             return result;
         }
 

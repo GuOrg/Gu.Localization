@@ -14,7 +14,7 @@
         /// <returns>True if the string contains format placeholders.</returns>
         public static bool IsFormatString(string format)
         {
-            if (IsValidFormat(format, out int count, out bool? anyItemHasFormat))
+            if (IsValidFormat(format, out var count, out _))
             {
                 return count != 0;
             }
@@ -38,7 +38,7 @@
                 throw new ArgumentException(nameof(numberOfArguments));
             }
 
-            if (IsValidFormat(format, out int indexCount, out bool? anyItemHasFormat))
+            if (IsValidFormat(format, out var indexCount, out _))
             {
                 return indexCount == numberOfArguments;
             }
@@ -63,7 +63,7 @@
                 return true;
             }
 
-            int pos = 0;
+            var pos = 0;
             anyItemHasFormat = false;
             var indices = Indices.Value;
             indices.Clear();
@@ -85,7 +85,7 @@
                     continue;
                 }
 
-                if (!TryParseItemFormat(format, ref pos, out int index, out bool? itemHasFormat))
+                if (!TryParseItemFormat(format, ref pos, out var index, out bool? itemHasFormat))
                 {
                     indexCount = -1;
                     anyItemHasFormat = null;

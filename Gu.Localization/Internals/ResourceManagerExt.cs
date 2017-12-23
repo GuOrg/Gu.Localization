@@ -110,12 +110,12 @@
                 // I don't remember if this cloning solves a problem or if it is some old thing.
                 using (var clone = new ResourceManagerClone(this.resourceManager))
                 {
-                    if (clone?.ResourceManager == null)
+                    if (clone.ResourceManager == null)
                     {
                         return;
                     }
 
-                    bool hasAddedNeutral = false;
+                    var hasAddedNeutral = false;
                     lock (this.culturesAndKeys)
                     {
                         foreach (var culture in cultures)
@@ -231,7 +231,7 @@
                 {
                     get
                     {
-                        if (this.TryGetValue(key, out string value))
+                        if (this.TryGetValue(key, out var value))
                         {
                             return value;
                         }

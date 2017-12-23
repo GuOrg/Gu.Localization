@@ -19,7 +19,7 @@ namespace Gu.Localization
 
         private static IEnumerable<TSource> AppendIterator<TSource>(IEnumerable<TSource> source, TSource element)
         {
-            foreach (TSource e1 in source)
+            foreach (var e1 in source)
             {
                 yield return e1;
             }
@@ -31,7 +31,7 @@ namespace Gu.Localization
         {
             yield return element;
 
-            foreach (TSource e1 in source)
+            foreach (var e1 in source)
             {
                 yield return e1;
             }

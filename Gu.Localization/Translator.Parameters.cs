@@ -34,7 +34,7 @@
         /// <returns>The key translated to the <paramref name="language"/></returns>
         public static string Translate<T>(ResourceManager resourceManager, string key, CultureInfo language, T arg0, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
-            if (!TryTranslateOrThrow(resourceManager, key, language, errorHandling, out string format))
+            if (!TryTranslateOrThrow(resourceManager, key, language, errorHandling, out var format))
             {
                 return format;
             }
@@ -92,7 +92,7 @@
         /// <returns>The key translated to the <paramref name="language"/></returns>
         public static string Translate<T0, T1>(ResourceManager resourceManager, string key, CultureInfo language, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
-            if (!TryTranslateOrThrow(resourceManager, key, language, errorHandling, out string format))
+            if (!TryTranslateOrThrow(resourceManager, key, language, errorHandling, out var format))
             {
                 return format;
             }

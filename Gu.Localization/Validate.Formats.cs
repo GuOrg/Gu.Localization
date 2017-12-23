@@ -15,7 +15,7 @@ namespace Gu.Localization
         /// <param name="arg0">The argument</param>
         public static void Format<T0>(string format, T0 arg0)
         {
-            if (!FormatString.IsValidFormat(format, out int count, out bool? anyItemHasFormat))
+            if (!FormatString.IsValidFormat(format, out var count, out var anyItemHasFormat))
             {
                 throw new FormatException($"Invalid format string: \"{format}\".");
             }
@@ -38,7 +38,7 @@ namespace Gu.Localization
         /// <param name="arg1">The second argument.</param>
         public static void Format<T0, T1>(string format, T0 arg0, T1 arg1)
         {
-            if (!FormatString.IsValidFormat(format, out int count, out bool? anyItemHasFormat))
+            if (!FormatString.IsValidFormat(format, out var count, out var anyItemHasFormat))
             {
                 throw new FormatException($"Invalid format string: \"{format}\".");
             }
@@ -58,7 +58,7 @@ namespace Gu.Localization
         /// <param name="args">The arguments.</param>
         public static void Format(string format, params object[] args)
         {
-            if (!FormatString.IsValidFormat(format, out int count, out bool? anyItemHasFormat))
+            if (!FormatString.IsValidFormat(format, out var count, out var anyItemHasFormat))
             {
                 throw new FormatException($"Invalid format string: \"{format}\".");
             }
@@ -112,7 +112,7 @@ namespace Gu.Localization
 
         private static bool IsValidFormat(string format, int argumentCount)
         {
-            if (!FormatString.IsValidFormat(format, out int count, out bool? anyItemHasFormat))
+            if (!FormatString.IsValidFormat(format, out var count, out var anyItemHasFormat))
             {
                 return false;
             }

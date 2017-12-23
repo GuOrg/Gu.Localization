@@ -50,7 +50,7 @@ namespace Gu.Localization
             Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
             foreach (var key in culturesAndKeys.AllKeys)
             {
-                if (TryGetTranslationErrors(culturesAndKeys, cultures, key, out IReadOnlyList<TranslationError> keyErrors))
+                if (TryGetTranslationErrors(culturesAndKeys, cultures, key, out var keyErrors))
                 {
                     if (errors == null)
                     {
@@ -99,7 +99,7 @@ namespace Gu.Localization
             Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
             foreach (var key in Enum.GetNames(typeof(T)))
             {
-                if (TryGetTranslationErrors(culturesAndKeys, cultures, key, out IReadOnlyList<TranslationError> keyErrors))
+                if (TryGetTranslationErrors(culturesAndKeys, cultures, key, out var keyErrors))
                 {
                     if (errors == null)
                     {
@@ -148,7 +148,7 @@ namespace Gu.Localization
         /// <returns>A list with all errors for the key or an empty list if no errors.</returns>
         public static IReadOnlyList<TranslationError> Translations(ResourceManager resourceManager, string key, IEnumerable<CultureInfo> cultures)
         {
-            if (TryGetTranslationErrors(resourceManager, key, cultures, out IReadOnlyList<TranslationError> errors))
+            if (TryGetTranslationErrors(resourceManager, key, cultures, out var errors))
             {
                 return errors;
             }
@@ -167,12 +167,12 @@ namespace Gu.Localization
         private static bool TryGetTranslationErrors(ResourceManagerExt.CulturesAndKeys culturesAndKeys, IEnumerable<CultureInfo> cultures, string key, out IReadOnlyList<TranslationError> errors)
         {
             List<TranslationError> foundErrors = null;
-            if (TryGetFormatErrors(key, culturesAndKeys, cultures, out FormatError formatErrors))
+            if (TryGetFormatErrors(key, culturesAndKeys, cultures, out var formatErrors))
             {
                 foundErrors = new List<TranslationError>(1) { formatErrors };
             }
 
-            if (TryGetMissingTranslations(key, culturesAndKeys, cultures, out MissingTranslation missingTranslation))
+            if (TryGetMissingTranslations(key, culturesAndKeys, cultures, out var missingTranslation))
             {
                 if (foundErrors == null)
                 {
@@ -198,7 +198,7 @@ namespace Gu.Localization
             var translations = culturesAndKeys.GetTranslationsFor(key, cultures);
             foreach (var translation in translations)
             {
-                if (!FormatString.IsValidFormat(translation.Value, out int indexCount, out bool? anyItemHasFormat))
+                if (!FormatString.IsValidFormat(translation.Value, out var indexCount, out var anyItemHasFormat))
                 {
                     formatErrors = new FormatError(key, translations);
                     return true;
