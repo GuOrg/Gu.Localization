@@ -32,7 +32,7 @@ RESTRICTION: >= net45
 NUGET
   remote: http://www.nuget.org/api/v2
     Castle.Core (4.2.1)
-    Gu.Wpf.UiAutomation (0.1.17)
+    Gu.Wpf.UiAutomation (0.2.0)
     Moq (4.7.145)
       Castle.Core (>= 4.2.1)
     NUnit (3.9)
