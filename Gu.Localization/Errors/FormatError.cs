@@ -1,4 +1,4 @@
-﻿namespace Gu.Localization.Errors
+namespace Gu.Localization.Errors
 {
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
@@ -7,7 +7,7 @@
     /// <summary>
     /// A key that has errors in format parameters.
     /// Errors can be:
-    /// 'First: {1}' (deos not start at zero)
+    /// 'First: {1}' (does not start at zero)
     /// If different languages have different number of parameters
     /// </summary>
     public class FormatError : TranslationError

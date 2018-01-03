@@ -1,4 +1,4 @@
-﻿// ReSharper disable PossibleMultipleEnumeration
+// ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Localization
 {
     using System;
@@ -198,7 +198,7 @@ namespace Gu.Localization
             var translations = culturesAndKeys.GetTranslationsFor(key, cultures);
             foreach (var translation in translations)
             {
-                if (!FormatString.IsValidFormat(translation.Value, out var indexCount, out var anyItemHasFormat))
+                if (!FormatString.IsValidFormat(translation.Value, out var indexCount, out _))
                 {
                     formatErrors = new FormatError(key, translations);
                     return true;

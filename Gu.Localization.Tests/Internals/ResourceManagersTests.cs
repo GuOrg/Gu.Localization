@@ -1,4 +1,4 @@
-﻿namespace Gu.Localization.Tests.Internals
+namespace Gu.Localization.Tests.Internals
 {
     using System;
     using System.Resources;
@@ -25,8 +25,8 @@
         [Test]
         public void TryGetForType()
         {
-            Assert.IsTrue(ResourceManagers.TryGetForType(typeof(Properties.Resources), out ResourceManager resourceManager1));
-            Assert.IsTrue(ResourceManagers.TryGetForType(typeof(Properties.Resources), out ResourceManager resourceManager2));
+            Assert.IsTrue(ResourceManagers.TryGetForType(typeof(Properties.Resources), out var resourceManager1));
+            Assert.IsTrue(ResourceManagers.TryGetForType(typeof(Properties.Resources), out var resourceManager2));
             Assert.AreSame(resourceManager1, resourceManager2);
             Assert.AreSame(resourceManager1, Properties.Resources.ResourceManager);
         }
@@ -34,7 +34,7 @@
         [Test]
         public void TryGetForTypeFails()
         {
-            Assert.IsFalse(ResourceManagers.TryGetForType(typeof(ResourceManager), out ResourceManager temp));
+            Assert.IsFalse(ResourceManagers.TryGetForType(typeof(ResourceManager), out _));
         }
     }
 }

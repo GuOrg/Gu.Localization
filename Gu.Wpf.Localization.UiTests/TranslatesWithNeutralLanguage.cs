@@ -1,6 +1,5 @@
 namespace Gu.Wpf.Localization.UiTests
 {
-    using System;
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
@@ -18,9 +17,9 @@ namespace Gu.Wpf.Localization.UiTests
             using (var application = Application.AttachOrLaunch(StartInfo.WithNeutralLanguageProject))
             {
                 var window = application.MainWindow;
-                window.FindRadioButton("en").Click();
+                window.FindRadioButton("en").IsChecked = true;
                 Assert.AreEqual("en", window.FindTextBlock("CurrentCultureTextBlock").Text);
-                window.FindRadioButton("pt").Click();
+                window.FindRadioButton("pt").IsChecked = true;
                 Assert.AreEqual("pt", window.FindTextBlock("CurrentCultureTextBlock").Text);
             }
         }
@@ -31,14 +30,14 @@ namespace Gu.Wpf.Localization.UiTests
             using (var application = Application.AttachOrLaunch(StartInfo.WithNeutralLanguageProject))
             {
                 var window = application.MainWindow;
-                window.FindRadioButton("en").Click();
+                window.FindRadioButton("en").IsChecked = true;
                 var groupBox = window.FindGroupBox("Vanilla xaml");
                 Assert.AreEqual("English", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
 
-                window.FindRadioButton("pt").Click();
-                Assert.AreEqual("Português", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
+                window.FindRadioButton("pt").IsChecked = true;
+                Assert.AreEqual("PortuguÃªs", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
 
-                window.FindRadioButton("en").Click();
+                window.FindRadioButton("en").IsChecked = true;
                 Assert.AreEqual("English", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
             }
         }
