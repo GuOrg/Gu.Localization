@@ -10,10 +10,10 @@ namespace Gu.Localization.Tests.Sandbox
     {
         private static readonly ConcurrentDictionary<Assembly, Translations> Cache = new ConcurrentDictionary<Assembly, Translations>();
 
-        // ReSharper disable NotAccessedField.Local for debugging
+        //// ReSharper disable NotAccessedField.Local for debugging
         private readonly IReadOnlyDictionary<string, string> neutralMap;
         private readonly IReadOnlyDictionary<CultureInfo, string> cultureFileMap;
-        // ReSharper restore NotAccessedField.Local
+        //// ReSharper restore NotAccessedField.Local
 
         private Translations(
             string baseName,

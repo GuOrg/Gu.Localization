@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Gu.Localization.XML</DocumentationFile>
     <CodeAnalysisRuleSet>Gu.Localization.ruleset</CodeAnalysisRuleSet>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>

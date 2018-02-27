@@ -17,11 +17,11 @@ namespace Gu.Localization.Tests.Internals
             {
                 var name = culture.Name;
                 Assert.IsTrue(Culture.Exists(name));
-                CultureInfo.GetCultureInfo(name);
+                Assert.AreEqual(name, CultureInfo.GetCultureInfo(name).Name);
 
                 name = culture.TwoLetterISOLanguageName;
                 Assert.IsTrue(Culture.Exists(name));
-                CultureInfo.GetCultureInfo(name);
+                Assert.AreEqual(name, CultureInfo.GetCultureInfo(name).Name);
             }
         }
     }

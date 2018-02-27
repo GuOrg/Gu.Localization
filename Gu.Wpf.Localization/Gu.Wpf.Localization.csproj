@@ -37,7 +37,7 @@
     <StyleCopTreatErrorsAsWarnings>False</StyleCopTreatErrorsAsWarnings>
     <DocumentationFile>bin\Release\Gu.Wpf.Localization.XML</DocumentationFile>
     <CodeAnalysisRuleSet>Gu.Wpf.Localization.ruleset</CodeAnalysisRuleSet>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
