@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Localization.Tests
+namespace Gu.Wpf.Localization.Tests
 {
     using System;
     using System.Windows.Markup;
@@ -14,7 +14,7 @@
             var provideValueTargetMock = new Mock<IProvideValueTarget>();
             provideValueTargetMock.SetupGet(x => x.TargetObject).Returns(new SharedDp());
             serviceProviderMock.Setup(x => x.GetService(typeof(IProvideValueTarget)))
-                                .Returns(provideValueTargetMock.Object);
+                               .Returns(provideValueTargetMock.Object);
             var translateExtension = new Localization.StaticExtension("meh");
             var actual = translateExtension.ProvideValue(serviceProviderMock.Object);
             Assert.AreEqual("#meh#", actual);

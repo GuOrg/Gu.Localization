@@ -1,4 +1,4 @@
-﻿namespace Gu.Localization.Tests
+namespace Gu.Localization.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -78,8 +78,10 @@
                 var key = nameof(Properties.Resources.EnglishOnly);
                 var italian = CultureInfo.GetCultureInfo("it");
                 //// This call is for side effects to assert that 'it' is not added, YES NEEDS TO BE CALLED TWICE
+#pragma warning disable GU0011 // Don't ignore the return value.
                 Translator<Properties.Resources>.Translate(key, italian, ErrorHandling.ReturnErrorInfo);
                 Translator<Properties.Resources>.Translate(key, italian, ErrorHandling.ReturnErrorInfo);
+#pragma warning restore GU0011 // Don't ignore the return value.
 
                 var cultures = Translator.Cultures.Select(x => x.Name)
                                          .ToArray();
