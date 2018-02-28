@@ -35,7 +35,7 @@ NUGET
     Gu.Wpf.UiAutomation (0.2.2)
     Microsoft.NETCore.Platforms (2.0.1) - restriction: || (&& (>= monoandroid) (>= net45) (< netstandard1.0)) (&& (>= monotouch) (>= net45)) (&& (>= net45) (>= netcoreapp2.0) (< netstandard2.0)) (&& (>= net45) (< netstandard1.0) (>= portable-net451+win81+wpa81)) (&& (>= net45) (< netstandard1.3) (>= wpa81)) (&& (>= net45) (< portable-net45+win8+wpa81)) (&& (>= net45) (< portable-net451+win81+wpa81)) (&& (>= net45) (>= uap10.0)) (&& (>= net45) (>= xamarinios)) (&& (>= net45) (>= xamarinmac)) (&& (>= net45) (>= xamarintvos)) (&& (>= net45) (>= xamarinwatchos)) (&& (>= net451) (< netstandard1.3)) (&& (>= net46) (< netstandard1.4))
     Microsoft.Win32.Primitives (4.3) - restriction: || (&& (>= net45) (>= uap10.0)) (&& (>= net46) (< netstandard1.4))
-    Moq (4.8.2)
+    Moq (4.8)
       Castle.Core (>= 4.2.1)
       System.Threading.Tasks.Extensions (>= 4.3)
       System.ValueTuple (>= 4.4)
