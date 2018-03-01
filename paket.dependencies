@@ -1,5 +1,4 @@
 source http://www.nuget.org/api/v2/
-framework: >= net4.5
 
 group Build
   source http://www.nuget.org/api/v2/
@@ -15,8 +14,8 @@ group Analyzers
   nuget JetBrains.Annotations
 
 group Test
+  storage: none
   source http://www.nuget.org/api/v2/
-  framework: >= net45
   nuget NUnit
   nuget Moq
   nuget Castle.Core

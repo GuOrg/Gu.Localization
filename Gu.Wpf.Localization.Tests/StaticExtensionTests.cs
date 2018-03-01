@@ -10,8 +10,8 @@ namespace Gu.Wpf.Localization.Tests
         [Test]
         public void ProvideValueSharedDp()
         {
-            var serviceProviderMock = new Mock<IServiceProvider>();
-            var provideValueTargetMock = new Mock<IProvideValueTarget>();
+            var serviceProviderMock = new Mock<IServiceProvider>(MockBehavior.Strict);
+            var provideValueTargetMock = new Mock<IProvideValueTarget>(MockBehavior.Strict);
             provideValueTargetMock.SetupGet(x => x.TargetObject).Returns(new SharedDp());
             serviceProviderMock.Setup(x => x.GetService(typeof(IProvideValueTarget)))
                                .Returns(provideValueTargetMock.Object);
