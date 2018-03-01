@@ -3,7 +3,6 @@ namespace Gu.Localization
     using System.ComponentModel;
     using System.Globalization;
     using System.Runtime.CompilerServices;
-    using JetBrains.Annotations;
 
     /// <summary>A fake translation that can be used fo nonlocalized strings.</summary>
     public class StaticTranslation : ITranslation
@@ -50,7 +49,7 @@ namespace Gu.Localization
 
         /// <summary>Returns <see cref="Translated"/> for all inputs.</summary>
         /// <param name="culture">The culture is ignored.</param>
-        /// <param name="errorHandlingStrategy">The errorhandling is ignored.</param>
+        /// <param name="errorHandlingStrategy">The error handling is ignored.</param>
         /// <returns>Returns <see cref="Translated"/>.</returns>
         public string Translate(CultureInfo culture, ErrorHandling errorHandlingStrategy = ErrorHandling.Inherit)
         {
@@ -59,7 +58,6 @@ namespace Gu.Localization
 
         /// <summary>Use this to notify about a change of the value for the property named <paramref name="propertyName"/>.</summary>
         /// <param name="propertyName">The name of the property.</param>
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
