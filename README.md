@@ -337,6 +337,8 @@ If true it popolates itself with `Translator.Cultures` in the running applicatio
 </l:LanguageSelector>
 ```
 
+![screenie](http://i.imgur.com/DKfx8WB.png)
+
 ## 6.3. Simple language select.
 The below example binds the available cutures to a ComboBox.
 ```xaml
@@ -344,4 +346,4 @@ The below example binds the available cutures to a ComboBox.
           SelectedItem="{Binding Path=(localization:Translator.CurrentCulture)}" />
 ```
 
-![screenie](http://i.imgur.com/DKfx8WB.png)
+
