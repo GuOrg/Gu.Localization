@@ -110,6 +110,7 @@ Creating it like the above is pretty verbose. Introducing a helper like below ca
 namespace YourNamespace.Properties
 {
     using Gu.Localization;
+    using Gu.Localization.Properties;
 
     public static class Translate
     {
