@@ -212,7 +212,7 @@ Same as translator but used like `Translator<Properties.Resources>.Translate(...
 
 ## 2.3. Translation.
 An object with a Translated property that is a string with the value in `Translator.CurrentCulture` 
-Implements ÌNotifyPropertyChanged` and notifies when for the property `Translated` if a change in `Translator.CurrentCulture` updates the translation.
+Implements `INotifyPropertyChanged` and notifies when for the property `Translated` if a change in `Translator.CurrentCulture` updates the translation.
 
 ## 2.3.1 GetOrCreate.
 Returns an `ITranslation` from cache or creates and caches a new instance.
