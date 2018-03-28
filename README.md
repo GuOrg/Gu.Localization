@@ -9,7 +9,7 @@
 
 # Contents.
 - [1. Usage in XAML.](#1-usage-in-xaml)
-  - [1.1. Bind a localized string.](#11-basic-usage)
+  - [1.1. Basic Usage.](#11-basic-usage)
   - [1.2. Bind a localized string.](#12-bind-a-localized-string)
   - [1.3. Errorhandling.](#13-errorhandling)
   - [1.4. CurrentCulture.](#14-currentculture)
