@@ -44,6 +44,7 @@
 - [6. LanguageSelector](#6-languageselector)
   - [6.1. AutogenerateLanguages](#61-autogeneratelanguages)
   - [6.2. Explicit languages.](#62-explicit-languages)
+  - [6.3. Simple language select.](#63-simple-language-select)
 
 # 1. Usage in XAML.
 
@@ -334,6 +335,13 @@ If true it popolates itself with `Translator.Cultures` in the running applicatio
     <l:Language Culture="sv-SE"
                 FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/sv.png" />
 </l:LanguageSelector>
+```
+
+## 6.3. Simple language select.
+The below example binds the available cutures to a ComboBox.
+```xaml
+<ComboBox ItemsSource="{x:Static localization:Translator.Cultures}" DockPanel.Dock="Top" HorizontalAlignment="right"
+          SelectedItem="{Binding Path=(localization:Translator.CurrentCulture)}" />
 ```
 
 ![screenie](http://i.imgur.com/DKfx8WB.png)
