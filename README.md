@@ -97,6 +97,9 @@ A markupextension for accessing `Translator.CurrentCulture` from xaml. Retruns a
 ## 1.4. Binding to CurrentCulture and CurrentCulture in XAML.
 The static properties support binding. Use this XAML for a twoway binding:
 ```xaml
+<Window ...
+        xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization">
+    ...
 <TextBox Text="{Binding Path=(localization:Translator.CurrentCulture)}" />
 ```
 
