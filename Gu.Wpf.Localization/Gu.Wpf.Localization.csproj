@@ -52,6 +52,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LanguageSelector\CultureToFlagPathConverter.cs" />
     <Compile Include="MarkupExtensions\CurrentCultureExtension.cs" />
     <Compile Include="AttachedProperties\DesignTime.cs" />
     <Compile Include="MarkupExtensions\CurrentCultureProxy.cs" />
@@ -350,7 +351,7 @@
     <Resource Include="Flags\nl.png" />
     <Resource Include="Flags\pl.png" />
     <Resource Include="Flags\pt.png" />
-    <Resource Include="Flags\Readme.txt" />
+    <None Include="Flags\Readme.txt" />
     <Resource Include="Flags\ro.png" />
     <Resource Include="Flags\ru.png" />
     <Resource Include="Flags\sv.png" />
