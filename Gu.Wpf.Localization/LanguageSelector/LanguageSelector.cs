@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Localization
+namespace Gu.Wpf.Localization
 {
     using System;
     using System.Collections.Generic;
@@ -48,12 +48,13 @@
                 var enumerator = reader.GetEnumerator();
                 while (enumerator.MoveNext())
                 {
-                    var flagName = (string)enumerator.Key;
-                    Debug.Assert(flagName != null, "flag == null");
-                    var name = System.IO.Path.GetFileNameWithoutExtension(flagName);
-                    if (Culture.TryGet(name, out CultureInfo culture))
+                    var flagFileName = (string)enumerator.Key;
+                    Debug.Assert(flagFileName != null, "flag == null");
+                    var regionName = System.IO.Path.GetFileNameWithoutExtension(flagFileName);
+                    if (Culture.TryGetRegion(regionName, out var regionInfo) &&
+                        Culture.TryGet(regionInfo, out var culture))
                     {
-                        flags.Add(culture, flagName);
+                        flags.Add(culture, flagFileName);
                     }
                 }
 

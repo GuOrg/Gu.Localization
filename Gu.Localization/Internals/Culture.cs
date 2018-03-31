@@ -8,26 +8,65 @@ namespace Gu.Localization
     /// <summary> Utility class for <see cref="CultureInfo"/> </summary>
     internal static class Culture
     {
-        private static readonly HashSet<string> CultureNames = CreateCultureNames();
+        private static readonly Dictionary<string, CultureInfo> TwoLetterISOLanguageNameCultureMap;
+        private static readonly Dictionary<string, CultureInfo> NameCultureMap;
+        private static readonly Dictionary<RegionInfo, CultureInfo> RegionCultureMap;
+        private static readonly Dictionary<string, RegionInfo> NameRegioneMap;
+
+        static Culture()
+        {
+            var cultureInfos = CultureInfo.GetCultures(CultureTypes.AllCultures)
+                .Where(x => !string.IsNullOrEmpty(x.Name))
+                .ToArray();
+            TwoLetterISOLanguageNameCultureMap = cultureInfos
+                .Where(x => x.Name == x.TwoLetterISOLanguageName)
+                .ToDictionary(
+                    x => x.TwoLetterISOLanguageName,
+                    x => x,
+                    StringComparer.OrdinalIgnoreCase);
+            NameCultureMap = cultureInfos.ToDictionary(
+                x => x.Name,
+                x => x,
+                StringComparer.OrdinalIgnoreCase);
+
+            RegionCultureMap = cultureInfos
+                .Where(x => !x.IsNeutralCulture)
+                .ToDictionary(
+                    x => new RegionInfo(x.Name),
+                    x => x);
+
+            NameRegioneMap = cultureInfos
+                .Where(x => !x.IsNeutralCulture)
+                .Select(x => new RegionInfo(x.Name))
+                .ToDictionary(
+                    x => x.Name,
+                    x => x,
+                    StringComparer.OrdinalIgnoreCase);
+        }
 
         /// <summary>Check if <paramref name="name"/> is the name of a culture</summary>
         /// <param name="name">The name</param>
         /// <returns>True if <paramref name="name"/> is a culture name.</returns>
         internal static bool Exists(string name)
         {
-            return CultureNames.Contains(name);
+            return TwoLetterISOLanguageNameCultureMap.ContainsKey(name) ||
+                   NameCultureMap.ContainsKey(name);
         }
 
         internal static bool TryGet(string name, out CultureInfo culture)
         {
-            if (Exists(name))
-            {
-                culture = CultureInfo.GetCultureInfo(name);
-                return true;
-            }
+            return TwoLetterISOLanguageNameCultureMap.TryGetValue(name, out culture) ||
+                   NameCultureMap.TryGetValue(name, out culture);
+        }
 
-            culture = null;
-            return false;
+        internal static bool TryGet(RegionInfo region, out CultureInfo culture)
+        {
+            return RegionCultureMap.TryGetValue(region, out culture);
+        }
+
+        internal static bool TryGetRegion(string name, out RegionInfo region)
+        {
+            return NameRegioneMap.TryGetValue(name, out region);
         }
 
         internal static bool NameEquals(CultureInfo first, CultureInfo other)
@@ -48,17 +87,6 @@ namespace Gu.Localization
         internal static bool IsInvariant(this CultureInfo culture)
         {
             return NameEquals(culture, CultureInfo.InvariantCulture);
-        }
-
-        private static HashSet<string> CreateCultureNames()
-        {
-            var cultureInfos = CultureInfo.GetCultures(CultureTypes.AllCultures)
-                                          .Where(x => !string.IsNullOrEmpty(x.Name))
-                                          .ToArray();
-            var allNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            allNames.UnionWith(cultureInfos.Select(x => x.TwoLetterISOLanguageName));
-            allNames.UnionWith(cultureInfos.Select(x => x.Name));
-            return allNames;
         }
     }
 }
