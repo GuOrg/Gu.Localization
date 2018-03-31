@@ -46,6 +46,8 @@
   - [6.1. AutogenerateLanguages](#61-autogeneratelanguages)
   - [6.2. Explicit languages.](#62-explicit-languages)
   - [6.3. Simple language select.](#63-simple-language-select)
+- [7. Examples](#7-examples)
+  - [7.1. ComboBox Language selector](#71-combobox-language-selector)
 
 # 1. Usage in XAML.
 
@@ -71,8 +73,6 @@ For each language, create a resource.xx.resx file. You can use [ResXManager](htt
     <!-- Label that changes translation upon language selection -->
     <Label Text="{l:Static p:Resources.ResourceKeyName}" />
 ```
-
-// Here some text about static setting of language
 
 
 ## 1.2. Bind a localized string.
@@ -338,6 +338,8 @@ Returns true if the string contains placeholders like `"Value: {0}"` that matche
 A simple control for changing current language.
 A few flags are included in the library, many are probably missing.
 
+***Note: LanguageSelector might be depricated in the future***
+
 ## 6.1. AutogenerateLanguages
 Default is false. 
 If true it popolates itself with `Translator.Cultures` in the running application and picks the default flag or null.
@@ -367,5 +369,77 @@ The below example binds the available cutures to a ComboBox.
 <ComboBox ItemsSource="{x:Static localization:Translator.Cultures}" DockPanel.Dock="Top" HorizontalAlignment="right"
           SelectedItem="{Binding Path=(localization:Translator.CurrentCulture)}" />
 ```
+
+# 7. Examples
+
+## 7. ComboBox Language selector
+```xaml
+<Window ...
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization"
+        xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
+        xmlns:local="clr-namespace:OSAsense">
+
+            <ComboBox ItemsSource="{Binding Path=(localization:Translator.Cultures)}" SelectedItem="{Binding Path=(localization:Translator.Culture)}" Height="25" MinWidth="150" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type globalization:CultureInfo}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                            <Image
+                                Grid.Column="0"
+                                Height="12"
+                                VerticalAlignment="Center"
+                                Source="{Binding Converter={x:Static local:CultureToFlagPathConverter.Default}}"
+                                Stretch="Fill"/>
+
+                            <TextBlock
+                                Grid.Column="1"
+                                                   Margin="10,0,0,0"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center"
+                                Text="{Binding NativeName}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+```
+
+**CultureToFlagPathConverter.cs**
+```c#
+using System;
+using System.Globalization;
+using System.Windows.Data;
+
+namespace ProjectNamespace
+{
+    public sealed class CultureToFlagPathConverter : IValueConverter
+    {
+        /// <summary>The default instance.</summary>
+        public static readonly CultureToFlagPathConverter Default = new CultureToFlagPathConverter();
+
+        /// <inheritdoc />
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is CultureInfo cultureInfo)
+            {
+                return "pack://application:,,,/Gu.Wpf.Localization;component/Flags/" + cultureInfo.TwoLetterISOLanguageName + ".png";
+            }
+
+            return Binding.DoNothing;
+        }
+
+        /// <inheritdoc />
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException($"{nameof(CultureToFlagPathConverter)} can only be used with {nameof(BindingMode)}.{nameof(BindingMode.OneWay)}");
+        }
+    }
+}
+```
+
 
 
