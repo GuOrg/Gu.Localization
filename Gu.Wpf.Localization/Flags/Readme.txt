@@ -1,4 +1,4 @@
-﻿Flags from: https://en.wikipedia.org/wiki/Gallery_of_sovereign_state_flags
+﻿Flags from: https://github.com/lipis/flag-icon-css (Converted to png)
 
 [Test]
 public void DumpCultures()
