@@ -378,7 +378,7 @@ The below example binds the available cutures to a ComboBox.
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization"
         xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
-        xmlns:local="clr-namespace:OSAsense">
+        xmlns:local="clr-namespace:ProjectNamespace">
 
             <ComboBox ItemsSource="{Binding Path=(localization:Translator.Cultures)}" SelectedItem="{Binding Path=(localization:Translator.Culture)}" Height="25" MinWidth="150" HorizontalAlignment="Right" VerticalAlignment="Top">
                             <ComboBox.ItemTemplate>
