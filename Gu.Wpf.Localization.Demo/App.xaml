@@ -1,71 +1,71 @@
-﻿<Application x:Class="Gu.Wpf.Localization.Demo.App"
+<Application x:Class="Gu.Wpf.Localization.Demo.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:l="http://gu.se/Localization"
              xmlns:local="clr-namespace:Gu.Wpf.Localization.Demo"
              xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.Properties"
              StartupUri="MainWindow.xaml">
-    <Application.Resources>
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="Margin" Value="10,0,10,0" />
-        </Style>
+  <Application.Resources>
+    <Style TargetType="{x:Type TextBlock}">
+      <Setter Property="Margin" Value="10,0,10,0" />
+    </Style>
 
-        <DataTemplate x:Key="DemoTemplate">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+    <DataTemplate x:Key="DemoTemplate">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           Text="SwedishOnly" />
-                <TextBlock Grid.Row="0"
-                           Grid.Column="1"
-                           AutomationProperties.AutomationId="SwedishOnlyTextBlockId"
-                           Text="{l:Static p:Resources.SwedishOnly}" />
+        <TextBlock Grid.Row="0"
+                   Grid.Column="0"
+                   Text="SwedishOnly" />
+        <TextBlock Grid.Row="0"
+                   Grid.Column="1"
+                   AutomationProperties.AutomationId="SwedishOnlyTextBlockId"
+                   Text="{l:Static p:Resources.SwedishOnly}" />
 
-                <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           Text="SwedishAndNeutral" />
-                <TextBlock Grid.Row="1"
-                           Grid.Column="1"
-                           AutomationProperties.AutomationId="SwedishAndNeutralTextBlockId"
-                           Text="{l:Static p:Resources.SwedishAndNeutral}" />
+        <TextBlock Grid.Row="1"
+                   Grid.Column="0"
+                   Text="SwedishAndNeutral" />
+        <TextBlock Grid.Row="1"
+                   Grid.Column="1"
+                   AutomationProperties.AutomationId="SwedishAndNeutralTextBlockId"
+                   Text="{l:Static p:Resources.SwedishAndNeutral}" />
 
-                <TextBlock Grid.Row="2"
-                           Grid.Column="0"
-                           Text="TranslatedToAll Run" />
-                <TextBlock Grid.Row="2" Grid.Column="1">
-                    <Run Text="{l:Static p:Resources.TranslatedToAll}" />
-                </TextBlock>
+        <TextBlock Grid.Row="2"
+                   Grid.Column="0"
+                   Text="TranslatedToAll Run" />
+        <TextBlock Grid.Row="2" Grid.Column="1">
+          <Run Text="{l:Static p:Resources.TranslatedToAll}" />
+        </TextBlock>
 
-                <TextBlock Grid.Row="3"
-                           Grid.Column="0"
-                           Text="TranslatedToAll" />
-                <TextBlock Grid.Row="3"
-                           Grid.Column="1"
-                           AutomationProperties.AutomationId="TranslatedToAllTextBlockId"
-                           Text="{l:Static p:Resources.TranslatedToAll}" />
+        <TextBlock Grid.Row="3"
+                   Grid.Column="0"
+                   Text="TranslatedToAll" />
+        <TextBlock Grid.Row="3"
+                   Grid.Column="1"
+                   AutomationProperties.AutomationId="TranslatedToAllTextBlockId"
+                   Text="{l:Static p:Resources.TranslatedToAll}" />
 
-                <TextBlock Grid.Row="4"
-                           Grid.Column="0"
-                           Text="Enum" />
-                <TextBlock Grid.Row="4"
-                           Grid.Column="1"
-                           AutomationProperties.AutomationId="EnumTranslatedToAllTextBlockId"
-                           Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},
-                                         Member={x:Static local:DummyEnum.TranslatedToAll}}" />
-            </Grid>
-        </DataTemplate>
-    </Application.Resources>
+        <TextBlock Grid.Row="4"
+                   Grid.Column="0"
+                   Text="Enum" />
+        <TextBlock Grid.Row="4"
+                   Grid.Column="1"
+                   AutomationProperties.AutomationId="EnumTranslatedToAllTextBlockId"
+                   Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},
+                                 Member={x:Static local:DummyEnum.TranslatedToAll}}" />
+      </Grid>
+    </DataTemplate>
+  </Application.Resources>
 </Application>

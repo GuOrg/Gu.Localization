@@ -41,8 +41,7 @@
                         ItemsSource="{TemplateBinding Languages}">
             <ItemsControl.ItemTemplate>
               <DataTemplate DataType="{x:Type localization:Language}">
-                <RadioButton HorizontalContentAlignment="Stretch"
-                             AutomationProperties.AutomationId="{Binding Culture.Name}"
+                <RadioButton AutomationProperties.AutomationId="{Binding Culture.Name}"
                              GroupName="LanguagesGroup"
                              IsChecked="{Binding IsSelected}"
                              IsEnabled="{Binding CanSelect, Mode=OneWay}"
@@ -75,3 +74,4 @@
     </Setter>
   </Style>
 </ResourceDictionary>
+

@@ -11,61 +11,61 @@
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
+  <Grid>
     <Grid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0"
-                       Grid.Column="0"
-                       Text="MissingKey" />
-            <TextBlock Grid.Row="0"
-                       Grid.Column="1"
-                       AutomationProperties.AutomationId="MissingKeyTextBlockId"
-                       Text="{l:Static p:Resources.MissingKey}" />
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <TextBlock Grid.Row="0"
+                 Grid.Column="0"
+                 Text="MissingKey" />
+      <TextBlock Grid.Row="0"
+                 Grid.Column="1"
+                 AutomationProperties.AutomationId="MissingKeyTextBlockId"
+                 Text="{l:Static p:Resources.MissingKey}" />
 
-            <TextBlock Grid.Row="1"
-                       Grid.Column="0"
-                       Text="SwedishAndNeutral" />
-            <TextBlock Grid.Row="1"
-                       Grid.Column="1"
-                       AutomationProperties.AutomationId="SwedishAndNeutralTextBlockId"
-                       Text="{l:Static p:Resources.SwedishAndNeutral}" />
+      <TextBlock Grid.Row="1"
+                 Grid.Column="0"
+                 Text="SwedishAndNeutral" />
+      <TextBlock Grid.Row="1"
+                 Grid.Column="1"
+                 AutomationProperties.AutomationId="SwedishAndNeutralTextBlockId"
+                 Text="{l:Static p:Resources.SwedishAndNeutral}" />
 
 
-            <TextBlock Grid.Row="2"
-                       Grid.Column="0"
-                       Text="MissingTranslation" />
-            <TextBlock Grid.Row="2"
-                       Grid.Column="1"
-                       Text="{l:Static p:Resources.MissingTranslation}" />
+      <TextBlock Grid.Row="2"
+                 Grid.Column="0"
+                 Text="MissingTranslation" />
+      <TextBlock Grid.Row="2"
+                 Grid.Column="1"
+                 Text="{l:Static p:Resources.MissingTranslation}" />
 
-            <TextBlock Grid.Row="3"
-                       Grid.Column="0"
-                       Text="NeutralOnly" />
-            <TextBlock Grid.Row="3"
-                       Grid.Column="1"
-                       AutomationProperties.AutomationId="NeutralOnlyTextBlockId"
-                       Text="{l:Static p:Resources.NeutralOnly}" />
+      <TextBlock Grid.Row="3"
+                 Grid.Column="0"
+                 Text="NeutralOnly" />
+      <TextBlock Grid.Row="3"
+                 Grid.Column="1"
+                 AutomationProperties.AutomationId="NeutralOnlyTextBlockId"
+                 Text="{l:Static p:Resources.NeutralOnly}" />
 
-            <TextBlock Grid.Row="4"
-                       Grid.Column="0"
-                       Text="BadFormat" />
-            <TextBlock Grid.Row="4"
-                       Grid.Column="1"
-                       AutomationProperties.AutomationId="BadFormatTextBlockId"
-                       Text="{l:Static BadFormat}" />
-        </Grid>
+      <TextBlock Grid.Row="4"
+                 Grid.Column="0"
+                 Text="BadFormat" />
+      <TextBlock Grid.Row="4"
+                 Grid.Column="1"
+                 AutomationProperties.AutomationId="BadFormatTextBlockId"
+                 Text="{l:Static BadFormat}" />
     </Grid>
+  </Grid>
 </UserControl>

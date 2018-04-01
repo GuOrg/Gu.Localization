@@ -9,61 +9,61 @@
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0"
-                   Grid.Column="0"
-                   Text="SwedishOnly" />
-        <TextBlock Grid.Row="0"
-                   Grid.Column="1"
-                   AutomationProperties.AutomationId="SwedishOnlyTextBlockId"
-                   Text="{l:Static p:Resources.SwedishOnly}" />
+    <TextBlock Grid.Row="0"
+               Grid.Column="0"
+               Text="SwedishOnly" />
+    <TextBlock Grid.Row="0"
+               Grid.Column="1"
+               AutomationProperties.AutomationId="SwedishOnlyTextBlockId"
+               Text="{l:Static p:Resources.SwedishOnly}" />
 
-        <TextBlock Grid.Row="1"
-                   Grid.Column="0"
-                   Text="SwedishAndNeutral" />
-        <TextBlock Grid.Row="1"
-                   Grid.Column="1"
-                   AutomationProperties.AutomationId="SwedishAndNeutralTextBlockId"
-                   Text="{l:Static p:Resources.SwedishAndNeutral}" />
+    <TextBlock Grid.Row="1"
+               Grid.Column="0"
+               Text="SwedishAndNeutral" />
+    <TextBlock Grid.Row="1"
+               Grid.Column="1"
+               AutomationProperties.AutomationId="SwedishAndNeutralTextBlockId"
+               Text="{l:Static p:Resources.SwedishAndNeutral}" />
 
-        <TextBlock Grid.Row="2"
-                   Grid.Column="0"
-                   Text="TranslatedToAll Run" />
-        <TextBlock Grid.Row="2" Grid.Column="1">
-            <Run Text="{l:Static p:Resources.TranslatedToAll}" />
-        </TextBlock>
+    <TextBlock Grid.Row="2"
+               Grid.Column="0"
+               Text="TranslatedToAll Run" />
+    <TextBlock Grid.Row="2" Grid.Column="1">
+      <Run Text="{l:Static p:Resources.TranslatedToAll}" />
+    </TextBlock>
 
-        <TextBlock Grid.Row="3"
-                   Grid.Column="0"
-                   Text="TranslatedToAll" />
-        <TextBlock Grid.Row="3"
-                   Grid.Column="1"
-                   AutomationProperties.AutomationId="TranslatedToAllTextBlockId"
-                   Text="{l:Static p:Resources.TranslatedToAll}" />
+    <TextBlock Grid.Row="3"
+               Grid.Column="0"
+               Text="TranslatedToAll" />
+    <TextBlock Grid.Row="3"
+               Grid.Column="1"
+               AutomationProperties.AutomationId="TranslatedToAllTextBlockId"
+               Text="{l:Static p:Resources.TranslatedToAll}" />
 
-        <TextBlock Grid.Row="4"
-                   Grid.Column="0"
-                   Text="Enum" />
-        <!--  ReSharper disable All  -->
-        <TextBlock Grid.Row="4"
-                   Grid.Column="1"
-                   AutomationProperties.AutomationId="EnumTranslatedToAllTextBlockId"
-                   Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},
-                                 Member={x:Static local:DummyEnum.TranslatedToAll}}" />
-        <!--  ReSharper restore All  -->
-    </Grid>
+    <TextBlock Grid.Row="4"
+               Grid.Column="0"
+               Text="Enum" />
+    <!--  ReSharper disable All  -->
+    <TextBlock Grid.Row="4"
+               Grid.Column="1"
+               AutomationProperties.AutomationId="EnumTranslatedToAllTextBlockId"
+               Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},
+                             Member={x:Static local:DummyEnum.TranslatedToAll}}" />
+    <!--  ReSharper restore All  -->
+  </Grid>
 </UserControl>

@@ -3,40 +3,40 @@
                     xmlns:l="clr-namespace:Gu.Wpf.Localization;assembly=Gu.Wpf.Localization"
                     xmlns:local="clr-namespace:Gu.Wpf.Localization.Demo.Controls"
                     xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.Controls.Properties">
-    <Style TargetType="{x:Type TextBlock}">
-        <Setter Property="Margin" Value="10,0,10,0" />
-    </Style>
+  <Style TargetType="{x:Type TextBlock}">
+    <Setter Property="Margin" Value="10,0,10,0" />
+  </Style>
 
-    <Style TargetType="{x:Type local:DemoCustomControl}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:DemoCustomControl}">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
+  <Style TargetType="{x:Type local:DemoCustomControl}">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type local:DemoCustomControl}">
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0"
-                                       Grid.Column="0"
-                                       Text="KeyInControls " />
-                            <TextBlock Grid.Row="0"
-                                       Grid.Column="1"
-                                       AutomationProperties.AutomationId="KeyInControls"
-                                       Text="{l:Static p:Resources.KeyInControls}" />
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+              <TextBlock Grid.Row="0"
+                         Grid.Column="0"
+                         Text="KeyInControls " />
+              <TextBlock Grid.Row="0"
+                         Grid.Column="1"
+                         AutomationProperties.AutomationId="KeyInControls"
+                         Text="{l:Static p:Resources.KeyInControls}" />
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 </ResourceDictionary>
