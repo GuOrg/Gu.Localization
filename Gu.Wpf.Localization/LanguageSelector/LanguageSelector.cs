@@ -36,8 +36,18 @@ namespace Gu.Wpf.Localization
             typeof(LanguageSelector),
             new PropertyMetadata(default(ObservableCollection<Language>)));
 
-                              /// <summary>Identifies the <see cref="Languages"/> dependency property.</summary>
+        /// <summary>Identifies the <see cref="Languages"/> dependency property.</summary>
         public static readonly DependencyProperty LanguagesProperty = LanguagesPropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly DependencyProperty SelectedLanguageProperty = DependencyProperty.Register(
+            nameof(SelectedLanguage),
+            typeof(Language),
+            typeof(LanguageSelector),
+            new PropertyMetadata(default(Language)));
+
 #pragma warning restore SA1202 // Elements must be ordered by access
 
         private static readonly IReadOnlyDictionary<CultureInfo, string> FlagNameResourceMap;
@@ -74,6 +84,9 @@ namespace Gu.Wpf.Localization
         public LanguageSelector()
         {
             this.Languages = new ObservableCollection<Language>();
+            CultureChangedEventManager.UpdateHandler((_, x) => this.SetCurrentValue(
+                SelectedLanguageProperty,
+                this.Languages.FirstOrDefault(l => Gu.Localization.Culture.NameEquals(Translator.CurrentCulture, l.Culture))));
         }
 
         /// <summary>
@@ -93,6 +106,16 @@ namespace Gu.Wpf.Localization
         {
             get => (ObservableCollection<Language>)this.GetValue(LanguagesProperty);
             protected set => this.SetValue(LanguagesPropertyKey, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the selected language.
+        /// Convenience property mapping to <see cref="Translator.CurrentCulture"/>
+        /// </summary>
+        public Language SelectedLanguage
+        {
+            get => (Language)this.GetValue(SelectedLanguageProperty);
+            set => this.SetValue(SelectedLanguageProperty, value);
         }
 
         private static void OnAutogenerateLanguagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
