@@ -44,7 +44,11 @@ namespace Gu.Localization
         /// <inheritdoc />
         public int GetHashCode(CultureInfo obj)
         {
-            Ensure.NotNull(obj, nameof(obj));
+            if (obj == null)
+            {
+                return 0;
+            }
+
             return StringComparer.GetHashCode(this.nameGetter(obj));
         }
 

@@ -48,25 +48,25 @@ namespace Gu.Localization.Tests
                 Translator.CurrentCultureChanged += (sender, info) => changes.Add(info.Culture);
 
                 Translator.Culture = CultureInfo.GetCultureInfo("en");
-                Assert.AreSame(Translator.Cultures.Single(c => c.Name == "en"), Translator.Culture);
+                Assert.AreEqual(Translator.Cultures.Single(c => c.Name == "en"), Translator.Culture);
                 Assert.AreSame(Translator.Cultures.Single(c => c.Name == "en"), Translator.CurrentCulture);
                 CollectionAssert.IsEmpty(propertyChanges);
                 CollectionAssert.IsEmpty(changes);
 
                 Translator.Culture = CultureInfo.GetCultureInfo("sv");
-                Assert.AreSame(Translator.Cultures.Single(c => c.Name == "sv"), Translator.Culture);
+                Assert.AreEqual(Translator.Cultures.Single(c => c.Name == "sv"), Translator.Culture);
                 Assert.AreSame(Translator.Cultures.Single(c => c.Name == "sv"), Translator.CurrentCulture);
                 CollectionAssert.AreEqual(new[] { "sv" }, changes.Select(x => x.TwoLetterISOLanguageName));
                 CollectionAssert.AreEqual(new[] { "Culture", "CurrentCulture" }, propertyChanges);
 
                 Translator.Culture = CultureInfo.GetCultureInfo("sv");
-                Assert.AreSame(Translator.Cultures.Single(c => c.Name == "sv"), Translator.Culture);
+                Assert.AreEqual(Translator.Cultures.Single(c => c.Name == "sv"), Translator.Culture);
                 Assert.AreSame(Translator.Cultures.Single(c => c.Name == "sv"), Translator.CurrentCulture);
                 CollectionAssert.AreEqual(new[] { "sv" }, changes.Select(x => x.TwoLetterISOLanguageName));
                 CollectionAssert.AreEqual(new[] { "Culture", "CurrentCulture" }, propertyChanges);
 
                 Translator.Culture = CultureInfo.GetCultureInfo("en");
-                Assert.AreSame(Translator.Cultures.Single(c => c.Name == "en"), Translator.Culture);
+                Assert.AreEqual(Translator.Cultures.Single(c => c.Name == "en"), Translator.Culture);
                 Assert.AreSame(Translator.Cultures.Single(c => c.Name == "en"), Translator.CurrentCulture);
                 CollectionAssert.AreEqual(new[] { "sv", "en" }, changes.Select(x => x.TwoLetterISOLanguageName));
                 CollectionAssert.AreEqual(new[] { "Culture", "CurrentCulture", "Culture", "CurrentCulture" }, propertyChanges);

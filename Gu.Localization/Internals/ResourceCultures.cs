@@ -1,4 +1,4 @@
-﻿namespace Gu.Localization
+namespace Gu.Localization
 {
     using System;
     using System.Collections.Generic;
@@ -31,15 +31,9 @@
             HashSet<CultureInfo> cultures = null;
             foreach (var directory in executingDirectory.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
             {
-                var cultureName = directory.Name;
-                if (!Culture.Exists(directory.Name))
+                if (Culture.TryGet(directory.Name, out var culture))
                 {
-                    continue;
-                }
-
-                if (directory.EnumerateFiles("*.resources.dll", SearchOption.TopDirectoryOnly).Any())
-                {
-                    if (Culture.TryGet(cultureName, out var culture))
+                    if (directory.EnumerateFiles("*.resources.dll", SearchOption.TopDirectoryOnly).Any())
                     {
                         if (cultures == null)
                         {
