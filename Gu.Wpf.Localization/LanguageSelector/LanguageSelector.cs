@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Localization
+namespace Gu.Wpf.Localization
 {
     using System;
     using System.Collections.Generic;
@@ -20,6 +20,7 @@
     [ContentProperty("Languages")]
     public class LanguageSelector : Control, IDisposable
     {
+#pragma warning disable SA1202 // Elements must be ordered by access
         /// <summary> Identifies the AutogenerateLanguages property. Default false.</summary>
         public static readonly DependencyProperty AutogenerateLanguagesProperty = DependencyProperty.Register(
             "AutogenerateLanguages",
@@ -28,6 +29,16 @@
             new PropertyMetadata(
                 default(bool),
                 OnAutogenerateLanguagesChanged));
+
+        private static readonly DependencyPropertyKey LanguagesPropertyKey = DependencyProperty.RegisterReadOnly(
+            nameof(Languages),
+            typeof(ObservableCollection<Language>),
+            typeof(LanguageSelector),
+            new PropertyMetadata(default(ObservableCollection<Language>)));
+
+                              /// <summary>Identifies the <see cref="Languages"/> dependency property.</summary>
+        public static readonly DependencyProperty LanguagesProperty = LanguagesPropertyKey.DependencyProperty;
+#pragma warning restore SA1202 // Elements must be ordered by access
 
         private static readonly IReadOnlyDictionary<CultureInfo, string> FlagNameResourceMap;
 
@@ -51,7 +62,7 @@
                     var flagName = (string)enumerator.Key;
                     Debug.Assert(flagName != null, "flag == null");
                     var name = System.IO.Path.GetFileNameWithoutExtension(flagName);
-                    if (Culture.TryGet(name, out CultureInfo culture))
+                    if (Culture.TryGet(name, out var culture))
                     {
                         flags.Add(culture, flagName);
                     }
@@ -64,6 +75,7 @@
         /// <summary>Initializes a new instance of the <see cref="LanguageSelector"/> class.</summary>
         public LanguageSelector()
         {
+            this.Languages = new ObservableCollection<Language>();
             Translator.CurrentCultureChanged += this.OnCurrentCultureChanged;
             this.Languages.CollectionChanged += (_, __) => this.UpdateSelected();
             this.UpdateSelected();
@@ -80,9 +92,13 @@
         }
 
         /// <summary>
-        /// Gets gets or sets the cultures.
+        /// Gets or sets the languages.
         /// </summary>
-        public ObservableCollection<Language> Languages { get; } = new ObservableCollection<Language>();
+        public ObservableCollection<Language> Languages
+        {
+            get => (ObservableCollection<Language>)this.GetValue(LanguagesProperty);
+            protected set => this.SetValue(LanguagesPropertyKey, value);
+        }
 
         /// <inheritdoc />
         public void Dispose()
@@ -129,7 +145,7 @@
         {
             if (this.AutogenerateLanguages)
             {
-                for (int i = this.Languages.Count - 1; i >= 0; i--)
+                for (var i = this.Languages.Count - 1; i >= 0; i--)
                 {
                     if (!Translator.ContainsCulture(this.Languages[i].Culture))
                     {
@@ -145,7 +161,7 @@
                     }
 
                     var language = new Language(cultureInfo);
-                    if (FlagNameResourceMap.TryGetValue(cultureInfo, out string flag))
+                    if (FlagNameResourceMap.TryGetValue(cultureInfo, out var flag))
                     {
                         var key = new Uri($"pack://application:,,,/{this.GetType().Assembly.GetName().Name};component/{flag}", UriKind.Absolute);
                         language.FlagSource = key;
