@@ -6,7 +6,10 @@ projectUrl https://github.com/JohanLarsson/Gu.Localization
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-  BUGFIX: Exclude SourceLink dependency in packages.
+  FEATURE: More flags.
+  FEATURE: LanguageSelector.ItemTemplate
+  MINOR BREAKING: Tweaked default style for LanguageSelector.
+  MINOR BREAKING: Renamed some flags, they have region names now.
 
 excludedgroups
   Analyzers

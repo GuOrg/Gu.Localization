@@ -6,7 +6,6 @@ projectUrl https://github.com/JohanLarsson/Gu.Localization
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-  BUGFIX: Exclude SourceLink dependency in packages.
 
 excludedgroups
   Analyzers
