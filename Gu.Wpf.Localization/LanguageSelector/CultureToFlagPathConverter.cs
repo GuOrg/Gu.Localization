@@ -17,6 +17,12 @@ namespace Gu.Wpf.Localization
 
         private static readonly IReadOnlyDictionary<string, string> FlagNameResourceMap = CreateFlagNameResourceMap();
 
+        /// <summary>
+        /// Try get the path to the resource for the flag that matches <paramref name="culture"/>
+        /// </summary>
+        /// <param name="culture">The <see cref="CultureInfo"/></param>
+        /// <param name="path">The pack uri path to the resource.</param>
+        /// <returns>True if a path was found.</returns>
         public static bool TryGetFlagPath(CultureInfo culture, out string path)
         {
             path = null;
