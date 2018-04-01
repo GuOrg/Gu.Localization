@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LanguageSelector\CultureToFlagPathConverter.cs" />
+    <Compile Include="LanguageSelector\CultureChangedEventManager.cs" />
     <Compile Include="MarkupExtensions\CurrentCultureExtension.cs" />
     <Compile Include="AttachedProperties\DesignTime.cs" />
     <Compile Include="MarkupExtensions\CurrentCultureProxy.cs" />

@@ -18,7 +18,7 @@ namespace Gu.Wpf.Localization
     /// Control for selecting language
     /// </summary>
     [ContentProperty("Languages")]
-    public class LanguageSelector : Control, IDisposable
+    public class LanguageSelector : Control
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
         /// <summary> Identifies the AutogenerateLanguages property. Default false.</summary>
@@ -41,8 +41,6 @@ namespace Gu.Wpf.Localization
 #pragma warning restore SA1202 // Elements must be ordered by access
 
         private static readonly IReadOnlyDictionary<CultureInfo, string> FlagNameResourceMap;
-
-        private bool disposed;
 
         static LanguageSelector()
         {
@@ -76,9 +74,6 @@ namespace Gu.Wpf.Localization
         public LanguageSelector()
         {
             this.Languages = new ObservableCollection<Language>();
-            Translator.CurrentCultureChanged += this.OnCurrentCultureChanged;
-            this.Languages.CollectionChanged += (_, __) => this.UpdateSelected();
-            this.UpdateSelected();
         }
 
         /// <summary>
@@ -100,45 +95,10 @@ namespace Gu.Wpf.Localization
             protected set => this.SetValue(LanguagesPropertyKey, value);
         }
 
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            if (this.disposed)
-            {
-                return;
-            }
-
-            this.disposed = true;
-            this.Dispose(true);
-        }
-
-        /// <summary>Called by <see cref="Dispose()"/></summary>
-        /// <param name="disposing">ugh</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                Translator.CurrentCultureChanged -= this.OnCurrentCultureChanged;
-            }
-        }
-
         private static void OnAutogenerateLanguagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var languageSelector = (LanguageSelector)d;
             languageSelector.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(languageSelector.SyncLanguages));
-        }
-
-        private void OnCurrentCultureChanged(object sender, CultureChangedEventArgs e)
-        {
-            this.UpdateSelected();
-        }
-
-        private void UpdateSelected()
-        {
-            foreach (var language in this.Languages)
-            {
-                language.IsSelected = Gu.Localization.Culture.NameEquals(language.Culture, Translator.CurrentCulture);
-            }
         }
 
         private void SyncLanguages()
@@ -169,8 +129,6 @@ namespace Gu.Wpf.Localization
 
                     this.Languages.Add(language);
                 }
-
-                this.UpdateSelected();
             }
         }
     }

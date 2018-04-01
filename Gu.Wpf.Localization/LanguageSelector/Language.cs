@@ -1,11 +1,10 @@
-﻿namespace Gu.Wpf.Localization
+namespace Gu.Wpf.Localization
 {
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
     using System.Runtime.CompilerServices;
-
     using Gu.Localization;
 
     using JetBrains.Annotations;
@@ -21,6 +20,7 @@
         /// <summary> Initializes a new instance of the <see cref="Language"/> class.</summary>
         public Language()
         {
+            CultureChangedEventManager.UpdateHandler((_, x) => this.IsSelected = Gu.Localization.Culture.NameEquals(Translator.CurrentCulture, this.Culture));
         }
 
         /// <summary>Initializes a new instance of the <see cref="Language"/> class.</summary>
@@ -73,7 +73,7 @@
             }
         }
 
-        /// <summary>Gets a value indicating whether gets a value indicating wheter the <see cref="Culture"/> can be used as <see cref="Translator.Culture"/></summary>
+        /// <summary>Gets a value indicating whether gets a value indicating whether the <see cref="Culture"/> can be used as <see cref="Translator.Culture"/></summary>
         public bool CanSelect
         {
             get
@@ -106,7 +106,7 @@
             }
         }
 
-        /// <summary>Gets <see cref="Culture"/> NativeName Titlecased and trimmed to text only</summary>
+        /// <summary>Gets <see cref="Culture"/> NativeName TitleCased and trimmed to text only</summary>
         public string LanguageName
         {
             get
@@ -121,7 +121,7 @@
             }
         }
 
-        /// <summary>Gets <see cref="Culture"/> NativeName Titlecased</summary>
+        /// <summary>Gets <see cref="Culture"/> NativeName TitleCased</summary>
         public string NativeName => ToFirstCharUpper(this.culture?.NativeName);
 
         /// <summary>Raises <see cref="PropertyChanged"/></summary>
