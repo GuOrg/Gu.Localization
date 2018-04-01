@@ -39,9 +39,7 @@ namespace Gu.Wpf.Localization
         /// <summary>Identifies the <see cref="Languages"/> dependency property.</summary>
         public static readonly DependencyProperty LanguagesProperty = LanguagesPropertyKey.DependencyProperty;
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Identifies the <see cref="SelectedLanguage"/> dependency property.</summary>
         public static readonly DependencyProperty SelectedLanguageProperty = DependencyProperty.Register(
             nameof(SelectedLanguage),
             typeof(Language),
@@ -50,34 +48,9 @@ namespace Gu.Wpf.Localization
 
 #pragma warning restore SA1202 // Elements must be ordered by access
 
-        private static readonly IReadOnlyDictionary<CultureInfo, string> FlagNameResourceMap;
-
         static LanguageSelector()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(LanguageSelector), new FrameworkPropertyMetadata(typeof(LanguageSelector)));
-            var assembly = typeof(LanguageSelector).Assembly;
-            var names = assembly.GetManifestResourceNames();
-            var match = names.Single(x => x.EndsWith(".g.resources"));
-            Debug.Assert(match != null, "match != null");
-
-            // ReSharper disable once AssignNullToNotNullAttribute
-            using (var reader = new ResourceReader(assembly.GetManifestResourceStream(match)))
-            {
-                var flags = new Dictionary<CultureInfo, string>(CultureInfoComparer.ByName);
-                var enumerator = reader.GetEnumerator();
-                while (enumerator.MoveNext())
-                {
-                    var flagName = (string)enumerator.Key;
-                    Debug.Assert(flagName != null, "flag == null");
-                    var name = System.IO.Path.GetFileNameWithoutExtension(flagName);
-                    if (Culture.TryGet(name, out var culture))
-                    {
-                        flags.Add(culture, flagName);
-                    }
-                }
-
-                FlagNameResourceMap = flags;
-            }
         }
 
         /// <summary>Initializes a new instance of the <see cref="LanguageSelector"/> class.</summary>
@@ -136,18 +109,17 @@ namespace Gu.Wpf.Localization
                     }
                 }
 
-                foreach (var cultureInfo in Translator.Cultures)
+                foreach (var culture in Translator.Cultures)
                 {
-                    if (this.Languages.Any(x => Culture.NameEquals(x.Culture, cultureInfo)))
+                    if (this.Languages.Any(x => Culture.NameEquals(x.Culture, culture)))
                     {
                         continue;
                     }
 
-                    var language = new Language(cultureInfo);
-                    if (FlagNameResourceMap.TryGetValue(cultureInfo, out var flag))
+                    var language = new Language(culture);
+                    if (CultureToFlagPathConverter.TryGetFlagPath(culture, out var path))
                     {
-                        var key = new Uri($"pack://application:,,,/{this.GetType().Assembly.GetName().Name};component/{flag}", UriKind.Absolute);
-                        language.FlagSource = key;
+                        language.FlagSource = new Uri(path, UriKind.Absolute);
                     }
 
                     this.Languages.Add(language);
