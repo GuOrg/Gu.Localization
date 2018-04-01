@@ -24,5 +24,14 @@ namespace Gu.Localization.Tests.Internals
                 Assert.AreEqual(name, CultureInfo.GetCultureInfo(name).Name);
             }
         }
+
+        [TestCase("sv", "SE")]
+        [TestCase("sv-SE", "SE")]
+        [TestCase("sv-FI", "FI")]
+        public void TryGetRegion(string cultureName, string regionName)
+        {
+            Assert.AreEqual(true, Culture.TryGetRegion(cultureName, out var region));
+            Assert.AreEqual(regionName, region.TwoLetterISORegionName);
+        }
     }
 }
