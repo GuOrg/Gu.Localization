@@ -1,4 +1,4 @@
-﻿// ReSharper disable AssignNullToNotNullAttribute
+// ReSharper disable AssignNullToNotNullAttribute
 namespace Gu.Localization.Tests.Sandbox
 {
     using System;
@@ -81,7 +81,7 @@ namespace Gu.Localization.Tests.Sandbox
                 foreach (var folder in Directory.EnumerateDirectories(directoryName))
                 {
                     var folderName = Path.GetFileName(folder);
-                    if (Culture.Exists(folderName))
+                    if (Culture.TryGet(folderName, out _))
                     {
                         var match = Directory.EnumerateFiles(folder, resourceFileName, SearchOption.TopDirectoryOnly)
                                              .SingleOrDefault();

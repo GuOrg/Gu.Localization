@@ -5,14 +5,17 @@ namespace Gu.Wpf.Localization.Tests.LanguageSelector
 
     public class CultureToFlagPathConverterTests
     {
-        //[TestCase("se", "")]
+        [TestCase("sv", "pack://application:,,,/Gu.Wpf.Localization;component/Flags/se.png")]
         [TestCase("sv-SE", "pack://application:,,,/Gu.Wpf.Localization;component/Flags/se.png")]
         [TestCase("fi-FI", "pack://application:,,,/Gu.Wpf.Localization;component/Flags/fi.png")]
-        //[TestCase("FI", "")]
-        //[TestCase("en-GB", "")]
-        public void TryGetCultureFromRegion(string cultureName, string path)
+        [TestCase("FI", "pack://application:,,,/Gu.Wpf.Localization;component/Flags/fi.png")]
+        [TestCase("en", "pack://application:,,,/Gu.Wpf.Localization;component/Flags/us.png")]
+        [TestCase("en-US", "pack://application:,,,/Gu.Wpf.Localization;component/Flags/us.png")]
+        [TestCase("en-GB", "pack://application:,,,/Gu.Wpf.Localization;component/Flags/gb.png")]
+        public void TryGetFlagPath(string cultureName, string path)
         {
-            Assert.AreEqual(true, CultureToFlagPathConverter.TryGetFlagPath(CultureInfo.GetCultureInfo(cultureName), out var actual));
+            var culture = CultureInfo.GetCultureInfo(cultureName);
+            Assert.AreEqual(true, CultureToFlagPathConverter.TryGetFlagPath(culture, out var actual));
             Assert.AreEqual(path, actual);
         }
     }

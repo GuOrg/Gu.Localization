@@ -9,6 +9,7 @@ namespace Gu.Wpf.Localization
     using System.Windows.Data;
     using Gu.Localization;
 
+    /// <inheritdoc />
     [ValueConversion(typeof(CultureInfo), typeof(string))]
     public sealed class CultureToFlagPathConverter : IValueConverter
     {
@@ -31,7 +32,7 @@ namespace Gu.Wpf.Localization
                 return false;
             }
 
-            if (Culture.TryGetRegion(culture.Name, out var region) &&
+            if (Culture.TryGetRegion(culture, out var region) &&
                 FlagNameResourceMap.TryGetValue(region.TwoLetterISORegionName, out path))
             {
                 return true;
@@ -75,7 +76,8 @@ namespace Gu.Wpf.Localization
                     var flagName = (string)enumerator.Key;
                     Debug.Assert(flagName != null, "flag == null");
                     var name = System.IO.Path.GetFileNameWithoutExtension(flagName);
-                    if (Culture.TryGetRegion(name, out _))
+                    if (Culture.AllRegions.Any(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase) ||
+                                                    string.Equals(x.TwoLetterISORegionName, name, StringComparison.OrdinalIgnoreCase)))
                     {
                         flags.Add(name, $"pack://application:,,,/Gu.Wpf.Localization;component/Flags/{name}.png");
                     }

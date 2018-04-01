@@ -2,28 +2,11 @@ namespace Gu.Localization.Tests.Internals
 {
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
-
     using NUnit.Framework;
 
     public class CultureTests
     {
-        private static readonly IReadOnlyList<CultureInfo> AllCultures = CultureInfo
-                                                                         .GetCultures(CultureTypes.AllCultures)
-                                                                         .Where(x => !string.IsNullOrEmpty(x.Name))
-                                                                         .ToArray();
-
-        [TestCaseSource(nameof(AllCultures))]
-        public void ExistsByName(CultureInfo cultureInfo)
-        {
-            Assert.AreEqual(true, Culture.Exists(cultureInfo.Name));
-        }
-
-        [TestCaseSource(nameof(AllCultures))]
-        public void ExistsByTwoLetterISOLanguageName(CultureInfo cultureInfo)
-        {
-            Assert.AreEqual(true, Culture.Exists(cultureInfo.TwoLetterISOLanguageName));
-        }
+        private static readonly IReadOnlyList<CultureInfo> AllCultures = Culture.AllCultures;
 
         [TestCaseSource(nameof(AllCultures))]
         public void TryGetByName(CultureInfo cultureInfo)
@@ -47,7 +30,8 @@ namespace Gu.Localization.Tests.Internals
         [TestCase("en-GB", "GB")]
         public void TryGetRegion(string cultureName, string regionName)
         {
-            Assert.AreEqual(true, Culture.TryGetRegion(cultureName, out var region));
+            var culture = CultureInfo.GetCultureInfo(cultureName);
+            Assert.AreEqual(true, Culture.TryGetRegion(culture, out var region));
             Assert.AreEqual(regionName, region.TwoLetterISORegionName);
         }
     }

@@ -10,8 +10,18 @@ namespace Gu.Localization
     {
         internal static readonly IReadOnlyList<CultureInfo> AllCultures =
             CultureInfo.GetCultures(CultureTypes.AllCultures)
-                       .Where(x => !string.IsNullOrEmpty(x.Name))
+                       .Where(x => !IsInvariant(x))
                        .ToArray();
+
+        internal static readonly IReadOnlyDictionary<CultureInfo, RegionInfo> CultureRegionMap =
+            AllCultures
+                .Where(x => !x.IsNeutralCulture)
+                .ToDictionary(
+                    x => x,
+                    x => new RegionInfo(x.Name),
+                    CultureInfoComparer.ByName);
+
+        internal static readonly IEnumerable<RegionInfo> AllRegions = CultureRegionMap.Values;
 
         private static readonly Dictionary<string, CultureInfo> TwoLetterISOLanguageNameCultureMap =
             AllCultures.Where(x => x.Name == x.TwoLetterISOLanguageName)
@@ -26,34 +36,22 @@ namespace Gu.Localization
                 x => x,
                 StringComparer.OrdinalIgnoreCase);
 
-        private static readonly Dictionary<string, RegionInfo> RegionNameMap =
-            AllCultures
-                .Where(x => !x.IsNeutralCulture)
-                .Select(x => new RegionInfo(x.Name))
+        private static readonly Dictionary<string, RegionInfo> NameRegionMap =
+            AllRegions
                 .ToDictionary(
                     x => x.Name,
                     x => x,
                     StringComparer.OrdinalIgnoreCase);
 
-        private static readonly Dictionary<CultureInfo, RegionInfo> PrimaryRegionMap =
+        private static readonly Dictionary<CultureInfo, RegionInfo> NeutralCultureRegionMap =
             AllCultures
                 .Where(x => x.IsNeutralCulture)
-                .Select(PrimaryCulture)
-                .Where(x => x?.Parent != null)
+                .Select(x => NameCultureMap[CultureInfo.CreateSpecificCulture(x.Name).Name])
                 .Distinct(CultureInfoComparer.ByTwoLetterIsoLanguageName)
                 .ToDictionary(
-                    x => x,
-                    x => new RegionInfo(x.Name),
+                    x => x.Parent,
+                    x => CultureRegionMap[x],
                     CultureInfoComparer.ByTwoLetterIsoLanguageName);
-
-        /// <summary>Check if <paramref name="name"/> is the name of a culture</summary>
-        /// <param name="name">The name</param>
-        /// <returns>True if <paramref name="name"/> is a culture name.</returns>
-        internal static bool Exists(string name)
-        {
-            return TwoLetterISOLanguageNameCultureMap.ContainsKey(name) ||
-                   NameCultureMap.ContainsKey(name);
-        }
 
         internal static bool TryGet(string name, out CultureInfo culture)
         {
@@ -61,11 +59,14 @@ namespace Gu.Localization
                    TwoLetterISOLanguageNameCultureMap.TryGetValue(name, out culture);
         }
 
-        internal static bool TryGetRegion(string name, out RegionInfo region)
+        internal static bool TryGetRegion(CultureInfo culture, out RegionInfo region)
         {
-            return RegionNameMap.TryGetValue(name, out region) ||
-                   (TwoLetterISOLanguageNameCultureMap.TryGetValue(name, out var culture) &&
-                    PrimaryRegionMap.TryGetValue(culture, out region));
+            if (culture.IsNeutralCulture)
+            {
+                return NeutralCultureRegionMap.TryGetValue(culture, out region);
+            }
+
+            return NameRegionMap.TryGetValue(culture.Name, out region);
         }
 
         internal static bool NameEquals(CultureInfo first, CultureInfo other)
@@ -81,12 +82,6 @@ namespace Gu.Localization
         internal static bool IsInvariant(this CultureInfo culture)
         {
             return NameEquals(culture, CultureInfo.InvariantCulture);
-        }
-
-        private static CultureInfo PrimaryCulture(CultureInfo x)
-        {
-            return AllCultures.FirstOrDefault(c => !c.IsNeutralCulture &&
-                                                   x.TwoLetterISOLanguageName == c.TwoLetterISOLanguageName);
         }
     }
 }
