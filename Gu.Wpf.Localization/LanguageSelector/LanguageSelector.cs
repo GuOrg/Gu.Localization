@@ -1,12 +1,8 @@
 namespace Gu.Wpf.Localization
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
-    using System.Globalization;
     using System.Linq;
-    using System.Resources;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Markup;
