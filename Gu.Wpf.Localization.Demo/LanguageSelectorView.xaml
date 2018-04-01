@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Gu.Wpf.Localization.Demo.LanguageSelectorView"
+<UserControl x:Class="Gu.Wpf.Localization.Demo.LanguageSelectorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -17,7 +17,7 @@
 
         <GroupBox Grid.Column="1" Header="Explicit">
             <l:LanguageSelector>
-                <l:Language Culture="sv-SE" FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/sv.png" />
+                <l:Language Culture="sv-SE" FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/se.png" />
                 <l:Language Culture="en-GB" FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/en.png" />
                 <l:Language Culture="de-DE" FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/de.png" />
                 <l:Language Culture="fi-FI" FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/fi.png" />
