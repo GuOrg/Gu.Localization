@@ -1,4 +1,4 @@
-﻿namespace Gu.Localization
+namespace Gu.Localization
 {
     using System;
     using System.Collections.Generic;
@@ -37,14 +37,14 @@
                     return;
                 }
 
-                if (value != null && !value.IsInvariant() && !ContainsCulture(value))
+                if (value != null &&
+                    !value.IsInvariant() &&
+                    !ContainsCulture(value) &&
+                    !AllCultures.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, value)))
                 {
-                    if (!AllCultures.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, value)))
-                    {
-                        var message = "Can only set culture to an existing culture.\r\n" +
-                                      $"Check the property {nameof(Cultures)} for a list of valid cultures.";
-                        throw new ArgumentException(message);
-                    }
+                    var message = "Can only set culture to an existing culture.\r\n" +
+                                  $"Check the property {nameof(Cultures)} for a list of valid cultures.";
+                    throw new ArgumentException(message);
                 }
 
                 culture = value;

@@ -63,6 +63,9 @@
     <Compile Include="LocalUserControl.xaml.cs">
       <DependentUpon>LocalUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\LanguageComboBoxWindow.xaml.cs">
+      <DependentUpon>LanguageComboBoxWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="ErrorsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -84,6 +87,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="LocalUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LanguageComboBoxWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -259,7 +266,5 @@
       <Paket>True</Paket>
     </Analyzer>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Windows\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

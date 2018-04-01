@@ -1,0 +1,22 @@
+<!--  ReSharper disable UnusedMember.Global  -->
+<Window x:Class="Gu.Wpf.Localization.Demo.Windows.LanguageComboBoxWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:l="http://gu.se/Localization"
+        xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="LanguageComboBoxWindow"
+        Width="800"
+        Height="450"
+        mc:Ignorable="d">
+  <StackPanel>
+    <ComboBox x:Name="LanguageComboBox"
+              ItemsSource="{x:Static localization:Translator.Cultures}"
+              SelectedItem="{Binding Path=(localization:Translator.Culture), Converter={x:Static l:CultureOrDefaultConverter.Default}}" />
+
+    <l:LanguageSelector x:Name="LanguageSelector"
+                        AutogenerateLanguages="True"
+                        FontSize="18" />
+  </StackPanel>
+</Window>
