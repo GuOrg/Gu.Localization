@@ -42,6 +42,13 @@ namespace Gu.Wpf.Localization
             typeof(LanguageSelector),
             new PropertyMetadata(default(Language)));
 
+        /// <summary>Identifies the <see cref="ItemTemplate"/> dependency property.</summary>
+        public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
+            "ItemTemplate", 
+            typeof(DataTemplate),
+            typeof(LanguageSelector),
+            new PropertyMetadata(default(DataTemplate)), ValidateItemTemplate);
+
 #pragma warning restore SA1202 // Elements must be ordered by access
 
         static LanguageSelector()
@@ -87,10 +94,28 @@ namespace Gu.Wpf.Localization
             set => this.SetValue(SelectedLanguageProperty, value);
         }
 
+        public DataTemplate ItemTemplate
+        {
+            get => (DataTemplate)this.GetValue(ItemTemplateProperty);
+            set => this.SetValue(ItemTemplateProperty, value);
+        }
+
         private static void OnAutogenerateLanguagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var languageSelector = (LanguageSelector)d;
             languageSelector.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(languageSelector.SyncLanguages));
+        }
+
+        private static bool ValidateItemTemplate(object value)
+        {
+            if (value is DataTemplate dataTemplate &&
+                dataTemplate.DataType is Type type &&
+                type != typeof(Language))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private void SyncLanguages()

@@ -10,13 +10,13 @@
         Width="800"
         Height="450"
         mc:Ignorable="d">
-  <StackPanel>
-    <ComboBox x:Name="LanguageComboBox"
-              ItemsSource="{x:Static localization:Translator.Cultures}"
-              SelectedItem="{Binding Path=(localization:Translator.Culture), Converter={x:Static l:CultureOrDefaultConverter.Default}}" />
+    <StackPanel>
+        <ComboBox x:Name="LanguageComboBox"
+                  ItemsSource="{x:Static localization:Translator.Cultures}"
+                  SelectedItem="{Binding Path=(localization:Translator.Culture), Converter={x:Static l:CultureOrDefaultConverter.Default}}" />
 
-    <l:LanguageSelector x:Name="LanguageSelector"
-                        AutogenerateLanguages="True"
-                        FontSize="18" />
-  </StackPanel>
+        <l:LanguageSelector x:Name="LanguageSelector"
+                            AutogenerateLanguages="True"
+                            FontSize="18" />
+    </StackPanel>
 </Window>

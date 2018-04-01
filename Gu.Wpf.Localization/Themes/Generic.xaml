@@ -30,6 +30,37 @@
   <Style TargetType="{x:Type localization:LanguageSelector}">
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="UseLayoutRounding" Value="True" />
+    <Setter Property="ItemTemplate">
+      <Setter.Value>
+        <DataTemplate DataType="{x:Type localization:Language}">
+          <RadioButton AutomationProperties.AutomationId="{Binding Culture.Name}"
+                       GroupName="LanguagesGroup"
+                       IsChecked="{Binding IsSelected}"
+                       IsEnabled="{Binding CanSelect, Mode=OneWay}"
+                       Style="{StaticResource LanguageRadioButton}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+
+              <Image Grid.Column="0"
+                     Height="{Binding ElementName=LanguageNameTextBlock, Path=ActualHeight}"
+                     Margin="2"
+                     Source="{Binding FlagSource, Converter={x:Static localization:NullImageSourceConverter.Default}}"
+                     Stretch="Uniform" />
+
+              <TextBlock x:Name="LanguageNameTextBlock"
+                         Grid.Column="1"
+                         Margin="10,0,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Text="{Binding LanguageName}" />
+            </Grid>
+          </RadioButton>
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type localization:LanguageSelector}">
@@ -38,37 +69,8 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        ItemsSource="{TemplateBinding Languages}">
-            <ItemsControl.ItemTemplate>
-              <DataTemplate DataType="{x:Type localization:Language}">
-                <RadioButton AutomationProperties.AutomationId="{Binding Culture.Name}"
-                             GroupName="LanguagesGroup"
-                             IsChecked="{Binding IsSelected}"
-                             IsEnabled="{Binding CanSelect, Mode=OneWay}"
-                             Style="{StaticResource LanguageRadioButton}">
-                  <Grid>
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="Auto" />
-                      <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <Image Grid.Column="0"
-                           Height="{Binding ElementName=LanguageNameTextBlock, Path=ActualHeight}"
-                           Margin="2"
-                           Source="{Binding FlagSource, Converter={x:Static localization:NullImageSourceConverter.Default}}"
-                           Stretch="Uniform" />
-
-                    <TextBlock x:Name="LanguageNameTextBlock"
-                               Grid.Column="1"
-                               Margin="10,0,0,0"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               Text="{Binding LanguageName}" />
-                  </Grid>
-                </RadioButton>
-              </DataTemplate>
-            </ItemsControl.ItemTemplate>
-          </ItemsControl>
+                        ItemTemplate="{TemplateBinding ItemTemplate}"
+                        ItemsSource="{TemplateBinding Languages}" />
         </ControlTemplate>
       </Setter.Value>
     </Setter>
