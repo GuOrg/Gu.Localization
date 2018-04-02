@@ -45,9 +45,9 @@
 - [6. LanguageSelector](#6-languageselector)
   - [6.1. AutogenerateLanguages](#61-autogeneratelanguages)
   - [6.2. Explicit languages.](#62-explicit-languages)
-  - [6.3. Simple language select.](#63-simple-language-select)
 - [7. Examples](#7-examples)
-  - [7.1. ComboBox Language selector](#71-combobox-language-selector)
+  - [7.1. Simple ComboBox language select.](#71-simple-combobox-language-select)
+  - [7.2. ComboBox Language selector](#72-combobox-language-selector)
 
 # 1. Usage in XAML.
 
@@ -357,22 +357,22 @@ If true it popolates itself with `Translator.Cultures` in the running applicatio
     <l:Language Culture="en-GB"
                 FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/en.png" />                
     <l:Language Culture="sv-SE"
-                FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/sv.png" />
+                FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/se.png" />
 </l:LanguageSelector>
 ```
 
 ![screenie](http://i.imgur.com/DKfx8WB.png)
 
-## 6.3. Simple language select.
-The below example binds the available cutures to a ComboBox.
-```xaml
-<ComboBox ItemsSource="{x:Static localization:Translator.Cultures}" DockPanel.Dock="Top" HorizontalAlignment="right"
-          SelectedItem="{Binding Path=(localization:Translator.CurrentCulture)}" />
-```
-
 # 7. Examples
 
-## 7. ComboBox Language selector
+## 7.1. Simple ComboBox language select.
+The below example binds the available cutures to a ComboBox.
+```xaml
+        <ComboBox ItemsSource="{Binding Path=(localization:Translator.Cultures)}" DockPanel.Dock="Top" HorizontalAlignment="right"
+          SelectedItem="{Binding Path=(localization:Translator.CurrentCulture)}"/>
+```
+
+## 7.2 ComboBox Language selector
 ```xaml
 <Window ...
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -380,7 +380,7 @@ The below example binds the available cutures to a ComboBox.
         xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:local="clr-namespace:ProjectNamespace">
 
-            <ComboBox ItemsSource="{Binding Path=(localization:Translator.Cultures)}" SelectedItem="{Binding Path=(localization:Translator.Culture)}" Height="25" MinWidth="150" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <ComboBox ItemsSource="{Binding Path=(localization:Translator.Cultures)}" SelectedItem="{Binding Path=(localization:Translator.CurrentCulture)}" MinWidth="100" HorizontalAlignment="Right" VerticalAlignment="Top">
                             <ComboBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type globalization:CultureInfo}">
                                     <Grid>
