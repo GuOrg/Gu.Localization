@@ -67,11 +67,13 @@ For each language, create a resource.xx.resx file. You can use [ResXManager](htt
              xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization">
     ...
     <!-- Dropbownbox to select a language -->
-    <ComboBox ItemsSource="{x:Static localization:Translator.Cultures}"
-          SelectedItem="{Binding Path=(localization:Translator.CurrentCulture)}" />
+    <ComboBox x:Name="LanguageComboBox"
+              ItemsSource="{x:Static localization:Translator.Cultures}"
+              SelectedItem="{Binding Path=(localization:Translator.Culture),
+                                            Converter={x:Static l:CultureOrDefaultConverter />
 
     <!-- Label that changes translation upon language selection -->
-    <Label Text="{l:Static p:Resources.ResourceKeyName}" />
+    <Label Content="{l:Static p:Resources.ResourceKeyName}" />
 ```
 
 
@@ -83,8 +85,8 @@ For each language, create a resource.xx.resx file. You can use [ResXManager](htt
         xmlns:l="http://gu.se/Localization">
     ...
     <TextBlock Text="{l:Static p:Resources.SomeResource}" />
-    <TextBlock Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager}, 
-                             Member={x:Static local:SomeEnum.SomeMember}}" />    
+    <TextBlock Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},
+                             Member={x:Static local:SomeEnum.SomeMember}}" />
     ...
 ```
 
@@ -98,8 +100,8 @@ When null the `StaticExtension` uses ReturnErrorInfoPreserveNeutral
      ...   >
     ...
     <TextBlock Text="{l:Static p:Resources.SomeResource}" />
-    <TextBlock Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager}, 
-                             Member={x:Static local:SomeEnum.SomeMember}}" />    
+    <TextBlock Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},
+                             Member={x:Static local:SomeEnum.SomeMember}}" />
     ...
 ```
 
@@ -113,7 +115,7 @@ A markupextension for accessing `Translator.CurrentCulture` from xaml. Retruns a
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Effective culture: " />
             <TextBlock Text="{l:CurrentCulture}" />
-        </StackPanel>    
+        </StackPanel>
     ...
 ```
 
@@ -197,39 +199,39 @@ string inEnglish = Translator.Translate(Properties.Resources.ResourceManager,
 
 #### 2.1.6.1. Translate to neutral culture:
 ```c#
-string neutral = Translator.Translate(Properties.Resources.ResourceManager, 
-                                      nameof(Properties.Resources.SomeResource), 
+string neutral = Translator.Translate(Properties.Resources.ResourceManager,
+                                      nameof(Properties.Resources.SomeResource),
                                       CultureInfo.InvariantCulture);
 ```
 
 #### 2.1.6.2. Translate to explicit culture:
 ```c#
-string inSwedish = Translator.Translate(Properties.Resources.ResourceManager, 
-                                        nameof(Properties.Resources.SomeResource), 
+string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
+                                        nameof(Properties.Resources.SomeResource),
                                         CultureInfo.GetCultureInfo("sv"));
 ```
 
 #### 2.1.6.3. Override global error handling (throw on error):
 ```c#
 Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo; // no need to set this every time, just for illustration purposes here.
-string inSwedish = Translator.Translate(Properties.Resources.ResourceManager, 
-                                        nameof(Properties.Resources.SomeResource), 
+string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
+                                        nameof(Properties.Resources.SomeResource),
                                         ErrorHandling.Throw);
 ```
 
 #### 2.1.6.4. Override global error handling (return info about error):
 ```c#
 Translator.ErrorHandling = ErrorHandling.Throw; // no need to set this every time, just for illustration purposes here.
-string inSwedish = Translator.Translate(Properties.Resources.ResourceManager, 
-                                        nameof(Properties.Resources.SomeResource), 
+string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
+                                        nameof(Properties.Resources.SomeResource),
                                         ErrorHandling.ReturnErrorInfo);
 ```
 
 #### 2.1.6.5. Translate with parameter:
 ```c#
 Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
-string inSwedish = Translator.Translate(Properties.Resources.ResourceManager, 
-                                        nameof(Properties.Resources.SomeResource__0__), 
+string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
+                                        nameof(Properties.Resources.SomeResource__0__),
                                         foo);
 ```
 
@@ -238,7 +240,7 @@ string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
 Same as translator but used like `Translator<Properties.Resources>.Translate(...)`
 
 ## 2.3. Translation.
-An object with a Translated property that is a string with the value in `Translator.CurrentCulture` 
+An object with a Translated property that is a string with the value in `Translator.CurrentCulture`
 Implements `INotifyPropertyChanged` and notifies when for the property `Translated` if a change in `Translator.CurrentCulture` updates the translation.
 
 ## 2.3.1 GetOrCreate.
@@ -275,7 +277,7 @@ When `ReturnErrorInfo` or `ReturnErrorInfoPreserveNeutral` is used the following
 
 
 # 4. Validate.
-Conveience API for unit testing localization. 
+Conveience API for unit testing localization.
 
 ## 4.1. Translations.
 
@@ -341,7 +343,7 @@ A few flags are included in the library, many are probably missing.
 ***Note: LanguageSelector might be depricated in the future***
 
 ## 6.1. AutogenerateLanguages
-Default is false. 
+Default is false.
 If true it popolates itself with `Translator.Cultures` in the running application and picks the default flag or null.
 
 ```xaml
@@ -355,7 +357,7 @@ If true it popolates itself with `Translator.Cultures` in the running applicatio
     <l:Language Culture="de-DE"
                 FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/de.png" />
     <l:Language Culture="en-GB"
-                FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/en.png" />                
+                FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/en.png" />
     <l:Language Culture="sv-SE"
                 FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/se.png" />
 </l:LanguageSelector>
@@ -379,33 +381,41 @@ The below example binds the available cutures to a ComboBox.
         xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization"
         xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:local="clr-namespace:ProjectNamespace">
-
-            <ComboBox ItemsSource="{Binding Path=(localization:Translator.Cultures)}" SelectedItem="{Binding Path=(localization:Translator.CurrentCulture)}" MinWidth="100" HorizontalAlignment="Right" VerticalAlignment="Top">
-                            <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type globalization:CultureInfo}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-
-                            <Image
-                                Grid.Column="0"
-                                Height="12"
-                                VerticalAlignment="Center"
-                                Source="{Binding Converter={x:Static local:CultureToFlagPathConverter.Default}}"
-                                Stretch="Fill"/>
-
-                            <TextBlock
-                                Grid.Column="1"
-                                                   Margin="10,0,0,0"
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Center"
-                                Text="{Binding NativeName}"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+    <Grid>
+    ...
+        <ComboBox ItemsSource="{Binding Path=(localization:Translator.Cultures)}"
+                  SelectedItem="{Binding Path=(localization:Translator.Culture),
+                                                Converter={x:Static l:CultureOrDefaultConverter />
+                  MinWidth="100"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Top">
+            <ComboBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type globalization:CultureInfo}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+    
+                        <Image
+                            Grid.Column="0"
+                            Height="12"
+                            VerticalAlignment="Center"
+                            Source="{Binding Converter={x:Static local:CultureToFlagPathConverter.Default}}"
+                            Stretch="Fill"/>
+    
+                        <TextBlock
+                            Grid.Column="1"
+                                               Margin="10,0,0,0"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                            Text="{Binding NativeName}"/>
+                    </Grid>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </Grid>
+</Window>
 ```
 
 **CultureToFlagPathConverter.cs**
@@ -440,6 +450,5 @@ namespace ProjectNamespace
     }
 }
 ```
-
 
 
