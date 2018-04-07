@@ -3,8 +3,6 @@ source http://www.nuget.org/api/v2/
 group Build
   source http://www.nuget.org/api/v2/
   nuget SourceLink
-  nuget Costura.Fody
-  nuget Resource.Embedder
 
 group Analyzers
   source http://www.nuget.org/api/v2/

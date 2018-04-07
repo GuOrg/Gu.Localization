@@ -1,3 +1,0 @@
-group Build
-  Costura.Fody
-  Resource.Embedder
