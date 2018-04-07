@@ -14,9 +14,37 @@
         <Grid>
             <StackPanel>
                 <!-- Dropbownbox to select a language -->
-                <ComboBox Height="30" Width="200" x:Name="LanguageComboBox"
-                      ItemsSource="{x:Static localization:Translator.Cultures}"
-                      SelectedItem="{Binding Path=(localization:Translator.Culture)}" />
+                <ComboBox ItemsSource="{Binding Path=(localization:Translator.Cultures)}"
+                          SelectedItem="{Binding Path=(localization:Translator.Culture)}"
+                          MinWidth="100"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Top">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type globalization:CultureInfo}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Image
+                                Grid.Column="0"
+                                Height="12"
+                                VerticalAlignment="Center"
+                                Source="{Binding Converter={x:Static local:CultureToFlagPathConverter.Default}}"
+                                Stretch="Fill"/>
+
+                                <TextBlock
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="{Binding NativeName}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
 
                 <!-- Label that changes translation upon language selection -->
                 <Label Content="Selected Language:" FontWeight="Bold"/>
