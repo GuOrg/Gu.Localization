@@ -7,6 +7,7 @@ namespace Gu.Localization
     using System.Linq;
     using System.Reflection;
     using System.Resources;
+    using System.Text.RegularExpressions;
 
     /// <summary>Utility class for finding resources.</summary>
     internal static class ResourceCultures
@@ -14,7 +15,7 @@ namespace Gu.Localization
         private static readonly IReadOnlyList<CultureInfo> EmptyCultures = new CultureInfo[0];
 
         /// <summary>
-        /// Gets all cultures found in the directory. The search is donde by:
+        /// Gets all cultures found in the directory. The search is done by:
         /// 1) Enumerate all folders named with valid culture names
         /// 2) Check that the folder contains resource files
         /// The result is not cached
@@ -49,8 +50,7 @@ namespace Gu.Localization
             if (entryAssembly != null)
             {
                 var neutralLanguageAttribute = (NeutralResourcesLanguageAttribute)Attribute.GetCustomAttribute(entryAssembly, typeof(NeutralResourcesLanguageAttribute));
-                var name = neutralLanguageAttribute?.CultureName;
-                if (name != null && Culture.TryGet(name, out var neutralCulture))
+                if (Culture.TryGet(neutralLanguageAttribute?.CultureName, out var neutralCulture))
                 {
                     if (cultures == null)
                     {
@@ -58,6 +58,22 @@ namespace Gu.Localization
                     }
 
                     cultures.Add(neutralCulture);
+                }
+
+                var pattern = $"{entryAssembly.GetName().Name}(?<culture>[A-Za-z]{{1,8}}(-[A-Za-z0-9]{{1,8}})*)\\.dll";
+                foreach (var name in entryAssembly.GetManifestResourceNames())
+                {
+                    var match = Regex.Match(name, pattern);
+                    if (match.Success &&
+                        Culture.TryGet(match.Groups["culture"].Value, out var culture))
+                    {
+                        if (cultures == null)
+                        {
+                            cultures = new HashSet<CultureInfo>(CultureInfoComparer.ByName);
+                        }
+
+                        cultures.Add(culture);
+                    }
                 }
             }
 
