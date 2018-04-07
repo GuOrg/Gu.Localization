@@ -431,7 +431,7 @@ You might want to publish your software as just one .exe file, without additiona
 
 ## 8.1 Weaving Setup
 
-- Install https://www.nuget.org/packages/Fody/
+- Install https://www.nuget.org/packages/Fody/ (and add FodyWeavers.xml to your project, see [here](https://github.com/Fody/Fody#add-fodyweaversxml))
 - Install https://www.nuget.org/packages/Costura.Fody/
 - Install https://www.nuget.org/packages/Resource.Embedder/ to include the satelite assemblies _(in the folders /sv-SE/, /nl-NL/, etc)_
 
