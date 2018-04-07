@@ -121,4 +121,5 @@
   <Import Project="..\packages\demo\Costura.Fody\build\Costura.Fody.targets" Condition="Exists('..\packages\demo\Costura.Fody\build\Costura.Fody.targets')" Label="Paket" />
   <Import Project="..\packages\demo\Fody\build\Fody.targets" Condition="Exists('..\packages\demo\Fody\build\Fody.targets')" Label="Paket" />
   <Import Project="..\packages\demo\Resource.Embedder\build\Resource.Embedder.targets" Condition="Exists('..\packages\demo\Resource.Embedder\build\Resource.Embedder.targets')" Label="Paket" />
+  <Import Project="..\.paket\paket.targets" />
 </Project>
