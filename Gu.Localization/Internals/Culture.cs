@@ -55,12 +55,24 @@ namespace Gu.Localization
 
         internal static bool TryGet(string name, out CultureInfo culture)
         {
+            if (name == null)
+            {
+                culture = null;
+                return false;
+            }
+
             return NameCultureMap.TryGetValue(name, out culture) ||
                    TwoLetterISOLanguageNameCultureMap.TryGetValue(name, out culture);
         }
 
         internal static bool TryGetRegion(CultureInfo culture, out RegionInfo region)
         {
+            if (culture == null)
+            {
+                region = null;
+                return false;
+            }
+
             if (culture.IsNeutralCulture)
             {
                 return NeutralCultureRegionMap.TryGetValue(culture, out region);
