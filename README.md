@@ -48,6 +48,8 @@
 - [7. Examples](#7-examples)
   - [7.1. Simple ComboBox language select.](#71-simple-combobox-language-select)
   - [7.2. ComboBox Language selector](#72-combobox-language-selector)
+- [8. Embedded resource files (weaving).](#8-embedded-resource-files-(weaving))
+  - [8.1. Weaving Setup.](#8-weaving-setup)
 
 # 1. Usage in XAML.
 
@@ -69,7 +71,7 @@ For each language, create a resource.xx.resx file. You can use [ResXManager](htt
     <!-- Dropbownbox to select a language -->
     <ComboBox x:Name="LanguageComboBox"
               ItemsSource="{Binding Path=(localization:Translator.Cultures)}"
-              SelectedItem="{Binding Path=(localization:Translator.Culture), 
+              SelectedItem="{Binding Path=(localization:Translator.Culture),
                                               Converter={x:Static l:CultureOrDefaultConverter.Default}}" />
 
     <!-- Label that changes translation upon language selection -->
@@ -421,5 +423,16 @@ The below example binds the available cutures to a ComboBox.
 
 For convenience a converter that converts from `CultureInfo` to a string with the pack uri of the flag resource is included.
 
+# 8 Embedded resource files (weaving)
 
+_"Weaving refers to the process of injecting functionality into an existing program."_
 
+You might want to publish your software as just one .exe file, without additional assemblies (dll files). Gu.Localization supports this, and a sample project is added [here](https://github.com/GuOrg/Gu.Localization/tree/master/Gu.Wpf.Localization.Demo.Fody). We advice you to use Fody (for it is tested).
+
+## 8.1 Weaving Setup
+
+- Install https://www.nuget.org/packages/Fody/
+- Install https://www.nuget.org/packages/Costura.Fody/
+- Install https://www.nuget.org/packages/Resource.Embedder/ to include the satelite assemblies _(in the folders /sv-SE/, /nl-NL/, etc)_
+
+Your resource files are now embeded in your executable. Gu.Localization will use the embedded resource files.
