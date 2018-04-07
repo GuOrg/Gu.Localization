@@ -3,8 +3,10 @@ namespace Gu.Wpf.Localization
     using System;
     using System.Globalization;
     using System.Windows.Data;
+    using System.Windows.Media;
 
     /// <inheritdoc />
+    [ValueConversion(typeof(ImageSource), typeof(object))]
     public sealed class NullImageSourceConverter : IValueConverter
     {
         /// <summary>The default instance.</summary>

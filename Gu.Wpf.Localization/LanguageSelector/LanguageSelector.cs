@@ -44,10 +44,11 @@ namespace Gu.Wpf.Localization
 
         /// <summary>Identifies the <see cref="ItemTemplate"/> dependency property.</summary>
         public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
-            "ItemTemplate", 
+            "ItemTemplate",
             typeof(DataTemplate),
             typeof(LanguageSelector),
-            new PropertyMetadata(default(DataTemplate)), ValidateItemTemplate);
+            new PropertyMetadata(default(DataTemplate)),
+            ValidateItemTemplate);
 
 #pragma warning restore SA1202 // Elements must be ordered by access
 
