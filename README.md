@@ -24,8 +24,8 @@
     - [2.1.6. Translate.](#216-translate)
       - [2.1.6.1. Translate to neutral culture:](#2161-translate-to-neutral-culture)
       - [2.1.6.2. Translate to explicit culture:](#2162-translate-to-explicit-culture)
-      - [2.1.6.3. Override global error handling (throw on error):](#2163-override-global-error-handling--throw-on-error)
-      - [2.1.6.4. Override global error handling (return info about error):](#2164-override-global-error-handling--return-info-about-error)
+      - [2.1.6.3. Override global error handling (throw on error):](#2163-override-global-error-handling-throw-on-error)
+      - [2.1.6.4. Override global error handling (return info about error):](#2164-override-global-error-handling-return-info-about-error)
       - [2.1.6.5. Translate with parameter:](#2165-translate-with-parameter)
   - [2.2. Translator&lt;T&gt;.](#22-translatort)
   - [2.3. Translation.](#23-translation)
@@ -48,8 +48,8 @@
 - [7. Examples](#7-examples)
   - [7.1. Simple ComboBox language select.](#71-simple-combobox-language-select)
   - [7.2. ComboBox Language selector](#72-combobox-language-selector)
-- [8. Embedded resource files (weaving).](#8-embedded-resource-files-(weaving))
-  - [8.1. Weaving Setup.](#8-weaving-setup)
+- [8. Embedded resource files (weaving).](#8-embedded-resource-files-weaving)
+  - [8.1. Weaving Setup.](#81-weaving-setup)
 
 # 1. Usage in XAML.
 
