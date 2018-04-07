@@ -60,10 +60,10 @@ namespace Gu.Localization
                     cultures.Add(neutralCulture);
                 }
 
-                var pattern = $"{entryAssembly.GetName().Name}(?<culture>[A-Za-z]{{1,8}}(-[A-Za-z0-9]{{1,8}})*)\\.dll";
+                var pattern = $"{entryAssembly.GetName().Name}\\.(?<culture>[A-Za-z]{{1,8}}(-[A-Za-z0-9]{{1,8}})*)\\.resources\\.dll";
                 foreach (var name in entryAssembly.GetManifestResourceNames())
                 {
-                    var match = Regex.Match(name, pattern);
+                    var match = Regex.Match(name, pattern, RegexOptions.IgnoreCase);
                     if (match.Success &&
                         Culture.TryGet(match.Groups["culture"].Value, out var culture))
                     {

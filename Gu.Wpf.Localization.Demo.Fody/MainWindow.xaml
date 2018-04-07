@@ -16,7 +16,8 @@
         <Grid>
             <StackPanel>
                 <!--  Dropbownbox to select a language  -->
-                <ComboBox MinWidth="100"
+                <ComboBox x:Name="LanguageComboBox"
+                          MinWidth="100"
                           HorizontalAlignment="Right"
                           VerticalAlignment="Top"
                           ItemsSource="{Binding Path=(localization:Translator.Cultures)}"
@@ -48,7 +49,7 @@
 
                 <!--  Label that changes translation upon language selection  -->
                 <Label Content="Selected Language:" FontWeight="Bold" />
-                <Label Content="{l:Static p:Resources.CurrentLanguage}" />
+                <Label x:Name="TranslatedLabel" Content="{l:Static p:Resources.CurrentLanguage}" />
             </StackPanel>
         </Grid>
     </Grid>
