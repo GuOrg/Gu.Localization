@@ -1,6 +1,7 @@
 image: Visual Studio 2017
 
 before_build:
+- ps: nuget restore
 - ps: dotnet restore
 
 configuration: Release
