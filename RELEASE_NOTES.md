@@ -1,3 +1,6 @@
+#### 6.4.0
+* FEATURE: Fody support.
+
 #### 6.2.0
 * FEATURE: More flags.
 * FEATURE: LanguageSelector.ItemTemplate
