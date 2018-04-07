@@ -19,17 +19,17 @@ NUGET
 GROUP Build
 NUGET
   remote: http://www.nuget.org/api/v2
+    Costura.Fody (2.0)
+      Fody (>= 3.0) - restriction: >= net452
+    Fody (3.0.1) - restriction: >= net452
+    Resource.Embedder (1.2.5)
     SourceLink (1.1)
 
 GROUP Demo
 RESTRICTION: >= net45
 NUGET
   remote: http://www.nuget.org/api/v2
-    Costura.Fody (2.0)
-      Fody (>= 3.0) - restriction: >= net452
-    Fody (3.0.1) - restriction: >= net452
     ModernUI.WPF (1.0.9)
-    Resource.Embedder (1.2.5)
 
 GROUP Test
 STORAGE: NONE
