@@ -357,7 +357,7 @@ If true it popolates itself with `Translator.Cultures` in the running applicatio
     <l:Language Culture="de-DE"
                 FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/de.png" />
     <l:Language Culture="en-GB"
-                FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/en.png" />
+                FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/gb.png" />
     <l:Language Culture="sv-SE"
                 FlagSource="pack://application:,,,/Gu.Wpf.Localization;component/Flags/se.png" />
 </l:LanguageSelector>
@@ -377,17 +377,17 @@ The below example binds the available cutures to a ComboBox.
 ## 7.2 ComboBox Language selector
 ```xaml
 <Window ...
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization"
         xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
-        xmlns:local="clr-namespace:ProjectNamespace">
+        xmlns:l="http://gu.se/Localization"
+        xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization">
     <Grid>
-    ...
-        <ComboBox ItemsSource="{Binding Path=(localization:Translator.Cultures)}"
-                  SelectedItem="{Binding Path=(localization:Translator.Culture)}"
-                  MinWidth="100"
+        <ComboBox MinWidth="100"
                   HorizontalAlignment="Right"
-                  VerticalAlignment="Top">
+                  VerticalAlignment="Top"
+                  ItemsSource="{Binding Path=(localization:Translator.Cultures)}"
+                  SelectedItem="{Binding Path=(localization:Translator.Culture)}">
             <ComboBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type globalization:CultureInfo}">
                     <Grid>
@@ -395,59 +395,31 @@ The below example binds the available cutures to a ComboBox.
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-    
-                        <Image
-                            Grid.Column="0"
-                            Height="12"
-                            VerticalAlignment="Center"
-                            Source="{Binding Converter={x:Static local:CultureToFlagPathConverter.Default}}"
-                            Stretch="Fill"/>
-    
-                        <TextBlock
-                            Grid.Column="1"
-                                               Margin="10,0,0,0"
-                                               HorizontalAlignment="Left"
-                                               VerticalAlignment="Center"
-                            Text="{Binding NativeName}"/>
+
+                        <Image Grid.Column="0"
+                               Height="12"
+                               VerticalAlignment="Center"
+                               Source="{Binding Converter={x:Static l:CultureToFlagPathConverter.Default}}"
+                               Stretch="Fill" />
+
+                        <TextBlock Grid.Column="1"
+                                   Margin="10,0,0,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding NativeName}" />
                     </Grid>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
+
+        ...
     </Grid>
 </Window>
 ```
 
-**CultureToFlagPathConverter.cs**
-```c#
-using System;
-using System.Globalization;
-using System.Windows.Data;
+## 7.3 CultureToFlagPathConverter
 
-namespace ProjectNamespace
-{
-    public sealed class CultureToFlagPathConverter : IValueConverter
-    {
-        /// <summary>The default instance.</summary>
-        public static readonly CultureToFlagPathConverter Default = new CultureToFlagPathConverter();
+For convenience a converter that converts from `CultureInfo` to a string with the pack uri of the flag resource is included.
 
-        /// <inheritdoc />
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is CultureInfo cultureInfo)
-            {
-                return "pack://application:,,,/Gu.Wpf.Localization;component/Flags/" + cultureInfo.TwoLetterISOLanguageName + ".png";
-            }
-
-            return Binding.DoNothing;
-        }
-
-        /// <inheritdoc />
-        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotSupportedException($"{nameof(CultureToFlagPathConverter)} can only be used with {nameof(BindingMode)}.{nameof(BindingMode.OneWay)}");
-        }
-    }
-}
-```
 
 
