@@ -4,7 +4,7 @@ GROUP Analyzers
 NUGET
   remote: http://www.nuget.org/api/v2
     Gu.Analyzers (1.2.8-dev)
-    IDisposableAnalyzers (0.1.4.5-dev)
+    IDisposableAnalyzers (1.0)
     JetBrains.Annotations (11.1)
       System.Runtime (>= 4.1) - restriction: && (< net10) (>= netstandard1.0)
     Microsoft.NETCore.Platforms (2.0.1) - restriction: || (&& (< monoandroid) (< monotouch) (< net10) (>= netstandard1.5) (< win8) (< wpa81) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net10) (>= netstandard1.0) (< netstandard1.2) (< win8) (< wp8)) (&& (< monoandroid) (< net10) (>= netstandard1.2) (< netstandard1.3) (< win8) (< wpa81)) (&& (< monoandroid) (< net10) (>= netstandard1.3) (< netstandard1.5) (< win8) (< wpa81)) (&& (< net10) (>= netstandard1.0) (< portable-net45+win8+wp8+wpa81))
@@ -25,7 +25,11 @@ GROUP Demo
 RESTRICTION: >= net45
 NUGET
   remote: http://www.nuget.org/api/v2
+    Costura.Fody (2.0)
+      Fody (>= 3.0) - restriction: >= net452
+    Fody (3.0.1) - restriction: >= net452
     ModernUI.WPF (1.0.9)
+    Resource.Embedder (1.2.5)
 
 GROUP Test
 STORAGE: NONE

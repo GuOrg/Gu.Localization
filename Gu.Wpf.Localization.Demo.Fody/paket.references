@@ -1,1 +1,3 @@
-Costura.Fody
+group Demo
+  Costura.Fody
+  Resource.Embedder

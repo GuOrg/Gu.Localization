@@ -25,3 +25,5 @@ group Demo
   source http://www.nuget.org/api/v2/
   framework: >= net45
   nuget ModernUI.WPF
+  nuget Costura.Fody
+  nuget Resource.Embedder
