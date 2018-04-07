@@ -68,9 +68,9 @@ For each language, create a resource.xx.resx file. You can use [ResXManager](htt
     ...
     <!-- Dropbownbox to select a language -->
     <ComboBox x:Name="LanguageComboBox"
-              ItemsSource="{x:Static localization:Translator.Cultures}"
-              SelectedItem="{Binding Path=(localization:Translator.Culture),
-                                            Converter={x:Static l:CultureOrDefaultConverter />
+              ItemsSource="{Binding Path=(localization:Translator.Cultures)}"
+              SelectedItem="{Binding Path=(localization:Translator.Culture), 
+                                              Converter={x:Static l:CultureOrDefaultConverter.Default}}" />
 
     <!-- Label that changes translation upon language selection -->
     <Label Content="{l:Static p:Resources.ResourceKeyName}" />
@@ -384,8 +384,7 @@ The below example binds the available cutures to a ComboBox.
     <Grid>
     ...
         <ComboBox ItemsSource="{Binding Path=(localization:Translator.Cultures)}"
-                  SelectedItem="{Binding Path=(localization:Translator.Culture),
-                                                Converter={x:Static l:CultureOrDefaultConverter />
+                  SelectedItem="{Binding Path=(localization:Translator.Culture)}"
                   MinWidth="100"
                   HorizontalAlignment="Right"
                   VerticalAlignment="Top">
