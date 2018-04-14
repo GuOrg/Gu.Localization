@@ -1,4 +1,4 @@
-﻿#pragma warning disable SA1600 // Elements must be documented
+#pragma warning disable SA1600 // Elements must be documented
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable SA1611 // Element parameters must be documented
 #pragma warning disable SA1615 // Element return value must be documented
@@ -22,12 +22,18 @@ namespace Gu.Wpf.Localization
                 FrameworkPropertyMetadataOptions.Inherits,
                 OnCultureChanged));
 
-                              /// <summary> The <see cref="CultureInfo"/> to use in designtime </summary>
+        /// <summary> The <see cref="CultureInfo"/> to use in design time </summary>
+        [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static CultureInfo GetCulture(this UIElement element)
         {
             return (CultureInfo)element.GetValue(CultureProperty);
         }
 
+        /// <summary>
+        /// Helper for setting Culture property on a UIElement.
+        /// </summary>
+        /// <param name="element">UIElement to set Culture property on.</param>
+        /// <param name="value">Culture property value.</param>
         public static void SetCulture(this UIElement element, CultureInfo value)
         {
             element.SetValue(CultureProperty, value);

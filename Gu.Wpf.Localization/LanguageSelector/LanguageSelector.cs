@@ -95,6 +95,9 @@ namespace Gu.Wpf.Localization
             set => this.SetValue(SelectedLanguageProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="DataTemplate"/> to use for rendering items of type <see cref="Language"/>
+        /// </summary>
         public DataTemplate ItemTemplate
         {
             get => (DataTemplate)this.GetValue(ItemTemplateProperty);
