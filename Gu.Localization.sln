@@ -43,6 +43,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.WithNeu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Demo.Fody", "Gu.Wpf.Localization.Demo.Fody\Gu.Wpf.Localization.Demo.Fody.csproj", "{BDB276CE-DBB6-4BD7-B7F8-59777D655A70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization.Analyzers", "Gu.Localization.Analyzers\Gu.Localization.Analyzers.csproj", "{29582B83-3D78-40E2-B8BA-87584EB57421}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization.Analyzers.Tests", "Gu.Localization.Analyzers.Tests\Gu.Localization.Analyzers.Tests.csproj", "{00E49DA7-9E0D-4F64-B7EF-9768D57142EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +97,14 @@ Global
 		{BDB276CE-DBB6-4BD7-B7F8-59777D655A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDB276CE-DBB6-4BD7-B7F8-59777D655A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDB276CE-DBB6-4BD7-B7F8-59777D655A70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29582B83-3D78-40E2-B8BA-87584EB57421}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29582B83-3D78-40E2-B8BA-87584EB57421}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29582B83-3D78-40E2-B8BA-87584EB57421}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29582B83-3D78-40E2-B8BA-87584EB57421}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00E49DA7-9E0D-4F64-B7EF-9768D57142EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00E49DA7-9E0D-4F64-B7EF-9768D57142EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00E49DA7-9E0D-4F64-B7EF-9768D57142EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00E49DA7-9E0D-4F64-B7EF-9768D57142EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

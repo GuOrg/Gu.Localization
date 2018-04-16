@@ -1,0 +1,11 @@
+group Roslyn
+  Microsoft.CodeAnalysis.CSharp.Workspaces
+  Gu.Roslyn.Asserts
+  NUnit
+
+group Analyzers
+  Gu.Analyzers
+  IDisposableAnalyzers
+  StyleCop.Analyzers
+  PropertyChangedAnalyzers
+  JetBrains.Annotations
