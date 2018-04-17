@@ -76,7 +76,7 @@ namespace RoslynSandbox.Properties {
 }";
 
         [Test]
-        public void StringLiteralWithUsing()
+        public void TranslatorTranslateStringLiteralWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox.Client
@@ -112,7 +112,7 @@ namespace RoslynSandbox.Client
 
         [Explicit("Not sure why we get overload resolution failure here.")]
         [Test]
-        public void StringLiteralFullyQualified()
+        public void TranslatorTranslateStringLiteralFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox.Client
@@ -137,6 +137,74 @@ namespace RoslynSandbox.Client
         public Foo()
         {
             var translate = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.ResourceManager.Key));
+        }
+    }
+}";
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+        }
+        
+        [Test]
+        public void TranslationGetOrCreateStringLiteralWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox.Client
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Translator.Translate(Resources.ResourceManager, ""Key"");
+        }
+    }
+}";
+
+            var fixedCode = @"
+namespace RoslynSandbox.Client
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Translator.Translate(Resources.ResourceManager, nameof(Resources.Key));
+        }
+    }
+}";
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+        }
+
+        [Explicit("Not sure why we get overload resolution failure here.")]
+        [Test]
+        public void TranslationGetOrCreateStringLiteralFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox.Client
+{
+    using Gu.Localization;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, ""Key"");
+        }
+    }
+}";
+            var fixedCode = @"
+namespace RoslynSandbox.Client
+{
+    using Gu.Localization;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.ResourceManager.Key));
         }
     }
 }";

@@ -28,7 +28,8 @@ namespace Gu.Localization.Analyzers
                 resourceManager.Name.Identifier.ValueText == "ResourceManager" &&
                 argumentList.Arguments.TryElementAt(1, out var keyArgument) &&
                 context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is IMethodSymbol target &&
-                target == KnownSymbol.Translator.Translate)
+                (target == KnownSymbol.Translator.Translate ||
+                 target == KnownSymbol.Translation.GetOrCreate))
             {
                 if (!IsNameOfKey(keyArgument))
                 {

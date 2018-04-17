@@ -72,7 +72,7 @@ namespace Gu.Localization.Analyzers.Tests.KeyExistsAnalyzerTests
 }";
 
         [Test]
-        public void StringLiteralWithUsing()
+        public void TranslatorTranslateStringLiteralWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox.Client
@@ -94,7 +94,7 @@ namespace RoslynSandbox.Client
         }
 
         [Test]
-        public void StringLiteralFullyQualified()
+        public void TranslatorTranslateStringLiteralFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox.Client
@@ -115,7 +115,7 @@ namespace RoslynSandbox.Client
         }
 
         [Test]
-        public void NameofPropertyWithUsing()
+        public void TranslatorTranslateNameofPropertyWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox.Client
@@ -135,7 +135,7 @@ namespace RoslynSandbox.Client
         }
 
         [Test]
-        public void NameofPropertyFullyQualified()
+        public void TranslatorTranslateNameofPropertyFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox.Client
@@ -147,6 +147,88 @@ namespace RoslynSandbox.Client
         public Foo()
         {
             var translate = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Key));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
+
+        [Test]
+        public void TranslationGetOrCreateStringLiteralWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox.Client
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+#pragma warning disable GULOC02 // Use nameof(key).
+            var translation = Translation.GetOrCreate(Resources.ResourceManager, ""Key"");
+#pragma warning restore GULOC02 // Use nameof(key).
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
+
+        [Test]
+        public void TranslationGetOrCreateStringLiteralFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox.Client
+{
+    using Gu.Localization;
+
+    public class Foo
+    {
+        public Foo()
+        {
+#pragma warning disable GULOC02 // Use nameof(key).
+            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, ""Key"");
+#pragma warning restore GULOC02 // Use nameof(key).
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
+
+        [Test]
+        public void TranslationGetOrCreateNameofPropertyWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox.Client
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translation = Translation.GetOrCreate(Resources.ResourceManager, nameof(Resources.Key));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
+
+        [Test]
+        public void TranslationGetOrCreateNameofPropertyFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox.Client
+{
+    using Gu.Localization;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Key));
         }
     }
 }";
