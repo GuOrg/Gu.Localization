@@ -22,38 +22,74 @@ namespace Gu.Localization.Analyzers
         private static void Handle(SyntaxNodeAnalysisContext context)
         {
             if (context.Node is InvocationExpressionSyntax invocation &&
-                invocation.ArgumentList is ArgumentListSyntax argumentList &&
-                argumentList.Arguments.TryFirst(out var resourceManagerArgument) &&
-                resourceManagerArgument.Expression is MemberAccessExpressionSyntax resourceManager &&
-                resourceManager.Name.Identifier.ValueText == "ResourceManager" &&
-                argumentList.Arguments.TryElementAt(1, out var keyArgument) &&
-                context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is IMethodSymbol target &&
-                (target == KnownSymbol.Translator.Translate ||
-                 target == KnownSymbol.Translation.GetOrCreate))
+                invocation.ArgumentList is ArgumentListSyntax argumentList)
             {
-                if (!IsNameOfKey(keyArgument))
+                if (argumentList.Arguments.TryFirst(out var resourceManagerArgument) &&
+                    resourceManagerArgument.Expression is MemberAccessExpressionSyntax resourceManager &&
+                    resourceManager.Name.Identifier.ValueText == "ResourceManager" &&
+                    argumentList.Arguments.TryElementAt(1, out var keyArgument) &&
+                    context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is IMethodSymbol target &&
+                    (target == KnownSymbol.Translator.Translate ||
+                     target == KnownSymbol.Translation.GetOrCreate))
                 {
-                    if (keyArgument.Expression is LiteralExpressionSyntax)
+                    if (!IsNameOfKey(keyArgument))
                     {
-                        context.ReportDiagnostic(
-                            Diagnostic.Create(
-                                UseNameOfAnalyzer.Descriptor,
-                                keyArgument.GetLocation(),
-                                ImmutableDictionary<string, string>.Empty.Add(
-                                    nameof(MemberAccessExpressionSyntax),
-                                    resourceManager.Expression.ToString())));
+                        if (keyArgument.Expression is LiteralExpressionSyntax)
+                        {
+                            context.ReportDiagnostic(
+                                Diagnostic.Create(
+                                    UseNameOfAnalyzer.Descriptor,
+                                    keyArgument.GetLocation(),
+                                    ImmutableDictionary<string, string>.Empty.Add(
+                                        nameof(MemberAccessExpressionSyntax),
+                                        resourceManager.Expression.ToString())));
+                        }
+                        else
+                        {
+                            context.ReportDiagnostic(Diagnostic.Create(UseNameOfAnalyzer.Descriptor, keyArgument.GetLocation()));
+                        }
                     }
-                    else
+
+                    if (TryGetStringValue(keyArgument, out var key) &&
+                        context.SemanticModel.GetSymbolInfo(resourceManager.Expression).Symbol is ITypeSymbol resourcesType &&
+                        !resourcesType.GetMembers(key).Any())
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(UseNameOfAnalyzer.Descriptor, keyArgument.GetLocation()));
+                        context.ReportDiagnostic(Diagnostic.Create(KeyExistsAnalyzer.Descriptor, keyArgument.GetLocation()));
                     }
                 }
-
-                if (TryGetStringValue(keyArgument, out var key) &&
-                    context.SemanticModel.GetSymbolInfo(resourceManager.Expression).Symbol is ITypeSymbol resourcesType &&
-                    !resourcesType.GetMembers(key).Any())
+                else if (argumentList.Arguments.TryFirst(out keyArgument) &&
+                        context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is IMethodSymbol translateMethod &&
+                        translateMethod.IsStatic &&
+                        (translateMethod.ReturnType == KnownSymbol.String ||
+                         translateMethod.ReturnType == KnownSymbol.ITranslation) &&
+                        translateMethod.ContainingType.Name == "Translate" &&
+                        translateMethod.Parameters.TryFirst(out var parameter) &&
+                        parameter.Type == KnownSymbol.String &&
+                        translateMethod.ContainingNamespace.GetTypeMembers("Resources").FirstOrDefault() is ITypeSymbol resourcesType)
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(KeyExistsAnalyzer.Descriptor, keyArgument.GetLocation()));
+                    if (!IsNameOfKey(keyArgument))
+                    {
+                        if (keyArgument.Expression is LiteralExpressionSyntax)
+                        {
+                            context.ReportDiagnostic(
+                                Diagnostic.Create(
+                                    UseNameOfAnalyzer.Descriptor,
+                                    keyArgument.GetLocation(),
+                                    ImmutableDictionary<string, string>.Empty.Add(
+                                        nameof(MemberAccessExpressionSyntax),
+                                        resourcesType.MetadataName)));
+                        }
+                        else
+                        {
+                            context.ReportDiagnostic(Diagnostic.Create(UseNameOfAnalyzer.Descriptor, keyArgument.GetLocation()));
+                        }
+                    }
+
+                    if (TryGetStringValue(keyArgument, out var key) &&
+                        !resourcesType.GetMembers(key).Any())
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(KeyExistsAnalyzer.Descriptor, keyArgument.GetLocation()));
+                    }
                 }
             }
         }

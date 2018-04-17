@@ -73,6 +73,33 @@ namespace RoslynSandbox.Properties {
     }
 }";
 
+        private static readonly string TranslateCode = @"
+namespace RoslynSandbox.Properties
+{
+    using Gu.Localization;
+
+    public static class Translate
+    {
+        /// <summary>Call like this: Translate.Key(nameof(Resources.Saved_file__0_)).</summary>
+        /// <param name=""key"">A key in Properties.Resources</param>
+        /// <param name=""errorHandling"">How to handle translation errors like missing key or culture.</param>
+        /// <returns>A translation for the key.</returns>
+        public static string Key(string key, ErrorHandling errorHandling = ErrorHandling.ReturnErrorInfoPreserveNeutral)
+        {
+            return TranslationFor(key, errorHandling).Translated;
+        }
+
+        /// <summary>Call like this: Translate.Key(nameof(Resources.Saved_file__0_)).</summary>
+        /// <param name=""key"">A key in Properties.Resources</param>
+        /// <param name=""errorHandling"">How to handle translation errors like missing key or culture.</param>
+        /// <returns>A translation for the key.</returns>
+        public static ITranslation TranslationFor(string key, ErrorHandling errorHandling = ErrorHandling.ReturnErrorInfoPreserveNeutral)
+        {
+            return Gu.Localization.Translation.GetOrCreate(Resources.ResourceManager, key, errorHandling);
+        }
+    }
+}";
+
         [Test]
         public void TranslatorTranslateStringLiteralWithUsing()
         {
@@ -168,6 +195,107 @@ namespace RoslynSandbox.Client
         public Foo()
         {
             var translate = Translator.Translate(Properties.Resources.ResourceManager, ↓nameof(Properties.Resources));
+        }
+    }
+}";
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, testCode);
+        }
+
+        [Test]
+        public void TranslateKeyStringLiteralWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox.Client
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Translate.Key(↓""Missing"");
+        }
+    }
+}";
+
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Explicit("Not sure why we get overload resolution failure here.")]
+        [Test]
+        public void TranslateKeyStringLiteralFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox.Client
+{
+    using Gu.Localization;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Properties.Translate.Key(↓""Missing"");
+        }
+    }
+}";
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void TranslateKeyNameofPropertyWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox.Client
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Translate.Key(↓nameof(Resources));
+        }
+    }
+}";
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void TranslateKeyMissingNameof()
+        {
+            var testCode = @"
+namespace RoslynSandbox.Client
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Properties.Translate.Key(↓Resources.Key);
+        }
+    }
+}";
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Explicit("Not sure why we get overload resolution failure here.")]
+        [Test]
+        public void TranslateKeyNameofPropertyFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox.Client
+{
+    using Gu.Localization;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Properties.Translate.Key(↓nameof(Properties.Resources));
         }
     }
 }";

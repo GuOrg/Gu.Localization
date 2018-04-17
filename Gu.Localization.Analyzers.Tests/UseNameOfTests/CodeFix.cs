@@ -142,7 +142,7 @@ namespace RoslynSandbox.Client
 }";
             AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
         }
-        
+
         [Test]
         public void TranslationGetOrCreateStringLiteralWithUsing()
         {
