@@ -44,7 +44,7 @@ namespace Gu.Localization.Analyzers
                                         nameof(MemberAccessExpressionSyntax),
                                         resourceManager.Expression.ToString())));
                         }
-                        else
+                        else if (keyArgument.Expression is MemberAccessExpressionSyntax)
                         {
                             context.ReportDiagnostic(Diagnostic.Create(UseNameOfAnalyzer.Descriptor, keyArgument.GetLocation()));
                         }
@@ -79,7 +79,7 @@ namespace Gu.Localization.Analyzers
                                         nameof(MemberAccessExpressionSyntax),
                                         resourcesType.MetadataName)));
                         }
-                        else
+                        else if (keyArgument.Expression is MemberAccessExpressionSyntax)
                         {
                             context.ReportDiagnostic(Diagnostic.Create(UseNameOfAnalyzer.Descriptor, keyArgument.GetLocation()));
                         }
