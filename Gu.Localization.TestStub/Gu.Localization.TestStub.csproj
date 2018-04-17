@@ -41,6 +41,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Translate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gu.Localization\Gu.Localization.csproj">

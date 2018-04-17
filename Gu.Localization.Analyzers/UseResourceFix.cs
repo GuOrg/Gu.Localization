@@ -36,37 +36,55 @@ namespace Gu.Localization.Analyzers
                         //   <value>Value</value>
                         // </data>
                         var key = Key(literal.Token.ValueText);
-                        var xElement = new XElement("data");
-                        xElement.Add(new XAttribute("name", key));
-                        xElement.Add(new XAttribute(XName.Get("space", "xml"), "preserve"));
-                        xElement.Add(new XElement("value", literal.Token.ValueText));
                         var xDocument = XDocument.Load(resx);
-                        xDocument.Root.Add(xElement);
-                        using (var stream = File.OpenWrite(resx))
+                        if (xDocument.Root
+                            .Descendants("data")
+                            .Any(x => x.Attribute("name")?.Value == key))
                         {
-                            xDocument.Save(stream);
+                            context.RegisterCodeFix(
+                                "Use existing resource in Translator.Translate",
+                                (e, c) => e.ReplaceNode(
+                                    literal,
+                                    SyntaxFactory
+                                        .ParseExpression(
+                                            $"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{literal.Token.ValueText}))")
+                                        .WithSimplifiedNames()),
+                                "Move to resource and use Translator.Translate",
+                                diagnostic);
                         }
-
-                        var designer = Path.Combine(Path.GetDirectoryName(context.Document.Project.FilePath), "Properties\\Resources.Designer.cs");
-                        if (File.Exists(designer))
+                        else
                         {
-                            // Adding a temp key so that we don't have a build error until next gen.
-                            // internal static string Key => ResourceManager.GetString("Key", resourceCulture);
-                            var lines = File.ReadAllLines(designer).ToList();
-                            lines.Insert(lines.Count - 2, $"        internal static string {key} => ResourceManager.GetString(\"{key}\", resourceCulture);");
-                            File.WriteAllLines(
-                                designer,
-                                lines);
-                        }
+                            var xElement = new XElement("data");
+                            xElement.Add(new XAttribute("name", key));
+                            xElement.Add(new XAttribute(XName.Get("space", "xml"), "preserve"));
+                            xElement.Add(new XElement("value", literal.Token.ValueText));
+                            xDocument.Root.Add(xElement);
+                            using (var stream = File.OpenWrite(resx))
+                            {
+                                xDocument.Save(stream);
+                            }
 
-                        context.RegisterCodeFix(
-                            "Move to resource and use Translator.Translate",
-                            (e, c) => e.ReplaceNode(
-                                literal,
-                                SyntaxFactory.ParseExpression($"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{literal.Token.ValueText}))")
-                                              .WithSimplifiedNames()),
-                            "Move to resource and use Translator.Translate",
-                            diagnostic);
+                            var designer = Path.Combine(Path.GetDirectoryName(context.Document.Project.FilePath), "Properties\\Resources.Designer.cs");
+                            if (File.Exists(designer))
+                            {
+                                // Adding a temp key so that we don't have a build error until next gen.
+                                // internal static string Key => ResourceManager.GetString("Key", resourceCulture);
+                                var lines = File.ReadAllLines(designer).ToList();
+                                lines.Insert(lines.Count - 2, $"        internal static string {key} => ResourceManager.GetString(\"{key}\", resourceCulture);");
+                                File.WriteAllLines(
+                                    designer,
+                                    lines);
+                            }
+
+                            context.RegisterCodeFix(
+                                "Move to resource and use Translator.Translate",
+                                (e, c) => e.ReplaceNode(
+                                    literal,
+                                    SyntaxFactory.ParseExpression($"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{literal.Token.ValueText}))")
+                                        .WithSimplifiedNames()),
+                                "Move to resource and use Translator.Translate",
+                                diagnostic);
+                        }
                     }
                 }
             }
