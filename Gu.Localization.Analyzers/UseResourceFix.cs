@@ -3,6 +3,7 @@ namespace Gu.Localization.Analyzers
     using System.Collections.Immutable;
     using System.Composition;
     using System.IO;
+    using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using System.Xml.Linq;
@@ -46,12 +47,25 @@ namespace Gu.Localization.Analyzers
                             xDocument.Save(stream);
                         }
 
+                        var designer = Path.Combine(Path.GetDirectoryName(context.Document.Project.FilePath), "Properties\\Resources.Designer.cs");
+                        if (File.Exists(designer))
+                        {
+                            // Adding a temp key so that we don't have a build error until next gen.
+                            // internal static string Key => ResourceManager.GetString("Key", resourceCulture);
+                            var lines = File.ReadAllLines(designer).ToList();
+                            lines.Insert(lines.Count - 2, $"        internal static string {key} => ResourceManager.GetString(\"{key}\", resourceCulture);");
+                            File.WriteAllLines(
+                                designer,
+                                lines);
+                        }
+
                         context.RegisterCodeFix(
-                            "Move to resource",
+                            "Move to resource and use Translator.Translate",
                             (e, c) => e.ReplaceNode(
                                 literal,
-                                SyntaxFactory.ParseExpression($"Translator.Translate(nameof(Properties.Resources.{literal.Token.ValueText})")),
-                            "Move to resource",
+                                SyntaxFactory.ParseExpression($"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{literal.Token.ValueText}))")
+                                              .WithSimplifiedNames()),
+                            "Move to resource and use Translator.Translate",
                             diagnostic);
                     }
                 }

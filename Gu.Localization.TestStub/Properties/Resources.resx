@@ -120,7 +120,4 @@
   <data name="Key" xml:space="preserve">
     <value>Value</value>
   </data>
-  <data name="One_resource" p2:space="preserve" xmlns:p2="xml">
-    <value>One resource</value>
-  </data>
 </root>
