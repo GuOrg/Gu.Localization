@@ -1,4 +1,4 @@
-﻿namespace Gu.Localization
+namespace Gu.Localization
 {
     using System;
     using System.Globalization;
@@ -36,7 +36,7 @@
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
         /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
-        public static string Translate(ResourceManager resourceManager, string key)
+        public static string Translate(this ResourceManager resourceManager, string key)
         {
             return Translate(resourceManager, key, CurrentCulture);
         }
@@ -48,7 +48,7 @@
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
         /// <param name="errorHandling">Specifies how error handling is performed.</param>
         /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
-        public static string Translate(ResourceManager resourceManager, string key, ErrorHandling errorHandling)
+        public static string Translate(this ResourceManager resourceManager, string key, ErrorHandling errorHandling)
         {
             return Translate(resourceManager, key, Culture, errorHandling);
         }
@@ -60,7 +60,7 @@
         /// <param name="key">The key in <paramref name="resourceManager"/></param>
         /// <param name="language">The culture, if null CultureInfo.InvariantCulture is used</param>
         /// <returns>The key translated to the <paramref name="language"/></returns>
-        public static string Translate(ResourceManager resourceManager, string key, CultureInfo language)
+        public static string Translate(this ResourceManager resourceManager, string key, CultureInfo language)
         {
             return Translate(resourceManager, key, language, ErrorHandling);
         }
@@ -74,7 +74,7 @@
         /// <param name="errorHandling">Specifies how to handle errors.</param>
         /// <returns>The key translated to the <paramref name="language"/></returns>
         public static string Translate(
-            ResourceManager resourceManager,
+            this ResourceManager resourceManager,
             string key,
             CultureInfo language,
             ErrorHandling errorHandling)
@@ -84,7 +84,7 @@
         }
 
         private static bool TryTranslateOrThrow(
-            ResourceManager resourceManager,
+            this ResourceManager resourceManager,
             string key,
             CultureInfo language,
             ErrorHandling errorHandling,
