@@ -68,5 +68,14 @@ namespace Gu.Localization.TestStub.Properties {
                 return ResourceManager.GetString("Key", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to One resource.
+        /// </summary>
+        internal static string One_resource {
+            get {
+                return ResourceManager.GetString("One_resource", resourceCulture);
+            }
+        }
     }
 }
