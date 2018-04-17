@@ -134,7 +134,12 @@ The static properties support binding. Use this XAML for a twoway binding:
 
 The API is not super clean, introducing a helper like this can clean things up a bit.
 
-Creating it like the above is pretty verbose. Introducing a helper like below can help some.
+Creating it like the above is pretty verbose. Introducing a helper like below can clean it up some.
+The analyzer checks calls to this method but it assumes:
+1. That the class is named `Translate`
+2. That the namespace the class is in has a class named `Resources`
+3. That the first argument is of type `string`.
+4. That the return type is `string` or `ITranslation`
 
 ```c#
 namespace YourNamespace.Properties
