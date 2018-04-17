@@ -43,9 +43,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.WithNeu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Demo.Fody", "Gu.Wpf.Localization.Demo.Fody\Gu.Wpf.Localization.Demo.Fody.csproj", "{BDB276CE-DBB6-4BD7-B7F8-59777D655A70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization.Analyzers", "Gu.Localization.Analyzers\Gu.Localization.Analyzers.csproj", "{29582B83-3D78-40E2-B8BA-87584EB57421}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Localization.Analyzers", "Gu.Localization.Analyzers\Gu.Localization.Analyzers.csproj", "{29582B83-3D78-40E2-B8BA-87584EB57421}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization.Analyzers.Tests", "Gu.Localization.Analyzers.Tests\Gu.Localization.Analyzers.Tests.csproj", "{00E49DA7-9E0D-4F64-B7EF-9768D57142EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Localization.Analyzers.Tests", "Gu.Localization.Analyzers.Tests\Gu.Localization.Analyzers.Tests.csproj", "{00E49DA7-9E0D-4F64-B7EF-9768D57142EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization.TestStub", "Gu.Localization.TestStub\Gu.Localization.TestStub.csproj", "{6D8D9688-CE1F-4EEA-9969-F32403650402}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +107,10 @@ Global
 		{00E49DA7-9E0D-4F64-B7EF-9768D57142EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00E49DA7-9E0D-4F64-B7EF-9768D57142EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00E49DA7-9E0D-4F64-B7EF-9768D57142EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D8D9688-CE1F-4EEA-9969-F32403650402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D8D9688-CE1F-4EEA-9969-F32403650402}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D8D9688-CE1F-4EEA-9969-F32403650402}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D8D9688-CE1F-4EEA-9969-F32403650402}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,6 +121,7 @@ Global
 		{D77D4706-D218-4DC6-B117-611AF843FED9} = {7C464917-49E0-40F2-BB85-EB16977B87A5}
 		{8F238B89-C06A-4935-8EE9-1E84D297DC4E} = {7C464917-49E0-40F2-BB85-EB16977B87A5}
 		{BDB276CE-DBB6-4BD7-B7F8-59777D655A70} = {7C464917-49E0-40F2-BB85-EB16977B87A5}
+		{6D8D9688-CE1F-4EEA-9969-F32403650402} = {7C464917-49E0-40F2-BB85-EB16977B87A5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {935956A3-D560-462A-9FED-3A2E80C0C591}
