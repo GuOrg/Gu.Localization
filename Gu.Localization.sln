@@ -49,6 +49,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Localization.Analyzers.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization.TestStub", "Gu.Localization.TestStub\Gu.Localization.TestStub.csproj", "{6D8D9688-CE1F-4EEA-9969-F32403650402}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Localization.Analyzers.Vsix", "Gu.Localization.Analyzers.Vsix\Gu.Localization.Analyzers.Vsix.csproj", "{99CD23FC-6BDE-46AB-820C-D65DE06187DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{6D8D9688-CE1F-4EEA-9969-F32403650402}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D8D9688-CE1F-4EEA-9969-F32403650402}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D8D9688-CE1F-4EEA-9969-F32403650402}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99CD23FC-6BDE-46AB-820C-D65DE06187DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99CD23FC-6BDE-46AB-820C-D65DE06187DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99CD23FC-6BDE-46AB-820C-D65DE06187DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99CD23FC-6BDE-46AB-820C-D65DE06187DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

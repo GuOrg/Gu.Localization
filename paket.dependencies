@@ -3,6 +3,7 @@ source http://www.nuget.org/api/v2/
 group Build
   source http://www.nuget.org/api/v2/
   nuget SourceLink
+  nuget Microsoft.VSSDK.BuildTools
 
 group Analyzers
   source http://www.nuget.org/api/v2/
