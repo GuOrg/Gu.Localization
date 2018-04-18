@@ -30,12 +30,12 @@ namespace Gu.Localization.Analyzers
                 if (syntaxRoot.FindNode(diagnostic.Location.SourceSpan, getInnermostNodeForTie: true) is LiteralExpressionSyntax literal)
                 {
                     var resx = Path.Combine(Path.GetDirectoryName(context.Document.Project.FilePath), "Properties\\Resources.resx");
-                    if (File.Exists(resx))
+                    if (File.Exists(resx) &&
+                        TryGetKey(literal.Token.ValueText, out var key))
                     {
                         // <data name="Key" xml:space="preserve">
                         //   <value>Value</value>
                         // </data>
-                        var key = Key(literal.Token.ValueText);
                         var xDocument = XDocument.Load(resx);
                         if (xDocument.Root
                             .Descendants("data")
@@ -90,11 +90,18 @@ namespace Gu.Localization.Analyzers
             }
         }
 
-        private static string Key(string text)
+        private static bool TryGetKey(string text, out string key)
         {
-            return Regex.Replace(text, "{(?<n>\\d+)}", x => $"__{x.Groups["n"].Value}__")
-                .Replace(" ", "_")
-                .Replace(".", "_");
+            key = Regex.Replace(text, "{(?<n>\\d+)}", x => $"__{x.Groups["n"].Value}__")
+                       .Replace(" ", "_")
+                       .Replace(".", "_");
+
+            if (char.IsDigit(key[0]))
+            {
+                key = "_" + key;
+            }
+
+            return SyntaxFacts.IsValidIdentifier(key);
         }
     }
 }
