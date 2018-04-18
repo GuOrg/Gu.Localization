@@ -19,7 +19,7 @@ namespace Gu.Localization.Analyzers
     internal class UseResourceFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            UseNameOfAnalyzer.DiagnosticId);
+            UseResourceAnalyzer.DiagnosticId);
 
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
@@ -28,93 +28,100 @@ namespace Gu.Localization.Analyzers
 
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.FindNode(diagnostic.Location.SourceSpan, getInnermostNodeForTie: true) is LiteralExpressionSyntax literal)
+                if (syntaxRoot.FindNode(diagnostic.Location.SourceSpan, getInnermostNodeForTie: true) is LiteralExpressionSyntax literal &&
+                    TryGetKey(literal.Token.ValueText, out var key) &&
+                    context.Document.Project.Documents.TrySingle(x => x.Name == "Resources.Designer.cs", out var resources) &&
+                    Path.Combine(Path.GetDirectoryName(context.Document.Project.FilePath), "Properties\\Resources.resx") is string resx &&
+                    File.Exists(resx))
                 {
-                    // <data name="Key" xml:space="preserve">
-                    //   <value>Value</value>
-                    // </data>
-                    var resx = Path.Combine(Path.GetDirectoryName(context.Document.Project.FilePath), "Properties\\Resources.resx");
-                    if (File.Exists(resx) &&
-                        TryGetKey(literal.Token.ValueText, out var key))
+                    if (PropertyWalker.Contains(resources, key))
                     {
-                        var xDocument = XDocument.Load(resx);
-                        if (xDocument.Root
-                            .Descendants("data")
-                            .Any(x => x.Attribute("name")?.Value == key))
-                        {
-                            context.RegisterCodeFix(
-                                CodeAction.Create(
-                                    "Use existing resource in Translator.Translate",
-                                    _ => Task.FromResult(
-                                        context.Document.WithSyntaxRoot(
-                                            syntaxRoot.ReplaceNode(
-                                                literal,
-                                                SyntaxFactory.ParseExpression($"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{literal.Token.ValueText}))")
-                                                             .WithSimplifiedNames()))),
-                                    "Move to resource and use Translator.Translate"),
-                                diagnostic);
-                            context.RegisterCodeFix(
-                                CodeAction.Create(
-                                    "Use existing resource.",
-                                    _ => Task.FromResult(
-                                        context.Document.WithSyntaxRoot(
-                                            syntaxRoot.ReplaceNode(
-                                                literal,
-                                                SyntaxFactory.ParseExpression($"Properties.Resources.{literal.Token.ValueText}")
-                                                             .WithSimplifiedNames()))),
-                                    "Use existing resource."),
-                                diagnostic);
-                        }
-                        else
-                        {
-                            var xElement = new XElement("data");
-                            xElement.Add(new XAttribute("name", key));
-                            xElement.Add(new XAttribute(XName.Get("space", "xml"), "preserve"));
-                            xElement.Add(new XElement("value", literal.Token.ValueText));
-                            xDocument.Root.Add(xElement);
-                            using (var stream = File.OpenWrite(resx))
-                            {
-                                xDocument.Save(stream);
-                            }
+                        context.RegisterCodeFix(
+                            CodeAction.Create(
+                                "Use existing resource in Translator.Translate",
+                                _ => Task.FromResult(
+                                    context.Document.WithSyntaxRoot(
+                                        syntaxRoot.ReplaceNode(
+                                            literal,
+                                            SyntaxFactory.ParseExpression(
+                                                    $"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{key}))")
+                                                .WithSimplifiedNames()))),
+                                "Move to resource and use Translator.Translate"),
+                            diagnostic);
+                        context.RegisterCodeFix(
+                            CodeAction.Create(
+                                "Use existing resource.",
+                                _ => Task.FromResult(
+                                    context.Document.WithSyntaxRoot(
+                                        syntaxRoot.ReplaceNode(
+                                            literal,
+                                            SyntaxFactory.ParseExpression($"Properties.Resources.{key}")
+                                                .WithSimplifiedNames()))),
+                                "Use existing resource."),
+                            diagnostic);
+                    }
+                    else
+                    {
+                        context.RegisterCodeFix(
+                            CodeAction.Create(
+                                "Move to resources and use Translator.Translate.",
+                                _ => AddResourceAndReplaceAsync(
+                                    context.Document,
+                                    literal,
+                                    SyntaxFactory.ParseExpression($"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{key}))").WithSimplifiedNames(),
+                                    resx,
+                                    key),
+                                "Move to resources and use Translator.Translate."),
+                            diagnostic);
 
-                            var designer = Path.Combine(Path.GetDirectoryName(context.Document.Project.FilePath), "Properties\\Resources.Designer.cs");
-                            if (File.Exists(designer) &&
-                                File.ReadAllLines(designer).ToList() is List<string> lines &&
-                                lines.Count > 3)
-                            {
-                                // Adding a temp key so that we don't have a build error until next gen.
-                                // internal static string Key => ResourceManager.GetString("Key", resourceCulture);
-                                lines.Insert(lines.Count - 2, $"        internal static string {key} => ResourceManager.GetString(\"{key}\", resourceCulture);");
-                                File.WriteAllLines(designer, lines);
-
-                                context.RegisterCodeFix(
-                                    CodeAction.Create(
-                                        "Move to resources and use Translator.Translate.",
-                                        _ => Task.FromResult(
-                                            context.Document.WithSyntaxRoot(
-                                                syntaxRoot.ReplaceNode(
-                                                    literal,
-                                                    SyntaxFactory.ParseExpression($"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{literal.Token.ValueText}))")
-                                                                 .WithSimplifiedNames()))),
-                                        "Move to resources and use Translator.Translate."),
-                                    diagnostic);
-
-                                context.RegisterCodeFix(
-                                    CodeAction.Create(
-                                        "Move to resources.",
-                                        _ => Task.FromResult(
-                                            context.Document.WithSyntaxRoot(
-                                                syntaxRoot.ReplaceNode(
-                                                    literal,
-                                                    SyntaxFactory.ParseExpression($"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{literal.Token.ValueText}))")
-                                                                 .WithSimplifiedNames()))),
-                                        "Move to resources."),
-                                    diagnostic);
-                            }
-                        }
+                        context.RegisterCodeFix(
+                            CodeAction.Create(
+                                "Move to resources.",
+                                _ => AddResourceAndReplaceAsync(
+                                    context.Document,
+                                    literal,
+                                    SyntaxFactory.ParseExpression($"Properties.Resources.{key}").WithSimplifiedNames(),
+                                    resx,
+                                    key),
+                                "Move to resources."),
+                            diagnostic);
                     }
                 }
             }
+        }
+
+        private static Task<Document> AddResourceAndReplaceAsync(Document document, LiteralExpressionSyntax literal, ExpressionSyntax expression, string resx, string key)
+        {
+            var xElement = new XElement("data");
+            xElement.Add(new XAttribute("name", key));
+            xElement.Add(new XAttribute(XName.Get("space", "xml"), "preserve"));
+            xElement.Add(new XElement("value", literal.Token.ValueText));
+            var xDocument = XDocument.Load(resx);
+            xDocument.Root.Add(xElement);
+            using (var stream = File.OpenWrite(resx))
+            {
+                xDocument.Save(stream);
+            }
+
+            var designer = Path.Combine(Path.GetDirectoryName(document.Project.FilePath), "Properties\\Resources.Designer.cs");
+            if (File.Exists(designer) &&
+                File.ReadAllLines(designer).ToList() is List<string> lines &&
+                lines.Count > 3)
+            {
+                // Adding a temp key so that we don't have a build error until next gen.
+                // internal static string Key => ResourceManager.GetString("Key", resourceCulture);
+                lines.Insert(
+                    lines.Count - 2,
+                    $"        internal static string {key} => ResourceManager.GetString(\"{key}\", resourceCulture);");
+                File.WriteAllLines(designer, lines);
+            }
+
+            if (document.TryGetSyntaxRoot(out var root))
+            {
+                return Task.FromResult(document.WithSyntaxRoot(root.ReplaceNode(literal, expression)));
+            }
+
+            return Task.FromResult(document);
         }
 
         private static bool TryGetKey(string text, out string key)
@@ -129,6 +136,41 @@ namespace Gu.Localization.Analyzers
             }
 
             return SyntaxFacts.IsValidIdentifier(key);
+        }
+
+        private class PropertyWalker : CSharpSyntaxWalker
+        {
+            private bool foundProperty;
+            private string property;
+
+            public PropertyWalker(string property)
+            {
+                this.property = property;
+            }
+
+            public static bool Contains(Document resources, string property)
+            {
+                return resources.TryGetSyntaxTree(out var tree) &&
+                       tree.TryGetRoot(out var root) &&
+                       Contains(root, property);
+            }
+
+            public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
+            {
+                if (node.Identifier.ValueText == this.property)
+                {
+                    this.foundProperty = true;
+                }
+
+                base.VisitPropertyDeclaration(node);
+            }
+
+            private static bool Contains(SyntaxNode node, string property)
+            {
+                var walker = new PropertyWalker(property);
+                walker.Visit(node);
+                return walker.foundProperty;
+            }
         }
     }
 }

@@ -20,6 +20,7 @@ NUGET
 GROUP Build
 NUGET
   remote: http://www.nuget.org/api/v2
+    Microsoft.VSSDK.BuildTools (15.6.170)
     SourceLink (1.1)
 
 GROUP Demo
