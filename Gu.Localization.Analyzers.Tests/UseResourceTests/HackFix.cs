@@ -1,5 +1,6 @@
 namespace Gu.Localization.Analyzers.Tests.UseResourceTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
@@ -14,6 +15,7 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
     /// <summary>
     /// Helper class for applying code fixes
     /// </summary>
+    [Obsolete("Temporary until made public in Gu.Roslyn.Asserts")]
     internal static class HackFix
     {
         /// <summary>
