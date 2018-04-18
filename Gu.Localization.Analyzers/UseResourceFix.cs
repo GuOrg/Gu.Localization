@@ -1,11 +1,13 @@
 namespace Gu.Localization.Analyzers
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Composition;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Xml.Linq;
     using Microsoft.CodeAnalysis;
@@ -63,24 +65,37 @@ namespace Gu.Localization.Analyzers
                     else
                     {
                         context.RegisterCodeFix(
-                            CodeAction.Create(
+                            new PreviewCodeAction(
                                 "Move to resources and use Translator.Translate.",
+                                _ => Task.FromResult(context.Document.WithSyntaxRoot(
+                                    syntaxRoot.ReplaceNode(
+                                        literal,
+                                        SyntaxFactory.ParseExpression($"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{key}))")
+                                            .WithSimplifiedNames()))),
                                 _ => AddResourceAndReplaceAsync(
                                     context.Document,
                                     literal,
-                                    SyntaxFactory.ParseExpression($"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{key}))").WithSimplifiedNames(),
+                                    SyntaxFactory.ParseExpression($"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{key}))")
+                                        .WithSimplifiedNames(),
                                     resx,
                                     key),
                                 "Move to resources and use Translator.Translate."),
                             diagnostic);
 
                         context.RegisterCodeFix(
-                            CodeAction.Create(
+                            new PreviewCodeAction(
                                 "Move to resources.",
+                                _ => Task.FromResult(
+                                    context.Document.WithSyntaxRoot(
+                                        syntaxRoot.ReplaceNode(
+                                            literal,
+                                            SyntaxFactory.ParseExpression($"Properties.Resources.{key}")
+                                                         .WithSimplifiedNames()))),
                                 _ => AddResourceAndReplaceAsync(
                                     context.Document,
                                     literal,
-                                    SyntaxFactory.ParseExpression($"Properties.Resources.{key}").WithSimplifiedNames(),
+                                    SyntaxFactory.ParseExpression($"Properties.Resources.{key}")
+                                                 .WithSimplifiedNames(),
                                     resx,
                                     key),
                                 "Move to resources."),
@@ -141,7 +156,7 @@ namespace Gu.Localization.Analyzers
         private class PropertyWalker : CSharpSyntaxWalker
         {
             private bool foundProperty;
-            private string property;
+            private readonly string property;
 
             public PropertyWalker(string property)
             {
@@ -170,6 +185,38 @@ namespace Gu.Localization.Analyzers
                 var walker = new PropertyWalker(property);
                 walker.Visit(node);
                 return walker.foundProperty;
+            }
+        }
+
+        private class PreviewCodeAction : CodeAction
+        {
+            private readonly CodeAction preview;
+            private readonly CodeAction change;
+
+            public PreviewCodeAction(
+                string title,
+                Func<CancellationToken, Task<Document>> preview,
+                Func<CancellationToken, Task<Document>> change,
+                string equivalenceKey)
+            {
+                this.Title = title;
+                this.preview = Create(title, preview, equivalenceKey);
+                this.change = Create(title, change, equivalenceKey);
+                this.EquivalenceKey = equivalenceKey;
+            }
+
+            public override string Title { get; }
+
+            public override string EquivalenceKey { get; }
+
+            protected override async Task<IEnumerable<CodeActionOperation>> ComputePreviewOperationsAsync(CancellationToken cancellationToken)
+            {
+                return await this.preview.GetOperationsAsync(cancellationToken);
+            }
+
+            protected override async Task<IEnumerable<CodeActionOperation>> ComputeOperationsAsync(CancellationToken cancellationToken)
+            {
+                return await this.change.GetOperationsAsync(cancellationToken);
             }
         }
     }
