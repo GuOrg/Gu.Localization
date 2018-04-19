@@ -109,7 +109,7 @@ namespace Gu.Localization.Analyzers
         {
             var xElement = new XElement("data");
             xElement.Add(new XAttribute("name", key));
-            xElement.Add(new XAttribute(XName.Get("space", "xml"), "preserve"));
+            xElement.Add(new XAttribute(XNamespace.Xml + "space", "preserve"));
             xElement.Add(new XElement("value", literal.Token.ValueText));
             var xDocument = XDocument.Load(resx);
             xDocument.Root.Add(xElement);

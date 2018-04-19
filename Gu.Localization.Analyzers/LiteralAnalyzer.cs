@@ -32,7 +32,7 @@ namespace Gu.Localization.Analyzers
             return !fileName.EndsWith(".cs") ||
                    fileName.EndsWith(".g.cs") ||
                    fileName.EndsWith("Designer.cs") ||
-                   fileName == "AssemblyInfo.cs";
+                   fileName.EndsWith("AssemblyInfo.cs");
         }
     }
 }
