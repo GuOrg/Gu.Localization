@@ -20,7 +20,7 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
         [SetUp]
         public void SetUp()
         {
-            var original = CodeFactory.FindProjectFile("Gu.Localization.TestStub.csproj");
+            var original = ProjectFile.Find("Gu.Localization.TestStub.csproj");
             var tempDir = Path.Combine(Path.GetTempPath(), original.Directory.Name);
             if (Directory.Exists(tempDir))
             {
@@ -42,6 +42,9 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
         }
 
         [TestCase("One resource", "One_resource")]
+        [TestCase("abc", "abc")]
+        [TestCase("0", "_0")]
+        [TestCase("One {0}", "One___0__")]
         public void MoveToResource(string value, string key)
         {
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", value));
@@ -68,6 +71,36 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
             StringAssert.Contains(xml, File.ReadAllText(this.resxFile.FullName));
         }
 
+        [TestCase("One resource", "One_resource")]
+        [TestCase("abc", "abc")]
+        [TestCase("0", "_0")]
+        [TestCase("One {0}", "One___0__")]
+        public void MoveToResourceAndTranslatorTranslate(string value, string key)
+        {
+            File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", value));
+            var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
+            var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle:"Move to resources and use Translator.Translate.");
+            var expected = @"namespace Gu.Localization.TestStub
+{
+    public class Foo
+    {
+        public Foo()
+        {
+            var text = Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.One_resource));
+        }
+    }
+}
+".AssertReplace("One_resource", key);
+            CodeAssert.AreEqual(expected, fixedSln.FindDocument("Foo.cs"));
+            var property = $"internal static string {key} => ResourceManager.GetString(\"{key}\", resourceCulture);";
+            StringAssert.Contains(property, File.ReadAllText(this.designerFile.FullName));
+            var xml = $"  <data name=\"{key}\" xml:space=\"preserve\">\r\n" +
+                      $"    <value>{value}</value>\r\n" +
+                      "  </data>";
+            StringAssert.Contains(xml, File.ReadAllText(this.resxFile.FullName));
+        }
+
         private static void Copy(DirectoryInfo source, DirectoryInfo target)
         {
             foreach (var dir in source.GetDirectories())
@@ -77,7 +110,9 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
 
             foreach (var file in source.GetFiles())
             {
+#pragma warning disable GU0011 // Don't ignore the return value.
                 file.CopyTo(Path.Combine(target.FullName, file.Name));
+#pragma warning restore GU0011 // Don't ignore the return value.
             }
         }
     }

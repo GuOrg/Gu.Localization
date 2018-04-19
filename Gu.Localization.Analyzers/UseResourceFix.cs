@@ -155,8 +155,8 @@ namespace Gu.Localization.Analyzers
 
         private class PropertyWalker : CSharpSyntaxWalker
         {
-            private bool foundProperty;
             private readonly string property;
+            private bool foundProperty;
 
             public PropertyWalker(string property)
             {
