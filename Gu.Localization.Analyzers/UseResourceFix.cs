@@ -78,7 +78,7 @@ namespace Gu.Localization.Analyzers
                                                                  .WithSimplifiedNames())))),
                                     diagnostic);
                             }
-                            else if (TryGetResx(resourcesType, out var resx))
+                            else if (TryGetResx(resourcesType, out _))
                             {
                                 var memberAccess = resourcesType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat);
                                 if (TryFindCustomTranslate(resourcesType, out var customTranslate))
@@ -162,7 +162,6 @@ namespace Gu.Localization.Analyzers
                 await designerDoc.GetSyntaxRootAsync(cancellationToken) is SyntaxNode designerRoot &&
                 TryGetResx(resourcesType, out var resx))
             {
-                var designerText = await designerDoc.GetTextAsync(cancellationToken);
                 var resxId = DocumentId.CreateNewId(document.Project.Id);
                 var resxText = SourceText.From(File.ReadAllText(resx.FullName));
                 return document.Project.Solution.WithDocumentSyntaxRoot(
@@ -173,9 +172,10 @@ namespace Gu.Localization.Analyzers
                         AddProperty())
                     .AddAdditionalDocument(
                         resxId,
-                        "Designer.resx",
+                        designerDoc.Folders.Last(),
                         resxText,
-                        filePath: resx.FullName)
+                        filePath: resx.FullName,
+                        folders: designerDoc.Folders.Take(designerDoc.Folders.Count - 1))
                     .WithAdditionalDocumentText(
                         resxId,
                         resxText.WithChanges(AddElement(resxText)));
@@ -187,7 +187,7 @@ namespace Gu.Localization.Analyzers
             {
                 // Adding a temp key so that we don't have a build error until next gen.
                 // internal static string Key => ResourceManager.GetString("Key", resourceCulture);
-                if (designerRoot.ChildNodes().OfType<PropertyDeclarationSyntax>().TryLast(out var property))
+                if (designerRoot.DescendantNodes().OfType<PropertyDeclarationSyntax>().TryLast(out var property))
                 {
                     return designerRoot.InsertNodesAfter(
                         property,
