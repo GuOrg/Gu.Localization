@@ -62,7 +62,7 @@ namespace Gu.Localization.Analyzers
                     }
                 }
                 else if (argumentList.Arguments.TryFirst(out keyArgument) &&
-                         Translate.IsCustonTranslateMethod(invocation, context, out var resourcesType, out _))
+                         Translate.IsCustomTranslateMethod(invocation, context, out var resourcesType, out _))
                 {
                     if (!IsNameOfKey(keyArgument))
                     {

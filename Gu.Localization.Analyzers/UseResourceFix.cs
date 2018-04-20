@@ -38,6 +38,23 @@ namespace Gu.Localization.Analyzers
                             if (resourcesType.TryFindProperty(key, out _))
                             {
                                 var memberAccess = resourcesType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat);
+                                if (TryFindCustomTranslate(resourcesType, out var customTranslate))
+                                {
+                                    var translateKey = $"{customTranslate.ContainingType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat)}.{customTranslate.Name}";
+                                    context.RegisterCodeFix(
+                                        CodeAction.Create(
+                                            $"Use existing {memberAccess}.{key} in {translateKey}({memberAccess}.{key})",
+                                            _ => Task.FromResult(
+                                                context.Document.WithSyntaxRoot(
+                                                    syntaxRoot.ReplaceNode(
+                                                        literal,
+                                                        SyntaxFactory
+                                                            .ParseExpression(
+                                                                $"{translateKey}(nameof({memberAccess}.{key}))")
+                                                            .WithSimplifiedNames())))),
+                                        diagnostic);
+                                }
+
                                 context.RegisterCodeFix(
                                     CodeAction.Create(
                                         $"Use existing {memberAccess}.{key} in Translator.Translate",
@@ -64,6 +81,31 @@ namespace Gu.Localization.Analyzers
                             else if (TryGetResx(resourcesType, out var resx))
                             {
                                 var memberAccess = resourcesType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat);
+                                if (TryFindCustomTranslate(resourcesType, out var customTranslate))
+                                {
+                                    var translateKey = $"{customTranslate.ContainingType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat)}.{customTranslate.Name}";
+                                    context.RegisterCodeFix(
+                                        new PreviewCodeAction(
+                                            $"Move to {memberAccess}.{key} and use {translateKey}({memberAccess}.{key}).",
+                                            _ => Task.FromResult(
+                                                context.Document.WithSyntaxRoot(
+                                                    syntaxRoot.ReplaceNode(
+                                                        literal,
+                                                        SyntaxFactory
+                                                            .ParseExpression(
+                                                                $"{translateKey}(nameof({memberAccess}.{key}))")
+                                                            .WithSimplifiedNames()))),
+                                            _ => AddResourceAndReplaceAsync(
+                                                context.Document,
+                                                literal,
+                                                SyntaxFactory.ParseExpression(
+                                                                 $"{translateKey}(nameof({memberAccess}.{key}))")
+                                                             .WithSimplifiedNames(),
+                                                resx,
+                                                key)),
+                                        diagnostic);
+                                }
+
                                 context.RegisterCodeFix(
                                     new PreviewCodeAction(
                                         $"Move to {memberAccess}.{key} and use Translator.Translate.",
@@ -169,7 +211,26 @@ namespace Gu.Localization.Analyzers
                 key = "_" + key;
             }
 
+            if (key.Length > 50)
+            {
+                key = key.Substring(50);
+            }
+
             return SyntaxFacts.IsValidIdentifier(key);
+        }
+
+        private static bool TryFindCustomTranslate(INamedTypeSymbol resources, out IMethodSymbol customTranslate)
+        {
+            if (Translate.TryFindMethod(resources, out customTranslate) &&
+                customTranslate.Parameters.TryFirst(out var parameter) &&
+                parameter.Type == KnownSymbol.String)
+            {
+                return customTranslate.Parameters.Length == 1 ||
+                       (customTranslate.Parameters.TryElementAt(1, out parameter) &&
+                        parameter.IsOptional);
+            }
+
+            return false;
         }
 
         private class PreviewCodeAction : CodeAction

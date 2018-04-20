@@ -11,6 +11,7 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new LiteralAnalyzer();
         private static readonly CodeFixProvider Fix = new UseResourceFix();
+        //private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GULOC03");
         private FileInfo projectFile;
         private FileInfo fooFile;
         private FileInfo designerFile;
@@ -72,6 +73,23 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
             StringAssert.Contains(xml, File.ReadAllText(this.resxFile.FullName));
         }
 
+//        [Test]
+//        public void UseExisting()
+//        {
+//            var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
+//            var expected = @"namespace Gu.Localization.TestStub
+//{
+//    public class Foo
+//    {
+//        public Foo()
+//        {
+//            var text = ""Key"";
+//        }
+//    }
+//}";
+//            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, sln, expected);
+//        }
+
         [TestCase("One resource", "One_resource")]
         [TestCase("One resource.", "One_resource_")]
         [TestCase("abc", "abc")]
@@ -104,7 +122,6 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
             StringAssert.Contains(xml, File.ReadAllText(this.resxFile.FullName));
         }
 
-        [Explicit("")]
         [TestCase("One resource", "One_resource")]
         [TestCase("One resource.", "One_resource_")]
         [TestCase("abc", "abc")]
@@ -116,14 +133,14 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", value));
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
             var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
-            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: "Move to resources and use Translate.Key.");
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Move to Properties.Resources.{key} and use Properties.Translate.Key(Properties.Resources.{key}).");
             var expected = @"namespace Gu.Localization.TestStub
 {
     public class Foo
     {
         public Foo()
         {
-            var text = Translate.Key(nameof(Properties.Resources.One_resource));
+            var text = Properties.Translate.Key(nameof(Properties.Resources.One_resource));
         }
     }
 }
