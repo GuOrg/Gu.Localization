@@ -57,14 +57,7 @@ namespace Gu.Localization.Analyzers
                     }
                 }
                 else if (argumentList.Arguments.TryFirst(out keyArgument) &&
-                        context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is IMethodSymbol translateMethod &&
-                        translateMethod.IsStatic &&
-                        (translateMethod.ReturnType == KnownSymbol.String ||
-                         translateMethod.ReturnType == KnownSymbol.ITranslation) &&
-                        translateMethod.ContainingType.Name == "Translate" &&
-                        translateMethod.Parameters.TryFirst(out var parameter) &&
-                        parameter.Type == KnownSymbol.String &&
-                        translateMethod.ContainingNamespace.GetTypeMembers("Resources").FirstOrDefault() is ITypeSymbol resourcesType)
+                         Translate.IsCustonTranslateMethod(invocation, context, out var resourcesType, out _))
                 {
                     if (!IsNameOfKey(keyArgument))
                     {
