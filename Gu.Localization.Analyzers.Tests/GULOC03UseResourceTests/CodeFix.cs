@@ -13,7 +13,6 @@ namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
         private static readonly CodeFixProvider Fix = new UseResourceFix();
         private FileInfo projectFile;
         private FileInfo fooFile;
-        private FileInfo designerFile;
         private FileInfo resxFile;
 
         [SetUp]
@@ -29,7 +28,6 @@ namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
             original.Directory.CopyTo(tempDir);
             this.projectFile = tempDir.FindFile(original.Name);
             this.fooFile = tempDir.FindFile("Foo.cs");
-            this.designerFile = tempDir.FindFile("Properties\\Resources.Designer.cs");
             this.resxFile = tempDir.FindFile("Properties\\Resources.resx");
         }
 
@@ -60,7 +58,6 @@ namespace Gu.Localization.TestStub
 ".AssertReplace("One_resource", key);
             CodeAssert.AreEqual(expected, fixedSln.FindDocument("Foo.cs"));
 
-            
             expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <root>
   <!-- 
@@ -187,7 +184,7 @@ namespace Gu.Localization.TestStub
     <value>One resource</value>
   </data>
 </root>".AssertReplace("One_resource", key).AssertReplace("One resource", value);
-            CodeAssert.AreEqual(expected, File.ReadAllText(this.resxFile.FullName));
+            CodeAssert.AreEqual(expected, fixedSln.FindAdditionalDocument("Designer.resx").GetText());
         }
 
         [TestCase("One resource", "One_resource")]
@@ -343,7 +340,7 @@ namespace Gu.Localization.TestStub
     <value>One resource</value>
   </data>
 </root>".AssertReplace("One_resource", key).AssertReplace("One resource", value);
-            CodeAssert.AreEqual(expected, File.ReadAllText(this.resxFile.FullName));
+            CodeAssert.AreEqual(expected, fixedSln.FindAdditionalDocument("Designer.resx").GetText());
         }
 
         [TestCase("One resource", "One_resource")]
@@ -372,7 +369,6 @@ namespace Gu.Localization.TestStub
 }
 ".AssertReplace("One_resource", key);
             CodeAssert.AreEqual(expected, fixedSln.FindDocument("Foo.cs"));
-
 
             expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <root>
@@ -500,7 +496,7 @@ namespace Gu.Localization.TestStub
     <value>One resource</value>
   </data>
 </root>".AssertReplace("One_resource", key).AssertReplace("One resource", value);
-            CodeAssert.AreEqual(expected, File.ReadAllText(this.resxFile.FullName));
+            CodeAssert.AreEqual(expected, fixedSln.FindAdditionalDocument("Designer.resx").GetText());
         }
 
         [Test]

@@ -8,7 +8,6 @@ namespace Gu.Localization.Analyzers
     using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Xml.Linq;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
@@ -101,8 +100,8 @@ namespace Gu.Localization.Analyzers
                                                 SyntaxFactory.ParseExpression(
                                                         $"{translateKey}(nameof({memberAccess}.{key}))")
                                                     .WithSimplifiedNames(),
-                                                resx,
                                                 key,
+                                                resourcesType,
                                                 cancellationToken)),
                                         diagnostic);
                                 }
@@ -124,8 +123,8 @@ namespace Gu.Localization.Analyzers
                                             SyntaxFactory.ParseExpression(
                                                     $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
                                                 .WithSimplifiedNames(),
-                                            resx,
                                             key,
+                                            resourcesType,
                                             cancellationToken)),
                                     diagnostic);
 
@@ -143,8 +142,8 @@ namespace Gu.Localization.Analyzers
                                             literal,
                                             SyntaxFactory.ParseExpression($"{memberAccess}.{key}")
                                                 .WithSimplifiedNames(),
-                                            resx,
                                             key,
+                                            resourcesType,
                                             cancellationToken)),
                                     diagnostic);
                             }
@@ -154,43 +153,73 @@ namespace Gu.Localization.Analyzers
             }
         }
 
-        private static async Task<Solution> AddResourceAndReplaceAsync(Document document, LiteralExpressionSyntax literal, ExpressionSyntax expression, FileInfo resx, string key, CancellationToken cancellationToken)
+        private static async Task<Solution> AddResourceAndReplaceAsync(Document document, LiteralExpressionSyntax literal, ExpressionSyntax expression, string key, INamedTypeSymbol resourcesType, CancellationToken cancellationToken)
         {
-            var xElement = new XElement("data");
-            xElement.Add(new XAttribute("name", key));
-            xElement.Add(new XAttribute(XNamespace.Xml + "space", "preserve"));
-            xElement.Add(new XElement("value", literal.Token.ValueText));
-            var xDocument = XDocument.Load(resx.FullName);
-            xDocument.Root.Add(xElement);
-            using (var stream = File.OpenWrite(resx.FullName))
-            {
-                xDocument.Save(stream);
-            }
-
             if (await document.GetSyntaxRootAsync(cancellationToken) is SyntaxNode root &&
-                resx.FullName.Replace("Resources.resx", "Resources.Designer.cs") is string designerFileName &&
-                document.Project.Documents.TrySingle(x => x.FilePath == designerFileName, out var designerDoc))
+                resourcesType.DeclaringSyntaxReferences.TrySingle(out var declaration) &&
+                document.Project.Documents.TrySingle(x => x.FilePath == declaration.SyntaxTree.FilePath, out var designerDoc) &&
+                TryGetResx(resourcesType, out var resx))
             {
-                // Adding a temp key so that we don't have a build error until next gen.
-                // internal static string Key => ResourceManager.GetString("Key", resourceCulture);
-                var text = await designerDoc.GetTextAsync(cancellationToken);
-                if (text.Lines.TryElementAt(text.Lines.Count - 3, out var line))
-                {
-                    text = text.WithChanges(
-                        new TextChange(
-                            line.Span,
-                            $"\r\n        internal static string {key} => ResourceManager.GetString(\"{key}\", resourceCulture);\r\n{line}"));
-                }
-
+                var designerText = await designerDoc.GetTextAsync(cancellationToken);
+                var resxId = DocumentId.CreateNewId(document.Project.Id);
+                var resxText = SourceText.From(File.ReadAllText(resx.FullName));
                 return document.Project.Solution.WithDocumentSyntaxRoot(
                         document.Id,
                         root.ReplaceNode(literal, expression))
                     .WithDocumentText(
                         designerDoc.Id,
-                        text);
+                        designerText.WithChanges(AddProperty(designerText)))
+                    .AddAdditionalDocument(
+                        resxId,
+                        "Designer.resx",
+                        resxText,
+                        filePath: resx.FullName)
+                    .WithAdditionalDocumentText(
+                        resxId,
+                        resxText.WithChanges(AddElement(resxText)));
             }
 
             return document.Project.Solution;
+
+            IEnumerable<TextChange> AddProperty(SourceText designerText)
+            {
+                // Adding a temp key so that we don't have a build error until next gen.
+                // internal static string Key => ResourceManager.GetString("Key", resourceCulture);
+                if (designerText.Lines.TryElementAt(designerText.Lines.Count - 3, out var line))
+                {
+                    return new[]
+                    {
+                        new TextChange(
+                            line.Span,
+                            $"\r\n        internal static string {key} => ResourceManager.GetString(\"{key}\", resourceCulture);\r\n{line}"),
+                    };
+                }
+
+                return new TextChange[0];
+            }
+
+            IEnumerable<TextChange> AddElement(SourceText resxText)
+            {
+                // <data name="Key" xml:space="preserve">
+                //   <value>Value</value>
+                // </data>
+                if (resxText.Lines.TryElementAt(resxText.Lines.Count - 1, out var line))
+                {
+                    return new[]
+                    {
+                        new TextChange(
+                            line.Span,
+#pragma warning disable SA1118 // Parameter must not span multiple lines
+                            $"  <data name=\"{key}\" xml:space=\"preserve\">\r\n" +
+                            $"    <value>{literal.Token.ValueText}</value>\r\n" +
+                            $"  </data>\r\n" +
+                            $"{line}"),
+#pragma warning restore SA1118 // Parameter must not span multiple lines
+                    };
+                }
+
+                return new TextChange[0];
+            }
         }
 
         private static bool TryGetResx(INamedTypeSymbol resourcesType, out FileInfo resx)
