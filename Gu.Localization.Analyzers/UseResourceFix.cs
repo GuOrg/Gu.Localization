@@ -5,7 +5,6 @@ namespace Gu.Localization.Analyzers
     using System.Collections.Immutable;
     using System.Composition;
     using System.IO;
-    using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
@@ -15,6 +14,7 @@ namespace Gu.Localization.Analyzers
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using Microsoft.CodeAnalysis.Text;
 
     [Shared]
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(UseResourceFix))]
@@ -95,14 +95,15 @@ namespace Gu.Localization.Analyzers
                                                             .ParseExpression(
                                                                 $"{translateKey}(nameof({memberAccess}.{key}))")
                                                             .WithSimplifiedNames()))),
-                                            _ => AddResourceAndReplaceAsync(
+                                            cancellationToken => AddResourceAndReplaceAsync(
                                                 context.Document,
                                                 literal,
                                                 SyntaxFactory.ParseExpression(
-                                                                 $"{translateKey}(nameof({memberAccess}.{key}))")
-                                                             .WithSimplifiedNames(),
+                                                        $"{translateKey}(nameof({memberAccess}.{key}))")
+                                                    .WithSimplifiedNames(),
                                                 resx,
-                                                key)),
+                                                key,
+                                                cancellationToken)),
                                         diagnostic);
                                 }
 
@@ -117,14 +118,15 @@ namespace Gu.Localization.Analyzers
                                                         .ParseExpression(
                                                             $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
                                                         .WithSimplifiedNames()))),
-                                        _ => AddResourceAndReplaceAsync(
+                                        cancellationToken => AddResourceAndReplaceAsync(
                                             context.Document,
                                             literal,
                                             SyntaxFactory.ParseExpression(
-                                                             $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
-                                                         .WithSimplifiedNames(),
+                                                    $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
+                                                .WithSimplifiedNames(),
                                             resx,
-                                            key)),
+                                            key,
+                                            cancellationToken)),
                                     diagnostic);
 
                                 context.RegisterCodeFix(
@@ -135,14 +137,15 @@ namespace Gu.Localization.Analyzers
                                                 syntaxRoot.ReplaceNode(
                                                     literal,
                                                     SyntaxFactory.ParseExpression($"{memberAccess}.{key}")
-                                                                 .WithSimplifiedNames()))),
-                                        _ => AddResourceAndReplaceAsync(
+                                                        .WithSimplifiedNames()))),
+                                        cancellationToken => AddResourceAndReplaceAsync(
                                             context.Document,
                                             literal,
                                             SyntaxFactory.ParseExpression($"{memberAccess}.{key}")
-                                                         .WithSimplifiedNames(),
+                                                .WithSimplifiedNames(),
                                             resx,
-                                            key)),
+                                            key,
+                                            cancellationToken)),
                                     diagnostic);
                             }
                         }
@@ -151,7 +154,7 @@ namespace Gu.Localization.Analyzers
             }
         }
 
-        private static Task<Document> AddResourceAndReplaceAsync(Document document, LiteralExpressionSyntax literal, ExpressionSyntax expression, FileInfo resx, string key)
+        private static async Task<Solution> AddResourceAndReplaceAsync(Document document, LiteralExpressionSyntax literal, ExpressionSyntax expression, FileInfo resx, string key, CancellationToken cancellationToken)
         {
             var xElement = new XElement("data");
             xElement.Add(new XAttribute("name", key));
@@ -165,24 +168,29 @@ namespace Gu.Localization.Analyzers
             }
 
             var designer = new FileInfo(resx.FullName.Replace("Resources.resx", "Resources.Designer.cs"));
-            if (designer.Exists &&
-                File.ReadAllLines(designer.FullName).ToList() is List<string> lines &&
-                lines.Count > 3)
+            if (await document.GetSyntaxRootAsync(cancellationToken) is SyntaxNode root &&
+                document.Project.Documents.TrySingle(x => x.FilePath == designer.FullName, out var designerDoc))
             {
                 // Adding a temp key so that we don't have a build error until next gen.
                 // internal static string Key => ResourceManager.GetString("Key", resourceCulture);
-                lines.Insert(
-                    lines.Count - 2,
-                    $"        internal static string {key} => ResourceManager.GetString(\"{key}\", resourceCulture);");
-                File.WriteAllLines(designer.FullName, lines);
+                var text = await designerDoc.GetTextAsync(cancellationToken);
+                if (text.Lines.TryElementAt(text.Lines.Count - 3, out var line))
+                {
+                    text = text.WithChanges(
+                        new TextChange(
+                            line.Span,
+                            $"\r\n        internal static string {key} => ResourceManager.GetString(\"{key}\", resourceCulture);\r\n{line}"));
+                }
+
+                return document.Project.Solution.WithDocumentSyntaxRoot(
+                        document.Id,
+                        root.ReplaceNode(literal, expression))
+                    .WithDocumentText(
+                        designerDoc.Id,
+                        text);
             }
 
-            if (document.TryGetSyntaxRoot(out var root))
-            {
-                return Task.FromResult(document.WithSyntaxRoot(root.ReplaceNode(literal, expression)));
-            }
-
-            return Task.FromResult(document);
+            return document.Project.Solution;
         }
 
         private static bool TryGetResx(INamedTypeSymbol resourcesType, out FileInfo resx)
@@ -241,7 +249,7 @@ namespace Gu.Localization.Analyzers
             public PreviewCodeAction(
                 string title,
                 Func<CancellationToken, Task<Document>> preview,
-                Func<CancellationToken, Task<Document>> change,
+                Func<CancellationToken, Task<Solution>> change,
                 string equivalenceKey = null)
             {
                 this.Title = title;
