@@ -167,9 +167,9 @@ namespace Gu.Localization.Analyzers
                 xDocument.Save(stream);
             }
 
-            var designer = new FileInfo(resx.FullName.Replace("Resources.resx", "Resources.Designer.cs"));
             if (await document.GetSyntaxRootAsync(cancellationToken) is SyntaxNode root &&
-                document.Project.Documents.TrySingle(x => x.FilePath == designer.FullName, out var designerDoc))
+                resx.FullName.Replace("Resources.resx", "Resources.Designer.cs") is string designerFileName &&
+                document.Project.Documents.TrySingle(x => x.FilePath == designerFileName, out var designerDoc))
             {
                 // Adding a temp key so that we don't have a build error until next gen.
                 // internal static string Key => ResourceManager.GetString("Key", resourceCulture);
