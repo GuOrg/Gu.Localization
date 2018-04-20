@@ -25,10 +25,20 @@ namespace Gu.Localization.Analyzers
             }
 
             if (context.Node is MemberAccessExpressionSyntax memberAccess &&
-               Resources.IsResourceKey(memberAccess, out _))
+                Resources.IsResourceKey(memberAccess, out _) &&
+                !IsInNameOf(memberAccess) &&
+                context.SemanticModel.GetTypeInfo(memberAccess, context.CancellationToken).Type == KnownSymbol.String)
             {
-                //context.ReportDiagnostic(Diagnostic.Create(GULOC03UseResource.Descriptor, context.Node.GetLocation()));
+                context.ReportDiagnostic(Diagnostic.Create(GULOC05TranslateUseResource.Descriptor, context.Node.GetLocation()));
             }
+        }
+
+        private static bool IsInNameOf(MemberAccessExpressionSyntax memberAccess)
+        {
+            return memberAccess.Parent is ArgumentSyntax argument &&
+                   argument.Parent is ArgumentListSyntax argumentList &&
+                   argumentList.Parent is InvocationExpressionSyntax invocation &&
+                   invocation.IsNameOf();
         }
     }
 }

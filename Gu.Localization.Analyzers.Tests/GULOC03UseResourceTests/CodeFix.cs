@@ -11,7 +11,6 @@ namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new LiteralAnalyzer();
         private static readonly CodeFixProvider Fix = new UseResourceFix();
-        //private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GULOC03");
         private FileInfo projectFile;
         private FileInfo fooFile;
         private FileInfo designerFile;
@@ -21,24 +20,17 @@ namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
         public void SetUp()
         {
             var original = ProjectFile.Find("Gu.Localization.TestStub.csproj");
-            var tempDir = Path.Combine(Path.GetTempPath(), original.Directory.Name);
-            if (Directory.Exists(tempDir))
+            var tempDir = new DirectoryInfo(Path.Combine(Path.GetTempPath(), original.Directory.Name));
+            if (tempDir.Exists)
             {
-                Directory.Delete(tempDir, recursive: true);
+                tempDir.Delete(recursive: true);
             }
 
-            Copy(original.Directory, new DirectoryInfo(tempDir));
-            this.projectFile = new FileInfo(Path.Combine(tempDir, original.Name));
-            Assert.AreEqual(true, this.projectFile.Exists);
-
-            this.fooFile = new FileInfo(Path.Combine(tempDir, "Foo.cs"));
-            Assert.AreEqual(true, this.fooFile.Exists);
-
-            this.designerFile = new FileInfo(Path.Combine(tempDir, "Properties\\Resources.Designer.cs"));
-            Assert.AreEqual(true, this.designerFile.Exists);
-
-            this.resxFile = new FileInfo(Path.Combine(tempDir, "Properties\\Resources.resx"));
-            Assert.AreEqual(true, this.resxFile.Exists);
+            original.Directory.CopyTo(tempDir);
+            this.projectFile = tempDir.FindFile(original.Name);
+            this.fooFile = tempDir.FindFile("Foo.cs");
+            this.designerFile = tempDir.FindFile("Properties\\Resources.Designer.cs");
+            this.resxFile = tempDir.FindFile("Properties\\Resources.resx");
         }
 
         [TestCase("One resource", "One_resource")]
@@ -49,7 +41,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
         [TestCase("One {0} Two {1}", "One___0___Two___1__")]
         public void MoveToResource(string value, string key)
         {
-            File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", value));
+            this.fooFile.ReplaceText("One resource", value);
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
             var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
             var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Move to Properties.Resources.{key}.");
@@ -75,23 +67,6 @@ namespace Gu.Localization.TestStub
             StringAssert.Contains(xml, File.ReadAllText(this.resxFile.FullName));
         }
 
-//        [Test]
-//        public void UseExisting()
-//        {
-//            var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
-//            var expected = @"namespace Gu.Localization.TestStub
-//{
-//    public class Foo
-//    {
-//        public Foo()
-//        {
-//            var text = ""Key"";
-//        }
-//    }
-//}";
-//            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, sln, expected);
-//        }
-
         [TestCase("One resource", "One_resource")]
         [TestCase("One resource.", "One_resource_")]
         [TestCase("abc", "abc")]
@@ -100,7 +75,7 @@ namespace Gu.Localization.TestStub
         [TestCase("One {0} Two {1}", "One___0___Two___1__")]
         public void MoveToResourceAndUseTranslatorTranslate(string value, string key)
         {
-            File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", value));
+            this.fooFile.ReplaceText("One resource", value);
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
             var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
             var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Move to Properties.Resources.{key} and use Translator.Translate.");
@@ -134,7 +109,7 @@ namespace Gu.Localization.TestStub
         [TestCase("One {0} Two {1}", "One___0___Two___1__")]
         public void MoveToResourceAndUseTranslateKey(string value, string key)
         {
-            File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", value));
+            this.fooFile.ReplaceText("One resource", value);
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
             var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
             var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Move to Properties.Resources.{key} and use Properties.Translate.Key(Properties.Resources.{key}).");
@@ -160,19 +135,73 @@ namespace Gu.Localization.TestStub
             StringAssert.Contains(xml, File.ReadAllText(this.resxFile.FullName));
         }
 
-        private static void Copy(DirectoryInfo source, DirectoryInfo target)
+        [Test]
+        public void UseExistingResource()
         {
-            foreach (var dir in source.GetDirectories())
-            {
-                Copy(dir, target.CreateSubdirectory(dir.Name));
-            }
+            File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", "Key"));
+            var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
+            var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Use existing Properties.Resources.Key.");
+            var expected = @"// ReSharper disable UnusedMember.Global
+#pragma warning disable 219
+namespace Gu.Localization.TestStub
+{
+    public class Foo
+    {
+        public Foo()
+        {
+            var text = Properties.Resources.Key;
+        }
+    }
+}
+";
+            CodeAssert.AreEqual(expected, fixedSln.FindDocument("Foo.cs"));
+        }
 
-            foreach (var file in source.GetFiles())
-            {
-#pragma warning disable GU0011 // Don't ignore the return value.
-                file.CopyTo(Path.Combine(target.FullName, file.Name));
-#pragma warning restore GU0011 // Don't ignore the return value.
-            }
+        [Test]
+        public void UseExistingInTranslatorTranslate()
+        {
+            File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", "Key"));
+            var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
+            var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Use existing Properties.Resources.Key in Translator.Translate");
+            var expected = @"// ReSharper disable UnusedMember.Global
+#pragma warning disable 219
+namespace Gu.Localization.TestStub
+{
+    public class Foo
+    {
+        public Foo()
+        {
+            var text = Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Key));
+        }
+    }
+}
+";
+            CodeAssert.AreEqual(expected, fixedSln.FindDocument("Foo.cs"));
+        }
+
+        [Test]
+        public void UseExistingInTranslateKey()
+        {
+            File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", "Key"));
+            var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
+            var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Use existing Properties.Resources.Key in Properties.Translate.Key(Properties.Resources.Key)");
+            var expected = @"// ReSharper disable UnusedMember.Global
+#pragma warning disable 219
+namespace Gu.Localization.TestStub
+{
+    public class Foo
+    {
+        public Foo()
+        {
+            var text = Properties.Translate.Key(nameof(Properties.Resources.Key));
+        }
+    }
+}
+";
+            CodeAssert.AreEqual(expected, fixedSln.FindDocument("Foo.cs"));
         }
     }
 }

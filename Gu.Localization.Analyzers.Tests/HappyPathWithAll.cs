@@ -37,7 +37,8 @@ namespace Gu.Localization.Analyzers.Tests
         [TestCaseSource(nameof(AllAnalyzers))]
         public void GuLocalizationSln(DiagnosticAnalyzer analyzer)
         {
-            if (analyzer is LiteralAnalyzer)
+            if (analyzer is LiteralAnalyzer ||
+                analyzer is MemberAccessAnalyzer)
             {
                 var diagnostics = Analyze.GetDiagnostics(Solution, analyzer);
                 foreach (var diagnostic in diagnostics.SelectMany(x => x))
