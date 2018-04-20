@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.UseResourceTests
+namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;

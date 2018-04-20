@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.UseResourceTests
+namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
 {
     using System.IO;
     using Gu.Localization.Analyzers.Tests.Helpers;

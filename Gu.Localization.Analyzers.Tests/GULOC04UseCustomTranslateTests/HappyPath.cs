@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.UseCustomTranslateTests
+namespace Gu.Localization.Analyzers.Tests.GULOC04UseCustomTranslateTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
