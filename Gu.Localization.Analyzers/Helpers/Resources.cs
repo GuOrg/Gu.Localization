@@ -43,6 +43,18 @@ namespace Gu.Localization.Analyzers
             return resources != null;
         }
 
+        internal static bool IsResourceKey(ExpressionSyntax expression, out ExpressionSyntax resources)
+        {
+            resources = null;
+            if (expression is MemberAccessExpressionSyntax resourceManager &&
+                IsResources(resourceManager.Expression))
+            {
+                resources = resourceManager.Expression;
+            }
+
+            return resources != null;
+        }
+
         internal static IEnumerable<INamedTypeSymbol> LookupResourceTypes(this SemanticModel semanticModel, int position, string name, INamespaceSymbol container = null)
         {
             return LookupResourceTypesCore().Distinct();

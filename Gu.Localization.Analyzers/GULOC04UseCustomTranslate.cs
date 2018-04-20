@@ -2,7 +2,7 @@ namespace Gu.Localization.Analyzers
 {
     using Microsoft.CodeAnalysis;
 
-    internal static class UseCustomTranslateInfo
+    internal static class GULOC04UseCustomTranslate
     {
         public const string DiagnosticId = "GULOC04";
 

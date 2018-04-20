@@ -14,7 +14,7 @@ namespace Gu.Localization.Analyzers
     internal class UseCustomTranslateFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            UseCustomTranslateInfo.DiagnosticId);
+            GULOC04UseCustomTranslate.DiagnosticId);
 
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
