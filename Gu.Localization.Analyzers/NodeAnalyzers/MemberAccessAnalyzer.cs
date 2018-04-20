@@ -25,11 +25,19 @@ namespace Gu.Localization.Analyzers
             }
 
             if (context.Node is MemberAccessExpressionSyntax memberAccess &&
-                Resources.IsResourceKey(memberAccess, out _) &&
+                Resources.IsResourceKey(memberAccess, out var resources) &&
                 !IsInNameOf(memberAccess) &&
                 context.SemanticModel.GetTypeInfo(memberAccess, context.CancellationToken).Type == KnownSymbol.String)
             {
-                context.ReportDiagnostic(Diagnostic.Create(GULOC05TranslateUseResource.Descriptor, context.Node.GetLocation()));
+                if (Translate.TryFindCustomToString(context.SemanticModel.GetSymbolInfo(resources).Symbol as INamedTypeSymbol, out var custom))
+                {
+                    var customCall = $"{custom.ContainingType.ToMinimalDisplayString(context.SemanticModel, memberAccess.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat)}.{custom.Name}(nameof({memberAccess}))";
+                    context.ReportDiagnostic(Diagnostic.Create(GULOC04UseCustomTranslate.Descriptor, memberAccess.GetLocation(), ImmutableDictionary<string, string>.Empty.Add(nameof(Translate), customCall)));
+                }
+                else
+                {
+                    context.ReportDiagnostic(Diagnostic.Create(GULOC05TranslateUseResource.Descriptor, context.Node.GetLocation()));
+                }
             }
         }
 

@@ -5,47 +5,54 @@ namespace Gu.Localization.Analyzers
     using System.Threading.Tasks;
     using Gu.Localization.Analyzers.FixAll;
     using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     [Shared]
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(TranslateResourceFix))]
-    internal class TranslateResourceFix : DocumentEditorCodeFixProvider
+    internal class TranslateResourceFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             GULOC02UseNameOf.DiagnosticId);
 
-        protected override async Task RegisterCodeFixesAsync(DocumentEditorCodeFixContext context)
+        public override FixAllProvider GetFixAllProvider() => null;
+
+        public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
                                           .ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
-                var argument = syntaxRoot.FindNode(diagnostic.Location.SourceSpan)
-                                         .FirstAncestorOrSelf<ArgumentSyntax>();
-                //switch (argument.Expression)
-                //{
-                //    case LiteralExpressionSyntax literal when literal.IsKind(SyntaxKind.StringLiteralExpression) &&
-                //                                              diagnostic.Properties.TryGetValue(nameof(MemberAccessExpressionSyntax), out var member):
-                //        context.RegisterCodeFix(
-                //            "Use nameof.",
-                //            (editor, _) => editor.ReplaceNode(
-                //                literal,
-                //                (x, g) => SyntaxFactory.ParseExpression($"nameof({member}.{literal.Token.ValueText})")),
-                //            "Use nameof.",
-                //            diagnostic);
-                //        break;
-                //    case MemberAccessExpressionSyntax memberAccess:
-                //        context.RegisterCodeFix(
-                //            "Use nameof.",
-                //            (editor, _) => editor.ReplaceNode(
-                //                memberAccess,
-                //                (x, g) => SyntaxFactory.ParseExpression($"nameof({memberAccess})")),
-                //            "Use nameof.",
-                //            diagnostic);
-                //        break;
-                //}
+                if (syntaxRoot.FindNode(diagnostic.Location.SourceSpan) is MemberAccessExpressionSyntax memberAccess)
+                {
+                    if (diagnostic.Properties.TryGetValue(nameof(Translate), out var call))
+                    {
+                        context.RegisterCodeFix(
+                            CodeAction.Create(
+                                $"{call}",
+                                _ => Task.FromResult(
+                                    context.Document.WithSyntaxRoot(
+                                        syntaxRoot.ReplaceNode(
+                                            memberAccess,
+                                            SyntaxFactory.ParseExpression(call))))),
+                            diagnostic);
+                    }
+
+                    context.RegisterCodeFix(
+                        CodeAction.Create(
+                            $"Translator.Translate",
+                            _ => Task.FromResult(
+                                context.Document.WithSyntaxRoot(
+                                    syntaxRoot.ReplaceNode(
+                                        memberAccess,
+                                        SyntaxFactory.ParseExpression(
+                                                         $"Gu.Localization.Translator.Translate({memberAccess.Expression}.ResourceManager, nameof({memberAccess}))")
+                                                     .WithSimplifiedNames())))),
+                        diagnostic);
+
+                }
             }
         }
     }
