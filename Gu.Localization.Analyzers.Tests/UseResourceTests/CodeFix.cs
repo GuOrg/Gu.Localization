@@ -11,7 +11,6 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new LiteralAnalyzer();
         private static readonly CodeFixProvider Fix = new UseResourceFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GULOC03");
         private FileInfo projectFile;
         private FileInfo fooFile;
         private FileInfo designerFile;
@@ -45,6 +44,7 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
         [TestCase("abc", "abc")]
         [TestCase("0", "_0")]
         [TestCase("One {0}", "One___0__")]
+        [TestCase("One {0} Two {1}", "One___0___Two___1__")]
         public void MoveToResource(string value, string key)
         {
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", value));
@@ -75,6 +75,7 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
         [TestCase("abc", "abc")]
         [TestCase("0", "_0")]
         [TestCase("One {0}", "One___0__")]
+        [TestCase("One {0} Two {1}", "One___0___Two___1__")]
         public void MoveToResourceAndTranslatorTranslate(string value, string key)
         {
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", value));
