@@ -2,17 +2,17 @@ namespace Gu.Localization.Analyzers
 {
     using Microsoft.CodeAnalysis;
 
-    internal static class UseNameOf
+    internal static class UseCustomTranslateInfo
     {
-        public const string DiagnosticId = "GULOC02";
+        public const string DiagnosticId = "GULOC04";
 
         internal static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
-            title: "Use nameof(key).",
-            messageFormat: "Use nameof(key).",
+            title: "Use custom translate.",
+            messageFormat: "Use custom translate.",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Warning,
-            isEnabledByDefault: true,
-            description: "Use nameof(key).");
+            isEnabledByDefault: false,
+            description: "Use custom translate.");
     }
 }

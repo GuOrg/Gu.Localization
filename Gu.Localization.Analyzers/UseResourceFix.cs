@@ -21,7 +21,7 @@ namespace Gu.Localization.Analyzers
     internal class UseResourceFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            UseResource.DiagnosticId);
+            UseResourceInfo.DiagnosticId);
 
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {

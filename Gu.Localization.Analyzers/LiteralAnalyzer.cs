@@ -10,7 +10,7 @@ namespace Gu.Localization.Analyzers
     internal class LiteralAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
-            UseResource.Descriptor);
+            UseResourceInfo.Descriptor);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -28,7 +28,7 @@ namespace Gu.Localization.Analyzers
                 !string.IsNullOrWhiteSpace(literal.Token.ValueText) &&
                 !IsExcludedFile(literal.SyntaxTree.FilePath))
             {
-                context.ReportDiagnostic(Diagnostic.Create(UseResource.Descriptor, context.Node.GetLocation()));
+                context.ReportDiagnostic(Diagnostic.Create(UseResourceInfo.Descriptor, context.Node.GetLocation()));
             }
         }
 

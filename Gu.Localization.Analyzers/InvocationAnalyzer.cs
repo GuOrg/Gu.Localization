@@ -12,8 +12,8 @@ namespace Gu.Localization.Analyzers
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             KeyExists.Descriptor,
-            UseNameOf.Descriptor,
-            UseCustomTranslate.Descriptor);
+            UseNameOfInfo.Descriptor,
+            UseCustomTranslateInfo.Descriptor);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -43,7 +43,7 @@ namespace Gu.Localization.Analyzers
                         {
                             context.ReportDiagnostic(
                                 Diagnostic.Create(
-                                    UseNameOf.Descriptor,
+                                    UseNameOfInfo.Descriptor,
                                     keyArgument.GetLocation(),
                                     ImmutableDictionary<string, string>.Empty.Add(
                                         nameof(MemberAccessExpressionSyntax),
@@ -51,7 +51,7 @@ namespace Gu.Localization.Analyzers
                         }
                         else if (keyArgument.Expression is MemberAccessExpressionSyntax)
                         {
-                            context.ReportDiagnostic(Diagnostic.Create(UseNameOf.Descriptor, keyArgument.GetLocation()));
+                            context.ReportDiagnostic(Diagnostic.Create(UseNameOfInfo.Descriptor, keyArgument.GetLocation()));
                         }
                     }
 
@@ -63,17 +63,17 @@ namespace Gu.Localization.Analyzers
                             context.ReportDiagnostic(Diagnostic.Create(KeyExists.Descriptor, keyArgument.GetLocation()));
                         }
 
-                        if (!UseCustomTranslate.Descriptor.IsSuppressed(context.SemanticModel))
+                        if (!UseCustomTranslateInfo.Descriptor.IsSuppressed(context.SemanticModel))
                         {
                             if (target == KnownSymbol.Translator.Translate &&
                                 Translate.TryFindCustomToString(resourcesType, out _))
                             {
-                                context.ReportDiagnostic(Diagnostic.Create(UseCustomTranslate.Descriptor, invocation.GetLocation()));
+                                context.ReportDiagnostic(Diagnostic.Create(UseCustomTranslateInfo.Descriptor, invocation.GetLocation()));
                             }
                             else if (target == KnownSymbol.Translator.Translate &&
                                 Translate.TryFindCustomToTranslation(resourcesType, out _))
                             {
-                                context.ReportDiagnostic(Diagnostic.Create(UseCustomTranslate.Descriptor, invocation.GetLocation()));
+                                context.ReportDiagnostic(Diagnostic.Create(UseCustomTranslateInfo.Descriptor, invocation.GetLocation()));
                             }
                         }
                     }
@@ -87,7 +87,7 @@ namespace Gu.Localization.Analyzers
                         {
                             context.ReportDiagnostic(
                                 Diagnostic.Create(
-                                    UseNameOf.Descriptor,
+                                    UseNameOfInfo.Descriptor,
                                     keyArgument.GetLocation(),
                                     ImmutableDictionary<string, string>.Empty.Add(
                                         nameof(MemberAccessExpressionSyntax),
@@ -95,7 +95,7 @@ namespace Gu.Localization.Analyzers
                         }
                         else if (keyArgument.Expression is MemberAccessExpressionSyntax)
                         {
-                            context.ReportDiagnostic(Diagnostic.Create(UseNameOf.Descriptor, keyArgument.GetLocation()));
+                            context.ReportDiagnostic(Diagnostic.Create(UseNameOfInfo.Descriptor, keyArgument.GetLocation()));
                         }
                     }
 
