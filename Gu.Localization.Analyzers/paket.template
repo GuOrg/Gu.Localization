@@ -1,5 +1,5 @@
 type file
-version 0.1.0.0-dev
+version 0.2.0.0-dev
 title Gu.Localization.Analyzers
 id Gu.Localization.Analyzers
 authors Johan Larsson
@@ -13,7 +13,7 @@ projectUrl https://github.com/JohanLarsson/Gu.Localization
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-  Initial release.
+  More analyzers and bugfixes.
 
 files
   bin/Release/netstandard1.3/Gu.Localization.Analyzers.dll ==> analyzers/dotnet/cs

@@ -3,7 +3,6 @@ namespace Gu.Localization.Analyzers
     using System.Collections.Immutable;
     using System.Composition;
     using System.Threading.Tasks;
-    using Gu.Localization.Analyzers.FixAll;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
@@ -51,7 +50,6 @@ namespace Gu.Localization.Analyzers
                                                          $"Gu.Localization.Translator.Translate({memberAccess.Expression}.ResourceManager, nameof({memberAccess}))")
                                                      .WithSimplifiedNames())))),
                         diagnostic);
-
                 }
             }
         }
