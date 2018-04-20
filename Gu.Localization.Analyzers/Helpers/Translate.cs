@@ -39,7 +39,7 @@ namespace Gu.Localization.Analyzers
             }
         }
 
-        internal static bool TryFindMethod(INamedTypeSymbol resourcesType, out IMethodSymbol method)
+        internal static bool TryFindCustomToString(INamedTypeSymbol resourcesType, out IMethodSymbol method)
         {
             method = null;
             if (resourcesType == null)
@@ -61,6 +61,34 @@ namespace Gu.Localization.Analyzers
             {
                 return candidate.IsStatic &&
                        candidate.ReturnType == KnownSymbol.String &&
+                       candidate.Parameters.TryFirst(out var parameter) &&
+                       parameter.Type == KnownSymbol.String &&
+                       candidate.ContainingNamespace.GetTypeMembers("Resources").Any();
+            }
+        }
+
+        internal static bool TryFindCustomToTranslation(INamedTypeSymbol resourcesType, out IMethodSymbol method)
+        {
+            method = null;
+            if (resourcesType == null)
+            {
+                return false;
+            }
+
+            foreach (var type in resourcesType.ContainingNamespace.GetTypeMembers("Translate"))
+            {
+                if (type.TryFindSingleMethod(IsCustomTranslateMethod, out method))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+
+            bool IsCustomTranslateMethod(IMethodSymbol candidate)
+            {
+                return candidate.IsStatic &&
+                       candidate.ReturnType == KnownSymbol.ITranslation &&
                        candidate.Parameters.TryFirst(out var parameter) &&
                        parameter.Type == KnownSymbol.String &&
                        candidate.ContainingNamespace.GetTypeMembers("Resources").Any();

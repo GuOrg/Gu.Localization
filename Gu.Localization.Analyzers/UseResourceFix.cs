@@ -221,7 +221,7 @@ namespace Gu.Localization.Analyzers
 
         private static bool TryFindCustomTranslate(INamedTypeSymbol resources, out IMethodSymbol customTranslate)
         {
-            if (Translate.TryFindMethod(resources, out customTranslate) &&
+            if (Translate.TryFindCustomToString(resources, out customTranslate) &&
                 customTranslate.Parameters.TryFirst(out var parameter) &&
                 parameter.Type == KnownSymbol.String)
             {

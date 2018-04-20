@@ -12,7 +12,8 @@ namespace Gu.Localization.Analyzers
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             KeyExists.Descriptor,
-            UseNameOf.Descriptor);
+            UseNameOf.Descriptor,
+            UseCustomTranslate.Descriptor);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -55,10 +56,26 @@ namespace Gu.Localization.Analyzers
                     }
 
                     if (TryGetStringValue(keyArgument, out var key) &&
-                        context.SemanticModel.GetSymbolInfo(resources).Symbol is ITypeSymbol resourcesType &&
-                        !resourcesType.GetMembers(key).Any())
+                        context.SemanticModel.GetSymbolInfo(resources).Symbol is INamedTypeSymbol resourcesType)
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(KeyExists.Descriptor, keyArgument.GetLocation()));
+                        if (!resourcesType.GetMembers(key).Any())
+                        {
+                            context.ReportDiagnostic(Diagnostic.Create(KeyExists.Descriptor, keyArgument.GetLocation()));
+                        }
+
+                        if (!UseCustomTranslate.Descriptor.IsSuppressed(context.SemanticModel))
+                        {
+                            if (target == KnownSymbol.Translator.Translate &&
+                                Translate.TryFindCustomToString(resourcesType, out _))
+                            {
+                                context.ReportDiagnostic(Diagnostic.Create(UseCustomTranslate.Descriptor, invocation.GetLocation()));
+                            }
+                            else if (target == KnownSymbol.Translator.Translate &&
+                                Translate.TryFindCustomToTranslation(resourcesType, out _))
+                            {
+                                context.ReportDiagnostic(Diagnostic.Create(UseCustomTranslate.Descriptor, invocation.GetLocation()));
+                            }
+                        }
                     }
                 }
                 else if (argumentList.Arguments.TryFirst(out keyArgument) &&

@@ -53,7 +53,9 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
             var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
             var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Move to Properties.Resources.{key}.");
-            var expected = @"namespace Gu.Localization.TestStub
+            var expected = @"// ReSharper disable UnusedMember.Global
+#pragma warning disable 219
+namespace Gu.Localization.TestStub
 {
     public class Foo
     {
@@ -102,7 +104,9 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
             var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
             var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Move to Properties.Resources.{key} and use Translator.Translate.");
-            var expected = @"namespace Gu.Localization.TestStub
+            var expected = @"// ReSharper disable UnusedMember.Global
+#pragma warning disable 219
+namespace Gu.Localization.TestStub
 {
     public class Foo
     {
@@ -134,7 +138,9 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
             var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
             var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Move to Properties.Resources.{key} and use Properties.Translate.Key(Properties.Resources.{key}).");
-            var expected = @"namespace Gu.Localization.TestStub
+            var expected = @"// ReSharper disable UnusedMember.Global
+#pragma warning disable 219
+namespace Gu.Localization.TestStub
 {
     public class Foo
     {
