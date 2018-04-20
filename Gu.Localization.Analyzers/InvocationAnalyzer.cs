@@ -63,18 +63,12 @@ namespace Gu.Localization.Analyzers
                             context.ReportDiagnostic(Diagnostic.Create(KeyExists.Descriptor, keyArgument.GetLocation()));
                         }
 
-                        if (!UseCustomTranslateInfo.Descriptor.IsSuppressed(context.SemanticModel))
+                        if (invocation.ArgumentList.Arguments.Count == 2 &&
+                            !UseCustomTranslateInfo.Descriptor.IsSuppressed(context.SemanticModel) &&
+                            TryGetCustom(target, resourcesType, out var custom))
                         {
-                            if (target == KnownSymbol.Translator.Translate &&
-                                Translate.TryFindCustomToString(resourcesType, out _))
-                            {
-                                context.ReportDiagnostic(Diagnostic.Create(UseCustomTranslateInfo.Descriptor, invocation.GetLocation()));
-                            }
-                            else if (target == KnownSymbol.Translator.Translate &&
-                                Translate.TryFindCustomToTranslation(resourcesType, out _))
-                            {
-                                context.ReportDiagnostic(Diagnostic.Create(UseCustomTranslateInfo.Descriptor, invocation.GetLocation()));
-                            }
+                            var customCall = $"{custom.ContainingType.ToMinimalDisplayString(context.SemanticModel, invocation.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat)}.{custom.Name}({keyArgument})";
+                            context.ReportDiagnostic(Diagnostic.Create(UseCustomTranslateInfo.Descriptor, invocation.GetLocation(), ImmutableDictionary<string, string>.Empty.Add(nameof(Translate), customCall)));
                         }
                     }
                 }
@@ -105,6 +99,37 @@ namespace Gu.Localization.Analyzers
                         context.ReportDiagnostic(Diagnostic.Create(KeyExists.Descriptor, keyArgument.GetLocation()));
                     }
                 }
+            }
+        }
+
+        private static bool TryGetCustom(IMethodSymbol target, INamedTypeSymbol resourcesType, out IMethodSymbol custom)
+        {
+            if (target == KnownSymbol.Translator.Translate &&
+                Translate.TryFindCustomToString(resourcesType, out custom))
+            {
+                return CanFix(custom);
+            }
+
+            if (target == KnownSymbol.Translation.GetOrCreate &&
+                Translate.TryFindCustomToTranslation(resourcesType, out custom))
+            {
+                return CanFix(custom);
+            }
+
+            custom = null;
+            return false;
+
+            bool CanFix(IMethodSymbol candidate)
+            {
+                if (candidate.Parameters.TryFirst(out var parameter) &&
+                    parameter.Type == KnownSymbol.String)
+                {
+                    return candidate.Parameters.Length == 0 ||
+                           (candidate.Parameters.TryElementAt(1, out parameter) &&
+                           parameter.IsOptional);
+                }
+
+                return false;
             }
         }
 
