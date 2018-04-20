@@ -5,6 +5,7 @@ namespace Gu.Localization.Analyzers
     using System.Collections.Immutable;
     using System.Composition;
     using System.IO;
+    using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
@@ -158,6 +159,7 @@ namespace Gu.Localization.Analyzers
             if (await document.GetSyntaxRootAsync(cancellationToken) is SyntaxNode root &&
                 resourcesType.DeclaringSyntaxReferences.TrySingle(out var declaration) &&
                 document.Project.Documents.TrySingle(x => x.FilePath == declaration.SyntaxTree.FilePath, out var designerDoc) &&
+                await designerDoc.GetSyntaxRootAsync(cancellationToken) is SyntaxNode designerRoot &&
                 TryGetResx(resourcesType, out var resx))
             {
                 var designerText = await designerDoc.GetTextAsync(cancellationToken);
@@ -166,9 +168,9 @@ namespace Gu.Localization.Analyzers
                 return document.Project.Solution.WithDocumentSyntaxRoot(
                         document.Id,
                         root.ReplaceNode(literal, expression))
-                    .WithDocumentText(
+                    .WithDocumentSyntaxRoot(
                         designerDoc.Id,
-                        designerText.WithChanges(AddProperty(designerText)))
+                        AddProperty())
                     .AddAdditionalDocument(
                         resxId,
                         "Designer.resx",
@@ -181,21 +183,32 @@ namespace Gu.Localization.Analyzers
 
             return document.Project.Solution;
 
-            IEnumerable<TextChange> AddProperty(SourceText designerText)
+            SyntaxNode AddProperty()
             {
                 // Adding a temp key so that we don't have a build error until next gen.
                 // internal static string Key => ResourceManager.GetString("Key", resourceCulture);
-                if (designerText.Lines.TryElementAt(designerText.Lines.Count - 3, out var line))
+                if (designerRoot.ChildNodes().OfType<PropertyDeclarationSyntax>().TryLast(out var property))
                 {
-                    return new[]
-                    {
-                        new TextChange(
-                            line.Span,
-                            $"\r\n        internal static string {key} => ResourceManager.GetString(\"{key}\", resourceCulture);\r\n{line}"),
-                    };
+                    return designerRoot.InsertNodesAfter(
+                        property,
+#pragma warning disable SA1118 // Parameter must not span multiple lines
+                        new[]
+                        {
+                            SyntaxFactory.PropertyDeclaration(
+                                default(SyntaxList<AttributeListSyntax>),
+                                SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword), SyntaxFactory.Token(SyntaxKind.StaticKeyword)),
+                                SyntaxFactory.ParseTypeName("string"),
+                                default(ExplicitInterfaceSpecifierSyntax),
+                                SyntaxFactory.ParseToken(key),
+                                default(AccessorListSyntax),
+                                SyntaxFactory.ArrowExpressionClause(SyntaxFactory.ParseExpression($"ResourceManager.GetString(\"{key}\", resourceCulture)")),
+                                default(EqualsValueClauseSyntax),
+                                SyntaxFactory.Token(SyntaxKind.SemicolonToken))
+                        });
+#pragma warning restore SA1118 // Parameter must not span multiple lines
                 }
 
-                return new TextChange[0];
+                return designerRoot;
             }
 
             IEnumerable<TextChange> AddElement(SourceText resxText)

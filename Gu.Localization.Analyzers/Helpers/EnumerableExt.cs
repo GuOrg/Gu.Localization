@@ -183,5 +183,36 @@ namespace Gu.Localization.Analyzers
             result = default(T);
             return false;
         }
+
+        /// <summary>
+        /// Try getting the first element in <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in <paramref name="source"/></typeparam>
+        /// <param name="source">The source collection, can be null.</param>
+        /// <param name="result">The first element, can be null.</param>
+        /// <returns>True if an element was found.</returns>
+        internal static bool TryLast<T>(this IEnumerable<T> source, out T result)
+        {
+            result = default(T);
+            if (source == null)
+            {
+                return false;
+            }
+
+            using (var e = source.GetEnumerator())
+            {
+                if (!e.MoveNext())
+                {
+                    return false;
+                }
+
+                while (e.MoveNext())
+                {
+                    result = e.Current;
+                }
+
+                return true;
+            }
+        }
     }
 }
