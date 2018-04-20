@@ -8,7 +8,7 @@
     /// <summary>
     /// Extension methods that avoids allocations.
     /// </summary>
-    public static partial class EnumerableExt
+    internal static partial class EnumerableExt
     {
         /// <summary>
         /// Try getting the element at <paramref name="index"/>
@@ -18,7 +18,7 @@
         /// <param name="index">The index.</param>
         /// <param name="result">The element at index if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryElementAt<T>(this IReadOnlyList<T> source, int index, out T result)
+        internal static bool TryElementAt<T>(this IReadOnlyList<T> source, int index, out T result)
         {
             result = default(T);
             if (source == null)
@@ -43,7 +43,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The single element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle<T>(this IReadOnlyList<T> source, out T result)
+        internal static bool TrySingle<T>(this IReadOnlyList<T> source, out T result)
         {
             result = default(T);
             if (source == null)
@@ -68,7 +68,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The single element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle<T>(this IReadOnlyList<T> source, Func<T, bool> predicate, out T result)
+        internal static bool TrySingle<T>(this IReadOnlyList<T> source, Func<T, bool> predicate, out T result)
         {
             result = default(T);
             if (source == null)
@@ -104,7 +104,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The first element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst<T>(this IReadOnlyList<T> source, out T result)
+        internal static bool TryFirst<T>(this IReadOnlyList<T> source, out T result)
         {
             result = default(T);
             if (source == null)
@@ -129,7 +129,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The first element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst<T>(this IReadOnlyList<T> source, Func<T, bool> predicate, out T result)
+        internal static bool TryFirst<T>(this IReadOnlyList<T> source, Func<T, bool> predicate, out T result)
         {
             result = default(T);
             if (source == null)
@@ -156,7 +156,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The last element if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast<T>(this IReadOnlyList<T> source, out T result)
+        internal static bool TryLast<T>(this IReadOnlyList<T> source, out T result)
         {
             result = default(T);
             if (source == null)
@@ -182,7 +182,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The last element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast<T>(this IReadOnlyList<T> source, Func<T, bool> predicate, out T result)
+        internal static bool TryLast<T>(this IReadOnlyList<T> source, Func<T, bool> predicate, out T result)
         {
             result = default(T);
             if (source == null)
@@ -212,7 +212,7 @@
         /// <param name="index">The index.</param>
         /// <param name="result">The element at index if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryElementAt<T>(this ImmutableArray<T> source, int index, out T result)
+        internal static bool TryElementAt<T>(this ImmutableArray<T> source, int index, out T result)
         {
             result = default(T);
             if (index < 0 ||
@@ -232,7 +232,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The single element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle<T>(this ImmutableArray<T> source, out T result)
+        internal static bool TrySingle<T>(this ImmutableArray<T> source, out T result)
         {
             result = default(T);
             if (source.Length == 1)
@@ -252,7 +252,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The single element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle<T>(this ImmutableArray<T> source, Func<T, bool> predicate, out T result)
+        internal static bool TrySingle<T>(this ImmutableArray<T> source, Func<T, bool> predicate, out T result)
         {
             result = default(T);
             for (var i = 0; i < source.Length; i++)
@@ -283,7 +283,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The first element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst<T>(this ImmutableArray<T> source, out T result)
+        internal static bool TryFirst<T>(this ImmutableArray<T> source, out T result)
         {
             result = default(T);
             if (source.Length == 0)
@@ -303,7 +303,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The first element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst<T>(this ImmutableArray<T> source, Func<T, bool> predicate, out T result)
+        internal static bool TryFirst<T>(this ImmutableArray<T> source, Func<T, bool> predicate, out T result)
         {
             result = default(T);
             foreach (var item in source)
@@ -325,7 +325,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The last element if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast<T>(this ImmutableArray<T> source, out T result)
+        internal static bool TryLast<T>(this ImmutableArray<T> source, out T result)
         {
             result = default(T);
             if (source.Length == 0)
@@ -346,7 +346,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The last element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast<T>(this ImmutableArray<T> source, Func<T, bool> predicate, out T result)
+        internal static bool TryLast<T>(this ImmutableArray<T> source, Func<T, bool> predicate, out T result)
         {
             result = default(T);
             for (var i = source.Length - 1; i >= 0; i--)
@@ -370,7 +370,7 @@
         /// <param name="index">The index.</param>
         /// <param name="result">The element at index if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryElementAt(this ChildSyntaxList source, int index, out SyntaxNodeOrToken result)
+        internal static bool TryElementAt(this ChildSyntaxList source, int index, out SyntaxNodeOrToken result)
         {
             result = default(SyntaxNodeOrToken);
             if (index < 0 ||
@@ -389,7 +389,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The single element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle(this ChildSyntaxList source, out SyntaxNodeOrToken result)
+        internal static bool TrySingle(this ChildSyntaxList source, out SyntaxNodeOrToken result)
         {
             result = default(SyntaxNodeOrToken);
             if (source.Count == 1)
@@ -408,7 +408,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The single element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle(this ChildSyntaxList source, Func<SyntaxNodeOrToken, bool> predicate, out SyntaxNodeOrToken result)
+        internal static bool TrySingle(this ChildSyntaxList source, Func<SyntaxNodeOrToken, bool> predicate, out SyntaxNodeOrToken result)
         {
             result = default(SyntaxNodeOrToken);
             for (var i = 0; i < source.Count; i++)
@@ -438,7 +438,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The first element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst(this ChildSyntaxList source, out SyntaxNodeOrToken result)
+        internal static bool TryFirst(this ChildSyntaxList source, out SyntaxNodeOrToken result)
         {
             result = default(SyntaxNodeOrToken);
             if (source.Count == 0)
@@ -457,7 +457,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The first element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst(this ChildSyntaxList source, Func<SyntaxNodeOrToken, bool> predicate, out SyntaxNodeOrToken result)
+        internal static bool TryFirst(this ChildSyntaxList source, Func<SyntaxNodeOrToken, bool> predicate, out SyntaxNodeOrToken result)
         {
             result = default(SyntaxNodeOrToken);
             foreach (var item in source)
@@ -478,7 +478,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The last element if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast(this ChildSyntaxList source, out SyntaxNodeOrToken result)
+        internal static bool TryLast(this ChildSyntaxList source, out SyntaxNodeOrToken result)
         {
             result = default(SyntaxNodeOrToken);
             if (source.Count == 0)
@@ -498,7 +498,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The last element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast(this ChildSyntaxList source, Func<SyntaxNodeOrToken, bool> predicate, out SyntaxNodeOrToken result)
+        internal static bool TryLast(this ChildSyntaxList source, Func<SyntaxNodeOrToken, bool> predicate, out SyntaxNodeOrToken result)
         {
             result = default(SyntaxNodeOrToken);
             for (var i = source.Count - 1; i >= 0; i--)
@@ -523,7 +523,7 @@
         /// <param name="index">The index.</param>
         /// <param name="result">The element at index if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryElementAt<T>(this SeparatedSyntaxList<T> source, int index, out T result)
+        internal static bool TryElementAt<T>(this SeparatedSyntaxList<T> source, int index, out T result)
             where T : SyntaxNode
         {
             result = default(T);
@@ -544,7 +544,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The single element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle<T>(this SeparatedSyntaxList<T> source, out T result)
+        internal static bool TrySingle<T>(this SeparatedSyntaxList<T> source, out T result)
             where T : SyntaxNode
         {
             result = default(T);
@@ -565,7 +565,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The single element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle<T>(this SeparatedSyntaxList<T> source, Func<T, bool> predicate, out T result)
+        internal static bool TrySingle<T>(this SeparatedSyntaxList<T> source, Func<T, bool> predicate, out T result)
             where T : SyntaxNode
         {
             result = default(T);
@@ -597,7 +597,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The first element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst<T>(this SeparatedSyntaxList<T> source, out T result)
+        internal static bool TryFirst<T>(this SeparatedSyntaxList<T> source, out T result)
             where T : SyntaxNode
         {
             result = default(T);
@@ -618,7 +618,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The first element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst<T>(this SeparatedSyntaxList<T> source, Func<T, bool> predicate, out T result)
+        internal static bool TryFirst<T>(this SeparatedSyntaxList<T> source, Func<T, bool> predicate, out T result)
             where T : SyntaxNode
         {
             result = default(T);
@@ -641,7 +641,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The last element if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast<T>(this SeparatedSyntaxList<T> source, out T result)
+        internal static bool TryLast<T>(this SeparatedSyntaxList<T> source, out T result)
             where T : SyntaxNode
         {
             result = default(T);
@@ -663,7 +663,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The last element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast<T>(this SeparatedSyntaxList<T> source, Func<T, bool> predicate, out T result)
+        internal static bool TryLast<T>(this SeparatedSyntaxList<T> source, Func<T, bool> predicate, out T result)
             where T : SyntaxNode
         {
             result = default(T);
@@ -689,7 +689,7 @@
         /// <param name="index">The index.</param>
         /// <param name="result">The element at index if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryElementAt<T>(this SyntaxList<T> source, int index, out T result)
+        internal static bool TryElementAt<T>(this SyntaxList<T> source, int index, out T result)
             where T : SyntaxNode
         {
             result = default(T);
@@ -710,7 +710,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The single element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle<T>(this SyntaxList<T> source, out T result)
+        internal static bool TrySingle<T>(this SyntaxList<T> source, out T result)
             where T : SyntaxNode
         {
             result = default(T);
@@ -731,7 +731,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The single element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle<T>(this SyntaxList<T> source, Func<T, bool> predicate, out T result)
+        internal static bool TrySingle<T>(this SyntaxList<T> source, Func<T, bool> predicate, out T result)
             where T : SyntaxNode
         {
             result = default(T);
@@ -763,7 +763,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The first element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst<T>(this SyntaxList<T> source, out T result)
+        internal static bool TryFirst<T>(this SyntaxList<T> source, out T result)
             where T : SyntaxNode
         {
             result = default(T);
@@ -784,7 +784,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The first element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst<T>(this SyntaxList<T> source, Func<T, bool> predicate, out T result)
+        internal static bool TryFirst<T>(this SyntaxList<T> source, Func<T, bool> predicate, out T result)
             where T : SyntaxNode
         {
             result = default(T);
@@ -807,7 +807,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The last element if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast<T>(this SyntaxList<T> source, out T result)
+        internal static bool TryLast<T>(this SyntaxList<T> source, out T result)
             where T : SyntaxNode
         {
             result = default(T);
@@ -829,7 +829,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The last element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast<T>(this SyntaxList<T> source, Func<T, bool> predicate, out T result)
+        internal static bool TryLast<T>(this SyntaxList<T> source, Func<T, bool> predicate, out T result)
             where T : SyntaxNode
         {
             result = default(T);
@@ -854,7 +854,7 @@
         /// <param name="index">The index.</param>
         /// <param name="result">The element at index if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryElementAt(this SyntaxNodeOrTokenList source, int index, out SyntaxNodeOrToken result)
+        internal static bool TryElementAt(this SyntaxNodeOrTokenList source, int index, out SyntaxNodeOrToken result)
         {
             result = default(SyntaxNodeOrToken);
             if (index < 0 ||
@@ -873,7 +873,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The single element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle(this SyntaxNodeOrTokenList source, out SyntaxNodeOrToken result)
+        internal static bool TrySingle(this SyntaxNodeOrTokenList source, out SyntaxNodeOrToken result)
         {
             result = default(SyntaxNodeOrToken);
             if (source.Count == 1)
@@ -892,7 +892,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The single element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle(this SyntaxNodeOrTokenList source, Func<SyntaxNodeOrToken, bool> predicate, out SyntaxNodeOrToken result)
+        internal static bool TrySingle(this SyntaxNodeOrTokenList source, Func<SyntaxNodeOrToken, bool> predicate, out SyntaxNodeOrToken result)
         {
             result = default(SyntaxNodeOrToken);
             for (var i = 0; i < source.Count; i++)
@@ -922,7 +922,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The first element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst(this SyntaxNodeOrTokenList source, out SyntaxNodeOrToken result)
+        internal static bool TryFirst(this SyntaxNodeOrTokenList source, out SyntaxNodeOrToken result)
         {
             result = default(SyntaxNodeOrToken);
             if (source.Count == 0)
@@ -941,7 +941,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The first element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst(this SyntaxNodeOrTokenList source, Func<SyntaxNodeOrToken, bool> predicate, out SyntaxNodeOrToken result)
+        internal static bool TryFirst(this SyntaxNodeOrTokenList source, Func<SyntaxNodeOrToken, bool> predicate, out SyntaxNodeOrToken result)
         {
             result = default(SyntaxNodeOrToken);
             foreach (var item in source)
@@ -962,7 +962,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The last element if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast(this SyntaxNodeOrTokenList source, out SyntaxNodeOrToken result)
+        internal static bool TryLast(this SyntaxNodeOrTokenList source, out SyntaxNodeOrToken result)
         {
             result = default(SyntaxNodeOrToken);
             if (source.Count == 0)
@@ -982,7 +982,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The last element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast(this SyntaxNodeOrTokenList source, Func<SyntaxNodeOrToken, bool> predicate, out SyntaxNodeOrToken result)
+        internal static bool TryLast(this SyntaxNodeOrTokenList source, Func<SyntaxNodeOrToken, bool> predicate, out SyntaxNodeOrToken result)
         {
             result = default(SyntaxNodeOrToken);
             for (var i = source.Count - 1; i >= 0; i--)
@@ -1006,7 +1006,7 @@
         /// <param name="index">The index.</param>
         /// <param name="result">The element at index if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryElementAt(this SyntaxTokenList source, int index, out SyntaxToken result)
+        internal static bool TryElementAt(this SyntaxTokenList source, int index, out SyntaxToken result)
         {
             result = default(SyntaxToken);
             if (index < 0 ||
@@ -1025,7 +1025,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The single element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle(this SyntaxTokenList source, out SyntaxToken result)
+        internal static bool TrySingle(this SyntaxTokenList source, out SyntaxToken result)
         {
             result = default(SyntaxToken);
             if (source.Count == 1)
@@ -1044,7 +1044,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The single element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle(this SyntaxTokenList source, Func<SyntaxToken, bool> predicate, out SyntaxToken result)
+        internal static bool TrySingle(this SyntaxTokenList source, Func<SyntaxToken, bool> predicate, out SyntaxToken result)
         {
             result = default(SyntaxToken);
             for (var i = 0; i < source.Count; i++)
@@ -1074,7 +1074,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The first element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst(this SyntaxTokenList source, out SyntaxToken result)
+        internal static bool TryFirst(this SyntaxTokenList source, out SyntaxToken result)
         {
             result = default(SyntaxToken);
             if (source.Count == 0)
@@ -1093,7 +1093,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The first element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst(this SyntaxTokenList source, Func<SyntaxToken, bool> predicate, out SyntaxToken result)
+        internal static bool TryFirst(this SyntaxTokenList source, Func<SyntaxToken, bool> predicate, out SyntaxToken result)
         {
             result = default(SyntaxToken);
             foreach (var item in source)
@@ -1114,7 +1114,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The last element if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast(this SyntaxTokenList source, out SyntaxToken result)
+        internal static bool TryLast(this SyntaxTokenList source, out SyntaxToken result)
         {
             result = default(SyntaxToken);
             if (source.Count == 0)
@@ -1134,7 +1134,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The last element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast(this SyntaxTokenList source, Func<SyntaxToken, bool> predicate, out SyntaxToken result)
+        internal static bool TryLast(this SyntaxTokenList source, Func<SyntaxToken, bool> predicate, out SyntaxToken result)
         {
             result = default(SyntaxToken);
             for (var i = source.Count - 1; i >= 0; i--)
@@ -1158,7 +1158,7 @@
         /// <param name="index">The index.</param>
         /// <param name="result">The element at index if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryElementAt(this SyntaxTriviaList source, int index, out SyntaxTrivia result)
+        internal static bool TryElementAt(this SyntaxTriviaList source, int index, out SyntaxTrivia result)
         {
             result = default(SyntaxTrivia);
             if (index < 0 ||
@@ -1177,7 +1177,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The single element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle(this SyntaxTriviaList source, out SyntaxTrivia result)
+        internal static bool TrySingle(this SyntaxTriviaList source, out SyntaxTrivia result)
         {
             result = default(SyntaxTrivia);
             if (source.Count == 1)
@@ -1196,7 +1196,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The single element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle(this SyntaxTriviaList source, Func<SyntaxTrivia, bool> predicate, out SyntaxTrivia result)
+        internal static bool TrySingle(this SyntaxTriviaList source, Func<SyntaxTrivia, bool> predicate, out SyntaxTrivia result)
         {
             result = default(SyntaxTrivia);
             for (var i = 0; i < source.Count; i++)
@@ -1226,7 +1226,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The first element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst(this SyntaxTriviaList source, out SyntaxTrivia result)
+        internal static bool TryFirst(this SyntaxTriviaList source, out SyntaxTrivia result)
         {
             result = default(SyntaxTrivia);
             if (source.Count == 0)
@@ -1245,7 +1245,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The first element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst(this SyntaxTriviaList source, Func<SyntaxTrivia, bool> predicate, out SyntaxTrivia result)
+        internal static bool TryFirst(this SyntaxTriviaList source, Func<SyntaxTrivia, bool> predicate, out SyntaxTrivia result)
         {
             result = default(SyntaxTrivia);
             foreach (var item in source)
@@ -1266,7 +1266,7 @@
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The last element if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast(this SyntaxTriviaList source, out SyntaxTrivia result)
+        internal static bool TryLast(this SyntaxTriviaList source, out SyntaxTrivia result)
         {
             result = default(SyntaxTrivia);
             if (source.Count == 0)
@@ -1286,7 +1286,7 @@
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The last element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast(this SyntaxTriviaList source, Func<SyntaxTrivia, bool> predicate, out SyntaxTrivia result)
+        internal static bool TryLast(this SyntaxTriviaList source, Func<SyntaxTrivia, bool> predicate, out SyntaxTrivia result)
         {
             result = default(SyntaxTrivia);
             for (var i = source.Count - 1; i >= 0; i--)

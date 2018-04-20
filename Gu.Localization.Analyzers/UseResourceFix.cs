@@ -25,102 +25,106 @@ namespace Gu.Localization.Analyzers
 
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
-            var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
-                                                   .ConfigureAwait(false);
-
-            foreach (var diagnostic in context.Diagnostics)
+            if (await context.Document.GetSyntaxRootAsync(context.CancellationToken) is SyntaxNode syntaxRoot &&
+                await context.Document.GetSemanticModelAsync(context.CancellationToken) is SemanticModel semanticModel)
             {
-                if (syntaxRoot.FindNode(diagnostic.Location.SourceSpan, getInnermostNodeForTie: true) is LiteralExpressionSyntax literal &&
-                    TryGetKey(literal.Token.ValueText, out var key) &&
-                    context.Document.Project.Documents.TrySingle(x => x.Name == "Resources.Designer.cs", out var resources) &&
-                    Path.Combine(Path.GetDirectoryName(context.Document.Project.FilePath), "Properties\\Resources.resx") is string resx &&
-                    File.Exists(resx))
+                foreach (var diagnostic in context.Diagnostics)
                 {
-                    if (PropertyWalker.Contains(resources, key))
+                    if (syntaxRoot.FindNode(diagnostic.Location.SourceSpan, getInnermostNodeForTie: true) is LiteralExpressionSyntax literal &&
+                        TryGetKey(literal.Token.ValueText, out var key))
                     {
-                        context.RegisterCodeFix(
-                            CodeAction.Create(
-                                "Use existing resource in Translator.Translate",
-                                _ => Task.FromResult(
-                                    context.Document.WithSyntaxRoot(
-                                        syntaxRoot.ReplaceNode(
+                        foreach (var resourcesType in semanticModel.LookupResourceTypes(diagnostic.Location.SourceSpan.Start, name: "Resources"))
+                        {
+                            if (resourcesType.TryFindProperty(key, out _))
+                            {
+                                var memberAccess = resourcesType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat);
+                                context.RegisterCodeFix(
+                                    CodeAction.Create(
+                                        $"Use existing {memberAccess}.{key} in Translator.Translate",
+                                        _ => Task.FromResult(
+                                            context.Document.WithSyntaxRoot(
+                                                syntaxRoot.ReplaceNode(
+                                                    literal,
+                                                    SyntaxFactory
+                                                        .ParseExpression(
+                                                            $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
+                                                        .WithSimplifiedNames())))),
+                                    diagnostic);
+                                context.RegisterCodeFix(
+                                    CodeAction.Create(
+                                        $"Use existing {memberAccess}.{key}.",
+                                        _ => Task.FromResult(
+                                            context.Document.WithSyntaxRoot(
+                                                syntaxRoot.ReplaceNode(
+                                                    literal,
+                                                    SyntaxFactory.ParseExpression($"{memberAccess}.{key}")
+                                                                 .WithSimplifiedNames())))),
+                                    diagnostic);
+                            }
+                            else if (TryGetResx(resourcesType, out var resx))
+                            {
+                                var memberAccess = resourcesType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat);
+                                context.RegisterCodeFix(
+                                    new PreviewCodeAction(
+                                        $"Move to {memberAccess}.{key} and use Translator.Translate.",
+                                        _ => Task.FromResult(
+                                            context.Document.WithSyntaxRoot(
+                                                syntaxRoot.ReplaceNode(
+                                                    literal,
+                                                    SyntaxFactory
+                                                        .ParseExpression(
+                                                            $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
+                                                        .WithSimplifiedNames()))),
+                                        _ => AddResourceAndReplaceAsync(
+                                            context.Document,
                                             literal,
                                             SyntaxFactory.ParseExpression(
-                                                    $"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{key}))")
-                                                .WithSimplifiedNames()))),
-                                "Move to resource and use Translator.Translate"),
-                            diagnostic);
-                        context.RegisterCodeFix(
-                            CodeAction.Create(
-                                "Use existing resource.",
-                                _ => Task.FromResult(
-                                    context.Document.WithSyntaxRoot(
-                                        syntaxRoot.ReplaceNode(
-                                            literal,
-                                            SyntaxFactory.ParseExpression($"Properties.Resources.{key}")
-                                                .WithSimplifiedNames()))),
-                                "Use existing resource."),
-                            diagnostic);
-                    }
-                    else
-                    {
-                        context.RegisterCodeFix(
-                            new PreviewCodeAction(
-                                "Move to resources and use Translator.Translate.",
-                                _ => Task.FromResult(context.Document.WithSyntaxRoot(
-                                    syntaxRoot.ReplaceNode(
-                                        literal,
-                                        SyntaxFactory.ParseExpression($"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{key}))")
-                                            .WithSimplifiedNames()))),
-                                _ => AddResourceAndReplaceAsync(
-                                    context.Document,
-                                    literal,
-                                    SyntaxFactory.ParseExpression($"Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.{key}))")
-                                        .WithSimplifiedNames(),
-                                    resx,
-                                    key),
-                                "Move to resources and use Translator.Translate."),
-                            diagnostic);
+                                                             $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
+                                                         .WithSimplifiedNames(),
+                                            resx,
+                                            key)),
+                                    diagnostic);
 
-                        context.RegisterCodeFix(
-                            new PreviewCodeAction(
-                                "Move to resources.",
-                                _ => Task.FromResult(
-                                    context.Document.WithSyntaxRoot(
-                                        syntaxRoot.ReplaceNode(
+                                context.RegisterCodeFix(
+                                    new PreviewCodeAction(
+                                        $"Move to {memberAccess}.{key}.",
+                                        _ => Task.FromResult(
+                                            context.Document.WithSyntaxRoot(
+                                                syntaxRoot.ReplaceNode(
+                                                    literal,
+                                                    SyntaxFactory.ParseExpression($"{memberAccess}.{key}")
+                                                                 .WithSimplifiedNames()))),
+                                        _ => AddResourceAndReplaceAsync(
+                                            context.Document,
                                             literal,
-                                            SyntaxFactory.ParseExpression($"Properties.Resources.{key}")
-                                                         .WithSimplifiedNames()))),
-                                _ => AddResourceAndReplaceAsync(
-                                    context.Document,
-                                    literal,
-                                    SyntaxFactory.ParseExpression($"Properties.Resources.{key}")
-                                                 .WithSimplifiedNames(),
-                                    resx,
-                                    key),
-                                "Move to resources."),
-                            diagnostic);
+                                            SyntaxFactory.ParseExpression($"{memberAccess}.{key}")
+                                                         .WithSimplifiedNames(),
+                                            resx,
+                                            key)),
+                                    diagnostic);
+                            }
+                        }
                     }
                 }
             }
         }
 
-        private static Task<Document> AddResourceAndReplaceAsync(Document document, LiteralExpressionSyntax literal, ExpressionSyntax expression, string resx, string key)
+        private static Task<Document> AddResourceAndReplaceAsync(Document document, LiteralExpressionSyntax literal, ExpressionSyntax expression, FileInfo resx, string key)
         {
             var xElement = new XElement("data");
             xElement.Add(new XAttribute("name", key));
             xElement.Add(new XAttribute(XNamespace.Xml + "space", "preserve"));
             xElement.Add(new XElement("value", literal.Token.ValueText));
-            var xDocument = XDocument.Load(resx);
+            var xDocument = XDocument.Load(resx.FullName);
             xDocument.Root.Add(xElement);
-            using (var stream = File.OpenWrite(resx))
+            using (var stream = File.OpenWrite(resx.FullName))
             {
                 xDocument.Save(stream);
             }
 
-            var designer = Path.Combine(Path.GetDirectoryName(document.Project.FilePath), "Properties\\Resources.Designer.cs");
-            if (File.Exists(designer) &&
-                File.ReadAllLines(designer).ToList() is List<string> lines &&
+            var designer = new FileInfo(resx.FullName.Replace("Resources.resx", "Resources.Designer.cs"));
+            if (designer.Exists &&
+                File.ReadAllLines(designer.FullName).ToList() is List<string> lines &&
                 lines.Count > 3)
             {
                 // Adding a temp key so that we don't have a build error until next gen.
@@ -128,7 +132,7 @@ namespace Gu.Localization.Analyzers
                 lines.Insert(
                     lines.Count - 2,
                     $"        internal static string {key} => ResourceManager.GetString(\"{key}\", resourceCulture);");
-                File.WriteAllLines(designer, lines);
+                File.WriteAllLines(designer.FullName, lines);
             }
 
             if (document.TryGetSyntaxRoot(out var root))
@@ -137,6 +141,21 @@ namespace Gu.Localization.Analyzers
             }
 
             return Task.FromResult(document);
+        }
+
+        private static bool TryGetResx(INamedTypeSymbol resourcesType, out FileInfo resx)
+        {
+            if (resourcesType.DeclaringSyntaxReferences.TrySingle(out var reference) &&
+                reference.SyntaxTree?.FilePath is string resourcesFileName &&
+                resourcesFileName.Replace("Resources.Designer.cs", "Resources.resx") is string resxName &&
+                File.Exists(resxName))
+            {
+                resx = new FileInfo(resxName);
+                return true;
+            }
+
+            resx = null;
+            return false;
         }
 
         private static bool TryGetKey(string text, out string key)
@@ -153,41 +172,6 @@ namespace Gu.Localization.Analyzers
             return SyntaxFacts.IsValidIdentifier(key);
         }
 
-        private class PropertyWalker : CSharpSyntaxWalker
-        {
-            private readonly string property;
-            private bool foundProperty;
-
-            public PropertyWalker(string property)
-            {
-                this.property = property;
-            }
-
-            public static bool Contains(Document resources, string property)
-            {
-                return resources.TryGetSyntaxTree(out var tree) &&
-                       tree.TryGetRoot(out var root) &&
-                       Contains(root, property);
-            }
-
-            public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
-            {
-                if (node.Identifier.ValueText == this.property)
-                {
-                    this.foundProperty = true;
-                }
-
-                base.VisitPropertyDeclaration(node);
-            }
-
-            private static bool Contains(SyntaxNode node, string property)
-            {
-                var walker = new PropertyWalker(property);
-                walker.Visit(node);
-                return walker.foundProperty;
-            }
-        }
-
         private class PreviewCodeAction : CodeAction
         {
             private readonly CodeAction preview;
@@ -197,7 +181,7 @@ namespace Gu.Localization.Analyzers
                 string title,
                 Func<CancellationToken, Task<Document>> preview,
                 Func<CancellationToken, Task<Document>> change,
-                string equivalenceKey)
+                string equivalenceKey = null)
             {
                 this.Title = title;
                 this.preview = Create(title, preview, equivalenceKey);

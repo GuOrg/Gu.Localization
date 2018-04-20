@@ -51,7 +51,7 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", value));
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
             var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
-            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: "Move to resources.");
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Move to Properties.Resources.{key}.");
             var expected = @"namespace Gu.Localization.TestStub
 {
     public class Foo
@@ -83,7 +83,7 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", value));
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
             var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
-            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: "Move to resources and use Translator.Translate.");
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Move to Properties.Resources.{key} and use Translator.Translate.");
             var expected = @"namespace Gu.Localization.TestStub
 {
     public class Foo
@@ -104,7 +104,7 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
             StringAssert.Contains(xml, File.ReadAllText(this.resxFile.FullName));
         }
 
-        [Explicit("Fix")]
+        [Explicit("")]
         [TestCase("One resource", "One_resource")]
         [TestCase("One resource.", "One_resource_")]
         [TestCase("abc", "abc")]

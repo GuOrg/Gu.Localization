@@ -11,7 +11,7 @@ namespace Gu.Localization.Analyzers
     /// <summary>
     /// Extension methods that avoids allocations.
     /// </summary>
-    public static partial class EnumerableExt
+    internal static partial class EnumerableExt
     {
 <#
     var typeNames = new []
@@ -43,7 +43,7 @@ namespace Gu.Localization.Analyzers
         /// <param name="index">The index.</param>
         /// <param name="result">The element at index if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryElementAt<#= genericArg #>(this <#= colName #> source, int index, out <#= itemName #> result)<#= constraint #>
+        internal static bool TryElementAt<#= genericArg #>(this <#= colName #> source, int index, out <#= itemName #> result)<#= constraint #>
         {
             result = default(<#= itemName #>);
 <# this.WriteIfNullReturnFalse(types); #>
@@ -64,7 +64,7 @@ namespace Gu.Localization.Analyzers
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The single element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle<#= genericArg #>(this <#= colName #> source, out <#= itemName #> result)<#= constraint #>
+        internal static bool TrySingle<#= genericArg #>(this <#= colName #> source, out <#= itemName #> result)<#= constraint #>
         {
             result = default(<#= itemName #>);
 <# this.WriteIfNullReturnFalse(types); #>
@@ -85,7 +85,7 @@ namespace Gu.Localization.Analyzers
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The single element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle<#= genericArg #>(this <#= colName #> source, Func<<#= itemName #>, bool> predicate, out <#= itemName #> result)<#= constraint #>
+        internal static bool TrySingle<#= genericArg #>(this <#= colName #> source, Func<<#= itemName #>, bool> predicate, out <#= itemName #> result)<#= constraint #>
         {
             result = default(<#= itemName #>);
 <# this.WriteIfNullReturnFalse(types); #>
@@ -117,7 +117,7 @@ namespace Gu.Localization.Analyzers
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The first element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst<#= genericArg #>(this <#= colName #> source, out <#= itemName #> result)<#= constraint #>
+        internal static bool TryFirst<#= genericArg #>(this <#= colName #> source, out <#= itemName #> result)<#= constraint #>
         {
             result = default(<#= itemName #>);
 <# this.WriteIfNullReturnFalse(types); #>
@@ -138,7 +138,7 @@ namespace Gu.Localization.Analyzers
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The first element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst<#= genericArg #>(this <#= colName #> source, Func<<#= itemName #>, bool> predicate, out <#= itemName #> result)<#= constraint #>
+        internal static bool TryFirst<#= genericArg #>(this <#= colName #> source, Func<<#= itemName #>, bool> predicate, out <#= itemName #> result)<#= constraint #>
         {
             result = default(<#= itemName #>);
 <# this.WriteIfNullReturnFalse(types); #>
@@ -161,7 +161,7 @@ namespace Gu.Localization.Analyzers
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The last element if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast<#= genericArg #>(this <#= colName #> source, out <#= itemName #> result)<#= constraint #>
+        internal static bool TryLast<#= genericArg #>(this <#= colName #> source, out <#= itemName #> result)<#= constraint #>
         {
             result = default(<#= itemName #>);
 <# this.WriteIfNullReturnFalse(types); #>
@@ -183,7 +183,7 @@ namespace Gu.Localization.Analyzers
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The last element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryLast<#= genericArg #>(this <#= colName #> source, Func<<#= itemName #>, bool> predicate, out <#= itemName #> result)<#= constraint #>
+        internal static bool TryLast<#= genericArg #>(this <#= colName #> source, Func<<#= itemName #>, bool> predicate, out <#= itemName #> result)<#= constraint #>
         {
             result = default(<#= itemName #>);
 <# this.WriteIfNullReturnFalse(types); #>
@@ -235,14 +235,14 @@ private void WriteTypeDoc(Data item)
 
 internal class Data
 {
-    public readonly string CollectionType;
-    public readonly string ItemType;
-    public readonly bool IsValueType;
-    public readonly string Constraint;
-    public readonly string Count;
-    public readonly string GenericArg;
+    internal readonly string CollectionType;
+    internal readonly string ItemType;
+    internal readonly bool IsValueType;
+    internal readonly string Constraint;
+    internal readonly string Count;
+    internal readonly string GenericArg;
 
-    public Data(string collectionType, string itemType, bool isValueType, string constraint = null, string count = null)
+    internal Data(string collectionType, string itemType, bool isValueType, string constraint = null, string count = null)
     {
         this.CollectionType = collectionType;
         this.ItemType = itemType;

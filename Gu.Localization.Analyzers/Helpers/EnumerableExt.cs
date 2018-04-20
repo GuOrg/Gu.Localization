@@ -6,8 +6,17 @@ namespace Gu.Localization.Analyzers
     /// <summary>
     /// Extension methods that avoids allocations.
     /// </summary>
-    public static partial class EnumerableExt
+    internal static partial class EnumerableExt
     {
+        internal static IEnumerable<T> Prepend<T>(this IEnumerable<T> items, T before)
+        {
+            yield return before;
+            foreach (var item in items)
+            {
+                yield return item;
+            }
+        }
+
         /// <summary>
         /// Try getting the element at <paramref name="index"/>
         /// </summary>
@@ -16,7 +25,7 @@ namespace Gu.Localization.Analyzers
         /// <param name="index">The index.</param>
         /// <param name="result">The element at index if found, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryElementAt<T>(this IEnumerable<T> source, int index, out T result)
+        internal static bool TryElementAt<T>(this IEnumerable<T> source, int index, out T result)
         {
             result = default(T);
             if (source == null)
@@ -49,7 +58,7 @@ namespace Gu.Localization.Analyzers
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The single element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle<T>(this IEnumerable<T> source, out T result)
+        internal static bool TrySingle<T>(this IEnumerable<T> source, out T result)
         {
             result = default(T);
             if (source == null)
@@ -83,7 +92,7 @@ namespace Gu.Localization.Analyzers
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The single element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TrySingle<T>(this IEnumerable<T> source, Func<T, bool> predicate, out T result)
+        internal static bool TrySingle<T>(this IEnumerable<T> source, Func<T, bool> predicate, out T result)
         {
             result = default(T);
             if (source == null)
@@ -123,7 +132,7 @@ namespace Gu.Localization.Analyzers
         /// <param name="source">The source collection, can be null.</param>
         /// <param name="result">The first element, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst<T>(this IEnumerable<T> source, out T result)
+        internal static bool TryFirst<T>(this IEnumerable<T> source, out T result)
         {
             result = default(T);
             if (source == null)
@@ -151,7 +160,7 @@ namespace Gu.Localization.Analyzers
         /// <param name="predicate">The predicate.</param>
         /// <param name="result">The first element matching the predicate, can be null.</param>
         /// <returns>True if an element was found.</returns>
-        public static bool TryFirst<T>(this IEnumerable<T> source, Func<T, bool> predicate, out T result)
+        internal static bool TryFirst<T>(this IEnumerable<T> source, Func<T, bool> predicate, out T result)
         {
             if (source == null)
             {

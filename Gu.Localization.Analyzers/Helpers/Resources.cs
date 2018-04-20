@@ -1,5 +1,9 @@
 namespace Gu.Localization.Analyzers
 {
+    using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using System.Linq;
+    using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     internal static class Resources
@@ -38,6 +42,36 @@ namespace Gu.Localization.Analyzers
             }
 
             return resources != null;
+        }
+
+        internal static IEnumerable<INamedTypeSymbol> LookupResourceTypes(this SemanticModel semanticModel, int position, string name, INamespaceSymbol container = null)
+        {
+            return LookupResourceTypesCore().Distinct();
+
+            IEnumerable<INamedTypeSymbol> LookupResourceTypesCore()
+            {
+                var namespacesAndTypes = semanticModel.LookupNamespacesAndTypes(position, container);
+                foreach (var candidate in namespacesAndTypes)
+                {
+                    if (candidate is INamedTypeSymbol namedType &&
+                        namedType.MetadataName == name &&
+                        namedType.TryFindProperty("ResourceManager", out _))
+                    {
+                        yield return namedType;
+                    }
+                }
+
+                foreach (var candidate in namespacesAndTypes)
+                {
+                    if (candidate is INamespaceSymbol namespaceSymbol)
+                    {
+                        foreach (var resourceType in LookupResourceTypes(semanticModel, position, name, namespaceSymbol))
+                        {
+                            yield return resourceType;
+                        }
+                    }
+                }
+            }
         }
     }
 }
