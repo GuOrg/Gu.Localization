@@ -106,7 +106,7 @@ namespace RoslynSandbox.Properties
         public void TranslatorTranslateStringLiteralWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -121,7 +121,7 @@ namespace RoslynSandbox.Client
 }";
 
             var fixedCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -137,12 +137,11 @@ namespace RoslynSandbox.Client
             AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
         }
 
-        [Explicit("Not sure why we get overload resolution failure here.")]
         [Test]
         public void TranslatorTranslateStringLiteralFullyQualified()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -155,7 +154,7 @@ namespace RoslynSandbox.Client
     }
 }";
             var fixedCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -163,7 +162,7 @@ namespace RoslynSandbox.Client
     {
         public Foo()
         {
-            var translate = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.ResourceManager.Key));
+            var translate = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Key));
         }
     }
 }";
@@ -174,7 +173,7 @@ namespace RoslynSandbox.Client
         public void TranslationGetOrCreateStringLiteralWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -189,7 +188,7 @@ namespace RoslynSandbox.Client
 }";
 
             var fixedCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -205,12 +204,11 @@ namespace RoslynSandbox.Client
             AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
         }
 
-        [Explicit("Not sure why we get overload resolution failure here.")]
         [Test]
         public void TranslationGetOrCreateStringLiteralFullyQualified()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -223,7 +221,7 @@ namespace RoslynSandbox.Client
     }
 }";
             var fixedCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -231,7 +229,7 @@ namespace RoslynSandbox.Client
     {
         public Foo()
         {
-            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.ResourceManager.Key));
+            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Key));
         }
     }
 }";
@@ -242,7 +240,7 @@ namespace RoslynSandbox.Client
         public void TranslateKeyStringLiteralWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -257,7 +255,7 @@ namespace RoslynSandbox.Client
 }";
 
             var fixedCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -273,12 +271,11 @@ namespace RoslynSandbox.Client
             AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, TranslateCode, testCode }, fixedCode);
         }
 
-        [Explicit("Not sure why we get overload resolution failure here.")]
         [Test]
         public void TranslateKeyStringLiteralFullyQualified()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -286,12 +283,12 @@ namespace RoslynSandbox.Client
     {
         public Foo()
         {
-            var translate = Translate.Key(""Key"");
+            var translate = Properties.Translate.Key(""Key"");
         }
     }
 }";
             var fixedCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -299,18 +296,18 @@ namespace RoslynSandbox.Client
     {
         public Foo()
         {
-            var translate = Translate.Key(nameof(Properties.Resources.ResourceManager.Key));
+            var translate = Properties.Translate.Key(nameof(Properties.Resources.Key));
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, TranslateCode, testCode }, fixedCode);
         }
 
         [Test]
         public void TranslateTranslationForLiteralWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -325,7 +322,7 @@ namespace RoslynSandbox.Client
 }";
 
             var fixedCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -341,12 +338,11 @@ namespace RoslynSandbox.Client
             AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, TranslateCode, testCode }, fixedCode);
         }
 
-        [Explicit("Not sure why we get overload resolution failure here.")]
         [Test]
         public void TranslateTranslationForStringLiteralFullyQualified()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -354,12 +350,12 @@ namespace RoslynSandbox.Client
     {
         public Foo()
         {
-            var translation = Translate.TranslationFor(""Key"");
+            var translation = Properties.Translate.TranslationFor(""Key"");
         }
     }
 }";
             var fixedCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -367,11 +363,11 @@ namespace RoslynSandbox.Client
     {
         public Foo()
         {
-            var translation = Translate.TranslationFor(nameof(Properties.Resources.ResourceManager.Key));
+            var translation = Properties.Translate.TranslationFor(nameof(Properties.Resources.Key));
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, TranslateCode, testCode }, fixedCode);
         }
     }
 }

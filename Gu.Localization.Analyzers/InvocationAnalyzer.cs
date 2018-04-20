@@ -25,8 +25,7 @@ namespace Gu.Localization.Analyzers
                 invocation.ArgumentList is ArgumentListSyntax argumentList)
             {
                 if (argumentList.Arguments.TryFirst(out var resourceManagerArgument) &&
-                    resourceManagerArgument.Expression is MemberAccessExpressionSyntax resourceManager &&
-                    resourceManager.Name.Identifier.ValueText == "ResourceManager" &&
+                    Resources.IsResourceManager(resourceManagerArgument.Expression, out var resources) &&
                     argumentList.Arguments.TryElementAt(1, out var keyArgument) &&
                     context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is IMethodSymbol target &&
                     (target == KnownSymbol.Translator.Translate ||
@@ -42,7 +41,7 @@ namespace Gu.Localization.Analyzers
                                     keyArgument.GetLocation(),
                                     ImmutableDictionary<string, string>.Empty.Add(
                                         nameof(MemberAccessExpressionSyntax),
-                                        resourceManager.Expression.ToString())));
+                                        resources.ToString())));
                         }
                         else if (keyArgument.Expression is MemberAccessExpressionSyntax)
                         {
@@ -51,7 +50,7 @@ namespace Gu.Localization.Analyzers
                     }
 
                     if (TryGetStringValue(keyArgument, out var key) &&
-                        context.SemanticModel.GetSymbolInfo(resourceManager.Expression).Symbol is ITypeSymbol resourcesType &&
+                        context.SemanticModel.GetSymbolInfo(resources).Symbol is ITypeSymbol resourcesType &&
                         !resourcesType.GetMembers(key).Any())
                     {
                         context.ReportDiagnostic(Diagnostic.Create(KeyExistsAnalyzer.Descriptor, keyArgument.GetLocation()));
@@ -77,7 +76,7 @@ namespace Gu.Localization.Analyzers
                                     keyArgument.GetLocation(),
                                     ImmutableDictionary<string, string>.Empty.Add(
                                         nameof(MemberAccessExpressionSyntax),
-                                        resourcesType.MetadataName)));
+                                        resourcesType.ToMinimalDisplayString(context.SemanticModel, keyArgument.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat))));
                         }
                         else if (keyArgument.Expression is MemberAccessExpressionSyntax)
                         {
@@ -136,8 +135,7 @@ namespace Gu.Localization.Analyzers
 
                     break;
 
-                case MemberAccessExpressionSyntax memberAccess when memberAccess.Expression is IdentifierNameSyntax identifierName &&
-                                                                    identifierName.Identifier.ValueText == "Resources":
+                case MemberAccessExpressionSyntax memberAccess when memberAccess.IsResources():
                     result = string.Empty;
                     return true;
             }

@@ -104,7 +104,7 @@ namespace RoslynSandbox.Properties
         public void TranslatorTranslateStringLiteralWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -121,12 +121,11 @@ namespace RoslynSandbox.Client
             AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, testCode);
         }
 
-        [Explicit("Not sure why we get overload resolution failure here.")]
         [Test]
         public void TranslatorTranslateStringLiteralFullyQualified()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -145,7 +144,7 @@ namespace RoslynSandbox.Client
         public void TranslatorTranslateNameofPropertyWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -165,7 +164,7 @@ namespace RoslynSandbox.Client
         public void TranslatorTranslateMissingNameof()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -181,12 +180,11 @@ namespace RoslynSandbox.Client
             AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, testCode);
         }
 
-        [Explicit("Not sure why we get overload resolution failure here.")]
         [Test]
         public void TranslatorTranslateNameofPropertyFullyQualified()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -205,7 +203,7 @@ namespace RoslynSandbox.Client
         public void TranslateTranslationForStringLiteralWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -222,12 +220,11 @@ namespace RoslynSandbox.Client
             AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, TranslateCode, testCode);
         }
 
-        [Explicit("Not sure why we get overload resolution failure here.")]
         [Test]
         public void TranslateTranslationForStringLiteralFullyQualified()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -246,7 +243,7 @@ namespace RoslynSandbox.Client
         public void TranslateTranslationForNameofPropertyWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -266,7 +263,7 @@ namespace RoslynSandbox.Client
         public void TranslateTranslationForMissingNameof()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -282,12 +279,11 @@ namespace RoslynSandbox.Client
             AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, TranslateCode, testCode);
         }
 
-        [Explicit("Not sure why we get overload resolution failure here.")]
         [Test]
         public void TranslateTranslationForNameofPropertyFullyQualified()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -295,18 +291,18 @@ namespace RoslynSandbox.Client
     {
         public Foo()
         {
-            var translate = Properties.Translate.TranslationFor(↓nameof(Properties.Resources));
+            var translate = Properties.Translate.TranslationFor(↓nameof(Foo));
         }
     }
 }";
-            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, TranslateCode, testCode);
         }
 
         [Test]
         public void TranslateKeyStringLiteralWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -323,12 +319,11 @@ namespace RoslynSandbox.Client
             AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, TranslateCode, testCode);
         }
 
-        [Explicit("Not sure why we get overload resolution failure here.")]
         [Test]
         public void TranslateKeyStringLiteralFullyQualified()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -347,7 +342,7 @@ namespace RoslynSandbox.Client
         public void TranslateKeyNameofPropertyWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -367,7 +362,7 @@ namespace RoslynSandbox.Client
         public void TranslateKeyMissingNameof()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -383,12 +378,11 @@ namespace RoslynSandbox.Client
             AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, TranslateCode, testCode);
         }
 
-        [Explicit("Not sure why we get overload resolution failure here.")]
         [Test]
         public void TranslateKeyNameofPropertyFullyQualified()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -396,18 +390,18 @@ namespace RoslynSandbox.Client
     {
         public Foo()
         {
-            var translate = Properties.Translate.Key(↓nameof(Properties.Resources));
+            var translate = Properties.Translate.Key(↓nameof(Foo));
         }
     }
 }";
-            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, TranslateCode, testCode);
         }
 
         [Test]
         public void TranslationGetOrCreateStringLiteralWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -424,12 +418,11 @@ namespace RoslynSandbox.Client
             AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, testCode);
         }
 
-        [Explicit("Not sure why we get overload resolution failure here.")]
         [Test]
         public void TranslationGetOrCreateStringLiteralFullyQualified()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -448,7 +441,7 @@ namespace RoslynSandbox.Client
         public void TranslationGetOrCreateNameofPropertyWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -468,7 +461,7 @@ namespace RoslynSandbox.Client
         public void TranslationGetOrCreateMissingNameof()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -484,12 +477,11 @@ namespace RoslynSandbox.Client
             AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, testCode);
         }
 
-        [Explicit("Not sure why we get overload resolution failure here.")]
         [Test]
         public void TranslationGetOrCreateNameofPropertyFullyQualified()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -497,7 +489,7 @@ namespace RoslynSandbox.Client
     {
         public Foo()
         {
-            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, ↓nameof(Properties.Resources));
+            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, ↓nameof(Foo));
         }
     }
 }";

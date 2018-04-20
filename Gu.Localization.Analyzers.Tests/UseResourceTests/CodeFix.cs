@@ -78,7 +78,7 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
         [TestCase("0", "_0")]
         [TestCase("One {0}", "One___0__")]
         [TestCase("One {0} Two {1}", "One___0___Two___1__")]
-        public void MoveToResourceAndTranslatorTranslate(string value, string key)
+        public void MoveToResourceAndUseTranslatorTranslate(string value, string key)
         {
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", value));
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
@@ -91,6 +91,39 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
         public Foo()
         {
             var text = Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.One_resource));
+        }
+    }
+}
+".AssertReplace("One_resource", key);
+            CodeAssert.AreEqual(expected, fixedSln.FindDocument("Foo.cs"));
+            var property = $"internal static string {key} => ResourceManager.GetString(\"{key}\", resourceCulture);";
+            StringAssert.Contains(property, File.ReadAllText(this.designerFile.FullName));
+            var xml = $"  <data name=\"{key}\" xml:space=\"preserve\">\r\n" +
+                      $"    <value>{value}</value>\r\n" +
+                      "  </data>";
+            StringAssert.Contains(xml, File.ReadAllText(this.resxFile.FullName));
+        }
+
+        [Explicit("Fix")]
+        [TestCase("One resource", "One_resource")]
+        [TestCase("One resource.", "One_resource_")]
+        [TestCase("abc", "abc")]
+        [TestCase("0", "_0")]
+        [TestCase("One {0}", "One___0__")]
+        [TestCase("One {0} Two {1}", "One___0___Two___1__")]
+        public void MoveToResourceAndUseTranslateKey(string value, string key)
+        {
+            File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", value));
+            var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
+            var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle:"Move to resources and use Translate.Key.");
+            var expected = @"namespace Gu.Localization.TestStub
+{
+    public class Foo
+    {
+        public Foo()
+        {
+            var text = Translate.Key(nameof(Properties.Resources.One_resource));
         }
     }
 }

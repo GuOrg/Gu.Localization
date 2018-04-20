@@ -102,7 +102,7 @@ namespace RoslynSandbox.Properties
         public void TranslatorTranslateNameofPropertyWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -122,7 +122,7 @@ namespace RoslynSandbox.Client
         public void TranslatorTranslateNameofPropertyFullyQualified()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -141,7 +141,7 @@ namespace RoslynSandbox.Client
         public void TranslationGetOrCreateNameofPropertyWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
@@ -161,7 +161,7 @@ namespace RoslynSandbox.Client
         public void TranslationGetOrCreateNameofPropertyFullyQualified()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
 
@@ -180,7 +180,7 @@ namespace RoslynSandbox.Client
         public void TranslateKeyWithUsing()
         {
             var testCode = @"
-namespace RoslynSandbox.Client
+namespace RoslynSandbox
 {
     using Gu.Localization;
     using RoslynSandbox.Properties;
