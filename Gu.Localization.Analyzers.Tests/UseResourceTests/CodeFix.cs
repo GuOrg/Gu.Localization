@@ -83,7 +83,7 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", value));
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
             var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
-            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle:"Move to resources and use Translator.Translate.");
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: "Move to resources and use Translator.Translate.");
             var expected = @"namespace Gu.Localization.TestStub
 {
     public class Foo
@@ -116,7 +116,7 @@ namespace Gu.Localization.Analyzers.Tests.UseResourceTests
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", value));
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
             var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
-            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle:"Move to resources and use Translate.Key.");
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: "Move to resources and use Translate.Key.");
             var expected = @"namespace Gu.Localization.TestStub
 {
     public class Foo

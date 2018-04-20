@@ -27,7 +27,7 @@ namespace Gu.Localization.Analyzers
             return false;
         }
 
-        public static bool IsResourceManager(ExpressionSyntax expression, out ExpressionSyntax resources)
+        internal static bool IsResourceManager(ExpressionSyntax expression, out ExpressionSyntax resources)
         {
             resources = null;
             if (expression is MemberAccessExpressionSyntax resourceManager &&

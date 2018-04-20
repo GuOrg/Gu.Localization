@@ -11,8 +11,8 @@ namespace Gu.Localization.Analyzers
     internal class InvocationAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
-            KeyExistsAnalyzer.Descriptor,
-            UseNameOfAnalyzer.Descriptor);
+            KeyExists.Descriptor,
+            UseNameOf.Descriptor);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -21,6 +21,11 @@ namespace Gu.Localization.Analyzers
 
         private static void Handle(SyntaxNodeAnalysisContext context)
         {
+            if (context.IsExcludedFromAnalysis())
+            {
+                return;
+            }
+
             if (context.Node is InvocationExpressionSyntax invocation &&
                 invocation.ArgumentList is ArgumentListSyntax argumentList)
             {
@@ -37,7 +42,7 @@ namespace Gu.Localization.Analyzers
                         {
                             context.ReportDiagnostic(
                                 Diagnostic.Create(
-                                    UseNameOfAnalyzer.Descriptor,
+                                    UseNameOf.Descriptor,
                                     keyArgument.GetLocation(),
                                     ImmutableDictionary<string, string>.Empty.Add(
                                         nameof(MemberAccessExpressionSyntax),
@@ -45,7 +50,7 @@ namespace Gu.Localization.Analyzers
                         }
                         else if (keyArgument.Expression is MemberAccessExpressionSyntax)
                         {
-                            context.ReportDiagnostic(Diagnostic.Create(UseNameOfAnalyzer.Descriptor, keyArgument.GetLocation()));
+                            context.ReportDiagnostic(Diagnostic.Create(UseNameOf.Descriptor, keyArgument.GetLocation()));
                         }
                     }
 
@@ -53,7 +58,7 @@ namespace Gu.Localization.Analyzers
                         context.SemanticModel.GetSymbolInfo(resources).Symbol is ITypeSymbol resourcesType &&
                         !resourcesType.GetMembers(key).Any())
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(KeyExistsAnalyzer.Descriptor, keyArgument.GetLocation()));
+                        context.ReportDiagnostic(Diagnostic.Create(KeyExists.Descriptor, keyArgument.GetLocation()));
                     }
                 }
                 else if (argumentList.Arguments.TryFirst(out keyArgument) &&
@@ -65,7 +70,7 @@ namespace Gu.Localization.Analyzers
                         {
                             context.ReportDiagnostic(
                                 Diagnostic.Create(
-                                    UseNameOfAnalyzer.Descriptor,
+                                    UseNameOf.Descriptor,
                                     keyArgument.GetLocation(),
                                     ImmutableDictionary<string, string>.Empty.Add(
                                         nameof(MemberAccessExpressionSyntax),
@@ -73,14 +78,14 @@ namespace Gu.Localization.Analyzers
                         }
                         else if (keyArgument.Expression is MemberAccessExpressionSyntax)
                         {
-                            context.ReportDiagnostic(Diagnostic.Create(UseNameOfAnalyzer.Descriptor, keyArgument.GetLocation()));
+                            context.ReportDiagnostic(Diagnostic.Create(UseNameOf.Descriptor, keyArgument.GetLocation()));
                         }
                     }
 
                     if (TryGetStringValue(keyArgument, out var key) &&
                         !resourcesType.GetMembers(key).Any())
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(KeyExistsAnalyzer.Descriptor, keyArgument.GetLocation()));
+                        context.ReportDiagnostic(Diagnostic.Create(KeyExists.Descriptor, keyArgument.GetLocation()));
                     }
                 }
             }

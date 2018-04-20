@@ -10,7 +10,7 @@ namespace Gu.Localization.Analyzers
     internal class LiteralAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
-            UseResourceAnalyzer.Descriptor);
+            UseResource.Descriptor);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -19,11 +19,16 @@ namespace Gu.Localization.Analyzers
 
         private static void Handle(SyntaxNodeAnalysisContext context)
         {
+            if (context.IsExcludedFromAnalysis())
+            {
+                return;
+            }
+
             if (context.Node is LiteralExpressionSyntax literal &&
                 !string.IsNullOrWhiteSpace(literal.Token.ValueText) &&
                 !IsExcludedFile(literal.SyntaxTree.FilePath))
             {
-                context.ReportDiagnostic(Diagnostic.Create(UseResourceAnalyzer.Descriptor, context.Node.GetLocation()));
+                context.ReportDiagnostic(Diagnostic.Create(UseResource.Descriptor, context.Node.GetLocation()));
             }
         }
 

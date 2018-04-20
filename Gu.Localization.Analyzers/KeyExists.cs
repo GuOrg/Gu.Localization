@@ -2,17 +2,17 @@ namespace Gu.Localization.Analyzers
 {
     using Microsoft.CodeAnalysis;
 
-    internal static class UseNameOfAnalyzer
+    internal static class KeyExists
     {
-        public const string DiagnosticId = "GULOC02";
+        public const string DiagnosticId = "GULOC01";
 
         internal static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
-            title: "Use nameof(key).",
-            messageFormat: "Use nameof(key).",
+            title: "Key does not exist.",
+            messageFormat: "Key does not exist.",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
-            description: "Use nameof(key).");
+            description: "Key does not exist.");
     }
 }
