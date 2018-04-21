@@ -36,5 +36,5 @@ group Roslyn
   nuget System.Reflection.Metadata 1.4.2
   nuget Microsoft.Composition 1.0.31
   nuget Gu.Roslyn.Asserts ~> 2
-  nuget Gu.Roslyn.CodeFixExtensions prerelease copy_local: true
+  nuget Gu.Roslyn.CodeFixExtensions prerelease
   nuget NUnit

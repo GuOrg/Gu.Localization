@@ -2,15 +2,30 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <CodeAnalysisRuleSet>Gu.Localization.Analyzers.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>Roslyn analyzers for Gu.Localization.</Description>
+    <Authors>Johan Larsson</Authors>
+    <Version>0.2.0.2-dev</Version>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/GuOrg/Gu.Localization</PackageProjectUrl>
+    <PackageTags>roslyn analyzer</PackageTags>
+    <PackageReleaseNotes>Initial</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/GuOrg/Gu.Localization</RepositoryUrl>
+  </PropertyGroup>
+
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Localization.snk</AssemblyOriginatorKeyFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+  
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
+  
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
