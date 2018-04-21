@@ -10,6 +10,7 @@ namespace Gu.Localization.Analyzers
     using System.Threading.Tasks;
     using System.Xml.Linq;
     using Gu.Roslyn.AnalyzerExtensions;
+    using Gu.Roslyn.CodeFixExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
@@ -185,7 +186,7 @@ namespace Gu.Localization.Analyzers
             {
                 // Adding a temp key so that we don't have a build error until next gen.
                 // public static string Key => ResourceManager.GetString("Key", resourceCulture);
-                if (designerRoot.DescendantNodes().TryLast(out PropertyDeclarationSyntax property))
+                if (designerRoot.DescendantNodes().TryLastOfType(out PropertyDeclarationSyntax property))
                 {
                     return designerRoot.InsertNodesAfter(
                         property,

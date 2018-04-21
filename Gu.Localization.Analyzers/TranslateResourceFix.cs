@@ -3,6 +3,7 @@ namespace Gu.Localization.Analyzers
     using System.Collections.Immutable;
     using System.Composition;
     using System.Threading.Tasks;
+    using Gu.Roslyn.CodeFixExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
