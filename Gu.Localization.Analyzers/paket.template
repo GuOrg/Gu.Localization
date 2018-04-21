@@ -1,13 +1,10 @@
 type project
 
-releasenotes
-  More analyzers and bugfixes.
-
 excludedgroups
   Analyzers
   Roslyn
 
 files
-  bin/Release/netstandard1.3/Gu.Localization.Analyzers.dll ==> analyzers/dotnet/cs
-  bin/Release/netstandard1.3/Gu.Roslyn.AnalyzerExtensions.dll ==> analyzers/dotnet/cs
-  bin/Release/netstandard1.3/Gu.Roslyn.CodeFixExtensions.dll ==> analyzers/dotnet/cs
+  bin/Release/Gu.Localization.Analyzers.dll ==> analyzers/dotnet/cs
+  bin/Release/Gu.Roslyn.AnalyzerExtensions.dll ==> analyzers/dotnet/cs
+  bin/Release/Gu.Roslyn.CodeFixExtensions.dll ==> analyzers/dotnet/cs
