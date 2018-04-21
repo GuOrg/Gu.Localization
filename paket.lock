@@ -33,13 +33,13 @@ GROUP Roslyn
 STORAGE: NONE
 NUGET
   remote: http://www.nuget.org/api/v2
-    Gu.Roslyn.AnalyzerExtensions (0.2.0.3-dev)
+    Gu.Roslyn.AnalyzerExtensions (0.2.0.3-dev) - copy_local: true
       Microsoft.CodeAnalysis.CSharp (>= 2.0 < 3.0)
     Gu.Roslyn.Asserts (2.3)
       Microsoft.CodeAnalysis.CSharp.Workspaces (>= 2.0 < 3.0) - restriction: >= net461
-    Gu.Roslyn.CodeFixExtensions (0.2.0.3-dev)
-      Gu.Roslyn.AnalyzerExtensions (>= 0.2.0.3-dev)
-      Microsoft.CodeAnalysis.CSharp.Workspaces (>= 2.0 < 3.0)
+    Gu.Roslyn.CodeFixExtensions (0.2.0.2-dev) - copy_local: true
+      Gu.Roslyn.AnalyzerExtensions (>= 0.2.0.2-dev)
+      Microsoft.CodeAnalysis.CSharp.Workspaces (>= 2.3.1 < 2.3.2)
     ManagedEsent (1.9.4) - restriction: >= net46
     Microsoft.CodeAnalysis.Analyzers (2.6) - restriction: >= netstandard1.3
     Microsoft.CodeAnalysis.Common (2.3.1)
