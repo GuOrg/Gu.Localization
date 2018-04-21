@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Roslyn analyzers for Gu.Localization.</Description>
     <Authors>Johan Larsson</Authors>
     <Version>0.2.0.2-dev</Version>
@@ -20,7 +21,6 @@
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Localization.snk</AssemblyOriginatorKeyFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   
   <ItemGroup>
