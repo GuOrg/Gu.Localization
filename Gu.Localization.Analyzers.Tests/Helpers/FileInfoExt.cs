@@ -9,5 +9,10 @@ namespace Gu.Localization.Analyzers.Tests.Helpers
         {
             File.WriteAllText(file.FullName, File.ReadAllText(file.FullName).AssertReplace(oldText, newText));
         }
+
+        internal static string ReadAllText(this FileInfo file)
+        {
+            return File.ReadAllText(file.FullName);
+        }
     }
 }

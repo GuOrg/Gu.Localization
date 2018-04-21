@@ -9,6 +9,7 @@ namespace Gu.Localization.Analyzers
     using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Xml.Linq;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
@@ -162,23 +163,13 @@ namespace Gu.Localization.Analyzers
                 await designerDoc.GetSyntaxRootAsync(cancellationToken) is SyntaxNode designerRoot &&
                 TryGetResx(resourcesType, out var resx))
             {
-                var resxId = DocumentId.CreateNewId(document.Project.Id);
-                var resxText = SourceText.From(File.ReadAllText(resx.FullName));
+                AddElement();
                 return document.Project.Solution.WithDocumentSyntaxRoot(
                         document.Id,
                         root.ReplaceNode(literal, expression))
                     .WithDocumentSyntaxRoot(
                         designerDoc.Id,
-                        AddProperty())
-                    .AddAdditionalDocument(
-                        resxId,
-                        designerDoc.Folders.Last(),
-                        resxText,
-                        filePath: resx.FullName,
-                        folders: designerDoc.Folders.Take(designerDoc.Folders.Count - 1))
-                    .WithAdditionalDocumentText(
-                        resxId,
-                        resxText.WithChanges(AddElement(resxText)));
+                        AddProperty());
             }
 
             return document.Project.Solution;
@@ -211,27 +202,21 @@ namespace Gu.Localization.Analyzers
                 return designerRoot;
             }
 
-            IEnumerable<TextChange> AddElement(SourceText resxText)
+            void AddElement()
             {
                 // <data name="Key" xml:space="preserve">
                 //   <value>Value</value>
                 // </data>
-                if (resxText.Lines.TryElementAt(resxText.Lines.Count - 1, out var line))
+                var xElement = new XElement("data");
+                xElement.Add(new XAttribute("name", key));
+                xElement.Add(new XAttribute(XNamespace.Xml + "space", "preserve"));
+                xElement.Add(new XElement("value", literal.Token.ValueText));
+                var xDocument = XDocument.Load(resx.FullName);
+                xDocument.Root.Add(xElement);
+                using (var stream = File.OpenWrite(resx.FullName))
                 {
-                    return new[]
-                    {
-                        new TextChange(
-                            line.Span,
-#pragma warning disable SA1118 // Parameter must not span multiple lines
-                            $"  <data name=\"{key}\" xml:space=\"preserve\">\r\n" +
-                            $"    <value>{literal.Token.ValueText}</value>\r\n" +
-                            $"  </data>\r\n" +
-                            $"{line}"),
-#pragma warning restore SA1118 // Parameter must not span multiple lines
-                    };
+                    xDocument.Save(stream);
                 }
-
-                return new TextChange[0];
             }
         }
 

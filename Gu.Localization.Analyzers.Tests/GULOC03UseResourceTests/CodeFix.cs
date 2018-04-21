@@ -184,7 +184,7 @@ namespace Gu.Localization.TestStub
     <value>One resource</value>
   </data>
 </root>".AssertReplace("One_resource", key).AssertReplace("One resource", value);
-            CodeAssert.AreEqual(expected, fixedSln.FindAdditionalDocument("Designer.resx").GetText());
+            CodeAssert.AreEqual(expected, this.resxFile.ReadAllText());
         }
 
         [TestCase("One resource", "One_resource")]
@@ -340,7 +340,7 @@ namespace Gu.Localization.TestStub
     <value>One resource</value>
   </data>
 </root>".AssertReplace("One_resource", key).AssertReplace("One resource", value);
-            CodeAssert.AreEqual(expected, fixedSln.FindAdditionalDocument("Designer.resx").GetText());
+            CodeAssert.AreEqual(expected, this.resxFile.ReadAllText());
         }
 
         [TestCase("One resource", "One_resource")]
@@ -496,7 +496,7 @@ namespace Gu.Localization.TestStub
     <value>One resource</value>
   </data>
 </root>".AssertReplace("One_resource", key).AssertReplace("One resource", value);
-            CodeAssert.AreEqual(expected, fixedSln.FindAdditionalDocument("Designer.resx").GetText());
+            CodeAssert.AreEqual(expected, this.resxFile.ReadAllText());
         }
 
         [Test]
