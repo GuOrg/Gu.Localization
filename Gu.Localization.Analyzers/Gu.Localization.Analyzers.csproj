@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
     <CodeAnalysisRuleSet>Gu.Localization.Analyzers.ruleset</CodeAnalysisRuleSet>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -22,7 +23,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Localization.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>

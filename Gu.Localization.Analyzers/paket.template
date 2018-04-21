@@ -1,19 +1,14 @@
-type file
-version 0.2.0.1-dev
-title Gu.Localization.Analyzers
-id Gu.Localization.Analyzers
-authors Johan Larsson
-owners Johan Larsson
-copyright Copyright Johan Larsson 2018
-developmentDependency true
-description Roslyn analyzers for Gu.Localization.
-tags Roslyn Diagnostic Analyzer Localization
-
-projectUrl https://github.com/JohanLarsson/Gu.Localization
-licenseUrl http://opensource.org/licenses/MIT
+type project
 
 releasenotes
   More analyzers and bugfixes.
 
+excludedgroups
+  Analyzers
+  Roslyn
+
 files
+  !bin/Release/netstandard1.3/Gu.Localization.Analyzers.dll
   bin/Release/netstandard1.3/Gu.Localization.Analyzers.dll ==> analyzers/dotnet/cs
+  bin/Release/netstandard1.3/Gu.Roslyn.AnalyzerExtensions.dll ==> analyzers/dotnet/cs
+  bin/Release/netstandard1.3/Gu.Roslyn.CodeFixExtensions.dll ==> analyzers/dotnet/cs
