@@ -9,6 +9,7 @@ namespace Gu.Localization.Analyzers
     using System.Threading;
     using System.Threading.Tasks;
     using System.Xml.Linq;
+    using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;

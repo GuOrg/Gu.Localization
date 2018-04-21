@@ -2,6 +2,7 @@ namespace Gu.Localization.Analyzers
 {
     using System.Collections.Immutable;
     using System.Linq;
+    using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;

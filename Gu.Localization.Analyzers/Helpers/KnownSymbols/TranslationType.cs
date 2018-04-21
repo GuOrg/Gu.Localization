@@ -1,5 +1,7 @@
 namespace Gu.Localization.Analyzers
 {
+    using Gu.Roslyn.AnalyzerExtensions;
+
     internal class TranslationType : QualifiedType
     {
         internal readonly QualifiedMethod GetOrCreate;

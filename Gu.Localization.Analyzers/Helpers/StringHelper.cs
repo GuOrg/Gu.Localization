@@ -61,15 +61,5 @@ namespace Gu.Localization.Analyzers
                    text.IndexOf(middle, start.Length, stringComparison) == start.Length &&
                    text.EndsWith(end, stringComparison);
         }
-
-        internal static string FirstCharLower(this string text)
-        {
-            if (char.IsUpper(text[0]))
-            {
-                return new string(char.ToLower(text[0]), 1) + text.Substring(1);
-            }
-
-            return text;
-        }
     }
 }
