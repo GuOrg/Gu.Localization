@@ -28,7 +28,8 @@ namespace Gu.Localization.Analyzers
             }
 
             if (context.Node is InvocationExpressionSyntax invocation &&
-                invocation.ArgumentList is ArgumentListSyntax argumentList)
+                invocation.ArgumentList is ArgumentListSyntax argumentList &&
+                context.SemanticModel.ReferencesGuLocalization())
             {
                 if (argumentList.Arguments.TryFirst(out var resourceManagerArgument) &&
                     Resources.IsResourceManager(resourceManagerArgument.Expression, out var resources) &&

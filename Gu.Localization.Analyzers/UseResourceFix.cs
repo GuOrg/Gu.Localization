@@ -37,35 +37,39 @@ namespace Gu.Localization.Analyzers
                             if (resourcesType.TryFindProperty(key, out _))
                             {
                                 var memberAccess = resourcesType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat);
-                                if (TryFindCustomTranslate(resourcesType, out var customTranslate))
+                                if (semanticModel.ReferencesGuLocalization())
                                 {
-                                    var translateKey = $"{customTranslate.ContainingType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat)}.{customTranslate.Name}";
+                                    if (TryFindCustomTranslate(resourcesType, out var customTranslate))
+                                    {
+                                        var translateKey = $"{customTranslate.ContainingType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat)}.{customTranslate.Name}";
+                                        context.RegisterCodeFix(
+                                            CodeAction.Create(
+                                                $"Use existing {memberAccess}.{key} in {translateKey}({memberAccess}.{key})",
+                                                _ => Task.FromResult(
+                                                    context.Document.WithSyntaxRoot(
+                                                        syntaxRoot.ReplaceNode(
+                                                            literal,
+                                                            SyntaxFactory
+                                                                .ParseExpression(
+                                                                    $"{translateKey}(nameof({memberAccess}.{key}))")
+                                                                .WithSimplifiedNames())))),
+                                            diagnostic);
+                                    }
+
                                     context.RegisterCodeFix(
                                         CodeAction.Create(
-                                            $"Use existing {memberAccess}.{key} in {translateKey}({memberAccess}.{key})",
+                                            $"Use existing {memberAccess}.{key} in Translator.Translate",
                                             _ => Task.FromResult(
                                                 context.Document.WithSyntaxRoot(
                                                     syntaxRoot.ReplaceNode(
                                                         literal,
                                                         SyntaxFactory
                                                             .ParseExpression(
-                                                                $"{translateKey}(nameof({memberAccess}.{key}))")
+                                                                $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
                                                             .WithSimplifiedNames())))),
                                         diagnostic);
                                 }
 
-                                context.RegisterCodeFix(
-                                    CodeAction.Create(
-                                        $"Use existing {memberAccess}.{key} in Translator.Translate",
-                                        _ => Task.FromResult(
-                                            context.Document.WithSyntaxRoot(
-                                                syntaxRoot.ReplaceNode(
-                                                    literal,
-                                                    SyntaxFactory
-                                                        .ParseExpression(
-                                                            $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
-                                                        .WithSimplifiedNames())))),
-                                    diagnostic);
                                 context.RegisterCodeFix(
                                     CodeAction.Create(
                                         $"Use existing {memberAccess}.{key}.",
@@ -80,25 +84,50 @@ namespace Gu.Localization.Analyzers
                             else if (TryGetResx(resourcesType, out _))
                             {
                                 var memberAccess = resourcesType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat);
-                                if (TryFindCustomTranslate(resourcesType, out var customTranslate))
+                                if (semanticModel.ReferencesGuLocalization())
                                 {
-                                    var translateKey = $"{customTranslate.ContainingType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat)}.{customTranslate.Name}";
+                                    if (TryFindCustomTranslate(resourcesType, out var customTranslate))
+                                    {
+                                        var translateKey = $"{customTranslate.ContainingType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat)}.{customTranslate.Name}";
+                                        context.RegisterCodeFix(
+                                            new PreviewCodeAction(
+                                                $"Move to {memberAccess}.{key} and use {translateKey}({memberAccess}.{key}).",
+                                                _ => Task.FromResult(
+                                                    context.Document.WithSyntaxRoot(
+                                                        syntaxRoot.ReplaceNode(
+                                                            literal,
+                                                            SyntaxFactory
+                                                                .ParseExpression(
+                                                                    $"{translateKey}(nameof({memberAccess}.{key}))")
+                                                                .WithSimplifiedNames()))),
+                                                cancellationToken => AddResourceAndReplaceAsync(
+                                                    context.Document,
+                                                    literal,
+                                                    SyntaxFactory.ParseExpression(
+                                                            $"{translateKey}(nameof({memberAccess}.{key}))")
+                                                        .WithSimplifiedNames(),
+                                                    key,
+                                                    resourcesType,
+                                                    cancellationToken)),
+                                            diagnostic);
+                                    }
+
                                     context.RegisterCodeFix(
                                         new PreviewCodeAction(
-                                            $"Move to {memberAccess}.{key} and use {translateKey}({memberAccess}.{key}).",
+                                            $"Move to {memberAccess}.{key} and use Translator.Translate.",
                                             _ => Task.FromResult(
                                                 context.Document.WithSyntaxRoot(
                                                     syntaxRoot.ReplaceNode(
                                                         literal,
                                                         SyntaxFactory
                                                             .ParseExpression(
-                                                                $"{translateKey}(nameof({memberAccess}.{key}))")
+                                                                $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
                                                             .WithSimplifiedNames()))),
                                             cancellationToken => AddResourceAndReplaceAsync(
                                                 context.Document,
                                                 literal,
                                                 SyntaxFactory.ParseExpression(
-                                                        $"{translateKey}(nameof({memberAccess}.{key}))")
+                                                        $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
                                                     .WithSimplifiedNames(),
                                                 key,
                                                 resourcesType,
@@ -106,27 +135,6 @@ namespace Gu.Localization.Analyzers
                                         diagnostic);
                                 }
 
-                                context.RegisterCodeFix(
-                                    new PreviewCodeAction(
-                                        $"Move to {memberAccess}.{key} and use Translator.Translate.",
-                                        _ => Task.FromResult(
-                                            context.Document.WithSyntaxRoot(
-                                                syntaxRoot.ReplaceNode(
-                                                    literal,
-                                                    SyntaxFactory
-                                                        .ParseExpression(
-                                                            $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
-                                                        .WithSimplifiedNames()))),
-                                        cancellationToken => AddResourceAndReplaceAsync(
-                                            context.Document,
-                                            literal,
-                                            SyntaxFactory.ParseExpression(
-                                                    $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
-                                                .WithSimplifiedNames(),
-                                            key,
-                                            resourcesType,
-                                            cancellationToken)),
-                                    diagnostic);
 
                                 context.RegisterCodeFix(
                                     new PreviewCodeAction(

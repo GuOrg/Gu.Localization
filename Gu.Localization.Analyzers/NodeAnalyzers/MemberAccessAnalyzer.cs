@@ -27,7 +27,8 @@ namespace Gu.Localization.Analyzers
             if (context.Node is MemberAccessExpressionSyntax memberAccess &&
                 Resources.IsResourceKey(memberAccess, out var resources) &&
                 !IsInNameOf(memberAccess) &&
-                context.SemanticModel.GetTypeInfo(memberAccess, context.CancellationToken).Type == KnownSymbol.String)
+                context.SemanticModel.GetTypeInfo(memberAccess, context.CancellationToken).Type == KnownSymbol.String &&
+                context.SemanticModel.ReferencesGuLocalization())
             {
                 if (Translate.TryFindCustomToString(context.SemanticModel.GetSymbolInfo(resources).Symbol as INamedTypeSymbol, out var custom))
                 {
