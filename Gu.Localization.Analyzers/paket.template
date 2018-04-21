@@ -8,7 +8,6 @@ excludedgroups
   Roslyn
 
 files
-  !bin/Release/netstandard1.3/Gu.Localization.Analyzers.dll
-  bin/Release/netstandard1.3/Gu.Localization.Analyzers.dll ==> analyzers/dotnet/cs
-  bin/Release/netstandard1.3/Gu.Roslyn.AnalyzerExtensions.dll ==> analyzers/dotnet/cs
-  bin/Release/netstandard1.3/Gu.Roslyn.CodeFixExtensions.dll ==> analyzers/dotnet/cs
+  bin/Release/analyzers/dotnet/cs/Gu.Localization.Analyzers.dll ==> analyzers/dotnet/cs
+  bin/Release/analyzers/dotnet/cs/Gu.Roslyn.AnalyzerExtensions.dll ==> analyzers/dotnet/cs
+  bin/Release/analyzers/dotnet/cs/Gu.Roslyn.CodeFixExtensions.dll ==> analyzers/dotnet/cs
