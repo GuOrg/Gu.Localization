@@ -5,7 +5,6 @@ namespace Gu.Localization.Analyzers
     using System.Collections.Immutable;
     using System.Composition;
     using System.IO;
-    using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
@@ -15,7 +14,6 @@ namespace Gu.Localization.Analyzers
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
-    using Microsoft.CodeAnalysis.Text;
 
     [Shared]
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(UseResourceFix))]
@@ -177,8 +175,8 @@ namespace Gu.Localization.Analyzers
             SyntaxNode AddProperty()
             {
                 // Adding a temp key so that we don't have a build error until next gen.
-                // internal static string Key => ResourceManager.GetString("Key", resourceCulture);
-                if (designerRoot.DescendantNodes().OfType<PropertyDeclarationSyntax>().TryLast(out var property))
+                // public static string Key => ResourceManager.GetString("Key", resourceCulture);
+                if (designerRoot.DescendantNodes().TryLast(out PropertyDeclarationSyntax property))
                 {
                     return designerRoot.InsertNodesAfter(
                         property,
