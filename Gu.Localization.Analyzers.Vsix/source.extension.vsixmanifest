@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="Gu.Localization.Analyzers.Vsix.0E62B3F1-5701-40B6-91DC-A2FDAFD55029" Version="1.0.0" Language="en-US" Publisher="Johan Larsson"/>
+    <Identity Id="Gu.Localization.Analyzers.Vsix.0E62B3F1-5701-40B6-91DC-A2FDAFD55029" Version="0.2.0.2" Language="en-US" Publisher="Johan Larsson"/>
     <DisplayName>Gu.Localization.Analyzers</DisplayName>
     <Description xml:space="preserve">Roslyn analysers for Gu.Localization</Description>
   </Metadata>
