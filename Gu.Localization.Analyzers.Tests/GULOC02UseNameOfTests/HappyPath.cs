@@ -195,5 +195,149 @@ namespace RoslynSandbox
 }";
             AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
         }
+
+        [Test]
+        public void ResourceManagerGetObjectNameofPropertyWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Resources.ResourceManager.GetObject(nameof(Resources.Key));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetObjectNameofPropertyFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Properties.Resources.ResourceManager.GetObject(nameof(Properties.Resources.Key));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetObjectWithCultureNameofPropertyWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Resources.ResourceManager.GetObject(nameof(Resources.Key), System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetObjectWithCultureNameofPropertyFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Properties.Resources.ResourceManager.GetObject(nameof(Properties.Resources.Key), System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetStringNameofPropertyWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Resources.ResourceManager.GetString(nameof(Resources.Key));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetStringNameofPropertyFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Properties.Resources.ResourceManager.GetString(nameof(Properties.Resources.Key));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetStringWithCultureNameofPropertyWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Resources.ResourceManager.GetString(nameof(Resources.Key), System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetStringWithCultureNameofPropertyFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Properties.Resources.ResourceManager.GetString(nameof(Properties.Resources.Key), System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
     }
 }
