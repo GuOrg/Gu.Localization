@@ -50,6 +50,7 @@
   - [7.2. ComboBox Language selector](#72-combobox-language-selector)
 - [8. Embedded resource files (weaving).](#8-embedded-resource-files-weaving)
   - [8.1. Weaving Setup.](#81-weaving-setup)
+- [9 Analyzer](#9-analyzer)
 
 # 1. Usage in XAML.
 
@@ -441,3 +442,8 @@ You might want to publish your software as just one .exe file, without additiona
 - Install https://www.nuget.org/packages/Resource.Embedder/ to include the satelite assemblies _(in the folders /sv-SE/, /nl-NL/, etc)_
 
 Your resource files are now embeded in your executable. Gu.Localization will use the embedded resource files.
+
+# 9 Analyzer
+![animation](https://user-images.githubusercontent.com/1640096/39090329-8115bd4a-45dc-11e8-8cc5-a4af4a2f5812.gif)
+
+Checks if keys exists and some code fixes for conveninence.
