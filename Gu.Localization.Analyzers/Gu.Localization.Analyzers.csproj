@@ -2,28 +2,38 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <BuildOutputTargetFolder>analyzers\dotnet\cs</BuildOutputTargetFolder>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CodeAnalysisRuleSet>Gu.Localization.Analyzers.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Roslyn analyzers for Gu.Localization.</Description>
+    <Authors>Johan Larsson</Authors>
+    <Version>0.2.0.2-dev</Version>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/GuOrg/Gu.Localization</PackageProjectUrl>
+    <PackageTags>roslyn analyzer</PackageTags>
+    <PackageReleaseNotes>Initial</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/GuOrg/Gu.Localization</RepositoryUrl>
+  </PropertyGroup>
+
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Localization.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <ItemGroup>
-    <None Update="Helpers\EnumerableExt.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>EnumerableExt.generated.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
+
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Helpers\EnumerableExt.generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EnumerableExt.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
+
   <Import Project="..\.paket\Paket.Restore.targets" />
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Exec Command="echo F|xcopy $(TargetDir)$(TargetFileName) $(TargetDir)netstandard1.3\$(TargetFileName) /Y" />
+    <Exec Command="$(SolutionDir).paket\paket.exe pack ..\publish" />
+  </Target>
 </Project>

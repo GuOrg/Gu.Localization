@@ -357,6 +357,11 @@
     <Resource Include="Flags\sv.png" />
   </ItemGroup>
   <Import Project="..\.paket\paket.targets" />
+  
+  <Target Name="AfterBuild" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Exec Command="$(SolutionDir).paket\paket.exe pack ..\publish" />
+  </Target>
+  
   <ItemGroup>
     <Analyzer Include="..\packages\analyzers\Gu.Analyzers\analyzers\dotnet\cs\Gu.Analyzers.Analyzers.dll">
       <Paket>True</Paket>

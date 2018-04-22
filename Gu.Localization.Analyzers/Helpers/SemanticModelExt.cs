@@ -1,5 +1,6 @@
 namespace Gu.Localization.Analyzers
 {
+    using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
 
     internal static class SemanticModelExt
