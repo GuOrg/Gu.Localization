@@ -8,13 +8,14 @@ namespace Gu.Localization.Analyzers
 
     internal static class Translate
     {
-        internal static bool IsCustomTranslateMethod(this InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, out ITypeSymbol resourcesType, out IMethodSymbol method)
+        internal static bool IsCustomTranslateMethod(this InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, out INamedTypeSymbol resourcesType, out IMethodSymbol method)
         {
             method = null;
             resourcesType = null;
             if (invocation.Expression is InstanceExpressionSyntax ||
                 invocation.Expression == null ||
-                invocation.ArgumentList == null)
+                invocation.ArgumentList == null ||
+                !context.SemanticModel.ReferencesGuLocalization())
             {
                 return false;
             }

@@ -29,8 +29,7 @@ namespace Gu.Localization.Analyzers
             }
 
             if (context.Node is InvocationExpressionSyntax invocation &&
-                invocation.ArgumentList is ArgumentListSyntax argumentList &&
-                context.SemanticModel.ReferencesGuLocalization())
+                invocation.ArgumentList is ArgumentListSyntax argumentList)
             {
                 if (argumentList.Arguments.TryFirst(out var resourceManagerArgument) &&
                     Resources.IsResourceManager(resourceManagerArgument.Expression, out var resources) &&
@@ -75,7 +74,8 @@ namespace Gu.Localization.Analyzers
                     }
                 }
                 else if (argumentList.Arguments.TryFirst(out keyArgument) &&
-                         Translate.IsCustomTranslateMethod(invocation, context, out var resourcesType, out _))
+                         (ResourceManager.IsGetObject(invocation, context, out var resourcesType, out _) ||
+                          Translate.IsCustomTranslateMethod(invocation, context, out resourcesType, out _)))
                 {
                     if (!IsNameOfKey(keyArgument))
                     {

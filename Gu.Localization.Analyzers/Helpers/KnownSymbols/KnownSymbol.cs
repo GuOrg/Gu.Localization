@@ -12,6 +12,7 @@ namespace Gu.Localization.Analyzers
         internal static readonly QualifiedType Int32 = Create("System.Int32", "int");
         internal static readonly QualifiedType Int64 = Create("System.Int64", "long");
         internal static readonly StringType String = new StringType();
+        internal static readonly ResourceManagerType ResourceManager = new ResourceManagerType();
         internal static readonly TranslatorType Translator = new TranslatorType();
         internal static readonly TranslationType Translation = new TranslationType();
         internal static readonly QualifiedType ITranslation = new QualifiedType("Gu.Localization.ITranslation");

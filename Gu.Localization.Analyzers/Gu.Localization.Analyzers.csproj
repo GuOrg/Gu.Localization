@@ -29,7 +29,7 @@
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <!-- Copying a file here for paket pack to work until paket figures out AppendTargetFrameworkToOutputPath -->
     <Exec Command="echo F|xcopy $(TargetDir)$(TargetFileName) $(TargetDir)netstandard1.3\$(TargetFileName) /Y" />
-    <Exec Command=".paket\paket.exe pack publish" WorkingDirectory="$(SolutionDir)" />
+    <!--<Exec Command=".paket\paket.exe pack publish" WorkingDirectory="$(SolutionDir)" />-->
   </Target>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
