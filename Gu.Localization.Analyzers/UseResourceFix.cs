@@ -56,7 +56,8 @@ namespace Gu.Localization.Analyzers
                                                             SyntaxFactory
                                                                 .ParseExpression(
                                                                     $"{translateKey}(nameof({memberAccess}.{key}))")
-                                                                .WithSimplifiedNames())))),
+                                                                .WithSimplifiedNames()))),
+                                                $"Use existing {memberAccess}.{key} in {translateKey}({memberAccess}.{key})"),
                                             diagnostic);
                                     }
 
@@ -70,7 +71,8 @@ namespace Gu.Localization.Analyzers
                                                         SyntaxFactory
                                                             .ParseExpression(
                                                                 $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
-                                                            .WithSimplifiedNames())))),
+                                                            .WithSimplifiedNames()))),
+                                            $"Use existing {memberAccess}.{key} in Translator.Translate"),
                                         diagnostic);
                                 }
 
@@ -82,7 +84,8 @@ namespace Gu.Localization.Analyzers
                                                 syntaxRoot.ReplaceNode(
                                                     literal,
                                                     SyntaxFactory.ParseExpression($"{memberAccess}.{key}")
-                                                                 .WithSimplifiedNames())))),
+                                                                 .WithSimplifiedNames()))),
+                                        $"Use existing {memberAccess}.{key}."),
                                     diagnostic);
                             }
                             else if (TryGetResx(resourcesType, out _))
