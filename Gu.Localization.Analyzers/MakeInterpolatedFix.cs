@@ -28,13 +28,13 @@ namespace Gu.Localization.Analyzers
                 {
                     context.RegisterCodeFix(
                         CodeAction.Create(
-                            "Prefic with $",
+                            "Prefix with $",
                             _ => Task.FromResult(
                                 context.Document.WithSyntaxRoot(
                                     syntaxRoot.ReplaceNode(
                                         literal,
                                         CreateInterpolatedStringExpression(literal)))),
-                            "Prefic with $"),
+                            "Prefix with $"),
                         diagnostic);
                 }
             }
