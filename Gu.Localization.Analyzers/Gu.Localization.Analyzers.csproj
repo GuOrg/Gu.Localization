@@ -11,7 +11,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Roslyn analyzers for Gu.Localization.</Description>
     <Authors>Johan Larsson</Authors>
-    <Version>0.2.0.2-dev</Version>
+    <Version>0.2.0.3-dev</Version>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Localization</PackageProjectUrl>
