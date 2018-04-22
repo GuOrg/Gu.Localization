@@ -36,20 +36,22 @@ namespace Gu.Localization.Analyzers
                                     context.Document.WithSyntaxRoot(
                                         syntaxRoot.ReplaceNode(
                                             memberAccess,
-                                            SyntaxFactory.ParseExpression(call))))),
+                                            SyntaxFactory.ParseExpression(call)))),
+                                call),
                             diagnostic);
                     }
 
                     context.RegisterCodeFix(
                         CodeAction.Create(
-                            $"Translator.Translate",
+                            "Translator.Translate",
                             _ => Task.FromResult(
                                 context.Document.WithSyntaxRoot(
                                     syntaxRoot.ReplaceNode(
                                         memberAccess,
                                         SyntaxFactory.ParseExpression(
                                                          $"Gu.Localization.Translator.Translate({memberAccess.Expression}.ResourceManager, nameof({memberAccess}))")
-                                                     .WithSimplifiedNames())))),
+                                                     .WithSimplifiedNames()))),
+                            "Translator.Translate"),
                         diagnostic);
                 }
             }

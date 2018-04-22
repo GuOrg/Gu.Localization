@@ -34,7 +34,8 @@ namespace Gu.Localization.Analyzers
                                     context.Document.WithSyntaxRoot(
                                         syntaxRoot.ReplaceNode(
                                             invocation,
-                                            SyntaxFactory.ParseExpression(call))))),
+                                            SyntaxFactory.ParseExpression(call)))),
+                                call),
                             diagnostic);
                     }
                 }
