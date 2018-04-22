@@ -22,6 +22,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Modern.Demo", "Gu.Wpf.Localization.Modern.Demo\Gu.Wpf.Localization.Modern.Demo.csproj", "{D77D4706-D218-4DC6-B117-611AF843FED9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization", "Gu.Localization\Gu.Localization.csproj", "{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{29582B83-3D78-40E2-B8BA-87584EB57421} = {29582B83-3D78-40E2-B8BA-87584EB57421}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Localization.Tests", "Gu.Localization.Tests\Gu.Localization.Tests.csproj", "{2734F4CB-08E5-445E-9AAD-F88151353B09}"
 EndProject
