@@ -495,5 +495,157 @@ namespace RoslynSandbox
 }";
             AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
         }
+
+        [Test]
+        public void ResourceManagerGetStringStringLiteralWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+#pragma warning disable GULOC02 // Use nameof(key).
+            var translate = ResourceManager.GetString(""Key"");
+#pragma warning restore GULOC02 // Use nameof(key).
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetStringStringLiteralFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    public class Foo
+    {
+        public Foo()
+        {
+#pragma warning disable GULOC02 // Use nameof(key).
+            var translate = Properties.Resources.ResourceManager.GetString(""Key"");
+#pragma warning restore GULOC02 // Use nameof(key).
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetStringNameofPropertyWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = ResourceManager.GetString(nameof(Resources.Key));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetStringNameofPropertyFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Properties.ResourceManager.GetString(nameof(Properties.Resources.Key));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetStringWithCultureStringLiteralWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+#pragma warning disable GULOC02 // Use nameof(key).
+            var translate = ResourceManager.GetString(""Key"", CultureInfo.GetCultureInfo(""sv-SE""));
+#pragma warning restore GULOC02 // Use nameof(key).
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetStringWithCultureStringLiteralFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    public class Foo
+    {
+        public Foo()
+        {
+#pragma warning disable GULOC02 // Use nameof(key).
+            var translate = Properties.Resources.ResourceManager.GetString(""Key"", CultureInfo.GetCultureInfo(""sv-SE""));
+#pragma warning restore GULOC02 // Use nameof(key).
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetStringWithCultureNameofPropertyWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = ResourceManager.GetString(nameof(Resources.Key), CultureInfo.GetCultureInfo(""sv-SE""));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetStringWithCultureNameofPropertyFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Properties.ResourceManager.GetString(nameof(Properties.Resources.Key), CultureInfo.GetCultureInfo(""sv-SE""));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
     }
 }
