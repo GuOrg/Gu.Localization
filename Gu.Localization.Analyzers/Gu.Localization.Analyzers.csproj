@@ -33,6 +33,7 @@
   <Import Project="..\.paket\Paket.Restore.targets" />
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Exec Command="mkdir $(TargetDir)\netstandard1.3" />
     <Exec Command="copy $(TargetDir)\$(TargetFileName) $(TargetDir)\netstandard1.3\$(TargetFileName)" />
     <Exec Command="$(SolutionDir).paket\paket.exe pack ..\publish" />
   </Target>
