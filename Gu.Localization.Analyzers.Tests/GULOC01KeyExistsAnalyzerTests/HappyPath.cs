@@ -350,7 +350,6 @@ namespace RoslynSandbox
             var testCode = @"
 namespace RoslynSandbox
 {
-    using Gu.Localization;
     using RoslynSandbox.Properties;
 
     public class Foo
@@ -372,8 +371,6 @@ namespace RoslynSandbox
             var testCode = @"
 namespace RoslynSandbox
 {
-    using Gu.Localization;
-
     public class Foo
     {
         public Foo()
@@ -393,7 +390,6 @@ namespace RoslynSandbox
             var testCode = @"
 namespace RoslynSandbox
 {
-    using Gu.Localization;
     using RoslynSandbox.Properties;
 
     public class Foo
@@ -413,8 +409,6 @@ namespace RoslynSandbox
             var testCode = @"
 namespace RoslynSandbox
 {
-    using Gu.Localization;
-
     public class Foo
     {
         public Foo()
@@ -432,7 +426,6 @@ namespace RoslynSandbox
             var testCode = @"
 namespace RoslynSandbox
 {
-    using Gu.Localization;
     using RoslynSandbox.Properties;
 
     public class Foo
@@ -454,8 +447,6 @@ namespace RoslynSandbox
             var testCode = @"
 namespace RoslynSandbox
 {
-    using Gu.Localization;
-
     public class Foo
     {
         public Foo()
@@ -475,7 +466,6 @@ namespace RoslynSandbox
             var testCode = @"
 namespace RoslynSandbox
 {
-    using Gu.Localization;
     using RoslynSandbox.Properties;
 
     public class Foo
@@ -495,8 +485,6 @@ namespace RoslynSandbox
             var testCode = @"
 namespace RoslynSandbox
 {
-    using Gu.Localization;
-
     public class Foo
     {
         public Foo()

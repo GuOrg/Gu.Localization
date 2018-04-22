@@ -75,6 +75,7 @@ namespace Gu.Localization.Analyzers
                 }
                 else if (argumentList.Arguments.TryFirst(out keyArgument) &&
                          (ResourceManager.IsGetObject(invocation, context, out var resourcesType, out _) ||
+                          ResourceManager.IsGetString(invocation, context, out resourcesType, out _) ||
                           Translate.IsCustomTranslateMethod(invocation, context, out resourcesType, out _)))
                 {
                     if (!IsNameOfKey(keyArgument))

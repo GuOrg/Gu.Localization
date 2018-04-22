@@ -9,6 +9,16 @@ namespace Gu.Localization.Analyzers
     {
         internal static bool IsGetObject(this InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, out INamedTypeSymbol resourcesType, out IMethodSymbol method)
         {
+            return IsGet(invocation, context, KnownSymbol.ResourceManager.GetObject, out resourcesType, out method);
+        }
+
+        internal static bool IsGetString(this InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, out INamedTypeSymbol resourcesType, out IMethodSymbol method)
+        {
+            return IsGet(invocation, context, KnownSymbol.ResourceManager.GetString, out resourcesType, out method);
+        }
+
+        private static bool IsGet(this InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, QualifiedMethod expected, out INamedTypeSymbol resourcesType, out IMethodSymbol method)
+        {
             method = null;
             resourcesType = null;
             if (invocation.Expression is InstanceExpressionSyntax ||
@@ -20,12 +30,12 @@ namespace Gu.Localization.Analyzers
 
             if (invocation.ArgumentList.Arguments.TryFirst(out _) &&
                 invocation.TryGetMethodName(out var name) &&
-                name == "GetObject" &&
-                invocation.Expression is MemberAccessExpressionSyntax getObject &&
-                getObject.Expression is MemberAccessExpressionSyntax resourceManager &&
+                name == expected.Name &&
+                invocation.Expression is MemberAccessExpressionSyntax getX &&
+                getX.Expression is MemberAccessExpressionSyntax resourceManager &&
                 Resources.IsResourceManager(resourceManager, out var resources) &&
                 context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is IMethodSymbol target &&
-                target == KnownSymbol.ResourceManager.GetObject)
+                target == expected)
             {
                 resourcesType = context.SemanticModel.GetSymbolInfo(resources, context.CancellationToken).Symbol as INamedTypeSymbol;
                 method = target;

@@ -8,8 +8,11 @@ namespace Gu.Localization.Analyzers
             : base("System.Resources.ResourceManager")
         {
             this.GetObject = new QualifiedMethod(this, nameof(this.GetObject));
+            this.GetString = new QualifiedMethod(this, nameof(this.GetString));
         }
 
         internal QualifiedMethod GetObject { get; }
+
+        internal QualifiedMethod GetString { get; }
     }
 }
