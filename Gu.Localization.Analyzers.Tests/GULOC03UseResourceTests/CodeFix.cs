@@ -41,10 +41,11 @@ namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
         {
             this.fooFile.ReplaceText("One resource", value);
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
-            var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
-            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Move to Properties.Resources.{key}.");
+            var diagnostics = Analyze.GetDiagnostics(sln, Analyzer);
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnostics, fixTitle: $"Move to Properties.Resources.{key}.");
             var expected = @"// ReSharper disable UnusedMember.Global
 #pragma warning disable 219
+#pragma warning disable GULOC06
 namespace Gu.Localization.TestStub
 {
     public class Foo
@@ -197,10 +198,11 @@ namespace Gu.Localization.TestStub
         {
             this.fooFile.ReplaceText("One resource", value);
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
-            var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
-            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Move to Properties.Resources.{key} and use Translator.Translate.");
+            var diagnostics = Analyze.GetDiagnostics(sln, Analyzer);
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnostics, fixTitle: $"Move to Properties.Resources.{key} and use Translator.Translate.");
             var expected = @"// ReSharper disable UnusedMember.Global
 #pragma warning disable 219
+#pragma warning disable GULOC06
 namespace Gu.Localization.TestStub
 {
     public class Foo
@@ -353,10 +355,11 @@ namespace Gu.Localization.TestStub
         {
             this.fooFile.ReplaceText("One resource", value);
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
-            var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
-            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Move to Properties.Resources.{key} and use Properties.Translate.Key(Properties.Resources.{key}).");
+            var diagnostics = Analyze.GetDiagnostics(sln, Analyzer);
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnostics, fixTitle: $"Move to Properties.Resources.{key} and use Properties.Translate.Key(Properties.Resources.{key}).");
             var expected = @"// ReSharper disable UnusedMember.Global
 #pragma warning disable 219
+#pragma warning disable GULOC06
 namespace Gu.Localization.TestStub
 {
     public class Foo
@@ -504,10 +507,11 @@ namespace Gu.Localization.TestStub
         {
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", "Key"));
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
-            var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
-            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Use existing Properties.Resources.Key.");
+            var diagnostics = Analyze.GetDiagnostics(sln, Analyzer);
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnostics, fixTitle: $"Use existing Properties.Resources.Key.");
             var expected = @"// ReSharper disable UnusedMember.Global
 #pragma warning disable 219
+#pragma warning disable GULOC06
 namespace Gu.Localization.TestStub
 {
     public class Foo
@@ -527,10 +531,11 @@ namespace Gu.Localization.TestStub
         {
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", "Key"));
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
-            var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
-            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Use existing Properties.Resources.Key in Translator.Translate");
+            var diagnostics = Analyze.GetDiagnostics(sln, Analyzer);
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnostics, fixTitle: $"Use existing Properties.Resources.Key in Translator.Translate");
             var expected = @"// ReSharper disable UnusedMember.Global
 #pragma warning disable 219
+#pragma warning disable GULOC06
 namespace Gu.Localization.TestStub
 {
     public class Foo
@@ -550,10 +555,11 @@ namespace Gu.Localization.TestStub
         {
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", "Key"));
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
-            var diagnosticsAsync = Analyze.GetDiagnostics(sln, Analyzer);
-            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnosticsAsync, fixTitle: $"Use existing Properties.Resources.Key in Properties.Translate.Key(Properties.Resources.Key)");
+            var diagnostics = Analyze.GetDiagnostics(sln, Analyzer);
+            var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnostics, fixTitle: $"Use existing Properties.Resources.Key in Properties.Translate.Key(Properties.Resources.Key)");
             var expected = @"// ReSharper disable UnusedMember.Global
 #pragma warning disable 219
+#pragma warning disable GULOC06
 namespace Gu.Localization.TestStub
 {
     public class Foo

@@ -2,17 +2,17 @@ namespace Gu.Localization.Analyzers
 {
     using Microsoft.CodeAnalysis;
 
-    internal static class GULOC05TranslateUseResource
+    internal static class GULOC06UseInterpolation
     {
-        public const string DiagnosticId = "GULOC05";
+        public const string DiagnosticId = "GULOC06";
 
         internal static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
-            title: "Translate resource.",
-            messageFormat: "Translate resource.",
+            title: "Use interpolation.",
+            messageFormat: "Use interpolation.",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Hidden,
             isEnabledByDefault: true,
-            description: "Translate resource.");
+            description: "Use interpolation.");
     }
 }
