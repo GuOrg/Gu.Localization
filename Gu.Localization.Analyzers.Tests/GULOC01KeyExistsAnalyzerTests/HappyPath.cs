@@ -343,5 +343,169 @@ namespace RoslynSandbox
 }";
             AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
+
+        [Test]
+        public void ResourceManagerGetObjectStringLiteralWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+#pragma warning disable GULOC02 // Use nameof(key).
+            var translate = ResourceManager.GetObject(""Key"");
+#pragma warning restore GULOC02 // Use nameof(key).
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetObjectStringLiteralFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Localization;
+
+    public class Foo
+    {
+        public Foo()
+        {
+#pragma warning disable GULOC02 // Use nameof(key).
+            var translate = Properties.Resources.ResourceManager.GetObject(""Key"");
+#pragma warning restore GULOC02 // Use nameof(key).
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetObjectNameofPropertyWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = ResourceManager.GetObject(nameof(Resources.Key));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetObjectNameofPropertyFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Localization;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Properties.ResourceManager.GetObject(nameof(Properties.Resources.Key));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetObjectWithCultureStringLiteralWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+#pragma warning disable GULOC02 // Use nameof(key).
+            var translate = ResourceManager.GetObject(""Key"", CultureInfo.GetCultureInfo(""sv-SE""));
+#pragma warning restore GULOC02 // Use nameof(key).
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetObjectWithCultureStringLiteralFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Localization;
+
+    public class Foo
+    {
+        public Foo()
+        {
+#pragma warning disable GULOC02 // Use nameof(key).
+            var translate = Properties.Resources.ResourceManager.GetObject(""Key"", CultureInfo.GetCultureInfo(""sv-SE""));
+#pragma warning restore GULOC02 // Use nameof(key).
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetObjectWithCultureNameofPropertyWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = ResourceManager.GetObject(nameof(Resources.Key), CultureInfo.GetCultureInfo(""sv-SE""));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetObjectWithCultureNameofPropertyFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Localization;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var translate = Properties.ResourceManager.GetObject(nameof(Properties.Resources.Key), CultureInfo.GetCultureInfo(""sv-SE""));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
     }
 }
