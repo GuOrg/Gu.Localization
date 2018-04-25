@@ -8,10 +8,10 @@
     <CodeAnalysisRuleSet>Gu.Localization.Analyzers.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>Roslyn analyzers for Gu.Localization.</Description>
     <Authors>Johan Larsson</Authors>
-    <Version>0.2.0.4-dev</Version>
+    <Version>0.2.0.5-dev</Version>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Localization</PackageProjectUrl>
@@ -26,10 +26,10 @@
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <!-- Copying a file here for paket pack to work until paket figures out AppendTargetFrameworkToOutputPath -->
-    <Exec Command="echo F|xcopy $(TargetDir)$(TargetFileName) $(TargetDir)netstandard1.3\$(TargetFileName) /Y" />
-    <!--<Exec Command=".paket\paket.exe pack publish" WorkingDirectory="$(SolutionDir)" />-->
+    <Exec Command=".paket\paket.exe pack publish --template $(ProjectDir)paket.template" WorkingDirectory="$(SolutionDir)" />
   </Target>
+
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
