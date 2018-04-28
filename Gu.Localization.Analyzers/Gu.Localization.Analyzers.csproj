@@ -13,10 +13,10 @@
     <Authors>Johan Larsson</Authors>
     <Version>0.2.0.5-dev</Version>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/GuOrg/Gu.Localization</PackageProjectUrl>
     <PackageTags>roslyn analyzer</PackageTags>
     <PackageReleaseNotes>Initial</PackageReleaseNotes>
+    <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/GuOrg/Gu.Localization</PackageProjectUrl>    
     <RepositoryUrl>https://github.com/GuOrg/Gu.Localization</RepositoryUrl>
   </PropertyGroup>
   <PropertyGroup>
