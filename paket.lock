@@ -35,8 +35,8 @@ NUGET
   remote: http://www.nuget.org/api/v2
     Gu.Roslyn.AnalyzerExtensions (0.2.1.13-dev)
       Microsoft.CodeAnalysis.CSharp (>= 2.0)
-    Gu.Roslyn.Asserts (2.3.1.1)
-      Microsoft.CodeAnalysis.CSharp.Workspaces (>= 2.0 < 3.0) - restriction: >= net461
+    Gu.Roslyn.Asserts (2.3.1.2)
+      Microsoft.CodeAnalysis.CSharp.Workspaces (>= 2.0)
     Gu.Roslyn.CodeFixExtensions (0.2.1.13-dev)
       Gu.Roslyn.AnalyzerExtensions (>= 0.2.1.13-dev)
       Microsoft.CodeAnalysis.CSharp.Workspaces (>= 2.0)
