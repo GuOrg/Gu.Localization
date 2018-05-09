@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
@@ -7,11 +7,12 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CodeAnalysisRuleSet>Gu.Localization.Analyzers.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  
   <PropertyGroup>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>Roslyn analyzers for Gu.Localization.</Description>
     <Authors>Johan Larsson</Authors>
-    <Version>0.2.0.5-dev</Version>
+    <Version>0.2.0.6-dev</Version>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageTags>roslyn analyzer</PackageTags>
     <PackageReleaseNotes>Initial</PackageReleaseNotes>
@@ -19,6 +20,7 @@
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Localization</PackageProjectUrl>    
     <RepositoryUrl>https://github.com/GuOrg/Gu.Localization</RepositoryUrl>
   </PropertyGroup>
+  
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Localization.snk</AssemblyOriginatorKeyFile>
