@@ -156,8 +156,20 @@
     <Analyzer Include="..\packages\analyzers\Gu.Analyzers\analyzers\dotnet\cs\Gu.Analyzers.CodeFixes.dll">
       <Paket>True</Paket>
     </Analyzer>
+    <Analyzer Include="..\packages\analyzers\Gu.Analyzers\analyzers\dotnet\cs\Gu.Roslyn.AnalyzerExtensions.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+    <Analyzer Include="..\packages\analyzers\Gu.Analyzers\analyzers\dotnet\cs\Gu.Roslyn.CodeFixExtensions.dll">
+      <Paket>True</Paket>
+    </Analyzer>
   </ItemGroup>
   <ItemGroup>
+    <Analyzer Include="..\packages\analyzers\IDisposableAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.AnalyzerExtensions.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+    <Analyzer Include="..\packages\analyzers\IDisposableAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.CodeFixExtensions.dll">
+      <Paket>True</Paket>
+    </Analyzer>
     <Analyzer Include="..\packages\analyzers\IDisposableAnalyzers\analyzers\dotnet\cs\IDisposableAnalyzers.Analyzers.dll">
       <Paket>True</Paket>
     </Analyzer>
@@ -204,6 +216,12 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Analyzer Include="..\packages\analyzers\PropertyChangedAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.AnalyzerExtensions.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+    <Analyzer Include="..\packages\analyzers\PropertyChangedAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.CodeFixExtensions.dll">
+      <Paket>True</Paket>
+    </Analyzer>
     <Analyzer Include="..\packages\analyzers\PropertyChangedAnalyzers\analyzers\dotnet\cs\PropertyChangedAnalyzers.Analyzers.dll">
       <Paket>True</Paket>
     </Analyzer>
@@ -258,10 +276,16 @@
     </When>
   </Choose>
   <ItemGroup>
-    <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\WpfAnalyzers.Analyzers.dll">
+    <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.AnalyzerExtensions.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+    <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.CodeFixExtensions.dll">
       <Paket>True</Paket>
     </Analyzer>
     <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\WpfAnalyzers.CodeFixes.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+    <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\WpfAnalyzers.dll">
       <Paket>True</Paket>
     </Analyzer>
   </ItemGroup>
