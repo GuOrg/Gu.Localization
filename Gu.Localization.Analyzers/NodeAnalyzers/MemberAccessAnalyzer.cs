@@ -11,6 +11,7 @@ namespace Gu.Localization.Analyzers
     internal class MemberAccessAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
+            GULOC04UseCustomTranslate.Descriptor,
             GULOC05TranslateUseResource.Descriptor);
 
         public override void Initialize(AnalysisContext context)
