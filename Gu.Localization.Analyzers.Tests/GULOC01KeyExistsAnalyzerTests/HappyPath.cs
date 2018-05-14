@@ -121,6 +121,26 @@ namespace RoslynSandbox
         }
 
         [Test]
+        public void TranslatorTranslateUnknownKey()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo(string key)
+        {
+            var translate = Translator.Translate(Resources.ResourceManager, key);
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
+
+        [Test]
         public void TranslatorTranslateStringLiteralFullyQualified()
         {
             var testCode = @"

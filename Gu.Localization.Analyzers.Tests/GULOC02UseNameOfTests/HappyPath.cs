@@ -119,6 +119,26 @@ namespace RoslynSandbox
         }
 
         [Test]
+        public void TranslatorTranslateUnknownKey()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo(string key)
+        {
+            var translate = Translator.Translate(Resources.ResourceManager, key);
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
+
+        [Test]
         public void TranslatorTranslateNameofPropertyFullyQualified()
         {
             var testCode = @"
@@ -151,6 +171,26 @@ namespace RoslynSandbox
         public Foo()
         {
             var translation = Translation.GetOrCreate(Resources.ResourceManager, nameof(Resources.Key));
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
+
+        [Test]
+        public void TranslationGetOrCreateUnknownKey()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo(string key)
+        {
+            var translation = Translation.GetOrCreate(Resources.ResourceManager, key);
         }
     }
 }";
@@ -191,6 +231,29 @@ namespace RoslynSandbox
         {
             var translate = Translate.Key(nameof(Resources.Key));
         }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+        }
+
+        [Test]
+        public void TranslateUnknownKeyWithUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using RoslynSandbox.Properties;
+
+    public class AppearanceItem
+    {
+        private readonly string translationKey;
+
+        public AppearanceItem(string translationKey)
+        {
+            this.translationKey = translationKey;
+        }
+
+        public string DisplayName => Translate.Key(this.translationKey);
     }
 }";
             AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);

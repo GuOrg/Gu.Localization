@@ -90,7 +90,7 @@ namespace Gu.Localization.Analyzers
                                         nameof(MemberAccessExpressionSyntax),
                                         resourcesType.ToMinimalDisplayString(context.SemanticModel, keyArgument.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat))));
                         }
-                        else if (keyArgument.Expression is MemberAccessExpressionSyntax)
+                        else if (Resources.IsResourceKey(keyArgument.Expression, out _))
                         {
                             context.ReportDiagnostic(Diagnostic.Create(GULOC02UseNameOf.Descriptor, keyArgument.GetLocation()));
                         }
