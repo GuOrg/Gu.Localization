@@ -5,7 +5,6 @@ namespace Gu.Localization.Analyzers
     using System.Collections.Immutable;
     using System.Composition;
     using System.IO;
-    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Xml.Linq;
@@ -34,7 +33,7 @@ namespace Gu.Localization.Analyzers
                 foreach (var diagnostic in context.Diagnostics)
                 {
                     if (syntaxRoot.FindNode(diagnostic.Location.SourceSpan, getInnermostNodeForTie: true) is LiteralExpressionSyntax literal &&
-                        TryGetKey(literal.Token.ValueText, out var key))
+                        Resources.TryGetKey(literal.Token.ValueText, out var key))
                     {
                         foreach (var resourcesType in semanticModel.LookupResourceTypes(diagnostic.Location.SourceSpan.Start, name: "Resources"))
                         {
@@ -88,7 +87,7 @@ namespace Gu.Localization.Analyzers
                                         $"Use existing {memberAccess}.{key}."),
                                     diagnostic);
                             }
-                            else if (TryGetResx(resourcesType, out _))
+                            else if (Resources.TryGetDefaultResx(resourcesType, out _))
                             {
                                 var memberAccess = resourcesType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat);
                                 if (semanticModel.ReferencesGuLocalization())
@@ -173,7 +172,7 @@ namespace Gu.Localization.Analyzers
                 resourcesType.DeclaringSyntaxReferences.TrySingle(out var declaration) &&
                 document.Project.Documents.TrySingle(x => x.FilePath == declaration.SyntaxTree.FilePath, out var designerDoc) &&
                 await designerDoc.GetSyntaxRootAsync(cancellationToken) is SyntaxNode designerRoot &&
-                TryGetResx(resourcesType, out var resx))
+                Resources.TryGetDefaultResx(resourcesType, out var resx))
             {
                 AddElement();
                 return document.Project.Solution.WithDocumentSyntaxRoot(
@@ -230,40 +229,6 @@ namespace Gu.Localization.Analyzers
                     xDocument.Save(stream);
                 }
             }
-        }
-
-        private static bool TryGetResx(INamedTypeSymbol resourcesType, out FileInfo resx)
-        {
-            if (resourcesType.DeclaringSyntaxReferences.TrySingle(out var reference) &&
-                reference.SyntaxTree?.FilePath is string resourcesFileName &&
-                resourcesFileName.Replace("Resources.Designer.cs", "Resources.resx") is string resxName &&
-                File.Exists(resxName))
-            {
-                resx = new FileInfo(resxName);
-                return true;
-            }
-
-            resx = null;
-            return false;
-        }
-
-        private static bool TryGetKey(string text, out string key)
-        {
-            key = Regex.Replace(text, "{(?<n>\\d+)}", x => $"__{x.Groups["n"].Value}__")
-                       .Replace(" ", "_")
-                       .Replace(".", "_");
-
-            if (char.IsDigit(key[0]))
-            {
-                key = "_" + key;
-            }
-
-            if (key.Length > 50)
-            {
-                key = key.Substring(50);
-            }
-
-            return SyntaxFacts.IsValidIdentifier(key);
         }
 
         private static bool TryFindCustomTranslate(INamedTypeSymbol resources, out IMethodSymbol customTranslate)

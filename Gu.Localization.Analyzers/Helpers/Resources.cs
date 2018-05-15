@@ -1,9 +1,12 @@
 namespace Gu.Localization.Analyzers
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     internal static class Resources
@@ -54,6 +57,40 @@ namespace Gu.Localization.Analyzers
             }
 
             return resources != null;
+        }
+
+        internal static bool TryGetKey(string text, out string key)
+        {
+            key = Regex.Replace(text, "{(?<n>\\d+)}", x => $"__{x.Groups["n"].Value}__")
+                .Replace(" ", "_")
+                .Replace(".", "_");
+
+            if (char.IsDigit(key[0]))
+            {
+                key = "_" + key;
+            }
+
+            if (key.Length > 50)
+            {
+                key = key.Substring(50);
+            }
+
+            return SyntaxFacts.IsValidIdentifier(key);
+        }
+
+        internal static bool TryGetDefaultResx(INamedTypeSymbol resourcesType, out FileInfo resx)
+        {
+            if (resourcesType.DeclaringSyntaxReferences.TrySingle(out var reference) &&
+                reference.SyntaxTree?.FilePath is string resourcesFileName &&
+                resourcesFileName.Replace("Resources.Designer.cs", "Resources.resx") is string resxName &&
+                File.Exists(resxName))
+            {
+                resx = new FileInfo(resxName);
+                return true;
+            }
+
+            resx = null;
+            return false;
         }
 
         internal static IEnumerable<INamedTypeSymbol> LookupResourceTypes(this SemanticModel semanticModel, int position, string name, INamespaceSymbol container = null)
