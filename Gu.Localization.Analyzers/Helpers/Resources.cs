@@ -67,20 +67,25 @@ namespace Gu.Localization.Analyzers
                 return false;
             }
 
-            key = Regex.Replace(text, "{(?<n>\\d+)}", x => $"__{x.Groups["n"].Value}__")
-                .Replace(" ", "_")
-                .Replace(".", "_");
+            var builder = StringBuilderPool.Borrow()
+                                           .Append(Regex.Replace(text, "{(?<n>\\d+)}", x => $"__{x.Groups["n"].Value}__"))
+                                           .Replace(" ", "_")
+                                           .Replace(".", "_")
+                                           .Replace(",", "_")
+                                           .Replace(":", "_");
 
-            if (char.IsDigit(key[0]))
+            if (char.IsDigit(builder[0]))
             {
-                key = "_" + key;
+                builder.Insert(0, '_');
             }
 
-            if (key.Length > 50)
+            const int maxLength = 100;
+            if (builder.Length > maxLength)
             {
-                key = key.Substring(50);
+                builder.Remove(maxLength, builder.Length - maxLength);
             }
 
+            key = builder.Return();
             return SyntaxFacts.IsValidIdentifier(key);
         }
 
