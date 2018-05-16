@@ -12,7 +12,7 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>Roslyn analyzers for Gu.Localization.</Description>
     <Authors>Johan Larsson</Authors>
-    <Version>0.2.0.8-dev</Version>
+    <Version>0.2.1.0-dev</Version>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageTags>roslyn analyzer</PackageTags>
     <PackageReleaseNotes>BUGFIX: GULOC02 don't warn on unknown key.</PackageReleaseNotes>
