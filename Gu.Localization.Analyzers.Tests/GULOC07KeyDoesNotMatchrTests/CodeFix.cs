@@ -13,29 +13,30 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchrTests
         private static readonly CodeFixProvider Fix = new RenameResourceFix();
 
         private FileInfo projectFile;
-        private FileInfo resxFile;
         private FileInfo resourcesFile;
+        private DirectoryInfo directory;
 
         [SetUp]
         public void SetUp()
         {
             var original = ProjectFile.Find("Gu.Localization.TestStub.csproj");
-            var tempDir = new DirectoryInfo(Path.Combine(Path.GetTempPath(), original.Directory.Name));
-            if (tempDir.Exists)
+            this.directory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), original.Directory.Name));
+            if (this.directory.Exists)
             {
-                tempDir.Delete(recursive: true);
+                this.directory.Delete(recursive: true);
             }
 
-            original.Directory.CopyTo(tempDir);
-            this.projectFile = tempDir.FindFile(original.Name);
-            this.resourcesFile = tempDir.FindFile("Properties\\Resources.Designer.cs");
-            this.resxFile = tempDir.FindFile("Properties\\Resources.resx");
+            original.Directory.CopyTo(this.directory);
+            this.projectFile = this.directory.FindFile(original.Name);
+            this.resourcesFile = this.directory.FindFile("Properties\\Resources.Designer.cs");
         }
 
         [Test]
-        public void OnlyDefaultResx()
+        public void Rename()
         {
-            this.resxFile.ReplaceText("\"Key\"", "\"Wrong\"");
+            this.directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", "\"Wrong\"");
+            this.directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", "\"Wrong\"");
+            this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", "\"Wrong\"");
             this.resourcesFile.ReplaceText("internal static string Key", "internal static string Wrong");
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
             var diagnostics = Analyze.GetDiagnostics(sln, Analyzer);
@@ -53,6 +54,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchrTests
 namespace Gu.Localization.TestStub.Properties
 {
     using System;
+
 
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
@@ -239,7 +241,257 @@ namespace Gu.Localization.TestStub.Properties
     <value>Value</value>
   </data>
 </root>";
-            CodeAssert.AreEqual(expected, this.resxFile.ReadAllText());
+            CodeAssert.AreEqual(expected, this.directory.FindFile("Properties\\Resources.resx").ReadAllText());
+
+            expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name=""resmimetype"">text/microsoft-resx</resheader>
+    <resheader name=""version"">2.0</resheader>
+    <resheader name=""reader"">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name=""writer"">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name=""Name1""><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name=""Color1"" type=""System.Drawing.Color, System.Drawing"">Blue</data>
+    <data name=""Bitmap1"" mimetype=""application/x-microsoft.net.object.binary.base64"">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name=""Icon1"" type=""System.Drawing.Icon, System.Drawing"" mimetype=""application/x-microsoft.net.object.bytearray.base64"">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of ""resheader"" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id=""root"" xmlns="""" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:msdata=""urn:schemas-microsoft-com:xml-msdata"">
+    <xsd:import namespace=""http://www.w3.org/XML/1998/namespace"" />
+    <xsd:element name=""root"" msdata:IsDataSet=""true"">
+      <xsd:complexType>
+        <xsd:choice maxOccurs=""unbounded"">
+          <xsd:element name=""metadata"">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name=""value"" type=""xsd:string"" minOccurs=""0"" />
+              </xsd:sequence>
+              <xsd:attribute name=""name"" use=""required"" type=""xsd:string"" />
+              <xsd:attribute name=""type"" type=""xsd:string"" />
+              <xsd:attribute name=""mimetype"" type=""xsd:string"" />
+              <xsd:attribute ref=""xml:space"" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name=""assembly"">
+            <xsd:complexType>
+              <xsd:attribute name=""alias"" type=""xsd:string"" />
+              <xsd:attribute name=""name"" type=""xsd:string"" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name=""data"">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name=""value"" type=""xsd:string"" minOccurs=""0"" msdata:Ordinal=""1"" />
+                <xsd:element name=""comment"" type=""xsd:string"" minOccurs=""0"" msdata:Ordinal=""2"" />
+              </xsd:sequence>
+              <xsd:attribute name=""name"" type=""xsd:string"" use=""required"" msdata:Ordinal=""1"" />
+              <xsd:attribute name=""type"" type=""xsd:string"" msdata:Ordinal=""3"" />
+              <xsd:attribute name=""mimetype"" type=""xsd:string"" msdata:Ordinal=""4"" />
+              <xsd:attribute ref=""xml:space"" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name=""resheader"">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name=""value"" type=""xsd:string"" minOccurs=""0"" msdata:Ordinal=""1"" />
+              </xsd:sequence>
+              <xsd:attribute name=""name"" type=""xsd:string"" use=""required"" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name=""resmimetype"">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name=""version"">
+    <value>2.0</value>
+  </resheader>
+  <resheader name=""reader"">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name=""writer"">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name=""Value"" xml:space=""preserve"">
+    <value>Värde</value>
+  </data>
+</root>";
+            CodeAssert.AreEqual(expected, this.directory.FindFile("Properties\\Resources.sv.resx").ReadAllText());
+
+            expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name=""resmimetype"">text/microsoft-resx</resheader>
+    <resheader name=""version"">2.0</resheader>
+    <resheader name=""reader"">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name=""writer"">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name=""Name1""><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name=""Color1"" type=""System.Drawing.Color, System.Drawing"">Blue</data>
+    <data name=""Bitmap1"" mimetype=""application/x-microsoft.net.object.binary.base64"">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name=""Icon1"" type=""System.Drawing.Icon, System.Drawing"" mimetype=""application/x-microsoft.net.object.bytearray.base64"">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of ""resheader"" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id=""root"" xmlns="""" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:msdata=""urn:schemas-microsoft-com:xml-msdata"">
+    <xsd:import namespace=""http://www.w3.org/XML/1998/namespace"" />
+    <xsd:element name=""root"" msdata:IsDataSet=""true"">
+      <xsd:complexType>
+        <xsd:choice maxOccurs=""unbounded"">
+          <xsd:element name=""metadata"">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name=""value"" type=""xsd:string"" minOccurs=""0"" />
+              </xsd:sequence>
+              <xsd:attribute name=""name"" use=""required"" type=""xsd:string"" />
+              <xsd:attribute name=""type"" type=""xsd:string"" />
+              <xsd:attribute name=""mimetype"" type=""xsd:string"" />
+              <xsd:attribute ref=""xml:space"" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name=""assembly"">
+            <xsd:complexType>
+              <xsd:attribute name=""alias"" type=""xsd:string"" />
+              <xsd:attribute name=""name"" type=""xsd:string"" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name=""data"">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name=""value"" type=""xsd:string"" minOccurs=""0"" msdata:Ordinal=""1"" />
+                <xsd:element name=""comment"" type=""xsd:string"" minOccurs=""0"" msdata:Ordinal=""2"" />
+              </xsd:sequence>
+              <xsd:attribute name=""name"" type=""xsd:string"" use=""required"" msdata:Ordinal=""1"" />
+              <xsd:attribute name=""type"" type=""xsd:string"" msdata:Ordinal=""3"" />
+              <xsd:attribute name=""mimetype"" type=""xsd:string"" msdata:Ordinal=""4"" />
+              <xsd:attribute ref=""xml:space"" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name=""resheader"">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name=""value"" type=""xsd:string"" minOccurs=""0"" msdata:Ordinal=""1"" />
+              </xsd:sequence>
+              <xsd:attribute name=""name"" type=""xsd:string"" use=""required"" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name=""resmimetype"">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name=""version"">
+    <value>2.0</value>
+  </resheader>
+  <resheader name=""reader"">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name=""writer"">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name=""Value"" xml:space=""preserve"">
+    <value>Värde</value>
+  </data>
+</root>";
+            CodeAssert.AreEqual(expected, this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReadAllText());
         }
     }
 }

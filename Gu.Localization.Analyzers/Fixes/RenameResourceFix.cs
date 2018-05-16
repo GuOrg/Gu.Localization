@@ -46,10 +46,10 @@ namespace Gu.Localization.Analyzers
         {
             if (Resources.TryGetDefaultResx(property.ContainingType, out var resx))
             {
-                Rename(resx, property.Name, name);
+                RenameKey(resx, property.Name, name);
                 foreach (var cultureResx in resx.Directory.EnumerateFiles($"{Path.GetFileNameWithoutExtension(resx.Name)}.*.resx", SearchOption.TopDirectoryOnly))
                 {
-                    Rename(cultureResx, property.Name, name);
+                    RenameKey(cultureResx, property.Name, name);
                 }
 
                 var solution = await Renamer.RenameSymbolAsync(document.Project.Solution, property, name, null, cancellationToken);
@@ -69,7 +69,7 @@ namespace Gu.Localization.Analyzers
             return document.Project.Solution;
         }
 
-        private static void Rename(FileInfo resx, string oldName, string newName)
+        private static void RenameKey(FileInfo resx, string oldName, string newName)
         {
             var xDocument = XDocument.Load(resx.FullName);
             if (xDocument.Root is XElement root)
