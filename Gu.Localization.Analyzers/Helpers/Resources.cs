@@ -70,8 +70,8 @@ namespace Gu.Localization.Analyzers
             var builder = StringBuilderPool.Borrow()
                                            .Append(Regex.Replace(text, "{(?<n>\\d+)}", x => $"__{x.Groups["n"].Value}__"))
                                            .Replace(" ", "_")
-                                           .Replace("\n", "_n_")
                                            .Replace("\r\n", "_n_")
+                                           .Replace("\n", "_n_")
                                            .Replace(".", "_")
                                            .Replace(",", "_")
                                            .Replace(":", "_");

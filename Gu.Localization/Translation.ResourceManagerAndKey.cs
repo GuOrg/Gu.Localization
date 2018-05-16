@@ -28,7 +28,7 @@ namespace Gu.Localization
 
             public override bool Equals(object obj)
             {
-                return obj is ResourceManagerAndKey key && 
+                return obj is ResourceManagerAndKey key &&
                        this.Equals(key);
             }
 

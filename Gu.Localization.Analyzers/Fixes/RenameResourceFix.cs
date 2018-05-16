@@ -21,6 +21,8 @@ namespace Gu.Localization.Analyzers
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             GULOC07KeyDoesNotMatch.DiagnosticId);
 
+        public override FixAllProvider GetFixAllProvider() => null;
+
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
