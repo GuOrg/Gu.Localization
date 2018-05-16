@@ -3,7 +3,6 @@ namespace Gu.Localization.Analyzers
     using System.Collections.Immutable;
     using System.Composition;
     using System.IO;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Xml.Linq;
@@ -11,6 +10,7 @@ namespace Gu.Localization.Analyzers
     using Gu.Roslyn.CodeFixExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeFixes;
+    using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.Rename;
 
@@ -53,17 +53,17 @@ namespace Gu.Localization.Analyzers
                 }
 
                 var solution = await Renamer.RenameSymbolAsync(document.Project.Solution, property, name, null, cancellationToken);
-                var updatedDoc = solution.GetDocument(document.Id);
-                var root = await updatedDoc.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
-                var updatedProperty = root.DescendantNodes()
-                                          .First(
-                                              x => x is PropertyDeclarationSyntax propertyDeclaration &&
-                                                   propertyDeclaration.Identifier.ValueText == name);
-                updatedDoc = updatedDoc.WithSyntaxRoot(
-                    root.ReplaceNode(
-                        updatedProperty,
-                        Parse.PropertyDeclaration($"\r\npublic static string {name} => ResourceManager.GetString(\"{name}\", resourceCulture);")));
-                return solution.WithDocumentText(document.Id, await updatedDoc.GetTextAsync(cancellationToken).ConfigureAwait(false));
+                if (property.TrySingleDeclaration(cancellationToken, out PropertyDeclarationSyntax declaration))
+                {
+                    var root = await document.GetSyntaxRootAsync(cancellationToken);
+                    return solution.WithDocumentSyntaxRoot(
+                        document.Id,
+                        root.ReplaceNode(
+                            declaration,
+                            Property.Rewrite(declaration, name)));
+                }
+
+                return solution;
             }
 
             return document.Project.Solution;
@@ -86,6 +86,47 @@ namespace Gu.Localization.Analyzers
                         }
                     }
                 }
+            }
+        }
+
+        private class Property : CSharpSyntaxRewriter
+        {
+            private readonly string newValue;
+
+            private Property(string newValue)
+            {
+                this.newValue = newValue;
+            }
+
+            public static PropertyDeclarationSyntax Rewrite(PropertyDeclarationSyntax declaration, string newValue)
+            {
+                return (PropertyDeclarationSyntax)new Property(newValue).Visit(declaration);
+            }
+
+            public override SyntaxToken VisitToken(SyntaxToken token)
+            {
+                if (token.Parent is PropertyDeclarationSyntax propertyDeclaration &&
+                    propertyDeclaration.Identifier == token)
+                {
+                    return SyntaxFactory.ParseToken(this.newValue);
+                }
+
+                return base.VisitToken(token);
+            }
+
+            public override SyntaxNode VisitLiteralExpression(LiteralExpressionSyntax node)
+            {
+                if (node.IsKind(SyntaxKind.StringLiteralExpression) &&
+                    node.Parent is ArgumentSyntax argument &&
+                    argument.Parent is ArgumentListSyntax argumentList &&
+                    argumentList.Parent is InvocationExpressionSyntax invocation &&
+                    invocation.TryGetMethodName(out var method) &&
+                    method == "GetString")
+                {
+                    return node.WithToken(SyntaxFactory.ParseToken($"\"{this.newValue}\""));
+                }
+
+                return base.VisitLiteralExpression(node);
             }
         }
     }

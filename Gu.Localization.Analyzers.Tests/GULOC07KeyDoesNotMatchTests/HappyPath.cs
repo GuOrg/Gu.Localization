@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchrTests
+namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
 {
     using System.IO;
     using Gu.Localization.Analyzers.Tests.Helpers;

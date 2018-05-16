@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchrTests
+namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
 {
     using System.IO;
     using Gu.Localization.Analyzers.Tests.Helpers;
@@ -39,6 +39,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchrTests
             this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", "\"Wrong\"");
             this.resourcesFile.ReplaceText("internal static string Key", "internal static string Wrong");
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
+
             var diagnostics = Analyze.GetDiagnostics(sln, Analyzer);
             var fixedSln = Roslyn.Asserts.Fix.Apply(sln, Fix, diagnostics);
             var expected = @"//------------------------------------------------------------------------------
@@ -112,11 +113,19 @@ namespace Gu.Localization.TestStub.Properties
             }
         }
 
-        public static string Value => ResourceManager.GetString(""Value"", resourceCulture);
+        /// <summary>
+        ///   Looks up a localized string similar to Value.
+        /// </summary>
+        internal static string Value
+        {
+            get
+            {
+                return ResourceManager.GetString(""Value"", resourceCulture);
+            }
+        }
     }
 }
 ";
-            //// Not changing the GetString argument, relying on it being auto generated on next build.
             CodeAssert.AreEqual(expected, fixedSln.FindDocument("Resources.Designer.cs"));
             expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <root>

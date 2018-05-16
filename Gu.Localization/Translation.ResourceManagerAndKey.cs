@@ -1,4 +1,4 @@
-﻿namespace Gu.Localization
+namespace Gu.Localization
 {
     using System;
     using System.Resources;
@@ -28,12 +28,8 @@
 
             public override bool Equals(object obj)
             {
-                if (ReferenceEquals(null, obj))
-                {
-                    return false;
-                }
-
-                return obj is ResourceManagerAndKey && this.Equals((ResourceManagerAndKey)obj);
+                return obj is ResourceManagerAndKey key && 
+                       this.Equals(key);
             }
 
             public override int GetHashCode()
