@@ -44,7 +44,8 @@ namespace Gu.Localization.Analyzers
                         Diagnostic.Create(
                             GULOC07KeyDoesNotMatch.Descriptor,
                             propertyDeclaration.Identifier.GetLocation(),
-                            ImmutableDictionary<string, string>.Empty.Add("Key", key)));
+                            ImmutableDictionary<string, string>.Empty.Add("Key", key),
+                            key));
                 }
             }
         }

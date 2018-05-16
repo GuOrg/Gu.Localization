@@ -9,9 +9,9 @@ namespace Gu.Localization.Analyzers
         internal static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
             title: "Key does not match.",
-            messageFormat: "Expected {0}",
+            messageFormat: "Expected the name to be {0}",
             category: AnalyzerCategory.Correctness,
-            defaultSeverity: DiagnosticSeverity.Hidden,
+            defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true,
             description: "The resource key does not match the resource text.");
     }
