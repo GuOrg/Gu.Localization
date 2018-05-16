@@ -12,10 +12,10 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>Roslyn analyzers for Gu.Localization.</Description>
     <Authors>Johan Larsson</Authors>
-    <Version>0.2.1.1-dev</Version>
+    <Version>0.2.1.2-dev</Version>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageTags>roslyn analyzer</PackageTags>
-    <PackageReleaseNotes>FEATURE: New analyzer GULOC07.</PackageReleaseNotes>
+    <PackageReleaseNotes>BUGFIX: Trim long strings correctly.</PackageReleaseNotes>
     <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Localization</PackageProjectUrl>    
     <RepositoryUrl>https://github.com/GuOrg/Gu.Localization</RepositoryUrl>
