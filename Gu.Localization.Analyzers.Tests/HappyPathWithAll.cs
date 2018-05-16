@@ -37,19 +37,25 @@ namespace Gu.Localization.Analyzers.Tests
         [TestCaseSource(nameof(AllAnalyzers))]
         public void GuLocalizationSln(DiagnosticAnalyzer analyzer)
         {
-            if (analyzer is LiteralAnalyzer ||
-                analyzer is MemberAccessAnalyzer)
+            switch (analyzer)
             {
-                var diagnostics = Analyze.GetDiagnostics(Solution, analyzer);
-                foreach (var diagnostic in diagnostics.SelectMany(x => x))
-                {
-                    // Checking so that it is not AD0001
-                    CollectionAssert.Contains(analyzer.SupportedDiagnostics, diagnostic.Descriptor);
-                }
-            }
-            else
-            {
-                AnalyzerAssert.Valid(analyzer, Solution);
+                case LiteralAnalyzer _:
+                case MemberAccessAnalyzer _:
+                case ResourceAnalyzer _:
+                    {
+                        var diagnostics = Analyze.GetDiagnostics(Solution, analyzer);
+                        foreach (var diagnostic in diagnostics.SelectMany(x => x))
+                        {
+                            // Checking so that it is not AD0001
+                            CollectionAssert.Contains(analyzer.SupportedDiagnostics, diagnostic.Descriptor);
+                        }
+
+                        break;
+                    }
+
+                default:
+                    AnalyzerAssert.Valid(analyzer, Solution);
+                    break;
             }
         }
 

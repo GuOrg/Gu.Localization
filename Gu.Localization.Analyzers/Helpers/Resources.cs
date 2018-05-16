@@ -61,6 +61,12 @@ namespace Gu.Localization.Analyzers
 
         internal static bool TryGetKey(string text, out string key)
         {
+            if (string.IsNullOrEmpty(text))
+            {
+                key = null;
+                return false;
+            }
+
             key = Regex.Replace(text, "{(?<n>\\d+)}", x => $"__{x.Groups["n"].Value}__")
                 .Replace(" ", "_")
                 .Replace(".", "_");

@@ -3,6 +3,7 @@ namespace Gu.Localization.Analyzers
     using System.Collections.Immutable;
     using System.Composition;
     using System.IO;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Xml.Linq;
@@ -35,13 +36,13 @@ namespace Gu.Localization.Analyzers
                         new PreviewCodeAction(
                             "Rename resource",
                             cancellationToken => Renamer.RenameSymbolAsync(context.Document.Project.Solution, property, name, null, cancellationToken),
-                            cancellationToken => RenameAsync(context.Document.Project.Solution, property, name, cancellationToken)),
+                            cancellationToken => RenameAsync(context.Document, property, name, cancellationToken)),
                         diagnostic);
                 }
             }
         }
 
-        private static Task<Solution> RenameAsync(Solution solution, IPropertySymbol property, string name, CancellationToken cancellationToken)
+        private static async Task<Solution> RenameAsync(Document document, IPropertySymbol property, string name, CancellationToken cancellationToken)
         {
             if (Resources.TryGetDefaultResx(property.ContainingType, out var resx))
             {
@@ -51,10 +52,21 @@ namespace Gu.Localization.Analyzers
                     Rename(cultureResx, property.Name, name);
                 }
 
-                return Renamer.RenameSymbolAsync(solution, property, name, null, cancellationToken);
+                var solution = await Renamer.RenameSymbolAsync(document.Project.Solution, property, name, null, cancellationToken);
+                var updatedDoc = solution.GetDocument(document.Id);
+                var root = await updatedDoc.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
+                var updatedProperty = root.DescendantNodes()
+                                          .First(
+                                              x => x is PropertyDeclarationSyntax propertyDeclaration &&
+                                                   propertyDeclaration.Identifier.ValueText == name);
+                updatedDoc = updatedDoc.WithSyntaxRoot(
+                    root.ReplaceNode(
+                        updatedProperty,
+                        Parse.PropertyDeclaration($"\r\npublic static string {name} => ResourceManager.GetString(\"{name}\", resourceCulture);")));
+                return solution.WithDocumentText(document.Id, await updatedDoc.GetTextAsync(cancellationToken).ConfigureAwait(false));
             }
 
-            return Task.FromResult(solution);
+            return document.Project.Solution;
         }
 
         private static void Rename(FileInfo resx, string oldName, string newName)
