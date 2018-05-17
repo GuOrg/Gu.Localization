@@ -110,9 +110,7 @@ namespace Gu.Localization.Analyzers
                 if (token.Parent is PropertyDeclarationSyntax propertyDeclaration &&
                     propertyDeclaration.Identifier == token)
                 {
-                    return SyntaxFactory.ParseToken(this.newValue)
-                                        .WithLeadingTrivia(token.LeadingTrivia)
-                                        .WithTrailingTrivia(token.TrailingTrivia);
+                    return SyntaxFactory.Identifier(token.LeadingTrivia, this.newValue, token.TrailingTrivia);
                 }
 
                 return base.VisitToken(token);
@@ -127,7 +125,7 @@ namespace Gu.Localization.Analyzers
                     invocation.TryGetMethodName(out var method) &&
                     method == "GetString")
                 {
-                    return node.WithToken(SyntaxFactory.ParseToken($"\"{this.newValue}\""));
+                    return node.WithToken(SyntaxFactory.Literal(this.newValue));
                 }
 
                 return base.VisitLiteralExpression(node);
