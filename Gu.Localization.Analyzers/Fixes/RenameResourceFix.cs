@@ -93,7 +93,7 @@ namespace Gu.Localization.Analyzers
                         attribute.Value == property.Name)
                     {
                         attribute.Value = newName;
-                        using (var writer = new StreamWriter(File.OpenWrite(resx.FullName), textWithEncoding.Encoding))
+                        using (var writer = new StreamWriter(File.Open(resx.FullName, FileMode.Create, FileAccess.Write), textWithEncoding.Encoding))
                         {
                             xDocument.Save(writer);
                         }
