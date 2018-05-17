@@ -3,7 +3,7 @@
   <Metadata>
     <Identity Id="Gu.Localization.Analyzers.Vsix.0E62B3F1-5701-40B6-91DC-A2FDAFD55029" Version="0.2.0.4" Language="en-US" Publisher="Johan Larsson"/>
     <DisplayName>Gu.Localization.Analyzers</DisplayName>
-    <Description xml:space="preserve">Roslyn analysers for Gu.Localization</Description>
+    <Description xml:space="preserve">Roslyn analyzers for Gu.Localization</Description>
   </Metadata>
   <Installation>
     <InstallationTarget Version="[14.0,]" Id="Microsoft.VisualStudio.Community" />
@@ -15,5 +15,8 @@
   <Assets>
     <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="Gu.Localization.Analyzers" Path="|Gu.Localization.Analyzers|"/>
     <Asset Type="Microsoft.VisualStudio.Analyzer" d:Source="Project" d:ProjectName="Gu.Localization.Analyzers" Path="|Gu.Localization.Analyzers|"/>
+    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="File" Path="Gu.Roslyn.AnalyzerExtensions.dll" />
+    <Asset Type="Microsoft.VisualStudio.Analyzer" d:Source="File" Path="Gu.Roslyn.AnalyzerExtensions.dll" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="File" Path="Gu.Roslyn.CodeFixExtensions.dll" />
   </Assets>
 </PackageManifest>
