@@ -85,28 +85,44 @@ namespace Gu.Localization.Analyzers
         {
             if (project.MetadataReferences.TryFirst(x => x.Display.EndsWith("System.Xaml.dll"), out _))
             {
-                var csproj = XDocument.Parse(File.ReadAllText(project.FilePath));
                 var directory = Path.GetDirectoryName(project.FilePath);
-                if (csproj.Root is XElement root)
+                var csprojText = File.ReadAllText(project.FilePath);
+                if (Regex.IsMatch(csprojText, "<TargetFrameworks?\b"))
                 {
-                    foreach (var page in root.Descendants().Where(x => x.Name.LocalName == "Page"))
+                    var csproj = XDocument.Parse(csprojText);
+                    if (csproj.Root is XElement root)
                     {
-                        if (page.Attribute("Include") is XAttribute attribute &&
-                            attribute.Value.EndsWith(".xaml"))
+                        foreach (var page in root.Descendants().Where(x => x.Name.LocalName == "Page"))
                         {
-                            var fileName = Path.Combine(directory, attribute.Value);
-                            var text = File.ReadAllText(fileName);
-                            var pattern = $"xmlns:(?<alias>\\w+)=\"clr-namespace:{property.ContainingType.ContainingSymbol}\"";
-                            if (Regex.Match(text, pattern) is Match match &&
-                                match.Success)
+                            if (page.Attribute("Include") is XAttribute attribute &&
+                                attribute.Value.EndsWith(".xaml"))
                             {
-                                text = text.Replace(
-                                    $"{match.Groups["alias"].Value}:{property.ContainingType.Name}.{property.Name}",
-                                    $"{match.Groups["alias"].Value}:{property.ContainingType.Name}.{newName}");
-                                File.WriteAllText(fileName, text);
+                                var xamlFile = Path.Combine(directory, attribute.Value);
+                                Update(xamlFile);
                             }
                         }
                     }
+                }
+                else
+                {
+                    foreach (var xamlFile in Directory.EnumerateFiles(directory, "*.xaml", SearchOption.AllDirectories))
+                    {
+                        Update(xamlFile);
+                    }
+                }
+            }
+
+            void Update(string fileName)
+            {
+                var text = File.ReadAllText(fileName);
+                var pattern = $"xmlns:(?<alias>\\w+)=\"clr-namespace:{property.ContainingType.ContainingSymbol}\"";
+                if (Regex.Match(text, pattern) is Match match &&
+                    match.Success)
+                {
+                    text = text.Replace(
+                        $"{match.Groups["alias"].Value}:{property.ContainingType.Name}.{property.Name}",
+                        $"{match.Groups["alias"].Value}:{property.ContainingType.Name}.{newName}");
+                    File.WriteAllText(fileName, text);
                 }
             }
         }
