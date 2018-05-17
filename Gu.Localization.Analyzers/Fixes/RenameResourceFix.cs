@@ -197,6 +197,20 @@ namespace Gu.Localization.Analyzers
                 return base.VisitToken(token);
             }
 
+            public override SyntaxNode VisitArgument(ArgumentSyntax node)
+            {
+                if (node.Parent is ArgumentListSyntax argumentList &&
+                    argumentList.Arguments.IndexOf(node) == 0 &&
+                    argumentList.Parent is InvocationExpressionSyntax invocation &&
+                    invocation.TryGetMethodName(out var method) &&
+                    method == "GetString")
+                {
+                    return node.WithExpression(SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(this.newValue)));
+                }
+
+                return base.VisitArgument(node);
+            }
+
             public override SyntaxNode VisitLiteralExpression(LiteralExpressionSyntax node)
             {
                 if (node.IsKind(SyntaxKind.StringLiteralExpression) &&
