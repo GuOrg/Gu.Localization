@@ -78,13 +78,13 @@ namespace Gu.Localization.Analyzers
 
             if (char.IsDigit(builder[0]))
             {
-                builder.Insert(0, '_');
+                builder.Insert(0, '_').IgnoreReturnValue();
             }
 
             const int maxLength = 100;
             if (builder.Length > maxLength)
             {
-                builder.Remove(maxLength, builder.Length - maxLength);
+                builder.Remove(maxLength, builder.Length - maxLength).IgnoreReturnValue();
             }
 
             key = builder.Return();

@@ -1,6 +1,5 @@
 namespace Gu.Localization.Analyzers
 {
-    using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Composition;
     using System.IO;
@@ -152,6 +151,27 @@ namespace Gu.Localization.Analyzers
             }
         }
 
+        private struct TextWithEncoding
+        {
+            public TextWithEncoding(string text, Encoding encoding)
+            {
+                this.Text = text;
+                this.Encoding = encoding;
+            }
+
+            public string Text { get; }
+
+            public Encoding Encoding { get; }
+
+            public static TextWithEncoding Create(string fileName)
+            {
+                using (var reader = new StreamReader(File.OpenRead(fileName), Encoding.UTF8, detectEncodingFromByteOrderMarks: true))
+                {
+                    return new TextWithEncoding(reader.ReadToEnd(), reader.CurrentEncoding);
+                }
+            }
+        }
+
         private class Property : CSharpSyntaxRewriter
         {
             private readonly string newValue;
@@ -190,27 +210,6 @@ namespace Gu.Localization.Analyzers
                 }
 
                 return base.VisitLiteralExpression(node);
-            }
-        }
-
-        private struct TextWithEncoding
-        {
-            public TextWithEncoding(string text, Encoding encoding)
-            {
-                this.Text = text;
-                this.Encoding = encoding;
-            }
-
-            public string Text { get; }
-
-            public Encoding Encoding { get; }
-
-            public static TextWithEncoding Create(string fileName)
-            {
-                using (var reader = new StreamReader(File.OpenRead(fileName), Encoding.UTF8, detectEncodingFromByteOrderMarks: true))
-                {
-                    return new TextWithEncoding(reader.ReadToEnd(), reader.CurrentEncoding);
-                }
             }
         }
     }
