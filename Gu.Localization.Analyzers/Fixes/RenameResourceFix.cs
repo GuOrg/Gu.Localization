@@ -110,7 +110,9 @@ namespace Gu.Localization.Analyzers
                 if (token.Parent is PropertyDeclarationSyntax propertyDeclaration &&
                     propertyDeclaration.Identifier == token)
                 {
-                    return SyntaxFactory.ParseToken(this.newValue);
+                    return SyntaxFactory.ParseToken(this.newValue)
+                                        .WithLeadingTrivia(token.LeadingTrivia)
+                                        .WithTrailingTrivia(token.TrailingTrivia);
                 }
 
                 return base.VisitToken(token);
