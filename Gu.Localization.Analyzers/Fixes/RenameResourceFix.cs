@@ -5,6 +5,7 @@ namespace Gu.Localization.Analyzers
     using System.Composition;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
@@ -81,6 +82,26 @@ namespace Gu.Localization.Analyzers
             return document.Project.Solution;
         }
 
+        private static void UpdateResx(FileInfo resx, IPropertySymbol property, string newName)
+        {
+            var xDocument = XDocument.Load(resx.FullName);
+            if (xDocument.Root is XElement root)
+            {
+                foreach (var candidate in root.Elements("data"))
+                {
+                    if (candidate.Attribute("name") is XAttribute attribute &&
+                        attribute.Value == property.Name)
+                    {
+                        attribute.Value = newName;
+                        using (var stream = File.OpenWrite(resx.FullName))
+                        {
+                            xDocument.Save(stream);
+                        }
+                    }
+                }
+            }
+        }
+
         private static void UpdateXaml(Project project, IPropertySymbol property, string newName)
         {
             if (project.MetadataReferences.TryFirst(x => x.Display.EndsWith("System.Xaml.dll"), out _))
@@ -123,26 +144,6 @@ namespace Gu.Localization.Analyzers
                         $"{match.Groups["alias"].Value}:{property.ContainingType.Name}.{property.Name}",
                         $"{match.Groups["alias"].Value}:{property.ContainingType.Name}.{newName}");
                     File.WriteAllText(fileName, text);
-                }
-            }
-        }
-
-        private static void UpdateResx(FileInfo resx, IPropertySymbol property, string newName)
-        {
-            var xDocument = XDocument.Load(resx.FullName);
-            if (xDocument.Root is XElement root)
-            {
-                foreach (var candidate in root.Elements("data"))
-                {
-                    if (candidate.Attribute("name") is XAttribute attribute &&
-                        attribute.Value == property.Name)
-                    {
-                        attribute.Value = newName;
-                        using (var stream = File.OpenWrite(resx.FullName))
-                        {
-                            xDocument.Save(stream);
-                        }
-                    }
                 }
             }
         }
