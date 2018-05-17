@@ -28,24 +28,31 @@ namespace Gu.Localization.Analyzers
 
             if (context.Node is PropertyDeclarationSyntax propertyDeclaration &&
                 context.ContainingSymbol is IPropertySymbol property &&
+                property.Type == KnownSymbol.String &&
                 property.ContainingType is INamedTypeSymbol containingType &&
                 containingType.Name == "Resources" &&
                 containingType.TryFindProperty("ResourceManager", out _) &&
                 Resources.TryGetDefaultResx(containingType, out var resx))
             {
                 var xDocument = XDocument.Load(resx.FullName);
-                if (xDocument.Root is XElement root &&
-                    root.Elements("data").TryFirst(x => x.Attribute("name")?.Value == property.Name, out var data) &&
-                    data.Element("value") is XElement value &&
-                    Resources.TryGetKey(value.Value, out var key) &&
-                    key != property.Name)
+                if (xDocument.Root is XElement root)
                 {
-                    context.ReportDiagnostic(
-                        Diagnostic.Create(
-                            GULOC07KeyDoesNotMatch.Descriptor,
-                            propertyDeclaration.Identifier.GetLocation(),
-                            ImmutableDictionary<string, string>.Empty.Add("Key", key),
-                            key));
+                    foreach (var candidate in root.Elements("data"))
+                    {
+                        if (candidate.Attribute("name") is XAttribute attribute &&
+                            attribute.Value == property.Name &&
+                            candidate.Element("value") is XElement value &&
+                            Resources.TryGetKey(value.Value, out var key) &&
+                            key != property.Name)
+                        {
+                            context.ReportDiagnostic(
+                                Diagnostic.Create(
+                                    GULOC07KeyDoesNotMatch.Descriptor,
+                                    propertyDeclaration.Identifier.GetLocation(),
+                                    ImmutableDictionary<string, string>.Empty.Add("Key", key),
+                                    key));
+                        }
+                    }
                 }
             }
         }
