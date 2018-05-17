@@ -25,4 +25,8 @@ using Gu.Roslyn.Asserts;
     typeof(System.Net.WebClient),
     typeof(System.Data.Common.DbConnection),
     typeof(System.Xml.Serialization.XmlSerializer),
+    typeof(System.Windows.Media.Brush),
+    typeof(System.Windows.Controls.Control),
+    typeof(System.Windows.Media.Matrix),
+    typeof(System.Xaml.XamlLanguage),
     typeof(NUnit.Framework.Assert))]

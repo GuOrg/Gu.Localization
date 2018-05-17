@@ -1,8 +1,11 @@
 namespace Gu.Localization.Analyzers
 {
+    using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Composition;
     using System.IO;
+    using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Xml.Linq;
@@ -32,7 +35,8 @@ namespace Gu.Localization.Analyzers
                 if (syntaxRoot.TryFindNodeOrAncestor<PropertyDeclarationSyntax>(diagnostic, out var propertyDeclaration) &&
                     semanticModel.TryGetSymbol(propertyDeclaration, context.CancellationToken, out var property) &&
                     diagnostic.Properties.TryGetValue("Key", out var name) &&
-                    !property.ContainingType.TryFindFirstMember(name, out _))
+                    !property.ContainingType.TryFindFirstMember(name, out _) &&
+                    Resources.TryGetDefaultResx(property.ContainingType, out _))
                 {
                     context.RegisterCodeFix(
                         new PreviewCodeAction(
@@ -44,17 +48,23 @@ namespace Gu.Localization.Analyzers
             }
         }
 
-        private static async Task<Solution> RenameAsync(Document document, IPropertySymbol property, string name, CancellationToken cancellationToken)
+        private static async Task<Solution> RenameAsync(Document document, IPropertySymbol property, string newName, CancellationToken cancellationToken)
         {
             if (Resources.TryGetDefaultResx(property.ContainingType, out var resx))
             {
-                RenameKey(resx, property.Name, name);
+                UpdateResx(resx, property, newName);
                 foreach (var cultureResx in resx.Directory.EnumerateFiles($"{Path.GetFileNameWithoutExtension(resx.Name)}.*.resx", SearchOption.TopDirectoryOnly))
                 {
-                    RenameKey(cultureResx, property.Name, name);
+                    UpdateResx(cultureResx, property, newName);
                 }
 
-                var solution = await Renamer.RenameSymbolAsync(document.Project.Solution, property, name, null, cancellationToken);
+                UpdateXaml(document.Project, property, newName);
+                foreach (var project in document.Project.ReferencingProjects())
+                {
+                    UpdateXaml(project, property, newName);
+                }
+
+                var solution = await Renamer.RenameSymbolAsync(document.Project.Solution, property, newName, null, cancellationToken);
                 if (property.TrySingleDeclaration(cancellationToken, out PropertyDeclarationSyntax declaration))
                 {
                     var root = await document.GetSyntaxRootAsync(cancellationToken);
@@ -62,7 +72,7 @@ namespace Gu.Localization.Analyzers
                         document.Id,
                         root.ReplaceNode(
                             declaration,
-                            Property.Rewrite(declaration, name)));
+                            Property.Rewrite(declaration, newName)));
                 }
 
                 return solution;
@@ -71,7 +81,53 @@ namespace Gu.Localization.Analyzers
             return document.Project.Solution;
         }
 
-        private static void RenameKey(FileInfo resx, string oldName, string newName)
+        private static void UpdateXaml(Project project, IPropertySymbol property, string newName)
+        {
+            if (project.MetadataReferences.TryFirst(x => x.Display.EndsWith("System.Xaml.dll"), out _))
+            {
+                var directory = Path.GetDirectoryName(project.FilePath);
+                var csprojText = File.ReadAllText(project.FilePath);
+                if (Regex.IsMatch(csprojText, "<TargetFrameworks?\b"))
+                {
+                    var csproj = XDocument.Parse(csprojText);
+                    if (csproj.Root is XElement root)
+                    {
+                        foreach (var page in root.Descendants().Where(x => x.Name.LocalName == "Page"))
+                        {
+                            if (page.Attribute("Include") is XAttribute attribute &&
+                                attribute.Value.EndsWith(".xaml"))
+                            {
+                                var xamlFile = Path.Combine(directory, attribute.Value);
+                                Update(xamlFile);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var xamlFile in Directory.EnumerateFiles(directory, "*.xaml", SearchOption.AllDirectories))
+                    {
+                        Update(xamlFile);
+                    }
+                }
+            }
+
+            void Update(string fileName)
+            {
+                var text = File.ReadAllText(fileName);
+                var pattern = $"xmlns:(?<alias>\\w+)=\"clr-namespace:{property.ContainingType.ContainingSymbol}\"";
+                if (Regex.Match(text, pattern) is Match match &&
+                    match.Success)
+                {
+                    text = text.Replace(
+                        $"{match.Groups["alias"].Value}:{property.ContainingType.Name}.{property.Name}",
+                        $"{match.Groups["alias"].Value}:{property.ContainingType.Name}.{newName}");
+                    File.WriteAllText(fileName, text);
+                }
+            }
+        }
+
+        private static void UpdateResx(FileInfo resx, IPropertySymbol property, string newName)
         {
             var xDocument = XDocument.Load(resx.FullName);
             if (xDocument.Root is XElement root)
@@ -79,7 +135,7 @@ namespace Gu.Localization.Analyzers
                 foreach (var candidate in root.Elements("data"))
                 {
                     if (candidate.Attribute("name") is XAttribute attribute &&
-                        attribute.Value == oldName)
+                        attribute.Value == property.Name)
                     {
                         attribute.Value = newName;
                         using (var stream = File.OpenWrite(resx.FullName))

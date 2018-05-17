@@ -17,5 +17,12 @@
     <ProjectReference Include="..\Gu.Localization.Analyzers\Gu.Localization.Analyzers.csproj" />
     <ProjectReference Include="..\Gu.Localization\Gu.Localization.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

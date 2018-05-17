@@ -37,7 +37,9 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
             this.directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", "\"Wrong\"");
             this.directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", "\"Wrong\"");
             this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", "\"Wrong\"");
-            this.resourcesFile.ReplaceText("internal static string Key", "internal static string Wrong");
+            this.directory.FindFile("MainWindow.xaml").ReplaceText("p:Resources.Key", "p:Resources.Wrong");
+            this.directory.FindFile("Resources\\Dictionary1.xaml").ReplaceText("p:Resources.Key", "p:Resources.Wrong");
+            this.resourcesFile.ReplaceText("public static string Key", "public static string Wrong");
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
 
             var diagnostics = Analyze.GetDiagnostics(sln, Analyzer);
@@ -67,7 +69,7 @@ namespace Gu.Localization.TestStub.Properties
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute(""System.Resources.Tools.StronglyTypedResourceBuilder"", ""15.0.0.0"")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
+    public class Resources
     {
 
         private static global::System.Resources.ResourceManager resourceMan;
@@ -83,7 +85,7 @@ namespace Gu.Localization.TestStub.Properties
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
+        public static global::System.Resources.ResourceManager ResourceManager
         {
             get
             {
@@ -101,7 +103,7 @@ namespace Gu.Localization.TestStub.Properties
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
+        public static global::System.Globalization.CultureInfo Culture
         {
             get
             {
@@ -116,7 +118,7 @@ namespace Gu.Localization.TestStub.Properties
         /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
-        internal static string Value
+        public static string Value
         {
             get
             {
@@ -501,6 +503,32 @@ namespace Gu.Localization.TestStub.Properties
   </data>
 </root>";
             CodeAssert.AreEqual(expected, this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReadAllText());
+
+            expected = @"<Window x:Class=""Gu.Localization.TestStub.Window1""
+        xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+        xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+        xmlns:d=""http://schemas.microsoft.com/expression/blend/2008""
+        xmlns:mc=""http://schemas.openxmlformats.org/markup-compatibility/2006""
+        xmlns:local=""clr-namespace:Gu.Localization.TestStub""
+        xmlns:p=""clr-namespace:Gu.Localization.TestStub.Properties""
+        mc:Ignorable=""d""
+        Title=""Window1"" Height=""450"" Width=""800"">
+    <Grid>
+        <TextBlock Text=""{x:Static p:Resources.Value}""></TextBlock>
+    </Grid>
+</Window>
+";
+            CodeAssert.AreEqual(expected, this.directory.FindFile("MainWindow.xaml").ReadAllText());
+
+            expected = @"<ResourceDictionary xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+                    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+                    xmlns:p=""clr-namespace:Gu.Localization.TestStub.Properties"">
+    <Style x:Key=""Meh"" TargetType=""{x:Type TextBlock}"">
+        <Setter Property=""Text"" Value=""{x:Static p:Resources.Value}"" />
+    </Style>
+</ResourceDictionary>
+";
+            CodeAssert.AreEqual(expected, this.directory.FindFile("Resources\\Dictionary1.xaml").ReadAllText());
         }
     }
 }

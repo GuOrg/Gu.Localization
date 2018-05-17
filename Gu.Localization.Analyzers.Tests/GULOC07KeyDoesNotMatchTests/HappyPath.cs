@@ -29,7 +29,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
         public void WhenValid()
         {
             this.projectFile.Directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", "\"Value\"");
-            this.projectFile.Directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("internal static string Key", "internal static string Value");
+            this.projectFile.Directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", "public static string Value");
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
             AnalyzerAssert.Valid(Analyzer, sln);
         }
