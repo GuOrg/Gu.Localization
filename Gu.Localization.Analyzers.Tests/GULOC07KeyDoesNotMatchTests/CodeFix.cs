@@ -555,17 +555,17 @@ namespace Gu.Localization.TestStub.Properties
             this.directory.FindFile("MainWindow.xaml").ReplaceText("p:Resources.Key", "p:Resources.Wrong");
             this.directory.FindFile("Resources\\Dictionary1.xaml").ReplaceText("p:Resources.Key", "p:Resources.Wrong");
             this.resourcesFile.ReplaceText(
-                "        public static string Key {\r\n" +
-                "            get {\r\n" +
-                "                return ResourceManager.GetString(\"Key\", resourceCulture);\r\n" +
-                "            }\r\n" +
-                "        }",
-                "        public static string Wrong {\r\n" +
-                "            get {\r\n" +
-                "                return ResourceManager.GetString(\"K\" +" +
-                "                   \"ey\", resourceCulture);\r\n" +
-                "            }\r\n" +
-                "        }");
+@"        public static string Key {
+            get {
+                return ResourceManager.GetString(""Key"", resourceCulture);
+            }
+        }",
+                @"        public static string Wrong {
+            get {
+                return ResourceManager.GetString(""K"" + 
+                    ""ey"", resourceCulture);
+            }
+        }");
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
 
             var diagnostics = Analyze.GetDiagnostics(sln, Analyzer);
