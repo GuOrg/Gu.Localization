@@ -84,7 +84,8 @@ namespace Gu.Localization.Analyzers
 
         private static void UpdateResx(FileInfo resx, IPropertySymbol property, string newName)
         {
-            var xDocument = XDocument.Load(resx.FullName);
+            var textWithEncoding = TextWithEncoding.Create(resx.FullName);
+            var xDocument = XDocument.Parse(textWithEncoding.Text);
             if (xDocument.Root is XElement root)
             {
                 foreach (var candidate in root.Elements("data"))
@@ -93,9 +94,9 @@ namespace Gu.Localization.Analyzers
                         attribute.Value == property.Name)
                     {
                         attribute.Value = newName;
-                        using (var stream = File.OpenWrite(resx.FullName))
+                        using (var writer = new StreamWriter(File.OpenWrite(resx.FullName), textWithEncoding.Encoding))
                         {
-                            xDocument.Save(stream);
+                            xDocument.Save(writer);
                         }
                     }
                 }
@@ -135,15 +136,18 @@ namespace Gu.Localization.Analyzers
 
             void Update(string fileName)
             {
-                var text = File.ReadAllText(fileName);
+                var xaml = TextWithEncoding.Create(fileName);
                 var pattern = $"xmlns:(?<alias>\\w+)=\"clr-namespace:{property.ContainingType.ContainingSymbol}\"";
-                if (Regex.Match(text, pattern) is Match match &&
+                if (Regex.Match(xaml.Text, pattern) is Match match &&
                     match.Success)
                 {
-                    text = text.Replace(
+                    var updated = xaml.Text.Replace(
                         $"{match.Groups["alias"].Value}:{property.ContainingType.Name}.{property.Name}",
                         $"{match.Groups["alias"].Value}:{property.ContainingType.Name}.{newName}");
-                    File.WriteAllText(fileName, text);
+                    if (updated != xaml.Text)
+                    {
+                        File.WriteAllText(fileName, updated, xaml.Encoding);
+                    }
                 }
             }
         }
@@ -186,6 +190,27 @@ namespace Gu.Localization.Analyzers
                 }
 
                 return base.VisitLiteralExpression(node);
+            }
+        }
+
+        private struct TextWithEncoding
+        {
+            public TextWithEncoding(string text, Encoding encoding)
+            {
+                this.Text = text;
+                this.Encoding = encoding;
+            }
+
+            public string Text { get; }
+
+            public Encoding Encoding { get; }
+
+            public static TextWithEncoding Create(string fileName)
+            {
+                using (var reader = new StreamReader(File.OpenRead(fileName), Encoding.UTF8, detectEncodingFromByteOrderMarks: true))
+                {
+                    return new TextWithEncoding(reader.ReadToEnd(), reader.CurrentEncoding);
+                }
             }
         }
     }
