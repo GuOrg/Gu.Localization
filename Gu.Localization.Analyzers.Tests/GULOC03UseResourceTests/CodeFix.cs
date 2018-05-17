@@ -181,6 +181,9 @@ namespace Gu.Localization.TestStub
   <data name=""Key"" xml:space=""preserve"">
     <value>Value</value>
   </data>
+  <data name=""Lorem_ipsum_dolor_sit_amet__consectetur_adipiscing_elit__sed_do_eiusmod_tempor_incididunt_ut_labore_"" xml:space=""preserve"">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</value>
+  </data>
   <data name=""One_resource"" xml:space=""preserve"">
     <value>One resource</value>
   </data>
@@ -338,6 +341,9 @@ namespace Gu.Localization.TestStub
   <data name=""Key"" xml:space=""preserve"">
     <value>Value</value>
   </data>
+  <data name=""Lorem_ipsum_dolor_sit_amet__consectetur_adipiscing_elit__sed_do_eiusmod_tempor_incididunt_ut_labore_"" xml:space=""preserve"">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</value>
+  </data>
   <data name=""One_resource"" xml:space=""preserve"">
     <value>One resource</value>
   </data>
@@ -494,6 +500,9 @@ namespace Gu.Localization.TestStub
   </resheader>
   <data name=""Key"" xml:space=""preserve"">
     <value>Value</value>
+  </data>
+  <data name=""Lorem_ipsum_dolor_sit_amet__consectetur_adipiscing_elit__sed_do_eiusmod_tempor_incididunt_ut_labore_"" xml:space=""preserve"">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</value>
   </data>
   <data name=""One_resource"" xml:space=""preserve"">
     <value>One resource</value>

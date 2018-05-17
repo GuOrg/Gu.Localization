@@ -68,5 +68,15 @@ namespace Gu.Localization.TestStub.Properties {
                 return ResourceManager.GetString("Key", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        /// </summary>
+        public static string Lorem_ipsum_dolor_sit_amet__consectetur_adipiscing_elit__sed_do_eiusmod_tempor_incididunt_ut_labore_ {
+            get {
+                return ResourceManager.GetString("Lorem_ipsum_dolor_sit_amet__consectetur_adipiscing_elit__sed_do_eiusmod_tempor_in" +
+                        "cididunt_ut_labore_", resourceCulture);
+            }
+        }
     }
 }
