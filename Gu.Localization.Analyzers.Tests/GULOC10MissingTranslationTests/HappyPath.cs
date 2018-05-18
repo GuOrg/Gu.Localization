@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
+namespace Gu.Localization.Analyzers.Tests.GULOC10MissingTranslationTests
 {
     using System.IO;
     using Gu.Localization.Analyzers.Tests.Helpers;

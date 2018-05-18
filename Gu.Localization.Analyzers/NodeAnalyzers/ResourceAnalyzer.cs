@@ -70,6 +70,21 @@ namespace Gu.Localization.Analyzers
                         }
                     }
                 }
+
+                foreach (var cultureResx in resx.CultureSpecific())
+                {
+                    if (!cultureResx.TryGetString(property.Name, out _))
+                    {
+                        var culture = Regex.Match(cultureResx.FileName, @"\.(?<culture>[^.]+)\.resx", RegexOptions.IgnoreCase | RegexOptions.RightToLeft | RegexOptions.Singleline)
+                                           .Groups["culture"]
+                                           .Value;
+                        context.ReportDiagnostic(
+                            Diagnostic.Create(
+                                GULOC10MissingTranslation.Descriptor,
+                                propertyDeclaration.Identifier.GetLocation(),
+                                culture));
+                    }
+                }
             }
         }
 

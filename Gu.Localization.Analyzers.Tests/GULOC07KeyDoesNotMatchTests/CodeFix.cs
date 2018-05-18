@@ -390,6 +390,9 @@ namespace Gu.Localization.TestStub.Properties
   <data name=""Value"" xml:space=""preserve"">
     <value>Värde</value>
   </data>
+  <data name=""Lorem_ipsum_dolor_sit_amet__consectetur_adipiscing_elit__sed_do_eiusmod_tempor_incididunt_ut_labore_"" xml:space=""preserve"">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</value>
+  </data>
 </root>";
             CodeAssert.AreEqual(expected, this.directory.FindFile("Properties\\Resources.sv.resx").ReadAllText());
 
@@ -514,6 +517,9 @@ namespace Gu.Localization.TestStub.Properties
   </resheader>
   <data name=""Value"" xml:space=""preserve"">
     <value>Värde</value>
+  </data>
+  <data name=""Lorem_ipsum_dolor_sit_amet__consectetur_adipiscing_elit__sed_do_eiusmod_tempor_incididunt_ut_labore_"" xml:space=""preserve"">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</value>
   </data>
 </root>";
             CodeAssert.AreEqual(expected, this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReadAllText());
@@ -916,6 +922,9 @@ namespace Gu.Localization.TestStub.Properties
   <data name=""Value"" xml:space=""preserve"">
     <value>Värde</value>
   </data>
+  <data name=""Lorem_ipsum_dolor_sit_amet__consectetur_adipiscing_elit__sed_do_eiusmod_tempor_incididunt_ut_labore_"" xml:space=""preserve"">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</value>
+  </data>
 </root>";
             CodeAssert.AreEqual(expected, this.directory.FindFile("Properties\\Resources.sv.resx").ReadAllText());
 
@@ -1040,6 +1049,9 @@ namespace Gu.Localization.TestStub.Properties
   </resheader>
   <data name=""Value"" xml:space=""preserve"">
     <value>Värde</value>
+  </data>
+  <data name=""Lorem_ipsum_dolor_sit_amet__consectetur_adipiscing_elit__sed_do_eiusmod_tempor_incididunt_ut_labore_"" xml:space=""preserve"">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</value>
   </data>
 </root>";
             CodeAssert.AreEqual(expected, this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReadAllText());
