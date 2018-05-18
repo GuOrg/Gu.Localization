@@ -85,7 +85,7 @@ namespace Gu.Localization.Analyzers
                                         $"Use existing {memberAccess}.{key}."),
                                     diagnostic);
                             }
-                            else if (Resources.TryGetDefaultResx(resourcesType, out _))
+                            else if (ResxFile.TryGetDefault(resourcesType, out _))
                             {
                                 var memberAccess = resourcesType.ToMinimalDisplayString(semanticModel, literal.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat);
                                 if (semanticModel.ReferencesGuLocalization())
@@ -100,16 +100,13 @@ namespace Gu.Localization.Analyzers
                                                     context.Document.WithSyntaxRoot(
                                                         syntaxRoot.ReplaceNode(
                                                             literal,
-                                                            SyntaxFactory
-                                                                .ParseExpression(
-                                                                    $"{translateKey}(nameof({memberAccess}.{key}))")
-                                                                .WithSimplifiedNames()))),
-                                                cancellationToken => AddResourceAndReplaceAsync(
+                                                            SyntaxFactory.ParseExpression($"{translateKey}(nameof({memberAccess}.{key}))")
+                                                                         .WithSimplifiedNames()))),
+                                                cancellationToken => AddAndUseResourceAsync(
                                                     context.Document,
                                                     literal,
-                                                    SyntaxFactory.ParseExpression(
-                                                            $"{translateKey}(nameof({memberAccess}.{key}))")
-                                                        .WithSimplifiedNames(),
+                                                    SyntaxFactory.ParseExpression($"{translateKey}(nameof({memberAccess}.{key}))")
+                                                                 .WithSimplifiedNames(),
                                                     key,
                                                     resourcesType,
                                                     cancellationToken)),
@@ -123,11 +120,9 @@ namespace Gu.Localization.Analyzers
                                                 context.Document.WithSyntaxRoot(
                                                     syntaxRoot.ReplaceNode(
                                                         literal,
-                                                        SyntaxFactory
-                                                            .ParseExpression(
-                                                                $"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
-                                                            .WithSimplifiedNames()))),
-                                            cancellationToken => AddResourceAndReplaceAsync(
+                                                        SyntaxFactory.ParseExpression($"Gu.Localization.Translator.Translate({memberAccess}.ResourceManager, nameof({memberAccess}.{key}))")
+                                                                     .WithSimplifiedNames()))),
+                                            cancellationToken => AddAndUseResourceAsync(
                                                 context.Document,
                                                 literal,
                                                 SyntaxFactory.ParseExpression(
@@ -147,8 +142,8 @@ namespace Gu.Localization.Analyzers
                                                 syntaxRoot.ReplaceNode(
                                                     literal,
                                                     SyntaxFactory.ParseExpression($"{memberAccess}.{key}")
-                                                        .WithSimplifiedNames()))),
-                                        cancellationToken => AddResourceAndReplaceAsync(
+                                                                 .WithSimplifiedNames()))),
+                                        cancellationToken => AddAndUseResourceAsync(
                                             context.Document,
                                             literal,
                                             SyntaxFactory.ParseExpression($"{memberAccess}.{key}")
@@ -164,15 +159,15 @@ namespace Gu.Localization.Analyzers
             }
         }
 
-        private static async Task<Solution> AddResourceAndReplaceAsync(Document document, LiteralExpressionSyntax literal, ExpressionSyntax expression, string key, INamedTypeSymbol resourcesType, CancellationToken cancellationToken)
+        private static async Task<Solution> AddAndUseResourceAsync(Document document, LiteralExpressionSyntax literal, ExpressionSyntax expression, string key, INamedTypeSymbol resourcesType, CancellationToken cancellationToken)
         {
             if (await document.GetSyntaxRootAsync(cancellationToken) is SyntaxNode root &&
                 resourcesType.DeclaringSyntaxReferences.TrySingle(out var declaration) &&
                 document.Project.Documents.TrySingle(x => x.FilePath == declaration.SyntaxTree.FilePath, out var designerDoc) &&
                 await designerDoc.GetSyntaxRootAsync(cancellationToken) is SyntaxNode designerRoot &&
-                Resources.TryGetDefaultResx(resourcesType, out var resx))
+                ResxFile.TryGetDefault(resourcesType, out var resx))
             {
-                AddElement();
+                resx.Add(key, literal.Token.ValueText);
                 return document.Project.Solution.WithDocumentSyntaxRoot(
                         document.Id,
                         root.ReplaceNode(literal, expression))
@@ -209,23 +204,6 @@ namespace Gu.Localization.Analyzers
                 }
 
                 return designerRoot;
-            }
-
-            void AddElement()
-            {
-                // <data name="Key" xml:space="preserve">
-                //   <value>Value</value>
-                // </data>
-                var xElement = new XElement("data");
-                xElement.Add(new XAttribute("name", key));
-                xElement.Add(new XAttribute(XNamespace.Xml + "space", "preserve"));
-                xElement.Add(new XElement("value", literal.Token.ValueText));
-                var xDocument = XDocument.Load(resx.FullName);
-                xDocument.Root.Add(xElement);
-                using (var stream = File.OpenWrite(resx.FullName))
-                {
-                    xDocument.Save(stream);
-                }
             }
         }
 

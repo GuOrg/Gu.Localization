@@ -36,7 +36,7 @@ namespace Gu.Localization.Analyzers
                     semanticModel.TryGetSymbol(propertyDeclaration, context.CancellationToken, out var property) &&
                     diagnostic.Properties.TryGetValue("Key", out var name) &&
                     !property.ContainingType.TryFindFirstMember(name, out _) &&
-                    Resources.TryGetDefaultResx(property.ContainingType, out _))
+                    ResxFile.TryGetDefault(property.ContainingType, out _))
                 {
                     context.RegisterCodeFix(
                         new PreviewCodeAction(
@@ -50,12 +50,12 @@ namespace Gu.Localization.Analyzers
 
         private static async Task<Solution> RenameAsync(Document document, IPropertySymbol property, string newName, CancellationToken cancellationToken)
         {
-            if (Resources.TryGetDefaultResx(property.ContainingType, out var resx))
+            if (ResxFile.TryGetDefault(property.ContainingType, out var resx))
             {
-                UpdateResx(resx, property, newName);
-                foreach (var cultureResx in resx.Directory.EnumerateFiles($"{Path.GetFileNameWithoutExtension(resx.Name)}.*.resx", SearchOption.TopDirectoryOnly))
+                resx.RenameKey(property.Name, newName);
+                foreach (var cultureResx in resx.CultureSpecific())
                 {
-                    UpdateResx(cultureResx, property, newName);
+                    cultureResx.RenameKey(property.Name, newName);
                 }
 
                 UpdateXaml(document.Project, property, newName);
@@ -79,27 +79,6 @@ namespace Gu.Localization.Analyzers
             }
 
             return document.Project.Solution;
-        }
-
-        private static void UpdateResx(FileInfo resx, IPropertySymbol property, string newName)
-        {
-            var textWithEncoding = TextWithEncoding.Create(resx.FullName);
-            var xDocument = XDocument.Parse(textWithEncoding.Text);
-            if (xDocument.Root is XElement root)
-            {
-                foreach (var candidate in root.Elements("data"))
-                {
-                    if (candidate.Attribute("name") is XAttribute attribute &&
-                        attribute.Value == property.Name)
-                    {
-                        attribute.Value = newName;
-                        using (var writer = new StreamWriter(File.Open(resx.FullName, FileMode.Create, FileAccess.Write), textWithEncoding.Encoding))
-                        {
-                            xDocument.Save(writer);
-                        }
-                    }
-                }
-            }
         }
 
         private static void UpdateXaml(Project project, IPropertySymbol property, string newName)

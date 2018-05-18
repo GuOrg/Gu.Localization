@@ -91,21 +91,6 @@ namespace Gu.Localization.Analyzers
             return SyntaxFacts.IsValidIdentifier(key);
         }
 
-        internal static bool TryGetDefaultResx(INamedTypeSymbol resourcesType, out FileInfo resx)
-        {
-            if (resourcesType.DeclaringSyntaxReferences.TrySingle(out var reference) &&
-                reference.SyntaxTree?.FilePath is string resourcesFileName &&
-                resourcesFileName.Replace("Resources.Designer.cs", "Resources.resx") is string resxName &&
-                File.Exists(resxName))
-            {
-                resx = new FileInfo(resxName);
-                return true;
-            }
-
-            resx = null;
-            return false;
-        }
-
         internal static IEnumerable<INamedTypeSymbol> LookupResourceTypes(this SemanticModel semanticModel, int position, string name, INamespaceSymbol container = null)
         {
             return LookupResourceTypesCore().Distinct();
