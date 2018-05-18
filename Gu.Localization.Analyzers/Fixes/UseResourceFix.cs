@@ -2,10 +2,8 @@ namespace Gu.Localization.Analyzers
 {
     using System.Collections.Immutable;
     using System.Composition;
-    using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Xml.Linq;
     using Gu.Roslyn.AnalyzerExtensions;
     using Gu.Roslyn.CodeFixExtensions;
     using Microsoft.CodeAnalysis;

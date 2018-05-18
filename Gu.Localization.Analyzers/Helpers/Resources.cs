@@ -1,7 +1,6 @@
 namespace Gu.Localization.Analyzers
 {
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
     using Gu.Roslyn.AnalyzerExtensions;

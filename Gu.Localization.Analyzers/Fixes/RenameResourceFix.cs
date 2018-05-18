@@ -4,7 +4,6 @@ namespace Gu.Localization.Analyzers
     using System.Composition;
     using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
@@ -98,7 +97,7 @@ namespace Gu.Localization.Analyzers
                                 attribute.Value.EndsWith(".xaml"))
                             {
                                 var xamlFile = Path.Combine(directory, attribute.Value);
-                                Update(xamlFile);
+                                XamlFile.UpdateUsage(xamlFile, property, newName);
                             }
                         }
                     }
@@ -107,46 +106,8 @@ namespace Gu.Localization.Analyzers
                 {
                     foreach (var xamlFile in Directory.EnumerateFiles(directory, "*.xaml", SearchOption.AllDirectories))
                     {
-                        Update(xamlFile);
+                        XamlFile.UpdateUsage(xamlFile, property, newName);
                     }
-                }
-            }
-
-            void Update(string fileName)
-            {
-                var xaml = TextWithEncoding.Create(fileName);
-                var pattern = $"xmlns:(?<alias>\\w+)=\"clr-namespace:{property.ContainingType.ContainingSymbol}(\"|;)";
-                if (Regex.Match(xaml.Text, pattern) is Match match &&
-                    match.Success)
-                {
-                    var updated = xaml.Text.Replace(
-                        $"{match.Groups["alias"].Value}:{property.ContainingType.Name}.{property.Name}",
-                        $"{match.Groups["alias"].Value}:{property.ContainingType.Name}.{newName}");
-                    if (updated != xaml.Text)
-                    {
-                        File.WriteAllText(fileName, updated, xaml.Encoding);
-                    }
-                }
-            }
-        }
-
-        private struct TextWithEncoding
-        {
-            public TextWithEncoding(string text, Encoding encoding)
-            {
-                this.Text = text;
-                this.Encoding = encoding;
-            }
-
-            public string Text { get; }
-
-            public Encoding Encoding { get; }
-
-            public static TextWithEncoding Create(string fileName)
-            {
-                using (var reader = new StreamReader(File.OpenRead(fileName), Encoding.UTF8, detectEncodingFromByteOrderMarks: true))
-                {
-                    return new TextWithEncoding(reader.ReadToEnd(), reader.CurrentEncoding);
                 }
             }
         }
