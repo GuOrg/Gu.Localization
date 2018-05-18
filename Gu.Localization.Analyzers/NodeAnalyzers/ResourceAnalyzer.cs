@@ -11,7 +11,8 @@ namespace Gu.Localization.Analyzers
     internal class ResourceAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
-            GULOC07KeyDoesNotMatch.Descriptor);
+            GULOC07KeyDoesNotMatch.Descriptor,
+            GULOC08DuplicateNeutral.Descriptor);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -29,16 +30,33 @@ namespace Gu.Localization.Analyzers
                 context.ContainingSymbol is IPropertySymbol property &&
                 property.Type == KnownSymbol.String &&
                 ResxFile.TryGetDefault(property.ContainingType, out var resx) &&
-                resx.TryGetString(property.Name, out var text) &&
-                Resources.TryGetKey(text, out var key) &&
-                key != property.Name)
+                resx.TryGetString(property.Name, out var text))
             {
-                context.ReportDiagnostic(
-                    Diagnostic.Create(
-                        GULOC07KeyDoesNotMatch.Descriptor,
-                        propertyDeclaration.Identifier.GetLocation(),
-                        ImmutableDictionary<string, string>.Empty.Add("Key", key),
-                        key));
+                if (Resources.TryGetKey(text, out var key) &&
+                    key != property.Name)
+                {
+                    context.ReportDiagnostic(
+                        Diagnostic.Create(
+                            GULOC07KeyDoesNotMatch.Descriptor,
+                            propertyDeclaration.Identifier.GetLocation(),
+                            ImmutableDictionary<string, string>.Empty.Add("Key", key),
+                            key));
+                }
+
+                foreach (var data in resx.Document.Root.Elements("data"))
+                {
+                    if (ResxFile.TryGetString(data, out var candidateText) &&
+                        candidateText == text &&
+                        ResxFile.TryGetName(data, out var candidateName) &&
+                        candidateName != property.Name)
+                    {
+                        context.ReportDiagnostic(
+                            Diagnostic.Create(
+                                GULOC08DuplicateNeutral.Descriptor,
+                                propertyDeclaration.Identifier.GetLocation(),
+                                text));
+                    }
+                }
             }
         }
     }

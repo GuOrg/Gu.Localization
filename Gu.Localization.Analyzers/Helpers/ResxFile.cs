@@ -48,10 +48,9 @@ namespace Gu.Localization.Analyzers
             return resxFile != null;
         }
 
-        internal bool TryGetString(string key, out string value)
+        internal static bool TryGetString(XElement data, out string value)
         {
-            if (this.TryGetElement(key, out var data) &&
-                data.Element("value") is XElement valueElement)
+            if (data.Element("value") is XElement valueElement)
             {
                 value = valueElement.Value;
                 return true;
@@ -61,11 +60,30 @@ namespace Gu.Localization.Analyzers
             return false;
         }
 
+        internal static bool TryGetName(XElement data, out string value)
+        {
+            if (data.Attribute("name") is XAttribute attribute)
+            {
+                value = attribute.Value;
+                return true;
+            }
+
+            value = null;
+            return false;
+        }
+
+        internal bool TryGetString(string key, out string value)
+        {
+            value = null;
+            return this.TryGetDataElement(key, out var data) &&
+                   TryGetString(data, out value);
+        }
+
         internal void RenameKey(string oldName, string newName)
         {
             lock (this.gate)
             {
-                if (this.TryGetElement(oldName, out var data))
+                if (this.TryGetDataElement(oldName, out var data))
                 {
                     if (data.Attribute("name") is XAttribute attribute &&
                         attribute.Value == oldName)
@@ -81,7 +99,7 @@ namespace Gu.Localization.Analyzers
         {
             lock (this.gate)
             {
-                if (!this.TryGetElement(key, out _))
+                if (!this.TryGetDataElement(key, out _))
                 {
                     // <data name="Key" xml:space="preserve">
                     //   <value>Value</value>
@@ -143,14 +161,14 @@ namespace Gu.Localization.Analyzers
             }
         }
 
-        private bool TryGetElement(string key, out XElement element)
+        private bool TryGetDataElement(string key, out XElement element)
         {
             if (this.Document.Root is XElement root)
             {
                 foreach (var candidate in root.Elements("data"))
                 {
-                    if (candidate.Attribute("name") is XAttribute attribute &&
-                        attribute.Value == key)
+                    if (TryGetName(candidate, out var name) &&
+                        name == key)
                     {
                         element = candidate;
                         return true;

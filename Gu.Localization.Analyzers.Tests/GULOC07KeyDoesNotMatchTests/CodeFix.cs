@@ -13,7 +13,6 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
         private static readonly CodeFixProvider Fix = new RenameResourceFix();
 
         private FileInfo projectFile;
-        private FileInfo resourcesFile;
         private DirectoryInfo directory;
 
         [SetUp]
@@ -28,7 +27,6 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
 
             original.Directory.CopyTo(this.directory);
             this.projectFile = this.directory.FindFile(original.Name);
-            this.resourcesFile = this.directory.FindFile("Properties\\Resources.Designer.cs");
         }
 
         [TestCase("Wrong")]
@@ -40,7 +38,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
             this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", $"\"{wrongName}\"");
             this.directory.FindFile("MainWindow.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{wrongName}");
             this.directory.FindFile("Resources\\Dictionary1.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{wrongName}");
-            this.resourcesFile.ReplaceText("public static string Key", $"public static string {wrongName}");
+            this.directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", $"public static string {wrongName}");
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
 
             var diagnostics = Analyze.GetDiagnostics(sln, Analyzer);
@@ -555,7 +553,7 @@ namespace Gu.Localization.TestStub.Properties
             this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", "\"Wrong\"");
             this.directory.FindFile("MainWindow.xaml").ReplaceText("p:Resources.Key", "p:Resources.Wrong");
             this.directory.FindFile("Resources\\Dictionary1.xaml").ReplaceText("p:Resources.Key", "p:Resources.Wrong");
-            this.resourcesFile.ReplaceText(
+            this.directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText(
 @"        public static string Key {
             get {
                 return ResourceManager.GetString(""Key"", resourceCulture);
