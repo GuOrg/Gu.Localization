@@ -37,6 +37,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
             this.directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", $"\"{wrongName}\"");
             this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", $"\"{wrongName}\"");
             this.directory.FindFile("MainWindow.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{wrongName}");
+            this.directory.FindFile("UserControl1.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{wrongName}");
             this.directory.FindFile("Resources\\Dictionary1.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{wrongName}");
             this.directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", $"public static string {wrongName}");
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
@@ -540,6 +541,21 @@ namespace Gu.Localization.TestStub.Properties
 ";
             CodeAssert.AreEqual(expected, this.directory.FindFile("MainWindow.xaml").ReadAllText());
 
+            expected = @"<UserControl x:Class=""Gu.Localization.TestStub.UserControl1""
+             xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+             xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+             xmlns:mc=""http://schemas.openxmlformats.org/markup-compatibility/2006"" 
+             xmlns:d=""http://schemas.microsoft.com/expression/blend/2008"" 
+             xmlns:local=""clr-namespace:Gu.Localization.TestStub""
+             xmlns:p=""clr-namespace:Gu.Localization.TestStub.Properties;assembly=Gu.Localization.TestStub""
+             mc:Ignorable=""d"" 
+             d:DesignHeight=""450"" d:DesignWidth=""800"">
+    <Grid>
+        <TextBlock Text=""{x:Static p:Resources.Value}""></TextBlock>
+    </Grid>
+</UserControl>
+";
+            CodeAssert.AreEqual(expected, this.directory.FindFile("UserControl1.xaml").ReadAllText());
             expected = @"<ResourceDictionary xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
                     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
                     xmlns:p=""clr-namespace:Gu.Localization.TestStub.Properties"">
@@ -558,6 +574,7 @@ namespace Gu.Localization.TestStub.Properties
             this.directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", "\"Wrong\"");
             this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", "\"Wrong\"");
             this.directory.FindFile("MainWindow.xaml").ReplaceText("p:Resources.Key", "p:Resources.Wrong");
+            this.directory.FindFile("UserControl1.xaml").ReplaceText("p:Resources.Key", "p:Resources.Wrong");
             this.directory.FindFile("Resources\\Dictionary1.xaml").ReplaceText("p:Resources.Key", "p:Resources.Wrong");
             this.directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText(
 @"        public static string Key {
@@ -1071,6 +1088,22 @@ namespace Gu.Localization.TestStub.Properties
 </Window>
 ";
             CodeAssert.AreEqual(expected, this.directory.FindFile("MainWindow.xaml").ReadAllText());
+
+            expected = @"<UserControl x:Class=""Gu.Localization.TestStub.UserControl1""
+             xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+             xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+             xmlns:mc=""http://schemas.openxmlformats.org/markup-compatibility/2006"" 
+             xmlns:d=""http://schemas.microsoft.com/expression/blend/2008"" 
+             xmlns:local=""clr-namespace:Gu.Localization.TestStub""
+             xmlns:p=""clr-namespace:Gu.Localization.TestStub.Properties;assembly=Gu.Localization.TestStub""
+             mc:Ignorable=""d"" 
+             d:DesignHeight=""450"" d:DesignWidth=""800"">
+    <Grid>
+        <TextBlock Text=""{x:Static p:Resources.Value}""></TextBlock>
+    </Grid>
+</UserControl>
+";
+            CodeAssert.AreEqual(expected, this.directory.FindFile("UserControl1.xaml").ReadAllText());
 
             expected = @"<ResourceDictionary xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
                     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
