@@ -9,7 +9,7 @@ namespace Gu.Localization.Analyzers
         internal static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
             title: "More than one resource has the same neutral string.",
-            messageFormat: "The neutral string is {0}",
+            messageFormat: "The duplicated neutral string is {0}",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true,
