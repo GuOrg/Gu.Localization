@@ -34,9 +34,11 @@ namespace Gu.Localization.Analyzers
                 match.Groups["alias"].Value is string alias &&
                 !string.IsNullOrEmpty(alias))
             {
-                var updated = xaml.Text.Replace(
-                    $"{alias}:{resource.ContainingType.Name}.{resource.Name}",
-                    $"{alias}:{resource.ContainingType.Name}.{newName}");
+                var oldProperty = $"{alias}:{resource.ContainingType.Name}.{resource.Name}";
+                var newProperty = $"{alias}:{resource.ContainingType.Name}.{newName}";
+                var updated = Replace(xaml.Text, " {0}}}", oldProperty, newProperty);
+                updated = Replace(updated, "({0})", oldProperty, newProperty);
+                updated = Replace(updated, "\"{0}\"", oldProperty, newProperty);
                 if (updated != xaml.Text)
                 {
                     result = new XamlFile(updated, xaml.Encoding);
@@ -46,6 +48,13 @@ namespace Gu.Localization.Analyzers
 
             result = default(XamlFile);
             return false;
+        }
+
+        private static string Replace(string xaml, string format, string oldProperty, string newProperty)
+        {
+            return xaml.Replace(
+                string.Format(format, oldProperty),
+                string.Format(format, newProperty));
         }
     }
 }

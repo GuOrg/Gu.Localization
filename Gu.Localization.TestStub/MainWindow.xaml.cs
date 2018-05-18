@@ -9,7 +9,7 @@ namespace Gu.Localization.TestStub
     {
         public Window1()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }
