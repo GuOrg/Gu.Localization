@@ -14,6 +14,7 @@ namespace Gu.Localization.Analyzers
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             GULOC07KeyDoesNotMatch.Descriptor,
             GULOC08DuplicateNeutral.Descriptor,
+            GULOC09Duplicate.Descriptor,
             GULOC10MissingTranslation.Descriptor);
 
         public override void Initialize(AnalysisContext context)
