@@ -50,18 +50,11 @@ namespace Gu.Localization.Analyzers
 
         internal bool TryGetString(string key, out string value)
         {
-            if (this.Document.Root is XElement root)
+            if (this.TryGetElement(key, out var data) &&
+                data.Element("value") is XElement valueElement)
             {
-                foreach (var candidate in root.Elements("data"))
-                {
-                    if (candidate.Attribute("name") is XAttribute attribute &&
-                        attribute.Value == key &&
-                        candidate.Element("value") is XElement valueElement)
-                    {
-                        value = valueElement.Value;
-                        return true;
-                    }
-                }
+                value = valueElement.Value;
+                return true;
             }
 
             value = null;
@@ -72,16 +65,13 @@ namespace Gu.Localization.Analyzers
         {
             lock (this.gate)
             {
-                if (this.Document.Root is XElement root)
+                if (this.TryGetElement(oldName, out var data))
                 {
-                    foreach (var candidate in root.Elements("data"))
+                    if (data.Attribute("name") is XAttribute attribute &&
+                        attribute.Value == oldName)
                     {
-                        if (candidate.Attribute("name") is XAttribute attribute &&
-                            attribute.Value == oldName)
-                        {
-                            attribute.Value = newName;
-                            this.Save();
-                        }
+                        attribute.Value = newName;
+                        this.Save();
                     }
                 }
             }
@@ -91,15 +81,19 @@ namespace Gu.Localization.Analyzers
         {
             lock (this.gate)
             {
-                // <data name="Key" xml:space="preserve">
-                //   <value>Value</value>
-                // </data>
-                var xElement = new XElement("data");
-                xElement.Add(new XAttribute("name", key));
-                xElement.Add(new XAttribute(XNamespace.Xml + "space", "preserve"));
-                xElement.Add(new XElement("value", text));
-                this.Document.Root.Add(xElement);
-                this.Save();
+                if (!this.TryGetElement(key, out _))
+                {
+                    // <data name="Key" xml:space="preserve">
+                    //   <value>Value</value>
+                    // </data>
+                    var xElement = new XElement("data");
+                    xElement.Add(new XAttribute("name", key));
+                    xElement.Add(new XAttribute(XNamespace.Xml + "space", "preserve"));
+                    xElement.Add(new XElement("value", text));
+                    //// ReSharper disable once PossibleNullReferenceException
+                    this.Document.Root.Add(xElement);
+                    this.Save();
+                }
             }
         }
 
@@ -147,6 +141,25 @@ namespace Gu.Localization.Analyzers
                 this.Document.Save(writer);
                 this.lastWriteTimeUtc = File.GetLastWriteTimeUtc(this.FileName);
             }
+        }
+
+        private bool TryGetElement(string key, out XElement element)
+        {
+            if (this.Document.Root is XElement root)
+            {
+                foreach (var candidate in root.Elements("data"))
+                {
+                    if (candidate.Attribute("name") is XAttribute attribute &&
+                        attribute.Value == key)
+                    {
+                        element = candidate;
+                        return true;
+                    }
+                }
+            }
+
+            element = null;
+            return false;
         }
     }
 }
