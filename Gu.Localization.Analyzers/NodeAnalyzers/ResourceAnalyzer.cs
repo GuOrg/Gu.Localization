@@ -1,6 +1,7 @@
 namespace Gu.Localization.Analyzers
 {
     using System.Collections.Immutable;
+    using System.Text.RegularExpressions;
     using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
@@ -12,7 +13,8 @@ namespace Gu.Localization.Analyzers
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             GULOC07KeyDoesNotMatch.Descriptor,
-            GULOC08DuplicateNeutral.Descriptor);
+            GULOC08DuplicateNeutral.Descriptor,
+            GULOC10MissingTranslation.Descriptor);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -50,14 +52,52 @@ namespace Gu.Localization.Analyzers
                         ResxFile.TryGetName(data, out var candidateName) &&
                         candidateName != property.Name)
                     {
-                        context.ReportDiagnostic(
-                            Diagnostic.Create(
-                                GULOC08DuplicateNeutral.Descriptor,
-                                propertyDeclaration.Identifier.GetLocation(),
-                                text));
+                        if (IsIdentical(resx, property.Name, candidateName))
+                        {
+                            context.ReportDiagnostic(
+                                Diagnostic.Create(
+                                    GULOC09Duplicate.Descriptor,
+                                    propertyDeclaration.Identifier.GetLocation(),
+                                    text));
+                        }
+                        else
+                        {
+                            context.ReportDiagnostic(
+                                Diagnostic.Create(
+                                    GULOC08DuplicateNeutral.Descriptor,
+                                    propertyDeclaration.Identifier.GetLocation(),
+                                    text));
+                        }
                     }
                 }
             }
+        }
+
+        private static bool IsIdentical(ResxFile resx, string key1, string key2)
+        {
+            foreach (var cultureResx in resx.CultureSpecific())
+            {
+                if (cultureResx.TryGetString(key1, out var string1))
+                {
+                    if (cultureResx.TryGetString(key2, out var string2))
+                    {
+                        if (string1 != string2)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else if (cultureResx.TryGetString(key2, out _))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
