@@ -115,7 +115,7 @@ namespace Gu.Localization.Analyzers
             void Update(string fileName)
             {
                 var xaml = TextWithEncoding.Create(fileName);
-                var pattern = $"xmlns:(?<alias>\\w+)=\"clr-namespace:{property.ContainingType.ContainingSymbol}\"";
+                var pattern = $"xmlns:(?<alias>\\w+)=\"clr-namespace:{property.ContainingType.ContainingSymbol}(\"|;)";
                 if (Regex.Match(xaml.Text, pattern) is Match match &&
                     match.Success)
                 {
