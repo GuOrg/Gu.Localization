@@ -5,11 +5,29 @@ namespace Gu.Localization.Analyzers
     using System.Text.RegularExpressions;
     using Microsoft.CodeAnalysis;
 
-    internal static class XamlFile
+    internal struct XamlFile
     {
-        internal static void UpdateUsage(string fileName, IPropertySymbol resource, string newName)
+        private XamlFile(string text, Encoding encoding)
         {
-            var xaml = TextWithEncoding.Create(fileName);
+            this.Text = text;
+            this.Encoding = encoding;
+        }
+
+        public string Text { get; }
+
+        public Encoding Encoding { get; }
+
+        internal static XamlFile Create(string fileName)
+        {
+            using (var reader = new StreamReader(File.OpenRead(fileName), Encoding.UTF8, detectEncodingFromByteOrderMarks: true))
+            {
+                return new XamlFile(reader.ReadToEnd(), reader.CurrentEncoding);
+            }
+        }
+
+        internal static bool TryUpdateUsage(string fileName, IPropertySymbol resource, string newName, out XamlFile result)
+        {
+            var xaml = XamlFile.Create(fileName);
             var pattern = $"xmlns:(?<alias>\\w+)=\"clr-namespace:{resource.ContainingType.ContainingSymbol}(\"|;)";
             if (Regex.Match(xaml.Text, pattern) is Match match &&
                 match.Success &&
@@ -21,30 +39,13 @@ namespace Gu.Localization.Analyzers
                     $"{alias}:{resource.ContainingType.Name}.{newName}");
                 if (updated != xaml.Text)
                 {
-                    File.WriteAllText(fileName, updated, xaml.Encoding);
+                    result = new XamlFile(updated, xaml.Encoding);
+                    return true;
                 }
             }
-        }
 
-        private struct TextWithEncoding
-        {
-            public TextWithEncoding(string text, Encoding encoding)
-            {
-                this.Text = text;
-                this.Encoding = encoding;
-            }
-
-            public string Text { get; }
-
-            public Encoding Encoding { get; }
-
-            public static TextWithEncoding Create(string fileName)
-            {
-                using (var reader = new StreamReader(File.OpenRead(fileName), Encoding.UTF8, detectEncodingFromByteOrderMarks: true))
-                {
-                    return new TextWithEncoding(reader.ReadToEnd(), reader.CurrentEncoding);
-                }
-            }
+            result = default(XamlFile);
+            return false;
         }
     }
 }

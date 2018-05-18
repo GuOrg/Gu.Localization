@@ -96,17 +96,23 @@ namespace Gu.Localization.Analyzers
                             if (page.Attribute("Include") is XAttribute attribute &&
                                 attribute.Value.EndsWith(".xaml"))
                             {
-                                var xamlFile = Path.Combine(directory, attribute.Value);
-                                XamlFile.UpdateUsage(xamlFile, property, newName);
+                                var fileName = Path.Combine(directory, attribute.Value);
+                                if (XamlFile.TryUpdateUsage(fileName, property, newName, out var xamlFile))
+                                {
+                                    File.WriteAllText(fileName, xamlFile.Text, xamlFile.Encoding);
+                                }
                             }
                         }
                     }
                 }
                 else
                 {
-                    foreach (var xamlFile in Directory.EnumerateFiles(directory, "*.xaml", SearchOption.AllDirectories))
+                    foreach (var fileName in Directory.EnumerateFiles(directory, "*.xaml", SearchOption.AllDirectories))
                     {
-                        XamlFile.UpdateUsage(xamlFile, property, newName);
+                        if (XamlFile.TryUpdateUsage(fileName, property, newName, out var xamlFile))
+                        {
+                            File.WriteAllText(fileName, xamlFile.Text, xamlFile.Encoding);
+                        }
                     }
                 }
             }
