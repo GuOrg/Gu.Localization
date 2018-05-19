@@ -9,7 +9,7 @@ namespace Gu.Localization.Analyzers
         internal static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
             title: "Missing translation.",
-            messageFormat: "The resource does not have translation to {0}",
+            messageFormat: "The resource does not have translation to '{0}', the neutral string is '{1}'",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true,

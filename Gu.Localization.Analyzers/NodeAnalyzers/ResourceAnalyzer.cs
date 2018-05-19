@@ -33,9 +33,9 @@ namespace Gu.Localization.Analyzers
                 context.ContainingSymbol is IPropertySymbol property &&
                 property.Type == KnownSymbol.String &&
                 ResxFile.TryGetDefault(property.ContainingType, out var resx) &&
-                resx.TryGetString(property.Name, out var text))
+                resx.TryGetString(property.Name, out var neutral))
             {
-                if (Resources.TryGetKey(text, out var key) &&
+                if (Resources.TryGetKey(neutral, out var key) &&
                     key != property.Name)
                 {
                     context.ReportDiagnostic(
@@ -49,7 +49,7 @@ namespace Gu.Localization.Analyzers
                 foreach (var data in resx.Document.Root.Elements("data"))
                 {
                     if (ResxFile.TryGetString(data, out var candidateText) &&
-                        candidateText == text &&
+                        candidateText == neutral &&
                         ResxFile.TryGetName(data, out var candidateName) &&
                         candidateName != property.Name)
                     {
@@ -59,7 +59,7 @@ namespace Gu.Localization.Analyzers
                                 Diagnostic.Create(
                                     GULOC09Duplicate.Descriptor,
                                     propertyDeclaration.Identifier.GetLocation(),
-                                    text));
+                                    neutral));
                         }
                         else
                         {
@@ -67,7 +67,7 @@ namespace Gu.Localization.Analyzers
                                 Diagnostic.Create(
                                     GULOC08DuplicateNeutral.Descriptor,
                                     propertyDeclaration.Identifier.GetLocation(),
-                                    text));
+                                    neutral));
                         }
                     }
                 }
@@ -83,7 +83,8 @@ namespace Gu.Localization.Analyzers
                             Diagnostic.Create(
                                 GULOC10MissingTranslation.Descriptor,
                                 propertyDeclaration.Identifier.GetLocation(),
-                                culture));
+                                culture,
+                                neutral));
                     }
                 }
             }
