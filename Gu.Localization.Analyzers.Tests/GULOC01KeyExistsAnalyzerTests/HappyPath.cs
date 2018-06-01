@@ -667,5 +667,27 @@ namespace RoslynSandbox
 }";
             AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
+
+        [Test]
+        public void ResourceManagerGetStringWithEnumToString()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    public class Foo
+    {
+        public Foo(SomeEnum someEnum)
+        {
+            var translate = Properties.Resources.ResourceManager.GetString(someEnum.ToString());
+        }
+    }
+
+    public enum SomeEnum
+    {
+        Key,
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
     }
 }

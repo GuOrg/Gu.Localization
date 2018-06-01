@@ -56,10 +56,9 @@ namespace Gu.Localization.Analyzers
                         }
                     }
 
-                    if (TryGetStringValue(keyArgument, out var key) &&
-                        context.SemanticModel.GetSymbolInfo(resources).Symbol is INamedTypeSymbol resourcesType)
+                    if (context.SemanticModel.GetSymbolInfo(resources).Symbol is INamedTypeSymbol resourcesType)
                     {
-                        if (!resourcesType.GetMembers(key).Any())
+                        if (!KeyExists(keyArgument, resourcesType))
                         {
                             context.ReportDiagnostic(Diagnostic.Create(GULOC01KeyExists.Descriptor, keyArgument.GetLocation()));
                         }
@@ -78,6 +77,11 @@ namespace Gu.Localization.Analyzers
                           ResourceManager.IsGetString(invocation, context, out resourcesType, out _) ||
                           Translate.IsCustomTranslateMethod(invocation, context, out resourcesType, out _)))
                 {
+                    if (!KeyExists(keyArgument, resourcesType))
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(GULOC01KeyExists.Descriptor, keyArgument.GetLocation()));
+                    }
+
                     if (!IsNameOfKey(keyArgument))
                     {
                         if (keyArgument.Expression is LiteralExpressionSyntax)
@@ -95,14 +99,18 @@ namespace Gu.Localization.Analyzers
                             context.ReportDiagnostic(Diagnostic.Create(GULOC02UseNameOf.Descriptor, keyArgument.GetLocation()));
                         }
                     }
-
-                    if (TryGetStringValue(keyArgument, out var key) &&
-                        !resourcesType.GetMembers(key).Any())
-                    {
-                        context.ReportDiagnostic(Diagnostic.Create(GULOC01KeyExists.Descriptor, keyArgument.GetLocation()));
-                    }
                 }
             }
+        }
+
+        private static bool KeyExists(ArgumentSyntax keyArgument, INamedTypeSymbol resourcesType)
+        {
+            if (TryGetStringValue(keyArgument, out var key))
+            {
+                return resourcesType.GetMembers(key).Any();
+            }
+
+            return true; // Assuming ok here.
         }
 
         private static bool TryGetCustom(IMethodSymbol target, INamedTypeSymbol resourcesType, out IMethodSymbol custom)
