@@ -12,10 +12,11 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>Roslyn analyzers for Gu.Localization.</Description>
     <Authors>Johan Larsson</Authors>
-    <Version>0.2.2.2-dev</Version>
+    <Version>0.2.2.3-dev</Version>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageTags>roslyn analyzer</PackageTags>
-    <PackageReleaseNotes>BUGFIX: replace in xaml.</PackageReleaseNotes>
+    <PackageReleaseNotes>BUGFIX: handle enums.
+BUGFIX: handle resource named Resources</PackageReleaseNotes>
     <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Localization</PackageProjectUrl>    
     <RepositoryUrl>https://github.com/GuOrg/Gu.Localization</RepositoryUrl>
