@@ -644,11 +644,11 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = ResourceManager.GetString(nameof(Resources.Key), CultureInfo.GetCultureInfo(""sv-SE""));
+            var translate = Resources.ResourceManager.GetString(nameof(Resources.Key), CultureInfo.GetCultureInfo(""sv-SE""));
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -661,11 +661,11 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Properties.ResourceManager.GetString(nameof(Properties.Resources.Key), CultureInfo.GetCultureInfo(""sv-SE""));
+            var translate = Properties.Resources.ResourceManager.GetString(nameof(Properties.Resources.Key), CultureInfo.GetCultureInfo(""sv-SE""));
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
     }
 }
