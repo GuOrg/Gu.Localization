@@ -87,6 +87,11 @@ namespace Gu.Localization.Analyzers
             }
 
             key = builder.Return();
+            if (key == "Resources")
+            {
+                key += "_";
+            }
+
             return SyntaxFacts.IsValidIdentifier(key);
         }
 

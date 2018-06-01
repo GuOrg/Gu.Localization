@@ -34,6 +34,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
         [TestCase("One resource", "One_resource")]
         [TestCase("One resource.", "One_resource_")]
         [TestCase("abc", "abc")]
+        [TestCase("Resources", "Resources_")]
         [TestCase("0", "_0")]
         [TestCase("One {0}", "One___0__")]
         [TestCase("One {0} Two {1}", "One___0___Two___1__")]

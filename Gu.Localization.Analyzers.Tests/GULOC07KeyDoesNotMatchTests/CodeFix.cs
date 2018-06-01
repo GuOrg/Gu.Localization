@@ -29,17 +29,17 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
             this.projectFile = this.directory.FindFile(original.Name);
         }
 
-        [TestCase("Wrong")]
-        [TestCase("Wrong_Long_Name")]
-        public void Rename(string wrongName)
+        [TestCase("Key")]
+        [TestCase("Some_long_key")]
+        public void Rename(string value)
         {
-            this.directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", $"\"{wrongName}\"");
-            this.directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", $"\"{wrongName}\"");
-            this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", $"\"{wrongName}\"");
-            this.directory.FindFile("MainWindow.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{wrongName}");
-            this.directory.FindFile("UserControl1.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{wrongName}");
-            this.directory.FindFile("Resources\\Dictionary1.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{wrongName}");
-            this.directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", $"public static string {wrongName}");
+            this.directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", $"\"{value}\"");
+            this.directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", $"\"{value}\"");
+            this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", $"\"{value}\"");
+            this.directory.FindFile("MainWindow.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{value}");
+            this.directory.FindFile("UserControl1.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{value}");
+            this.directory.FindFile("Resources\\Dictionary1.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{value}");
+            this.directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", $"public static string {value}");
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
 
             var diagnostics = Analyze.GetDiagnostics(sln, Analyzer);
