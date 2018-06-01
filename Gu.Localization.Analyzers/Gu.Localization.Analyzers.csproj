@@ -12,11 +12,10 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>Roslyn analyzers for Gu.Localization.</Description>
     <Authors>Johan Larsson</Authors>
-    <Version>0.2.2.3-dev</Version>
+    <Version>0.2.2.4-dev</Version>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageTags>roslyn analyzer</PackageTags>
-    <PackageReleaseNotes>BUGFIX: handle enums.
-BUGFIX: handle resource named Resources</PackageReleaseNotes>
+    <PackageReleaseNotes>BUGFIX: translate resource fix.</PackageReleaseNotes>
     <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Localization</PackageProjectUrl>    
     <RepositoryUrl>https://github.com/GuOrg/Gu.Localization</RepositoryUrl>
