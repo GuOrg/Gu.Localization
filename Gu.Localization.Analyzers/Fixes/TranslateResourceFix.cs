@@ -15,7 +15,8 @@ namespace Gu.Localization.Analyzers
     internal class TranslateResourceFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            GULOC02UseNameOf.DiagnosticId);
+            GULOC04UseCustomTranslate.DiagnosticId,
+            GULOC05TranslateUseResource.DiagnosticId);
 
         public override FixAllProvider GetFixAllProvider() => null;
 
@@ -27,7 +28,8 @@ namespace Gu.Localization.Analyzers
             {
                 if (syntaxRoot.FindNode(diagnostic.Location.SourceSpan) is MemberAccessExpressionSyntax memberAccess)
                 {
-                    if (diagnostic.Properties.TryGetValue(nameof(Translate), out var call))
+                    if (diagnostic.Id == GULOC04UseCustomTranslate.DiagnosticId &&
+                        diagnostic.Properties.TryGetValue(nameof(Translate), out var call))
                     {
                         context.RegisterCodeFix(
                             CodeAction.Create(
@@ -43,7 +45,7 @@ namespace Gu.Localization.Analyzers
 
                     context.RegisterCodeFix(
                         CodeAction.Create(
-                            "Translator.Translate",
+                            "Gu.Localization.Translator.Translate",
                             _ => Task.FromResult(
                                 context.Document.WithSyntaxRoot(
                                     syntaxRoot.ReplaceNode(
@@ -51,7 +53,7 @@ namespace Gu.Localization.Analyzers
                                         SyntaxFactory.ParseExpression(
                                                          $"Gu.Localization.Translator.Translate({memberAccess.Expression}.ResourceManager, nameof({memberAccess}))")
                                                      .WithSimplifiedNames()))),
-                            "Translator.Translate"),
+                            "Gu.Localization.Translator.Translate"),
                         diagnostic);
                 }
             }

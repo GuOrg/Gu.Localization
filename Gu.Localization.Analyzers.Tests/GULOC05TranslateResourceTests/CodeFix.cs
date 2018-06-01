@@ -5,7 +5,6 @@ namespace Gu.Localization.Analyzers.Tests.GULOC05TranslateResourceTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    [Explicit("fix later")]
     internal class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new MemberAccessAnalyzer();
@@ -76,33 +75,6 @@ namespace RoslynSandbox.Properties {
     }
 }";
 
-        private static readonly string TranslateCode = @"
-namespace RoslynSandbox.Properties
-{
-    using Gu.Localization;
-
-    public static class Translate
-    {
-        /// <summary>Call like this: Translate.Key(nameof(Resources.Saved_file__0_)).</summary>
-        /// <param name=""key"">A key in Properties.Resources</param>
-        /// <param name=""errorHandling"">How to handle translation errors like missing key or culture.</param>
-        /// <returns>A translation for the key.</returns>
-        public static string Key(string key, ErrorHandling errorHandling = ErrorHandling.ReturnErrorInfoPreserveNeutral)
-        {
-            return TranslationFor(key, errorHandling).Translated;
-        }
-
-        /// <summary>Call like this: Translate.Key(nameof(Resources.Saved_file__0_)).</summary>
-        /// <param name=""key"">A key in Properties.Resources</param>
-        /// <param name=""errorHandling"">How to handle translation errors like missing key or culture.</param>
-        /// <returns>A translation for the key.</returns>
-        public static ITranslation TranslationFor(string key, ErrorHandling errorHandling = ErrorHandling.ReturnErrorInfoPreserveNeutral)
-        {
-            return Gu.Localization.Translation.GetOrCreate(Resources.ResourceManager, key, errorHandling);
-        }
-    }
-}";
-
         [Test]
         public void TranslatorTranslate()
         {
@@ -116,7 +88,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Properties.Resources.Key;
+            var text = ↓Properties.Resources.Key;
         }
     }
 }";
@@ -131,39 +103,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Translate.Key(nameof(Properties.Resources.Key));
-        }
-    }
-}";
-            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, TranslateCode, testCode }, fixedCode);
-        }
-
-        [Test]
-        public void TranslationGetOrCreateNameofFullyQualified()
-        {
-            var testCode = @"
-namespace RoslynSandbox
-{
-    using Gu.Localization;
-
-    public class Foo
-    {
-        public Foo()
-        {
-            var translate = Properties.Resources.Key;
-        }
-    }
-}";
-            var fixedCode = @"
-namespace RoslynSandbox
-{
-    using Gu.Localization;
-
-    public class Foo
-    {
-        public Foo()
-        {
-            var translate = Translator.Translate(nameof(Properties.Resources.Key));
+            var text = Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Key));
         }
     }
 }";
