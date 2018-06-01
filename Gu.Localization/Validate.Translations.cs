@@ -25,7 +25,7 @@ namespace Gu.Localization
         ///   - All formats have the same number of parameters.
         ///   - All formats have numbering 0..1..n for the parameters.
         /// </summary>
-        /// <param name="resourceManager">The resource managerr to check</param>
+        /// <param name="resourceManager">The resource manager to check</param>
         /// <returns>An <see cref="TranslationErrors"/> with all errors found in <paramref name="resourceManager"/></returns>
         public static TranslationErrors Translations(ResourceManager resourceManager)
         {
@@ -41,7 +41,7 @@ namespace Gu.Localization
         ///   - All formats have the same number of parameters.
         ///   - All formats have numbering 0..1..n for the parameters.
         /// </summary>
-        /// <param name="resourceManager">The resource managerr to check</param>
+        /// <param name="resourceManager">The resource manager to check</param>
         /// <param name="cultures">The cultures to check resources for</param>
         /// <returns>An <see cref="TranslationErrors"/> with all errors found in <paramref name="resourceManager"/></returns>
         public static TranslationErrors Translations(ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
@@ -156,6 +156,20 @@ namespace Gu.Localization
             return EmptyErrors;
         }
 
+        /// <summary>
+        /// This is meant to be used in unit tests.
+        /// Performance is probably very poor and we load all resources into memory.
+        /// Checks that:
+        /// 1) <paramref name="key"/> has non null values for all cultures in <see cref="Translator.Cultures"/>
+        /// 2) If the resource is a format string it checks that
+        ///   - All formats have the same number of parameters.
+        ///   - All formats have numbering 0..1..n for the parameters.
+        /// </summary>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <paramref name="key"/></param>
+        /// <param name="key">The key</param>
+        /// <param name="cultures">The cultures to check</param>
+        /// <param name="errors">A list with all errors for the key</param>
+        /// <returns>True if errors were found.</returns>
         public static bool TryGetTranslationErrors(ResourceManager resourceManager, string key, IEnumerable<CultureInfo> cultures, out IReadOnlyList<TranslationError> errors)
         {
             var culturesAndKeys = resourceManager.GetCulturesAndKeys(cultures);

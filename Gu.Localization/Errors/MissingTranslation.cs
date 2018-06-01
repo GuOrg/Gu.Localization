@@ -1,4 +1,4 @@
-﻿namespace Gu.Localization.Errors
+namespace Gu.Localization.Errors
 {
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
@@ -8,6 +8,11 @@
     /// <summary>A key that does not have a translation to one or more languages.</summary>
     public class MissingTranslation : TranslationError
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MissingTranslation"/> class.
+        /// </summary>
+        /// <param name="key">The resource key.</param>
+        /// <param name="cultures">The cultures that does not have a translation.</param>
         public MissingTranslation(string key, IReadOnlyList<CultureInfo> cultures)
             : base(key)
         {

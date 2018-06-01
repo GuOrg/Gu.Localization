@@ -7,6 +7,9 @@ namespace Gu.Localization
     using System.Globalization;
     using System.Linq;
 
+    /// <summary>
+    /// Methods for working with <see cref="CultureInfo"/>
+    /// </summary>
     public static partial class Translator
     {
         private static readonly ObservableSortedSet<CultureInfo> AllCultures = new ObservableSortedSet<CultureInfo>(GetAllCultures(), CultureInfoComparer.ByName);

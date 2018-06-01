@@ -12,6 +12,11 @@ namespace Gu.Localization.Errors
     /// </summary>
     public class FormatError : TranslationError
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormatError"/> class.
+        /// </summary>
+        /// <param name="key">The resource key.</param>
+        /// <param name="formats">The formats found in current cultures.</param>
         public FormatError(string key, IReadOnlyDictionary<CultureInfo, string> formats)
             : base(key)
         {

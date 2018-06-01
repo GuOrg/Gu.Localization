@@ -1,9 +1,12 @@
-﻿namespace Gu.Localization
+namespace Gu.Localization
 {
     using System;
     using System.Globalization;
     using System.Resources;
 
+    /// <summary>
+    /// Methods for working with format strings.
+    /// </summary>
     public static partial class Translator
     {
         /// <summary>
