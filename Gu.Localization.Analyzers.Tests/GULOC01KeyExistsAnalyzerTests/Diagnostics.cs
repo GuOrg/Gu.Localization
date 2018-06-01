@@ -861,7 +861,30 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, TranslateCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, testCode);
+        }
+
+        [Test]
+        public void ResourceManagerGetStringWithEnumToString()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    public class Foo
+    {
+        public Foo(SomeEnum someEnum)
+        {
+            var translate = Properties.Resources.ResourceManager.GetString(↓someEnum.ToString());
+        }
+    }
+
+    public enum SomeEnum
+    {
+        Key,
+        Missing,
+    }
+}";
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, ResourcesCode, testCode);
         }
     }
 }

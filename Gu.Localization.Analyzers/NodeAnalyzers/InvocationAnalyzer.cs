@@ -58,7 +58,7 @@ namespace Gu.Localization.Analyzers
 
                     if (context.SemanticModel.GetSymbolInfo(resources).Symbol is INamedTypeSymbol resourcesType)
                     {
-                        if (!KeyExists(keyArgument, resourcesType))
+                        if (!KeyExists(keyArgument, resourcesType, context))
                         {
                             context.ReportDiagnostic(Diagnostic.Create(GULOC01KeyExists.Descriptor, keyArgument.GetLocation()));
                         }
@@ -77,7 +77,7 @@ namespace Gu.Localization.Analyzers
                           ResourceManager.IsGetString(invocation, context, out resourcesType, out _) ||
                           Translate.IsCustomTranslateMethod(invocation, context, out resourcesType, out _)))
                 {
-                    if (!KeyExists(keyArgument, resourcesType))
+                    if (!KeyExists(keyArgument, resourcesType, context))
                     {
                         context.ReportDiagnostic(Diagnostic.Create(GULOC01KeyExists.Descriptor, keyArgument.GetLocation()));
                     }
@@ -103,11 +103,30 @@ namespace Gu.Localization.Analyzers
             }
         }
 
-        private static bool KeyExists(ArgumentSyntax keyArgument, INamedTypeSymbol resourcesType)
+        private static bool KeyExists(ArgumentSyntax keyArgument, INamedTypeSymbol resourcesType, SyntaxNodeAnalysisContext context)
         {
             if (TryGetStringValue(keyArgument, out var key))
             {
                 return resourcesType.GetMembers(key).Any();
+            }
+
+            if (keyArgument.Expression is InvocationExpressionSyntax invocation &&
+                invocation.ArgumentList is ArgumentListSyntax argumentList &&
+                argumentList.Arguments.Count == 0 &&
+                invocation.Expression is MemberAccessExpressionSyntax memberAccess &&
+                context.SemanticModel.TryGetType(memberAccess.Expression, context.CancellationToken, out var candidateType) &&
+                candidateType.TypeKind == TypeKind.Enum &&
+                candidateType is INamedTypeSymbol enumType)
+            {
+                foreach (var name in enumType.MemberNames)
+                {
+                    if (!resourcesType.GetMembers(name).Any())
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
             }
 
             return true; // Assuming ok here.
