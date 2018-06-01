@@ -29,8 +29,9 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
             this.projectFile = this.directory.FindFile(original.Name);
         }
 
-        [TestCase("Key", "Value", "Value")]
-        [TestCase("Some_long_key", "Some long value", "Some_long_value")]
+        [TestCase("WrongKey", "Value", "Value")]
+        [TestCase("WrongKey", "Resources", "Resources_")]
+        [TestCase("Some_long_wrong_key", "Some long value", "Some_long_value")]
         public void Rename(string key, string value, string expectedKey)
         {
             this.directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", $"\"{key}\"");
