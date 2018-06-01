@@ -120,11 +120,11 @@ namespace Gu.Localization.Analyzers
 
         private class Property : CSharpSyntaxRewriter
         {
-            private readonly string newValue;
+            private readonly string newKey;
 
-            private Property(string newValue)
+            private Property(string newKey)
             {
-                this.newValue = newValue;
+                this.newKey = newKey;
             }
 
             public static PropertyDeclarationSyntax Rewrite(PropertyDeclarationSyntax declaration, string newValue)
@@ -137,7 +137,7 @@ namespace Gu.Localization.Analyzers
                 if (token.Parent is PropertyDeclarationSyntax propertyDeclaration &&
                     propertyDeclaration.Identifier == token)
                 {
-                    return SyntaxFactory.Identifier(token.LeadingTrivia, this.newValue, token.TrailingTrivia);
+                    return SyntaxFactory.Identifier(token.LeadingTrivia, this.newKey, token.TrailingTrivia);
                 }
 
                 return base.VisitToken(token);
@@ -151,7 +151,7 @@ namespace Gu.Localization.Analyzers
                     invocation.TryGetMethodName(out var method) &&
                     method == "GetString")
                 {
-                    return node.WithExpression(SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(this.newValue)));
+                    return node.WithExpression(SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(this.newKey)));
                 }
 
                 return base.VisitArgument(node);
@@ -166,7 +166,7 @@ namespace Gu.Localization.Analyzers
                     invocation.TryGetMethodName(out var method) &&
                     method == "GetString")
                 {
-                    return node.WithToken(SyntaxFactory.Literal(this.newValue));
+                    return node.WithToken(SyntaxFactory.Literal(this.newKey));
                 }
 
                 return base.VisitLiteralExpression(node);

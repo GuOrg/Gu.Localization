@@ -114,4 +114,7 @@
   <Rules AnalyzerId="AsyncUsageAnalyzers" RuleNamespace="AsyncUsageAnalyzers">
     <Rule Id="UseAsyncSuffix" Action="None" />
   </Rules>
+  <Rules AnalyzerId="Gu.Analyzers" RuleNamespace="Gu.Analyzers">
+    <Rule Id="GU0015" Action="None" />
+  </Rules>
 </RuleSet>

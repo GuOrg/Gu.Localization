@@ -29,17 +29,19 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
             this.projectFile = this.directory.FindFile(original.Name);
         }
 
-        [TestCase("Key")]
-        [TestCase("Some_long_key")]
-        public void Rename(string value)
+        [TestCase("Key", "Value", "Value")]
+        [TestCase("Some_long_key", "Some long value", "Some_long_value")]
+        public void Rename(string key, string value, string expectedKey)
         {
-            this.directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", $"\"{value}\"");
-            this.directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", $"\"{value}\"");
-            this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", $"\"{value}\"");
-            this.directory.FindFile("MainWindow.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{value}");
-            this.directory.FindFile("UserControl1.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{value}");
-            this.directory.FindFile("Resources\\Dictionary1.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{value}");
-            this.directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", $"public static string {value}");
+            this.directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", $"\"{key}\"");
+            this.directory.FindFile("Properties\\Resources.resx").ReplaceText("<value>Value</value>", $"<value>{value}</value>");
+            this.directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", $"\"{key}\"");
+            this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", $"\"{key}\"");
+            this.directory.FindFile("MainWindow.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{key}");
+            this.directory.FindFile("UserControl1.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{key}");
+            this.directory.FindFile("Resources\\Dictionary1.xaml").ReplaceText("p:Resources.Key", $"p:Resources.{key}");
+            this.directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", $"public static string {key}");
+            this.directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("Looks up a localized string similar to Value", $"Looks up a localized string similar to {value}");
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
 
             var diagnostics = Analyze.GetDiagnostics(sln, Analyzer);
@@ -140,6 +142,9 @@ namespace Gu.Localization.TestStub.Properties
     }
 }
 ";
+            expected = expected.AssertReplace("Looks up a localized string similar to Value", $"Looks up a localized string similar to {value}")
+                               .AssertReplace("public static string Value", $"public static string {expectedKey}")
+                               .AssertReplace("return ResourceManager.GetString(\"Value\", resourceCulture);", $"return ResourceManager.GetString(\"{expectedKey}\", resourceCulture);");
             CodeAssert.AreEqual(expected, fixedSln.FindDocument("Resources.Designer.cs"));
             expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <root>
@@ -267,6 +272,8 @@ namespace Gu.Localization.TestStub.Properties
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</value>
   </data>
 </root>";
+            expected = expected.AssertReplace("name=\"Value\"", $"name=\"{expectedKey}\"")
+                               .AssertReplace("<value>Value</value>", $"<value>{value}</value>");
             CodeAssert.AreEqual(expected, this.directory.FindFile("Properties\\Resources.resx").ReadAllText());
 
             expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
@@ -395,6 +402,7 @@ namespace Gu.Localization.TestStub.Properties
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</value>
   </data>
 </root>";
+            expected = expected.AssertReplace("name=\"Value\"", $"name=\"{expectedKey}\"");
             CodeAssert.AreEqual(expected, this.directory.FindFile("Properties\\Resources.sv.resx").ReadAllText());
 
             expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
@@ -523,6 +531,7 @@ namespace Gu.Localization.TestStub.Properties
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</value>
   </data>
 </root>";
+            expected = expected.AssertReplace("name=\"Value\"", $"name=\"{expectedKey}\"");
             CodeAssert.AreEqual(expected, this.directory.FindFile("Properties\\Resources.sv-SE.resx").ReadAllText());
 
             expected = @"<Window x:Class=""Gu.Localization.TestStub.Window1""
@@ -539,6 +548,7 @@ namespace Gu.Localization.TestStub.Properties
     </Grid>
 </Window>
 ";
+            expected = expected.AssertReplace("p:Resources.Value", $"p:Resources.{expectedKey}");
             CodeAssert.AreEqual(expected, this.directory.FindFile("MainWindow.xaml").ReadAllText());
 
             expected = @"<UserControl x:Class=""Gu.Localization.TestStub.UserControl1""
@@ -555,6 +565,7 @@ namespace Gu.Localization.TestStub.Properties
     </Grid>
 </UserControl>
 ";
+            expected = expected.AssertReplace("p:Resources.Value", $"p:Resources.{expectedKey}");
             CodeAssert.AreEqual(expected, this.directory.FindFile("UserControl1.xaml").ReadAllText());
             expected = @"<ResourceDictionary xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
                     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
@@ -564,6 +575,7 @@ namespace Gu.Localization.TestStub.Properties
     </Style>
 </ResourceDictionary>
 ";
+            expected = expected.AssertReplace("p:Resources.Value", $"p:Resources.{expectedKey}");
             CodeAssert.AreEqual(expected, this.directory.FindFile("Resources\\Dictionary1.xaml").ReadAllText());
         }
 
