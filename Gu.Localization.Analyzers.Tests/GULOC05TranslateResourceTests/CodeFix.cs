@@ -76,7 +76,7 @@ namespace RoslynSandbox.Properties {
 }";
 
         [Test]
-        public void TranslatorTranslate()
+        public void TranslatorTranslateWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -108,6 +108,73 @@ namespace RoslynSandbox
     }
 }";
             AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+        }
+
+        [Test]
+        public void TranslatorTranslateAddUsing()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var text = ↓Properties.Resources.Key;
+        }
+    }
+}";
+
+            var fixedCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Localization;
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var text = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Key));
+        }
+    }
+}";
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode, fixTitle: "Add using and call Translator.Translate");
+        }
+
+        [Test]
+        public void TranslatorTranslateFullyQualified()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var text = ↓Properties.Resources.Key;
+        }
+    }
+}";
+
+            var fixedCode = @"
+namespace RoslynSandbox
+{
+    using RoslynSandbox.Properties;
+
+    public class Foo
+    {
+        public Foo()
+        {
+            var text = Gu.Localization.Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Key));
+        }
+    }
+}";
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode, fixTitle: "Gu.Localization.Translator.Translate");
         }
     }
 }
