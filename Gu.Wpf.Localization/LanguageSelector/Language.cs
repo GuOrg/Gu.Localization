@@ -7,8 +7,6 @@ namespace Gu.Wpf.Localization
     using System.Runtime.CompilerServices;
     using Gu.Localization;
 
-    using JetBrains.Annotations;
-
     /// <summary>Class exposing a couple of binding friendly properties for a <see cref="CultureInfo"/></summary>
     [DebuggerDisplay("Language: {Culture.DisplayName}")]
     //// ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
@@ -126,7 +124,6 @@ namespace Gu.Wpf.Localization
 
         /// <summary>Raises <see cref="PropertyChanged"/></summary>
         /// <param name="propertyName">The name of the property</param>
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

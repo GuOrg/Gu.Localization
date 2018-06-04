@@ -1,6 +1,9 @@
 namespace Gu.Localization.Analyzers
 {
-   internal static class Ignore
+    using System;
+
+    [Obsolete("Don't use this")]
+    internal static class Ignore
     {
         // ReSharper disable once UnusedParameter.Global
         internal static void IgnoreReturnValue<T>(this T _)

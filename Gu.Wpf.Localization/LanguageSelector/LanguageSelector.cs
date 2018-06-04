@@ -19,7 +19,7 @@ namespace Gu.Wpf.Localization
 #pragma warning disable SA1202 // Elements must be ordered by access
         /// <summary> Identifies the AutogenerateLanguages property. Default false.</summary>
         public static readonly DependencyProperty AutogenerateLanguagesProperty = DependencyProperty.Register(
-            "AutogenerateLanguages",
+            nameof(AutogenerateLanguages),
             typeof(bool),
             typeof(LanguageSelector),
             new PropertyMetadata(
