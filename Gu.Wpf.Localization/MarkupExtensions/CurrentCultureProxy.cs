@@ -10,11 +10,16 @@ namespace Gu.Wpf.Localization
 
         private CurrentCultureProxy()
         {
-            Translator.CurrentCultureChanged += (_, __) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Value)));
+            Translator.CurrentCultureChanged += (_, __) => this.OnPropertyChanged(nameof(this.Value));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public CultureInfo Value => Translator.CurrentCulture;
+
+        protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
