@@ -5,7 +5,6 @@ namespace Gu.Localization.Analyzers
     using System.Composition;
     using System.Threading.Tasks;
     using Gu.Roslyn.AnalyzerExtensions;
-    using Gu.Roslyn.AnalyzerExtensions.StyleCopComparers;
     using Gu.Roslyn.CodeFixExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeFixes;
