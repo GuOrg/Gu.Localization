@@ -12,7 +12,6 @@ namespace Gu.Localization
     /// </summary>
     public static partial class Translator
     {
-        private static readonly ObservableSortedSet<CultureInfo> AllCultures = new ObservableSortedSet<CultureInfo>(GetAllCultures(), CultureInfoComparer.ByName);
         private static CultureInfo culture;
         private static CultureInfo effectiveCulture;
 
@@ -23,7 +22,7 @@ namespace Gu.Localization
         public static event EventHandler<CultureChangedEventArgs> CurrentCultureChanged;
 
         /// <summary> Gets a set with all cultures found for the application </summary>
-        public static ObservableSortedSet<CultureInfo> Cultures => AllCultures;
+        public static ObservableSortedSet<CultureInfo> Cultures { get; } = new ObservableSortedSet<CultureInfo>(GetAllCultures(), CultureInfoComparer.ByName);
 
         /// <summary>
         /// Gets or sets the culture to translate to.
@@ -43,7 +42,7 @@ namespace Gu.Localization
                 if (value != null &&
                     !value.IsInvariant() &&
                     !ContainsCulture(value) &&
-                    !AllCultures.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, value)))
+                    !Cultures.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, value)))
                 {
                     var message = "Can only set culture to an existing culture.\r\n" +
                                   $"Check the property {nameof(Cultures)} for a list of valid cultures.";
@@ -92,26 +91,26 @@ namespace Gu.Localization
                 return false;
             }
 
-            if (AllCultures == null || AllCultures.Count == 0)
+            if (Cultures == null || Cultures.Count == 0)
             {
                 return false;
             }
 
-            return AllCultures?.Contains(language) == true ||
-                   AllCultures?.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, language)) == true;
+            return Cultures?.Contains(language) == true ||
+                   Cultures?.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, language)) == true;
         }
 
         private static CultureInfo GetEffectiveCulture(CultureInfo cultureInfo)
         {
             if (cultureInfo == null)
             {
-                return AllCultures?.FirstOrDefault(c => Localization.Culture.NameEquals(c, CultureInfo.CurrentCulture)) ??
-                       AllCultures?.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, CultureInfo.CurrentCulture)) ??
+                return Cultures?.FirstOrDefault(c => Localization.Culture.NameEquals(c, CultureInfo.CurrentCulture)) ??
+                       Cultures?.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, CultureInfo.CurrentCulture)) ??
                        CultureInfo.InvariantCulture;
             }
 
-            return AllCultures?.FirstOrDefault(c => Localization.Culture.NameEquals(c, cultureInfo)) ??
-                   AllCultures?.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, cultureInfo)) ??
+            return Cultures?.FirstOrDefault(c => Localization.Culture.NameEquals(c, cultureInfo)) ??
+                   Cultures?.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, cultureInfo)) ??
                    CultureInfo.InvariantCulture;
         }
 

@@ -23,7 +23,7 @@ namespace Gu.Localization
             set
             {
                 resourceDirectory = value;
-                AllCultures.UpdateWith(GetAllCultures().ToArray());
+                Cultures.UpdateWith(GetAllCultures().ToArray());
             }
         }
 
@@ -116,11 +116,11 @@ namespace Gu.Localization
 
             if (language != null &&
                 !language.IsInvariant() &&
-                AllCultures.Contains(language) == false)
+                Cultures.Contains(language) == false)
             {
                 if (resourceManager.HasCulture(language))
                 {
-                    AllCultures.Add(language);
+                    Cultures.Add(language);
                 }
             }
 
