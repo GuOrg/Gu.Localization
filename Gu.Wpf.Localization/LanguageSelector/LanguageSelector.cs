@@ -44,7 +44,7 @@ namespace Gu.Wpf.Localization
 
         /// <summary>Identifies the <see cref="ItemTemplate"/> dependency property.</summary>
         public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
-            "ItemTemplate",
+            nameof(ItemTemplate),
             typeof(DataTemplate),
             typeof(LanguageSelector),
             new PropertyMetadata(default(DataTemplate)),

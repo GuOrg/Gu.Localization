@@ -31,6 +31,20 @@ namespace Gu.Wpf.Localization
         /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>Gets a value indicating whether gets a value indicating whether the <see cref="Culture"/> can be used as <see cref="Translator.Culture"/></summary>
+        public bool CanSelect
+        {
+            get
+            {
+                if (this.culture == null)
+                {
+                    return false;
+                }
+
+                return Translator.ContainsCulture(this.culture);
+            }
+        }
+
         /// <summary>Gets or sets the <see cref="CultureInfo"/></summary>
         public CultureInfo Culture
         {
@@ -48,6 +62,44 @@ namespace Gu.Wpf.Localization
             }
         }
 
+        /// <summary>Gets <see cref="Culture"/> NativeName TitleCased and trimmed to text only</summary>
+        public string LanguageName
+        {
+            get
+            {
+                var indexOf = this.NativeName.IndexOf(" (", StringComparison.Ordinal);
+                if (indexOf > 0)
+                {
+                    return this.NativeName.Substring(0, indexOf);
+                }
+
+                return this.NativeName;
+            }
+        }
+
+        /// <summary>Gets <see cref="Culture"/> NativeName TitleCased</summary>
+        public string NativeName => ToFirstCharUpper(this.culture?.NativeName);
+
+        /// <summary>
+        /// Gets or sets the <see cref="Uri"/> to the flag for the <see cref="Culture"/>
+        /// </summary>
+        public Uri FlagSource
+        {
+            get => this.flagSource;
+
+            set
+            {
+                if (Equals(value, this.flagSource))
+                {
+                    return;
+                }
+
+                this.flagSource = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+#pragma warning disable INPC010 // The property sets a different field than it returns.
         /// <summary>Gets or sets a value indicating whether gets or sets if the <see cref="Culture"/> is the same as <see cref="Translator.Culture"/></summary>
         public bool IsSelected
         {
@@ -70,57 +122,7 @@ namespace Gu.Wpf.Localization
                 this.OnPropertyChanged();
             }
         }
-
-        /// <summary>Gets a value indicating whether gets a value indicating whether the <see cref="Culture"/> can be used as <see cref="Translator.Culture"/></summary>
-        public bool CanSelect
-        {
-            get
-            {
-                if (this.culture == null)
-                {
-                    return false;
-                }
-
-                return Translator.ContainsCulture(this.culture);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the <see cref="Uri"/> to the flag for the <see cref="Culture"/>
-        /// </summary>
-        public Uri FlagSource
-        {
-            get => this.flagSource;
-
-            set
-            {
-                if (Equals(value, this.flagSource))
-                {
-                    return;
-                }
-
-                this.flagSource = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        /// <summary>Gets <see cref="Culture"/> NativeName TitleCased and trimmed to text only</summary>
-        public string LanguageName
-        {
-            get
-            {
-                var indexOf = this.NativeName.IndexOf(" (", StringComparison.Ordinal);
-                if (indexOf > 0)
-                {
-                    return this.NativeName.Substring(0, indexOf);
-                }
-
-                return this.NativeName;
-            }
-        }
-
-        /// <summary>Gets <see cref="Culture"/> NativeName TitleCased</summary>
-        public string NativeName => ToFirstCharUpper(this.culture?.NativeName);
+#pragma warning restore INPC010 // The property sets a different field than it returns.
 
         /// <summary>Raises <see cref="PropertyChanged"/></summary>
         /// <param name="propertyName">The name of the property</param>
