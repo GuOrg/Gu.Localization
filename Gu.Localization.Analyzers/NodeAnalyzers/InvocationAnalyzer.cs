@@ -84,7 +84,9 @@ namespace Gu.Localization.Analyzers
 
                     if (!IsNameOfKey(keyArgument))
                     {
-                        if (keyArgument.Expression is LiteralExpressionSyntax)
+                        if (keyArgument.Expression is LiteralExpressionSyntax literal &&
+                            literal.IsKind(SyntaxKind.StringLiteralExpression) &&
+                            resourcesType.TryFindProperty(literal.Token.ValueText, out _))
                         {
                             context.ReportDiagnostic(
                                 Diagnostic.Create(

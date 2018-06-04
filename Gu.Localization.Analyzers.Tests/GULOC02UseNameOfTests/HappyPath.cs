@@ -402,5 +402,24 @@ namespace RoslynSandbox
 }";
             AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
+
+        [Test]
+        public void ResourceManagerGetStringWithLiteralThatIsNotAKey()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    public class Foo
+    {
+        public Foo()
+        {
+#pragma warning disable GULOC01 // Key does not exist.
+            var translate = Properties.Resources.ResourceManager.GetString(""Missing translation"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
+#pragma warning restore GULOC01 // Key does not exist.
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+        }
     }
 }
