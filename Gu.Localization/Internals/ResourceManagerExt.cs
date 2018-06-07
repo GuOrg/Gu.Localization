@@ -1,4 +1,4 @@
-﻿namespace Gu.Localization
+namespace Gu.Localization
 {
     using System;
     using System.Collections;
@@ -15,8 +15,6 @@
 
         /// <summary>
         /// Check if the <paramref name="resourceManager"/> has a translation for <paramref name="key"/>
-        /// This is a pretty expensive call but should only happen in the error path.
-        /// No memoization is done.
         /// </summary>
         /// <param name="resourceManager">The <see cref="ResourceManager"/></param>
         /// <param name="key">The key</param>
@@ -30,8 +28,6 @@
 
         /// <summary>
         /// Check if the <paramref name="resourceManager"/> has a translation for <paramref name="key"/>
-        /// This is a pretty expensive call but should only happen in the error path.
-        /// No memoization is done.
         /// </summary>
         /// <param name="resourceManager">The <see cref="ResourceManager"/></param>
         /// <param name="key">The key</param>
@@ -44,8 +40,6 @@
 
         /// <summary>
         /// Check if the <paramref name="resourceManager"/> has translations for <paramref name="culture"/>
-        /// This is a pretty expensive call but should only happen in the error path.
-        /// No memoization is done.
         /// </summary>
         /// <param name="resourceManager">The <see cref="ResourceManager"/></param>
         /// <param name="culture">The <see cref="CultureInfo"/></param>

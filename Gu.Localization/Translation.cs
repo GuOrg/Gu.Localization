@@ -1,4 +1,4 @@
-﻿namespace Gu.Localization
+namespace Gu.Localization
 {
     using System;
     using System.Collections.Concurrent;
@@ -52,10 +52,10 @@
         /// <summary>
         /// Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey))
         /// If <paramref name="resourceManager"/> contains the resource <paramref name="key"/> an <see cref="Translation"/> is returned.
-        /// If not a static translation is returned if errorhandling is not throw.
+        /// If not a static translation is returned if error handling is not throw.
         /// </summary>
         /// <param name="resourceManager">
-        /// The resourcemanager with the key
+        /// The <see cref="ResourceManager"/> with the key
         /// </param>
         /// <param name="key">
         /// The key to translate
