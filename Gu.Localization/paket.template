@@ -6,7 +6,7 @@ projectUrl https://github.com/JohanLarsson/Gu.Localization
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-  FEATURE: Fody support.
+  BUGFIX: CultureOrDefaultConverter handle twoway bindings.
 
 excludedgroups
   Analyzers

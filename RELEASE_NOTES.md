@@ -1,3 +1,6 @@
+#### 6.4.1
+* BUGFIX: CultureOrDefaultConverter handle twoway bindings.
+
 #### 6.4.0
 * FEATURE: Fody support.
 
