@@ -24,9 +24,14 @@ namespace Gu.Wpf.Localization
         }
 
         /// <inheritdoc />
-        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo _)
         {
-            throw new NotSupportedException($"{nameof(CultureOrDefaultConverter)} can only be used in OneWay bindings");
+            if (value is CultureInfo culture)
+            {
+                return culture;
+            }
+
+            return Translator.CurrentCulture;
         }
     }
 }
