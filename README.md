@@ -200,7 +200,7 @@ Translate a key in a ResourceManager.
 
 Use global culture & error handling:
 ```c#
-Translator.CurrentCulture = CultureInfo.GetCultureInfo("en"); // no need to set this every time, just for illustration purposes here.
+Translator.Culture = CultureInfo.GetCultureInfo("en"); // no need to set this every time, just for illustration purposes here.
 string inEnglish = Translator.Translate(Properties.Resources.ResourceManager,
                                         nameof(Properties.Resources.SomeResource));
 ```
@@ -237,7 +237,7 @@ string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
 
 #### 2.1.6.5. Translate with parameter:
 ```c#
-Translator.CurrentCulture = CultureInfo.GetCultureInfo("en");
+Translator.Culture = CultureInfo.GetCultureInfo("en");
 string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
                                         nameof(Properties.Resources.SomeResource__0__),
                                         foo);
