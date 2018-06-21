@@ -128,7 +128,7 @@ The static properties support binding. Use this XAML for a twoway binding:
 <Window ...
         xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization">
     ...
-<TextBox Text="{Binding Path=(localization:Translator.CurrentCulture)}" />
+<TextBox Text="{Binding Path=(localization:Translator.Culture)}" />
 ```
 
 # 2. Usage in code.
