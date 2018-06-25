@@ -122,7 +122,7 @@ A markupextension for accessing `Translator.CurrentCulture` from xaml. Retruns a
     ...
 ```
 
-## 1.5. Binding to CurrentCulture and CurrentCulture in XAML.
+## 1.5. Binding to Culture and Culture in XAML.
 The static properties support binding. Use this XAML for a twoway binding:
 ```xaml
 <Window ...
