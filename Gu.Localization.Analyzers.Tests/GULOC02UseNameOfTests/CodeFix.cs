@@ -115,7 +115,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Translator.Translate(Resources.ResourceManager, ""Key"");
+            var translate = Translator.Translate(Resources.ResourceManager, ↓""Key"");
         }
     }
 }";
@@ -149,7 +149,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Translator.Translate(Properties.Resources.ResourceManager, ""Key"");
+            var translate = Translator.Translate(Properties.Resources.ResourceManager, ↓""Key"");
         }
     }
 }";
@@ -182,7 +182,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Translator.Translate(Resources.ResourceManager, ""Key"");
+            var translate = Translator.Translate(Resources.ResourceManager, ↓""Key"");
         }
     }
 }";
@@ -216,7 +216,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, ""Key"");
+            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, ↓""Key"");
         }
     }
 }";
@@ -249,7 +249,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Translate.Key(""Key"");
+            var translate = Translate.Key(↓""Key"");
         }
     }
 }";
@@ -283,7 +283,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Properties.Translate.Key(""Key"");
+            var translate = Properties.Translate.Key(↓""Key"");
         }
     }
 }";
@@ -316,7 +316,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Translate.TranslationFor(""Key"");
+            var translate = Translate.TranslationFor(↓""Key"");
         }
     }
 }";
@@ -350,7 +350,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translation = Properties.Translate.TranslationFor(""Key"");
+            var translation = Properties.Translate.TranslationFor(↓""Key"");
         }
     }
 }";
@@ -382,7 +382,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Resources.ResourceManager.GetObject(""Key"");
+            var translate = Resources.ResourceManager.GetObject(↓""Key"");
         }
     }
 }";
@@ -413,7 +413,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Properties.Resources.ResourceManager.GetObject(""Key"");
+            var translate = Properties.Resources.ResourceManager.GetObject(↓""Key"");
         }
     }
 }";
@@ -444,7 +444,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Resources.ResourceManager.GetObject(""Key"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
+            var translate = Resources.ResourceManager.GetObject(↓""Key"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
     }
 }";
@@ -475,7 +475,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Properties.Resources.ResourceManager.GetObject(""Key"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
+            var translate = Properties.Resources.ResourceManager.GetObject(↓""Key"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
     }
 }";
@@ -506,7 +506,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Resources.ResourceManager.GetString(""Key"");
+            var translate = Resources.ResourceManager.GetString(↓""Key"");
         }
     }
 }";
@@ -537,7 +537,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Properties.Resources.ResourceManager.GetString(""Key"");
+            var translate = Properties.Resources.ResourceManager.GetString(↓""Key"");
         }
     }
 }";
@@ -567,7 +567,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Resources.ResourceManager.GetString(""Key"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
+            var translate = Resources.ResourceManager.GetString(↓""Key"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
     }
 }";
@@ -597,7 +597,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Properties.Resources.ResourceManager.GetString(""Key"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
+            var translate = Properties.Resources.ResourceManager.GetString(↓""Key"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
     }
 }";

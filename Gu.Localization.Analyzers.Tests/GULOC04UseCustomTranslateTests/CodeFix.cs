@@ -115,7 +115,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Translator.Translate(Resources.ResourceManager, ""Key"");
+            var translate = ↓Translator.Translate(Resources.ResourceManager, ""Key"");
         }
     }
 }";
@@ -149,7 +149,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Translator.Translate(Properties.Resources.ResourceManager, ""Key"");
+            var translate = ↓Translator.Translate(Properties.Resources.ResourceManager, ""Key"");
         }
     }
 }";
@@ -182,7 +182,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = Translator.Translate(Resources.ResourceManager, ""Key"");
+            var translate = ↓Translator.Translate(Resources.ResourceManager, ""Key"");
         }
     }
 }";
@@ -216,7 +216,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, ""Key"");
+            var translation = ↓Translation.GetOrCreate(Properties.Resources.ResourceManager, ""Key"");
         }
     }
 }";
@@ -248,7 +248,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Key));
+            var translation = ↓Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Key));
         }
     }
 }";
