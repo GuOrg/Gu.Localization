@@ -20,7 +20,6 @@ group Test
   source http://www.nuget.org/api/v2/
   nuget NUnit
   nuget Moq
-  nuget Castle.Core
   nuget Gu.Wpf.UiAutomation
 
 group Demo
