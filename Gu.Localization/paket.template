@@ -5,6 +5,10 @@ tags resourcemanager localization translate language
 projectUrl https://github.com/JohanLarsson/Gu.Localization
 licenseUrl http://opensource.org/licenses/MIT
 
+files
+  bin/Release/net45/Gu.Localization.* ==> lib/net45
+  bin/Release/netstandard2.0/* ==> lib/netstandard2.0
+
 releasenotes
   BUGFIX: CultureOrDefaultConverter handle twoway bindings.
 
