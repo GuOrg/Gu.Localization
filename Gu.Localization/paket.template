@@ -9,8 +9,11 @@ files
   bin/Release/net45/Gu.Localization.* ==> lib/net45
   bin/Release/netstandard2.0/* ==> lib/netstandard2.0
 
+dependencies
+  Gu.Localization.Analyzers >= 0.2.2.6
+
 releasenotes
-  BUGFIX: CultureOrDefaultConverter handle twoway bindings.
+  FEATURE: Netstandard support.
 
 excludedgroups
   Analyzers

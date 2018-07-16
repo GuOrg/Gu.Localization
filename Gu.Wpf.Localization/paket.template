@@ -6,7 +6,7 @@ projectUrl https://github.com/JohanLarsson/Gu.Localization
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-  BUGFIX: CultureOrDefaultConverter handle twoway bindings.
+  FEATURE: Netstandard support.
 
 excludedgroups
   Analyzers

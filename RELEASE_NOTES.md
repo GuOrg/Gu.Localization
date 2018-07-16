@@ -1,3 +1,6 @@
+#### 6.4.2
+* FEATURE: Netstandard support.
+
 #### 6.4.1
 * BUGFIX: CultureOrDefaultConverter handle twoway bindings.
 
