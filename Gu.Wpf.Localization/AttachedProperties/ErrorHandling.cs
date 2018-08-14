@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Localization
+namespace Gu.Wpf.Localization
 {
     using System.Windows;
 
@@ -18,9 +18,9 @@
                 default(Gu.Localization.ErrorHandling?),
                 FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.NotDataBindable));
 
-        /// <summary>Sets how translation errors are handled by <see cref="StaticExtension"/> for <paramref name="element"/> and it's children.</summary>
-        /// <param name="element">The element to set errorhandling for.</param>
-        /// <param name="value">The value</param>
+        /// <summary>Helper for setting <see cref="ModeProperty"/> on <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="DependencyObject"/> to set <see cref="ModeProperty"/> on.</param>
+        /// <param name="value">Mode property value.</param>
         public static void SetMode(DependencyObject element, Gu.Localization.ErrorHandling? value)
         {
             element.SetValue(ModeProperty, value);

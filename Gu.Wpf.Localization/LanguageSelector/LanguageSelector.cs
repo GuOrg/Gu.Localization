@@ -17,7 +17,7 @@ namespace Gu.Wpf.Localization
     public class LanguageSelector : Control
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
-        /// <summary> Identifies the AutogenerateLanguages property. Default false.</summary>
+        /// <summary>Identifies the <see cref="AutogenerateLanguages"/> dependency property.</summary>
         public static readonly DependencyProperty AutogenerateLanguagesProperty = DependencyProperty.Register(
             nameof(AutogenerateLanguages),
             typeof(bool),

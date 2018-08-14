@@ -22,17 +22,17 @@ namespace Gu.Wpf.Localization
                 FrameworkPropertyMetadataOptions.Inherits,
                 OnCultureChanged));
 
-        /// <summary> The <see cref="CultureInfo"/> to use in design time </summary>
+        /// <summary>Helper for getting <see cref="CultureProperty"/> from <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="UIElement"/> to read <see cref="CultureProperty"/> from.</param>
+        /// <returns>Culture property value.</returns>
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static CultureInfo GetCulture(this UIElement element)
         {
             return (CultureInfo)element.GetValue(CultureProperty);
         }
 
-        /// <summary>
-        /// Helper for setting Culture property on a UIElement.
-        /// </summary>
-        /// <param name="element">UIElement to set Culture property on.</param>
+        /// <summary>Helper for setting <see cref="CultureProperty"/> on <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="UIElement"/> to set <see cref="CultureProperty"/> on.</param>
         /// <param name="value">Culture property value.</param>
         public static void SetCulture(this UIElement element, CultureInfo value)
         {
