@@ -5,6 +5,7 @@ group Test
 group Analyzers
   Gu.Analyzers
   IDisposableAnalyzers
-  StyleCop.Analyzers
   PropertyChangedAnalyzers
+  ReflectionAnalyzers
+  StyleCop.Analyzers
   JetBrains.Annotations
