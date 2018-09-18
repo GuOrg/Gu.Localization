@@ -1,4 +1,4 @@
-﻿namespace Gu.Localization
+namespace Gu.Localization
 {
     using System;
     using System.Collections;
@@ -7,7 +7,7 @@
     using System.ComponentModel;
 
     /// <summary>
-    /// A wrapper for <see cref="SortedSet{T}"/> that notifies aboout changes.
+    /// A wrapper for <see cref="SortedSet{T}"/> that notifies about changes.
     /// </summary>
     [Serializable]
     public class ObservableSortedSet<T> : ISet<T>, IReadOnlyCollection<T>, INotifyCollectionChanged, INotifyPropertyChanged
