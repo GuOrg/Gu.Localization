@@ -46,7 +46,9 @@ namespace Gu.Localization
         private static readonly Dictionary<CultureInfo, RegionInfo> NeutralCultureRegionMap =
             AllCultures
                 .Where(x => x.IsNeutralCulture)
-                .Select(x => NameCultureMap[CultureInfo.CreateSpecificCulture(x.Name).Name])
+                .Select(x => CreateSpecificCultureOrDefault(x)?.Name)
+                .Where(x => x != null && NameCultureMap.ContainsKey(x))
+                .Select(x => NameCultureMap[x])
                 .Distinct(CultureInfoComparer.ByTwoLetterIsoLanguageName)
                 .ToDictionary(
                     x => x.Parent,
@@ -94,6 +96,26 @@ namespace Gu.Localization
         internal static bool IsInvariant(this CultureInfo culture)
         {
             return NameEquals(culture, CultureInfo.InvariantCulture);
+        }
+
+        private static CultureInfo CreateSpecificCultureOrDefault(CultureInfo neutral)
+        {
+            if (neutral == null ||
+                !neutral.IsNeutralCulture)
+            {
+                return null;
+            }
+
+            try
+            {
+                // try-catch swallow here as CreateSpecificCulture does parsing of the name.
+                // don't know if there is a way to check if a specific culture can be created.
+                return CultureInfo.CreateSpecificCulture(neutral.Name);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
