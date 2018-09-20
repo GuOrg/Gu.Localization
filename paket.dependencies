@@ -38,3 +38,8 @@ group Roslyn
   nuget Gu.Roslyn.Asserts ~> 2
   nuget Gu.Roslyn.CodeFixExtensions prerelease
   nuget NUnit
+
+group Benchmarks
+  storage: none
+  source http://nuget.org/api/v2
+  nuget BenchmarkDotNet.Diagnostics.Windows

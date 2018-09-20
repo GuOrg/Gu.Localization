@@ -1,0 +1,10 @@
+group Benchmarks
+  BenchmarkDotNet.Diagnostics.Windows
+
+group Analyzers
+  Gu.Analyzers
+  IDisposableAnalyzers
+  PropertyChangedAnalyzers
+  ReflectionAnalyzers
+  StyleCop.Analyzers
+  JetBrains.Annotations
