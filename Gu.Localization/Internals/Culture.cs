@@ -13,10 +13,6 @@ namespace Gu.Localization
                 .Where(x => !IsInvariant(x))
                 .ToArray();
 
-        private static readonly Dictionary<string, CultureInfo> NameCultureMap = new Dictionary<string, CultureInfo>();
-
-        private static readonly Dictionary<string, RegionInfo> NameRegionMap = new Dictionary<string, RegionInfo>();
-
         internal static IReadOnlyList<RegionInfo> AllRegions
         {
             get
@@ -33,19 +29,16 @@ namespace Gu.Localization
                 return false;
             }
 
-            if (NameCultureMap.TryGetValue(name, out culture))
+            try
             {
+                culture = CultureInfo.GetCultureInfo(name);
                 return true;
             }
-
-            culture = AllCultures.FirstOrDefault(x => StringComparer.OrdinalIgnoreCase.Equals(x.Name, name));
-            if (culture != null)
+            catch (CultureNotFoundException)
             {
-                NameCultureMap.Add(culture.Name, culture);
-                return true;
+                culture = null;
+                return false;
             }
-
-            return false;
         }
 
         internal static bool TryGetRegion(CultureInfo culture, out RegionInfo region)
@@ -56,19 +49,12 @@ namespace Gu.Localization
                 return false;
             }
 
-            if (NameRegionMap.TryGetValue(culture.Name, out region))
-            {
-                return true;
-            }
-
-            var specificCulture = culture;
-
             if (culture.IsNeutralCulture)
             {
                 try
                 {
-                    specificCulture = CultureInfo.CreateSpecificCulture(culture.Name);
-                    if (specificCulture.IsNeutralCulture)
+                    culture = CultureInfo.CreateSpecificCulture(culture.Name);
+                    if (culture.IsNeutralCulture)
                     {
                         // See https://github.com/GuOrg/Gu.Localization/issues/82
                         region = null;
@@ -84,8 +70,7 @@ namespace Gu.Localization
 
             try
             {
-                region = new RegionInfo(specificCulture.Name);
-                NameRegionMap.Add(culture.Name, region);
+                region = new RegionInfo(culture.Name);
                 return true;
             }
             catch (ArgumentException)
