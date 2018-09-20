@@ -8,50 +8,22 @@ namespace Gu.Localization
     /// <summary> Utility class for <see cref="CultureInfo"/> </summary>
     internal static class Culture
     {
-        internal static readonly IReadOnlyList<CultureInfo> AllCultures =
+        internal static IReadOnlyList<CultureInfo> AllCultures =
             CultureInfo.GetCultures(CultureTypes.AllCultures)
-                       .Where(x => !IsInvariant(x))
-                       .ToArray();
+                .Where(x => !IsInvariant(x))
+                .ToArray();
 
-        internal static readonly IReadOnlyDictionary<CultureInfo, RegionInfo> CultureRegionMap =
-            AllCultures
-                .Where(x => !x.IsNeutralCulture)
-                .ToDictionary(
-                    x => x,
-                    x => new RegionInfo(x.Name),
-                    CultureInfoComparer.ByName);
+        private static readonly Dictionary<string, CultureInfo> NameCultureMap = new Dictionary<string, CultureInfo>();
 
-        internal static readonly IEnumerable<RegionInfo> AllRegions = CultureRegionMap.Values;
+        private static readonly Dictionary<string, RegionInfo> NameRegionMap = new Dictionary<string, RegionInfo>();
 
-        private static readonly Dictionary<string, CultureInfo> TwoLetterISOLanguageNameCultureMap =
-            AllCultures.Where(x => x.Name == x.TwoLetterISOLanguageName)
-                       .ToDictionary(
-                           x => x.TwoLetterISOLanguageName,
-                           x => x,
-                           StringComparer.OrdinalIgnoreCase);
-
-        private static readonly Dictionary<string, CultureInfo> NameCultureMap =
-            AllCultures.ToDictionary(
-                x => x.Name,
-                x => x,
-                StringComparer.OrdinalIgnoreCase);
-
-        private static readonly Dictionary<string, RegionInfo> NameRegionMap =
-            AllRegions
-                .ToDictionary(
-                    x => x.Name,
-                    x => x,
-                    StringComparer.OrdinalIgnoreCase);
-
-        private static readonly Dictionary<CultureInfo, RegionInfo> NeutralCultureRegionMap =
-            AllCultures
-                .Where(x => x.IsNeutralCulture)
-                .Select(x => NameCultureMap[CultureInfo.CreateSpecificCulture(x.Name).Name])
-                .Distinct(CultureInfoComparer.ByTwoLetterIsoLanguageName)
-                .ToDictionary(
-                    x => x.Parent,
-                    x => CultureRegionMap[x],
-                    CultureInfoComparer.ByTwoLetterIsoLanguageName);
+        internal static IReadOnlyList<RegionInfo> AllRegions
+        {
+            get
+            {
+                return AllCultures.Select(x => TryGetRegion(x, out var region) ? region : null).Where(x => x != null).ToList();
+            }
+        }
 
         internal static bool TryGet(string name, out CultureInfo culture)
         {
@@ -61,24 +33,68 @@ namespace Gu.Localization
                 return false;
             }
 
-            return NameCultureMap.TryGetValue(name, out culture) ||
-                   TwoLetterISOLanguageNameCultureMap.TryGetValue(name, out culture);
+            if (NameCultureMap.TryGetValue(name, out culture))
+            {
+                return true;
+            }
+
+            culture = AllCultures.FirstOrDefault(x => StringComparer.OrdinalIgnoreCase.Equals(x.Name, name));
+            if (culture != null)
+            {
+                NameCultureMap.Add(culture.Name, culture);
+                return true;
+            }
+
+            return false;
         }
 
         internal static bool TryGetRegion(CultureInfo culture, out RegionInfo region)
         {
-            if (culture == null)
+            if (culture == null || culture.IsInvariant())
             {
                 region = null;
                 return false;
             }
 
-            if (culture.IsNeutralCulture)
+            if (NameRegionMap.TryGetValue(culture.Name, out region))
             {
-                return NeutralCultureRegionMap.TryGetValue(culture, out region);
+                return true;
             }
 
-            return NameRegionMap.TryGetValue(culture.Name, out region);
+            var specificCulture = culture;
+
+            if (culture.IsNeutralCulture)
+            {
+                try
+                {
+                    specificCulture = CultureInfo.CreateSpecificCulture(culture.Name);
+                    if (specificCulture.IsNeutralCulture)
+                    {
+                        // See https://github.com/GuOrg/Gu.Localization/issues/82
+                        region = null;
+                        return false;
+                    }
+                }
+                catch (CultureNotFoundException)
+                {
+                    region = null;
+                    return false;
+                }
+            }
+
+            try
+            {
+                region = new RegionInfo(specificCulture.Name);
+                NameRegionMap.Add(culture.Name, region);
+                return true;
+            }
+            catch (ArgumentException)
+            {
+                // Odd that this exception is not a CultureNotFoundException
+                // https://referencesource.microsoft.com/#mscorlib/system/globalization/regioninfo.cs,86
+                region = null;
+                return false;
+            }
         }
 
         internal static bool NameEquals(CultureInfo first, CultureInfo other)
