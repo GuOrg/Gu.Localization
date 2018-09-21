@@ -36,6 +36,9 @@ namespace Gu.Localization
             }
             catch (CultureNotFoundException)
             {
+                // CultureInfo.GetCultureInfo throws a CultureNotFoundException if
+                // the a culture with the given name is not installed on the system.
+                // https://referencesource.microsoft.com/#mscorlib/system/globalization/cultureinfo.cs,589
                 culture = null;
                 return false;
             }
@@ -63,6 +66,7 @@ namespace Gu.Localization
                 }
                 catch (CultureNotFoundException)
                 {
+                    // This is only possible if the given culture is a mock culture.
                     region = null;
                     return false;
                 }
@@ -75,7 +79,7 @@ namespace Gu.Localization
             }
             catch (ArgumentException)
             {
-                // Odd that this exception is not a CultureNotFoundException
+                // Odd that this exception is not a CultureNotFoundException. But that's what Microsoft decided to throw
                 // https://referencesource.microsoft.com/#mscorlib/system/globalization/regioninfo.cs,86
                 region = null;
                 return false;
