@@ -1,5 +1,6 @@
 namespace Gu.Localization.Tests.Internals
 {
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using NUnit.Framework;
@@ -35,10 +36,17 @@ namespace Gu.Localization.Tests.Internals
             Assert.AreEqual(regionName, region.TwoLetterISORegionName);
         }
 
-        [TestCaseSource(nameof(AllCultures))]
+        [TestCase]
         public void TryGetInvalidCulture()
         {
-            Assert.IsFalse(Culture.TryGet("foo", out var match));
+            Assert.AreEqual(false, Culture.TryGet("foo", out var match));
+        }
+
+        [TestCase]
+        public void TryGetRegionForFakeCulture()
+        {
+            var fakeCulture = new CultureInfo("foo");
+            Assert.AreEqual(false, Culture.TryGetRegion(fakeCulture, out var region));
         }
     }
 }

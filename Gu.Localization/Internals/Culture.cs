@@ -29,19 +29,8 @@ namespace Gu.Localization
                 return false;
             }
 
-            try
-            {
-                culture = CultureInfo.GetCultureInfo(name);
-                return true;
-            }
-            catch (CultureNotFoundException)
-            {
-                // CultureInfo.GetCultureInfo throws a CultureNotFoundException if
-                // the a culture with the given name is not installed on the system.
-                // https://referencesource.microsoft.com/#mscorlib/system/globalization/cultureinfo.cs,589
-                culture = null;
-                return false;
-            }
+            culture = AllCultures.SingleOrDefault(c => NameEquals(c, name));
+            return culture != null;
         }
 
         internal static bool TryGetRegion(CultureInfo culture, out RegionInfo region)
@@ -89,6 +78,11 @@ namespace Gu.Localization
         internal static bool NameEquals(CultureInfo first, CultureInfo other)
         {
             return CultureInfoComparer.ByName.Equals(first, other);
+        }
+
+        internal static bool NameEquals(CultureInfo culture, string name)
+        {
+            return StringComparer.OrdinalIgnoreCase.Equals(culture.Name, name);
         }
 
         internal static bool TwoLetterIsoLanguageNameEquals(CultureInfo first, CultureInfo other)
