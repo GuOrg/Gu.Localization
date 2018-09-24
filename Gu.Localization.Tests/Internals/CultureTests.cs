@@ -34,5 +34,18 @@ namespace Gu.Localization.Tests.Internals
             Assert.AreEqual(true, Culture.TryGetRegion(culture, out var region));
             Assert.AreEqual(regionName, region.TwoLetterISORegionName);
         }
+
+        [TestCase]
+        public void TryGetInvalidCulture()
+        {
+            Assert.AreEqual(false, Culture.TryGet("foo", out var match));
+        }
+
+        [TestCase]
+        public void TryGetRegionForFakeCulture()
+        {
+            var fakeCulture = new CultureInfo("foo");
+            Assert.AreEqual(false, Culture.TryGetRegion(fakeCulture, out var region));
+        }
     }
 }
