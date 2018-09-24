@@ -1,6 +1,5 @@
 namespace Gu.Localization.Tests.Internals
 {
-    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using NUnit.Framework;
