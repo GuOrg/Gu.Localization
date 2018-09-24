@@ -49,7 +49,7 @@ namespace Gu.Localization
             var entryAssembly = Assembly.GetEntryAssembly();
             if (entryAssembly != null)
             {
-                var neutralLanguageAttribute = (NeutralResourcesLanguageAttribute)Attribute.GetCustomAttribute(entryAssembly, typeof(NeutralResourcesLanguageAttribute));
+                var neutralLanguageAttribute = entryAssembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>();
                 if (Culture.TryGet(neutralLanguageAttribute?.CultureName, out var neutralCulture))
                 {
                     if (cultures == null)

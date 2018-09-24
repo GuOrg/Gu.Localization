@@ -1,6 +1,5 @@
-group Test
-  Moq
-  NUnit
+group Benchmarks
+  BenchmarkDotNet.Diagnostics.Windows
 
 group Analyzers
   Gu.Analyzers

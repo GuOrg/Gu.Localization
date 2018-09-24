@@ -1,6 +1,9 @@
 type project
 developmentDependency true
 
+releasenotes
+  BUGFIX: Type initialization for Culture fails if installed cultures contains invalid neutral ancestry. Issue 82.
+
 excludedgroups
   Analyzers
   Roslyn

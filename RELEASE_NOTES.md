@@ -1,3 +1,6 @@
+#### 6.4.3
+* BUGFIX: Type initialization for Culture fails if installed cultures contains invalid neutral ancestry. Issue 82.
+ 
 #### 6.4.2
 * FEATURE: Netstandard support.
 

@@ -10,8 +10,9 @@ group Analyzers
   nuget AsyncUsageAnalyzers
   nuget Gu.Analyzers
   nuget IDisposableAnalyzers
-  nuget StyleCop.Analyzers
   nuget PropertyChangedAnalyzers
+  nuget ReflectionAnalyzers
+  nuget StyleCop.Analyzers
   nuget WpfAnalyzers
   nuget JetBrains.Annotations
 
@@ -37,3 +38,8 @@ group Roslyn
   nuget Gu.Roslyn.Asserts ~> 2
   nuget Gu.Roslyn.CodeFixExtensions prerelease
   nuget NUnit
+
+group Benchmarks
+  storage: none
+  source http://nuget.org/api/v2
+  nuget BenchmarkDotNet.Diagnostics.Windows
