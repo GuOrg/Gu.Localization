@@ -42,11 +42,11 @@ namespace Gu.Localization.Analyzers.Tests
                 case LiteralAnalyzer _:
                 case MemberAccessAnalyzer _:
                 case ResourceAnalyzer _:
-                    AnalyzerAssert.NoAnalyzerDiagnostics(analyzer, AnalyzerProjectSolution);
+                    // Just checking so that the analyzer does not throw here.
+                    _ = Analyze.GetDiagnostics(analyzer, DemoProjectSolution);
                     break;
-
                 default:
-                    AnalyzerAssert.Valid(analyzer, DemoProjectSolution);
+                    AnalyzerAssert.NoAnalyzerDiagnostics(analyzer, DemoProjectSolution);
                     break;
             }
         }
@@ -56,7 +56,8 @@ namespace Gu.Localization.Analyzers.Tests
         {
             if (analyzer is LiteralAnalyzer)
             {
-                AnalyzerAssert.NoAnalyzerDiagnostics(analyzer, AnalyzerProjectSolution);
+                // Just checking so that the analyzer does not throw here.
+                _ = Analyze.GetDiagnostics(analyzer, AnalyzerProjectSolution);
             }
             else
             {
