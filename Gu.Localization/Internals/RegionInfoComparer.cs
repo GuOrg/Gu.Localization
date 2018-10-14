@@ -4,13 +4,13 @@ namespace Gu.Localization
     using System.Collections.Generic;
     using System.Globalization;
 
-    /// <summary>A comparer for <see cref="RegionInfo"/> </summary>
+    /// <summary>A comparer for <see cref="RegionInfo"/>. </summary>
     internal class RegionInfoComparer : IEqualityComparer<RegionInfo>, IComparer<RegionInfo>
     {
-        /// <summary> Gets a comparer that compares by <see cref="RegionInfo.TwoLetterISORegionName"/> </summary>
+        /// <summary> Gets a comparer that compares by <see cref="RegionInfo.TwoLetterISORegionName"/>. </summary>
         internal static readonly RegionInfoComparer ByTwoLetterISORegionName = new RegionInfoComparer(x => x?.TwoLetterISORegionName);
 
-        /// <summary> Gets a comparer that compares by <see cref="RegionInfo.Name"/> </summary>
+        /// <summary> Gets a comparer that compares by <see cref="RegionInfo.Name"/>. </summary>
         internal static readonly RegionInfoComparer ByName = new RegionInfoComparer(x => x?.Name);
 
         private static readonly StringComparer StringComparer = StringComparer.OrdinalIgnoreCase;

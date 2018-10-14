@@ -1,7 +1,6 @@
 group Roslyn
   Microsoft.CodeAnalysis.CSharp.Workspaces
   Gu.Roslyn.Asserts
-  Gu.Roslyn.CodeFixExtensions
   NUnit
 
 group Analyzers

@@ -9,7 +9,7 @@
 
     /// <summary>
     /// A markup extension that translates enum members resources.
-    /// Usage: Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager}, Member={x:Static local:DummyEnum.TranslatedToAll}}"
+    /// Usage: Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager}, Member={x:Static local:DummyEnum.TranslatedToAll}}".
     /// </summary>
     [MarkupExtensionReturnType(typeof(BindingExpression))]
     public class EnumExtension : MarkupExtension
@@ -17,7 +17,7 @@
         /// <summary>Gets or sets the <see cref="ResourceManager"/> with translations for <see cref="Member"/>.</summary>
         public ResourceManager ResourceManager { get; set; }
 
-        /// <summary>Gets or sets the enum member</summary>
+        /// <summary>Gets or sets the enum member.</summary>
         public IFormattable Member { get; set; }
 
         /// <inheritdoc />

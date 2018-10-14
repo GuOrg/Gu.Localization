@@ -85,7 +85,7 @@
                                            "NoTranslation",
                                            "ValidFormat__0__",
                                            "ValidFormat__0__1__",
-                                           "ValidFormat__0__1__2__"
+                                           "ValidFormat__0__1__2__",
                                        };
                 CollectionAssert.AreEqual(expectedKeys, errors.Keys);
                 var builder = new StringBuilder();
@@ -150,7 +150,7 @@
                                    {
                                        CultureInfo.InvariantCulture,
                                        CultureInfo.GetCultureInfo("en"),
-                                       CultureInfo.GetCultureInfo("sv")
+                                       CultureInfo.GetCultureInfo("sv"),
                                    };
                 errors = Validate.Translations(resourceManager, key, cultures);
                 CollectionAssert.IsEmpty(errors);

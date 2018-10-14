@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for LanguageSelectorView.xaml
+    /// Interaction logic for LanguageSelectorView.xaml.
     /// </summary>
     public partial class LanguageSelectorView : UserControl
     {

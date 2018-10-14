@@ -10,7 +10,7 @@
     public class TranslationErrors : IReadOnlyDictionary<string, IReadOnlyList<TranslationError>>
     {
         /// <summary>
-        /// An empty collection of <see cref="TranslationError"/>
+        /// An empty collection of <see cref="TranslationError"/>.
         /// </summary>
         public static readonly TranslationErrors Empty = new TranslationErrors(EmptyReadOnlyDictionary<string, IReadOnlyList<TranslationError>>.Default);
 
@@ -42,10 +42,10 @@
         public IReadOnlyList<TranslationError> this[string key] => this.errors[key];
 
         /// <summary>
-        /// Dumps the errors to a formatted string
+        /// Dumps the errors to a formatted string.
         /// </summary>
-        /// <param name="tabString">The string to use for indentation</param>
-        /// <param name="newLine">The newline ex. <see cref="System.Environment.NewLine"/></param>
+        /// <param name="tabString">The string to use for indentation.</param>
+        /// <param name="newLine">The newline ex. <see cref="System.Environment.NewLine"/>.</param>
         /// <returns>A formatted string with all errors or srting.Empty if none.</returns>
         public string ToString(string tabString, string newLine)
         {

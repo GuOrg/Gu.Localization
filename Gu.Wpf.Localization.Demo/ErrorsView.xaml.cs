@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for Errors.xaml
+    /// Interaction logic for Errors.xaml.
     /// </summary>
     public partial class ErrorsView : UserControl
     {

@@ -8,7 +8,7 @@ namespace Gu.Localization
     using System.Linq;
 
     /// <summary>
-    /// Methods for working with <see cref="CultureInfo"/>
+    /// Methods for working with <see cref="CultureInfo"/>.
     /// </summary>
     public static partial class Translator
     {
@@ -21,12 +21,12 @@ namespace Gu.Localization
         /// <summary>Notifies when the current language changes.</summary>
         public static event EventHandler<CultureChangedEventArgs> CurrentCultureChanged;
 
-        /// <summary> Gets a set with all cultures found for the application </summary>
+        /// <summary> Gets a set with all cultures found for the application. </summary>
         public static ObservableSortedSet<CultureInfo> Cultures { get; } = new ObservableSortedSet<CultureInfo>(GetAllCultures(), CultureInfoComparer.ByName);
 
         /// <summary>
         /// Gets or sets the culture to translate to.
-        /// If setting to null CurrentCulture is set to <see cref="CultureInfo.CurrentCulture"/> if there is a translation for it in <see cref="Cultures"/>
+        /// If setting to null CurrentCulture is set to <see cref="CultureInfo.CurrentCulture"/> if there is a translation for it in <see cref="Cultures"/>.
         /// </summary>
         public static CultureInfo Culture
         {
@@ -61,7 +61,7 @@ namespace Gu.Localization
         /// 1) Culture if not null.
         /// 2) Any Culture in <see cref="Cultures"/> matching <see cref="CultureInfo.CurrentCulture"/> by name.
         /// 3) Any Culture in <see cref="Cultures"/> matching <see cref="CultureInfo.CurrentCulture"/> by name.
-        /// 4) CultureInfo.InvariantCulture
+        /// 4) CultureInfo.InvariantCulture.
         /// </summary>
         /// <returns>The effective culture.</returns>
         public static CultureInfo CurrentCulture
@@ -83,7 +83,7 @@ namespace Gu.Localization
 
         /// <summary>Check if <see cref="Cultures"/> contains a culture matching <paramref name="language"/>.</summary>
         /// <param name="language">The culture to test.</param>
-        /// <returns>True if <see cref="Cultures"/> contains a match for <paramref name="language"/></returns>
+        /// <returns>True if <see cref="Cultures"/> contains a match for <paramref name="language"/>.</returns>
         public static bool ContainsCulture(CultureInfo language)
         {
             if (language == null)

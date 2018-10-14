@@ -1,6 +1,6 @@
 group Roslyn
   Microsoft.CodeAnalysis.CSharp.Workspaces
-  Gu.Roslyn.CodeFixExtensions
+  Gu.Roslyn.Extensions
 
 group Analyzers
   AsyncUsageAnalyzers

@@ -5,7 +5,7 @@ namespace Gu.Localization
     using System.Globalization;
     using System.Linq;
 
-    /// <summary> Utility class for <see cref="CultureInfo"/> </summary>
+    /// <summary> Utility class for <see cref="CultureInfo"/>. </summary>
     internal static class Culture
     {
         internal static IReadOnlyList<CultureInfo> AllCultures =

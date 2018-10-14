@@ -9,19 +9,19 @@ namespace Gu.Localization
     /// <summary>A cache for resourcemanagers.</summary>
     internal static class ResourceManagers
     {
-        /// <summary>Tries to get from cache or create a <see cref="ResourceManager"/> for <paramref name="resourcesType"/> </summary>
-        /// <param name="resourcesType">Ex. typeof(Properties.Resources)</param>
-        /// <param name="result">The <see cref="ResourceManager"/></param>
-        /// <returns>True if a <see cref="ResourceManager"/> could be created for <paramref name="resourcesType"/></returns>
+        /// <summary>Tries to get from cache or create a <see cref="ResourceManager"/> for <paramref name="resourcesType"/>. </summary>
+        /// <param name="resourcesType">Ex. typeof(Properties.Resources).</param>
+        /// <param name="result">The <see cref="ResourceManager"/>.</param>
+        /// <returns>True if a <see cref="ResourceManager"/> could be created for <paramref name="resourcesType"/>.</returns>
         internal static bool TryGetForType(Type resourcesType, out ResourceManager result)
         {
             result = TypeManagerCache.GetOrAdd(resourcesType, CreateManagerForTypeOrDefault);
             return result != null;
         }
 
-        /// <summary>Call with typeof(Properties.Resources)</summary>
-        /// <param name="resourcesType">typeof(Properties.Resources)</param>
-        /// <returns>A resource manager</returns>
+        /// <summary>Call with typeof(Properties.Resources).</summary>
+        /// <param name="resourcesType">typeof(Properties.Resources).</param>
+        /// <returns>A resource manager.</returns>
         internal static ResourceManager ForType(Type resourcesType)
         {
             var resourceManager = TypeManagerCache.GetOrAdd(resourcesType, CreateManagerForType);

@@ -25,8 +25,8 @@ namespace Gu.Localization
         ///   - All formats have the same number of parameters.
         ///   - All formats have numbering 0..1..n for the parameters.
         /// </summary>
-        /// <param name="resourceManager">The resource manager to check</param>
-        /// <returns>An <see cref="TranslationErrors"/> with all errors found in <paramref name="resourceManager"/></returns>
+        /// <param name="resourceManager">The resource manager to check.</param>
+        /// <returns>An <see cref="TranslationErrors"/> with all errors found in <paramref name="resourceManager"/>.</returns>
         public static TranslationErrors Translations(ResourceManager resourceManager)
         {
             return Translations(resourceManager, Translator.Cultures.Prepend(CultureInfo.InvariantCulture));
@@ -41,9 +41,9 @@ namespace Gu.Localization
         ///   - All formats have the same number of parameters.
         ///   - All formats have numbering 0..1..n for the parameters.
         /// </summary>
-        /// <param name="resourceManager">The resource manager to check</param>
-        /// <param name="cultures">The cultures to check resources for</param>
-        /// <returns>An <see cref="TranslationErrors"/> with all errors found in <paramref name="resourceManager"/></returns>
+        /// <param name="resourceManager">The resource manager to check.</param>
+        /// <param name="cultures">The cultures to check resources for.</param>
+        /// <returns>An <see cref="TranslationErrors"/> with all errors found in <paramref name="resourceManager"/>.</returns>
         public static TranslationErrors Translations(ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
         {
             var culturesAndKeys = resourceManager.GetCulturesAndKeys(cultures);
@@ -71,11 +71,11 @@ namespace Gu.Localization
         /// This is meant to be used in unit tests.
         /// Performance is probably very poor and we load all resources into memory.
         /// Checks that all members of <typeparamref name="T"/> have corresponding key in <paramref name="resourceManager"/>
-        /// and that the key has a non null value for all cultures in <see cref="Translator.Cultures"/>
+        /// and that the key has a non null value for all cultures in <see cref="Translator.Cultures"/>.
         /// </summary>
-        /// <typeparam name="T">An enum type</typeparam>
-        /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <typeparamref name="T"/></param>
-        /// <returns>A list with all members that does not have </returns>
+        /// <typeparam name="T">An enum type.</typeparam>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <typeparamref name="T"/>.</param>
+        /// <returns>A list with all members that does not have. </returns>
         public static TranslationErrors EnumTranslations<T>(ResourceManager resourceManager)
             where T : struct, IComparable, IFormattable, IConvertible
         {
@@ -86,12 +86,12 @@ namespace Gu.Localization
         /// This is meant to be used in unit tests.
         /// Performance is probably very poor and we load all resources into memory.
         /// Checks that all members of <typeparamref name="T"/> have corresponding key in <paramref name="resourceManager"/>
-        /// and that the key has a non null value for all cultures in <see cref="Translator.Cultures"/>
+        /// and that the key has a non null value for all cultures in <see cref="Translator.Cultures"/>.
         /// </summary>
-        /// <typeparam name="T">An enum type</typeparam>
-        /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <typeparamref name="T"/></param>
+        /// <typeparam name="T">An enum type.</typeparam>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <typeparamref name="T"/>.</param>
         /// <param name="cultures">The cultures to check for.</param>
-        /// <returns>A list with all members that does not have </returns>
+        /// <returns>A list with all members that does not have. </returns>
         public static TranslationErrors EnumTranslations<T>(ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
             where T : struct, IComparable, IFormattable, IConvertible
         {
@@ -125,8 +125,8 @@ namespace Gu.Localization
         ///   - All formats have the same number of parameters.
         ///   - All formats have numbering 0..1..n for the parameters.
         /// </summary>
-        /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <paramref name="key"/></param>
-        /// <param name="key">The key</param>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <paramref name="key"/>.</param>
+        /// <param name="key">The key.</param>
         /// <returns>A list with all errors for the key or an empty list if no errors.</returns>
         public static IReadOnlyList<TranslationError> Translations(ResourceManager resourceManager, string key)
         {
@@ -142,9 +142,9 @@ namespace Gu.Localization
         ///   - All formats have the same number of parameters.
         ///   - All formats have numbering 0..1..n for the parameters.
         /// </summary>
-        /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <paramref name="key"/></param>
-        /// <param name="key">The key</param>
-        /// <param name="cultures">The cultures to check</param>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <paramref name="key"/>.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="cultures">The cultures to check.</param>
         /// <returns>A list with all errors for the key or an empty list if no errors.</returns>
         public static IReadOnlyList<TranslationError> Translations(ResourceManager resourceManager, string key, IEnumerable<CultureInfo> cultures)
         {
@@ -165,10 +165,10 @@ namespace Gu.Localization
         ///   - All formats have the same number of parameters.
         ///   - All formats have numbering 0..1..n for the parameters.
         /// </summary>
-        /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <paramref name="key"/></param>
-        /// <param name="key">The key</param>
-        /// <param name="cultures">The cultures to check</param>
-        /// <param name="errors">A list with all errors for the key</param>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/> with translations for <paramref name="key"/>.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="cultures">The cultures to check.</param>
+        /// <param name="errors">A list with all errors for the key.</param>
         /// <returns>True if errors were found.</returns>
         public static bool TryGetTranslationErrors(ResourceManager resourceManager, string key, IEnumerable<CultureInfo> cultures, out IReadOnlyList<TranslationError> errors)
         {

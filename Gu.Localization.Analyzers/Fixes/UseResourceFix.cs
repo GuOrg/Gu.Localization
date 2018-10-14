@@ -196,7 +196,7 @@ namespace Gu.Localization.Analyzers
                                 default(AccessorListSyntax),
                                 SyntaxFactory.ArrowExpressionClause(SyntaxFactory.ParseExpression($"ResourceManager.GetString(\"{key}\", resourceCulture)")),
                                 default(EqualsValueClauseSyntax),
-                                SyntaxFactory.Token(SyntaxKind.SemicolonToken))
+                                SyntaxFactory.Token(SyntaxKind.SemicolonToken)),
                         });
 #pragma warning restore SA1118 // Parameter must not span multiple lines
                 }

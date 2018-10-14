@@ -3,6 +3,6 @@
     public enum DummyEnum
     {
         TranslatedToAll,
-        MemberTwo
+        MemberTwo,
     }
 }

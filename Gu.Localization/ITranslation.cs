@@ -4,13 +4,13 @@
     using System.Globalization;
 
     /// <summary>
-    /// A translated key
+    /// A translated key.
     /// </summary>
     public interface ITranslation : INotifyPropertyChanged
     {
         /// <summary>
         /// Gets the <see cref="Key"/> Translated to the <see cref="Translator.CurrentCulture"/>
-        /// This valus updates when <see cref="Translator.CurrentCulture"/> changes
+        /// This valus updates when <see cref="Translator.CurrentCulture"/> changes.
         /// </summary>
         string Translated { get; }
 
@@ -22,7 +22,7 @@
 
         /// <summary>Calls <see cref="Translator.Translate(System.Resources.ResourceManager, string, CultureInfo, ErrorHandling)"/> with the key.</summary>
         /// <param name="culture">The culture.</param>
-        /// <param name="errorHandlingStrategy">Specifiec how errors are handled</param>
+        /// <param name="errorHandlingStrategy">Specifiec how errors are handled.</param>
         /// <returns>The translated string.</returns>
         string Translate(CultureInfo culture, ErrorHandling errorHandlingStrategy = ErrorHandling.Inherit);
     }

@@ -12,7 +12,7 @@
     /// <summary>
     /// A markup extension that translates resources.
     /// The reason for the name StaticExtension is that it tricks Resharper into providing Intellisense.
-    /// Usage: Text="{l:Static p:Resources.SomeResource}"
+    /// Usage: Text="{l:Static p:Resources.SomeResource}".
     /// </summary>
     [MarkupExtensionReturnType(typeof(BindingExpression))]
     public class StaticExtension : System.Windows.Markup.StaticExtension
@@ -92,7 +92,7 @@
                 Path = TranslatedPropertyPath,
                 Mode = BindingMode.OneWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                Source = translation
+                Source = translation,
             };
 
             var provideValue = binding.ProvideValue(serviceProvider);

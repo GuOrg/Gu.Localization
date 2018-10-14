@@ -3,6 +3,6 @@
     public enum DummyEnum
     {
         AllLanguages,
-        MissingTranslation
+        MissingTranslation,
     }
 }

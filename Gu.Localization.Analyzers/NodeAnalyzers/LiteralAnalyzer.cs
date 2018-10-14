@@ -16,17 +16,13 @@ namespace Gu.Localization.Analyzers
 
         public override void Initialize(AnalysisContext context)
         {
-            context.RegisterSyntaxNodeAction(Handle, SyntaxKind.StringLiteralExpression);
+            context.RegisterSyntaxNodeAction(c => Handle(c), SyntaxKind.StringLiteralExpression);
         }
 
         private static void Handle(SyntaxNodeAnalysisContext context)
         {
-            if (context.IsExcludedFromAnalysis())
-            {
-                return;
-            }
-
-            if (context.Node is LiteralExpressionSyntax literal &&
+            if (!context.IsExcludedFromAnalysis() &&
+                context.Node is LiteralExpressionSyntax literal &&
                 !string.IsNullOrWhiteSpace(literal.Token.ValueText) &&
                 !IsExcludedFile(literal.SyntaxTree.FilePath))
             {

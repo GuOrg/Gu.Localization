@@ -18,17 +18,13 @@ namespace Gu.Localization.Analyzers
 
         public override void Initialize(AnalysisContext context)
         {
-            context.RegisterSyntaxNodeAction(Handle, SyntaxKind.InvocationExpression);
+            context.RegisterSyntaxNodeAction(c => Handle(c), SyntaxKind.InvocationExpression);
         }
 
         private static void Handle(SyntaxNodeAnalysisContext context)
         {
-            if (context.IsExcludedFromAnalysis())
-            {
-                return;
-            }
-
-            if (context.Node is InvocationExpressionSyntax invocation &&
+            if (!context.IsExcludedFromAnalysis() &&
+                context.Node is InvocationExpressionSyntax invocation &&
                 invocation.ArgumentList is ArgumentListSyntax argumentList)
             {
                 if (argumentList.Arguments.TryFirst(out var resourceManagerArgument) &&

@@ -7,7 +7,7 @@ namespace Gu.Wpf.Localization
     using System.Runtime.CompilerServices;
     using Gu.Localization;
 
-    /// <summary>Class exposing a couple of binding friendly properties for a <see cref="CultureInfo"/></summary>
+    /// <summary>Class exposing a couple of binding friendly properties for a <see cref="CultureInfo"/>.</summary>
     [DebuggerDisplay("Language: {Culture.DisplayName}")]
     //// ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
     public class Language : INotifyPropertyChanged
@@ -22,7 +22,7 @@ namespace Gu.Wpf.Localization
         }
 
         /// <summary>Initializes a new instance of the <see cref="Language"/> class.</summary>
-        /// <param name="culture">The culture</param>
+        /// <param name="culture">The culture.</param>
         public Language(CultureInfo culture)
         {
             this.culture = culture;
@@ -31,7 +31,7 @@ namespace Gu.Wpf.Localization
         /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>Gets a value indicating whether gets a value indicating whether the <see cref="Culture"/> can be used as <see cref="Translator.Culture"/></summary>
+        /// <summary>Gets a value indicating whether gets a value indicating whether the <see cref="Culture"/> can be used as <see cref="Translator.Culture"/>.</summary>
         public bool CanSelect
         {
             get
@@ -45,7 +45,7 @@ namespace Gu.Wpf.Localization
             }
         }
 
-        /// <summary>Gets or sets the <see cref="CultureInfo"/></summary>
+        /// <summary>Gets or sets the <see cref="CultureInfo"/>.</summary>
         public CultureInfo Culture
         {
             get => this.culture;
@@ -62,7 +62,7 @@ namespace Gu.Wpf.Localization
             }
         }
 
-        /// <summary>Gets <see cref="Culture"/> NativeName TitleCased and trimmed to text only</summary>
+        /// <summary>Gets <see cref="Culture"/> NativeName TitleCased and trimmed to text only.</summary>
         public string LanguageName
         {
             get
@@ -77,11 +77,11 @@ namespace Gu.Wpf.Localization
             }
         }
 
-        /// <summary>Gets <see cref="Culture"/> NativeName TitleCased</summary>
+        /// <summary>Gets <see cref="Culture"/> NativeName TitleCased.</summary>
         public string NativeName => ToFirstCharUpper(this.culture?.NativeName);
 
         /// <summary>
-        /// Gets or sets the <see cref="Uri"/> to the flag for the <see cref="Culture"/>
+        /// Gets or sets the <see cref="Uri"/> to the flag for the <see cref="Culture"/>.
         /// </summary>
         public Uri FlagSource
         {
@@ -100,7 +100,7 @@ namespace Gu.Wpf.Localization
         }
 
 #pragma warning disable INPC010 // The property sets a different field than it returns.
-        /// <summary>Gets or sets a value indicating whether gets or sets if the <see cref="Culture"/> is the same as <see cref="Translator.Culture"/></summary>
+        /// <summary>Gets or sets a value indicating whether gets or sets if the <see cref="Culture"/> is the same as <see cref="Translator.Culture"/>.</summary>
         public bool IsSelected
         {
             get => Gu.Localization.Culture.NameEquals(Translator.CurrentCulture, this.Culture);
@@ -124,8 +124,8 @@ namespace Gu.Wpf.Localization
         }
 #pragma warning restore INPC010 // The property sets a different field than it returns.
 
-        /// <summary>Raises <see cref="PropertyChanged"/></summary>
-        /// <param name="propertyName">The name of the property</param>
+        /// <summary>Raises <see cref="PropertyChanged"/>.</summary>
+        /// <param name="propertyName">The name of the property.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -8,7 +8,7 @@ namespace Gu.Localization.Errors
     /// A key that has errors in format parameters.
     /// Errors can be:
     /// 'First: {1}' (does not start at zero)
-    /// If different languages have different number of parameters
+    /// If different languages have different number of parameters.
     /// </summary>
     public class FormatError : TranslationError
     {
@@ -23,7 +23,7 @@ namespace Gu.Localization.Errors
             this.Formats = formats;
         }
 
-        /// <summary>Gets all formats for all cultures</summary>
+        /// <summary>Gets all formats for all cultures.</summary>
         public IReadOnlyDictionary<CultureInfo, string> Formats { get; }
 
         internal override void WriteTo(IndentedTextWriter writer)

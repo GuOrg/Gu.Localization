@@ -14,12 +14,12 @@ namespace Gu.Localization
         private static readonly ConcurrentDictionary<ResourceManager, CulturesAndKeys> Cache = new ConcurrentDictionary<ResourceManager, CulturesAndKeys>(ResourceManagerComparer.ByBaseName);
 
         /// <summary>
-        /// Check if the <paramref name="resourceManager"/> has a translation for <paramref name="key"/>
+        /// Check if the <paramref name="resourceManager"/> has a translation for <paramref name="key"/>.
         /// </summary>
-        /// <param name="resourceManager">The <see cref="ResourceManager"/></param>
-        /// <param name="key">The key</param>
-        /// <param name="culture">The <see cref="CultureInfo"/></param>
-        /// <returns>True if a translation exists</returns>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/>.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="culture">The <see cref="CultureInfo"/>.</param>
+        /// <returns>True if a translation exists.</returns>
         internal static bool HasKey(this ResourceManager resourceManager, string key, CultureInfo culture)
         {
             var culturesAndKeys = Cache.GetOrAdd(resourceManager, r => new CulturesAndKeys(r));
@@ -27,11 +27,11 @@ namespace Gu.Localization
         }
 
         /// <summary>
-        /// Check if the <paramref name="resourceManager"/> has a translation for <paramref name="key"/>
+        /// Check if the <paramref name="resourceManager"/> has a translation for <paramref name="key"/>.
         /// </summary>
-        /// <param name="resourceManager">The <see cref="ResourceManager"/></param>
-        /// <param name="key">The key</param>
-        /// <returns>True if a translation exists</returns>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/>.</param>
+        /// <param name="key">The key.</param>
+        /// <returns>True if a translation exists.</returns>
         internal static bool HasKey(this ResourceManager resourceManager, string key)
         {
             return resourceManager.HasKey(key, Translator.CurrentCulture) ||
@@ -39,11 +39,11 @@ namespace Gu.Localization
         }
 
         /// <summary>
-        /// Check if the <paramref name="resourceManager"/> has translations for <paramref name="culture"/>
+        /// Check if the <paramref name="resourceManager"/> has translations for <paramref name="culture"/>.
         /// </summary>
-        /// <param name="resourceManager">The <see cref="ResourceManager"/></param>
-        /// <param name="culture">The <see cref="CultureInfo"/></param>
-        /// <returns>True if a translation exists</returns>
+        /// <param name="resourceManager">The <see cref="ResourceManager"/>.</param>
+        /// <param name="culture">The <see cref="CultureInfo"/>.</param>
+        /// <returns>True if a translation exists.</returns>
         internal static bool HasCulture(this ResourceManager resourceManager, CultureInfo culture)
         {
             var culturesAndKeys = Cache.GetOrAdd(resourceManager, r => new CulturesAndKeys(r));

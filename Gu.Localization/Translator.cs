@@ -6,7 +6,7 @@ namespace Gu.Localization
     using System.Linq;
     using System.Resources;
 
-    /// <summary> Class for translating resources </summary>
+    /// <summary> Class for translating resources. </summary>
     public static partial class Translator
     {
         private static DirectoryInfo resourceDirectory = ResourceCultures.DefaultResourceDirectory();
@@ -27,52 +27,52 @@ namespace Gu.Localization
             }
         }
 
-        /// <summary>Gets or sets a value indicating how errors are handled. The default is throw</summary>
+        /// <summary>Gets or sets a value indicating how errors are handled. The default is throw.</summary>
         public static ErrorHandling ErrorHandling { get; set; } = ErrorHandling.ReturnErrorInfoPreserveNeutral;
 
         /// <summary>
-        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
+        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));.
         /// </summary>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
-        /// <param name="key">The key in <paramref name="resourceManager"/></param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        /// <param name="key">The key in <paramref name="resourceManager"/>.</param>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/>.</returns>
         public static string Translate(ResourceManager resourceManager, string key)
         {
             return Translate(resourceManager, key, CurrentCulture);
         }
 
         /// <summary>
-        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
+        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));.
         /// </summary>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
-        /// <param name="key">The key in <paramref name="resourceManager"/></param>
+        /// <param name="key">The key in <paramref name="resourceManager"/>.</param>
         /// <param name="errorHandling">Specifies how error handling is performed.</param>
-        /// <returns>The key translated to the <see cref="CurrentCulture"/></returns>
+        /// <returns>The key translated to the <see cref="CurrentCulture"/>.</returns>
         public static string Translate(ResourceManager resourceManager, string key, ErrorHandling errorHandling)
         {
             return Translate(resourceManager, key, Culture, errorHandling);
         }
 
         /// <summary>
-        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
+        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));.
         /// </summary>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
-        /// <param name="key">The key in <paramref name="resourceManager"/></param>
-        /// <param name="language">The culture, if null CultureInfo.InvariantCulture is used</param>
-        /// <returns>The key translated to the <paramref name="language"/></returns>
+        /// <param name="key">The key in <paramref name="resourceManager"/>.</param>
+        /// <param name="language">The culture, if null CultureInfo.InvariantCulture is used.</param>
+        /// <returns>The key translated to the <paramref name="language"/>.</returns>
         public static string Translate(ResourceManager resourceManager, string key, CultureInfo language)
         {
             return Translate(resourceManager, key, language, ErrorHandling);
         }
 
         /// <summary>
-        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
+        /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));.
         /// </summary>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
-        /// <param name="key">The key in <paramref name="resourceManager"/></param>
-        /// <param name="language">The culture, if null CultureInfo.InvariantCulture is used</param>
+        /// <param name="key">The key in <paramref name="resourceManager"/>.</param>
+        /// <param name="language">The culture, if null CultureInfo.InvariantCulture is used.</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
-        /// <returns>The key translated to the <paramref name="language"/></returns>
+        /// <returns>The key translated to the <paramref name="language"/>.</returns>
         public static string Translate(
             ResourceManager resourceManager,
             string key,

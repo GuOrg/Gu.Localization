@@ -18,9 +18,9 @@ namespace Gu.Localization
         /// Gets all cultures found in the directory. The search is done by:
         /// 1) Enumerate all folders named with valid culture names
         /// 2) Check that the folder contains resource files
-        /// The result is not cached
+        /// The result is not cached.
         /// </summary>
-        /// <param name="executingDirectory">The directory to check</param>
+        /// <param name="executingDirectory">The directory to check.</param>
         /// <returns>The cultures found. If none an empty list is returned.</returns>
         internal static IReadOnlyList<CultureInfo> GetAllCultures(DirectoryInfo executingDirectory)
         {

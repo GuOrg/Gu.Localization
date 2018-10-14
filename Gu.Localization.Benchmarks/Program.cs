@@ -5,7 +5,6 @@ namespace Gu.Localization.Benchmarks
     using System;
     using System.IO;
     using System.Linq;
-    using BenchmarkDotNet.Attributes;
     using BenchmarkDotNet.Reports;
     using BenchmarkDotNet.Running;
 

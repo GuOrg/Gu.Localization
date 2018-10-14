@@ -22,7 +22,7 @@
                 FileName = exeFileName,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
             };
             return processStartInfo;
         }

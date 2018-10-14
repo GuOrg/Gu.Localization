@@ -16,7 +16,7 @@ namespace Gu.Localization
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableSortedSet{T}"/> class.
-        /// Uses <see cref="EqualityComparer{T}.Default"/>
+        /// Uses <see cref="EqualityComparer{T}.Default"/>.
         /// </summary>
         public ObservableSortedSet()
             : this(Comparer<T>.Default)
@@ -33,7 +33,7 @@ namespace Gu.Localization
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableSortedSet{T}"/> class.
-        /// Uses <see cref="EqualityComparer{T}.Default"/>
+        /// Uses <see cref="EqualityComparer{T}.Default"/>.
         /// </summary>
         public ObservableSortedSet(IEnumerable<T> collection)
             : this(collection, Comparer<T>.Default)
@@ -69,7 +69,7 @@ namespace Gu.Localization
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         /// <summary>
-        /// Clear then union with <paramref name="items"/>
+        /// Clear then union with <paramref name="items"/>.
         /// </summary>
         public void UpdateWith(IReadOnlyCollection<T> items)
         {

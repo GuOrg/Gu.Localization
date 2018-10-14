@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Localization
+namespace Gu.Wpf.Localization
 {
     using System;
     using System.Windows;
@@ -20,7 +20,7 @@
                 Source = CurrentCultureProxy.Instance,
                 Path = ValuePath,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                Mode = BindingMode.OneWay
+                Mode = BindingMode.OneWay,
             };
 
             return binding.ProvideValue(serviceProvider);

@@ -22,7 +22,7 @@
                               Path = ValuePath,
                               UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                               Mode = BindingMode.OneWay,
-                              Converter = CultureToXmlLanguageConverter.Default
+                              Converter = CultureToXmlLanguageConverter.Default,
                           };
 
             return binding.ProvideValue(serviceProvider);

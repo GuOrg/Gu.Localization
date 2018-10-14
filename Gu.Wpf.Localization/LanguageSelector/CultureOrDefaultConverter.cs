@@ -9,7 +9,7 @@ namespace Gu.Wpf.Localization
     [ValueConversion(typeof(CultureInfo), typeof(CultureInfo))]
     public sealed class CultureOrDefaultConverter : IValueConverter
     {
-        /// <summary> Gets the default instance </summary>
+        /// <summary> Gets the default instance. </summary>
         public static readonly CultureOrDefaultConverter Default = new CultureOrDefaultConverter();
 
         /// <inheritdoc />

@@ -10,9 +10,9 @@ namespace Gu.Localization
         /// Call with Validate.IsValidFormat("First: {0:N}", 1.2);
         /// Throws a <see cref="FormatException"/> if error(s) are found.
         /// </summary>
-        /// <typeparam name="T0">The type of <paramref name="arg0"/> generic to avoid boxing</typeparam>
-        /// <param name="format">The format string ex: 'First: {0:N}</param>
-        /// <param name="arg0">The argument</param>
+        /// <typeparam name="T0">The type of <paramref name="arg0"/> generic to avoid boxing.</typeparam>
+        /// <param name="format">The format string ex: 'First: {0:N}.</param>
+        /// <param name="arg0">The argument.</param>
         public static void Format<T0>(string format, T0 arg0)
         {
             if (!FormatString.IsValidFormat(format, out var count, out _))
@@ -31,9 +31,9 @@ namespace Gu.Localization
         /// Call with Validate.IsValidFormat("First: {0:N}", 1.2);
         /// Throws a <see cref="FormatException"/> if error(s) are found.
         /// </summary>
-        /// <typeparam name="T0">The type of <paramref name="arg0"/> generic to avoid boxing</typeparam>
-        /// <typeparam name="T1">The type of <paramref name="arg1"/> generic to avoid boxing</typeparam>
-        /// <param name="format">The format string ex: 'First: {0:N}</param>
+        /// <typeparam name="T0">The type of <paramref name="arg0"/> generic to avoid boxing.</typeparam>
+        /// <typeparam name="T1">The type of <paramref name="arg1"/> generic to avoid boxing.</typeparam>
+        /// <param name="format">The format string ex: 'First: {0:N}.</param>
         /// <param name="arg0">The first argument.</param>
         /// <param name="arg1">The second argument.</param>
         public static void Format<T0, T1>(string format, T0 arg0, T1 arg1)
@@ -54,7 +54,7 @@ namespace Gu.Localization
         /// Call with Validate.IsValidFormat("First: {0:N}", 1, 2, 3..);
         /// Throws a <see cref="FormatException"/> if error(s) are found.
         /// </summary>
-        /// <param name="format">The format string ex: 'First: {0:N}</param>
+        /// <param name="format">The format string ex: 'First: {0:N}.</param>
         /// <param name="args">The arguments.</param>
         public static void Format(string format, params object[] args)
         {
@@ -79,30 +79,30 @@ namespace Gu.Localization
             }
         }
 
-        /// <summary>Call with Validate.IsValidFormat("First: {0:N}", 1.2); </summary>
-        /// <typeparam name="T">The type of <paramref name="arg0"/> generic to avoid boxing</typeparam>
-        /// <param name="format">The format string ex: 'First: {0:N}</param>
-        /// <param name="arg0">The argument</param>
-        /// <returns>True if <paramref name="format"/> is valid for the argument <paramref name="arg0"/></returns>
+        /// <summary>Call with Validate.IsValidFormat("First: {0:N}", 1.2);. </summary>
+        /// <typeparam name="T">The type of <paramref name="arg0"/> generic to avoid boxing.</typeparam>
+        /// <param name="format">The format string ex: 'First: {0:N}.</param>
+        /// <param name="arg0">The argument.</param>
+        /// <returns>True if <paramref name="format"/> is valid for the argument <paramref name="arg0"/>.</returns>
         public static bool IsValidFormat<T>(string format, T arg0)
         {
             return IsValidFormat(format, 1);
         }
 
-        /// <summary>Call with Validate.IsValidFormat("First: {0:N}, Second: {1}", 1, 2); </summary>
-        /// <typeparam name="T0">The type of <paramref name="arg0"/> generic to avoid boxing</typeparam>
-        /// <typeparam name="T1">The type of <paramref name="arg1"/> generic to avoid boxing</typeparam>
-        /// <param name="format">The format string ex: 'First: {0:N}</param>
+        /// <summary>Call with Validate.IsValidFormat("First: {0:N}, Second: {1}", 1, 2);. </summary>
+        /// <typeparam name="T0">The type of <paramref name="arg0"/> generic to avoid boxing.</typeparam>
+        /// <typeparam name="T1">The type of <paramref name="arg1"/> generic to avoid boxing.</typeparam>
+        /// <param name="format">The format string ex: 'First: {0:N}.</param>
         /// <param name="arg0">The first argument.</param>
         /// <param name="arg1">The second argument.</param>
-        /// <returns>True if <paramref name="format"/> is valid for the two arguments <paramref name="arg0"/> and <paramref name="arg1"/></returns>
+        /// <returns>True if <paramref name="format"/> is valid for the two arguments <paramref name="arg0"/> and <paramref name="arg1"/>.</returns>
         public static bool IsValidFormat<T0, T1>(string format, T0 arg0, T1 arg1)
         {
             return IsValidFormat(format, 2);
         }
 
-        /// <summary>Call with Validate.IsValidFormat("First: {0:N}, Second: {1}", 2); </summary>
-        /// <param name="format">The format string ex: 'First: {0:N}</param>
+        /// <summary>Call with Validate.IsValidFormat("First: {0:N}, Second: {1}", 2);. </summary>
+        /// <param name="format">The format string ex: 'First: {0:N}.</param>
         /// <param name="args">The arguments.</param>
         /// <returns>True if <paramref name="format"/> is valid for <paramref name="args"/>.</returns>
         public static bool IsValidFormat(string format, params object[] args)

@@ -13,12 +13,12 @@ namespace Gu.Localization
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
         /// This assumes that the resource is something like 'Value: {0}' i.e. having one format parameter.
         /// </summary>
-        /// <typeparam name="T">The type of <paramref name="arg0"/> generic to avoid boxing</typeparam>
+        /// <typeparam name="T">The type of <paramref name="arg0"/> generic to avoid boxing.</typeparam>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
-        /// <param name="key">The key in <paramref name="resourceManager"/></param>
-        /// <param name="arg0">The argument will be used as string.Format(format, <paramref name="arg0"/>)</param>
+        /// <param name="key">The key in <paramref name="resourceManager"/>.</param>
+        /// <param name="arg0">The argument will be used as string.Format(format, <paramref name="arg0"/>).</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
-        /// <returns>The key translated to the <see cref="Culture"/></returns>
+        /// <returns>The key translated to the <see cref="Culture"/>.</returns>
         public static string Translate<T>(ResourceManager resourceManager, string key, T arg0, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             return Translate(resourceManager, key, CurrentCulture, arg0, errorHandling);
@@ -28,13 +28,13 @@ namespace Gu.Localization
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
         /// This assumes that the resource is something like 'Value: {0}' i.e. having one format parameter.
         /// </summary>
-        /// <typeparam name="T">The type of <paramref name="arg0"/> generic to avoid boxing</typeparam>
+        /// <typeparam name="T">The type of <paramref name="arg0"/> generic to avoid boxing.</typeparam>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
-        /// <param name="key">The key in <paramref name="resourceManager"/></param>
+        /// <param name="key">The key in <paramref name="resourceManager"/>.</param>
         /// <param name="language">The culture.</param>
-        /// <param name="arg0">The argument will be used as string.Format(format, <paramref name="arg0"/>)</param>
+        /// <param name="arg0">The argument will be used as string.Format(format, <paramref name="arg0"/>).</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
-        /// <returns>The key translated to the <paramref name="language"/></returns>
+        /// <returns>The key translated to the <paramref name="language"/>.</returns>
         public static string Translate<T>(ResourceManager resourceManager, string key, CultureInfo language, T arg0, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             if (!TryTranslateOrThrow(resourceManager, key, language, errorHandling, out var format))
@@ -67,14 +67,14 @@ namespace Gu.Localization
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
         /// This assumes that the resource is something like 'Value: {0}' i.e. having one format parameter.
         /// </summary>
-        /// <typeparam name="T0">The type of <paramref name="arg0"/> generic to avoid boxing</typeparam>
-        /// <typeparam name="T1">The type of <paramref name="arg1"/> generic to avoid boxing</typeparam>
+        /// <typeparam name="T0">The type of <paramref name="arg0"/> generic to avoid boxing.</typeparam>
+        /// <typeparam name="T1">The type of <paramref name="arg1"/> generic to avoid boxing.</typeparam>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
-        /// <param name="key">The key in <paramref name="resourceManager"/></param>
-        /// <param name="arg0">The argument will be used as first arguyment in string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>)</param>
-        /// <param name="arg1">The argument will be used as second argument string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>)</param>
+        /// <param name="key">The key in <paramref name="resourceManager"/>.</param>
+        /// <param name="arg0">The argument will be used as first arguyment in string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>).</param>
+        /// <param name="arg1">The argument will be used as second argument string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>).</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
-        /// <returns>The key translated to the <see cref="Culture"/></returns>
+        /// <returns>The key translated to the <see cref="Culture"/>.</returns>
         public static string Translate<T0, T1>(ResourceManager resourceManager, string key, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             return Translate(resourceManager, key, CurrentCulture, arg0, arg1, errorHandling);
@@ -84,15 +84,15 @@ namespace Gu.Localization
         /// Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeKey));
         /// This assumes that the resource is something like 'Value: {0}' i.e. having one format parameter.
         /// </summary>
-        /// <typeparam name="T0">The type of <paramref name="arg0"/> generic to avoid boxing</typeparam>
-        /// <typeparam name="T1">The type of <paramref name="arg1"/> generic to avoid boxing</typeparam>
+        /// <typeparam name="T0">The type of <paramref name="arg0"/> generic to avoid boxing.</typeparam>
+        /// <typeparam name="T1">The type of <paramref name="arg1"/> generic to avoid boxing.</typeparam>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
-        /// <param name="key">The key in <paramref name="resourceManager"/></param>
+        /// <param name="key">The key in <paramref name="resourceManager"/>.</param>
         /// <param name="language">The culture.</param>
-        /// <param name="arg0">The argument will be used as first arguyment in string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>)</param>
-        /// <param name="arg1">The argument will be used as second argument string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>)</param>
+        /// <param name="arg0">The argument will be used as first arguyment in string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>).</param>
+        /// <param name="arg1">The argument will be used as second argument string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>).</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
-        /// <returns>The key translated to the <paramref name="language"/></returns>
+        /// <returns>The key translated to the <paramref name="language"/>.</returns>
         public static string Translate<T0, T1>(ResourceManager resourceManager, string key, CultureInfo language, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             if (!TryTranslateOrThrow(resourceManager, key, language, errorHandling, out var format))

@@ -16,17 +16,13 @@ namespace Gu.Localization.Analyzers
 
         public override void Initialize(AnalysisContext context)
         {
-            context.RegisterSyntaxNodeAction(Handle, SyntaxKind.SimpleMemberAccessExpression);
+            context.RegisterSyntaxNodeAction(c => Handle(c), SyntaxKind.SimpleMemberAccessExpression);
         }
 
         private static void Handle(SyntaxNodeAnalysisContext context)
         {
-            if (context.IsExcludedFromAnalysis())
-            {
-                return;
-            }
-
-            if (context.Node is MemberAccessExpressionSyntax memberAccess &&
+            if (!context.IsExcludedFromAnalysis() &&
+                context.Node is MemberAccessExpressionSyntax memberAccess &&
                 Resources.IsResourceKey(memberAccess, out var resources) &&
                 !IsInNameOf(memberAccess) &&
                 context.SemanticModel.GetTypeInfo(memberAccess, context.CancellationToken).Type == KnownSymbol.String &&

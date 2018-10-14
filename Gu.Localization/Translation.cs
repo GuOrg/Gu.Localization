@@ -55,10 +55,10 @@ namespace Gu.Localization
         /// If not a static translation is returned if error handling is not throw.
         /// </summary>
         /// <param name="resourceManager">
-        /// The <see cref="ResourceManager"/> with the key
+        /// The <see cref="ResourceManager"/> with the key.
         /// </param>
         /// <param name="key">
-        /// The key to translate
+        /// The key to translate.
         /// </param>
         /// <param name="errorHandlingStrategy">Specifies how errors are handled.</param>
         /// <returns>
@@ -80,16 +80,16 @@ namespace Gu.Localization
             return Translator.Translate(this.resourceManager, this.Key, culture, errorHandlingStrategy);
         }
 
-        /// <summary> Use this to raise propertychanged</summary>
-        /// <param name="propertyName">The name of the property</param>
+        /// <summary> Use this to raise propertychanged.</summary>
+        /// <param name="propertyName">The name of the property.</param>
         // ReSharper disable once UnusedMember.Global
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        /// <summary> Called when <see cref="Translator.Culture"/> changes</summary>
-        /// <param name="culture">The new culture</param>
+        /// <summary> Called when <see cref="Translator.Culture"/> changes.</summary>
+        /// <param name="culture">The new culture.</param>
         protected virtual void OnCurrentCultureChanged(CultureInfo culture)
         {
             if (this.cachedTranslation.TryUpdate(culture))
