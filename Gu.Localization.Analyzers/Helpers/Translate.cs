@@ -51,7 +51,7 @@ namespace Gu.Localization.Analyzers
 
             foreach (var type in resourcesType.ContainingNamespace.GetTypeMembers("Translate"))
             {
-                if (type.TryFindSingleMethod(IsCustomTranslateMethod, out method))
+                if (type.TryFindSingleMethod(symbol => IsCustomTranslateMethod(symbol), out method))
                 {
                     return true;
                 }
@@ -79,7 +79,7 @@ namespace Gu.Localization.Analyzers
 
             foreach (var type in resourcesType.ContainingNamespace.GetTypeMembers("Translate"))
             {
-                if (type.TryFindSingleMethod(IsCustomTranslateMethod, out method))
+                if (type.TryFindSingleMethod(symbol => IsCustomTranslateMethod(symbol), out method))
                 {
                     return true;
                 }

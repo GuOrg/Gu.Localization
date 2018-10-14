@@ -590,7 +590,7 @@ namespace Gu.Localization.TestStub.Properties
             this.directory.FindFile("UserControl1.xaml").ReplaceText("p:Resources.Key", "p:Resources.Wrong");
             this.directory.FindFile("Resources\\Dictionary1.xaml").ReplaceText("p:Resources.Key", "p:Resources.Wrong");
             this.directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText(
-@"        public static string Key {
+                @"        public static string Key {
             get {
                 return ResourceManager.GetString(""Key"", resourceCulture);
             }

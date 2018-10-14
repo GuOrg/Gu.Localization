@@ -4,7 +4,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC06UseInterpolationTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class HappyPath
+    public class ValidCode
     {
         private static readonly DiagnosticAnalyzer Analyzer = new LiteralAnalyzer();
 

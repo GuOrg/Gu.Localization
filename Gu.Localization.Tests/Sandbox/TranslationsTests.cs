@@ -1,4 +1,4 @@
-﻿// ReSharper disable UnusedVariable
+// ReSharper disable UnusedVariable
 // ReSharper disable AssignNullToNotNullAttribute
 
 namespace Gu.Localization.Tests.Sandbox
@@ -17,7 +17,7 @@ namespace Gu.Localization.Tests.Sandbox
             var sw = Stopwatch.StartNew();
             var translations = Sandbox.Translations.GetOrCreate(this.GetType().Assembly);
 #if DEBUG
-    Console.WriteLine($"Getting cultures took {sw.Elapsed.TotalMilliseconds.ToString("F2")} ms");
+            Console.WriteLine($"Getting cultures took {sw.Elapsed.TotalMilliseconds.ToString("F2")} ms");
 #endif
 
             Assert.AreEqual(Properties.Resources.ResourceManager.BaseName, translations.BaseName);

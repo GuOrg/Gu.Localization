@@ -42,7 +42,7 @@ namespace Gu.Localization.Analyzers
                 resourcesFileName.Replace("Resources.Designer.cs", "Resources.resx") is string fileName &&
                 File.Exists(fileName))
             {
-                resxFile = Cache.AddOrUpdate(fileName, Create, Update);
+                resxFile = Cache.AddOrUpdate(fileName, s => Create(s), (s, file) => Update(s, file));
             }
 
             return resxFile != null;
@@ -119,7 +119,7 @@ namespace Gu.Localization.Analyzers
         {
             foreach (var cultureResx in Directory.EnumerateFiles(Path.GetDirectoryName(this.FileName), $"{Path.GetFileNameWithoutExtension(this.FileName)}.*.resx", SearchOption.TopDirectoryOnly))
             {
-                var resxFile = Cache.AddOrUpdate(cultureResx, Create, Update);
+                var resxFile = Cache.AddOrUpdate(cultureResx, s => Create(s), (s, file) => Update(s, file));
                 if (resxFile != null)
                 {
                     yield return resxFile;

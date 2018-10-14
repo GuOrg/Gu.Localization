@@ -4,7 +4,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC05TranslateResourceTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class HappyPath
+    internal class ValidCode
     {
         private static readonly DiagnosticAnalyzer Analyzer = new MemberAccessAnalyzer();
 

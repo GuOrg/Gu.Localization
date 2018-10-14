@@ -4,11 +4,12 @@ namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class HappyPath
+    internal class ValidCode
     {
         private static readonly DiagnosticAnalyzer Analyzer = new LiteralAnalyzer();
 
         private static readonly string ResourcesCode = @"
+#pragma warning disable GULOC03
 namespace RoslynSandbox.Properties {
     using System;
 

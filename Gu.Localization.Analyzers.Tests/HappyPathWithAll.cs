@@ -42,16 +42,8 @@ namespace Gu.Localization.Analyzers.Tests
                 case LiteralAnalyzer _:
                 case MemberAccessAnalyzer _:
                 case ResourceAnalyzer _:
-                    {
-                        var diagnostics = Analyze.GetDiagnostics(DemoProjectSolution, analyzer);
-                        foreach (var diagnostic in diagnostics.SelectMany(x => x))
-                        {
-                            // Checking so that it is not AD0001
-                            CollectionAssert.Contains(analyzer.SupportedDiagnostics, diagnostic.Descriptor);
-                        }
-
-                        break;
-                    }
+                    AnalyzerAssert.NoAnalyzerDiagnostics(analyzer, AnalyzerProjectSolution);
+                    break;
 
                 default:
                     AnalyzerAssert.Valid(analyzer, DemoProjectSolution);
@@ -64,12 +56,7 @@ namespace Gu.Localization.Analyzers.Tests
         {
             if (analyzer is LiteralAnalyzer)
             {
-                var diagnostics = Analyze.GetDiagnostics(AnalyzerProjectSolution, analyzer);
-                foreach (var diagnostic in diagnostics.SelectMany(x => x))
-                {
-                    // Checking so that it is not AD0001
-                    CollectionAssert.Contains(analyzer.SupportedDiagnostics, diagnostic.Descriptor);
-                }
+                AnalyzerAssert.NoAnalyzerDiagnostics(analyzer, AnalyzerProjectSolution);
             }
             else
             {
@@ -105,12 +92,7 @@ namespace Gu.Localization.Analyzers.Tests
             base.Dispose(disposing);
         }
     }";
-            var diagnostics = Analyze.GetDiagnostics(AnalyzerProjectSolution, analyzer);
-            foreach (var diagnostic in diagnostics.SelectMany(x => x))
-            {
-                // Checking so that it is not AD0001
-                CollectionAssert.Contains(analyzer.SupportedDiagnostics, diagnostic.Descriptor);
-            }
+            AnalyzerAssert.NoAnalyzerDiagnostics(analyzer, testCode);
         }
     }
 }
