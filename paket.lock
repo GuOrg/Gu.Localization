@@ -5,7 +5,7 @@ NUGET
   remote: http://www.nuget.org/api/v2
     AsyncUsageAnalyzers (1.0.0-alpha003)
     Gu.Analyzers (1.2.18.1-dev)
-    IDisposableAnalyzers (2.0.3.3)
+    IDisposableAnalyzers (2.0.4)
     JetBrains.Annotations (2018.2.1)
       System.Runtime (>= 4.1) - restriction: && (< net10) (>= netstandard1.0) (< netstandard2.0)
     Microsoft.NETCore.Platforms (2.1.1) - restriction: || (&& (< monoandroid) (< monotouch) (< net10) (>= netstandard1.5) (< netstandard2.0) (< win8) (< wpa81) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net10) (>= netstandard1.0) (< netstandard1.2) (< win8) (< wp8)) (&& (< monoandroid) (< net10) (>= netstandard1.2) (< netstandard1.3) (< win8) (< wpa81)) (&& (< monoandroid) (< net10) (>= netstandard1.3) (< netstandard1.5) (< win8) (< wpa81)) (&& (< net10) (>= netstandard1.0) (< portable-net45+win8+wp8+wpa81))
@@ -628,7 +628,7 @@ NUGET
   remote: http://www.nuget.org/api/v2
     Gu.Roslyn.Asserts (2.6.1.1)
       Microsoft.CodeAnalysis.CSharp.Workspaces (>= 2.0)
-    Gu.Roslyn.Extensions (0.4.1-dev)
+    Gu.Roslyn.Extensions (0.4.1.1-dev)
       Microsoft.CodeAnalysis.CSharp.Workspaces (>= 2.0)
     ManagedEsent (1.9.4) - restriction: >= net46
     Microsoft.CodeAnalysis.Analyzers (2.6.2) - restriction: >= netstandard1.3
