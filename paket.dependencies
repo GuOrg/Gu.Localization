@@ -11,6 +11,7 @@ group Analyzers
   nuget Gu.Analyzers
   nuget IDisposableAnalyzers
   nuget PropertyChangedAnalyzers
+  nuget PublicApiAnalyzer prerelease
   nuget ReflectionAnalyzers
   nuget StyleCop.Analyzers prerelease
   nuget WpfAnalyzers

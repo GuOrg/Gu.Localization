@@ -1,0 +1,69 @@
+﻿Gu.Wpf.Localization.CultureOrDefaultConverter
+Gu.Wpf.Localization.CultureOrDefaultConverter.Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo _) -> object
+Gu.Wpf.Localization.CultureOrDefaultConverter.CultureOrDefaultConverter() -> void
+Gu.Wpf.Localization.CultureToFlagPathConverter
+Gu.Wpf.Localization.CultureToFlagPathConverter.Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo _) -> object
+Gu.Wpf.Localization.CultureToFlagPathConverter.CultureToFlagPathConverter() -> void
+Gu.Wpf.Localization.CurrentCultureExtension
+Gu.Wpf.Localization.CurrentCultureExtension.CurrentCultureExtension() -> void
+Gu.Wpf.Localization.CurrentXmlLanguageExtension
+Gu.Wpf.Localization.CurrentXmlLanguageExtension.CurrentXmlLanguageExtension() -> void
+Gu.Wpf.Localization.DesignTime
+Gu.Wpf.Localization.EnumExtension
+Gu.Wpf.Localization.EnumExtension.EnumExtension() -> void
+Gu.Wpf.Localization.EnumExtension.Member.get -> System.IFormattable
+Gu.Wpf.Localization.EnumExtension.Member.set -> void
+Gu.Wpf.Localization.EnumExtension.ResourceManager.get -> System.Resources.ResourceManager
+Gu.Wpf.Localization.EnumExtension.ResourceManager.set -> void
+Gu.Wpf.Localization.ErrorHandling
+Gu.Wpf.Localization.ErrorHandling.ErrorHandling() -> void
+Gu.Wpf.Localization.Language
+Gu.Wpf.Localization.Language.CanSelect.get -> bool
+Gu.Wpf.Localization.Language.Culture.get -> System.Globalization.CultureInfo
+Gu.Wpf.Localization.Language.Culture.set -> void
+Gu.Wpf.Localization.Language.FlagSource.get -> System.Uri
+Gu.Wpf.Localization.Language.FlagSource.set -> void
+Gu.Wpf.Localization.Language.IsSelected.get -> bool
+Gu.Wpf.Localization.Language.IsSelected.set -> void
+Gu.Wpf.Localization.Language.Language() -> void
+Gu.Wpf.Localization.Language.Language(System.Globalization.CultureInfo culture) -> void
+Gu.Wpf.Localization.Language.LanguageName.get -> string
+Gu.Wpf.Localization.Language.NativeName.get -> string
+Gu.Wpf.Localization.Language.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Wpf.Localization.LanguageSelector
+Gu.Wpf.Localization.LanguageSelector.AutogenerateLanguages.get -> bool
+Gu.Wpf.Localization.LanguageSelector.AutogenerateLanguages.set -> void
+Gu.Wpf.Localization.LanguageSelector.ItemTemplate.get -> System.Windows.DataTemplate
+Gu.Wpf.Localization.LanguageSelector.ItemTemplate.set -> void
+Gu.Wpf.Localization.LanguageSelector.LanguageSelector() -> void
+Gu.Wpf.Localization.LanguageSelector.Languages.get -> System.Collections.ObjectModel.ObservableCollection<Gu.Wpf.Localization.Language>
+Gu.Wpf.Localization.LanguageSelector.Languages.set -> void
+Gu.Wpf.Localization.LanguageSelector.SelectedLanguage.get -> Gu.Wpf.Localization.Language
+Gu.Wpf.Localization.LanguageSelector.SelectedLanguage.set -> void
+Gu.Wpf.Localization.NullImageSourceConverter
+Gu.Wpf.Localization.NullImageSourceConverter.Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture) -> object
+Gu.Wpf.Localization.NullImageSourceConverter.NullImageSourceConverter() -> void
+Gu.Wpf.Localization.StaticExtension
+Gu.Wpf.Localization.StaticExtension.StaticExtension() -> void
+Gu.Wpf.Localization.StaticExtension.StaticExtension(string member) -> void
+XamlGeneratedNamespace.GeneratedInternalTypeHelper
+XamlGeneratedNamespace.GeneratedInternalTypeHelper.GeneratedInternalTypeHelper() -> void
+override Gu.Wpf.Localization.CurrentCultureExtension.ProvideValue(System.IServiceProvider serviceProvider) -> object
+override Gu.Wpf.Localization.CurrentXmlLanguageExtension.ProvideValue(System.IServiceProvider serviceProvider) -> object
+override Gu.Wpf.Localization.EnumExtension.ProvideValue(System.IServiceProvider serviceProvider) -> object
+override Gu.Wpf.Localization.StaticExtension.ProvideValue(System.IServiceProvider serviceProvider) -> object
+static Gu.Wpf.Localization.CultureToFlagPathConverter.TryGetFlagPath(System.Globalization.CultureInfo culture, out string path) -> bool
+static Gu.Wpf.Localization.DesignTime.GetCulture(this System.Windows.UIElement element) -> System.Globalization.CultureInfo
+static Gu.Wpf.Localization.DesignTime.SetCulture(this System.Windows.UIElement element, System.Globalization.CultureInfo value) -> void
+static Gu.Wpf.Localization.ErrorHandling.GetMode(System.Windows.DependencyObject element) -> Gu.Localization.ErrorHandling?
+static Gu.Wpf.Localization.ErrorHandling.SetMode(System.Windows.DependencyObject element, Gu.Localization.ErrorHandling? value) -> void
+static readonly Gu.Wpf.Localization.CultureOrDefaultConverter.Default -> Gu.Wpf.Localization.CultureOrDefaultConverter
+static readonly Gu.Wpf.Localization.CultureToFlagPathConverter.Default -> Gu.Wpf.Localization.CultureToFlagPathConverter
+static readonly Gu.Wpf.Localization.DesignTime.CultureProperty -> System.Windows.DependencyProperty
+static readonly Gu.Wpf.Localization.ErrorHandling.ModeProperty -> System.Windows.DependencyProperty
+static readonly Gu.Wpf.Localization.LanguageSelector.AutogenerateLanguagesProperty -> System.Windows.DependencyProperty
+static readonly Gu.Wpf.Localization.LanguageSelector.ItemTemplateProperty -> System.Windows.DependencyProperty
+static readonly Gu.Wpf.Localization.LanguageSelector.LanguagesProperty -> System.Windows.DependencyProperty
+static readonly Gu.Wpf.Localization.LanguageSelector.SelectedLanguageProperty -> System.Windows.DependencyProperty
+static readonly Gu.Wpf.Localization.NullImageSourceConverter.Default -> Gu.Wpf.Localization.NullImageSourceConverter
+virtual Gu.Wpf.Localization.Language.OnPropertyChanged(string propertyName = null) -> void

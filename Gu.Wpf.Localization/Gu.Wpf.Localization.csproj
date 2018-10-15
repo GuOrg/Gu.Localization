@@ -426,6 +426,14 @@
     </Analyzer>
   </ItemGroup>
   <ItemGroup>
+    <Analyzer Include="..\packages\analyzers\PublicApiAnalyzer\analyzers\dotnet\cs\PublicApiAnalyzer.CodeFixes.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+    <Analyzer Include="..\packages\analyzers\PublicApiAnalyzer\analyzers\dotnet\cs\PublicApiAnalyzer.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+  </ItemGroup>
+  <ItemGroup>
     <Analyzer Include="..\packages\analyzers\ReflectionAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.AnalyzerExtensions.dll">
       <Paket>True</Paket>
     </Analyzer>
@@ -513,5 +521,9 @@
     <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\WpfAnalyzers.dll">
       <Paket>True</Paket>
     </Analyzer>
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
   </ItemGroup>
 </Project>
