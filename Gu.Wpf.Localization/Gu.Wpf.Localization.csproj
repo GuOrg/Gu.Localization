@@ -358,13 +358,14 @@
   </ItemGroup>
   <Import Project="..\.paket\paket.targets" />
   <ItemGroup>
+    <AdditionalFiles Include="PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <Analyzer Include="..\packages\analyzers\Gu.Analyzers\analyzers\dotnet\cs\Gu.Analyzers.dll">
       <Paket>True</Paket>
     </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Gu.Analyzers\analyzers\dotnet\cs\Gu.Roslyn.AnalyzerExtensions.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Gu.Analyzers\analyzers\dotnet\cs\Gu.Roslyn.CodeFixExtensions.dll">
+    <Analyzer Include="..\packages\analyzers\Gu.Analyzers\analyzers\dotnet\cs\Gu.Roslyn.Extensions.dll">
       <Paket>True</Paket>
     </Analyzer>
   </ItemGroup>
@@ -415,10 +416,7 @@
     </When>
   </Choose>
   <ItemGroup>
-    <Analyzer Include="..\packages\analyzers\PropertyChangedAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.AnalyzerExtensions.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\PropertyChangedAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.CodeFixExtensions.dll">
+    <Analyzer Include="..\packages\analyzers\PropertyChangedAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.Extensions.dll">
       <Paket>True</Paket>
     </Analyzer>
     <Analyzer Include="..\packages\analyzers\PropertyChangedAnalyzers\analyzers\dotnet\cs\PropertyChangedAnalyzers.dll">
@@ -434,10 +432,7 @@
     </Analyzer>
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\analyzers\ReflectionAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.AnalyzerExtensions.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\ReflectionAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.CodeFixExtensions.dll">
+    <Analyzer Include="..\packages\analyzers\ReflectionAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.Extensions.dll">
       <Paket>True</Paket>
     </Analyzer>
     <Analyzer Include="..\packages\analyzers\ReflectionAnalyzers\analyzers\dotnet\cs\ReflectionAnalyzers.dll">
@@ -512,18 +507,11 @@
     </When>
   </Choose>
   <ItemGroup>
-    <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.AnalyzerExtensions.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.CodeFixExtensions.dll">
+    <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.Extensions.dll">
       <Paket>True</Paket>
     </Analyzer>
     <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\WpfAnalyzers.dll">
       <Paket>True</Paket>
     </Analyzer>
-  </ItemGroup>
-  <ItemGroup>
-    <AdditionalFiles Include="PublicAPI.Shipped.txt" />
-    <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
   </ItemGroup>
 </Project>

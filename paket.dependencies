@@ -12,7 +12,7 @@ group Analyzers
   nuget IDisposableAnalyzers
   nuget PropertyChangedAnalyzers
   nuget PublicApiAnalyzer prerelease
-  nuget ReflectionAnalyzers
+  nuget ReflectionAnalyzers prerelease
   nuget StyleCop.Analyzers prerelease
   nuget WpfAnalyzers
   nuget JetBrains.Annotations
