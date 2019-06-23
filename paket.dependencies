@@ -21,6 +21,7 @@ group Test
   storage: none
   source http://www.nuget.org/api/v2/
   nuget NUnit
+  nuget NUnit3TestAdapter
   nuget Moq
   nuget Gu.Wpf.UiAutomation
 
@@ -40,6 +41,7 @@ group Roslyn
   nuget Gu.Roslyn.Asserts
   nuget Gu.Roslyn.Extensions prerelease
   nuget NUnit
+  nuget NUnit3TestAdapter
 
 group Benchmarks
   storage: none
