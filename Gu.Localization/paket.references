@@ -5,7 +5,7 @@ group Analyzers
   Gu.Analyzers
   IDisposableAnalyzers
   PropertyChangedAnalyzers
-  PublicApiAnalyzer
+  Microsoft.CodeAnalysis.PublicApiAnalyzers
   ReflectionAnalyzers
   StyleCop.Analyzers
   JetBrains.Annotations
