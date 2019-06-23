@@ -20,13 +20,13 @@ namespace Gu.Localization.Analyzers.Tests
         private static readonly Solution DemoProjectSolution = CodeFactory.CreateSolution(
             ProjectFile.Find("Gu.Wpf.Localization.Demo.csproj"),
             AllAnalyzers,
-            AnalyzerAssert.MetadataReferences);
+            RoslynAssert.MetadataReferences);
 
         // ReSharper disable once InconsistentNaming
         private static readonly Solution AnalyzerProjectSolution = CodeFactory.CreateSolution(
             ProjectFile.Find("Gu.Localization.Analyzers.csproj"),
             AllAnalyzers,
-            AnalyzerAssert.MetadataReferences);
+            RoslynAssert.MetadataReferences);
 
         [Test]
         public void NotEmpty()
@@ -46,7 +46,7 @@ namespace Gu.Localization.Analyzers.Tests
                     _ = Analyze.GetDiagnostics(analyzer, DemoProjectSolution);
                     break;
                 default:
-                    AnalyzerAssert.NoAnalyzerDiagnostics(analyzer, DemoProjectSolution);
+                    RoslynAssert.NoAnalyzerDiagnostics(analyzer, DemoProjectSolution);
                     break;
             }
         }
@@ -61,7 +61,7 @@ namespace Gu.Localization.Analyzers.Tests
             }
             else
             {
-                AnalyzerAssert.Valid(analyzer, AnalyzerProjectSolution);
+                RoslynAssert.Valid(analyzer, AnalyzerProjectSolution);
             }
         }
 
@@ -93,7 +93,7 @@ namespace Gu.Localization.Analyzers.Tests
             base.Dispose(disposing);
         }
     }";
-            AnalyzerAssert.NoAnalyzerDiagnostics(analyzer, testCode);
+            RoslynAssert.NoAnalyzerDiagnostics(analyzer, testCode);
         }
     }
 }

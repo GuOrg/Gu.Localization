@@ -115,7 +115,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -154,7 +154,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -174,7 +174,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -194,7 +194,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -213,7 +213,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -233,7 +233,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
         }
 
         [Test]
@@ -256,7 +256,7 @@ namespace RoslynSandbox
         public string DisplayName => Translate.Key(this.translationKey);
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, TranslateCode, testCode);
         }
 
         [Test]
@@ -275,7 +275,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -292,7 +292,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -311,7 +311,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -328,7 +328,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -347,7 +347,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -364,7 +364,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -383,7 +383,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -400,7 +400,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
 
         [Test]
@@ -419,7 +419,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
     }
 }

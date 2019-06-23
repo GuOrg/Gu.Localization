@@ -33,7 +33,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC08DuplicateNeutralTests
             this.projectFile.Directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", "\"Value\"");
             this.projectFile.Directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", "public static string Value");
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
-            AnalyzerAssert.NoAnalyzerDiagnostics(Analyzer, sln);
+            RoslynAssert.NoAnalyzerDiagnostics(Analyzer, sln);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
             this.projectFile.Directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", $"\"{key}\"");
             this.projectFile.Directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", $"public static string {key}");
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
-            AnalyzerAssert.NoAnalyzerDiagnostics(Analyzer, sln);
+            RoslynAssert.NoAnalyzerDiagnostics(Analyzer, sln);
         }
     }
 }

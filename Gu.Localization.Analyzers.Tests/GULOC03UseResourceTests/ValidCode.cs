@@ -86,7 +86,7 @@ namespace RoslynSandbox
         public static object Get => Translator.Translate(Resources.ResourceManager, nameof(Resources.Key));
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ResourcesCode, testCode);
+            RoslynAssert.Valid(Analyzer, ResourcesCode, testCode);
         }
     }
 }
