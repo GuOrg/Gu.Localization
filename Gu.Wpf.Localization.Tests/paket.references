@@ -2,6 +2,7 @@ group Test
   Moq
   NUnit
   NUnit3TestAdapter
+  Microsoft.NET.Test.Sdk
 
 group Analyzers
   Gu.Analyzers
