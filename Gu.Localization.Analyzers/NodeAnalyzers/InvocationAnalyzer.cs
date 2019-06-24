@@ -18,6 +18,8 @@ namespace Gu.Localization.Analyzers
 
         public override void Initialize(AnalysisContext context)
         {
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
+            context.EnableConcurrentExecution();
             context.RegisterSyntaxNodeAction(c => Handle(c), SyntaxKind.InvocationExpression);
         }
 
