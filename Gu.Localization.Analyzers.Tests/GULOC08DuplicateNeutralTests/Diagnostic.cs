@@ -38,17 +38,8 @@ namespace Gu.Localization.Analyzers.Tests.GULOC08DuplicateNeutralTests
             var diagnostics = Analyze.GetDiagnostics(sln, Analyzer).Single();
             Assert.AreEqual(4, diagnostics.Length);
 
-            Assert.AreEqual("GULOC07", diagnostics[0].Id);
-            StringAssert.EndsWith("Resources.Designer.cs", diagnostics[0].Location.SourceTree.FilePath);
-
-            Assert.AreEqual("GULOC08", diagnostics[1].Id);
-            StringAssert.EndsWith("Resources.Designer.cs", diagnostics[1].Location.SourceTree.FilePath);
-
-            Assert.AreEqual("GULOC07", diagnostics[2].Id);
-            StringAssert.EndsWith("Resources.Designer.cs", diagnostics[2].Location.SourceTree.FilePath);
-
-            Assert.AreEqual("GULOC08", diagnostics[3].Id);
-            StringAssert.EndsWith("Resources.Designer.cs", diagnostics[3].Location.SourceTree.FilePath);
+            CollectionAssert.AreEquivalent(new[] { "GULOC07", "GULOC07", "GULOC08", "GULOC08" }, diagnostics.Select(x => x.Id).ToArray());
+            CollectionAssert.AreEquivalent(new[] { "Resources.Designer.cs", "Resources.Designer.cs", "Resources.Designer.cs", "Resources.Designer.cs" }, diagnostics.Select(x => Path.GetFileName(x.Location.SourceTree.FilePath)).ToArray());
         }
     }
 }
