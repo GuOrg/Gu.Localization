@@ -46,8 +46,6 @@ Gu.Wpf.Localization.NullImageSourceConverter.NullImageSourceConverter() -> void
 Gu.Wpf.Localization.StaticExtension
 Gu.Wpf.Localization.StaticExtension.StaticExtension() -> void
 Gu.Wpf.Localization.StaticExtension.StaticExtension(string member) -> void
-XamlGeneratedNamespace.GeneratedInternalTypeHelper
-XamlGeneratedNamespace.GeneratedInternalTypeHelper.GeneratedInternalTypeHelper() -> void
 override Gu.Wpf.Localization.CurrentCultureExtension.ProvideValue(System.IServiceProvider serviceProvider) -> object
 override Gu.Wpf.Localization.CurrentXmlLanguageExtension.ProvideValue(System.IServiceProvider serviceProvider) -> object
 override Gu.Wpf.Localization.EnumExtension.ProvideValue(System.IServiceProvider serviceProvider) -> object
