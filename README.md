@@ -83,8 +83,13 @@
 </Window>
 ```
 
+![Localize](https://user-images.githubusercontent.com/1640096/61053560-1288a600-a3ee-11e9-9939-930dfa4d911f.gif)
+
 NOTE: It ses `l:Static` where `xmlns:l="http://gu.se/Localization"`
+
 NOTE: `xmlns:properties="clr-namespace:YourApp.Properties"`
+
+For working with resx in Visual Studio [ResXManager](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ResXManager) is a nice extension.
 
 # Usage in XAML.
 
