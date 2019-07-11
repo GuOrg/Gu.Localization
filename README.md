@@ -105,6 +105,16 @@ Renders:
 
 For working with resx in Visual Studio [ResXManager](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ResXManager) is a nice extension.
 
+# NeutralResourcesLanguage
+
+Adding:
+```cs
+[assembly:NeutralResourcesLanguage("en")]
+```
+
+To `AsseblyInfo.cs` or anywhere else tells Gu.Localization what language to use for the neutral resource. It prevents some duplication.
+See: [NeutralResourcesLanguageAttribute](https://docs.microsoft.com/en-us/dotnet/api/system.resources.neutralresourceslanguageattribute?view=netframework-4.8)
+
 # Usage in XAML.
 
 The library has a `StaticExtension` markupextension that is used when translating.
