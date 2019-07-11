@@ -67,7 +67,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:l="http://gu.se/Localization"
+    xmlns:localize="http://gu.se/Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:WpfApp1.Properties"
     Title="MainWindow"
@@ -78,7 +78,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <l:LanguageSelector AutogenerateLanguages="True" />
-        <TextBlock Grid.Column="1" Text="{l:Static properties:Resources.Some_text}" />
+        <TextBlock Grid.Column="1" Text="{localize:Static properties:Resources.Some_text}" />
     </Grid>
 </Window>
 ```
