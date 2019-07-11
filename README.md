@@ -89,6 +89,8 @@ NOTE: It ses `l:Static` where `xmlns:l="http://gu.se/Localization"`
 
 NOTE: `xmlns:properties="clr-namespace:YourApp.Properties"`
 
+NOTE: Intsall `Gu.Wpf.Localization` in the application project. The library is split in `Gu.Wpf.Localization` and `Gu.Localization` so that usage in domain projects does not require adding WPF dependencies.
+
 For working with resx in Visual Studio [ResXManager](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ResXManager) is a nice extension.
 
 # Usage in XAML.
