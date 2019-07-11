@@ -56,10 +56,11 @@
 
 
 # Quickstart
-1. PM> Install-Package Gu.Wpf.Localization
-2. Add a resx resource. (Project > Properties > Resources)
-3. Create resx files for some languages. In this example I used `en-US` and `sv`
-3. Use the markupextension like this:
+1. `PM> Install-Package Gu.Wpf.Localization` or search for `Gu.Wpf.Localization` in the `Manage NuGet Packages` tab.
+2. Create a new resource from `Project > Properties > Resources` and name it `Resources.<tag>.resx`.
+      Example: `Resources.ru-RU.resx`
+      To see all convention tags you can check them [here](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c)
+3. Use the markup extension like this:
 
 ```xaml
 <Window
@@ -83,13 +84,18 @@
 </Window>
 ```
 
+`Text="{localize:Static properties:Resources.Some_text}"` will be the translated text based on the current culture.
+
+**Note**: If you get errors about missing `localize:Static` when adding this, `clean` and `rebuild` your solution from `Build > Clean Solution` and `Build > Rebuild Solution` respectively.
+
+4. To set the translation programmatically write: `Translator.Culture = CultureInfo.GetCultureInfo("ru-RU");`
+    To use a neutral language (aka Resources.resx), simply add `[assembly:NeutralResourcesLanguageAttribute("en")]` in your `Assembly.cs` file found in your project.
+
 ![Localize](https://user-images.githubusercontent.com/1640096/61053560-1288a600-a3ee-11e9-9939-930dfa4d911f.gif)
 
-NOTE: It ses `l:Static` where `xmlns:l="http://gu.se/Localization"`
+**Note**: Make sure to add `xmlns:properties="clr-namespace:YourApp.Properties"` and `xmlns:localize="http://gu.se/Localization"` in your xaml.
 
-NOTE: `xmlns:properties="clr-namespace:YourApp.Properties"`
-
-NOTE: Intsall `Gu.Wpf.Localization` in the application project. The library is split in `Gu.Wpf.Localization` and `Gu.Localization` so that usage in domain projects does not require adding WPF dependencies.
+**Note**: Intsall `Gu.Wpf.Localization` in the application project. The library is split in `Gu.Wpf.Localization` and `Gu.Localization` so that usage in domain projects does not require adding WPF dependencies.
 
 For working with resx in Visual Studio [ResXManager](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ResXManager) is a nice extension.
 
