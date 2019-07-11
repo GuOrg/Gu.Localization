@@ -8,51 +8,85 @@
 
 
 # Contents.
-- [1. Usage in XAML.](#1-usage-in-xaml)
-  - [1.1. Basic Usage.](#11-basic-usage)
-  - [1.2. Bind a localized string.](#12-bind-a-localized-string)
-  - [1.3. Errorhandling.](#13-errorhandling)
-  - [1.4. CurrentCulture.](#14-currentculture)
-  - [1.5. Binding to CurrentCulture and CurrentCulture in XAML.](#15-binding-to-currentculture-and-currentculture-in-xaml)
-- [2. Usage in code.](#2-usage-in-code)
-  - [2.1. Translator.](#21-translator)
-    - [2.1.1. Culture.](#211-culture)
-    - [2.1.2. Culture.](#212-culture)
-    - [2.1.3. CurrentCulture.](#213-currentculture)
-    - [2.1.4. Cultures.](#214-cultures)
-    - [2.1.5. ErrorHandling.](#215-errorhandling)
-    - [2.1.6. Translate.](#216-translate)
-      - [2.1.6.1. Translate to neutral culture:](#2161-translate-to-neutral-culture)
-      - [2.1.6.2. Translate to explicit culture:](#2162-translate-to-explicit-culture)
-      - [2.1.6.3. Override global error handling (throw on error):](#2163-override-global-error-handling-throw-on-error)
-      - [2.1.6.4. Override global error handling (return info about error):](#2164-override-global-error-handling-return-info-about-error)
-      - [2.1.6.5. Translate with parameter:](#2165-translate-with-parameter)
-  - [2.2. Translator&lt;T&gt;.](#22-translatort)
-  - [2.3. Translation.](#23-translation)
-  - [2.3.1 GetOrCreate.](#231-getorcreate)
-  - [2.4. StaticTranslation.](#24-statictranslation)
-- [3. ErrorHandling.](#3-errorhandling)
-  - [3.1. Global setting](#31-global-setting)
-  - [3.2. ErrorFormats](#32-errorformats)
-- [4. Validate.](#4-validate)
-  - [4.1. Translations.](#41-translations)
-  - [4.2. EnumTranslations&lt;T&gt;.](#42-enumtranslationst)
-  - [4.3. TranslationErrors](#43-translationerrors)
-  - [4.4. Format](#44-format)
-- [5. FormatString.](#5-formatstring)
-  - [5.1. IsFormatString](#51-isformatstring)
-  - [5.2. IsValidFormatString](#52-isvalidformatstring)
-- [6. LanguageSelector](#6-languageselector)
-  - [6.1. AutogenerateLanguages](#61-autogeneratelanguages)
-  - [6.2. Explicit languages.](#62-explicit-languages)
-- [7. Examples](#7-examples)
-  - [7.1. Simple ComboBox language select.](#71-simple-combobox-language-select)
-  - [7.2. ComboBox Language selector](#72-combobox-language-selector)
-- [8. Embedded resource files (weaving).](#8-embedded-resource-files-weaving)
-  - [8.1. Weaving Setup.](#81-weaving-setup)
-- [9 Analyzer](#9-analyzer)
+- [Quickstart](#quickstart)
+- [Usage in XAML.](#usage-in-xaml)
+  - [Simple example](#simple-example)
+  - [Bind a localized string.](#bind-a-localized-string)
+  - [Errorhandling.](#errorhandling)
+  - [CurrentCulture.](#currentculture)
+  - [Binding to Culture and Culture in XAML.](#binding-to-culture-and-culture-in-xaml)
+- [Usage in code.](#usage-in-code)
+  - [Translator.](#translator)
+    - [Culture.](#culture)
+    - [Culture.](#culture)
+    - [CurrentCulture.](#currentculture)
+    - [Cultures.](#cultures)
+    - [ErrorHandling.](#errorhandling)
+    - [Translate.](#translate)
+      - [Translate to neutral culture:](#translate-to-neutral-culture)
+      - [Translate to explicit culture:](#translate-to-explicit-culture)
+      - [Override global error handling (throw on error):](#override-global-error-handling-throw-on-error)
+      - [Override global error handling (return info about error):](#override-global-error-handling-return-info-about-error)
+      - [Translate with parameter:](#translate-with-parameter)
+  - [Translator&lt;T&gt;.](#translatort)
+  - [Translation.](#translation)
+  - [GetOrCreate.](#getorcreate)
+  - [StaticTranslation.](#statictranslation)
+- [ErrorHandling.](#errorhandling)
+  - [Global setting](#global-setting)
+  - [ErrorFormats](#errorformats)
+- [Validate.](#validate)
+  - [Translations.](#translations)
+  - [EnumTranslations&lt;T&gt;.](#enumtranslationst)
+  - [TranslationErrors](#translationerrors)
+  - [Format](#format)
+- [FormatString.](#formatstring)
+  - [IsFormatString](#isformatstring)
+  - [IsValidFormatString](#isvalidformatstring)
+- [LanguageSelector](#languageselector)
+  - [AutogenerateLanguages](#autogeneratelanguages)
+  - [Explicit languages.](#explicit-languages)
+- [Examples](#examples)
+  - [Simple ComboBox language select.](#simple-combobox-language-select)
+  - [ComboBox Language selector](#combobox-language-selector)
+  - [CultureToFlagPathConverter](#culturetoflagpathconverter)
+- [Embedded resource files (weaving)](#embedded-resource-files-weaving)
+  - [Weaving Setup](#weaving-setup)
+- [Analyzer](#analyzer)
 
-# 1. Usage in XAML.
+
+# Quickstart
+1. PM> Install-Package Gu.Wpf.Localization
+2. Add a resx resource. (Project > Properties > Resources)
+3. Create resx files for some languages. In this example I used `en-US` and `sv`
+3. Use the markupextension like this:
+
+```xaml
+<Window
+    x:Class="WpfApp1.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:l="http://gu.se/Localization"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:WpfApp1.Properties"
+    Title="MainWindow"
+    mc:Ignorable="d">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <l:LanguageSelector AutogenerateLanguages="True" />
+        <TextBlock Grid.Column="1" Text="{l:Static properties:Resources.Some_text}" />
+    </Grid>
+</Window>
+```
+
+NOTE: It ses `l:Static` where `xmlns:l="http://gu.se/Localization"`
+NOTE: `xmlns:properties="clr-namespace:YourApp.Properties"`
+
+# Usage in XAML.
 
 The library has a `StaticExtension` markupextension that is used when translating.
 The reason for naming it `StaticExtension` and not `TranslateExtension` is that Resharper provides intellisense when named `StaticExtension`
@@ -60,14 +94,14 @@ Binding the text like below updates the text when `Translator.CurrentCulture`cha
 
 The markupextension has ErrorHandling = ErrorHandling.ReturnErrorInfoPreserveNeutral as default, it encodes errors in the result, see [ErrorFormats](#3-errorhandling))
 
-## 1.1. Basic usage
+## Simple example
 For each language, create a resource.xx.resx file. You can use [ResXManager](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ResXManager#overview) to do this for you.
 
 ```xaml
 <UserControl ...
              xmlns:l="clr-namespace:Gu.Wpf.Localization;assembly=Gu.Wpf.Localization"
              xmlns:p="clr-namespace:AppNamespace.Properties"
-             xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization">
+             xmlns:local="clr-namespace:YourNamespace;assembly=Gu.Localization">
     ...
     <!-- Dropbownbox to select a language -->
     <ComboBox x:Name="LanguageComboBox"
@@ -79,8 +113,7 @@ For each language, create a resource.xx.resx file. You can use [ResXManager](htt
     <Label Content="{l:Static p:Resources.ResourceKeyName}" />
 ```
 
-
-## 1.2. Bind a localized string.
+## Bind a localized string.
 
 ```xaml
 <Window ...
@@ -95,7 +128,7 @@ For each language, create a resource.xx.resx file. You can use [ResXManager](htt
 
 The above will show SomeResource in the `Translator.CurrentCulture` and update when culture changes.
 
-## 1.3. Errorhandling.
+## Errorhandling.
 By setting the attached property `ErrorHandling.Mode` we override how translation errors are handled by the `StaticExtension` for the child elements.
 When null the `StaticExtension` uses ReturnErrorInfoPreserveNeutral
 ```xaml
@@ -108,7 +141,7 @@ When null the `StaticExtension` uses ReturnErrorInfoPreserveNeutral
     ...
 ```
 
-## 1.4. CurrentCulture.
+## CurrentCulture.
 A markupextension for accessing `Translator.CurrentCulture` from xaml. Retruns a binding that updates when CurrentCulture changes.
 
 ```xaml
@@ -122,7 +155,7 @@ A markupextension for accessing `Translator.CurrentCulture` from xaml. Retruns a
     ...
 ```
 
-## 1.5. Binding to Culture and Culture in XAML.
+## Binding to Culture and Culture in XAML.
 The static properties support binding. Use this XAML for a twoway binding:
 ```xaml
 <Window ...
@@ -131,7 +164,7 @@ The static properties support binding. Use this XAML for a twoway binding:
 <TextBox Text="{Binding Path=(localization:Translator.Culture)}" />
 ```
 
-# 2. Usage in code.
+# Usage in code.
 
 The API is not super clean, introducing a helper like this can clean things up a bit.
 
@@ -171,17 +204,17 @@ namespace YourNamespace.Properties
 }
 ```
 
-## 2.1. Translator.
+## Translator.
 
-### 2.1.1. Culture.
+### Culture.
 Get or set the current culture. The default is `null`
 Changing culture updates all translations. Setting culture to a culture for which there is no translation throws. Check ContainsCulture() first.
 
-### 2.1.2. Culture.
+### Culture.
 Get or set the current culture. The default is `null`
 Changing culture updates all translations. Setting culture to a culture for which there is no translation throws. Check ContainsCulture() first.
 
-### 2.1.3. CurrentCulture.
+### CurrentCulture.
 Get the culture used in translations. By the following mechanism:
   1) CurrentCulture if not null.
   2) Any Culture in <see cref="Cultures"/> matching <see cref="CultureInfo.CurrentCulture"/> by name.
@@ -189,13 +222,13 @@ Get the culture used in translations. By the following mechanism:
   4) CultureInfo.InvariantCulture
 When this value changes CurrentCultureChanged is raised and all translatins updates and notifies.
 
-### 2.1.4. Cultures.
+### Cultures.
 Get a list with the available cultures. Cultures are found by looking in current directory and scanning for satellite assemblies.
 
-### 2.1.5. ErrorHandling.
+### ErrorHandling.
 Get or set how errors are handled. The default value is `ReturnErrorInfoPreserveNeutral`.
 
-### 2.1.6. Translate.
+### Translate.
 Translate a key in a ResourceManager.
 
 Use global culture & error handling:
@@ -205,21 +238,21 @@ string inEnglish = Translator.Translate(Properties.Resources.ResourceManager,
                                         nameof(Properties.Resources.SomeResource));
 ```
 
-#### 2.1.6.1. Translate to neutral culture:
+#### Translate to neutral culture:
 ```c#
 string neutral = Translator.Translate(Properties.Resources.ResourceManager,
                                       nameof(Properties.Resources.SomeResource),
                                       CultureInfo.InvariantCulture);
 ```
 
-#### 2.1.6.2. Translate to explicit culture:
+#### Translate to explicit culture:
 ```c#
 string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
                                         nameof(Properties.Resources.SomeResource),
                                         CultureInfo.GetCultureInfo("sv"));
 ```
 
-#### 2.1.6.3. Override global error handling (throw on error):
+#### Override global error handling (throw on error):
 ```c#
 Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo; // no need to set this every time, just for illustration purposes here.
 string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
@@ -227,7 +260,7 @@ string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
                                         ErrorHandling.Throw);
 ```
 
-#### 2.1.6.4. Override global error handling (return info about error):
+#### Override global error handling (return info about error):
 ```c#
 Translator.ErrorHandling = ErrorHandling.Throw; // no need to set this every time, just for illustration purposes here.
 string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
@@ -235,7 +268,7 @@ string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
                                         ErrorHandling.ReturnErrorInfo);
 ```
 
-#### 2.1.6.5. Translate with parameter:
+#### Translate with parameter:
 ```c#
 Translator.Culture = CultureInfo.GetCultureInfo("en");
 string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
@@ -243,15 +276,15 @@ string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
                                         foo);
 ```
 
-## 2.2. Translator&lt;T&gt;.
+## Translator&lt;T&gt;.
 
 Same as translator but used like `Translator<Properties.Resources>.Translate(...)`
 
-## 2.3. Translation.
+## Translation.
 An object with a Translated property that is a string with the value in `Translator.CurrentCulture`
 Implements `INotifyPropertyChanged` and notifies when for the property `Translated` if a change in `Translator.CurrentCulture` updates the translation.
 
-## 2.3.1 GetOrCreate.
+## GetOrCreate.
 Returns an `ITranslation` from cache or creates and caches a new instance.
 If ErrorHandling is Throw it throws if the key is missing. If other than throw a `StaticTranslation` is returned.
 
@@ -259,19 +292,19 @@ If ErrorHandling is Throw it throws if the key is missing. If other than throw a
 Translation translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.SomeResource))
 ```
 
-## 2.4. StaticTranslation.
+## StaticTranslation.
 An implementation of `ITranslation` that never updates the `Translated`property and returns the value of `Translated` when calling `Translate()`on it with any paramaters.
 This is returned from `Translation.GetOrCreate(...)` if the key is missing.
 
-# 3. ErrorHandling.
+# ErrorHandling.
 When calling the translate methods an ErrorHandling argument can be provided.
 If `ErrorHandling.ReturnErrorInfo` is passed in the method does not throw but returns information about the error in the string.
 There is also a property `Translator.ErrorHandling` that sets default behaviour. If an explicit errorhandling is passed in to a method it overrides the global setting.
 
-## 3.1. Global setting
+## Global setting
 By setting `Translator.Errorhandling` the global default is changed.
 
-## 3.2. ErrorFormats
+## ErrorFormats
 When `ReturnErrorInfo` or `ReturnErrorInfoPreserveNeutral` is used the following formats are used to encode errors.
 
 | Error               |         Format          |
@@ -284,10 +317,10 @@ When `ReturnErrorInfo` or `ReturnErrorInfoPreserveNeutral` is used the following
 | unknown error       |    `#{key}#`            |
 
 
-# 4. Validate.
+# Validate.
 Conveience API for unit testing localization.
 
-## 4.1. Translations.
+## Translations.
 
 Validate a `ResourceManager` like this:
 ```c#
@@ -301,7 +334,7 @@ Checks:
   - The number of format items are the same for all cultures.
   - That all format strings has format items numbered 0..1..n
 
-## 4.2. EnumTranslations&lt;T&gt;.
+## EnumTranslations&lt;T&gt;.
 Validate an `enum` like this:
 ```c#
 TranslationErrors errors = Validate.EnumTranslations<DummyEnum>(Properties.Resources.ResourceManager);
@@ -311,7 +344,7 @@ Checks:
 - That all enum members has keys in the `ResourceManager`
 - That all keys has non null value for all cultures in `Translator.AllCultures`
 
-## 4.3. TranslationErrors
+## TranslationErrors
 `errors.ToString("  ", Environment.NewLine);`
 Prints a formatted report with the errors found, sample:
 
@@ -324,7 +357,7 @@ Key: Value___0_
     null
     Värde: {0} {1}
 ```
-## 4.4. Format
+## Format
 Validate a formatstring like this:
 ```c#
 Validate.Format("Value: {0}", 1);
@@ -334,23 +367,22 @@ Validate.Format("Value: {0}", 1);
 Debug.Assert(Validate.IsValidFormat("Value: {0}", 1), "Invalid format...");
 ```
 
-# 5. FormatString.
+# FormatString.
 Conveience API for testing formatstrings.
 
-## 5.1. IsFormatString
+## IsFormatString
 Returns true if the string contains placeholders like `"Value: {0}"` and is a valid format string.
 
-## 5.2. IsValidFormatString
+## IsValidFormatString
 Returns true if the string contains placeholders like `"Value: {0}"` that matches the number of parameters and is a valid format string.
 
-
-# 6. LanguageSelector
+# LanguageSelector
 A simple control for changing current language.
 A few flags are included in the library, many are probably missing.
 
 ***Note: LanguageSelector might be depricated in the future***
 
-## 6.1. AutogenerateLanguages
+## AutogenerateLanguages
 Default is false.
 If true it popolates itself with `Translator.Cultures` in the running application and picks the default flag or null.
 
@@ -358,7 +390,7 @@ If true it popolates itself with `Translator.Cultures` in the running applicatio
 <l:LanguageSelector AutogenerateLanguages="True" />
 ```
 
-## 6.2. Explicit languages.
+## Explicit languages.
 
 ```xaml
 <l:LanguageSelector>
@@ -373,16 +405,16 @@ If true it popolates itself with `Translator.Cultures` in the running applicatio
 
 ![screenie](http://i.imgur.com/DKfx8WB.png)
 
-# 7. Examples
+# Examples
 
-## 7.1. Simple ComboBox language select.
+## Simple ComboBox language select.
 The below example binds the available cutures to a ComboBox.
 ```xaml
         <ComboBox ItemsSource="{Binding Path=(localization:Translator.Cultures)}" DockPanel.Dock="Top" HorizontalAlignment="right"
           SelectedItem="{Binding Path=(localization:Translator.CurrentCulture)}"/>
 ```
 
-## 7.2 ComboBox Language selector
+## ComboBox Language selector
 ```xaml
 <Window ...
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -425,17 +457,17 @@ The below example binds the available cutures to a ComboBox.
 </Window>
 ```
 
-## 7.3 CultureToFlagPathConverter
+## CultureToFlagPathConverter
 
 For convenience a converter that converts from `CultureInfo` to a string with the pack uri of the flag resource is included.
 
-# 8 Embedded resource files (weaving)
+# Embedded resource files (weaving)
 
 _"Weaving refers to the process of injecting functionality into an existing program."_
 
 You might want to publish your software as just one .exe file, without additional assemblies (dll files). Gu.Localization supports this, and a sample project is added [here](https://github.com/GuOrg/Gu.Localization/tree/master/Gu.Wpf.Localization.Demo.Fody). We advice you to use Fody (for it is tested).
 
-## 8.1 Weaving Setup
+## Weaving Setup
 
 - Install https://www.nuget.org/packages/Fody/ (and add FodyWeavers.xml to your project, see [here](https://github.com/Fody/Fody#add-fodyweaversxml))
 - Install https://www.nuget.org/packages/Costura.Fody/
@@ -443,7 +475,7 @@ You might want to publish your software as just one .exe file, without additiona
 
 Your resource files are now embeded in your executable. Gu.Localization will use the embedded resource files.
 
-# 9 Analyzer
+# Analyzer
 ![animation](https://user-images.githubusercontent.com/1640096/39090329-8115bd4a-45dc-11e8-8cc5-a4af4a2f5812.gif)
 
 Checks if keys exists and some code fixes for conveninence.
