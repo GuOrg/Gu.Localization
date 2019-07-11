@@ -84,18 +84,24 @@
 </Window>
 ```
 
+Renders:
+
+![Localize](https://user-images.githubusercontent.com/1640096/61053560-1288a600-a3ee-11e9-9939-930dfa4d911f.gif)
+
 `Text="{localize:Static properties:Resources.Some_text}"` will be the translated text based on the current culture.
 
 **Note**: If you get errors about missing `localize:Static` when adding this, `clean` and `rebuild` your solution from `Build > Clean Solution` and `Build > Rebuild Solution` respectively.
 
-4. To set the translation programmatically write: `Translator.Culture = CultureInfo.GetCultureInfo("ru-RU");`
+
+**Note**: To set the translation programmatically write: `Translator.Culture = CultureInfo.GetCultureInfo("ru-RU");`
     To use a neutral language (aka Resources.resx), simply add `[assembly:NeutralResourcesLanguageAttribute("en")]` in your `Assembly.cs` file found in your project.
 
-![Localize](https://user-images.githubusercontent.com/1640096/61053560-1288a600-a3ee-11e9-9939-930dfa4d911f.gif)
 
 **Note**: Make sure to add `xmlns:properties="clr-namespace:YourApp.Properties"` and `xmlns:localize="http://gu.se/Localization"` in your xaml.
 
+
 **Note**: Intsall `Gu.Wpf.Localization` in the application project. The library is split in `Gu.Wpf.Localization` and `Gu.Localization` so that usage in domain projects does not require adding WPF dependencies.
+
 
 For working with resx in Visual Studio [ResXManager](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ResXManager) is a nice extension.
 
