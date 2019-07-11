@@ -94,7 +94,7 @@ Renders:
 
 
 **Note**: To set the translation programmatically write: `Translator.Culture = CultureInfo.GetCultureInfo("ru-RU");`
-    To use a neutral language (aka Resources.resx), simply add `[assembly:NeutralResourcesLanguageAttribute("en")]` in your `Assembly.cs` file found in your project.
+    To use a neutral language (aka Resources.resx), simply add `[assembly:NeutralResourcesLanguageAttribute("en")]` in your `AssemblyInfo.cs` file found in your project.
 
 
 **Note**: Make sure to add `xmlns:properties="clr-namespace:YourApp.Properties"` and `xmlns:localize="http://gu.se/Localization"` in your xaml.
