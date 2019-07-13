@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.GULOC06UseInterpolationTests
+﻿namespace Gu.Localization.Analyzers.Tests.GULOC06UseInterpolationTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.CodeFixes;
@@ -21,7 +21,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = ""abc {1}"";
+            var translate = ↓""abc {1}"";
         }
     }
 }";
@@ -50,7 +50,7 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-            var translate = @""abc {1}"";
+            var translate = ↓@""abc {1}"";
         }
     }
 }";
