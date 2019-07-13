@@ -6,7 +6,7 @@ namespace Gu.Localization
 
     internal class ResourceManagerComparer : IEqualityComparer<ResourceManager>
     {
-        public static readonly ResourceManagerComparer ByBaseName = new ResourceManagerComparer();
+        internal static readonly ResourceManagerComparer ByBaseName = new ResourceManagerComparer();
         private static readonly StringComparer StringComparer = StringComparer.Ordinal;
 
         private ResourceManagerComparer()

@@ -9,7 +9,7 @@ namespace Gu.Localization.Analyzers
     using Microsoft.CodeAnalysis.Diagnostics;
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    internal class InvocationAnalyzer : DiagnosticAnalyzer
+    public class InvocationAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             GULOC01KeyExists.Descriptor,

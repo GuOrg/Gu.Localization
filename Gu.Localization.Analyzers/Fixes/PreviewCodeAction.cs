@@ -12,7 +12,7 @@ namespace Gu.Localization.Analyzers
         private readonly CodeAction preview;
         private readonly CodeAction change;
 
-        public PreviewCodeAction(
+        internal PreviewCodeAction(
             string title,
             Func<CancellationToken, Task<Document>> preview,
             Func<CancellationToken, Task<Solution>> change,
@@ -24,7 +24,7 @@ namespace Gu.Localization.Analyzers
             this.EquivalenceKey = equivalenceKey;
         }
 
-        public PreviewCodeAction(
+        internal PreviewCodeAction(
             string title,
             Func<CancellationToken, Task<Solution>> preview,
             Func<CancellationToken, Task<Solution>> change,

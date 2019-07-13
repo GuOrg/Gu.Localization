@@ -11,7 +11,7 @@ namespace Gu.Localization.Analyzers
 
     [Shared]
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(UseNameOfFix))]
-    internal class UseNameOfFix : DocumentEditorCodeFixProvider
+    public class UseNameOfFix : DocumentEditorCodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             GULOC02UseNameOf.DiagnosticId);

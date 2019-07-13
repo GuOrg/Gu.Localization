@@ -13,7 +13,7 @@ namespace Gu.Localization.Analyzers
 
     [Shared]
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(TranslateResourceFix))]
-    internal class TranslateResourceFix : DocumentEditorCodeFixProvider
+    public class TranslateResourceFix : DocumentEditorCodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             GULOC04UseCustomTranslate.DiagnosticId,

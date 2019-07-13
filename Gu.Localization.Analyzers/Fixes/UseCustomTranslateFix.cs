@@ -11,7 +11,7 @@ namespace Gu.Localization.Analyzers
 
     [Shared]
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(UseCustomTranslateFix))]
-    internal class UseCustomTranslateFix : CodeFixProvider
+    public class UseCustomTranslateFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             GULOC04UseCustomTranslate.DiagnosticId);

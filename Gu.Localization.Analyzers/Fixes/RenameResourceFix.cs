@@ -18,7 +18,7 @@ namespace Gu.Localization.Analyzers
 
     [Shared]
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(RenameResourceFix))]
-    internal class RenameResourceFix : CodeFixProvider
+    public class RenameResourceFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             GULOC07KeyDoesNotMatch.DiagnosticId);
@@ -127,11 +127,6 @@ namespace Gu.Localization.Analyzers
                 this.newKey = newKey;
             }
 
-            public static PropertyDeclarationSyntax Rewrite(PropertyDeclarationSyntax declaration, string newValue)
-            {
-                return (PropertyDeclarationSyntax)new Property(newValue).Visit(declaration);
-            }
-
             public override SyntaxToken VisitToken(SyntaxToken token)
             {
                 if (token.Parent is PropertyDeclarationSyntax propertyDeclaration &&
@@ -155,6 +150,11 @@ namespace Gu.Localization.Analyzers
                 }
 
                 return base.VisitArgument(node);
+            }
+
+            internal static PropertyDeclarationSyntax Rewrite(PropertyDeclarationSyntax declaration, string newValue)
+            {
+                return (PropertyDeclarationSyntax)new Property(newValue).Visit(declaration);
             }
 
             public override SyntaxNode VisitLiteralExpression(LiteralExpressionSyntax node)

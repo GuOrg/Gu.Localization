@@ -15,7 +15,7 @@ namespace Gu.Wpf.Localization
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public CultureInfo Value => Translator.CurrentCulture;
+        internal CultureInfo Value => Translator.CurrentCulture;
 
         protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {

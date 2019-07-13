@@ -2,11 +2,11 @@ namespace Gu.Localization.Analyzers
 {
     using Microsoft.CodeAnalysis;
 
-    internal static class GULOC06UseInterpolation
+    public static class GULOC06UseInterpolation
     {
         public const string DiagnosticId = "GULOC06";
 
-        internal static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
+        public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
             title: "Use interpolation.",
             messageFormat: "Use interpolation.",

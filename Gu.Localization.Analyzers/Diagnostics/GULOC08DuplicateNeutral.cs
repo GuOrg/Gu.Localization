@@ -2,11 +2,11 @@ namespace Gu.Localization.Analyzers
 {
     using Microsoft.CodeAnalysis;
 
-    internal static class GULOC08DuplicateNeutral
+    public static class GULOC08DuplicateNeutral
     {
         public const string DiagnosticId = "GULOC08";
 
-        internal static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
+        public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
             title: "More than one resource has the same neutral string.",
             messageFormat: "The duplicated neutral string is {0}",

@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Localization
+namespace Gu.Wpf.Localization
 {
     using System;
     using System.Globalization;
@@ -30,7 +30,7 @@
 
         private class CultureToXmlLanguageConverter : IValueConverter
         {
-            public static readonly IValueConverter Default = new CultureToXmlLanguageConverter();
+            internal static readonly IValueConverter Default = new CultureToXmlLanguageConverter();
 
             private CultureToXmlLanguageConverter()
             {

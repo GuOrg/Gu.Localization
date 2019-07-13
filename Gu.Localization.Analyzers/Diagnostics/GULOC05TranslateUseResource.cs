@@ -2,11 +2,11 @@ namespace Gu.Localization.Analyzers
 {
     using Microsoft.CodeAnalysis;
 
-    internal static class GULOC05TranslateUseResource
+    public static class GULOC05TranslateUseResource
     {
         public const string DiagnosticId = "GULOC05";
 
-        internal static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
+        public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
             title: "Translate resource.",
             messageFormat: "Translate resource.",

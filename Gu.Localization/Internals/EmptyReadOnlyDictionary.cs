@@ -9,7 +9,7 @@ namespace Gu.Localization
     internal class EmptyReadOnlyDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
     {
         /// <summary> A cached instance. </summary>
-        public static readonly EmptyReadOnlyDictionary<TKey, TValue> Default = new EmptyReadOnlyDictionary<TKey, TValue>();
+        internal static readonly EmptyReadOnlyDictionary<TKey, TValue> Default = new EmptyReadOnlyDictionary<TKey, TValue>();
 
         private EmptyReadOnlyDictionary()
         {

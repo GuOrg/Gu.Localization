@@ -68,14 +68,14 @@ namespace Gu.Localization
             private readonly ResourceManager resourceManager;
             private readonly HashSet<string> allKeys = new HashSet<string>();
 
-            public CulturesAndKeys(ResourceManager resourceManager)
+            internal CulturesAndKeys(ResourceManager resourceManager)
             {
                 this.resourceManager = resourceManager;
             }
 
-            public IEnumerable<string> AllKeys => this.allKeys;
+            internal IEnumerable<string> AllKeys => this.allKeys;
 
-            public IEnumerable<CultureInfo> Cultures => this.culturesAndKeys.Keys;
+            internal IEnumerable<CultureInfo> Cultures => this.culturesAndKeys.Keys;
 
             internal bool HasKey(CultureInfo culture, string key)
             {
@@ -186,7 +186,7 @@ namespace Gu.Localization
             {
                 internal readonly ResourceManager ResourceManager;
 
-                public ResourceManagerClone(ResourceManager source)
+                internal ResourceManagerClone(ResourceManager source)
                 {
                     Debug.Assert(source != null, "resourceManager == null");
                     var containingType = source.ContainingType();
@@ -209,7 +209,7 @@ namespace Gu.Localization
             {
                 private readonly IReadOnlyList<KeyValuePair<CultureInfo, string>> translations;
 
-                public Translations(CulturesAndKeys culturesAndKeys, string key, IEnumerable<CultureInfo> cultures)
+                internal Translations(CulturesAndKeys culturesAndKeys, string key, IEnumerable<CultureInfo> cultures)
                 {
                     this.translations = cultures.Select(c => new KeyValuePair<CultureInfo, string>(c, culturesAndKeys.GetString(key, c)))
                                                 .ToList();

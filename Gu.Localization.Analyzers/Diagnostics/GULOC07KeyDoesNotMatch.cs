@@ -2,11 +2,11 @@ namespace Gu.Localization.Analyzers
 {
     using Microsoft.CodeAnalysis;
 
-    internal static class GULOC07KeyDoesNotMatch
+    public static class GULOC07KeyDoesNotMatch
     {
         public const string DiagnosticId = "GULOC07";
 
-        internal static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
+        public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
             title: "Key does not match.",
             messageFormat: "Expected the name to be {0}",

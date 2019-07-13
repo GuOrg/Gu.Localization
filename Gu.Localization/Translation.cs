@@ -120,12 +120,12 @@ namespace Gu.Localization
             private CultureInfo culture;
             private string value;
 
-            public CachedTranslation(Translation translation)
+            internal CachedTranslation(Translation translation)
             {
                 this.translation = translation;
             }
 
-            public string Value
+            internal string Value
             {
                 get
                 {
@@ -138,7 +138,7 @@ namespace Gu.Localization
                 }
             }
 
-            public bool TryUpdate(CultureInfo cultureInfo)
+            internal bool TryUpdate(CultureInfo cultureInfo)
             {
                 if (!Culture.NameEquals(cultureInfo, this.culture))
                 {

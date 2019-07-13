@@ -13,9 +13,9 @@ namespace Gu.Localization.Analyzers
             this.Encoding = encoding;
         }
 
-        public string Text { get; }
+        internal string Text { get; }
 
-        public Encoding Encoding { get; }
+        internal Encoding Encoding { get; }
 
         internal static XamlFile Create(string fileName)
         {
