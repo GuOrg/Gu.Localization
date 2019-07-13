@@ -10,7 +10,7 @@ namespace Gu.Localization.Analyzers.Tests
 
     public class HappyPathWithAll
     {
-        private static readonly ImmutableArray<DiagnosticAnalyzer> AllAnalyzers = typeof(KnownSymbol)
+        private static readonly ImmutableArray<DiagnosticAnalyzer> AllAnalyzers = typeof(Gu.Localization.Analyzers.GULOC01KeyExists)
             .Assembly
             .GetTypes()
             .Where(typeof(DiagnosticAnalyzer).IsAssignableFrom)

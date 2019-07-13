@@ -8,7 +8,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC10MissingTranslationTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class Diagnostic
+    public class Diagnostic
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ResourceAnalyzer();
 

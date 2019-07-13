@@ -5,7 +5,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC05TranslateResourceTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class CodeFix
+    public class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new MemberAccessAnalyzer();
         private static readonly CodeFixProvider Fix = new TranslateResourceFix();

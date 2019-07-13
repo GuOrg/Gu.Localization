@@ -7,7 +7,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class CodeFix
+    public class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ResourceAnalyzer();
         private static readonly CodeFixProvider Fix = new RenameResourceFix();

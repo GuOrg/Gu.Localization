@@ -5,7 +5,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC02UseNameOfTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class CodeFix
+    public class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly CodeFixProvider Fix = new UseNameOfFix();

@@ -5,7 +5,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC01KeyExistsAnalyzerTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class ValidCode
+    public class ValidCode
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly DiagnosticDescriptor Descriptor = GULOC01KeyExists.Descriptor;

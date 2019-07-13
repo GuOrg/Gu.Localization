@@ -7,7 +7,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC08DuplicateNeutralTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class Diagnostic
+    public class Diagnostic
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ResourceAnalyzer();
 

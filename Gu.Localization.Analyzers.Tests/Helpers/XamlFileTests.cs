@@ -5,7 +5,7 @@ namespace Gu.Localization.Analyzers.Tests.Helpers
     using Microsoft.CodeAnalysis.CSharp;
     using NUnit.Framework;
 
-    internal class XamlFileTests
+    public class XamlFileTests
     {
         [TestCase("Bar", "<TextBlock Text=\"{x:Static p:Resources.Key}\"></TextBlock>", "<TextBlock Text=\"{x:Static p:Resources.Bar}\"></TextBlock>")]
         [TestCase("Bar", "<TextBlock Text=\"{x:Static p:Resources.Key}\" />", "<TextBlock Text=\"{x:Static p:Resources.Bar}\" />")]
