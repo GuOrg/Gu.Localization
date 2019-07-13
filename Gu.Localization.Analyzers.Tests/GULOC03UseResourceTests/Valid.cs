@@ -4,7 +4,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new LiteralAnalyzer();
 
@@ -73,7 +73,7 @@ namespace RoslynSandbox.Properties {
 }";
 
         [Test]
-        public void WhenUsingNameofResource()
+        public static void WhenUsingNameofResource()
         {
             var testCode = @"
 namespace RoslynSandbox

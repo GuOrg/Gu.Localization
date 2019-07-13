@@ -7,7 +7,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class CodeFix
+    public static class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new LiteralAnalyzer();
         private static readonly CodeFixProvider Fix = new UseResourceFix();
@@ -16,7 +16,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
         private FileInfo resxFile;
 
         [SetUp]
-        public void SetUp()
+        public static void SetUp()
         {
             var original = ProjectFile.Find("Gu.Localization.TestStub.csproj");
             var tempDir = new DirectoryInfo(Path.Combine(Path.GetTempPath(), original.Directory.Name));
@@ -38,7 +38,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
         [TestCase("0", "_0")]
         [TestCase("One {0}", "One___0__")]
         [TestCase("One {0} Two {1}", "One___0___Two___1__")]
-        public void MoveToResource(string value, string key)
+        public static void MoveToResource(string value, string key)
         {
             this.fooFile.ReplaceText("One resource", value);
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
@@ -198,7 +198,7 @@ namespace Gu.Localization.TestStub
         [TestCase("0", "_0")]
         [TestCase("One {0}", "One___0__")]
         [TestCase("One {0} Two {1}", "One___0___Two___1__")]
-        public void MoveToResourceAndUseTranslatorTranslate(string value, string key)
+        public static void MoveToResourceAndUseTranslatorTranslate(string value, string key)
         {
             this.fooFile.ReplaceText("One resource", value);
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
@@ -358,7 +358,7 @@ namespace Gu.Localization.TestStub
         [TestCase("0", "_0")]
         [TestCase("One {0}", "One___0__")]
         [TestCase("One {0} Two {1}", "One___0___Two___1__")]
-        public void MoveToResourceAndUseTranslateKey(string value, string key)
+        public static void MoveToResourceAndUseTranslateKey(string value, string key)
         {
             this.fooFile.ReplaceText("One resource", value);
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
@@ -513,7 +513,7 @@ namespace Gu.Localization.TestStub
         }
 
         [Test]
-        public void UseExistingResource()
+        public static void UseExistingResource()
         {
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", "Key"));
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
@@ -537,7 +537,7 @@ namespace Gu.Localization.TestStub
         }
 
         [Test]
-        public void UseExistingInTranslatorTranslate()
+        public static void UseExistingInTranslatorTranslate()
         {
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", "Key"));
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
@@ -561,7 +561,7 @@ namespace Gu.Localization.TestStub
         }
 
         [Test]
-        public void UseExistingInTranslateKey()
+        public static void UseExistingInTranslateKey()
         {
             File.WriteAllText(this.fooFile.FullName, File.ReadAllText(this.fooFile.FullName).AssertReplace("One resource", "Key"));
             var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());

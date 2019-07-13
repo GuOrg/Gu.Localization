@@ -5,7 +5,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC01KeyExistsAnalyzerTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly DiagnosticDescriptor Descriptor = GULOC01KeyExists.Descriptor;
@@ -101,7 +101,7 @@ namespace RoslynSandbox.Properties
 }";
 
         [Test]
-        public void TranslatorTranslateStringLiteralWithUsing()
+        public static void TranslatorTranslateStringLiteralWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -121,7 +121,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslatorTranslateUnknownKey()
+        public static void TranslatorTranslateUnknownKey()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -141,7 +141,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslatorTranslateStringLiteralFullyQualified()
+        public static void TranslatorTranslateStringLiteralFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -160,7 +160,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslatorTranslateNameofPropertyWithUsing()
+        public static void TranslatorTranslateNameofPropertyWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -180,7 +180,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslatorTranslateNameofPropertyFullyQualified()
+        public static void TranslatorTranslateNameofPropertyFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -199,7 +199,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslateKeyStringLiteralWithUsing()
+        public static void TranslateKeyStringLiteralWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -219,7 +219,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslateKeyStringLiteralFullyQualified()
+        public static void TranslateKeyStringLiteralFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -239,7 +239,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslateKeyNameofPropertyWithUsing()
+        public static void TranslateKeyNameofPropertyWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -259,7 +259,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslateKeyNameofPropertyFullyQualified()
+        public static void TranslateKeyNameofPropertyFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -278,7 +278,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslationGetOrCreateStringLiteralWithUsing()
+        public static void TranslationGetOrCreateStringLiteralWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -298,7 +298,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslationGetOrCreateStringLiteralFullyQualified()
+        public static void TranslationGetOrCreateStringLiteralFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -317,7 +317,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslationGetOrCreateNameofPropertyWithUsing()
+        public static void TranslationGetOrCreateNameofPropertyWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -337,7 +337,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslationGetOrCreateNameofPropertyFullyQualified()
+        public static void TranslationGetOrCreateNameofPropertyFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -356,7 +356,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetObjectStringLiteralWithUsing()
+        public static void ResourceManagerGetObjectStringLiteralWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -375,7 +375,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetObjectStringLiteralFullyQualified()
+        public static void ResourceManagerGetObjectStringLiteralFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -392,7 +392,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetObjectNameofPropertyWithUsing()
+        public static void ResourceManagerGetObjectNameofPropertyWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -411,7 +411,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetObjectNameofPropertyFullyQualified()
+        public static void ResourceManagerGetObjectNameofPropertyFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -428,7 +428,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetObjectWithCultureStringLiteralWithUsing()
+        public static void ResourceManagerGetObjectWithCultureStringLiteralWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -448,7 +448,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetObjectWithCultureStringLiteralFullyQualified()
+        public static void ResourceManagerGetObjectWithCultureStringLiteralFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -467,7 +467,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetObjectWithCultureNameofPropertyWithUsing()
+        public static void ResourceManagerGetObjectWithCultureNameofPropertyWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -487,7 +487,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetObjectWithCultureNameofPropertyFullyQualified()
+        public static void ResourceManagerGetObjectWithCultureNameofPropertyFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -506,7 +506,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetStringStringLiteralWithUsing()
+        public static void ResourceManagerGetStringStringLiteralWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -525,7 +525,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetStringStringLiteralFullyQualified()
+        public static void ResourceManagerGetStringStringLiteralFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -542,7 +542,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetStringNameofPropertyWithUsing()
+        public static void ResourceManagerGetStringNameofPropertyWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -561,7 +561,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetStringNameofPropertyFullyQualified()
+        public static void ResourceManagerGetStringNameofPropertyFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -581,7 +581,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetStringWithCultureStringLiteralWithUsing()
+        public static void ResourceManagerGetStringWithCultureStringLiteralWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -601,7 +601,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetStringWithCultureStringLiteralFullyQualified()
+        public static void ResourceManagerGetStringWithCultureStringLiteralFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -620,7 +620,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetStringWithCultureNameofPropertyWithUsing()
+        public static void ResourceManagerGetStringWithCultureNameofPropertyWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -640,7 +640,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetStringWithCultureNameofPropertyFullyQualified()
+        public static void ResourceManagerGetStringWithCultureNameofPropertyFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -659,7 +659,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ResourceManagerGetStringWithEnumToString()
+        public static void ResourceManagerGetStringWithEnumToString()
         {
             var testCode = @"
 namespace RoslynSandbox

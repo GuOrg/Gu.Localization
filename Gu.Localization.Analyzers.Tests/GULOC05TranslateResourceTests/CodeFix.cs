@@ -5,7 +5,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC05TranslateResourceTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class CodeFix
+    public static class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new MemberAccessAnalyzer();
         private static readonly CodeFixProvider Fix = new TranslateResourceFix();
@@ -76,7 +76,7 @@ namespace RoslynSandbox.Properties {
 }";
 
         [Test]
-        public void TranslatorTranslateWithUsing()
+        public static void TranslatorTranslateWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -111,7 +111,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslatorTranslateAddUsing()
+        public static void TranslatorTranslateAddUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -145,7 +145,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslatorTranslateFullyQualified()
+        public static void TranslatorTranslateFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox

@@ -4,12 +4,12 @@ namespace Gu.Localization.Analyzers.Tests.GULOC06UseInterpolationTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new LiteralAnalyzer();
 
         [Test]
-        public void NoCuriles()
+        public static void NoCuriles()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -28,7 +28,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void Interpolated()
+        public static void Interpolated()
         {
             var testCode = @"
 namespace RoslynSandbox

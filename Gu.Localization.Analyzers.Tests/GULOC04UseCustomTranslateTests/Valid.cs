@@ -4,7 +4,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC04UseCustomTranslateTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
 
@@ -99,7 +99,7 @@ namespace RoslynSandbox.Properties
 }";
 
         [Test]
-        public void TranslateKeyWithUsing()
+        public static void TranslateKeyWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -119,7 +119,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslateKeyStringLiteralFullyQualified()
+        public static void TranslateKeyStringLiteralFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -138,7 +138,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslateTranslationForLiteralWithUsing()
+        public static void TranslateTranslationForLiteralWithUsing()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -161,7 +161,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslateTranslationForNameof()
+        public static void TranslateTranslationForNameof()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -181,7 +181,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslateTranslationForStringLiteralFullyQualified()
+        public static void TranslateTranslationForStringLiteralFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -202,7 +202,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TranslateTranslationForNameofFullyQualified()
+        public static void TranslateTranslationForNameofFullyQualified()
         {
             var testCode = @"
 namespace RoslynSandbox

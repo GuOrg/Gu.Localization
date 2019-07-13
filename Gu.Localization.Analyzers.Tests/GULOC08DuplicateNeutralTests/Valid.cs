@@ -6,13 +6,13 @@ namespace Gu.Localization.Analyzers.Tests.GULOC08DuplicateNeutralTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ResourceAnalyzer();
         private FileInfo projectFile;
 
         [SetUp]
-        public void SetUp()
+        public static void SetUp()
         {
             var original = ProjectFile.Find("Gu.Localization.TestStub.csproj");
             var tempDir = new DirectoryInfo(Path.Combine(Path.GetTempPath(), original.Directory.Name));
@@ -26,7 +26,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC08DuplicateNeutralTests
         }
 
         [Test]
-        public void WhenValid()
+        public static void WhenValid()
         {
             this.projectFile.Directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", "\"Value\"");
             this.projectFile.Directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", "\"Value\"");

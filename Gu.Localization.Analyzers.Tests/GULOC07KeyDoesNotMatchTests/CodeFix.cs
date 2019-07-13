@@ -7,7 +7,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class CodeFix
+    public static class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ResourceAnalyzer();
         private static readonly CodeFixProvider Fix = new RenameResourceFix();
@@ -16,7 +16,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
         private DirectoryInfo directory;
 
         [SetUp]
-        public void SetUp()
+        public static void SetUp()
         {
             var original = ProjectFile.Find("Gu.Localization.TestStub.csproj");
             this.directory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), original.Directory.Name));
@@ -32,7 +32,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
         [TestCase("WrongKey", "Value", "Value")]
         [TestCase("WrongKey", "Resources", "Resources_")]
         [TestCase("Some_long_wrong_key", "Some long value", "Some_long_value")]
-        public void Rename(string key, string value, string expectedKey)
+        public static void Rename(string key, string value, string expectedKey)
         {
             this.directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", $"\"{key}\"");
             this.directory.FindFile("Properties\\Resources.resx").ReplaceText("<value>Value</value>", $"<value>{value}</value>");
@@ -581,7 +581,7 @@ namespace Gu.Localization.TestStub.Properties
         }
 
         [Test]
-        public void RenameWhenSplit()
+        public static void RenameWhenSplit()
         {
             this.directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", "\"Wrong\"");
             this.directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", "\"Wrong\"");

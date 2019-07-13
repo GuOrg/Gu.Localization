@@ -5,14 +5,14 @@ namespace Gu.Localization.Analyzers.Tests.GULOC06UseInterpolationTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class CodeFix
+    public static class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new LiteralAnalyzer();
         private static readonly CodeFixProvider Fix = new MakeInterpolatedFix();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GULOC06");
 
         [Test]
-        public void Interpolated()
+        public static void Interpolated()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -41,7 +41,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void InterpolatedVerbatim()
+        public static void InterpolatedVerbatim()
         {
             var testCode = @"
 namespace RoslynSandbox
