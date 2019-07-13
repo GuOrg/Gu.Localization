@@ -78,7 +78,7 @@ namespace RoslynSandbox.Properties {
         [Test]
         public static void TranslatorTranslateWithUsing()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -93,7 +93,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -107,13 +107,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after);
         }
 
         [Test]
         public static void TranslatorTranslateAddUsing()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
@@ -127,7 +127,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -141,13 +141,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode, fixTitle: "Add using and call Translator.Translate");
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after, fixTitle: "Add using and call Translator.Translate");
         }
 
         [Test]
         public static void TranslatorTranslateFullyQualified()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
@@ -161,7 +161,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
@@ -174,7 +174,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode, fixTitle: "Gu.Localization.Translator.Translate");
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after, fixTitle: "Gu.Localization.Translator.Translate");
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC10MissingTranslationTests
     public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ResourceAnalyzer();
-        private FileInfo projectFile;
+        private static FileInfo projectFile;
 
         [SetUp]
         public static void SetUp()
@@ -22,18 +22,18 @@ namespace Gu.Localization.Analyzers.Tests.GULOC10MissingTranslationTests
             }
 
             original.Directory.CopyTo(tempDir);
-            this.projectFile = tempDir.FindFile(original.Name);
+            projectFile = tempDir.FindFile(original.Name);
         }
 
         [Test]
         public static void WhenValid()
         {
-            this.projectFile.Directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", "\"Value\"");
-            this.projectFile.Directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", "\"Value\"");
-            this.projectFile.Directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", "\"Value\"");
-            this.projectFile.Directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", "public static string Value");
-            var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
-            RoslynAssert.NoAnalyzerDiagnostics(Analyzer, sln);
+            projectFile.Directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", "\"Value\"");
+            projectFile.Directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", "\"Value\"");
+            projectFile.Directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", "\"Value\"");
+            projectFile.Directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", "public static string Value");
+            var solution = CodeFactory.CreateSolution(projectFile, MetadataReferences.FromAttributes());
+            RoslynAssert.NoAnalyzerDiagnostics(Analyzer, solution);
         }
     }
 }

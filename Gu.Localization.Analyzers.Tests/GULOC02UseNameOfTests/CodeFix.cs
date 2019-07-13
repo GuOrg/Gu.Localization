@@ -105,7 +105,7 @@ namespace RoslynSandbox.Properties
         [Test]
         public static void TranslatorTranslateStringLiteralWithUsing()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -120,7 +120,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -134,13 +134,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after);
         }
 
         [Test]
         public static void TranslatorTranslateStringLiteralFullyQualified()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -153,7 +153,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -166,13 +166,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after);
         }
 
         [Test]
         public static void TranslationGetOrCreateStringLiteralWithUsing()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -187,7 +187,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -201,13 +201,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after);
         }
 
         [Test]
         public static void TranslationGetOrCreateStringLiteralFullyQualified()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -220,7 +220,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -233,13 +233,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after);
         }
 
         [Test]
         public static void TranslateKeyStringLiteralWithUsing()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -254,7 +254,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -268,13 +268,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, TranslateCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, TranslateCode, before }, after);
         }
 
         [Test]
         public static void TranslateKeyStringLiteralFullyQualified()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -287,7 +287,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -300,13 +300,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, TranslateCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, TranslateCode, before }, after);
         }
 
         [Test]
         public static void TranslateTranslationForLiteralWithUsing()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -321,7 +321,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -335,13 +335,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, TranslateCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, TranslateCode, before }, after);
         }
 
         [Test]
         public static void TranslateTranslationForStringLiteralFullyQualified()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -354,7 +354,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Localization;
@@ -367,13 +367,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, TranslateCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, TranslateCode, before },  after);
         }
 
         [Test]
         public static void ResourceManagerGetObjectNameofPropertyWithUsing()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
@@ -387,7 +387,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
@@ -400,13 +400,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after);
         }
 
         [Test]
         public static void ResourceManagerGetObjectNameofPropertyFullyQualified()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     public class Foo
@@ -418,7 +418,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     public class Foo
@@ -429,13 +429,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after);
         }
 
         [Test]
         public static void ResourceManagerGetObjectWithCultureNameofPropertyWithUsing()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
@@ -449,7 +449,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
@@ -462,13 +462,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after);
         }
 
         [Test]
         public static void ResourceManagerGetObjectWithCultureNameofPropertyFullyQualified()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     public class Foo
@@ -480,7 +480,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     public class Foo
@@ -491,13 +491,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after);
         }
 
         [Test]
         public static void ResourceManagerGetStringNameofPropertyWithUsing()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
@@ -511,7 +511,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
@@ -524,13 +524,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after);
         }
 
         [Test]
         public static void ResourceManagerGetStringNameofPropertyFullyQualified()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     public class Foo
@@ -541,7 +541,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     public class Foo
@@ -552,13 +552,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after);
         }
 
         [Test]
         public static void ResourceManagerGetStringWithCultureNameofPropertyWithUsing()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
@@ -571,7 +571,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
@@ -584,13 +584,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after);
         }
 
         [Test]
         public static void ResourceManagerGetStringWithCultureNameofPropertyFullyQualified()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     public class Foo
@@ -601,7 +601,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     public class Foo
@@ -612,7 +612,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { ResourcesCode, before }, after);
         }
     }
 }

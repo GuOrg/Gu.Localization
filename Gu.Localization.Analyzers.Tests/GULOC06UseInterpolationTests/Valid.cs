@@ -11,7 +11,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC06UseInterpolationTests
         [Test]
         public static void NoCuriles()
         {
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     public class Foo
@@ -24,13 +24,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, testCode);
+            RoslynAssert.Valid(Analyzer, code);
         }
 
         [Test]
         public static void Interpolated()
         {
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     public class Foo
@@ -41,7 +41,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, testCode);
+            RoslynAssert.Valid(Analyzer, code);
         }
     }
 }

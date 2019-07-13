@@ -14,7 +14,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC06UseInterpolationTests
         [Test]
         public static void Interpolated()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     public class Foo
@@ -26,7 +26,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     public class Foo
@@ -37,13 +37,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, testCode, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, before, after);
         }
 
         [Test]
         public static void InterpolatedVerbatim()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     public class Foo
@@ -55,7 +55,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     public class Foo
@@ -66,7 +66,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, testCode, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, before, after);
         }
     }
 }

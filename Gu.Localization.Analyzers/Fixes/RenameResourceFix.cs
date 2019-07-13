@@ -152,11 +152,6 @@ namespace Gu.Localization.Analyzers
                 return base.VisitArgument(node);
             }
 
-            internal static PropertyDeclarationSyntax Rewrite(PropertyDeclarationSyntax declaration, string newValue)
-            {
-                return (PropertyDeclarationSyntax)new Property(newValue).Visit(declaration);
-            }
-
             public override SyntaxNode VisitLiteralExpression(LiteralExpressionSyntax node)
             {
                 if (node.IsKind(SyntaxKind.StringLiteralExpression) &&
@@ -170,6 +165,11 @@ namespace Gu.Localization.Analyzers
                 }
 
                 return base.VisitLiteralExpression(node);
+            }
+
+            internal static PropertyDeclarationSyntax Rewrite(PropertyDeclarationSyntax declaration, string newValue)
+            {
+                return (PropertyDeclarationSyntax)new Property(newValue).Visit(declaration);
             }
         }
     }

@@ -9,7 +9,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
     public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ResourceAnalyzer();
-        private FileInfo projectFile;
+        private static FileInfo projectFile;
 
         [SetUp]
         public static void SetUp()
@@ -22,20 +22,20 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
             }
 
             original.Directory.CopyTo(tempDir);
-            this.projectFile = tempDir.FindFile(original.Name);
+            projectFile = tempDir.FindFile(original.Name);
         }
 
         [TestCase("Value", "Value")]
         [TestCase("Resources_", "Resources")]
         public static void WhenValid(string key, string value)
         {
-            this.projectFile.Directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", $"\"{key}\"");
-            this.projectFile.Directory.FindFile("Properties\\Resources.resx").ReplaceText("<value>Value</value>", $"<value>{value}</value>");
-            this.projectFile.Directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", $"\"{key}\"");
-            this.projectFile.Directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", $"\"{key}\"");
-            this.projectFile.Directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", $"public static string {key}");
-            var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
-            RoslynAssert.NoAnalyzerDiagnostics(Analyzer, sln);
+            projectFile.Directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", $"\"{key}\"");
+            projectFile.Directory.FindFile("Properties\\Resources.resx").ReplaceText("<value>Value</value>", $"<value>{value}</value>");
+            projectFile.Directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", $"\"{key}\"");
+            projectFile.Directory.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", $"\"{key}\"");
+            projectFile.Directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", $"public static string {key}");
+            var solution = CodeFactory.CreateSolution(projectFile, MetadataReferences.FromAttributes());
+            RoslynAssert.NoAnalyzerDiagnostics(Analyzer, solution);
         }
     }
 }
