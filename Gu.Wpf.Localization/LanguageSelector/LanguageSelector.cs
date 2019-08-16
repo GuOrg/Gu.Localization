@@ -13,7 +13,7 @@ namespace Gu.Wpf.Localization
     /// <summary>
     /// Control for selecting language.
     /// </summary>
-    [ContentProperty("Languages")]
+    [ContentProperty(nameof(Languages))]
     public class LanguageSelector : Control
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
