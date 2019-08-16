@@ -39,7 +39,7 @@ namespace Gu.Localization
         /// <inheritdoc />
         public bool TryGetValue(TKey key, out TValue value)
         {
-            value = default(TValue);
+            value = default;
             return false;
         }
     }

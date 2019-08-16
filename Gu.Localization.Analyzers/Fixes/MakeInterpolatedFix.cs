@@ -55,11 +55,11 @@ namespace Gu.Localization.Analyzers
         {
             return SyntaxFactory.InterpolatedStringText(
                 SyntaxFactory.Token(
-                    leading: default(SyntaxTriviaList),
+                    leading: default,
                     kind: SyntaxKind.InterpolatedStringTextToken,
                     text: literal.Token.ValueText,
                     valueText: string.Empty,
-                    trailing: default(SyntaxTriviaList)));
+                    trailing: default));
         }
     }
 }

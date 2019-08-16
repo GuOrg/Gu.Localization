@@ -188,14 +188,14 @@ namespace Gu.Localization.Analyzers
                         new[]
                         {
                             SyntaxFactory.PropertyDeclaration(
-                                default(SyntaxList<AttributeListSyntax>),
+                                default,
                                 SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword), SyntaxFactory.Token(SyntaxKind.StaticKeyword)),
                                 SyntaxFactory.ParseTypeName("string"),
-                                default(ExplicitInterfaceSpecifierSyntax),
+                                default,
                                 SyntaxFactory.ParseToken(key),
-                                default(AccessorListSyntax),
+                                default,
                                 SyntaxFactory.ArrowExpressionClause(SyntaxFactory.ParseExpression($"ResourceManager.GetString(\"{key}\", resourceCulture)")),
-                                default(EqualsValueClauseSyntax),
+                                default,
                                 SyntaxFactory.Token(SyntaxKind.SemicolonToken)),
                         });
 #pragma warning restore SA1118 // Parameter must not span multiple lines

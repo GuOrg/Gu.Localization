@@ -46,7 +46,7 @@ namespace Gu.Localization.Analyzers
                 }
             }
 
-            result = default(XamlFile);
+            result = default;
             return false;
         }
 
