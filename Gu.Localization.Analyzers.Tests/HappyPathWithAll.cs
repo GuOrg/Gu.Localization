@@ -20,13 +20,13 @@ namespace Gu.Localization.Analyzers.Tests
         private static readonly Solution DemoProjectSolution = CodeFactory.CreateSolution(
             ProjectFile.Find("Gu.Wpf.Localization.Demo.csproj"),
             AllAnalyzers,
-            RoslynAssert.MetadataReferences);
+            MetadataReferences.FromAttributes());
 
         // ReSharper disable once InconsistentNaming
         private static readonly Solution AnalyzerProjectSolution = CodeFactory.CreateSolution(
             ProjectFile.Find("Gu.Localization.Analyzers.csproj"),
             AllAnalyzers,
-            RoslynAssert.MetadataReferences);
+            MetadataReferences.FromAttributes());
 
         [Test]
         public void NotEmpty()

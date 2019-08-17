@@ -7,7 +7,7 @@ namespace Gu.Localization.Tests
     {
         public static void ClearTranslationCache()
         {
-            var fieldInfo = typeof(Translation).GetField("Cache", BindingFlags.NonPublic | BindingFlags.Static);
+            var fieldInfo = typeof(Translation).GetField("Cache", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly);
             var cache = (IDictionary)fieldInfo.GetValue(null);
             cache.Clear();
         }
