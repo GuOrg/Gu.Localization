@@ -22,12 +22,6 @@ namespace Gu.Localization.Analyzers.Tests
             AllAnalyzers,
             MetadataReferences.FromAttributes());
 
-        // ReSharper disable once InconsistentNaming
-        private static readonly Solution AnalyzerProjectSolution = CodeFactory.CreateSolution(
-            ProjectFile.Find("Gu.Localization.Analyzers.csproj"),
-            AllAnalyzers,
-            MetadataReferences.FromAttributes());
-
         [Test]
         public void NotEmpty()
         {
@@ -48,20 +42,6 @@ namespace Gu.Localization.Analyzers.Tests
                 default:
                     RoslynAssert.NoAnalyzerDiagnostics(analyzer, DemoProjectSolution);
                     break;
-            }
-        }
-
-        [TestCaseSource(nameof(AllAnalyzers))]
-        public void AnalyzerProject(DiagnosticAnalyzer analyzer)
-        {
-            if (analyzer is LiteralAnalyzer)
-            {
-                // Just checking so that the analyzer does not throw here.
-                _ = Analyze.GetDiagnostics(analyzer, AnalyzerProjectSolution);
-            }
-            else
-            {
-                RoslynAssert.Valid(analyzer, AnalyzerProjectSolution);
             }
         }
 
