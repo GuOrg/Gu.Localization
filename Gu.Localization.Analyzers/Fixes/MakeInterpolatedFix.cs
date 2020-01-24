@@ -1,5 +1,6 @@
 namespace Gu.Localization.Analyzers
 {
+    using System;
     using System.Collections.Immutable;
     using System.Composition;
     using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace Gu.Localization.Analyzers
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             GULOC06UseInterpolation.DiagnosticId);
 
-        public override FixAllProvider GetFixAllProvider() => null;
+        public override FixAllProvider? GetFixAllProvider() => null;
 
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
@@ -44,7 +45,7 @@ namespace Gu.Localization.Analyzers
         {
             return SyntaxFactory.InterpolatedStringExpression(
                 SyntaxFactory.Token(
-                    literal.Token.Text.StartsWith("@")
+                    literal.Token.Text.StartsWith("@", StringComparison.Ordinal)
                         ? SyntaxKind.InterpolatedVerbatimStringStartToken
                         : SyntaxKind.InterpolatedStringStartToken),
                 SyntaxFactory.SingletonList<InterpolatedStringContentSyntax>(CreateInterpolatedStringText(literal)),

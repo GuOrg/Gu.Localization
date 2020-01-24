@@ -1,6 +1,7 @@
-﻿namespace Gu.Wpf.Localization
+namespace Gu.Wpf.Localization
 {
     using System;
+    using System.Globalization;
     using System.Resources;
     using System.Windows;
     using System.Windows.Data;
@@ -58,27 +59,27 @@
                 var qnk = QualifiedNameAndKey.Parse(this.Member);
                 if (qnk.QualifiedName == null || qnk.Key == null)
                 {
-                    return string.Format(Resources.UnknownErrorFormat, this.Member);
+                    return string.Format(CultureInfo.InvariantCulture, Resources.UnknownErrorFormat, this.Member);
                 }
 
                 var type = serviceProvider.Resolve(qnk.QualifiedName);
                 if (type == null)
                 {
-                    return string.Format(Resources.MissingResourcesFormat, this.Member);
+                    return string.Format(CultureInfo.InvariantCulture, Resources.MissingResourcesFormat, this.Member);
                 }
 
                 var manager = Gu.Localization.ResourceManagers.ForType(type);
                 this.Member = qnk.Key;
                 if (!manager.HasKey(qnk.Key))
                 {
-                    return string.Format(Resources.MissingKeyFormat, this.Member);
+                    return string.Format(CultureInfo.InvariantCulture, Resources.MissingKeyFormat, this.Member);
                 }
 
                 return CreateBindingExpression(manager, this.Member, serviceProvider);
             }
             catch (Exception)
             {
-                return string.Format(Resources.UnknownErrorFormat, this.Member);
+                return string.Format(CultureInfo.InvariantCulture, Resources.UnknownErrorFormat, this.Member);
             }
         }
 

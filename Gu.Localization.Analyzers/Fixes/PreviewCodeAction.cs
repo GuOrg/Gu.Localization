@@ -16,7 +16,7 @@ namespace Gu.Localization.Analyzers
             string title,
             Func<CancellationToken, Task<Document>> preview,
             Func<CancellationToken, Task<Solution>> change,
-            string equivalenceKey = null)
+            string? equivalenceKey = null)
         {
             this.Title = title;
             this.preview = Create(title, preview, equivalenceKey);
@@ -28,7 +28,7 @@ namespace Gu.Localization.Analyzers
             string title,
             Func<CancellationToken, Task<Solution>> preview,
             Func<CancellationToken, Task<Solution>> change,
-            string equivalenceKey = null)
+            string? equivalenceKey = null)
         {
             this.Title = title;
             this.preview = Create(title, preview, equivalenceKey);
@@ -38,16 +38,18 @@ namespace Gu.Localization.Analyzers
 
         public override string Title { get; }
 
-        public override string EquivalenceKey { get; }
+        public override string? EquivalenceKey { get; }
 
         protected override async Task<IEnumerable<CodeActionOperation>> ComputePreviewOperationsAsync(CancellationToken cancellationToken)
         {
-            return await this.preview.GetOperationsAsync(cancellationToken);
+            return await this.preview.GetOperationsAsync(cancellationToken)
+                                     .ConfigureAwait(false);
         }
 
         protected override async Task<IEnumerable<CodeActionOperation>> ComputeOperationsAsync(CancellationToken cancellationToken)
         {
-            return await this.change.GetOperationsAsync(cancellationToken);
+            return await this.change.GetOperationsAsync(cancellationToken)
+                                    .ConfigureAwait(false);
         }
     }
 }

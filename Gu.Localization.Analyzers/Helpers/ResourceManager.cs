@@ -1,5 +1,6 @@
 namespace Gu.Localization.Analyzers
 {
+    using System.Diagnostics.CodeAnalysis;
     using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -7,17 +8,17 @@ namespace Gu.Localization.Analyzers
 
     internal static class ResourceManager
     {
-        internal static bool IsGetObject(this InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, out INamedTypeSymbol resourcesType, out IMethodSymbol method)
+        internal static bool IsGetObject(this InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, [NotNullWhen(true)] out INamedTypeSymbol? resourcesType, [NotNullWhen(true)] out IMethodSymbol? method)
         {
             return IsGet(invocation, context, KnownSymbol.ResourceManager.GetObject, out resourcesType, out method);
         }
 
-        internal static bool IsGetString(this InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, out INamedTypeSymbol resourcesType, out IMethodSymbol method)
+        internal static bool IsGetString(this InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, [NotNullWhen(true)] out INamedTypeSymbol? resourcesType, [NotNullWhen(true)] out IMethodSymbol? method)
         {
             return IsGet(invocation, context, KnownSymbol.ResourceManager.GetString, out resourcesType, out method);
         }
 
-        private static bool IsGet(this InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, QualifiedMethod expected, out INamedTypeSymbol resourcesType, out IMethodSymbol method)
+        private static bool IsGet(this InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, QualifiedMethod expected, [NotNullWhen(true)] out INamedTypeSymbol? resourcesType, [NotNullWhen(true)] out IMethodSymbol? method)
         {
             method = null;
             resourcesType = null;

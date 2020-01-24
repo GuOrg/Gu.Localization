@@ -17,7 +17,7 @@ namespace Gu.Localization.Analyzers
         internal static readonly TranslationType Translation = new TranslationType();
         internal static readonly QualifiedType ITranslation = new QualifiedType("Gu.Localization.ITranslation");
 
-        private static QualifiedType Create(string qualifiedName, string alias = null)
+        private static QualifiedType Create(string qualifiedName, string? alias = null)
         {
             return new QualifiedType(qualifiedName, alias);
         }

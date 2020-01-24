@@ -1,6 +1,7 @@
-﻿namespace Gu.Wpf.Localization
+namespace Gu.Wpf.Localization
 {
     using System;
+    using System.Globalization;
     using System.Resources;
     using System.Windows.Data;
     using System.Windows.Markup;
@@ -37,9 +38,9 @@
 
                 return StaticExtension.CreateBindingExpression(this.ResourceManager, this.Member.ToString(), serviceProvider);
             }
-            catch (Exception)
+            catch
             {
-                return string.Format(Resources.UnknownErrorFormat, this.Member);
+                return string.Format(CultureInfo.InvariantCulture, Resources.UnknownErrorFormat, this.Member);
             }
         }
     }
