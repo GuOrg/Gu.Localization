@@ -1,12 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{867813BE-358B-4C9E-9FA6-07168882AA9D}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		appveyor.yml = appveyor.yml
+		azure-pipelines.yml = azure-pipelines.yml
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
 		.paket\Readme.paket.md = .paket\Readme.paket.md
@@ -53,7 +54,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization.TestStub", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Localization.Analyzers.Vsix", "Gu.Localization.Analyzers.Vsix\Gu.Localization.Analyzers.Vsix.csproj", "{99CD23FC-6BDE-46AB-820C-D65DE06187DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization.Benchmarks", "Gu.Localization.Benchmarks\Gu.Localization.Benchmarks.csproj", "{78202330-5764-4391-93B2-C4DC8509CE8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Localization.Benchmarks", "Gu.Localization.Benchmarks\Gu.Localization.Benchmarks.csproj", "{78202330-5764-4391-93B2-C4DC8509CE8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
