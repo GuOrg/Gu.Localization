@@ -61,7 +61,6 @@ namespace Gu.Localization.TestStub.Properties
 {
     using System;
 
-
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -74,7 +73,6 @@ namespace Gu.Localization.TestStub.Properties
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources
     {
-
         private static global::System.Resources.ResourceManager resourceMan;
 
         private static global::System.Globalization.CultureInfo resourceCulture;
@@ -590,13 +588,17 @@ namespace Gu.Localization.TestStub.Properties
             directory.FindFile("UserControl1.xaml").ReplaceText("p:Resources.Key", "p:Resources.Wrong");
             directory.FindFile("Resources\\Dictionary1.xaml").ReplaceText("p:Resources.Key", "p:Resources.Wrong");
             directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText(
-                @"        public static string Key {
-            get {
+                @"        public static string Key
+        {
+            get
+            {
                 return ResourceManager.GetString(""Key"", resourceCulture);
             }
         }",
-                @"        public static string Wrong {
-            get {
+                @"        public static string Wrong
+        {
+            get
+            {
                 return ResourceManager.GetString(""K"" + 
                     ""ey"", resourceCulture);
             }
@@ -619,7 +621,6 @@ namespace Gu.Localization.TestStub.Properties
 {
     using System;
 
-
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -632,7 +633,6 @@ namespace Gu.Localization.TestStub.Properties
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources
     {
-
         private static global::System.Resources.ResourceManager resourceMan;
 
         private static global::System.Globalization.CultureInfo resourceCulture;
