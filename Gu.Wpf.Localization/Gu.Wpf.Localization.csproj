@@ -1,557 +1,63 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\build\Microsoft.CodeAnalysis.PublicApiAnalyzers.props" Condition="Exists('..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\build\Microsoft.CodeAnalysis.PublicApiAnalyzers.props')" Label="Paket" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B5BA2BCC-6CA4-4422-9220-FDEDD657BA0E}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gu.Wpf.Localization</RootNamespace>
-    <AssemblyName>Gu.Wpf.Localization</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFrameworks>netcoreapp3.1;net45</TargetFrameworks>
+    <UseWpf>true</UseWpf>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>Gu.Wpf.Localization.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Gu.Wpf.Localization.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\Gu.Wpf.Localization.XML</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <StyleCopTreatErrorsAsWarnings>False</StyleCopTreatErrorsAsWarnings>
-    <DocumentationFile>bin\Release\Gu.Wpf.Localization.XML</DocumentationFile>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-  </PropertyGroup>
+
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Localization.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>6.4.3</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Johan Larsson</Authors>
+    <PackageReleaseNotes>
+      6.4.3
+      BUGFIX: Type initialization for Culture fails if installed cultures contains invalid neutral ancestry. Issue 82.
+    </PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageTags>resourcemanager localization translate language</PackageTags>
+    <PackageProjectUrl>https://github.com/GuOrg/Gu.Localization</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/GuOrg/Gu.Localization</RepositoryUrl>
+    <Description>For localization using ResourceManager.</Description>
+  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
+    <ProjectReference Include="..\Gu.Localization\Gu.Localization.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="LanguageSelector\CultureOrDefaultConverter.cs" />
-    <Compile Include="LanguageSelector\CultureToFlagPathConverter.cs" />
-    <Compile Include="LanguageSelector\CultureChangedEventManager.cs" />
-    <Compile Include="MarkupExtensions\CurrentCultureExtension.cs" />
-    <Compile Include="AttachedProperties\DesignTime.cs" />
-    <Compile Include="MarkupExtensions\CurrentCultureProxy.cs" />
-    <Compile Include="MarkupExtensions\CurrentXmlLanguageExtension.cs" />
-    <Compile Include="MarkupExtensions\EnumExtension.cs" />
-    <Compile Include="AttachedProperties\ErrorHandling.cs" />
-    <Compile Include="Internals\QualifiedNameAndKey.cs" />
-    <Compile Include="Internals\Is.cs" />
-    <Compile Include="Internals\ServiceProviderExt.cs" />
-    <Compile Include="LanguageSelector\Language.cs" />
-    <Compile Include="LanguageSelector\NullImageSourceConverter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MarkupExtensions\StaticExtension.cs" />
-    <Compile Include="LanguageSelector\LanguageSelector.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Gu.Localization\Gu.Localization.csproj">
-      <Project>{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}</Project>
-      <Name>Gu.Localization</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Themes\Generic.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json">
-      <Link>stylecop.json</Link>
-    </AdditionalFiles>
-    <None Include="Gu.Wpf.Localization.ruleset" />
-    <None Include="paket.references" />
-    <None Include="paket.template" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <ItemGroup>
-    <Resource Include="Flags\ad.png" />
-    <Resource Include="Flags\ae.png" />
-    <Resource Include="Flags\af.png" />
-    <Resource Include="Flags\ag.png" />
-    <Resource Include="Flags\ai.png" />
-    <Resource Include="Flags\al.png" />
-    <Resource Include="Flags\am.png" />
-    <Resource Include="Flags\ao.png" />
-    <Resource Include="Flags\aq.png" />
-    <Resource Include="Flags\ar.png" />
-    <Resource Include="Flags\as.png" />
-    <Resource Include="Flags\at.png" />
-    <Resource Include="Flags\au.png" />
-    <Resource Include="Flags\aw.png" />
-    <Resource Include="Flags\ax.png" />
-    <Resource Include="Flags\az.png" />
-    <Resource Include="Flags\ba.png" />
-    <Resource Include="Flags\bb.png" />
-    <Resource Include="Flags\bd.png" />
-    <Resource Include="Flags\be.png" />
-    <Resource Include="Flags\bf.png" />
-    <Resource Include="Flags\bg.png" />
-    <Resource Include="Flags\bh.png" />
-    <Resource Include="Flags\bi.png" />
-    <Resource Include="Flags\bj.png" />
-    <Resource Include="Flags\bl.png" />
-    <Resource Include="Flags\bm.png" />
-    <Resource Include="Flags\bn.png" />
-    <Resource Include="Flags\bo.png" />
-    <Resource Include="Flags\bq.png" />
-    <Resource Include="Flags\br.png" />
-    <Resource Include="Flags\bs.png" />
-    <Resource Include="Flags\bt.png" />
-    <Resource Include="Flags\bv.png" />
-    <Resource Include="Flags\bw.png" />
-    <Resource Include="Flags\by.png" />
-    <Resource Include="Flags\bz.png" />
-    <Resource Include="Flags\ca.png" />
-    <Resource Include="Flags\cc.png" />
-    <Resource Include="Flags\cd.png" />
-    <Resource Include="Flags\cf.png" />
-    <Resource Include="Flags\cg.png" />
-    <Resource Include="Flags\ch.png" />
-    <Resource Include="Flags\ci.png" />
-    <Resource Include="Flags\ck.png" />
-    <Resource Include="Flags\cl.png" />
-    <Resource Include="Flags\cm.png" />
-    <Resource Include="Flags\cn.png" />
-    <Resource Include="Flags\co.png" />
-    <Resource Include="Flags\cr.png" />
-    <Resource Include="Flags\cu.png" />
-    <Resource Include="Flags\cv.png" />
-    <Resource Include="Flags\cw.png" />
-    <Resource Include="Flags\cx.png" />
-    <Resource Include="Flags\cy.png" />
-    <Resource Include="Flags\dj.png" />
-    <Resource Include="Flags\dk.png" />
-    <Resource Include="Flags\dm.png" />
-    <Resource Include="Flags\do.png" />
-    <Resource Include="Flags\dz.png" />
-    <Resource Include="Flags\ec.png" />
-    <Resource Include="Flags\ee.png" />
-    <Resource Include="Flags\eg.png" />
-    <Resource Include="Flags\eh.png" />
-    <Resource Include="Flags\er.png" />
-    <Resource Include="Flags\es-ct.png" />
-    <Resource Include="Flags\et.png" />
-    <Resource Include="Flags\eu.png" />
-    <Resource Include="Flags\fj.png" />
-    <Resource Include="Flags\fk.png" />
-    <Resource Include="Flags\fm.png" />
-    <Resource Include="Flags\fo.png" />
-    <Resource Include="Flags\ga.png" />
-    <Resource Include="Flags\en.png" />
-    <Resource Include="Flags\gb-eng.png" />
-    <Resource Include="Flags\gb-nir.png" />
-    <Resource Include="Flags\gb-sct.png" />
-    <Resource Include="Flags\gb-wls.png" />
-    <Resource Include="Flags\gb.png" />
-    <Resource Include="Flags\gd.png" />
-    <Resource Include="Flags\ge.png" />
-    <Resource Include="Flags\gf.png" />
-    <Resource Include="Flags\gg.png" />
-    <Resource Include="Flags\gh.png" />
-    <Resource Include="Flags\gi.png" />
-    <Resource Include="Flags\gl.png" />
-    <Resource Include="Flags\gm.png" />
-    <Resource Include="Flags\gn.png" />
-    <Resource Include="Flags\gp.png" />
-    <Resource Include="Flags\gq.png" />
-    <Resource Include="Flags\gr.png" />
-    <Resource Include="Flags\gs.png" />
-    <Resource Include="Flags\gt.png" />
-    <Resource Include="Flags\gu.png" />
-    <Resource Include="Flags\gw.png" />
-    <Resource Include="Flags\gy.png" />
-    <Resource Include="Flags\hk.png" />
-    <Resource Include="Flags\hm.png" />
-    <Resource Include="Flags\hn.png" />
-    <Resource Include="Flags\hr.png" />
-    <Resource Include="Flags\ht.png" />
-    <Resource Include="Flags\id.png" />
-    <Resource Include="Flags\ie.png" />
-    <Resource Include="Flags\il.png" />
-    <Resource Include="Flags\im.png" />
-    <Resource Include="Flags\in.png" />
-    <Resource Include="Flags\io.png" />
-    <Resource Include="Flags\iq.png" />
-    <Resource Include="Flags\ir.png" />
-    <Resource Include="Flags\je.png" />
-    <Resource Include="Flags\jm.png" />
-    <Resource Include="Flags\jo.png" />
-    <Resource Include="Flags\jp.png" />
-    <Resource Include="Flags\ke.png" />
-    <Resource Include="Flags\kg.png" />
-    <Resource Include="Flags\kh.png" />
-    <Resource Include="Flags\ki.png" />
-    <Resource Include="Flags\km.png" />
-    <Resource Include="Flags\kn.png" />
-    <Resource Include="Flags\kp.png" />
-    <Resource Include="Flags\kr.png" />
-    <Resource Include="Flags\kw.png" />
-    <Resource Include="Flags\ky.png" />
-    <Resource Include="Flags\kz.png" />
-    <Resource Include="Flags\la.png" />
-    <Resource Include="Flags\lb.png" />
-    <Resource Include="Flags\lc.png" />
-    <Resource Include="Flags\li.png" />
-    <Resource Include="Flags\lk.png" />
-    <Resource Include="Flags\lr.png" />
-    <Resource Include="Flags\ls.png" />
-    <Resource Include="Flags\lu.png" />
-    <Resource Include="Flags\lv.png" />
-    <Resource Include="Flags\ly.png" />
-    <Resource Include="Flags\ma.png" />
-    <Resource Include="Flags\mc.png" />
-    <Resource Include="Flags\md.png" />
-    <Resource Include="Flags\me.png" />
-    <Resource Include="Flags\mf.png" />
-    <Resource Include="Flags\mg.png" />
-    <Resource Include="Flags\mh.png" />
-    <Resource Include="Flags\mk.png" />
-    <Resource Include="Flags\ml.png" />
-    <Resource Include="Flags\mm.png" />
-    <Resource Include="Flags\mn.png" />
-    <Resource Include="Flags\mo.png" />
-    <Resource Include="Flags\mp.png" />
-    <Resource Include="Flags\mq.png" />
-    <Resource Include="Flags\mr.png" />
-    <Resource Include="Flags\ms.png" />
-    <Resource Include="Flags\mt.png" />
-    <Resource Include="Flags\mu.png" />
-    <Resource Include="Flags\mv.png" />
-    <Resource Include="Flags\mw.png" />
-    <Resource Include="Flags\mx.png" />
-    <Resource Include="Flags\my.png" />
-    <Resource Include="Flags\mz.png" />
-    <Resource Include="Flags\na.png" />
-    <Resource Include="Flags\nc.png" />
-    <Resource Include="Flags\ne.png" />
-    <Resource Include="Flags\nf.png" />
-    <Resource Include="Flags\ng.png" />
-    <Resource Include="Flags\ni.png" />
-    <Resource Include="Flags\no.png" />
-    <Resource Include="Flags\np.png" />
-    <Resource Include="Flags\nr.png" />
-    <Resource Include="Flags\nu.png" />
-    <Resource Include="Flags\nz.png" />
-    <Resource Include="Flags\om.png" />
-    <Resource Include="Flags\pa.png" />
-    <Resource Include="Flags\pe.png" />
-    <Resource Include="Flags\pf.png" />
-    <Resource Include="Flags\pg.png" />
-    <Resource Include="Flags\ph.png" />
-    <Resource Include="Flags\pk.png" />
-    <Resource Include="Flags\pm.png" />
-    <Resource Include="Flags\pn.png" />
-    <Resource Include="Flags\pr.png" />
-    <Resource Include="Flags\ps.png" />
-    <Resource Include="Flags\pw.png" />
-    <Resource Include="Flags\py.png" />
-    <Resource Include="Flags\qa.png" />
-    <Resource Include="Flags\re.png" />
-    <Resource Include="Flags\rs.png" />
-    <Resource Include="Flags\rw.png" />
-    <Resource Include="Flags\sa.png" />
-    <Resource Include="Flags\sb.png" />
-    <Resource Include="Flags\sc.png" />
-    <Resource Include="Flags\sd.png" />
-    <Resource Include="Flags\se.png" />
-    <Resource Include="Flags\sg.png" />
-    <Resource Include="Flags\sh.png" />
-    <Resource Include="Flags\si.png" />
-    <Resource Include="Flags\sj.png" />
-    <Resource Include="Flags\sk.png" />
-    <Resource Include="Flags\sl.png" />
-    <Resource Include="Flags\sm.png" />
-    <Resource Include="Flags\sn.png" />
-    <Resource Include="Flags\so.png" />
-    <Resource Include="Flags\sr.png" />
-    <Resource Include="Flags\ss.png" />
-    <Resource Include="Flags\st.png" />
-    <Resource Include="Flags\sx.png" />
-    <Resource Include="Flags\sy.png" />
-    <Resource Include="Flags\sz.png" />
-    <Resource Include="Flags\tc.png" />
-    <Resource Include="Flags\td.png" />
-    <Resource Include="Flags\tf.png" />
-    <Resource Include="Flags\tg.png" />
-    <Resource Include="Flags\th.png" />
-    <Resource Include="Flags\tj.png" />
-    <Resource Include="Flags\tk.png" />
-    <Resource Include="Flags\tl.png" />
-    <Resource Include="Flags\tm.png" />
-    <Resource Include="Flags\tn.png" />
-    <Resource Include="Flags\to.png" />
-    <Resource Include="Flags\tr.png" />
-    <Resource Include="Flags\tt.png" />
-    <Resource Include="Flags\tv.png" />
-    <Resource Include="Flags\tw.png" />
-    <Resource Include="Flags\tz.png" />
-    <Resource Include="Flags\ua.png" />
-    <Resource Include="Flags\ug.png" />
-    <Resource Include="Flags\um.png" />
-    <Resource Include="Flags\un.png" />
-    <Resource Include="Flags\us.png" />
-    <Resource Include="Flags\uy.png" />
-    <Resource Include="Flags\uz.png" />
-    <Resource Include="Flags\va.png" />
-    <Resource Include="Flags\vc.png" />
-    <Resource Include="Flags\ve.png" />
-    <Resource Include="Flags\vg.png" />
-    <Resource Include="Flags\vi.png" />
-    <Resource Include="Flags\vn.png" />
-    <Resource Include="Flags\vu.png" />
-    <Resource Include="Flags\wf.png" />
-    <Resource Include="Flags\ws.png" />
-    <Resource Include="Flags\ye.png" />
-    <Resource Include="Flags\yt.png" />
-    <Resource Include="Flags\za.png" />
-    <Resource Include="Flags\zm.png" />
-    <Resource Include="Flags\zw.png" />
-    <Resource Include="Flags\cz.png" />
-    <Resource Include="Flags\de.png" />
-    <Resource Include="Flags\es.png" />
-    <Resource Include="Flags\fi.png" />
-    <Resource Include="Flags\fr.png" />
-    <Resource Include="Flags\hu.png" />
-    <Resource Include="Flags\is.png" />
-    <Resource Include="Flags\it.png" />
-    <Resource Include="Flags\lt.png" />
-    <Resource Include="Flags\nl.png" />
-    <Resource Include="Flags\pl.png" />
-    <Resource Include="Flags\pt.png" />
-    <None Include="Flags\Readme.txt" />
-    <Resource Include="Flags\ro.png" />
-    <Resource Include="Flags\ru.png" />
-    <Resource Include="Flags\sv.png" />
-  </ItemGroup>
-  <Import Project="..\.paket\paket.targets" />
+
   <ItemGroup>
     <AdditionalFiles Include="PublicAPI.Shipped.txt" />
     <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+
+    <AdditionalFiles Include="..\stylecop.json">
+      <Link>stylecop.json</Link>
+    </AdditionalFiles>
   </ItemGroup>
+
   <ItemGroup>
-    <Analyzer Include="..\packages\analyzers\Gu.Analyzers\analyzers\dotnet\cs\Gu.Analyzers.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Gu.Analyzers\analyzers\dotnet\cs\Gu.Roslyn.Extensions.dll">
-      <Paket>True</Paket>
-    </Analyzer>
+    <Resource Include="Flags\*.png" />
   </ItemGroup>
+
   <ItemGroup>
-    <Analyzer Include="..\packages\analyzers\IDisposableAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.Extensions.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\IDisposableAnalyzers\analyzers\dotnet\cs\IDisposableAnalyzers.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-  </ItemGroup>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v2.0' Or $(TargetFrameworkVersion) == 'v3.0' Or $(TargetFrameworkVersion) == 'v3.5' Or $(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.0.3' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3' Or $(TargetFrameworkVersion) == 'v4.7' Or $(TargetFrameworkVersion) == 'v4.7.2' Or $(TargetFrameworkVersion) == 'v4.8')">
-      <ItemGroup>
-        <Reference Include="JetBrains.Annotations">
-          <HintPath>..\packages\analyzers\JetBrains.Annotations\lib\net20\JetBrains.Annotations.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="($(TargetFrameworkIdentifier) == 'WindowsPhoneApp') Or ($(TargetFrameworkIdentifier) == 'MonoAndroid' And ($(TargetFrameworkVersion) == 'v7.0' Or $(TargetFrameworkVersion) == 'v7.1')) Or ($(TargetFrameworkIdentifier) == 'MonoTouch') Or ($(TargetFrameworkIdentifier) == '.NETCoreApp' And ($(TargetFrameworkVersion) == 'v1.0' Or $(TargetFrameworkVersion) == 'v1.1')) Or ($(TargetFrameworkIdentifier) == '.NETStandard' And ($(TargetFrameworkVersion) == 'v1.0' Or $(TargetFrameworkVersion) == 'v1.1' Or $(TargetFrameworkVersion) == 'v1.2' Or $(TargetFrameworkVersion) == 'v1.3' Or $(TargetFrameworkVersion) == 'v1.4' Or $(TargetFrameworkVersion) == 'v1.5' Or $(TargetFrameworkVersion) == 'v1.6')) Or ($(TargetFrameworkIdentifier) == '.NETCore' And $(TargetFrameworkVersion) == 'v5.0') Or ($(TargetFrameworkIdentifier) == 'WindowsPhone' And ($(TargetFrameworkVersion) == 'v8.0' Or $(TargetFrameworkVersion) == 'v8.1')) Or ($(TargetFrameworkIdentifier) == 'Xamarin.tvOS') Or ($(TargetFrameworkIdentifier) == 'Xamarin.watchOS')">
-      <ItemGroup>
-        <Reference Include="JetBrains.Annotations">
-          <HintPath>..\packages\analyzers\JetBrains.Annotations\lib\netstandard1.0\JetBrains.Annotations.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="($(TargetFrameworkIdentifier) == 'MonoAndroid' And ($(TargetFrameworkVersion) == 'v8.0' Or $(TargetFrameworkVersion) == 'v8.1' Or $(TargetFrameworkVersion) == 'v9.0')) Or ($(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.7.1') Or ($(TargetFrameworkIdentifier) == '.NETCoreApp' And ($(TargetFrameworkVersion) == 'v2.0' Or $(TargetFrameworkVersion) == 'v2.1' Or $(TargetFrameworkVersion) == 'v2.2' Or $(TargetFrameworkVersion) == 'v3.0' Or $(TargetFrameworkVersion) == 'v3.1')) Or ($(TargetFrameworkIdentifier) == '.NETStandard' And ($(TargetFrameworkVersion) == 'v2.0' Or $(TargetFrameworkVersion) == 'v2.1')) Or ($(TargetFrameworkIdentifier) == '.NETCore' And $(TargetFrameworkVersion) == 'v5.0') Or ($(TargetFrameworkIdentifier) == 'Xamarin.iOS') Or ($(TargetFrameworkIdentifier) == 'Xamarin.Mac')">
-      <ItemGroup>
-        <Reference Include="JetBrains.Annotations">
-          <HintPath>..\packages\analyzers\JetBrains.Annotations\lib\netstandard2.0\JetBrains.Annotations.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="($(TargetFrameworkIdentifier) == '.NETCore') Or ($(TargetFrameworkIdentifier) == 'MonoAndroid' And ($(TargetFrameworkVersion) == 'v1.0' Or $(TargetFrameworkVersion) == 'v2.2' Or $(TargetFrameworkVersion) == 'v2.3' Or $(TargetFrameworkVersion) == 'v4.0.3' Or $(TargetFrameworkVersion) == 'v4.1' Or $(TargetFrameworkVersion) == 'v4.2' Or $(TargetFrameworkVersion) == 'v4.3' Or $(TargetFrameworkVersion) == 'v4.4' Or $(TargetFrameworkVersion) == 'v5.0' Or $(TargetFrameworkVersion) == 'v5.1' Or $(TargetFrameworkVersion) == 'v6.0')) Or ($(TargetFrameworkProfile) == 'Profile14') Or ($(TargetFrameworkProfile) == 'Profile37') Or ($(TargetFrameworkProfile) == 'Profile136') Or ($(TargetFrameworkProfile) == 'Profile328') Or ($(TargetFrameworkProfile) == 'Profile225') Or ($(TargetFrameworkProfile) == 'Profile5') Or ($(TargetFrameworkProfile) == 'Profile92') Or ($(TargetFrameworkProfile) == 'Profile19') Or ($(TargetFrameworkProfile) == 'Profile42') Or ($(TargetFrameworkProfile) == 'Profile147') Or ($(TargetFrameworkProfile) == 'Profile336') Or ($(TargetFrameworkProfile) == 'Profile240') Or ($(TargetFrameworkProfile) == 'Profile6') Or ($(TargetFrameworkProfile) == 'Profile102') Or ($(TargetFrameworkProfile) == 'Profile24') Or ($(TargetFrameworkProfile) == 'Profile47') Or ($(TargetFrameworkProfile) == 'Profile158') Or ($(TargetFrameworkProfile) == 'Profile344') Or ($(TargetFrameworkProfile) == 'Profile255') Or ($(TargetFrameworkProfile) == 'Profile7') Or ($(TargetFrameworkProfile) == 'Profile78') Or ($(TargetFrameworkProfile) == 'Profile259') Or ($(TargetFrameworkProfile) == 'Profile111') Or ($(TargetFrameworkProfile) == 'Profile49') Or ($(TargetFrameworkProfile) == 'Profile44') Or ($(TargetFrameworkProfile) == 'Profile151') Or ($(TargetFrameworkProfile) == 'Profile31') Or ($(TargetFrameworkProfile) == 'Profile157') Or ($(TargetFrameworkProfile) == 'Profile32') Or ($(TargetFrameworkProfile) == 'Profile84') Or ($(TargetFrameworkIdentifier) == 'Silverlight' And $(TargetFrameworkVersion) == 'v5.0')">
-      <ItemGroup>
-        <Reference Include="JetBrains.Annotations">
-          <HintPath>..\packages\analyzers\JetBrains.Annotations\lib\portable40-net40+sl5+win8+wp8+wpa81\JetBrains.Annotations.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <ItemGroup>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\Microsoft.CodeAnalysis.PublicApiAnalyzers.CodeFixes.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\Microsoft.CodeAnalysis.PublicApiAnalyzers.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\cs\Microsoft.CodeAnalysis.PublicApiAnalyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\de\Microsoft.CodeAnalysis.PublicApiAnalyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\es\Microsoft.CodeAnalysis.PublicApiAnalyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\fr\Microsoft.CodeAnalysis.PublicApiAnalyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\it\Microsoft.CodeAnalysis.PublicApiAnalyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\ja\Microsoft.CodeAnalysis.PublicApiAnalyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\ko\Microsoft.CodeAnalysis.PublicApiAnalyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\pl\Microsoft.CodeAnalysis.PublicApiAnalyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\pt-BR\Microsoft.CodeAnalysis.PublicApiAnalyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\ru\Microsoft.CodeAnalysis.PublicApiAnalyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\tr\Microsoft.CodeAnalysis.PublicApiAnalyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\zh-Hans\Microsoft.CodeAnalysis.PublicApiAnalyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\analyzers\dotnet\zh-Hant\Microsoft.CodeAnalysis.PublicApiAnalyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\analyzers\PropertyChangedAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.Extensions.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\PropertyChangedAnalyzers\analyzers\dotnet\cs\PropertyChangedAnalyzers.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\analyzers\ReflectionAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.Extensions.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\ReflectionAnalyzers\analyzers\dotnet\cs\ReflectionAnalyzers.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\analyzers\StyleCop.Analyzers.Unstable\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\StyleCop.Analyzers.Unstable\analyzers\dotnet\cs\StyleCop.Analyzers.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\StyleCop.Analyzers.Unstable\analyzers\dotnet\cs\de-DE\StyleCop.Analyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\StyleCop.Analyzers.Unstable\analyzers\dotnet\cs\en-GB\StyleCop.Analyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\StyleCop.Analyzers.Unstable\analyzers\dotnet\cs\es-MX\StyleCop.Analyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\StyleCop.Analyzers.Unstable\analyzers\dotnet\cs\fr-FR\StyleCop.Analyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\StyleCop.Analyzers.Unstable\analyzers\dotnet\cs\pl-PL\StyleCop.Analyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\StyleCop.Analyzers.Unstable\analyzers\dotnet\cs\pt-BR\StyleCop.Analyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\StyleCop.Analyzers.Unstable\analyzers\dotnet\cs\ru-RU\StyleCop.Analyzers.resources.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-  </ItemGroup>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETStandard' And ($(TargetFrameworkVersion) == 'v1.0' Or $(TargetFrameworkVersion) == 'v1.1')">
-      <ItemGroup>
-        <Reference Include="System.Runtime">
-          <HintPath>..\packages\analyzers\System.Runtime\ref\netstandard1.0\System.Runtime.dll</HintPath>
-          <Private>False</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v1.2'">
-      <ItemGroup>
-        <Reference Include="System.Runtime">
-          <HintPath>..\packages\analyzers\System.Runtime\ref\netstandard1.2\System.Runtime.dll</HintPath>
-          <Private>False</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETStandard' And ($(TargetFrameworkVersion) == 'v1.3' Or $(TargetFrameworkVersion) == 'v1.4')">
-      <ItemGroup>
-        <Reference Include="System.Runtime">
-          <HintPath>..\packages\analyzers\System.Runtime\ref\netstandard1.3\System.Runtime.dll</HintPath>
-          <Private>False</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="($(TargetFrameworkIdentifier) == '.NETCoreApp' And ($(TargetFrameworkVersion) == 'v1.0' Or $(TargetFrameworkVersion) == 'v1.1')) Or ($(TargetFrameworkIdentifier) == '.NETStandard' And ($(TargetFrameworkVersion) == 'v1.5' Or $(TargetFrameworkVersion) == 'v1.6'))">
-      <ItemGroup>
-        <Reference Include="System.Runtime">
-          <HintPath>..\packages\analyzers\System.Runtime\ref\netstandard1.5\System.Runtime.dll</HintPath>
-          <Private>False</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <ItemGroup>
-    <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\Gu.Roslyn.Extensions.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\WpfAnalyzers.dll">
-      <Paket>True</Paket>
-    </Analyzer>
+    <PackageReference Include="Gu.Analyzers" Version="1.6.7-dev" PrivateAssets="all" />
+    <PackageReference Include="IDisposableAnalyzers" Version="3.2.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="2.9.8" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
+    <PackageReference Include="ReflectionAnalyzers" Version="0.1.21-dev" PrivateAssets="all" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.113" PrivateAssets="all" />
+    <PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[3.1.0]" />
+    <PackageReference Include="TunnelVisionLabs.ReferenceAssemblyAnnotator" Version="1.0.0-alpha.154" PrivateAssets="all" />
   </ItemGroup>
 </Project>
