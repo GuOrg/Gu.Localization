@@ -1,7 +1,6 @@
 image: Visual Studio 2019
 
 before_build:
-- ps: nuget restore
 - ps: dotnet restore
 
 configuration: Release
