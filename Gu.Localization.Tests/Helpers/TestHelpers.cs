@@ -3,7 +3,7 @@ namespace Gu.Localization.Tests
     using System.Collections;
     using System.Reflection;
 
-    public class TestHelpers
+    public static class TestHelpers
     {
         public static void ClearTranslationCache()
         {

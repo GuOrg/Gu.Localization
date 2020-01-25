@@ -8,7 +8,7 @@ namespace Gu.Localization
     /// <summary> Utility class for <see cref="CultureInfo"/>. </summary>
     internal static class Culture
     {
-        internal static IReadOnlyList<CultureInfo> AllCultures =
+        internal static readonly IReadOnlyList<CultureInfo> AllCultures =
             CultureInfo.GetCultures(CultureTypes.AllCultures)
                 .Where(x => !IsInvariant(x))
                 .ToArray();
@@ -93,26 +93,6 @@ namespace Gu.Localization
         internal static bool IsInvariant(this CultureInfo culture)
         {
             return NameEquals(culture, CultureInfo.InvariantCulture);
-        }
-
-        private static CultureInfo CreateSpecificCultureOrDefault(CultureInfo neutral)
-        {
-            if (neutral == null ||
-                !neutral.IsNeutralCulture)
-            {
-                return null;
-            }
-
-            try
-            {
-                // try-catch swallow here as CreateSpecificCulture does parsing of the name.
-                // don't know if there is a way to check if a specific culture can be created.
-                return CultureInfo.CreateSpecificCulture(neutral.Name);
-            }
-            catch
-            {
-                return null;
-            }
         }
     }
 }

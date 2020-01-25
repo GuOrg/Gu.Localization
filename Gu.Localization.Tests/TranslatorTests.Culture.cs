@@ -9,37 +9,37 @@ namespace Gu.Localization.Tests
 
     public partial class TranslatorTests
     {
-        public class Culture
+        public static class Culture
         {
             [Test]
             [Explicit("Must be run separately due to static")]
-            public void InitializesToCurrentCulture()
+            public static void InitializesToCurrentCulture()
             {
                 Assert.AreEqual(Translator.Culture.ThreeLetterISOLanguageName, CultureInfo.CurrentCulture.ThreeLetterISOLanguageName);
             }
 
             [Test]
-            public void ChangeCultureToIllegalThrows()
+            public static void ChangeCultureToIllegalThrows()
             {
                 Assert.Throws<ArgumentException>(() => Translator.Culture = CultureInfo.GetCultureInfo("it"));
             }
 
             [Test]
-            public void SetCurrentCultureToNull()
+            public static void SetCurrentCultureToNull()
             {
                 Translator.Culture = null;
                 Assert.AreEqual(null, Translator.Culture);
             }
 
             [Test]
-            public void SetCurrentCultureToInvariant()
+            public static void SetCurrentCultureToInvariant()
             {
                 Translator.Culture = CultureInfo.InvariantCulture;
                 Assert.AreEqual(CultureInfo.InvariantCulture, Translator.Culture);
             }
 
             [Test]
-            public void ChangeCurrentCulture()
+            public static void ChangeCurrentCulture()
             {
                 Translator.Culture = CultureInfo.GetCultureInfo("en");
                 var changes = new List<CultureInfo>();
@@ -73,7 +73,7 @@ namespace Gu.Localization.Tests
             }
 
             [Test]
-            public void Cultures()
+            public static void Cultures()
             {
                 var key = nameof(Properties.Resources.EnglishOnly);
                 var italian = CultureInfo.GetCultureInfo("it");

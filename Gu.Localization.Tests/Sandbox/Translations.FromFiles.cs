@@ -47,7 +47,9 @@ namespace Gu.Localization.Tests.Sandbox
                     var cultureAssembly = Assembly.Load(File.ReadAllBytes(filename));
                     return ReadResourceSet(cultureAssembly);
                 }
-                catch (Exception)
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch
+#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     return null;
                 }
@@ -61,16 +63,12 @@ namespace Gu.Localization.Tests.Sandbox
                     return null;
                 }
 
-                using (var stream = assembly.GetManifestResourceStream(resourceName))
-                {
-                    using (var reader = new ResourceReader(stream))
-                    {
-                        var dictionary = reader.OfType<DictionaryEntry>()
-                                               .Where(x => x.Key is string && x.Value is string)
-                                               .ToDictionary(x => (string)x.Key, x => (string)x.Value);
-                        return dictionary;
-                    }
-                }
+                using var stream = assembly.GetManifestResourceStream(resourceName);
+                using var reader = new ResourceReader(stream);
+                var dictionary = reader.OfType<DictionaryEntry>()
+                                       .Where(x => x.Key is string && x.Value is string)
+                                       .ToDictionary(x => (string)x.Key, x => (string)x.Value);
+                return dictionary;
             }
 
             private static IReadOnlyDictionary<CultureInfo, string> FindCultureFileNames(Uri assemblyLocation)
