@@ -4,7 +4,7 @@ namespace Gu.Wpf.Localization.Demo.Controls
 
     public class DemoCustomControlAutomationPeer : FrameworkElementAutomationPeer
     {
-        public DemoCustomControlAutomationPeer(DemoCustomControl owner) 
+        public DemoCustomControlAutomationPeer(DemoCustomControl owner)
             : base(owner)
         {
         }

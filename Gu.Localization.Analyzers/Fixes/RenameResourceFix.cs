@@ -63,8 +63,8 @@ namespace Gu.Localization.Analyzers
                     UpdateXaml(project, property, newName);
                 }
 
-                var solution = await Renamer.RenameSymbolAsync(document.Project.Solution, property, newName, null, cancellationToken);
-                if (property.TrySingleDeclaration(cancellationToken, out PropertyDeclarationSyntax declaration))
+                var solution = await Renamer.RenameSymbolAsync(document.Project.Solution, property, newName, null, cancellationToken).ConfigureAwait(false);
+                if (property.TrySingleDeclaration(cancellationToken, out PropertyDeclarationSyntax? declaration))
                 {
                     var root = await document.GetSyntaxRootAsync(cancellationToken);
                     return solution.WithDocumentSyntaxRoot(
@@ -89,11 +89,11 @@ namespace Gu.Localization.Analyzers
                 if (Regex.IsMatch(csprojText, "<TargetFrameworks?\b"))
                 {
                     var csproj = XDocument.Parse(csprojText);
-                    if (csproj.Root is XElement root)
+                    if (csproj.Root is { } root)
                     {
                         foreach (var page in root.Descendants().Where(x => x.Name.LocalName == "Page"))
                         {
-                            if (page.Attribute("Include") is XAttribute attribute &&
+                            if (page.Attribute("Include") is { } attribute &&
                                 attribute.Value.EndsWith(".xaml"))
                             {
                                 var fileName = Path.Combine(directory, attribute.Value);
