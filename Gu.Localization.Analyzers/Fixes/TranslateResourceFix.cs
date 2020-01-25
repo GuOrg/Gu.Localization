@@ -16,8 +16,8 @@ namespace Gu.Localization.Analyzers
     internal class TranslateResourceFix : DocumentEditorCodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            "GULOC04",
-            "GULOC05");
+            Descriptors.GULOC04UseCustomTranslate.Id,
+            Descriptors.GULOC05TranslateUseResource.Id);
 
         protected override async Task RegisterCodeFixesAsync(DocumentEditorCodeFixContext context)
         {

@@ -11,8 +11,8 @@ namespace Gu.Localization.Analyzers
     internal class MemberAccessAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
-            GULOC04UseCustomTranslate.Descriptor,
-            GULOC05TranslateUseResource.Descriptor);
+            Descriptors.GULOC04UseCustomTranslate,
+            Descriptors.GULOC05TranslateUseResource);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -33,11 +33,11 @@ namespace Gu.Localization.Analyzers
                 if (Translate.TryFindCustomToString(context.SemanticModel.GetSymbolInfo(resources).Symbol as INamedTypeSymbol, out var custom))
                 {
                     var customCall = $"{custom.ContainingType.ToMinimalDisplayString(context.SemanticModel, memberAccess.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat)}.{custom.Name}(nameof({memberAccess}))";
-                    context.ReportDiagnostic(Diagnostic.Create(GULOC04UseCustomTranslate.Descriptor, memberAccess.GetLocation(), ImmutableDictionary<string, string>.Empty.Add(nameof(Translate), customCall)));
+                    context.ReportDiagnostic(Diagnostic.Create(Descriptors.GULOC04UseCustomTranslate, memberAccess.GetLocation(), ImmutableDictionary<string, string>.Empty.Add(nameof(Translate), customCall)));
                 }
                 else
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(GULOC05TranslateUseResource.Descriptor, context.Node.GetLocation()));
+                    context.ReportDiagnostic(Diagnostic.Create(Descriptors.GULOC05TranslateUseResource, context.Node.GetLocation()));
                 }
             }
         }

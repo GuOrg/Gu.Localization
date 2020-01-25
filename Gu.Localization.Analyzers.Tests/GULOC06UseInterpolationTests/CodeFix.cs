@@ -9,7 +9,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC06UseInterpolationTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new LiteralAnalyzer();
         private static readonly CodeFixProvider Fix = new MakeInterpolatedFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GULOC06UseInterpolation.Descriptor);
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GULOC06UseInterpolation);
 
         [Test]
         public static void Interpolated()

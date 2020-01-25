@@ -8,7 +8,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC01KeyExistsAnalyzerTests
     public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
-        private static readonly DiagnosticDescriptor Descriptor = GULOC01KeyExists.Descriptor;
+        private static readonly DiagnosticDescriptor Descriptor = Descriptors.GULOC01KeyExists;
 
         private static readonly string ResourcesCode = @"
 namespace RoslynSandbox.Properties {

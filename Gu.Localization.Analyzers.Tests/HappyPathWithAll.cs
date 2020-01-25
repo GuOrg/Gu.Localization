@@ -10,7 +10,7 @@ namespace Gu.Localization.Analyzers.Tests
 
     public class HappyPathWithAll
     {
-        private static readonly ImmutableArray<DiagnosticAnalyzer> AllAnalyzers = typeof(Gu.Localization.Analyzers.GULOC01KeyExists)
+        private static readonly ImmutableArray<DiagnosticAnalyzer> AllAnalyzers = typeof(Gu.Localization.Analyzers.Descriptors)
             .Assembly
             .GetTypes()
             .Where(typeof(DiagnosticAnalyzer).IsAssignableFrom)
@@ -48,11 +48,13 @@ namespace Gu.Localization.Analyzers.Tests
         [TestCaseSource(nameof(AllAnalyzers))]
         public void WithSyntaxErrors(DiagnosticAnalyzer analyzer)
         {
-            var testCode = @"
+            var code = @"
+namespace N
+{
     using System;
     using System.IO;
 
-    public class Foo : SyntaxError
+    public class C : SyntaxError
     {
         private readonly Stream stream = File.SyntaxError(string.Empty);
         private bool disposed;
@@ -72,8 +74,9 @@ namespace Gu.Localization.Analyzers.Tests
 
             base.Dispose(disposing);
         }
-    }";
-            RoslynAssert.NoAnalyzerDiagnostics(analyzer, testCode);
+    }
+}";
+            RoslynAssert.NoAnalyzerDiagnostics(analyzer, code);
         }
     }
 }

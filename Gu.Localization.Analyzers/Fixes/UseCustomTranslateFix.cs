@@ -14,7 +14,7 @@ namespace Gu.Localization.Analyzers
     internal class UseCustomTranslateFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            GULOC04UseCustomTranslate.Descriptor.Id);
+            Descriptors.GULOC04UseCustomTranslate.Id);
 
         public override FixAllProvider GetFixAllProvider() => null;
 

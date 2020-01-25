@@ -11,8 +11,8 @@ namespace Gu.Localization.Analyzers
     internal class LiteralAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
-            GULOC03UseResource.Descriptor,
-            GULOC06UseInterpolation.Descriptor);
+            Descriptors.GULOC03UseResource,
+            Descriptors.GULOC06UseInterpolation);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -28,12 +28,12 @@ namespace Gu.Localization.Analyzers
                 !string.IsNullOrWhiteSpace(literal.Token.ValueText) &&
                 !IsExcludedFile(literal.SyntaxTree.FilePath))
             {
-                context.ReportDiagnostic(Diagnostic.Create(GULOC03UseResource.Descriptor, context.Node.GetLocation()));
+                context.ReportDiagnostic(Diagnostic.Create(Descriptors.GULOC03UseResource, context.Node.GetLocation()));
 
                 if (literal.Token.ValueText.Contains("{") &&
                     literal.Token.ValueText.Contains("}"))
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(GULOC06UseInterpolation.Descriptor, context.Node.GetLocation()));
+                    context.ReportDiagnostic(Diagnostic.Create(Descriptors.GULOC06UseInterpolation, context.Node.GetLocation()));
                 }
             }
         }

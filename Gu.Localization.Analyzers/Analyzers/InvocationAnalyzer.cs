@@ -12,9 +12,9 @@ namespace Gu.Localization.Analyzers
     internal class InvocationAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
-            GULOC01KeyExists.Descriptor,
-            GULOC02UseNameOf.Descriptor,
-            GULOC04UseCustomTranslate.Descriptor);
+            Descriptors.GULOC01KeyExists,
+            Descriptors.GULOC02UseNameOf,
+            Descriptors.GULOC04UseCustomTranslate);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -41,7 +41,7 @@ namespace Gu.Localization.Analyzers
                         {
                             context.ReportDiagnostic(
                                 Diagnostic.Create(
-                                    GULOC02UseNameOf.Descriptor,
+                                    Descriptors.GULOC02UseNameOf,
                                     keyArgument.GetLocation(),
                                     ImmutableDictionary<string, string>.Empty.Add(
                                         nameof(MemberAccessExpressionSyntax),
@@ -49,7 +49,7 @@ namespace Gu.Localization.Analyzers
                         }
                         else if (keyArgument.Expression is MemberAccessExpressionSyntax)
                         {
-                            context.ReportDiagnostic(Diagnostic.Create(GULOC02UseNameOf.Descriptor, keyArgument.GetLocation()));
+                            context.ReportDiagnostic(Diagnostic.Create(Descriptors.GULOC02UseNameOf, keyArgument.GetLocation()));
                         }
                     }
 
@@ -57,15 +57,15 @@ namespace Gu.Localization.Analyzers
                     {
                         if (!KeyExists(keyArgument, resourcesType, context))
                         {
-                            context.ReportDiagnostic(Diagnostic.Create(GULOC01KeyExists.Descriptor, keyArgument.GetLocation()));
+                            context.ReportDiagnostic(Diagnostic.Create(Descriptors.GULOC01KeyExists, keyArgument.GetLocation()));
                         }
 
                         if (invocation.ArgumentList.Arguments.Count == 2 &&
-                            !GULOC04UseCustomTranslate.Descriptor.IsSuppressed(context.SemanticModel) &&
+                            !Descriptors.GULOC04UseCustomTranslate.IsSuppressed(context.SemanticModel) &&
                             TryGetCustom(target, resourcesType, out var custom))
                         {
                             var customCall = $"{custom.ContainingType.ToMinimalDisplayString(context.SemanticModel, invocation.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat)}.{custom.Name}({keyArgument})";
-                            context.ReportDiagnostic(Diagnostic.Create(GULOC04UseCustomTranslate.Descriptor, invocation.GetLocation(), ImmutableDictionary<string, string>.Empty.Add(nameof(Translate), customCall)));
+                            context.ReportDiagnostic(Diagnostic.Create(Descriptors.GULOC04UseCustomTranslate, invocation.GetLocation(), ImmutableDictionary<string, string>.Empty.Add(nameof(Translate), customCall)));
                         }
                     }
                 }
@@ -76,7 +76,7 @@ namespace Gu.Localization.Analyzers
                 {
                     if (!KeyExists(keyArgument, resourcesType, context))
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(GULOC01KeyExists.Descriptor, keyArgument.GetLocation()));
+                        context.ReportDiagnostic(Diagnostic.Create(Descriptors.GULOC01KeyExists, keyArgument.GetLocation()));
                     }
 
                     if (!IsNameOfKey(keyArgument))
@@ -87,7 +87,7 @@ namespace Gu.Localization.Analyzers
                         {
                             context.ReportDiagnostic(
                                 Diagnostic.Create(
-                                    GULOC02UseNameOf.Descriptor,
+                                    Descriptors.GULOC02UseNameOf,
                                     keyArgument.GetLocation(),
                                     ImmutableDictionary<string, string>.Empty.Add(
                                         nameof(MemberAccessExpressionSyntax),
@@ -95,7 +95,7 @@ namespace Gu.Localization.Analyzers
                         }
                         else if (Resources.IsResourceKey(keyArgument.Expression, out _))
                         {
-                            context.ReportDiagnostic(Diagnostic.Create(GULOC02UseNameOf.Descriptor, keyArgument.GetLocation()));
+                            context.ReportDiagnostic(Diagnostic.Create(Descriptors.GULOC02UseNameOf, keyArgument.GetLocation()));
                         }
                     }
                 }

@@ -12,10 +12,10 @@ namespace Gu.Localization.Analyzers
     internal class ResourceAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
-            GULOC07KeyDoesNotMatch.Descriptor,
-            GULOC08DuplicateNeutral.Descriptor,
-            GULOC09Duplicate.Descriptor,
-            GULOC10MissingTranslation.Descriptor);
+            Descriptors.GULOC07KeyDoesNotMatch,
+            Descriptors.GULOC08DuplicateNeutral,
+            Descriptors.GULOC09Duplicate,
+            Descriptors.GULOC10MissingTranslation);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -38,7 +38,7 @@ namespace Gu.Localization.Analyzers
                 {
                     context.ReportDiagnostic(
                         Diagnostic.Create(
-                            GULOC07KeyDoesNotMatch.Descriptor,
+                            Descriptors.GULOC07KeyDoesNotMatch,
                             propertyDeclaration.Identifier.GetLocation(),
                             ImmutableDictionary<string, string>.Empty.Add("Key", key),
                             key));
@@ -55,7 +55,7 @@ namespace Gu.Localization.Analyzers
                         {
                             context.ReportDiagnostic(
                                 Diagnostic.Create(
-                                    GULOC09Duplicate.Descriptor,
+                                    Descriptors.GULOC09Duplicate,
                                     propertyDeclaration.Identifier.GetLocation(),
                                     neutral));
                         }
@@ -63,7 +63,7 @@ namespace Gu.Localization.Analyzers
                         {
                             context.ReportDiagnostic(
                                 Diagnostic.Create(
-                                    GULOC08DuplicateNeutral.Descriptor,
+                                    Descriptors.GULOC08DuplicateNeutral,
                                     propertyDeclaration.Identifier.GetLocation(),
                                     neutral));
                         }
@@ -79,7 +79,7 @@ namespace Gu.Localization.Analyzers
                                            .Value;
                         context.ReportDiagnostic(
                             Diagnostic.Create(
-                                GULOC10MissingTranslation.Descriptor,
+                                Descriptors.GULOC10MissingTranslation,
                                 propertyDeclaration.Identifier.GetLocation(),
                                 culture,
                                 neutral));

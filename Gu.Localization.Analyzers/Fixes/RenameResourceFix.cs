@@ -21,7 +21,7 @@ namespace Gu.Localization.Analyzers
     internal class RenameResourceFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            GULOC07KeyDoesNotMatch.Descriptor.Id);
+            Descriptors.GULOC07KeyDoesNotMatch.Id);
 
         public override FixAllProvider GetFixAllProvider() => null;
 
