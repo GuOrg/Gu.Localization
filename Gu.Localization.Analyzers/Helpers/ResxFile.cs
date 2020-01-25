@@ -3,6 +3,7 @@ namespace Gu.Localization.Analyzers
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Text;
     using System.Xml.Linq;
@@ -31,15 +32,15 @@ namespace Gu.Localization.Analyzers
 
         internal Encoding Encoding { get; }
 
-        internal static bool TryGetDefault(INamedTypeSymbol resourcesType, out ResxFile resxFile)
+        internal static bool TryGetDefault(INamedTypeSymbol resourcesType, [NotNullWhen(true)] out ResxFile? resxFile)
         {
             resxFile = null;
             if (resourcesType != null &&
                 resourcesType.Name == "Resources" &&
                 resourcesType.TryFindProperty("ResourceManager", out _) &&
                 resourcesType.DeclaringSyntaxReferences.TrySingle(out var reference) &&
-                reference.SyntaxTree?.FilePath is string resourcesFileName &&
-                resourcesFileName.Replace("Resources.Designer.cs", "Resources.resx") is string fileName &&
+                reference.SyntaxTree?.FilePath is { } resourcesFileName &&
+                resourcesFileName.Replace("Resources.Designer.cs", "Resources.resx") is { } fileName &&
                 File.Exists(fileName))
             {
                 resxFile = Cache.AddOrUpdate(fileName, s => Create(s), (s, file) => Update(s, file));
@@ -48,9 +49,9 @@ namespace Gu.Localization.Analyzers
             return resxFile != null;
         }
 
-        internal static bool TryGetString(XElement data, out string value)
+        internal static bool TryGetString(XElement data, [NotNullWhen(true)] out string? value)
         {
-            if (data.Element("value") is XElement valueElement)
+            if (data.Element("value") is { } valueElement)
             {
                 value = valueElement.Value;
                 return true;
@@ -60,9 +61,9 @@ namespace Gu.Localization.Analyzers
             return false;
         }
 
-        internal static bool TryGetName(XElement data, out string value)
+        internal static bool TryGetName(XElement data, [NotNullWhen(true)] out string? value)
         {
-            if (data.Attribute("name") is XAttribute attribute)
+            if (data.Attribute("name") is { } attribute)
             {
                 value = attribute.Value;
                 return true;
@@ -72,7 +73,7 @@ namespace Gu.Localization.Analyzers
             return false;
         }
 
-        internal bool TryGetString(string key, out string value)
+        internal bool TryGetString(string key, [NotNullWhen(true)] out string? value)
         {
             value = null;
             return this.TryGetDataElement(key, out var data) &&
@@ -85,7 +86,7 @@ namespace Gu.Localization.Analyzers
             {
                 if (this.TryGetDataElement(oldName, out var data))
                 {
-                    if (data.Attribute("name") is XAttribute attribute &&
+                    if (data.Attribute("name") is { } attribute &&
                         attribute.Value == oldName)
                     {
                         attribute.Value = newName;
@@ -138,7 +139,7 @@ namespace Gu.Localization.Analyzers
             return old;
         }
 
-        private static ResxFile Create(string fileName)
+        private static ResxFile? Create(string fileName)
         {
             using (var reader = new StreamReader(File.OpenRead(fileName), Encoding.UTF8, detectEncodingFromByteOrderMarks: true))
             {
@@ -154,16 +155,14 @@ namespace Gu.Localization.Analyzers
 
         private void Save()
         {
-            using (var writer = new StreamWriter(File.Open(this.FileName, FileMode.Create, FileAccess.Write), this.Encoding))
-            {
-                this.Document.Save(writer);
-                this.lastWriteTimeUtc = File.GetLastWriteTimeUtc(this.FileName);
-            }
+            using var writer = new StreamWriter(File.Open(this.FileName, FileMode.Create, FileAccess.Write), this.Encoding);
+            this.Document.Save(writer);
+            this.lastWriteTimeUtc = File.GetLastWriteTimeUtc(this.FileName);
         }
 
         private bool TryGetDataElement(string key, out XElement element)
         {
-            if (this.Document.Root is XElement root)
+            if (this.Document.Root is { } root)
             {
                 foreach (var candidate in root.Elements("data"))
                 {

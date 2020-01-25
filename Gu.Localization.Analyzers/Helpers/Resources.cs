@@ -47,7 +47,7 @@ namespace Gu.Localization.Analyzers
             return resources != null;
         }
 
-        internal static bool IsResourceKey(ExpressionSyntax expression, out ExpressionSyntax resources)
+        internal static bool IsResourceKey(ExpressionSyntax expression, [NotNullWhen(true)] out ExpressionSyntax? resources)
         {
             resources = null;
             if (expression is MemberAccessExpressionSyntax resourceManager &&
@@ -59,7 +59,7 @@ namespace Gu.Localization.Analyzers
             return resources != null;
         }
 
-        internal static bool TryGetKey(string text, out string key)
+        internal static bool TryGetKey(string text, [NotNullWhen(true)] out string? key)
         {
             if (string.IsNullOrEmpty(text))
             {
@@ -96,7 +96,7 @@ namespace Gu.Localization.Analyzers
             return SyntaxFacts.IsValidIdentifier(key);
         }
 
-        internal static IEnumerable<INamedTypeSymbol> LookupResourceTypes(this SemanticModel semanticModel, int position, string name, INamespaceSymbol container = null)
+        internal static IEnumerable<INamedTypeSymbol> LookupResourceTypes(this SemanticModel semanticModel, int position, string name, INamespaceSymbol? container = null)
         {
             return LookupResourceTypesCore().Distinct();
 

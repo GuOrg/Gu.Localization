@@ -166,7 +166,7 @@ namespace Gu.Localization.Analyzers
                    arguments[0] is { Expression: MemberAccessExpressionSyntax _ };
         }
 
-        private static bool TryGetStringValue(ArgumentSyntax argument, out string result)
+        private static bool TryGetStringValue(ArgumentSyntax argument, [NotNullWhen(true)] out string? result)
         {
             result = null;
             if (argument?.Expression == null)
@@ -176,13 +176,16 @@ namespace Gu.Localization.Analyzers
 
             switch (argument.Expression)
             {
-                case LiteralExpressionSyntax literal when literal.IsKind(SyntaxKind.StringLiteralExpression):
+                case LiteralExpressionSyntax literal
+                    when literal.IsKind(SyntaxKind.StringLiteralExpression):
                     result = literal.Token.ValueText;
                     return true;
-                case LiteralExpressionSyntax literal when literal.IsKind(SyntaxKind.NullLiteralExpression):
+                case LiteralExpressionSyntax literal
+                    when literal.IsKind(SyntaxKind.NullLiteralExpression):
                     result = null;
                     return true;
-                case InvocationExpressionSyntax invocation when invocation.IsNameOf():
+                case InvocationExpressionSyntax invocation
+                    when invocation.IsNameOf():
                     if (invocation.ArgumentList != null &&
                         invocation.ArgumentList.Arguments.TrySingle(out var nameofArg))
                     {
@@ -199,7 +202,8 @@ namespace Gu.Localization.Analyzers
 
                     break;
 
-                case MemberAccessExpressionSyntax memberAccess when memberAccess.IsResources():
+                case MemberAccessExpressionSyntax memberAccess
+                    when memberAccess.IsResources():
                     result = string.Empty;
                     return true;
             }

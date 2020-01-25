@@ -85,18 +85,16 @@ namespace Gu.Localization.Analyzers
 
             internal static bool Contains(SyntaxNode syntaxRoot, string name)
             {
-                using (var walker = BorrowAndVisit(syntaxRoot, () => new UsingDirectiveWalker()))
+                using var walker = BorrowAndVisit(syntaxRoot, () => new UsingDirectiveWalker());
+                foreach (var directive in walker.usingDirectives)
                 {
-                    foreach (var directive in walker.usingDirectives)
+                    if (directive.Name.ToString() == name)
                     {
-                        if (directive.Name.ToString() == name)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
-
-                    return false;
                 }
+
+                return false;
             }
 
             protected override void Clear()

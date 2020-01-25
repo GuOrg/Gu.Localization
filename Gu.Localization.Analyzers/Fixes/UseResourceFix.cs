@@ -2,6 +2,7 @@ namespace Gu.Localization.Analyzers
 {
     using System.Collections.Immutable;
     using System.Composition;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Gu.Roslyn.AnalyzerExtensions;
@@ -159,10 +160,10 @@ namespace Gu.Localization.Analyzers
 
         private static async Task<Solution> AddAndUseResourceAsync(Document document, LiteralExpressionSyntax literal, ExpressionSyntax expression, string key, INamedTypeSymbol resourcesType, CancellationToken cancellationToken)
         {
-            if (await document.GetSyntaxRootAsync(cancellationToken) is SyntaxNode root &&
+            if (await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false) is { } root &&
                 resourcesType.DeclaringSyntaxReferences.TrySingle(out var declaration) &&
                 document.Project.Documents.TrySingle(x => x.FilePath == declaration.SyntaxTree.FilePath, out var designerDoc) &&
-                await designerDoc.GetSyntaxRootAsync(cancellationToken) is SyntaxNode designerRoot &&
+                await designerDoc.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false) is { } designerRoot &&
                 ResxFile.TryGetDefault(resourcesType, out var resx))
             {
                 resx.Add(key, literal.Token.ValueText);
@@ -180,7 +181,7 @@ namespace Gu.Localization.Analyzers
             {
                 // Adding a temp key so that we don't have a build error until next gen.
                 // public static string Key => ResourceManager.GetString("Key", resourceCulture);
-                if (designerRoot.DescendantNodes().TryLastOfType(out PropertyDeclarationSyntax property))
+                if (designerRoot.DescendantNodes().TryLastOfType(out PropertyDeclarationSyntax? property))
                 {
                     return designerRoot.InsertNodesAfter(
                         property,
@@ -205,7 +206,7 @@ namespace Gu.Localization.Analyzers
             }
         }
 
-        private static bool TryFindCustomTranslate(INamedTypeSymbol resources, out IMethodSymbol customTranslate)
+        private static bool TryFindCustomTranslate(INamedTypeSymbol resources, [NotNullWhen(true)] out IMethodSymbol? customTranslate)
         {
             if (Translate.TryFindCustomToString(resources, out customTranslate) &&
                 customTranslate.Parameters.TryFirst(out var parameter) &&

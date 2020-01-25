@@ -1,5 +1,6 @@
 namespace Gu.Localization.Analyzers
 {
+    using System;
     using System.Collections.Immutable;
     using System.Composition;
     using System.IO;
@@ -23,7 +24,7 @@ namespace Gu.Localization.Analyzers
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             Descriptors.GULOC07KeyDoesNotMatch.Id);
 
-        public override FixAllProvider GetFixAllProvider() => null;
+        public override FixAllProvider? GetFixAllProvider() => null;
 
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
@@ -66,7 +67,7 @@ namespace Gu.Localization.Analyzers
                 var solution = await Renamer.RenameSymbolAsync(document.Project.Solution, property, newName, null, cancellationToken).ConfigureAwait(false);
                 if (property.TrySingleDeclaration(cancellationToken, out PropertyDeclarationSyntax? declaration))
                 {
-                    var root = await document.GetSyntaxRootAsync(cancellationToken);
+                    var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
                     return solution.WithDocumentSyntaxRoot(
                         document.Id,
                         root.ReplaceNode(
@@ -82,7 +83,7 @@ namespace Gu.Localization.Analyzers
 
         private static void UpdateXaml(Project project, IPropertySymbol property, string newName)
         {
-            if (project.MetadataReferences.TryFirst(x => x.Display.EndsWith("System.Xaml.dll"), out _))
+            if (project.MetadataReferences.TryFirst(x => x.Display.EndsWith("System.Xaml.dll", StringComparison.Ordinal), out _))
             {
                 var directory = Path.GetDirectoryName(project.FilePath);
                 var csprojText = File.ReadAllText(project.FilePath);
@@ -94,7 +95,7 @@ namespace Gu.Localization.Analyzers
                         foreach (var page in root.Descendants().Where(x => x.Name.LocalName == "Page"))
                         {
                             if (page.Attribute("Include") is { } attribute &&
-                                attribute.Value.EndsWith(".xaml"))
+                                attribute.Value.EndsWith(".xaml", StringComparison.Ordinal))
                             {
                                 var fileName = Path.Combine(directory, attribute.Value);
                                 if (XamlFile.TryUpdateUsage(fileName, property, newName, out var xamlFile))
@@ -140,9 +141,8 @@ namespace Gu.Localization.Analyzers
 
             public override SyntaxNode VisitArgument(ArgumentSyntax node)
             {
-                if (node.Parent is ArgumentListSyntax argumentList &&
+                if (node.Parent is ArgumentListSyntax { Parent: InvocationExpressionSyntax invocation } argumentList &&
                     argumentList.Arguments.IndexOf(node) == 0 &&
-                    argumentList.Parent is InvocationExpressionSyntax invocation &&
                     invocation.TryGetMethodName(out var method) &&
                     method == "GetString")
                 {
@@ -155,9 +155,7 @@ namespace Gu.Localization.Analyzers
             public override SyntaxNode VisitLiteralExpression(LiteralExpressionSyntax node)
             {
                 if (node.IsKind(SyntaxKind.StringLiteralExpression) &&
-                    node.Parent is ArgumentSyntax argument &&
-                    argument.Parent is ArgumentListSyntax argumentList &&
-                    argumentList.Parent is InvocationExpressionSyntax invocation &&
+                    node.Parent is ArgumentSyntax { Parent: ArgumentListSyntax { Parent: InvocationExpressionSyntax invocation } } &&
                     invocation.TryGetMethodName(out var method) &&
                     method == "GetString")
                 {
