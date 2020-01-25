@@ -64,7 +64,7 @@ namespace Gu.Wpf.Localization
         {
             var assembly = typeof(LanguageSelector).Assembly;
             var names = assembly.GetManifestResourceNames();
-            var match = names.Single(x => x.EndsWith(".g.resources"));
+            var match = names.Single(x => x.EndsWith(".g.resources", StringComparison.Ordinal));
             Debug.Assert(match != null, "match != null");
             //// ReSharper disable once AssignNullToNotNullAttribute
             using var reader = new ResourceReader(assembly.GetManifestResourceStream(match));

@@ -1,6 +1,7 @@
 namespace Gu.Localization.Analyzers
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Text.RegularExpressions;
     using Gu.Roslyn.AnalyzerExtensions;
@@ -14,7 +15,7 @@ namespace Gu.Localization.Analyzers
         {
             switch (candidate)
             {
-                case MemberAccessExpressionSyntax memberAccess when memberAccess.Expression is IdentifierNameSyntax identifierName:
+                case MemberAccessExpressionSyntax { Expression: IdentifierNameSyntax identifierName } memberAccess:
                     if (identifierName.Identifier.ValueText == "Resources")
                     {
                         return true;
@@ -33,7 +34,7 @@ namespace Gu.Localization.Analyzers
             return false;
         }
 
-        internal static bool IsResourceManager(ExpressionSyntax expression, out ExpressionSyntax resources)
+        internal static bool IsResourceManager(ExpressionSyntax expression, [NotNullWhen(true)] out ExpressionSyntax? resources)
         {
             resources = null;
             if (expression is MemberAccessExpressionSyntax resourceManager &&

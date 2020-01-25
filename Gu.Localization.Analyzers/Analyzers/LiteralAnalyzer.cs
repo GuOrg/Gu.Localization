@@ -1,5 +1,6 @@
 namespace Gu.Localization.Analyzers
 {
+    using System;
     using System.Collections.Immutable;
     using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
@@ -40,10 +41,10 @@ namespace Gu.Localization.Analyzers
 
         private static bool IsExcludedFile(string fileName)
         {
-            return !fileName.EndsWith(".cs") ||
-                   fileName.EndsWith(".g.cs") ||
-                   fileName.EndsWith("Designer.cs") ||
-                   fileName.EndsWith("AssemblyInfo.cs");
+            return !fileName.EndsWith(".cs", StringComparison.Ordinal) ||
+                   fileName.EndsWith(".g.cs", StringComparison.Ordinal) ||
+                   fileName.EndsWith("Designer.cs", StringComparison.Ordinal) ||
+                   fileName.EndsWith("AssemblyInfo.cs", StringComparison.Ordinal);
         }
     }
 }

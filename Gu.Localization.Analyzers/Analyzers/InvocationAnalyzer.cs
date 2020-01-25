@@ -1,6 +1,7 @@
 namespace Gu.Localization.Analyzers
 {
     using System.Collections.Immutable;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
@@ -109,10 +110,7 @@ namespace Gu.Localization.Analyzers
                 return resourcesType.GetMembers(key).Any();
             }
 
-            if (keyArgument.Expression is InvocationExpressionSyntax invocation &&
-                invocation.ArgumentList is ArgumentListSyntax argumentList &&
-                argumentList.Arguments.Count == 0 &&
-                invocation.Expression is MemberAccessExpressionSyntax memberAccess &&
+            if (keyArgument.Expression is InvocationExpressionSyntax { ArgumentList: { Arguments: { Count: 0 } }, Expression: MemberAccessExpressionSyntax memberAccess } &&
                 context.SemanticModel.TryGetType(memberAccess.Expression, context.CancellationToken, out var candidateType) &&
                 candidateType.TypeKind == TypeKind.Enum &&
                 candidateType is INamedTypeSymbol enumType)
@@ -131,7 +129,7 @@ namespace Gu.Localization.Analyzers
             return true; // Assuming ok here.
         }
 
-        private static bool TryGetCustom(IMethodSymbol target, INamedTypeSymbol resourcesType, out IMethodSymbol custom)
+        private static bool TryGetCustom(IMethodSymbol target, INamedTypeSymbol resourcesType, [NotNullWhen(true)] out IMethodSymbol? custom)
         {
             if (target == KnownSymbol.Translator.Translate &&
                 Translate.TryFindCustomToString(resourcesType, out custom))
@@ -151,7 +149,7 @@ namespace Gu.Localization.Analyzers
             bool CanFix(IMethodSymbol candidate)
             {
                 if (candidate.Parameters.TryFirst(out var parameter) &&
-                    parameter.Type == KnownSymbol.String)
+                    parameter.Type.SpecialType == SpecialType.System_String)
                 {
                     return candidate.Parameters.Length == 0 ||
                            (candidate.Parameters.TryElementAt(1, out parameter) &&
@@ -164,11 +162,8 @@ namespace Gu.Localization.Analyzers
 
         private static bool IsNameOfKey(ArgumentSyntax argument)
         {
-            return argument.Expression is InvocationExpressionSyntax invocation &&
-                   invocation.IsNameOf() &&
-                   invocation.ArgumentList is ArgumentListSyntax argumentList &&
-                   argumentList.Arguments.TrySingle(out var keyArg) &&
-                   keyArg.Expression is MemberAccessExpressionSyntax;
+            return argument.Expression is InvocationExpressionSyntax { Expression: IdentifierNameSyntax { Identifier: { ValueText: "nameof" } }, ArgumentList: { Arguments: { Count: 1 } arguments } argumentList } &&
+                   arguments[0] is { Expression: MemberAccessExpressionSyntax _ };
         }
 
         private static bool TryGetStringValue(ArgumentSyntax argument, out string result)

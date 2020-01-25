@@ -28,8 +28,7 @@ namespace Gu.Localization.Analyzers
         {
             if (!context.IsExcludedFromAnalysis() &&
                 context.Node is PropertyDeclarationSyntax propertyDeclaration &&
-                context.ContainingSymbol is IPropertySymbol property &&
-                property.Type == KnownSymbol.String &&
+                context.ContainingSymbol is IPropertySymbol { Type: { SpecialType: SpecialType.System_String } } property &&
                 ResxFile.TryGetDefault(property.ContainingType, out var resx) &&
                 resx.TryGetString(property.Name, out var neutral))
             {

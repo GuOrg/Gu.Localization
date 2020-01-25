@@ -1,5 +1,6 @@
 namespace Gu.Localization.Analyzers
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
@@ -8,7 +9,7 @@ namespace Gu.Localization.Analyzers
 
     internal static class Translate
     {
-        internal static bool IsCustomTranslateMethod(this InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, out INamedTypeSymbol resourcesType, out IMethodSymbol method)
+        internal static bool IsCustomTranslateMethod(this InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, [NotNullWhen(true)] out INamedTypeSymbol? resourcesType, [NotNullWhen(true)] out IMethodSymbol? method)
         {
             method = null;
             resourcesType = null;
@@ -41,7 +42,7 @@ namespace Gu.Localization.Analyzers
             }
         }
 
-        internal static bool TryFindCustomToString(INamedTypeSymbol resourcesType, out IMethodSymbol method)
+        internal static bool TryFindCustomToString(INamedTypeSymbol resourcesType, [NotNullWhen(true)] out IMethodSymbol? method)
         {
             method = null;
             if (resourcesType == null)
@@ -69,7 +70,7 @@ namespace Gu.Localization.Analyzers
             }
         }
 
-        internal static bool TryFindCustomToTranslation(INamedTypeSymbol resourcesType, out IMethodSymbol method)
+        internal static bool TryFindCustomToTranslation(INamedTypeSymbol resourcesType, [NotNullWhen(true)] out IMethodSymbol? method)
         {
             method = null;
             if (resourcesType == null)
