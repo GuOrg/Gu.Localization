@@ -18,10 +18,10 @@ namespace Gu.Localization.Analyzers
 
     [Shared]
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(RenameResourceFix))]
-    public class RenameResourceFix : CodeFixProvider
+    internal class RenameResourceFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            "GULOC07");
+            GULOC07KeyDoesNotMatch.Descriptor.Id);
 
         public override FixAllProvider GetFixAllProvider() => null;
 

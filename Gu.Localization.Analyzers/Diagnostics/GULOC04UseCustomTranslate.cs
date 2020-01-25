@@ -4,10 +4,8 @@ namespace Gu.Localization.Analyzers
 
     public static class GULOC04UseCustomTranslate
     {
-        public const string DiagnosticId = "GULOC04";
-
         public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
-            id: DiagnosticId,
+            id: "GULOC04",
             title: "Use custom translate.",
             messageFormat: "Use custom translate.",
             category: AnalyzerCategory.Correctness,

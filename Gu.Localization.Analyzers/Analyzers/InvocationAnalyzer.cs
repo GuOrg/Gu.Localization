@@ -26,8 +26,7 @@ namespace Gu.Localization.Analyzers
         private static void Handle(SyntaxNodeAnalysisContext context)
         {
             if (!context.IsExcludedFromAnalysis() &&
-                context.Node is InvocationExpressionSyntax invocation &&
-                invocation.ArgumentList is ArgumentListSyntax argumentList)
+                context.Node is InvocationExpressionSyntax { ArgumentList: { } argumentList } invocation)
             {
                 if (argumentList.Arguments.TryFirst(out var resourceManagerArgument) &&
                     Resources.IsResourceManager(resourceManagerArgument.Expression, out var resources) &&

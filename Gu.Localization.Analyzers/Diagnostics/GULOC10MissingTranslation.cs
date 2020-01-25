@@ -4,10 +4,8 @@ namespace Gu.Localization.Analyzers
 
     public static class GULOC10MissingTranslation
     {
-        public const string DiagnosticId = "GULOC10";
-
         public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
-            id: DiagnosticId,
+            id: "GULOC10",
             title: "Missing translation.",
             messageFormat: "The resource does not have translation to '{0}', the neutral string is '{1}'",
             category: AnalyzerCategory.Correctness,

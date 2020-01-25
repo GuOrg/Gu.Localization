@@ -11,16 +11,16 @@ namespace Gu.Localization.Analyzers
 
     [Shared]
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(UseCustomTranslateFix))]
-    public class UseCustomTranslateFix : CodeFixProvider
+    internal class UseCustomTranslateFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            "GULOC04");
+            GULOC04UseCustomTranslate.Descriptor.Id);
 
         public override FixAllProvider GetFixAllProvider() => null;
 
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
-            if (await context.Document.GetSyntaxRootAsync(context.CancellationToken) is SyntaxNode syntaxRoot)
+            if (await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false) is { } syntaxRoot)
             {
                 foreach (var diagnostic in context.Diagnostics)
                 {

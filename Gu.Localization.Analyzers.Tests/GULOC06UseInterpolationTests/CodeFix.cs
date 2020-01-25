@@ -1,4 +1,4 @@
-﻿namespace Gu.Localization.Analyzers.Tests.GULOC06UseInterpolationTests
+namespace Gu.Localization.Analyzers.Tests.GULOC06UseInterpolationTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.CodeFixes;
@@ -9,7 +9,7 @@
     {
         private static readonly DiagnosticAnalyzer Analyzer = new LiteralAnalyzer();
         private static readonly CodeFixProvider Fix = new MakeInterpolatedFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GULOC06");
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GULOC06UseInterpolation.Descriptor);
 
         [Test]
         public static void Interpolated()

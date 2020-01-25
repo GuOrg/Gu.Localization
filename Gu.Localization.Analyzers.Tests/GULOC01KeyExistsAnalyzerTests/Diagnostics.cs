@@ -7,7 +7,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC01KeyExistsAnalyzerTests
     public static class Diagnostics
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GULOC01");
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GULOC01KeyExists.Descriptor);
 
         private static readonly string ResourcesCode = @"
 namespace RoslynSandbox.Properties {

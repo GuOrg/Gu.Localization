@@ -4,10 +4,8 @@ namespace Gu.Localization.Analyzers
 
     public static class GULOC05TranslateUseResource
     {
-        public const string DiagnosticId = "GULOC05";
-
         public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
-            id: DiagnosticId,
+            id: "GULOC05",
             title: "Translate resource.",
             messageFormat: "Translate resource.",
             category: AnalyzerCategory.Correctness,

@@ -4,10 +4,8 @@ namespace Gu.Localization.Analyzers
 
     public static class GULOC08DuplicateNeutral
     {
-        public const string DiagnosticId = "GULOC08";
-
         public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
-            id: DiagnosticId,
+            id: "GULOC08",
             title: "More than one resource has the same neutral string.",
             messageFormat: "The duplicated neutral string is {0}",
             category: AnalyzerCategory.Correctness,

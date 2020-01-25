@@ -4,10 +4,8 @@ namespace Gu.Localization.Analyzers
 
     public static class GULOC09Duplicate
     {
-        public const string DiagnosticId = "GULOC09";
-
         public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
-            id: DiagnosticId,
+            id: "GULOC09",
             title: "The resource is a duplicate in all cultures.",
             messageFormat: "The duplicated neutral string is {0}",
             category: AnalyzerCategory.Correctness,

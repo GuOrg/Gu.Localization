@@ -11,10 +11,10 @@ namespace Gu.Localization.Analyzers
 
     [Shared]
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(UseNameOfFix))]
-    public class UseNameOfFix : DocumentEditorCodeFixProvider
+    internal class UseNameOfFix : DocumentEditorCodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            "GULOC02");
+            GULOC01KeyExists.Descriptor.Id);
 
         protected override async Task RegisterCodeFixesAsync(DocumentEditorCodeFixContext context)
         {

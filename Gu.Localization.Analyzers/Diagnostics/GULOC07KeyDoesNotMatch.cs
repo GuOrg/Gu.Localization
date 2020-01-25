@@ -4,10 +4,8 @@ namespace Gu.Localization.Analyzers
 
     public static class GULOC07KeyDoesNotMatch
     {
-        public const string DiagnosticId = "GULOC07";
-
         public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
-            id: DiagnosticId,
+            id: "GULOC07",
             title: "Key does not match.",
             messageFormat: "Expected the name to be {0}",
             category: AnalyzerCategory.Correctness,

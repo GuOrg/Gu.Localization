@@ -17,14 +17,14 @@ namespace Gu.Localization.Analyzers
     public class UseResourceFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            "GULOC03");
+            GULOC03UseResource.Descriptor.Id);
 
-        public override FixAllProvider GetFixAllProvider() => null;
+        public override FixAllProvider? GetFixAllProvider() => null;
 
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
-            if (await context.Document.GetSyntaxRootAsync(context.CancellationToken) is SyntaxNode syntaxRoot &&
-                await context.Document.GetSemanticModelAsync(context.CancellationToken) is SemanticModel semanticModel)
+            if (await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false) is { } syntaxRoot &&
+                await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false) is { } semanticModel)
             {
                 foreach (var diagnostic in context.Diagnostics)
                 {

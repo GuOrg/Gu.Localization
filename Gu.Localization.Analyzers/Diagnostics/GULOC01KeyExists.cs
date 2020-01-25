@@ -4,10 +4,8 @@ namespace Gu.Localization.Analyzers
 
     public static class GULOC01KeyExists
     {
-        public const string DiagnosticId = "GULOC01";
-
         public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
-            id: DiagnosticId,
+            id: "GULOC01",
             title: "Key does not exist.",
             messageFormat: "Key does not exist.",
             category: AnalyzerCategory.Correctness,

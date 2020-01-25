@@ -4,10 +4,8 @@ namespace Gu.Localization.Analyzers
 
     public static class GULOC02UseNameOf
     {
-        public const string DiagnosticId = "GULOC02";
-
         public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
-            id: DiagnosticId,
+            id: "GULOC02",
             title: "Use nameof(key).",
             messageFormat: "Use nameof(key).",
             category: AnalyzerCategory.Correctness,

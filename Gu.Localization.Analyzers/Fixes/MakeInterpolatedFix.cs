@@ -12,10 +12,10 @@ namespace Gu.Localization.Analyzers
 
     [Shared]
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MakeInterpolatedFix))]
-    public class MakeInterpolatedFix : CodeFixProvider
+    internal class MakeInterpolatedFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            "GULOC06");
+            GULOC06UseInterpolation.Descriptor.Id);
 
         public override FixAllProvider? GetFixAllProvider() => null;
 

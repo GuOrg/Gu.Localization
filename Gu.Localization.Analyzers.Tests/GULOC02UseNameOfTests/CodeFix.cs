@@ -9,7 +9,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC02UseNameOfTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly CodeFixProvider Fix = new UseNameOfFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GULOC02");
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GULOC02UseNameOf.Descriptor);
 
         private static readonly string ResourcesCode = @"
 namespace RoslynSandbox.Properties {
