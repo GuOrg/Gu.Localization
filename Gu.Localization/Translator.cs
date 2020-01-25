@@ -99,7 +99,7 @@ namespace Gu.Localization
                     throw new ArgumentNullException(nameof(resourceManager));
                 }
 
-                result = string.Format(Properties.Resources.NullManagerFormat, key);
+                result = string.Format(CultureInfo.InvariantCulture, Properties.Resources.NullManagerFormat, key);
                 return false;
             }
 
@@ -147,11 +147,11 @@ namespace Gu.Localization
                     var arg = string.IsNullOrEmpty(neutral)
                                   ? key
                                   : neutral;
-                    result = string.Format(Properties.Resources.MissingCultureFormat, arg);
+                    result = string.Format(CultureInfo.InvariantCulture, Properties.Resources.MissingCultureFormat, arg);
                     return false;
                 }
 
-                result = string.Format(Properties.Resources.MissingCultureFormat, key);
+                result = string.Format(CultureInfo.InvariantCulture, Properties.Resources.MissingCultureFormat, key);
                 return false;
             }
 
@@ -178,7 +178,7 @@ namespace Gu.Localization
                     var arg = string.IsNullOrEmpty(neutral)
                                   ? key
                                   : neutral;
-                    result = string.Format(Properties.Resources.MissingTranslationFormat, arg);
+                    result = string.Format(CultureInfo.InvariantCulture, Properties.Resources.MissingTranslationFormat, arg);
                     return false;
                 }
 
@@ -189,7 +189,7 @@ namespace Gu.Localization
                     throw new ArgumentOutOfRangeException(nameof(key), message);
                 }
 
-                result = string.Format(Properties.Resources.MissingKeyFormat, key);
+                result = string.Format(CultureInfo.InvariantCulture, Properties.Resources.MissingKeyFormat, key);
                 return false;
             }
 

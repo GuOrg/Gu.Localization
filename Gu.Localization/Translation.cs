@@ -110,7 +110,7 @@ namespace Gu.Localization
                 throw new ArgumentOutOfRangeException(nameof(key), $"The resourcemanager: {resourceManager.BaseName} does not have the key: {key}");
             }
 
-            return new StaticTranslation(string.Format(Properties.Resources.MissingKeyFormat, key), key, errorHandling);
+            return new StaticTranslation(string.Format(CultureInfo.InvariantCulture, Properties.Resources.MissingKeyFormat, key), key, errorHandling);
         }
 
         private class CachedTranslation
