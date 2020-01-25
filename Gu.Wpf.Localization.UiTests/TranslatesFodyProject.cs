@@ -15,34 +15,30 @@ namespace Gu.Wpf.Localization.UiTests
         [Test]
         public void DetectsLanguages()
         {
-            using (var application = Application.AttachOrLaunch("Gu.Wpf.Localization.Demo.Fody.exe"))
-            {
-                var window = application.MainWindow;
-                var comboBox = window.FindComboBox("LanguageComboBox");
-                var expected = new[] { "English (United Kingdom)", "Nederlands (Nederland)", "svenska (Sverige)" };
-                var actual = comboBox.Items.Select(x => x.Text).ToArray();
-                CollectionAssert.AreEquivalent(expected, actual);
-            }
+            using var application = Application.AttachOrLaunch("Gu.Wpf.Localization.Demo.Fody.exe");
+            var window = application.MainWindow;
+            var comboBox = window.FindComboBox("LanguageComboBox");
+            var expected = new[] { "English (United Kingdom)", "Nederlands (Nederland)", "svenska (Sverige)" };
+            var actual = comboBox.Items.Select(x => x.Text).ToArray();
+            CollectionAssert.AreEquivalent(expected, actual);
         }
 
         [Test]
         public void Translates()
         {
-            using (var application = Application.AttachOrLaunch("Gu.Wpf.Localization.Demo.Fody.exe"))
-            {
-                var window = application.MainWindow;
-                var comboBox = window.FindComboBox("LanguageComboBox");
-                var label = window.FindLabel("TranslatedLabel");
+            using var application = Application.AttachOrLaunch("Gu.Wpf.Localization.Demo.Fody.exe");
+            var window = application.MainWindow;
+            var comboBox = window.FindComboBox("LanguageComboBox");
+            var label = window.FindLabel("TranslatedLabel");
 
-                comboBox.Select("English (United Kingdom)");
-                Assert.AreEqual("English", label.Text);
+            comboBox.Select("English (United Kingdom)");
+            Assert.AreEqual("English", label.Text);
 
-                comboBox.Select("Nederlands (Nederland)");
-                Assert.AreEqual("Nederlands", label.Text);
+            comboBox.Select("Nederlands (Nederland)");
+            Assert.AreEqual("Nederlands", label.Text);
 
-                comboBox.Select("svenska (Sverige)");
-                Assert.AreEqual("Svenska", label.Text);
-            }
+            comboBox.Select("svenska (Sverige)");
+            Assert.AreEqual("Svenska", label.Text);
         }
     }
 }

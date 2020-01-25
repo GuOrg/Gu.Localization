@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <CodeAnalysisRuleSet>Gu.Wpf.Localization.UiTests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 

@@ -14,32 +14,28 @@ namespace Gu.Wpf.Localization.UiTests
         [Test]
         public void EffectiveCulture()
         {
-            using (var application = Application.AttachOrLaunch(StartInfo.WithNeutralLanguageProject))
-            {
-                var window = application.MainWindow;
-                window.FindRadioButton("en").IsChecked = true;
-                Assert.AreEqual("en", window.FindTextBlock("CurrentCultureTextBlock").Text);
-                window.FindRadioButton("pt").IsChecked = true;
-                Assert.AreEqual("pt", window.FindTextBlock("CurrentCultureTextBlock").Text);
-            }
+            using var application = Application.AttachOrLaunch(StartInfo.WithNeutralLanguageProject);
+            var window = application.MainWindow;
+            window.FindRadioButton("en").IsChecked = true;
+            Assert.AreEqual("en", window.FindTextBlock("CurrentCultureTextBlock").Text);
+            window.FindRadioButton("pt").IsChecked = true;
+            Assert.AreEqual("pt", window.FindTextBlock("CurrentCultureTextBlock").Text);
         }
 
         [Test]
         public void VanillaXaml()
         {
-            using (var application = Application.AttachOrLaunch(StartInfo.WithNeutralLanguageProject))
-            {
-                var window = application.MainWindow;
-                window.FindRadioButton("en").IsChecked = true;
-                var groupBox = window.FindGroupBox("Vanilla xaml");
-                Assert.AreEqual("English", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
+            using var application = Application.AttachOrLaunch(StartInfo.WithNeutralLanguageProject);
+            var window = application.MainWindow;
+            window.FindRadioButton("en").IsChecked = true;
+            var groupBox = window.FindGroupBox("Vanilla xaml");
+            Assert.AreEqual("English", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
 
-                window.FindRadioButton("pt").IsChecked = true;
-                Assert.AreEqual("Português", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
+            window.FindRadioButton("pt").IsChecked = true;
+            Assert.AreEqual("Português", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
 
-                window.FindRadioButton("en").IsChecked = true;
-                Assert.AreEqual("English", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
-            }
+            window.FindRadioButton("en").IsChecked = true;
+            Assert.AreEqual("English", groupBox.FindTextBlock("AllLanguagesTextBlock").Text);
         }
     }
 }
