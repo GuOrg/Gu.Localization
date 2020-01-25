@@ -32,7 +32,7 @@ namespace Gu.Wpf.Localization
         /// A string that identifies the member to make a reference to. This string uses the format prefix:typeName.fieldOrPropertyName.
         /// prefix is the mapping prefix for a XAML namespace, and is only required to reference static values that are not mapped to the default XAML namespace.
         /// </param>
-        /// <exception cref="T:System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="member"/> is null.
         /// </exception>
         public StaticExtension(string member)
@@ -77,7 +77,9 @@ namespace Gu.Wpf.Localization
 
                 return CreateBindingExpression(manager, this.Member, serviceProvider);
             }
-            catch (Exception)
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 return string.Format(CultureInfo.InvariantCulture, Resources.UnknownErrorFormat, this.Member);
             }

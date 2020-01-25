@@ -28,6 +28,11 @@ namespace Gu.Wpf.Localization
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static CultureInfo GetCulture(this UIElement element)
         {
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
             return (CultureInfo)element.GetValue(CultureProperty);
         }
 
@@ -36,6 +41,11 @@ namespace Gu.Wpf.Localization
         /// <param name="value">Culture property value.</param>
         public static void SetCulture(this UIElement element, CultureInfo value)
         {
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
             element.SetValue(CultureProperty, value);
         }
 

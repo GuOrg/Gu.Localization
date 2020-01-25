@@ -16,7 +16,7 @@ namespace Gu.Wpf.Localization
     public class EnumExtension : MarkupExtension
     {
         /// <summary>Gets or sets the <see cref="ResourceManager"/> with translations for <see cref="Member"/>.</summary>
-        public ResourceManager ResourceManager { get; set; }
+        public ResourceManager? ResourceManager { get; set; }
 
         /// <summary>Gets or sets the enum member.</summary>
         public IFormattable Member { get; set; }
@@ -38,7 +38,9 @@ namespace Gu.Wpf.Localization
 
                 return StaticExtension.CreateBindingExpression(this.ResourceManager, this.Member.ToString(), serviceProvider);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 return string.Format(CultureInfo.InvariantCulture, Resources.UnknownErrorFormat, this.Member);
             }

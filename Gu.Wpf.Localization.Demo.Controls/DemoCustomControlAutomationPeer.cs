@@ -1,10 +1,11 @@
-﻿namespace Gu.Wpf.Localization.Demo.Controls
+namespace Gu.Wpf.Localization.Demo.Controls
 {
     using System.Windows.Automation.Peers;
 
     public class DemoCustomControlAutomationPeer : FrameworkElementAutomationPeer
     {
-        public DemoCustomControlAutomationPeer(DemoCustomControl owner) : base(owner)
+        public DemoCustomControlAutomationPeer(DemoCustomControl owner) 
+            : base(owner)
         {
         }
 
