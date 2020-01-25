@@ -17,7 +17,7 @@ namespace Gu.Localization.Analyzers
     public class UseResourceFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            GULOC03UseResource.DiagnosticId);
+            "GULOC03");
 
         public override FixAllProvider GetFixAllProvider() => null;
 

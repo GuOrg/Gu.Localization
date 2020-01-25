@@ -14,7 +14,7 @@ namespace Gu.Localization.Analyzers
     public class UseNameOfFix : DocumentEditorCodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            GULOC02UseNameOf.DiagnosticId);
+            "GULOC02");
 
         protected override async Task RegisterCodeFixesAsync(DocumentEditorCodeFixContext context)
         {

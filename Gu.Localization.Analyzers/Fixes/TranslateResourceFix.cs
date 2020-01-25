@@ -16,8 +16,8 @@ namespace Gu.Localization.Analyzers
     public class TranslateResourceFix : DocumentEditorCodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            GULOC04UseCustomTranslate.DiagnosticId,
-            GULOC05TranslateUseResource.DiagnosticId);
+            "GULOC04",
+            "GULOC05");
 
         protected override async Task RegisterCodeFixesAsync(DocumentEditorCodeFixContext context)
         {
@@ -27,7 +27,7 @@ namespace Gu.Localization.Analyzers
             {
                 if (syntaxRoot.FindNode(diagnostic.Location.SourceSpan) is MemberAccessExpressionSyntax memberAccess)
                 {
-                    if (diagnostic.Id == GULOC04UseCustomTranslate.DiagnosticId &&
+                    if (diagnostic.Id == "GULOC04" &&
                         diagnostic.Properties.TryGetValue(nameof(Translate), out var call))
                     {
                         context.RegisterCodeFix(

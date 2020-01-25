@@ -15,7 +15,7 @@ namespace Gu.Localization.Analyzers
     public class MakeInterpolatedFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
-            GULOC06UseInterpolation.DiagnosticId);
+            "GULOC06");
 
         public override FixAllProvider? GetFixAllProvider() => null;
 
