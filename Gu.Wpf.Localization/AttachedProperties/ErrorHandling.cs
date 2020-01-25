@@ -3,7 +3,7 @@ namespace Gu.Wpf.Localization
     using System.Windows;
 
     /// <summary>Provides an attached property for setting how the <see cref="StaticExtension"/> handles errors.</summary>
-    public static class ErrorHandling
+    public class ErrorHandling
     {
         /// <summary>
         /// Identifies the mode property.
