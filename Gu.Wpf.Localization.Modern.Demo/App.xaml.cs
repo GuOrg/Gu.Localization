@@ -1,10 +1,7 @@
-﻿using System.Windows;
-
 namespace Gu.Wpf.Localization.Modern.Demo
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
+    using System.Windows;
+
     public partial class App : Application
     {
     }
