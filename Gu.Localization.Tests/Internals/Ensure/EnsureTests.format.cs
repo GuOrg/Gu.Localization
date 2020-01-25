@@ -1,4 +1,4 @@
-﻿// ReSharper disable UnusedVariable
+// ReSharper disable UnusedVariable
 namespace Gu.Localization.Tests.Internals
 {
     using System;
@@ -8,32 +8,32 @@ namespace Gu.Localization.Tests.Internals
     public class EnsureTests
     {
         public static FormatData[] Valids => new[]
-                                          {
-                                              new FormatData(@"some string", null),
-                                              new FormatData(@"some string", new object[0]),
-                                              new FormatData(@"string with {0} parameter", new object[] { 1 }),
-                                              new FormatData(@"string with {0} parameter {0} in to places", new object[] { 1 }),
-                                              new FormatData(@"string with {0} parameter {1} in to places", new object[] { 2, 2 }),
-                                              new FormatData(@"string with {0} parameter {1} in to places {0}", new object[] { 2, 2 }),
-                                              new FormatData("string with {0} parameter {1} in {2} places", new object[] { 1, 2, 3 }),
-                                          };
+        {
+            new FormatData(@"some string", null),
+            new FormatData(@"some string", Array.Empty<object>()),
+            new FormatData(@"string with {0} parameter", new object[] { 1 }),
+            new FormatData(@"string with {0} parameter {0} in to places", new object[] { 1 }),
+            new FormatData(@"string with {0} parameter {1} in to places", new object[] { 2, 2 }),
+            new FormatData(@"string with {0} parameter {1} in to places {0}", new object[] { 2, 2 }),
+            new FormatData("string with {0} parameter {1} in {2} places", new object[] { 1, 2, 3 }),
+        };
 
         public static FormatData[] InValids => new[]
-                    {
-                        new FormatData("some string", new object[] { 1 }),
-                        new FormatData("string with {0} parameter", null),
-                        new FormatData("string with {1} parameter", new object[] { 1 }),
-                        new FormatData("string with {0} parameter {2}", new object[] { 1, 2 }),
-                        new FormatData("string with {0} parameter", new object[0]),
-                        new FormatData("string with {0} parameter", new object[] { 1, 2 }),
-                        new FormatData("string with {0} parameter {0} in to places", null),
-                        new FormatData("string with {0} parameter {0} in to places", new object[0]),
-                        new FormatData("string with {0} parameter {0} in to places", new object[] { 1, 2 }),
-                        new FormatData("string with {0} parameter {1} in to places", null),
-                        new FormatData("string with {0} parameter {1} in to places", new object[0]),
-                        new FormatData("string with {0} parameter {1} in to places", new object[] { 1 }),
-                        new FormatData("string with {0} parameter {1} in to places", new object[] { 1, 2, 3 }),
-                    };
+        {
+            new FormatData("some string", new object[] { 1 }),
+            new FormatData("string with {0} parameter", null),
+            new FormatData("string with {1} parameter", new object[] { 1 }),
+            new FormatData("string with {0} parameter {2}", new object[] { 1, 2 }),
+            new FormatData("string with {0} parameter", Array.Empty<object>()),
+            new FormatData("string with {0} parameter", new object[] { 1, 2 }),
+            new FormatData("string with {0} parameter {0} in to places", null),
+            new FormatData("string with {0} parameter {0} in to places", Array.Empty<object>()),
+            new FormatData("string with {0} parameter {0} in to places", new object[] { 1, 2 }),
+            new FormatData("string with {0} parameter {1} in to places", null),
+            new FormatData("string with {0} parameter {1} in to places", Array.Empty<object>()),
+            new FormatData("string with {0} parameter {1} in to places", new object[] { 1 }),
+            new FormatData("string with {0} parameter {1} in to places", new object[] { 1, 2, 3 }),
+        };
 
         [TestCaseSource(nameof(Valids))]
         public void FormatHappyPath(FormatData data)
