@@ -3,7 +3,7 @@ namespace Gu.Wpf.Localization
     using System.Windows;
 
     /// <summary>Provides an attached property for setting how the <see cref="StaticExtension"/> handles errors.</summary>
-    public class ErrorHandling
+    public static class ErrorHandling
     {
         /// <summary>
         /// Identifies the mode property.
@@ -43,7 +43,7 @@ namespace Gu.Wpf.Localization
                 throw new System.ArgumentNullException(nameof(element));
             }
 
-            return (Gu.Localization.ErrorHandling?)element?.GetValue(ModeProperty);
+            return (Gu.Localization.ErrorHandling?)element.GetValue(ModeProperty);
         }
     }
 }
