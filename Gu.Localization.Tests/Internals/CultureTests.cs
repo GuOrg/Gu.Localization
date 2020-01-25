@@ -38,14 +38,14 @@ namespace Gu.Localization.Tests.Internals
         [TestCase]
         public void TryGetInvalidCulture()
         {
-            Assert.AreEqual(false, Culture.TryGet("foo", out var match));
+            Assert.AreEqual(false, Culture.TryGet("foo", out _));
         }
 
         [TestCase]
         public void TryGetRegionForFakeCulture()
         {
             var fakeCulture = new CultureInfo("foo");
-            Assert.AreEqual(false, Culture.TryGetRegion(fakeCulture, out var region));
+            Assert.AreEqual(false, Culture.TryGetRegion(fakeCulture, out _));
         }
     }
 }

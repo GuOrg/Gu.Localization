@@ -67,24 +67,22 @@ namespace Gu.Wpf.Localization
             var match = names.Single(x => x.EndsWith(".g.resources"));
             Debug.Assert(match != null, "match != null");
             //// ReSharper disable once AssignNullToNotNullAttribute
-            using (var reader = new ResourceReader(assembly.GetManifestResourceStream(match)))
+            using var reader = new ResourceReader(assembly.GetManifestResourceStream(match));
+            var flags = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var enumerator = reader.GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                var flags = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-                var enumerator = reader.GetEnumerator();
-                while (enumerator.MoveNext())
+                var flagName = (string)enumerator.Key;
+                Debug.Assert(flagName != null, "flag == null");
+                var name = System.IO.Path.GetFileNameWithoutExtension(flagName);
+                if (Culture.AllRegions.Any(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase) ||
+                                                string.Equals(x.TwoLetterISORegionName, name, StringComparison.OrdinalIgnoreCase)))
                 {
-                    var flagName = (string)enumerator.Key;
-                    Debug.Assert(flagName != null, "flag == null");
-                    var name = System.IO.Path.GetFileNameWithoutExtension(flagName);
-                    if (Culture.AllRegions.Any(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase) ||
-                                                    string.Equals(x.TwoLetterISORegionName, name, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        flags.Add(name, $"pack://application:,,,/Gu.Wpf.Localization;component/Flags/{name}.png");
-                    }
+                    flags.Add(name, $"pack://application:,,,/Gu.Wpf.Localization;component/Flags/{name}.png");
                 }
-
-                return flags;
             }
+
+            return flags;
         }
     }
 }
