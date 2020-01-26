@@ -7,207 +7,201 @@
         xmlns:localization="clr-namespace:Gu.Localization;assembly=Gu.Localization"
         xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.Properties"
         Title="MainWindow">
-  <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto" />
-      <ColumnDefinition Width="*" />
-    </Grid.ColumnDefinitions>
-    <StackPanel Grid.Column="0">
-      <StackPanel Orientation="Horizontal">
-        <TextBlock Text="Effective culture: " />
-        <TextBlock AutomationProperties.AutomationId="CurrentCultureTextBlockId" Text="{l:CurrentCulture}" />
-      </StackPanel>
-      <StackPanel Orientation="Horizontal">
-        <TextBlock Text="Effective xml language: " />
-        <TextBlock AutomationProperties.AutomationId="EffectiveCultureTextBlockId" Text="{l:CurrentXmlLanguage}" />
-      </StackPanel>
-
-      <TextBox AutomationProperties.AutomationId="BoundCurrentCultureTextBoxId" Text="{Binding Path=(localization:Translator.Culture)}" />
-      <TextBlock AutomationProperties.AutomationId="BoundEffectiveCultureTextBlockId" Text="{Binding Path=(localization:Translator.CurrentCulture)}" />
-      <!--<Button AutomationProperties.AutomationId="LoseFocusButtonId">Lose focus here</Button>-->
-      <ComboBox x:Name="LanguagesComboBox"
-                ItemsSource="{x:Static localization:Translator.Cultures}"
-                SelectedItem="{Binding Path=(localization:Translator.Culture)}" />
-
-      <l:LanguageSelector AutogenerateLanguages="True" FontSize="18" />
-    </StackPanel>
-
-    <UniformGrid Grid.Column="1" Columns="2">
-      <GroupBox BorderBrush="GreenYellow"
-                BorderThickness="2"
-                Header="Vanilla xaml">
-        <Grid>
-          <Grid.ColumnDefinitions>
+    <Grid>
+        <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-          </Grid.RowDefinitions>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Effective culture: " />
+                <TextBlock AutomationProperties.AutomationId="CurrentCultureTextBlockId" Text="{l:CurrentCulture}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Effective xml language: " />
+                <TextBlock AutomationProperties.AutomationId="EffectiveCultureTextBlockId" Text="{l:CurrentXmlLanguage}" />
+            </StackPanel>
 
-          <TextBlock Grid.Row="0"
-                     Grid.Column="0"
-                     Text="SwedishOnly" />
-          <TextBlock Grid.Row="0"
-                     Grid.Column="1"
-                     AutomationProperties.AutomationId="SwedishOnlyTextBlockId"
-                     Text="{l:Static p:Resources.SwedishOnly}" />
+            <TextBox AutomationProperties.AutomationId="BoundCurrentCultureTextBoxId" Text="{Binding Path=(localization:Translator.Culture)}" />
+            <TextBlock AutomationProperties.AutomationId="BoundEffectiveCultureTextBlockId" Text="{Binding Path=(localization:Translator.CurrentCulture)}" />
+            <!--<Button AutomationProperties.AutomationId="LoseFocusButtonId">Lose focus here</Button>-->
+            <ComboBox x:Name="LanguagesComboBox"
+                      ItemsSource="{x:Static localization:Translator.Cultures}"
+                      SelectedItem="{Binding Path=(localization:Translator.Culture)}" />
 
-          <TextBlock Grid.Row="1"
-                     Grid.Column="0"
-                     Text="SwedishAndNeutral" />
-          <TextBlock Grid.Row="1"
-                     Grid.Column="1"
-                     AutomationProperties.AutomationId="SwedishAndNeutralTextBlockId"
-                     Text="{l:Static p:Resources.SwedishAndNeutral}" />
+            <l:LanguageSelector AutogenerateLanguages="True" FontSize="18" />
+        </StackPanel>
 
-          <TextBlock Grid.Row="2"
-                     Grid.Column="0"
-                     Text="TranslatedToAll Run" />
-          <TextBlock Grid.Row="2" Grid.Column="1">
-            <Run Text="{l:Static p:Resources.TranslatedToAll}" />
-          </TextBlock>
+        <UniformGrid Grid.Column="1" Columns="2">
+            <GroupBox BorderBrush="GreenYellow"
+                      BorderThickness="2"
+                      Header="Vanilla xaml">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-          <TextBlock Grid.Row="3"
-                     Grid.Column="0"
-                     Text="TranslatedToAll" />
-          <TextBlock Grid.Row="3"
-                     Grid.Column="1"
-                     AutomationProperties.AutomationId="TranslatedToAllTextBlockId"
-                     Text="{l:Static p:Resources.TranslatedToAll}" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Text="SwedishOnly" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               AutomationProperties.AutomationId="SwedishOnlyTextBlockId"
+                               Text="{l:Static p:Resources.SwedishOnly}" />
 
-          <TextBlock Grid.Row="4"
-                     Grid.Column="0"
-                     Text="Enum" />
-          <TextBlock Grid.Row="4"
-                     Grid.Column="1"
-                     AutomationProperties.AutomationId="EnumTranslatedToAllTextBlockId"
-                     Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},
-                                   Member={x:Static local:DummyEnum.TranslatedToAll}}" />
-        </Grid>
-      </GroupBox>
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Text="SwedishAndNeutral" />
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="1"
+                               AutomationProperties.AutomationId="SwedishAndNeutralTextBlockId"
+                               Text="{l:Static p:Resources.SwedishAndNeutral}" />
 
-      <GroupBox l:ErrorHandling.Mode="ReturnErrorInfo"
-                BorderBrush="GreenYellow"
-                BorderThickness="2"
-                Header="Vanilla xaml with ReturnErrorInfo">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-          </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="0"
+                               Text="TranslatedToAll Run" />
+                    <TextBlock Grid.Row="2" Grid.Column="1">
+                        <Run Text="{l:Static p:Resources.TranslatedToAll}" />
+                    </TextBlock>
 
-          <TextBlock Grid.Row="0"
-                     Grid.Column="0"
-                     Text="SwedishOnly" />
-          <TextBlock Grid.Row="0"
-                     Grid.Column="1"
-                     AutomationProperties.AutomationId="SwedishOnlyTextBlockId"
-                     Text="{l:Static p:Resources.SwedishOnly}" />
+                    <TextBlock Grid.Row="3"
+                               Grid.Column="0"
+                               Text="TranslatedToAll" />
+                    <TextBlock Grid.Row="3"
+                               Grid.Column="1"
+                               AutomationProperties.AutomationId="TranslatedToAllTextBlockId"
+                               Text="{l:Static p:Resources.TranslatedToAll}" />
 
-          <TextBlock Grid.Row="1"
-                     Grid.Column="0"
-                     Text="SwedishAndNeutral" />
-          <TextBlock Grid.Row="1"
-                     Grid.Column="1"
-                     AutomationProperties.AutomationId="SwedishAndNeutralTextBlockId"
-                     Text="{l:Static p:Resources.SwedishAndNeutral}" />
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="0"
+                               Text="Enum" />
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="1"
+                               AutomationProperties.AutomationId="EnumTranslatedToAllTextBlockId"
+                               Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},
+                                             Member={x:Static local:DummyEnum.TranslatedToAll}}" />
+                </Grid>
+            </GroupBox>
 
-          <TextBlock Grid.Row="2"
-                     Grid.Column="0"
-                     Text="TranslatedToAll Run" />
-          <TextBlock Grid.Row="2" Grid.Column="1">
-            <Run Text="{l:Static p:Resources.TranslatedToAll}" />
-          </TextBlock>
+            <GroupBox l:ErrorHandling.Mode="ReturnErrorInfo"
+                      BorderBrush="GreenYellow"
+                      BorderThickness="2"
+                      Header="Vanilla xaml with ReturnErrorInfo">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-          <TextBlock Grid.Row="3"
-                     Grid.Column="0"
-                     Text="TranslatedToAll" />
-          <TextBlock Grid.Row="3"
-                     Grid.Column="1"
-                     AutomationProperties.AutomationId="TranslatedToAllTextBlockId"
-                     Text="{l:Static p:Resources.TranslatedToAll}" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Text="SwedishOnly" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               AutomationProperties.AutomationId="SwedishOnlyTextBlockId"
+                               Text="{l:Static p:Resources.SwedishOnly}" />
 
-          <TextBlock Grid.Row="4"
-                     Grid.Column="0"
-                     Text="Enum" />
-          <TextBlock Grid.Row="4"
-                     Grid.Column="1"
-                     AutomationProperties.AutomationId="EnumTranslatedToAllTextBlockId"
-                     Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},
-                                   Member={x:Static local:DummyEnum.TranslatedToAll}}" />
-        </Grid>
-      </GroupBox>
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Text="SwedishAndNeutral" />
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="1"
+                               AutomationProperties.AutomationId="SwedishAndNeutralTextBlockId"
+                               Text="{l:Static p:Resources.SwedishAndNeutral}" />
 
-      <GroupBox AutomationProperties.AutomationId="NoTranslationsGroupId"
-                BorderBrush="Red"
-                BorderThickness="2"
-                Header="No translations">
-        <local:ErrorsView />
-      </GroupBox>
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="0"
+                               Text="TranslatedToAll Run" />
+                    <TextBlock Grid.Row="2" Grid.Column="1">
+                        <Run Text="{l:Static p:Resources.TranslatedToAll}" />
+                    </TextBlock>
 
-      <GroupBox l:ErrorHandling.Mode="ReturnErrorInfo"
-                AutomationProperties.AutomationId="NoTranslationsWithReturnErrorInfoId"
-                BorderBrush="Red"
-                BorderThickness="2"
-                Header="No translations with ReturnErrorInfo">
-        <local:ErrorsView />
-      </GroupBox>
+                    <TextBlock Grid.Row="3"
+                               Grid.Column="0"
+                               Text="TranslatedToAll" />
+                    <TextBlock Grid.Row="3"
+                               Grid.Column="1"
+                               AutomationProperties.AutomationId="TranslatedToAllTextBlockId"
+                               Text="{l:Static p:Resources.TranslatedToAll}" />
 
-      <GroupBox AutomationProperties.AutomationId="NotInVisualTreeGroupId"
-                BorderBrush="Green"
-                BorderThickness="2"
-                Header="Not in visual tree">
-        <DataGrid AutomationProperties.AutomationId="DataGridId">
-          <DataGrid.Columns>
-            <DataGridTextColumn Header="{l:Static p:Resources.TranslatedToAll}" />
-            <DataGridTextColumn Header="{l:Static p:Resources.SwedishAndNeutral}" />
-            <DataGridTextColumn Header="{l:Static p:Resources.NeutralOnly}" />
-          </DataGrid.Columns>
-        </DataGrid>
-      </GroupBox>
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="0"
+                               Text="Enum" />
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="1"
+                               AutomationProperties.AutomationId="EnumTranslatedToAllTextBlockId"
+                               Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},
+                                             Member={x:Static local:DummyEnum.TranslatedToAll}}" />
+                </Grid>
+            </GroupBox>
 
-      <GroupBox AutomationProperties.AutomationId="DataTemplateGroupId"
-                BorderBrush="BlueViolet"
-                Header="DataTemplate">
-        <ContentPresenter ContentTemplate="{StaticResource DemoTemplate}" />
-      </GroupBox>
+            <GroupBox BorderBrush="Red"
+                      BorderThickness="2"
+                      Header="No translations">
+                <local:ErrorsView />
+            </GroupBox>
 
-      <GroupBox AutomationProperties.AutomationId="UserControlSameProjectGroupId"
-                BorderBrush="HotPink"
-                BorderThickness="2"
-                Header="UserControl from same project">
-        <local:LocalUserControl />
-      </GroupBox>
+            <GroupBox l:ErrorHandling.Mode="ReturnErrorInfo"
+                      BorderBrush="Red"
+                      BorderThickness="2"
+                      Header="No translations with ReturnErrorInfo">
+                <local:ErrorsView />
+            </GroupBox>
 
-      <GroupBox AutomationProperties.AutomationId="UserControlOtherProjectGroupId"
-                BorderBrush="Blue"
-                BorderThickness="2"
-                Header="UserControl from other project">
-        <controls:DemoUserControl />
-      </GroupBox>
+            <GroupBox BorderBrush="Green"
+                      BorderThickness="2"
+                      Header="Not in visual tree">
+                <DataGrid>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{l:Static p:Resources.TranslatedToAll}" />
+                        <DataGridTextColumn Header="{l:Static p:Resources.SwedishAndNeutral}" />
+                        <DataGridTextColumn Header="{l:Static p:Resources.NeutralOnly}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
 
-      <GroupBox AutomationProperties.AutomationId="CustomControlOtherProjectGroupId"
-                BorderBrush="Gray"
-                BorderThickness="2"
-                Header="Custom control from other project">
-        <controls:DemoCustomControl />
-      </GroupBox>
-    </UniformGrid>
-  </Grid>
+            <GroupBox AutomationProperties.AutomationId="DataTemplateGroupId"
+                      BorderBrush="BlueViolet"
+                      Header="DataTemplate">
+                <ContentPresenter ContentTemplate="{StaticResource DemoTemplate}" />
+            </GroupBox>
+
+            <GroupBox BorderBrush="HotPink"
+                      BorderThickness="2"
+                      Header="UserControl from same project">
+                <local:LocalUserControl />
+            </GroupBox>
+
+            <GroupBox BorderBrush="Blue"
+                      BorderThickness="2"
+                      Header="UserControl from other project">
+                <controls:DemoUserControl />
+            </GroupBox>
+
+            <GroupBox BorderBrush="Gray"
+                      BorderThickness="2"
+                      Header="Custom control from other project">
+                <controls:DemoCustomControl />
+            </GroupBox>
+        </UniformGrid>
+    </Grid>
 </Window>

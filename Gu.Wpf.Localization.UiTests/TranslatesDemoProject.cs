@@ -85,8 +85,8 @@ namespace Gu.Wpf.Localization.UiTests
             using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
-            var groupBox = window.FindGroupBox("NotInVisualTreeGroupId");
-            var dataGrid = groupBox.FindDataGrid("DataGridId");
+            var groupBox = window.FindGroupBox("Not in visual tree");
+            var dataGrid = groupBox.FindDataGrid();
 
             window.FindRadioButton("sv").IsChecked = true;
             Assert.AreEqual("Svenska", dataGrid.ColumnHeaders[0].Text);
@@ -127,7 +127,7 @@ namespace Gu.Wpf.Localization.UiTests
             using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
-            var groupBox = window.FindGroupBox("UserControlSameProjectGroupId");
+            var groupBox = window.FindGroupBox("UserControl from same project");
 
             Assert.AreEqual("English", groupBox.FindTextBlock("TranslatedToAllTextBlockId").Text);
             Assert.AreEqual(string.Empty, groupBox.FindTextBlock("SwedishOnlyTextBlockId").Text);
@@ -170,7 +170,7 @@ namespace Gu.Wpf.Localization.UiTests
             using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
-            var groupBox = window.FindGroupBox("CustomControlOtherProjectGroupId");
+            var groupBox = window.FindGroupBox("Custom control from other project");
             var textBlock = groupBox.FindTextBlock("KeyInControls");
 
             window.FindRadioButton("sv").IsChecked = true;
@@ -186,7 +186,7 @@ namespace Gu.Wpf.Localization.UiTests
             using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
-            var groupBox = window.FindGroupBox("NoTranslationsGroupId");
+            var groupBox = window.FindGroupBox("No translations");
 
             window.FindRadioButton("sv").IsChecked = true;
             Assert.AreEqual("!MissingKey!", groupBox.FindTextBlock("MissingKeyTextBlockId").Text);
@@ -211,7 +211,7 @@ namespace Gu.Wpf.Localization.UiTests
 
             // looks like the static extension is called before the ErrorInfo.Mode has trickled down.
             // fixing this can be slightly messy
-            var groupBox = window.FindGroupBox("NoTranslationsWithReturnErrorInfoId");
+            var groupBox = window.FindGroupBox("No translations with ReturnErrorInfo");
 
             window.FindRadioButton("sv").IsChecked = true;
             Assert.AreEqual("!MissingKey!", groupBox.FindTextBlock("MissingKeyTextBlockId").Text);
