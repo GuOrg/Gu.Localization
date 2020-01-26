@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.GULOC04UseCustomTranslateTests
+﻿namespace Gu.Localization.Analyzers.Tests.GULOC04UseCustomTranslateTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.CodeFixes;
@@ -11,7 +11,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC04UseCustomTranslateTests
         private static readonly CodeFixProvider Fix = new UseCustomTranslateFix();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GULOC04UseCustomTranslate);
 
-        private static readonly string ResourcesCode = @"
+        private const string ResourcesCode = @"
 namespace RoslynSandbox.Properties {
     using System;
     
@@ -75,7 +75,7 @@ namespace RoslynSandbox.Properties {
     }
 }";
 
-        private static readonly string TranslateCode = @"
+        private const string TranslateCode = @"
 namespace RoslynSandbox.Properties
 {
     using Gu.Localization;

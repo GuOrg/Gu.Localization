@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
+﻿namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
@@ -8,7 +8,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new LiteralAnalyzer();
 
-        private static readonly string ResourcesCode = @"
+        private const string ResourcesCode = @"
 #pragma warning disable GULOC03
 namespace RoslynSandbox.Properties {
     using System;

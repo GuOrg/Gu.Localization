@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.GULOC04UseCustomTranslateTests
+﻿namespace Gu.Localization.Analyzers.Tests.GULOC04UseCustomTranslateTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
@@ -8,7 +8,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC04UseCustomTranslateTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
 
-        private static readonly string ResourcesCode = @"namespace RoslynSandbox.Properties {
+        private const string ResourcesCode = @"namespace RoslynSandbox.Properties {
     using System;
     
     
@@ -71,7 +71,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC04UseCustomTranslateTests
     }
 }";
 
-        private static readonly string TranslateCode = @"
+        private const string TranslateCode = @"
 namespace RoslynSandbox.Properties
 {
     using Gu.Localization;

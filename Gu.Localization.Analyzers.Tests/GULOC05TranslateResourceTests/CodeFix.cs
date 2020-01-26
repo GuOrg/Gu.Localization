@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.GULOC05TranslateResourceTests
+﻿namespace Gu.Localization.Analyzers.Tests.GULOC05TranslateResourceTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.CodeFixes;
@@ -11,7 +11,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC05TranslateResourceTests
         private static readonly CodeFixProvider Fix = new TranslateResourceFix();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GULOC05TranslateUseResource);
 
-        private static readonly string ResourcesCode = @"
+        private const string ResourcesCode = @"
 namespace RoslynSandbox.Properties {
     using System;
     
