@@ -50,11 +50,11 @@
 
         /// <inheritdoc/>
         [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <inheritdoc/>
         [field: NonSerialized]
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         /// <inheritdoc/>
         public int Count => this.inner.Count;

@@ -1,4 +1,4 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System.ComponentModel;
     using System.Globalization;
@@ -36,7 +36,7 @@ namespace Gu.Localization
         }
 
         /// <inheritdoc />
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>Gets the ~translated~ value. Note that this value does not change when <see cref="Translator.CurrentCulture"/> changed.</summary>
         public string Translated { get; }
@@ -58,7 +58,7 @@ namespace Gu.Localization
 
         /// <summary>Use this to notify about a change of the value for the property named <paramref name="propertyName"/>.</summary>
         /// <param name="propertyName">The name of the property.</param>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

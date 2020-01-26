@@ -1,4 +1,4 @@
-namespace Gu.Localization.Tests
+﻿namespace Gu.Localization.Tests
 {
     using System.Collections.Generic;
     using System.Globalization;
@@ -35,14 +35,14 @@ namespace Gu.Localization.Tests
                                                                                         "Parameter name: language");
         }
 
-        private void Add(string key, CultureInfo culture, ErrorHandling errorHandling, string expected)
+        private void Add(string? key, CultureInfo? culture, ErrorHandling errorHandling, string expected)
         {
             this.Add(new ErrorData(key, culture, errorHandling, expected));
         }
 
         public class ErrorData
         {
-            public ErrorData(string key, CultureInfo culture, ErrorHandling errorHandling, string expectedMessage)
+            public ErrorData(string? key, CultureInfo? culture, ErrorHandling errorHandling, string expectedMessage)
             {
                 this.Key = key;
                 this.Culture = culture;
@@ -50,9 +50,9 @@ namespace Gu.Localization.Tests
                 this.ExpectedMessage = expectedMessage;
             }
 
-            public string Key { get; }
+            public string? Key { get; }
 
-            public CultureInfo Culture { get; }
+            public CultureInfo? Culture { get; }
 
             public ErrorHandling ErrorHandling { get; }
 

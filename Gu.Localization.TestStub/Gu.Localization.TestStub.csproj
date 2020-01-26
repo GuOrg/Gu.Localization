@@ -4,6 +4,10 @@
     <TargetFramework>net48</TargetFramework>
     <UseWpf>true</UseWpf>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Gu.Analyzers" Version="1.6.7-dev" PrivateAssets="all" />
+    <PackageReference Include="PropertyChangedAnalyzers" Version="3.2.0" PrivateAssets="all" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Gu.Localization\Gu.Localization.csproj" />

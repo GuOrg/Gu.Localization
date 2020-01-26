@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers
+﻿namespace Gu.Localization.Analyzers
 {
     using System;
     using System.Collections.Concurrent;
@@ -160,7 +160,7 @@ namespace Gu.Localization.Analyzers
             this.lastWriteTimeUtc = File.GetLastWriteTimeUtc(this.FileName);
         }
 
-        private bool TryGetDataElement(string key, out XElement element)
+        private bool TryGetDataElement(string key, [NotNullWhen(true)] out XElement? element)
         {
             if (this.Document.Root is { } root)
             {

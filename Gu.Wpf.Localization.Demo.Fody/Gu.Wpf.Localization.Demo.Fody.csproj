@@ -11,9 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Gu.Analyzers" Version="1.6.7-dev" PrivateAssets="all" />
     <Resource Include="FodyWeavers.xml" />
     <PackageReference Include="Costura.Fody" Version="4.1.0" />
     <PackageReference Include="Fody" Version="6.0.8" PrivateAssets="all" />
+    <PackageReference Include="PropertyChangedAnalyzers" Version="3.2.0" PrivateAssets="all" />
     <PackageReference Include="Resource.Embedder" Version="2.0.1" PrivateAssets="all" />
   </ItemGroup>
 </Project>

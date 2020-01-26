@@ -1,10 +1,7 @@
-﻿using FirstFloor.ModernUI.Windows.Controls;
-
-namespace Gu.Wpf.Localization.Modern.Demo
+﻿namespace Gu.Wpf.Localization.Modern.Demo
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    using FirstFloor.ModernUI.Windows.Controls;
+
     public partial class MainWindow : ModernWindow
     {
         public MainWindow()

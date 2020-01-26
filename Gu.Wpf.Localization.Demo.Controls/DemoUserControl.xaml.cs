@@ -2,9 +2,6 @@
 {
     using System.Windows.Controls;
 
-    /// <summary>
-    /// Interaction logic for DemoUserControl.xaml
-    /// </summary>
     public partial class DemoUserControl : UserControl
     {
         public DemoUserControl()

@@ -1,10 +1,7 @@
-﻿using System.Windows.Controls;
-
-namespace Gu.Wpf.Localization.Modern.Demo
+﻿namespace Gu.Wpf.Localization.Modern.Demo
 {
-    /// <summary>
-    /// Interaction logic for LanguageControl.xaml
-    /// </summary>
+    using System.Windows.Controls;
+
     public partial class LanguageControl : UserControl
     {
         public LanguageControl()
