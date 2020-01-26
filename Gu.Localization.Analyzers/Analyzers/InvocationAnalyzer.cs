@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers
+﻿namespace Gu.Localization.Analyzers
 {
     using System.Collections.Immutable;
     using System.Diagnostics.CodeAnalysis;
@@ -162,7 +162,7 @@ namespace Gu.Localization.Analyzers
 
         private static bool IsNameOfKey(ArgumentSyntax argument)
         {
-            return argument.Expression is InvocationExpressionSyntax { Expression: IdentifierNameSyntax { Identifier: { ValueText: "nameof" } }, ArgumentList: { Arguments: { Count: 1 } arguments } argumentList } &&
+            return argument.Expression is InvocationExpressionSyntax { Expression: IdentifierNameSyntax { Identifier: { ValueText: "nameof" } }, ArgumentList: { Arguments: { Count: 1 } arguments } } &&
                    arguments[0] is { Expression: MemberAccessExpressionSyntax _ };
         }
 

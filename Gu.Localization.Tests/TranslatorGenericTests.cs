@@ -1,4 +1,4 @@
-namespace Gu.Localization.Tests
+﻿namespace Gu.Localization.Tests
 {
     using System;
     using System.Globalization;
@@ -72,7 +72,7 @@ namespace Gu.Localization.Tests
         }
 
         [TestCaseSource(typeof(TranslationErrorsSource))]
-        public void WithGlobalErrorhandling(TranslationErrorsSource.ErrorData data)
+        public void WithGlobalErrorHandling(TranslationErrorsSource.ErrorData data)
         {
             if (!Translator.ContainsCulture(data.Culture))
             {
@@ -86,7 +86,7 @@ namespace Gu.Localization.Tests
         }
 
         [TestCaseSource(typeof(TranslationErrorsSource))]
-        public void WithExplicitErrorhandling(TranslationErrorsSource.ErrorData data)
+        public void WithExplicitErrorHandling(TranslationErrorsSource.ErrorData data)
         {
             if (!Translator.ContainsCulture(data.Culture))
             {
@@ -100,7 +100,7 @@ namespace Gu.Localization.Tests
         }
 
         [TestCaseSource(typeof(TranslationErrorsSource))]
-        public void WithExplicitErrorhandlingAndCulture(TranslationErrorsSource.ErrorData data)
+        public void WithExplicitErrorHandlingAndCulture(TranslationErrorsSource.ErrorData data)
         {
             Translator.Culture = null;
             Translator.ErrorHandling = ErrorHandling.Throw;
@@ -109,7 +109,7 @@ namespace Gu.Localization.Tests
         }
 
         [TestCaseSource(typeof(TranslationThrowSource))]
-        public void ThrowsWithGlobalErrorhandling(TranslationThrowSource.ErrorData data)
+        public void ThrowsWithGlobalErrorHandling(TranslationThrowSource.ErrorData data)
         {
             if (!Translator.ContainsCulture(data.Culture))
             {
@@ -126,7 +126,7 @@ namespace Gu.Localization.Tests
         }
 
         [TestCaseSource(typeof(TranslationThrowSource))]
-        public void ThrowsWithExplicitErrorhandling(TranslationThrowSource.ErrorData data)
+        public void ThrowsWithExplicitErrorHandling(TranslationThrowSource.ErrorData data)
         {
             if (!Translator.ContainsCulture(data.Culture))
             {
@@ -140,7 +140,7 @@ namespace Gu.Localization.Tests
         }
 
         [TestCaseSource(typeof(TranslationThrowSource))]
-        public void ThrowsWithExplicitErrorhandlingAndCulture(TranslationThrowSource.ErrorData data)
+        public void ThrowsWithExplicitErrorHandlingAndCulture(TranslationThrowSource.ErrorData data)
         {
             Translator.Culture = null;
             Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;

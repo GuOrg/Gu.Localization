@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.GULOC01KeyExistsAnalyzerTests
+﻿namespace Gu.Localization.Analyzers.Tests.GULOC01KeyExistsAnalyzerTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis;
@@ -10,7 +10,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC01KeyExistsAnalyzerTests
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly DiagnosticDescriptor Descriptor = Descriptors.GULOC01KeyExists;
 
-        private static readonly string ResourcesCode = @"
+        private const string ResourcesCode = @"
 namespace RoslynSandbox.Properties {
     using System;
 
@@ -73,7 +73,7 @@ namespace RoslynSandbox.Properties {
     }
 }";
 
-        private static readonly string TranslateCode = @"
+        private const string TranslateCode = @"
 namespace RoslynSandbox.Properties
 {
     using Gu.Localization;

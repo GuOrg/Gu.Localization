@@ -1,4 +1,4 @@
-// ReSharper disable AssignNullToNotNullAttribute
+﻿// ReSharper disable AssignNullToNotNullAttribute
 namespace Gu.Localization.Tests.Sandbox
 {
     using System;
@@ -14,7 +14,7 @@ namespace Gu.Localization.Tests.Sandbox
     {
         private static class FromFiles
         {
-            internal static Translations FindTranslations(Assembly assembly)
+            internal static Translations? FindTranslations(Assembly assembly)
             {
                 var neutralResourceSet = ReadResourceSet(assembly);
                 if (neutralResourceSet is null || neutralResourceSet.Count == 0)
@@ -37,22 +37,6 @@ namespace Gu.Localization.Tests.Sandbox
                 }
 
                 return FindCultureFileNames(new Uri(assembly.EscapedCodeBase, UriKind.Absolute));
-            }
-
-            // ReSharper disable once UnusedMember.Local
-            internal static IReadOnlyDictionary<string, string> ReadResourceSet(string filename)
-            {
-                try
-                {
-                    var cultureAssembly = Assembly.Load(File.ReadAllBytes(filename));
-                    return ReadResourceSet(cultureAssembly);
-                }
-#pragma warning disable CA1031 // Do not catch general exception types
-                catch
-#pragma warning restore CA1031 // Do not catch general exception types
-                {
-                    return null;
-                }
             }
 
             internal static IReadOnlyDictionary<string, string> ReadResourceSet(Assembly assembly)

@@ -29,14 +29,14 @@
             this.Add(nameof(Properties.Resources.NeutralOnly), Sv, ErrorHandling.ReturnErrorInfo, "_So neutral_");
         }
 
-        private void Add(string key, CultureInfo culture, ErrorHandling errorHandling, string expected)
+        private void Add(string? key, CultureInfo culture, ErrorHandling errorHandling, string expected)
         {
             this.Add(new ErrorData(key, culture, errorHandling, expected));
         }
 
         public class ErrorData
         {
-            public ErrorData(string key, CultureInfo culture, ErrorHandling errorHandling, string expectedTranslation)
+            public ErrorData(string? key, CultureInfo culture, ErrorHandling errorHandling, string expectedTranslation)
             {
                 this.Key = key;
                 this.Culture = culture;
@@ -44,7 +44,7 @@
                 this.ExpectedTranslation = expectedTranslation;
             }
 
-            public string Key { get; }
+            public string? Key { get; }
 
             public CultureInfo Culture { get; }
 

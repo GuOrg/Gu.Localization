@@ -206,3 +206,4 @@ dotnet_diagnostic.IDE0009.severity = none # Analyzer broken with patterns
 
 # CA1303: Do not pass literals as localized parameters
 dotnet_diagnostic.CA1303.severity = none
+

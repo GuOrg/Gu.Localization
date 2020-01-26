@@ -1,0 +1,3 @@
+[*.cs]
+# SA1203: Constants should appear before fields
+dotnet_diagnostic.SA1203.severity = none

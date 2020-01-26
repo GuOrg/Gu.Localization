@@ -1,4 +1,4 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
     using System.Collections.Concurrent;
@@ -34,7 +34,7 @@ namespace Gu.Localization
             return resourceManager;
         }
 
-        private static ResourceManager CreateManagerForTypeOrDefault(Type type)
+        private static ResourceManager? CreateManagerForTypeOrDefault(Type type)
         {
             var property = GetResourceManagerProperty(type);
             return property?.GetValue(null) as ResourceManager;
