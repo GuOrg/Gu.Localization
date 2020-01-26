@@ -1,4 +1,4 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
     using System.Collections.Generic;
@@ -12,8 +12,8 @@ namespace Gu.Localization
     /// </summary>
     public static partial class Translator
     {
-        private static CultureInfo culture;
-        private static CultureInfo effectiveCulture;
+        private static CultureInfo? culture;
+        private static CultureInfo? effectiveCulture;
 
         /// <summary>For binding to static properties in XAML.</summary>
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
@@ -28,7 +28,7 @@ namespace Gu.Localization
         /// Gets or sets the culture to translate to.
         /// If setting to null CurrentCulture is set to <see cref="CultureInfo.CurrentCulture"/> if there is a translation for it in <see cref="Cultures"/>.
         /// </summary>
-        public static CultureInfo Culture
+        public static CultureInfo? Culture
         {
             get => culture;
 

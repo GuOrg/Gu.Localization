@@ -1,7 +1,8 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
 
@@ -21,7 +22,7 @@ namespace Gu.Localization
             }
         }
 
-        internal static bool TryGet(string name, out CultureInfo culture)
+        internal static bool TryGet(string name, [NotNullWhen(true)] out CultureInfo? culture)
         {
             if (name is null)
             {
@@ -33,7 +34,7 @@ namespace Gu.Localization
             return culture != null;
         }
 
-        internal static bool TryGetRegion(CultureInfo culture, out RegionInfo region)
+        internal static bool TryGetRegion(CultureInfo culture, [NotNullWhen(true)] out RegionInfo? region)
         {
             if (culture is null || culture.IsInvariant())
             {

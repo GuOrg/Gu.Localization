@@ -1,8 +1,9 @@
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Resources;
@@ -24,7 +25,7 @@ namespace Gu.Wpf.Localization
         /// <param name="culture">The <see cref="CultureInfo"/>.</param>
         /// <param name="path">The pack uri path to the resource.</param>
         /// <returns>True if a path was found.</returns>
-        public static bool TryGetFlagPath(CultureInfo culture, out string path)
+        public static bool TryGetFlagPath(CultureInfo culture, [NotNullWhen(true)] out string? path)
         {
             path = null;
             if (culture is null)

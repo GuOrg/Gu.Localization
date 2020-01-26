@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
 
     /// <summary>Optimized this a lot to avoid caching of results.</summary>
@@ -171,7 +172,7 @@
         }
 
         // ReSharper disable once UnusedMember.Local
-        private static bool TryParseItemFormat(string text, ref int pos, out int index, out string format)
+        private static bool TryParseItemFormat(string text, ref int pos, out int index, [NotNullWhen(true)] out string? format)
         {
             if (text[pos] != '{')
             {
@@ -236,7 +237,7 @@
             return true;
         }
 
-        private static bool TryParseFormatSuffix(string text, ref int pos, out string result)
+        private static bool TryParseFormatSuffix(string text, ref int pos, [NotNullWhen(true)] out string? result)
         {
             if (text[pos] != ':')
             {

@@ -1,4 +1,4 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
     using System.Collections.Generic;
@@ -15,15 +15,15 @@ namespace Gu.Localization
 
         private static readonly StringComparer StringComparer = StringComparer.OrdinalIgnoreCase;
 
-        private readonly Func<CultureInfo, string> nameGetter;
+        private readonly Func<CultureInfo, string?> nameGetter;
 
-        private CultureInfoComparer(Func<CultureInfo, string> nameGetter)
+        private CultureInfoComparer(Func<CultureInfo, string?> nameGetter)
         {
             this.nameGetter = nameGetter;
         }
 
         /// <inheritdoc />
-        public bool Equals(CultureInfo x, CultureInfo y)
+        public bool Equals(CultureInfo? x, CultureInfo? y)
         {
             if (x is null && y is null)
             {
@@ -39,7 +39,7 @@ namespace Gu.Localization
         }
 
         /// <inheritdoc />
-        public int GetHashCode(CultureInfo obj)
+        public int GetHashCode(CultureInfo? obj)
         {
             if (obj is null)
             {
@@ -49,7 +49,7 @@ namespace Gu.Localization
             return StringComparer.GetHashCode(this.nameGetter(obj));
         }
 
-        public int Compare(CultureInfo x, CultureInfo y)
+        public int Compare(CultureInfo? x, CultureInfo? y)
         {
             return string.Compare(this.nameGetter(x), this.nameGetter(y), StringComparison.Ordinal);
         }

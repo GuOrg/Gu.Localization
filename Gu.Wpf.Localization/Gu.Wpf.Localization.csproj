@@ -3,6 +3,7 @@
     <TargetFrameworks>netcoreapp3.1;net45</TargetFrameworks>
     <UseWpf>true</UseWpf>
     <LangVersion>latest</LangVersion>
+    <Nullable>Enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>Gu.Wpf.Localization.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

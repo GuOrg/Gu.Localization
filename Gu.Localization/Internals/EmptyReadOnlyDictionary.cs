@@ -1,12 +1,14 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     /// <inheritdoc />
     internal class EmptyReadOnlyDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
+        where TKey: notnull
     {
         /// <summary> A cached instance. </summary>
         internal static readonly EmptyReadOnlyDictionary<TKey, TValue> Default = new EmptyReadOnlyDictionary<TKey, TValue>();
@@ -37,9 +39,9 @@ namespace Gu.Localization
         public bool ContainsKey(TKey key) => false;
 
         /// <inheritdoc />
-        public bool TryGetValue(TKey key, out TValue value)
+        public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
         {
-            value = default;
+            value = default!;
             return false;
         }
     }

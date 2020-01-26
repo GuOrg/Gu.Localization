@@ -1,4 +1,4 @@
-// ReSharper disable UnusedVariable
+﻿// ReSharper disable UnusedVariable
 namespace Gu.Localization.Tests.Internals
 {
     using System;
@@ -7,7 +7,7 @@ namespace Gu.Localization.Tests.Internals
 
     public class EnsureTests
     {
-        public static FormatData[] Valids => new[]
+        private static FormatData[] Valids = new[]
         {
             new FormatData(@"some string", null),
             new FormatData(@"some string", Array.Empty<object>()),
@@ -18,7 +18,7 @@ namespace Gu.Localization.Tests.Internals
             new FormatData("string with {0} parameter {1} in {2} places", new object[] { 1, 2, 3 }),
         };
 
-        public static FormatData[] InValids => new[]
+        private static FormatData[] InValids = new[]
         {
             new FormatData("some string", new object[] { 1 }),
             new FormatData("string with {0} parameter", null),
@@ -64,7 +64,7 @@ namespace Gu.Localization.Tests.Internals
 
         public class FormatData
         {
-            public FormatData(string format, object[] args)
+            public FormatData(string format, object[]? args)
             {
                 this.Format = format;
                 this.Args = args;
@@ -72,7 +72,7 @@ namespace Gu.Localization.Tests.Internals
 
             public string Format { get; }
 
-            public object[] Args { get; }
+            public object[]? Args { get; }
 
             public override string ToString()
             {
