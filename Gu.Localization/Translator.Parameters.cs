@@ -1,4 +1,4 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
     using System.Globalization;
@@ -57,7 +57,9 @@ namespace Gu.Localization
             {
                 return string.Format(language, format, arg0);
             }
-            catch (Exception)
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 return string.Format(language, Properties.Resources.InvalidFormat, format, arg0);
             }
@@ -115,7 +117,9 @@ namespace Gu.Localization
             {
                 return string.Format(language, format, arg0, arg1);
             }
-            catch (Exception)
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 return string.Format(language, Properties.Resources.InvalidFormat, format, string.Join(", ", arg0, arg1));
             }

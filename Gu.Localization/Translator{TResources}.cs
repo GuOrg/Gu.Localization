@@ -12,12 +12,7 @@
     public static class Translator<TResources>
     {
         // ReSharper disable once StaticMemberInGenericType, yes this is the idea
-        private static readonly ResourceManager ResourceManager;
-
-        static Translator()
-        {
-            ResourceManager = ResourceManagers.ForType(typeof(TResources));
-        }
+        private static readonly ResourceManager ResourceManager = ResourceManagers.ForType(typeof(TResources));
 
         /// <summary>
         /// Call like this Translator&lt;Properties.Resources&gt;.Translate(nameof(Properties.Resources.SomeKey));.

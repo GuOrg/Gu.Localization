@@ -1,4 +1,4 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
     using System.Collections;
@@ -60,7 +60,7 @@ namespace Gu.Localization
         public int Count => this.inner.Count;
 
         /// <inheritdoc/>
-        bool ICollection<T>.IsReadOnly => ((ICollection<T>)this.inner).IsReadOnly;
+        bool ICollection<T>.IsReadOnly => false;
 
         /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator() => this.inner.GetEnumerator();

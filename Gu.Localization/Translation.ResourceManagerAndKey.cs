@@ -1,4 +1,4 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
     using System.Resources;
@@ -22,7 +22,7 @@ namespace Gu.Localization
             public bool Equals(ResourceManagerAndKey other)
             {
                 return this.ResourceManager.Equals(other.ResourceManager) &&
-                       string.Equals(this.Key, other.Key) &&
+                       string.Equals(this.Key, other.Key, StringComparison.Ordinal) &&
                        this.errorHandling == other.errorHandling;
             }
 
