@@ -1,4 +1,4 @@
-namespace Gu.Localization.Benchmarks
+﻿namespace Gu.Localization.Benchmarks
 {
     using System;
     using System.Collections.Generic;
@@ -43,7 +43,7 @@ namespace Gu.Localization.Benchmarks
                     CultureInfoComparer.ByTwoLetterIsoLanguageName);
         }
 
-        private static CultureInfo CreateSpecificCultureOrDefault(CultureInfo neutral)
+        private static CultureInfo? CreateSpecificCultureOrDefault(CultureInfo neutral)
         {
             if (neutral is null ||
                 !neutral.IsNeutralCulture)
@@ -57,7 +57,9 @@ namespace Gu.Localization.Benchmarks
                 // don't know if there is a way to check if a specific culture can be created.
                 return CultureInfo.CreateSpecificCulture(neutral.Name);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 return null;
             }
