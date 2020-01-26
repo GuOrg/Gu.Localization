@@ -87,7 +87,7 @@ namespace Gu.Wpf.Localization
 
         internal static object CreateBindingExpression(ResourceManager resourceManager, string key, IServiceProvider serviceProvider)
         {
-            var errorHandling = serviceProvider.ProvideValueTarget() is DependencyObject o
+            var errorHandling = serviceProvider.ProvideValueTarget().TargetObject is DependencyObject o
                 ? ErrorHandling.GetMode(o) ?? Gu.Localization.ErrorHandling.ReturnErrorInfoPreserveNeutral
                 : Gu.Localization.ErrorHandling.ReturnErrorInfoPreserveNeutral;
             var translation = Gu.Localization.Translation.GetOrCreate(resourceManager, key, errorHandling);
