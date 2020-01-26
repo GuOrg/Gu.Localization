@@ -26,7 +26,6 @@
       <TextBlock AutomationProperties.AutomationId="BoundEffectiveCultureTextBlockId" Text="{Binding Path=(localization:Translator.CurrentCulture)}" />
       <!--<Button AutomationProperties.AutomationId="LoseFocusButtonId">Lose focus here</Button>-->
       <ComboBox x:Name="LanguagesComboBox"
-                AutomationProperties.AutomationId="LanguagesComboBoxId"
                 ItemsSource="{x:Static localization:Translator.Cultures}"
                 SelectedItem="{Binding Path=(localization:Translator.Culture)}" />
 
@@ -95,7 +94,6 @@
       </GroupBox>
 
       <GroupBox l:ErrorHandling.Mode="ReturnErrorInfo"
-                AutomationProperties.AutomationId="VanillaXamlGroupWithReturnErrorInfoId"
                 BorderBrush="GreenYellow"
                 BorderThickness="2"
                 Header="Vanilla xaml with ReturnErrorInfo">
