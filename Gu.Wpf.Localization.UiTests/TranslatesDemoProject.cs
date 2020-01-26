@@ -35,7 +35,7 @@ namespace Gu.Wpf.Localization.UiTests
             using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
-            var groupBox = window.FindGroupBox("VanillaXamlGroupId");
+            var groupBox = window.FindGroupBox("Vanilla xaml");
             Assert.AreEqual("English", groupBox.FindTextBlock("TranslatedToAllTextBlockId").Text);
             Assert.AreEqual(string.Empty, groupBox.FindTextBlock("SwedishOnlyTextBlockId").Text);
             Assert.AreEqual("So neutral", groupBox.FindTextBlock("SwedishAndNeutralTextBlockId").Text);

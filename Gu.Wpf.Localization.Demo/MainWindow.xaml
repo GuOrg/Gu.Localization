@@ -34,8 +34,7 @@
     </StackPanel>
 
     <UniformGrid Grid.Column="1" Columns="2">
-      <GroupBox AutomationProperties.AutomationId="VanillaXamlGroupId"
-                BorderBrush="GreenYellow"
+      <GroupBox BorderBrush="GreenYellow"
                 BorderThickness="2"
                 Header="Vanilla xaml">
         <Grid>
