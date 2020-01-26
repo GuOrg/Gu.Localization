@@ -17,7 +17,7 @@ namespace Gu.Localization.Tests.Sandbox
             internal static Translations FindTranslations(Assembly assembly)
             {
                 var neutralResourceSet = ReadResourceSet(assembly);
-                if (neutralResourceSet == null || neutralResourceSet.Count == 0)
+                if (neutralResourceSet is null || neutralResourceSet.Count == 0)
                 {
                     return null;
                 }
@@ -58,7 +58,7 @@ namespace Gu.Localization.Tests.Sandbox
             internal static IReadOnlyDictionary<string, string> ReadResourceSet(Assembly assembly)
             {
                 var resourceName = FindResourceName(assembly);
-                if (resourceName == null)
+                if (resourceName is null)
                 {
                     return null;
                 }
@@ -83,13 +83,13 @@ namespace Gu.Localization.Tests.Sandbox
                     {
                         var match = Directory.EnumerateFiles(folder, resourceFileName, SearchOption.TopDirectoryOnly)
                                              .SingleOrDefault();
-                        if (match == null)
+                        if (match is null)
                         {
                             continue;
                         }
 
                         var cultureInfo = CultureInfo.GetCultureInfo(folderName);
-                        if (cultures == null)
+                        if (cultures is null)
                         {
                             cultures = new Dictionary<CultureInfo, string>(CultureInfoComparer.ByName);
                         }

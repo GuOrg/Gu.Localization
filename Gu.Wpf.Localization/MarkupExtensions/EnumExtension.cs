@@ -26,7 +26,7 @@ namespace Gu.Wpf.Localization
         {
             try
             {
-                if (this.ResourceManager == null || this.Member == null)
+                if (this.ResourceManager is null || this.Member is null)
                 {
                     return $"{nameof(EnumExtension)} must have {nameof(this.ResourceManager)} and {nameof(this.Member)}";
                 }

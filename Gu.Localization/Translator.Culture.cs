@@ -86,12 +86,12 @@ namespace Gu.Localization
         /// <returns>True if <see cref="Cultures"/> contains a match for <paramref name="language"/>.</returns>
         public static bool ContainsCulture(CultureInfo language)
         {
-            if (language == null)
+            if (language is null)
             {
                 return false;
             }
 
-            if (Cultures == null || Cultures.Count == 0)
+            if (Cultures is null || Cultures.Count == 0)
             {
                 return false;
             }
@@ -102,7 +102,7 @@ namespace Gu.Localization
 
         private static CultureInfo GetEffectiveCulture(CultureInfo cultureInfo)
         {
-            if (cultureInfo == null)
+            if (cultureInfo is null)
             {
                 return Cultures?.FirstOrDefault(c => Localization.Culture.NameEquals(c, CultureInfo.CurrentCulture)) ??
                        Cultures?.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, CultureInfo.CurrentCulture)) ??

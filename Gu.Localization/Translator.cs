@@ -92,7 +92,7 @@ namespace Gu.Localization
         {
             errorHandling = errorHandling.Coerce();
 
-            if (resourceManager == null)
+            if (resourceManager is null)
             {
                 if (errorHandling == ErrorHandling.Throw)
                 {

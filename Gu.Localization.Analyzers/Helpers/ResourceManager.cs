@@ -23,8 +23,8 @@ namespace Gu.Localization.Analyzers
             method = null;
             resourcesType = null;
             if (invocation.Expression is InstanceExpressionSyntax ||
-                invocation.Expression == null ||
-                invocation.ArgumentList == null)
+                invocation.Expression is null ||
+                invocation.ArgumentList is null)
             {
                 return false;
             }

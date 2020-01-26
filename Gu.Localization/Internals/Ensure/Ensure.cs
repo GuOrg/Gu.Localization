@@ -13,7 +13,7 @@ namespace Gu.Localization
             where T : class
         {
             Debug.Assert(!string.IsNullOrEmpty(parameterName), $"{nameof(parameterName)} cannot be null");
-            if (value == null)
+            if (value is null)
             {
                 throw new ArgumentNullException(parameterName);
             }
@@ -57,7 +57,7 @@ namespace Gu.Localization
 
         private static string ToStringOrNull<T>(this T value)
         {
-            if (value == null)
+            if (value is null)
             {
                 return "null";
             }

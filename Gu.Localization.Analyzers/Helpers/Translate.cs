@@ -14,8 +14,8 @@ namespace Gu.Localization.Analyzers
             method = null;
             resourcesType = null;
             if (invocation.Expression is InstanceExpressionSyntax ||
-                invocation.Expression == null ||
-                invocation.ArgumentList == null ||
+                invocation.Expression is null ||
+                invocation.ArgumentList is null ||
                 !context.SemanticModel.ReferencesGuLocalization())
             {
                 return false;
@@ -45,7 +45,7 @@ namespace Gu.Localization.Analyzers
         internal static bool TryFindCustomToString(INamedTypeSymbol resourcesType, [NotNullWhen(true)] out IMethodSymbol? method)
         {
             method = null;
-            if (resourcesType == null)
+            if (resourcesType is null)
             {
                 return false;
             }
@@ -73,7 +73,7 @@ namespace Gu.Localization.Analyzers
         internal static bool TryFindCustomToTranslation(INamedTypeSymbol resourcesType, [NotNullWhen(true)] out IMethodSymbol? method)
         {
             method = null;
-            if (resourcesType == null)
+            if (resourcesType is null)
             {
                 return false;
             }

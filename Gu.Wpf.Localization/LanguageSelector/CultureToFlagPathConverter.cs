@@ -27,7 +27,7 @@ namespace Gu.Wpf.Localization
         public static bool TryGetFlagPath(CultureInfo culture, out string path)
         {
             path = null;
-            if (culture == null)
+            if (culture is null)
             {
                 return false;
             }

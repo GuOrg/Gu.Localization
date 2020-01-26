@@ -39,7 +39,7 @@ namespace Gu.Wpf.Localization
             public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
             {
                 var cultureInfo = (CultureInfo)value;
-                return cultureInfo?.IetfLanguageTag == null
+                return cultureInfo?.IetfLanguageTag is null
                     ? XmlLanguage.Empty
                     : XmlLanguage.GetLanguage(cultureInfo.IetfLanguageTag);
             }

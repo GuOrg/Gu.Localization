@@ -52,7 +52,7 @@ namespace Gu.Localization
             {
                 if (TryGetTranslationErrors(culturesAndKeys, cultures, key, out var keyErrors))
                 {
-                    if (errors == null)
+                    if (errors is null)
                     {
                         errors = new Dictionary<string, IReadOnlyList<TranslationError>>();
                     }
@@ -62,7 +62,7 @@ namespace Gu.Localization
             }
 
             resourceManager.ReleaseAllResources();
-            return errors == null
+            return errors is null
                        ? TranslationErrors.Empty
                        : new TranslationErrors(errors);
         }
@@ -101,7 +101,7 @@ namespace Gu.Localization
             {
                 if (TryGetTranslationErrors(culturesAndKeys, cultures, key, out var keyErrors))
                 {
-                    if (errors == null)
+                    if (errors is null)
                     {
                         errors = new Dictionary<string, IReadOnlyList<TranslationError>>();
                     }
@@ -111,7 +111,7 @@ namespace Gu.Localization
             }
 
             resourceManager.ReleaseAllResources();
-            return errors == null
+            return errors is null
                        ? TranslationErrors.Empty
                        : new TranslationErrors(errors);
         }
@@ -188,7 +188,7 @@ namespace Gu.Localization
 
             if (TryGetMissingTranslations(key, culturesAndKeys, cultures, out var missingTranslation))
             {
-                if (foundErrors == null)
+                if (foundErrors is null)
                 {
                     foundErrors = new List<TranslationError>(1) { missingTranslation };
                 }
@@ -218,7 +218,7 @@ namespace Gu.Localization
                     return true;
                 }
 
-                if (count == null)
+                if (count is null)
                 {
                     count = indexCount;
                     continue;
@@ -246,7 +246,7 @@ namespace Gu.Localization
             {
                 if (!culturesAndKeys.HasKey(culture, key))
                 {
-                    if (missing == null)
+                    if (missing is null)
                     {
                         missing = new List<CultureInfo>();
                     }
@@ -255,7 +255,7 @@ namespace Gu.Localization
                 }
             }
 
-            if (missing == null)
+            if (missing is null)
             {
                 missingTranslations = null;
                 return false;

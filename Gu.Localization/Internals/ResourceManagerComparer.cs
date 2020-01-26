@@ -15,12 +15,12 @@ namespace Gu.Localization
 
         public bool Equals(ResourceManager x, ResourceManager y)
         {
-            if (x == null && y == null)
+            if (x is null && y is null)
             {
                 return true;
             }
 
-            if (x == null || y == null)
+            if (x is null || y is null)
             {
                 return false;
             }

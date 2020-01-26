@@ -13,7 +13,7 @@ namespace Gu.Localization.Analyzers.Tests.Helpers
         [TestCase("The first value is: {0} and the second value is {1}", "The_first_value_is____0___and_the_second_value_is___1__")]
         public void TryGetKey(string text, string expected)
         {
-            if (expected == null)
+            if (expected is null)
             {
                 Assert.AreEqual(false, Resources.TryGetKey(text, out _));
             }

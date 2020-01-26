@@ -36,7 +36,7 @@ namespace Gu.Localization
                 {
                     if (directory.EnumerateFiles("*.resources.dll", SearchOption.TopDirectoryOnly).Any())
                     {
-                        if (cultures == null)
+                        if (cultures is null)
                         {
                             cultures = new HashSet<CultureInfo>(CultureInfoComparer.ByName);
                         }
@@ -52,7 +52,7 @@ namespace Gu.Localization
                 var neutralLanguageAttribute = entryAssembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>();
                 if (Culture.TryGet(neutralLanguageAttribute?.CultureName, out var neutralCulture))
                 {
-                    if (cultures == null)
+                    if (cultures is null)
                     {
                         cultures = new HashSet<CultureInfo>(CultureInfoComparer.ByName);
                     }
@@ -67,7 +67,7 @@ namespace Gu.Localization
                     if (match.Success &&
                         Culture.TryGet(match.Groups["culture"].Value, out var culture))
                     {
-                        if (cultures == null)
+                        if (cultures is null)
                         {
                             cultures = new HashSet<CultureInfo>(CultureInfoComparer.ByName);
                         }

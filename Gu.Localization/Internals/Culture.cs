@@ -23,7 +23,7 @@ namespace Gu.Localization
 
         internal static bool TryGet(string name, out CultureInfo culture)
         {
-            if (name == null)
+            if (name is null)
             {
                 culture = null;
                 return false;
@@ -35,7 +35,7 @@ namespace Gu.Localization
 
         internal static bool TryGetRegion(CultureInfo culture, out RegionInfo region)
         {
-            if (culture == null || culture.IsInvariant())
+            if (culture is null || culture.IsInvariant())
             {
                 region = null;
                 return false;

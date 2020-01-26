@@ -76,7 +76,7 @@ namespace Gu.Localization.Tests.Internals
 
             public override string ToString()
             {
-                var args = this.Args == null
+                var args = this.Args is null
                                ? "null"
                                : this.Args.Length == 0
                                      ? "object[0]"

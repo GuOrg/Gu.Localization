@@ -45,7 +45,7 @@ namespace Gu.Localization.Benchmarks
 
         private static CultureInfo CreateSpecificCultureOrDefault(CultureInfo neutral)
         {
-            if (neutral == null ||
+            if (neutral is null ||
                 !neutral.IsNeutralCulture)
             {
                 return null;
@@ -83,12 +83,12 @@ namespace Gu.Localization.Benchmarks
             /// <inheritdoc />
             public bool Equals(CultureInfo x, CultureInfo y)
             {
-                if (x == null && y == null)
+                if (x is null && y is null)
                 {
                     return true;
                 }
 
-                if (x == null || y == null)
+                if (x is null || y is null)
                 {
                     return false;
                 }
@@ -99,7 +99,7 @@ namespace Gu.Localization.Benchmarks
             /// <inheritdoc />
             public int GetHashCode(CultureInfo obj)
             {
-                if (obj == null)
+                if (obj is null)
                 {
                     return 0;
                 }

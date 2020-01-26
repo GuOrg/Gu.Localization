@@ -15,7 +15,7 @@
 
             if (count == 0)
             {
-                if (args == null || args.Length == 0)
+                if (args is null || args.Length == 0)
                 {
                     return;
                 }
@@ -24,7 +24,7 @@
                 throw new ArgumentException(message, $"{formatParameterName},{argsParameterName}");
             }
 
-            if (args == null || args.Length == 0)
+            if (args is null || args.Length == 0)
             {
                 var message = $"The format string: {format} contains {count} arguments but: no arguments were passed.";
                 throw new ArgumentException(message, $"{formatParameterName},{argsParameterName}");

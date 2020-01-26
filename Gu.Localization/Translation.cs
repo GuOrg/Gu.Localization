@@ -129,7 +129,7 @@ namespace Gu.Localization
             {
                 get
                 {
-                    if (this.culture == null)
+                    if (this.culture is null)
                     {
                         this.TryUpdate(Translator.CurrentCulture);
                     }

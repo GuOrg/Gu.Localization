@@ -104,7 +104,7 @@ namespace Gu.Localization
                 // I don't remember if this cloning solves a problem or if it is some old thing.
                 using (var clone = new ResourceManagerClone(this.resourceManager))
                 {
-                    if (clone.ResourceManager == null)
+                    if (clone.ResourceManager is null)
                     {
                         return;
                     }
@@ -117,7 +117,7 @@ namespace Gu.Localization
                             hasAddedNeutral |= culture.IsInvariant();
                             using (var resourceSet = clone.ResourceManager.GetResourceSet(culture, createIfNotExists: true, tryParents: false))
                             {
-                                if (resourceSet == null)
+                                if (resourceSet is null)
                                 {
                                     this.culturesAndKeys.TryAdd(culture, null);
                                 }
@@ -134,7 +134,7 @@ namespace Gu.Localization
                         {
                             using (var resourceSet = clone.ResourceManager.GetResourceSet(CultureInfo.InvariantCulture, createIfNotExists: true, tryParents: false))
                             {
-                                if (resourceSet == null)
+                                if (resourceSet is null)
                                 {
                                     this.culturesAndKeys.TryAdd(CultureInfo.InvariantCulture, null);
                                 }
@@ -162,14 +162,14 @@ namespace Gu.Localization
                 // I don't remember if this cloning solves a problem or if it is some old thing.
                 using (var clone = new ResourceManagerClone(this.resourceManager))
                 {
-                    if (clone?.ResourceManager == null)
+                    if (clone?.ResourceManager is null)
                     {
                         return null;
                     }
 
                     using (var resourceSet = clone.ResourceManager.GetResourceSet(culture, createIfNotExists: true, tryParents: false))
                     {
-                        if (resourceSet == null)
+                        if (resourceSet is null)
                         {
                             return null;
                         }

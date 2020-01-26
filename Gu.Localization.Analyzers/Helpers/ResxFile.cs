@@ -130,7 +130,7 @@ namespace Gu.Localization.Analyzers
 
         private static ResxFile Update(string fileName, ResxFile old)
         {
-            if (old == null ||
+            if (old is null ||
                 old.lastWriteTimeUtc != new FileInfo(fileName).LastWriteTimeUtc)
             {
                 return Create(fileName);

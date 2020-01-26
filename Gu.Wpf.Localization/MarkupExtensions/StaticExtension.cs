@@ -57,13 +57,13 @@ namespace Gu.Wpf.Localization
                 }
 
                 var qnk = QualifiedNameAndKey.Parse(this.Member);
-                if (qnk.QualifiedName == null || qnk.Key == null)
+                if (qnk.QualifiedName is null || qnk.Key is null)
                 {
                     return string.Format(CultureInfo.InvariantCulture, Resources.UnknownErrorFormat, this.Member);
                 }
 
                 var type = serviceProvider.Resolve(qnk.QualifiedName);
-                if (type == null)
+                if (type is null)
                 {
                     return string.Format(CultureInfo.InvariantCulture, Resources.MissingResourcesFormat, this.Member);
                 }

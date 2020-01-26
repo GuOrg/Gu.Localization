@@ -63,7 +63,7 @@ namespace Gu.Localization
                 throw new FormatException($"Invalid format string: \"{format}\".");
             }
 
-            if (args == null || args.Length == 0)
+            if (args is null || args.Length == 0)
             {
                 if (count == 0)
                 {

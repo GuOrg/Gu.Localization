@@ -25,7 +25,7 @@ namespace Gu.Localization
         internal static ResourceManager ForType(Type resourcesType)
         {
             var resourceManager = TypeManagerCache.GetOrAdd(resourcesType, CreateManagerForType);
-            if (resourceManager == null)
+            if (resourceManager is null)
             {
                 var message = $"{nameof(resourcesType)} must have a property named ResourceManager of type ResourceManager";
                 throw new ArgumentException(message);
@@ -43,7 +43,7 @@ namespace Gu.Localization
         private static ResourceManager CreateManagerForType(Type type)
         {
             var property = GetResourceManagerProperty(type);
-            if (property == null || !typeof(ResourceManager).IsAssignableFrom(property.PropertyType))
+            if (property is null || !typeof(ResourceManager).IsAssignableFrom(property.PropertyType))
             {
                 var message = $"{nameof(type)} must have a property named ResourceManager of type ResourceManager";
                 throw new ArgumentException(message);

@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System;
     using System.Windows;
@@ -22,7 +22,7 @@ namespace Gu.Wpf.Localization
                 var manager = (CultureChangedEventManager)GetCurrentManager(managerType);
 
                 // at first use, create and register a new manager
-                if (manager == null)
+                if (manager is null)
                 {
                     manager = new CultureChangedEventManager();
                     SetCurrentManager(managerType, manager);

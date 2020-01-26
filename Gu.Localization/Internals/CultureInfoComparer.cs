@@ -25,12 +25,12 @@ namespace Gu.Localization
         /// <inheritdoc />
         public bool Equals(CultureInfo x, CultureInfo y)
         {
-            if (x == null && y == null)
+            if (x is null && y is null)
             {
                 return true;
             }
 
-            if (x == null || y == null)
+            if (x is null || y is null)
             {
                 return false;
             }
@@ -41,7 +41,7 @@ namespace Gu.Localization
         /// <inheritdoc />
         public int GetHashCode(CultureInfo obj)
         {
-            if (obj == null)
+            if (obj is null)
             {
                 return 0;
             }

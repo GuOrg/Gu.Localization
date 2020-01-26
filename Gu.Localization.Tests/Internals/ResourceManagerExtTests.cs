@@ -26,7 +26,7 @@
         [TestCase("it", false)]
         public void HasCulture(string cultureName, bool expected)
         {
-            var culture = cultureName == null
+            var culture = cultureName is null
                                  ? CultureInfo.InvariantCulture
                                  : CultureInfo.GetCultureInfo(cultureName);
 
@@ -42,7 +42,7 @@
         [TestCase(nameof(Properties.Resources.EnglishOnly), "en", true)]
         public void HasKey(string key, string cultureName, bool expected)
         {
-            var culture = cultureName == null
+            var culture = cultureName is null
                                  ? CultureInfo.InvariantCulture
                                  : CultureInfo.GetCultureInfo(cultureName);
 

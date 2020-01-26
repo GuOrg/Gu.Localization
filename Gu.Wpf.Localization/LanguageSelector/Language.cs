@@ -36,7 +36,7 @@ namespace Gu.Wpf.Localization
         {
             get
             {
-                if (this.culture == null)
+                if (this.culture is null)
                 {
                     return false;
                 }

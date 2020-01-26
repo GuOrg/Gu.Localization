@@ -169,7 +169,7 @@ namespace Gu.Localization.Analyzers
         private static bool TryGetStringValue(ArgumentSyntax argument, [NotNullWhen(true)] out string? result)
         {
             result = null;
-            if (argument?.Expression == null)
+            if (argument?.Expression is null)
             {
                 return false;
             }
