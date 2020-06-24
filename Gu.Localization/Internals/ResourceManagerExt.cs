@@ -1,4 +1,4 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
     using System.Collections;
@@ -150,14 +150,14 @@ namespace Gu.Localization
                 }
             }
 
-            private string GetString(string key, CultureInfo cultureInfo)
+            private string? GetString(string key, CultureInfo cultureInfo)
             {
                 return this.HasKey(cultureInfo, key)
                            ? this.resourceManager.GetString(key, cultureInfo)
                            : null;
             }
 
-            private ReadOnlySet<string> CreateKeysForCulture(CultureInfo culture)
+            private ReadOnlySet<string>? CreateKeysForCulture(CultureInfo culture)
             {
                 // I don't remember if this cloning solves a problem or if it is some old thing.
                 using (var clone = new ResourceManagerClone(this.resourceManager))
