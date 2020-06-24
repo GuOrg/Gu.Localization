@@ -7,13 +7,10 @@ variables:
 steps:
 
 - task: VSBuild@1
-  displayName: Build
   inputs:
     configuration: '$(buildConfiguration)'
     msbuildArgs: '/restore'
 
-- task: DotNetCoreCLI@2
-  displayName: Test
+- task: VSTest@2
   inputs:
-    command: 'test'
-    arguments: '--no-build --configuration=$(buildConfiguration)'
+    configuration: '$(buildConfiguration)'
