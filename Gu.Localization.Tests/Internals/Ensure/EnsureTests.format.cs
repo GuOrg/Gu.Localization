@@ -7,32 +7,32 @@ namespace Gu.Localization.Tests.Internals
 
     public class EnsureTests
     {
-        private static FormatData[] Valids = new[]
+        private static readonly FormatData[] Valids = new[]
         {
-            new FormatData(@"some string", null),
-            new FormatData(@"some string", Array.Empty<object>()),
-            new FormatData(@"string with {0} parameter", new object[] { 1 }),
-            new FormatData(@"string with {0} parameter {0} in to places", new object[] { 1 }),
-            new FormatData(@"string with {0} parameter {1} in to places", new object[] { 2, 2 }),
-            new FormatData(@"string with {0} parameter {1} in to places {0}", new object[] { 2, 2 }),
-            new FormatData("string with {0} parameter {1} in {2} places", new object[] { 1, 2, 3 }),
+            new FormatData("No argument", null),
+            new FormatData("No argument", Array.Empty<object>()),
+            new FormatData("{0}", new object[] { 1 }),
+            new FormatData("{0} {0}", new object[] { 1 }),
+            new FormatData("{0} {1}", new object[] { 2, 2 }),
+            new FormatData("{0} {1} {0}", new object[] { 2, 2 }),
+            new FormatData("{0} {1} {2}", new object[] { 1, 2, 3 }),
         };
 
-        private static FormatData[] InValids = new[]
+        private static readonly FormatData[] Invalids = new[]
         {
             new FormatData("some string", new object[] { 1 }),
-            new FormatData("string with {0} parameter", null),
-            new FormatData("string with {1} parameter", new object[] { 1 }),
-            new FormatData("string with {0} parameter {2}", new object[] { 1, 2 }),
-            new FormatData("string with {0} parameter", Array.Empty<object>()),
-            new FormatData("string with {0} parameter", new object[] { 1, 2 }),
-            new FormatData("string with {0} parameter {0} in to places", null),
-            new FormatData("string with {0} parameter {0} in to places", Array.Empty<object>()),
-            new FormatData("string with {0} parameter {0} in to places", new object[] { 1, 2 }),
-            new FormatData("string with {0} parameter {1} in to places", null),
-            new FormatData("string with {0} parameter {1} in to places", Array.Empty<object>()),
-            new FormatData("string with {0} parameter {1} in to places", new object[] { 1 }),
-            new FormatData("string with {0} parameter {1} in to places", new object[] { 1, 2, 3 }),
+            new FormatData("{0}", null),
+            new FormatData("{1}", new object[] { 1 }),
+            new FormatData("{0} {2}", new object[] { 1, 2 }),
+            new FormatData("{0}", Array.Empty<object>()),
+            new FormatData("{0}", new object[] { 1, 2 }),
+            new FormatData("{0} {0}", null),
+            new FormatData("{0} {0}", Array.Empty<object>()),
+            new FormatData("{0} {0}", new object[] { 1, 2 }),
+            new FormatData("{0} {1}", null),
+            new FormatData("{0} {1}", Array.Empty<object>()),
+            new FormatData("{0} {1}", new object[] { 1 }),
+            new FormatData("{0} {1}", new object[] { 1, 2, 3 }),
         };
 
         [TestCaseSource(nameof(Valids))]
@@ -47,7 +47,7 @@ namespace Gu.Localization.Tests.Internals
             Assert.True(Ensure.FormatMatches(data.Format, data.Args));
         }
 
-        [TestCaseSource(nameof(InValids))]
+        [TestCaseSource(nameof(Invalids))]
         public void FormatThrows(FormatData data)
         {
             var ex = Assert.Throws<ArgumentException>(() => Ensure.Format(data.Format, data.Args, "format", "args"));
@@ -56,7 +56,7 @@ namespace Gu.Localization.Tests.Internals
 #endif
         }
 
-        [TestCaseSource(nameof(InValids))]
+        [TestCaseSource(nameof(Invalids))]
         public void FormatDoesNotMatch(FormatData data)
         {
             Assert.False(Ensure.FormatMatches(data.Format, data.Args));

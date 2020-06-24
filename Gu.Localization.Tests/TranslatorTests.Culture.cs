@@ -15,7 +15,7 @@
             [Ignore("Must be run separately due to static")]
             public static void InitializesToCurrentCulture()
             {
-                Assert.AreEqual(Translator.Culture.ThreeLetterISOLanguageName, CultureInfo.CurrentCulture.ThreeLetterISOLanguageName);
+                Assert.AreEqual(Translator.Culture?.ThreeLetterISOLanguageName, CultureInfo.CurrentCulture.ThreeLetterISOLanguageName);
             }
 
             [Test]
