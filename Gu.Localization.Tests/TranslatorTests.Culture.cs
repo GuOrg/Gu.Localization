@@ -1,4 +1,4 @@
-namespace Gu.Localization.Tests
+﻿namespace Gu.Localization.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace Gu.Localization.Tests
         public static class Culture
         {
             [Test]
-            [Explicit("Must be run separately due to static")]
+            [Ignore("Must be run separately due to static")]
             public static void InitializesToCurrentCulture()
             {
                 Assert.AreEqual(Translator.Culture.ThreeLetterISOLanguageName, CultureInfo.CurrentCulture.ThreeLetterISOLanguageName);

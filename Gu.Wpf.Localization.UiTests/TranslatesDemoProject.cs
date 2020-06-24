@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Localization.UiTests
+﻿namespace Gu.Wpf.Localization.UiTests
 {
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
@@ -202,7 +202,7 @@ namespace Gu.Wpf.Localization.UiTests
         }
 
         [Test]
-        [Explicit(Todo.FixThisTest)]
+        [Ignore(Todo.FixThisTest)]
         public void NoTranslationsWithReturnErrorInfo()
         {
             using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
