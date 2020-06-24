@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Localization.UiTests
+﻿namespace Gu.Wpf.Localization.UiTests
 {
     using System.Linq;
     using Gu.Wpf.UiAutomation;
@@ -28,6 +28,7 @@ namespace Gu.Wpf.Localization.UiTests
         {
             using var application = Application.AttachOrLaunch("Gu.Wpf.Localization.Demo.Fody.exe");
             var window = application.MainWindow;
+            window.WaitUntilResponsive();
             var comboBox = window.FindComboBox("LanguageComboBox");
             var label = window.FindLabel("TranslatedLabel");
 
