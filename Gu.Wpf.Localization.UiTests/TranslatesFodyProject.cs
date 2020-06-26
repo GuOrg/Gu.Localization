@@ -1,5 +1,7 @@
 ﻿namespace Gu.Wpf.Localization.UiTests
 {
+    using System;
+    using System.IO;
     using System.Linq;
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
@@ -28,17 +30,28 @@
         {
             using var application = Application.AttachOrLaunch("Gu.Wpf.Localization.Demo.Fody.exe");
             var window = application.MainWindow;
-            var comboBox = window.FindComboBox("LanguageComboBox");
-            var label = window.FindLabel("TranslatedLabel");
+            try
+            {
+                var comboBox = window.FindComboBox("LanguageComboBox");
+                var label = window.FindLabel("TranslatedLabel");
 
-            comboBox.Select("English (United Kingdom)");
-            Assert.AreEqual("English", label.Text);
+                comboBox.Select("English (United Kingdom)");
+                Assert.AreEqual("English", label.Text);
 
-            comboBox.Select("Nederlands (Nederland)");
-            Assert.AreEqual("Nederlands", label.Text);
+                comboBox.Select("Nederlands (Nederland)");
+                Assert.AreEqual("Nederlands", label.Text);
 
-            comboBox.Select("svenska (Sverige)");
-            Assert.AreEqual("Svenska", label.Text);
+                comboBox.Select("svenska (Sverige)");
+                Assert.AreEqual("Svenska", label.Text);
+            }
+            catch
+            {
+                var fullFileName = Path.Combine(Path.GetTempPath(), "screen.png");
+                Capture.ScreenToFile(fullFileName);
+                TestContext.AddTestAttachment(fullFileName);
+                throw;
+            }
+
         }
     }
 }
