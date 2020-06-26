@@ -9,6 +9,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p="clr-namespace:Gu.Wpf.Localization.Demo.Fody.Properties"
         Title="MainWindow"
+        WindowStartupLocation="CenterScreen"
         Width="200"
         Height="200"
         mc:Ignorable="d">
