@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System;
     using System.ComponentModel;
@@ -12,8 +12,8 @@ namespace Gu.Wpf.Localization
     //// ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
     public class Language : INotifyPropertyChanged
     {
-        private CultureInfo culture;
-        private Uri flagSource;
+        private CultureInfo? culture;
+        private Uri? flagSource;
 
         /// <summary> Initializes a new instance of the <see cref="Language"/> class.</summary>
         public Language()
@@ -29,7 +29,7 @@ namespace Gu.Wpf.Localization
         }
 
         /// <inheritdoc />
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>Gets a value indicating whether gets a value indicating whether the <see cref="Culture"/> can be used as <see cref="Translator.Culture"/>.</summary>
         public bool CanSelect
@@ -46,7 +46,7 @@ namespace Gu.Wpf.Localization
         }
 
         /// <summary>Gets or sets the <see cref="CultureInfo"/>.</summary>
-        public CultureInfo Culture
+        public CultureInfo? Culture
         {
             get => this.culture;
 
@@ -83,7 +83,7 @@ namespace Gu.Wpf.Localization
         /// <summary>
         /// Gets or sets the <see cref="Uri"/> to the flag for the <see cref="Culture"/>.
         /// </summary>
-        public Uri FlagSource
+        public Uri? FlagSource
         {
             get => this.flagSource;
 
