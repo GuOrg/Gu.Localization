@@ -28,7 +28,6 @@
         {
             using var application = Application.AttachOrLaunch("Gu.Wpf.Localization.Demo.Fody.exe");
             var window = application.MainWindow;
-            window.WaitUntilResponsive();
             var comboBox = window.FindComboBox("LanguageComboBox");
             var label = window.FindLabel("TranslatedLabel");
 
