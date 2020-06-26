@@ -1,4 +1,5 @@
-﻿Gu.Wpf.Localization.CultureOrDefaultConverter
+﻿#nullable enable
+Gu.Wpf.Localization.CultureOrDefaultConverter
 Gu.Wpf.Localization.CultureOrDefaultConverter.Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo _) -> object
 Gu.Wpf.Localization.CultureOrDefaultConverter.CultureOrDefaultConverter() -> void
 Gu.Wpf.Localization.CultureToFlagPathConverter

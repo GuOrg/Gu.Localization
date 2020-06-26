@@ -1,4 +1,4 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
     using System.Collections.Concurrent;
@@ -66,8 +66,15 @@ namespace Gu.Localization
         /// </returns>
         public static ITranslation GetOrCreate(ResourceManager resourceManager, string key, ErrorHandling errorHandlingStrategy = ErrorHandling.Inherit)
         {
-            Ensure.NotNull(resourceManager, nameof(resourceManager));
-            Ensure.NotNull(key, nameof(key));
+            if (resourceManager is null)
+            {
+                throw new ArgumentNullException(nameof(resourceManager));
+            }
+
+            if (key is null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
 
             errorHandlingStrategy = errorHandlingStrategy.Coerce();
             var rmk = new ResourceManagerAndKey(resourceManager, key, errorHandlingStrategy);
