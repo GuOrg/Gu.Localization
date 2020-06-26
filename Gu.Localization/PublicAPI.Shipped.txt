@@ -71,7 +71,7 @@ Gu.Localization.StaticTranslation.Translated.get -> string
 Gu.Localization.Translation
 Gu.Localization.Translation.ErrorHandling.get -> Gu.Localization.ErrorHandling
 Gu.Localization.Translation.Key.get -> string
-Gu.Localization.Translation.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Localization.Translation.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
 Gu.Localization.Translation.Translate(System.Globalization.CultureInfo culture, Gu.Localization.ErrorHandling errorHandlingStrategy = Gu.Localization.ErrorHandling.Inherit) -> string
 Gu.Localization.Translation.Translated.get -> string
 Gu.Localization.Translator

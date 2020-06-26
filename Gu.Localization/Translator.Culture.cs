@@ -16,10 +16,10 @@
         private static CultureInfo? effectiveCulture;
 
         /// <summary>For binding to static properties in XAML.</summary>
-        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+        public static event EventHandler<PropertyChangedEventArgs>? StaticPropertyChanged;
 
         /// <summary>Notifies when the current language changes.</summary>
-        public static event EventHandler<CultureChangedEventArgs> CurrentCultureChanged;
+        public static event EventHandler<CultureChangedEventArgs>? CurrentCultureChanged;
 
         /// <summary> Gets a set with all cultures found for the application. </summary>
         public static ObservableSortedSet<CultureInfo> Cultures { get; } = new ObservableSortedSet<CultureInfo>(GetAllCultures(), CultureInfoComparer.ByName);

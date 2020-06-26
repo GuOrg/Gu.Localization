@@ -38,7 +38,7 @@
         }
 
         /// <inheritdoc />
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <inheritdoc />
         public string Translated => this.cachedTranslation.Value;
@@ -87,10 +87,10 @@
             return Translator.Translate(this.resourceManager, this.Key, culture, errorHandlingStrategy);
         }
 
-        /// <summary> Use this to raise propertychanged.</summary>
+        /// <summary> Use this to raise <see cref="PropertyChanged"/>.</summary>
         /// <param name="propertyName">The name of the property.</param>
         // ReSharper disable once UnusedMember.Global
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
