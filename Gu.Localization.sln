@@ -6,20 +6,22 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sln", ".sln", "{867813BE-358B-4C9E-9FA6-07168882AA9D}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
 		azure-pipelines.yml = azure-pipelines.yml
 		Settings.XamlStyler = Settings.XamlStyler
+		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization", "Gu.Wpf.Localization\Gu.Wpf.Localization.csproj", "{B5BA2BCC-6CA4-4422-9220-FDEDD657BA0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.Localization", "Gu.Wpf.Localization\Gu.Wpf.Localization.csproj", "{B5BA2BCC-6CA4-4422-9220-FDEDD657BA0E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.Localization.Tests", "Gu.Wpf.Localization.Tests\Gu.Wpf.Localization.Tests.csproj", "{51091D53-D0DF-4543-BB35-B7A52373AD9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Demo.Controls", "Gu.Wpf.Localization.Demo.Controls\Gu.Wpf.Localization.Demo.Controls.csproj", "{85009EF0-C922-4EDB-9648-495B56B30CFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.Localization.Demo.Controls", "Gu.Wpf.Localization.Demo.Controls\Gu.Wpf.Localization.Demo.Controls.csproj", "{85009EF0-C922-4EDB-9648-495B56B30CFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.NoResources", "Gu.Wpf.Localization.NoResources\Gu.Wpf.Localization.NoResources.csproj", "{A8722CC6-E477-43B6-A1A0-B7A062FBB290}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.Localization.NoResources", "Gu.Wpf.Localization.NoResources\Gu.Wpf.Localization.NoResources.csproj", "{A8722CC6-E477-43B6-A1A0-B7A062FBB290}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Modern.Demo", "Gu.Wpf.Localization.Modern.Demo\Gu.Wpf.Localization.Modern.Demo.csproj", "{D77D4706-D218-4DC6-B117-611AF843FED9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.Localization.Modern.Demo", "Gu.Wpf.Localization.Modern.Demo\Gu.Wpf.Localization.Modern.Demo.csproj", "{D77D4706-D218-4DC6-B117-611AF843FED9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Localization", "Gu.Localization\Gu.Localization.csproj", "{EF992DC9-C8DF-48C4-AA2D-4126CC6CC6D4}"
 EndProject
@@ -29,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stubs", "Stubs", "{7C464917
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.Localization.UiTests", "Gu.Wpf.Localization.UiTests\Gu.Wpf.Localization.UiTests.csproj", "{C312AD79-2562-4487-AEA4-E181BB814ECC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Demo", "Gu.Wpf.Localization.Demo\Gu.Wpf.Localization.Demo.csproj", "{24A5D9D2-60D8-47B7-8750-48E85A2218DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.Localization.Demo", "Gu.Wpf.Localization.Demo\Gu.Wpf.Localization.Demo.csproj", "{24A5D9D2-60D8-47B7-8750-48E85A2218DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{EFFBB24C-1FAE-4E2A-B445-8C88ED2A7552}"
 	ProjectSection(SolutionItems) = preProject
@@ -38,15 +40,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{EFFBB24C-1
 		RELEASE_NOTES.md = RELEASE_NOTES.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.WithNeutralLanguage", "Gu.Wpf.Localization.WithNeutralLanguage\Gu.Wpf.Localization.WithNeutralLanguage.csproj", "{8F238B89-C06A-4935-8EE9-1E84D297DC4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.Localization.WithNeutralLanguage", "Gu.Wpf.Localization.WithNeutralLanguage\Gu.Wpf.Localization.WithNeutralLanguage.csproj", "{8F238B89-C06A-4935-8EE9-1E84D297DC4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.Demo.Fody", "Gu.Wpf.Localization.Demo.Fody\Gu.Wpf.Localization.Demo.Fody.csproj", "{BDB276CE-DBB6-4BD7-B7F8-59777D655A70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.Localization.Demo.Fody", "Gu.Wpf.Localization.Demo.Fody\Gu.Wpf.Localization.Demo.Fody.csproj", "{BDB276CE-DBB6-4BD7-B7F8-59777D655A70}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Localization.Analyzers", "Gu.Localization.Analyzers\Gu.Localization.Analyzers.csproj", "{29582B83-3D78-40E2-B8BA-87584EB57421}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Localization.Analyzers.Tests", "Gu.Localization.Analyzers.Tests\Gu.Localization.Analyzers.Tests.csproj", "{00E49DA7-9E0D-4F64-B7EF-9768D57142EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Localization.TestStub", "Gu.Localization.TestStub\Gu.Localization.TestStub.csproj", "{6D8D9688-CE1F-4EEA-9969-F32403650402}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Localization.TestStub", "Gu.Localization.TestStub\Gu.Localization.TestStub.csproj", "{6D8D9688-CE1F-4EEA-9969-F32403650402}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Localization.Analyzers.Vsix", "Gu.Localization.Analyzers.Vsix\Gu.Localization.Analyzers.Vsix.csproj", "{99CD23FC-6BDE-46AB-820C-D65DE06187DA}"
 EndProject
