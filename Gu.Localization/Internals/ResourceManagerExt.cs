@@ -64,7 +64,7 @@
 
         internal sealed class CulturesAndKeys
         {
-            private readonly ConcurrentDictionary<CultureInfo, ReadOnlySet<string>> culturesAndKeys = new ConcurrentDictionary<CultureInfo, ReadOnlySet<string>>(CultureInfoComparer.ByName);
+            private readonly ConcurrentDictionary<CultureInfo, ReadOnlySet<string>?> culturesAndKeys = new ConcurrentDictionary<CultureInfo, ReadOnlySet<string>?>(CultureInfoComparer.ByName);
             private readonly ResourceManager resourceManager;
             private readonly HashSet<string> allKeys = new HashSet<string>();
 
@@ -102,49 +102,43 @@
                 }
 
                 // I don't remember if this cloning solves a problem or if it is some old thing.
-                using (var clone = new ResourceManagerClone(this.resourceManager))
+                using var clone = new ResourceManagerClone(this.resourceManager);
+                if (clone.ResourceManager is null)
                 {
-                    if (clone.ResourceManager is null)
+                    return;
+                }
+
+                var hasAddedNeutral = false;
+                lock (this.culturesAndKeys)
+                {
+                    foreach (var culture in cultures)
                     {
-                        return;
+                        hasAddedNeutral |= culture.IsInvariant();
+                        using var resourceSet = clone.ResourceManager.GetResourceSet(culture, createIfNotExists: true, tryParents: false);
+                        if (resourceSet is null)
+                        {
+                            this.culturesAndKeys.TryAdd(culture, null);
+                        }
+                        else
+                        {
+                            var keys = ReadOnlySet.Create(resourceSet.OfType<DictionaryEntry>().Select(x => x.Key).OfType<string>());
+                            this.allKeys.UnionWith(keys);
+                            this.culturesAndKeys.TryAdd(culture, keys);
+                        }
                     }
 
-                    var hasAddedNeutral = false;
-                    lock (this.culturesAndKeys)
+                    if (!hasAddedNeutral)
                     {
-                        foreach (var culture in cultures)
+                        using var resourceSet = clone.ResourceManager.GetResourceSet(CultureInfo.InvariantCulture, createIfNotExists: true, tryParents: false);
+                        if (resourceSet is null)
                         {
-                            hasAddedNeutral |= culture.IsInvariant();
-                            using (var resourceSet = clone.ResourceManager.GetResourceSet(culture, createIfNotExists: true, tryParents: false))
-                            {
-                                if (resourceSet is null)
-                                {
-                                    this.culturesAndKeys.TryAdd(culture, null);
-                                }
-                                else
-                                {
-                                    var keys = ReadOnlySet.Create(resourceSet.OfType<DictionaryEntry>().Select(x => x.Key).OfType<string>());
-                                    this.allKeys.UnionWith(keys);
-                                    this.culturesAndKeys.TryAdd(culture, keys);
-                                }
-                            }
+                            this.culturesAndKeys.TryAdd(CultureInfo.InvariantCulture, null);
                         }
-
-                        if (!hasAddedNeutral)
+                        else
                         {
-                            using (var resourceSet = clone.ResourceManager.GetResourceSet(CultureInfo.InvariantCulture, createIfNotExists: true, tryParents: false))
-                            {
-                                if (resourceSet is null)
-                                {
-                                    this.culturesAndKeys.TryAdd(CultureInfo.InvariantCulture, null);
-                                }
-                                else
-                                {
-                                    var keys = ReadOnlySet.Create(resourceSet.OfType<DictionaryEntry>().Select(x => x.Key).OfType<string>());
-                                    this.allKeys.UnionWith(keys);
-                                    this.culturesAndKeys.TryAdd(CultureInfo.InvariantCulture, keys);
-                                }
-                            }
+                            var keys = ReadOnlySet.Create(resourceSet.OfType<DictionaryEntry>().Select(x => x.Key).OfType<string>());
+                            this.allKeys.UnionWith(keys);
+                            this.culturesAndKeys.TryAdd(CultureInfo.InvariantCulture, keys);
                         }
                     }
                 }
@@ -160,25 +154,17 @@
             private ReadOnlySet<string>? CreateKeysForCulture(CultureInfo culture)
             {
                 // I don't remember if this cloning solves a problem or if it is some old thing.
-                using (var clone = new ResourceManagerClone(this.resourceManager))
+                using var clone = new ResourceManagerClone(this.resourceManager);
+
+                using var resourceSet = clone?.ResourceManager?.GetResourceSet(culture, createIfNotExists: true, tryParents: false);
+                if (resourceSet is null)
                 {
-                    if (clone?.ResourceManager is null)
-                    {
-                        return null;
-                    }
-
-                    using (var resourceSet = clone.ResourceManager.GetResourceSet(culture, createIfNotExists: true, tryParents: false))
-                    {
-                        if (resourceSet is null)
-                        {
-                            return null;
-                        }
-
-                        var keys = ReadOnlySet.Create(resourceSet.OfType<DictionaryEntry>().Select(x => x.Key).OfType<string>());
-                        this.allKeys.UnionWith(keys);
-                        return keys;
-                    }
+                    return null;
                 }
+
+                var keys = ReadOnlySet.Create(resourceSet.OfType<DictionaryEntry>().Select(x => x.Key).OfType<string>());
+                this.allKeys.UnionWith(keys);
+                return keys;
             }
 
             /// <summary>Creates a clone of the <see cref="ResourceManager"/> passed in. Releases all resources on dispose.</summary>
