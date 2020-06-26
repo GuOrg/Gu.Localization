@@ -2,11 +2,8 @@ image: Visual Studio 2019
 
 before_build:
 - ps: dotnet restore
-
+ 
 configuration: Release
 platform: Any CPU
 build:
   verbosity: minimal
-
-on_failure:
-  - ps: Get-ChildItem $env:temp\*.png | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
