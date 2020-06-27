@@ -1,5 +1,6 @@
 ﻿namespace Gu.Wpf.Localization.UiTests
 {
+    using System.IO;
     using System.Linq;
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
@@ -28,6 +29,13 @@
         {
             using var application = Application.AttachOrLaunch("Gu.Wpf.Localization.Demo.Fody.exe");
             var window = application.MainWindow;
+            if (WindowsVersion.IsAzureDevops())
+            {
+                var fileName = Path.Combine(Path.GetTempPath(), "screen.png");
+                Capture.ScreenToFile(fileName);
+                TestContext.AddTestAttachment(fileName);
+            }
+
             var comboBox = window.FindComboBox("LanguageComboBox");
             var label = window.FindLabel("TranslatedLabel");
 
