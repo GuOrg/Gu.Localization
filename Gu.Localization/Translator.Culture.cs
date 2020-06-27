@@ -66,11 +66,12 @@
         /// <returns>The effective culture.</returns>
         public static CultureInfo CurrentCulture
         {
-            get => effectiveCulture ?? (effectiveCulture = GetEffectiveCulture(null));
+            get => effectiveCulture ??= GetEffectiveCulture(null);
 
             private set
             {
-                if (Localization.Culture.NameEquals(value, effectiveCulture))
+                if (effectiveCulture is { } &&
+                    Localization.Culture.NameEquals(value, effectiveCulture))
                 {
                     return;
                 }
@@ -100,7 +101,7 @@
                    Cultures?.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, language)) == true;
         }
 
-        private static CultureInfo GetEffectiveCulture(CultureInfo cultureInfo)
+        private static CultureInfo GetEffectiveCulture(CultureInfo? cultureInfo)
         {
             if (cultureInfo is null)
             {

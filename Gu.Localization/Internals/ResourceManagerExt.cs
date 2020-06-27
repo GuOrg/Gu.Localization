@@ -5,6 +5,7 @@
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Resources;
@@ -226,7 +227,7 @@
 
                 public bool ContainsKey(CultureInfo key) => this.translations.Any(x => Culture.NameEquals(x.Key, key));
 
-                public bool TryGetValue(CultureInfo key, out string value)
+                public bool TryGetValue(CultureInfo key, [MaybeNullWhen(false)] out string value)
                 {
                     foreach (var keyValuePair in this.translations)
                     {

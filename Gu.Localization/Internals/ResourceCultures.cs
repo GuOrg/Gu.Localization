@@ -29,7 +29,7 @@ namespace Gu.Localization
                 return EmptyCultures;
             }
 
-            HashSet<CultureInfo> cultures = null;
+            HashSet<CultureInfo>? cultures = null;
             foreach (var directory in executingDirectory.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
             {
                 if (Culture.TryGet(directory.Name, out var culture))
