@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
+﻿namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
 {
     using System.IO;
     using Gu.Localization.Analyzers.Tests.Helpers;
@@ -11,9 +11,11 @@ namespace Gu.Localization.Analyzers.Tests.GULOC03UseResourceTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new LiteralAnalyzer();
         private static readonly CodeFixProvider Fix = new UseResourceFix();
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         private static FileInfo projectFile;
         private static FileInfo fooFile;
         private static FileInfo resxFile;
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
         [SetUp]
         public static void SetUp()
