@@ -14,7 +14,7 @@
         [Test]
         public void Create()
         {
-            var translation = EnumTranslation<DummyEnum>.Create(Properties.Resources.ResourceManager, DummyEnum.AllLanguages, ErrorHandling.ReturnErrorInfo);
+            var translation = EnumTranslation.Create(Properties.Resources.ResourceManager, DummyEnum.AllLanguages, ErrorHandling.ReturnErrorInfo);
             Translator.Culture = CultureInfo.GetCultureInfo("en");
             Assert.AreEqual("English", translation.Translated);
 

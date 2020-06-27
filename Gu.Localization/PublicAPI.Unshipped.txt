@@ -1,1 +1,1 @@
-﻿
+﻿static Gu.Localization.EnumTranslation.Create<T>(System.Resources.ResourceManager! resourceManager, T member, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> Gu.Localization.ITranslation!
