@@ -12,8 +12,10 @@
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ResourceAnalyzer();
 
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         private FileInfo projectFile;
         private DirectoryInfo directory;
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
         [SetUp]
         public void SetUp()

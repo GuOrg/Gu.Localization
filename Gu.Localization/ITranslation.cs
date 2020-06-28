@@ -22,8 +22,8 @@
 
         /// <summary>Calls <see cref="Translator.Translate(System.Resources.ResourceManager, string, CultureInfo, ErrorHandling)"/> with the key.</summary>
         /// <param name="culture">The culture.</param>
-        /// <param name="errorHandlingStrategy">Specifiec how errors are handled.</param>
+        /// <param name="errorHandlingStrategy">Specific how errors are handled.</param>
         /// <returns>The translated string.</returns>
-        string Translate(CultureInfo culture, ErrorHandling errorHandlingStrategy = ErrorHandling.Inherit);
+        string? Translate(CultureInfo culture, ErrorHandling errorHandlingStrategy = ErrorHandling.Inherit);
     }
 }

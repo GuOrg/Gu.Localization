@@ -35,7 +35,7 @@
                 .Where(x => x.IsNeutralCulture)
                 .Select(x => CreateSpecificCultureOrDefault(x)?.Name)
                 .Where(x => x != null && NameCultureMap.ContainsKey(x))
-                .Select(x => NameCultureMap[x])
+                .Select(x => NameCultureMap[x!])
                 .Distinct(CultureInfoComparer.ByTwoLetterIsoLanguageName)
                 .ToDictionary(
                     x => x.Parent,
@@ -75,15 +75,15 @@
 
             private static readonly StringComparer StringComparer = StringComparer.OrdinalIgnoreCase;
 
-            private readonly Func<CultureInfo, string> nameGetter;
+            private readonly Func<CultureInfo?, string?> nameGetter;
 
-            private CultureInfoComparer(Func<CultureInfo, string> nameGetter)
+            private CultureInfoComparer(Func<CultureInfo?, string?> nameGetter)
             {
                 this.nameGetter = nameGetter;
             }
 
             /// <inheritdoc />
-            public bool Equals(CultureInfo x, CultureInfo y)
+            public bool Equals(CultureInfo? x, CultureInfo? y)
             {
                 if (x is null && y is null)
                 {
@@ -101,15 +101,10 @@
             /// <inheritdoc />
             public int GetHashCode(CultureInfo obj)
             {
-                if (obj is null)
-                {
-                    return 0;
-                }
-
-                return StringComparer.GetHashCode(this.nameGetter(obj));
+                return this.nameGetter(obj) is { } name ? StringComparer.GetHashCode(name) : 0;
             }
 
-            public int Compare(CultureInfo x, CultureInfo y)
+            public int Compare(CultureInfo? x, CultureInfo? y)
             {
                 return string.Compare(this.nameGetter(x), this.nameGetter(y), StringComparison.Ordinal);
             }

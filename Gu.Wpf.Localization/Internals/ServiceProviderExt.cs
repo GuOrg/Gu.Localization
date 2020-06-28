@@ -1,4 +1,4 @@
-#pragma warning disable SA1600 // Elements must be documented
+﻿#pragma warning disable SA1600 // Elements must be documented
 
 namespace Gu.Wpf.Localization
 {
@@ -12,7 +12,7 @@ namespace Gu.Wpf.Localization
             return serviceProvider.GetService<IProvideValueTarget>();
         }
 
-        internal static Type Resolve(this IServiceProvider serviceProvider, string qualifiedTypeName)
+        internal static Type? Resolve(this IServiceProvider serviceProvider, string qualifiedTypeName)
         {
             var xamlTypeResolver = serviceProvider.GetXamlTypeResolver();
             return xamlTypeResolver?.Resolve(qualifiedTypeName);

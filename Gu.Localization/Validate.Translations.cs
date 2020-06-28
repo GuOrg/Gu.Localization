@@ -224,7 +224,7 @@ namespace Gu.Localization
             string key,
             ResourceManagerExt.CulturesAndKeys culturesAndKeys,
             IEnumerable<CultureInfo> cultures,
-            out FormatError formatErrors)
+            [NotNullWhen(true)] out FormatError? formatErrors)
         {
             int? count = null;
             var translations = culturesAndKeys.GetTranslationsFor(key, cultures);

@@ -81,7 +81,7 @@
 
             Translator.Culture = data.Culture;
             Translator.ErrorHandling = data.ErrorHandling;
-            var actual = Translator<Properties.Resources>.Translate(data.Key);
+            var actual = Translator<Properties.Resources>.Translate(data.Key!);
             Assert.AreEqual(data.ExpectedTranslation, actual);
         }
 
@@ -95,7 +95,7 @@
 
             Translator.Culture = data.Culture;
             Translator.ErrorHandling = ErrorHandling.Throw;
-            var actual = Translator<Properties.Resources>.Translate(data.Key, data.ErrorHandling);
+            var actual = Translator<Properties.Resources>.Translate(data.Key!, data.ErrorHandling);
             Assert.AreEqual(data.ExpectedTranslation, actual);
         }
 
@@ -104,38 +104,38 @@
         {
             Translator.Culture = null;
             Translator.ErrorHandling = ErrorHandling.Throw;
-            var actual = Translator<Properties.Resources>.Translate(data.Key, data.Culture, data.ErrorHandling);
+            var actual = Translator<Properties.Resources>.Translate(data.Key!, data.Culture, data.ErrorHandling);
             Assert.AreEqual(data.ExpectedTranslation, actual);
         }
 
         [TestCaseSource(typeof(TranslationThrowSource))]
         public void ThrowsWithGlobalErrorHandling(TranslationThrowSource.ErrorData data)
         {
-            if (!Translator.ContainsCulture(data.Culture))
+            if (!Translator.ContainsCulture(data.Culture!))
             {
                 Assert.Pass("nop");
             }
 
             Translator.Culture = data.Culture;
             Translator.ErrorHandling = data.ErrorHandling;
-            var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(data.Key));
+            var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(data.Key!));
             Assert.AreEqual(data.ExpectedMessage, actual.Message);
 
-            actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(data.Key, ErrorHandling.Inherit));
+            actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(data.Key!, ErrorHandling.Inherit));
             Assert.AreEqual(data.ExpectedMessage, actual.Message);
         }
 
         [TestCaseSource(typeof(TranslationThrowSource))]
         public void ThrowsWithExplicitErrorHandling(TranslationThrowSource.ErrorData data)
         {
-            if (!Translator.ContainsCulture(data.Culture))
+            if (!Translator.ContainsCulture(data.Culture!))
             {
                 Assert.Pass("nop");
             }
 
             Translator.Culture = data.Culture;
             Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
-            var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(data.Key, data.ErrorHandling));
+            var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(data.Key!, data.ErrorHandling));
             Assert.AreEqual(data.ExpectedMessage, actual.Message);
         }
 
@@ -144,7 +144,7 @@
         {
             Translator.Culture = null;
             Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
-            var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(data.Key, data.Culture, data.ErrorHandling));
+            var actual = Assert.Throws<ArgumentOutOfRangeException>(() => Translator<Properties.Resources>.Translate(data.Key!, data.Culture!, data.ErrorHandling));
             Assert.AreEqual(data.ExpectedMessage, actual.Message);
         }
     }
