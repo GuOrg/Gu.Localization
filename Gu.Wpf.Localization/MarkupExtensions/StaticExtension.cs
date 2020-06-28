@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System;
     using System.Globalization;
@@ -70,7 +70,9 @@ namespace Gu.Wpf.Localization
 
                 var manager = Gu.Localization.ResourceManagers.ForType(type);
                 this.Member = qnk.Key;
+#pragma warning disable CA1304 // Specify CultureInfo
                 if (!manager.HasKey(qnk.Key))
+#pragma warning restore CA1304 // Specify CultureInfo
                 {
                     return string.Format(CultureInfo.InvariantCulture, Resources.MissingKeyFormat, this.Member);
                 }
