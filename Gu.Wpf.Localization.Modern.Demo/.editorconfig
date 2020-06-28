@@ -122,3 +122,6 @@ dotnet_diagnostic.SA1649.severity = none
 
 # SA1651: Do not use placeholder elements
 dotnet_diagnostic.SA1651.severity = none
+
+# CA1824: Mark assemblies with NeutralResourcesLanguageAttribute
+dotnet_diagnostic.CA1824.severity = none
