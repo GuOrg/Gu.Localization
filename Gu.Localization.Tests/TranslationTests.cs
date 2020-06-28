@@ -43,7 +43,7 @@ namespace Gu.Localization.Tests
         {
             Translator.Culture = new CultureInfo("sv");
             var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translation.GetOrCreate(Properties.Resources.ResourceManager, "Missing", ErrorHandling.Throw));
-            var expected = "The resourcemanager: Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\n" +
+            var expected = "The ResourceManager: Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\n" +
                            "Parameter name: key";
             Assert.AreEqual(expected, exception.Message);
 

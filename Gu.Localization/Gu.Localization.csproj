@@ -26,7 +26,7 @@
 BUGFIX: Type initialization for Culture fails if installed cultures contains invalid neutral ancestry. Issue 82.</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageTags>resourcemanager localization translate language</PackageTags>
+    <PackageTags>ResourceManager localization translate language</PackageTags>
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Localization</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GuOrg/Gu.Localization</RepositoryUrl>
     <Description>For localization using ResourceManager.</Description>

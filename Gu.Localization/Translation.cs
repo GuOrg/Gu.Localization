@@ -116,7 +116,7 @@
 
             if (errorHandling == ErrorHandling.Throw)
             {
-                throw new ArgumentOutOfRangeException(nameof(key), $"The resourcemanager: {resourceManager.BaseName} does not have the key: {key}");
+                throw new ArgumentOutOfRangeException(nameof(key), $"The ResourceManager: {resourceManager.BaseName} does not have the key: {key}");
             }
 
             return new StaticTranslation(string.Format(CultureInfo.InvariantCulture, Properties.Resources.MissingKeyFormat, key), key, errorHandling);
