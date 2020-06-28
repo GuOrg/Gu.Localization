@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System;
     using System.Globalization;
@@ -19,7 +19,7 @@ namespace Gu.Wpf.Localization
         public ResourceManager? ResourceManager { get; set; }
 
         /// <summary>Gets or sets the enum member.</summary>
-        public IFormattable Member { get; set; }
+        public IFormattable Member { get; set; } = null!;
 
         /// <inheritdoc />
         public override object ProvideValue(IServiceProvider serviceProvider)
@@ -36,7 +36,7 @@ namespace Gu.Wpf.Localization
                     return $"{nameof(EnumExtension)} {nameof(this.Member)} must be an enum";
                 }
 
-                return StaticExtension.CreateBindingExpression(this.ResourceManager, this.Member.ToString(), serviceProvider);
+                return StaticExtension.CreateBindingExpression(this.ResourceManager, this.Member.ToString()!, serviceProvider);
             }
 #pragma warning disable CA1031 // Do not catch general exception types
             catch
