@@ -68,7 +68,8 @@
             var match = names.Single(x => x.EndsWith(".g.resources", StringComparison.Ordinal));
             Debug.Assert(match != null, "match != null");
             //// ReSharper disable once AssignNullToNotNullAttribute
-            using var reader = new ResourceReader(assembly.GetManifestResourceStream(match));
+            using var stream = assembly.GetManifestResourceStream(match);
+            using var reader = new ResourceReader(stream);
             var flags = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             var enumerator = reader.GetEnumerator();
             while (enumerator.MoveNext())

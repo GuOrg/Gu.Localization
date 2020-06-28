@@ -54,23 +54,22 @@
                 return string.Empty;
             }
 
-            using (var writer = new IndentedTextWriter(new StringWriter(), tabString) { NewLine = newLine })
+            using var writer = new StringWriter();
+            using var indentedWriter = new IndentedTextWriter(writer, tabString) { NewLine = newLine };
+            foreach (var keyAndErrors in this.errors.OrderBy(x => x.Key))
             {
-                foreach (var keyAndErrors in this.errors.OrderBy(x => x.Key))
+                indentedWriter.Write("Key: ");
+                indentedWriter.WriteLine(keyAndErrors.Key);
+                indentedWriter.Indent++;
+                foreach (var error in keyAndErrors.Value)
                 {
-                    writer.Write("Key: ");
-                    writer.WriteLine(keyAndErrors.Key);
-                    writer.Indent++;
-                    foreach (var error in keyAndErrors.Value)
-                    {
-                        error.WriteTo(writer);
-                    }
-
-                    writer.Indent--;
+                    error.WriteTo(indentedWriter);
                 }
 
-                return writer.InnerWriter.ToString();
+                indentedWriter.Indent--;
             }
+
+            return writer.ToString();
         }
 
         /// <inheritdoc />
