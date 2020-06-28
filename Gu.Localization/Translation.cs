@@ -41,7 +41,7 @@
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <inheritdoc />
-        public string Translated => this.cachedTranslation.Value;
+        public string? Translated => this.cachedTranslation.Value;
 
         /// <inheritdoc />
         public string Key { get; }
@@ -107,7 +107,9 @@
 
         private static ITranslation CreateTranslation(ResourceManager resourceManager, string key, ErrorHandling errorHandling)
         {
+#pragma warning disable CA1304 // Specify CultureInfo
             if (resourceManager.HasKey(key))
+#pragma warning restore CA1304 // Specify CultureInfo
             {
                 return new Translation(resourceManager, key, errorHandling);
             }
@@ -124,15 +126,15 @@
         {
             private readonly Translation translation;
             private readonly object gate = new object();
-            private CultureInfo culture;
-            private string value;
+            private CultureInfo? culture;
+            private string? value;
 
             internal CachedTranslation(Translation translation)
             {
                 this.translation = translation;
             }
 
-            internal string Value
+            internal string? Value
             {
                 get
                 {
@@ -147,11 +149,11 @@
 
             internal bool TryUpdate(CultureInfo cultureInfo)
             {
-                if (!Culture.NameEquals(cultureInfo, this.culture))
+                if (ShouldUpdate())
                 {
                     lock (this.gate)
                     {
-                        if (!Culture.NameEquals(cultureInfo, this.culture))
+                        if (ShouldUpdate())
                         {
                             this.culture = cultureInfo;
                             var newValue = Translator.Translate(
@@ -169,6 +171,21 @@
                 }
 
                 return false;
+
+                bool ShouldUpdate()
+                {
+                    if (cultureInfo is null && this.culture is null)
+                    {
+                        return false;
+                    }
+
+                    if (cultureInfo is null || this.culture is null)
+                    {
+                        return true;
+                    }
+
+                    return !Culture.NameEquals(cultureInfo, this.culture);
+                }
             }
         }
     }

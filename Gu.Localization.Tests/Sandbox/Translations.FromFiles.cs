@@ -89,7 +89,7 @@ namespace Gu.Localization.Tests.Sandbox
             {
                 // Gu.Localization.Tests.Properties.Resources.resources
                 var names = assembly.GetManifestResourceNames();
-                var resourceName = names.SingleOrDefault(x => x.StartsWith(assembly.GetName().Name) && x.EndsWith(".Resources.resources", StringComparison.Ordinal));
+                var resourceName = names.SingleOrDefault(x => x.StartsWith(assembly.GetName().Name, StringComparison.InvariantCulture) && x.EndsWith(".Resources.resources", StringComparison.Ordinal));
                 return resourceName;
             }
 

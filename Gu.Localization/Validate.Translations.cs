@@ -1,8 +1,9 @@
-// ReSharper disable PossibleMultipleEnumeration
+﻿// ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Localization
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Resources;
 
@@ -46,6 +47,11 @@ namespace Gu.Localization
         /// <returns>An <see cref="TranslationErrors"/> with all errors found in <paramref name="resourceManager"/>.</returns>
         public static TranslationErrors Translations(ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
         {
+            if (resourceManager is null)
+            {
+                throw new ArgumentNullException(nameof(resourceManager));
+            }
+
             var culturesAndKeys = resourceManager.GetCulturesAndKeys(cultures);
             Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
             foreach (var key in culturesAndKeys.AllKeys)
@@ -95,6 +101,11 @@ namespace Gu.Localization
         public static TranslationErrors EnumTranslations<T>(ResourceManager resourceManager, IEnumerable<CultureInfo> cultures)
             where T : struct, IComparable, IFormattable, IConvertible
         {
+            if (resourceManager is null)
+            {
+                throw new ArgumentNullException(nameof(resourceManager));
+            }
+
             var culturesAndKeys = resourceManager.GetCulturesAndKeys(cultures);
             Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
             foreach (var key in Enum.GetNames(typeof(T)))
@@ -172,15 +183,20 @@ namespace Gu.Localization
         /// <returns>True if errors were found.</returns>
         public static bool TryGetTranslationErrors(ResourceManager resourceManager, string key, IEnumerable<CultureInfo> cultures, out IReadOnlyList<TranslationError> errors)
         {
+            if (resourceManager is null)
+            {
+                throw new ArgumentNullException(nameof(resourceManager));
+            }
+
             var culturesAndKeys = resourceManager.GetCulturesAndKeys(cultures);
             var result = TryGetTranslationErrors(culturesAndKeys, cultures, key, out errors);
             resourceManager.ReleaseAllResources();
             return result;
         }
 
-        private static bool TryGetTranslationErrors(ResourceManagerExt.CulturesAndKeys culturesAndKeys, IEnumerable<CultureInfo> cultures, string key, out IReadOnlyList<TranslationError> errors)
+        private static bool TryGetTranslationErrors(ResourceManagerExt.CulturesAndKeys culturesAndKeys, IEnumerable<CultureInfo> cultures, string key, [NotNullWhen(true)] out IReadOnlyList<TranslationError>? errors)
         {
-            List<TranslationError> foundErrors = null;
+            List<TranslationError>? foundErrors = null;
             if (TryGetFormatErrors(key, culturesAndKeys, cultures, out var formatErrors))
             {
                 foundErrors = new List<TranslationError>(1) { formatErrors };
@@ -239,9 +255,9 @@ namespace Gu.Localization
             string key,
             ResourceManagerExt.CulturesAndKeys culturesAndKeys,
             IEnumerable<CultureInfo> cultures,
-            out MissingTranslation missingTranslations)
+            [NotNullWhen(true)] out MissingTranslation? missingTranslations)
         {
-            List<CultureInfo> missing = null;
+            List<CultureInfo>? missing = null;
             foreach (var culture in cultures)
             {
                 if (!culturesAndKeys.HasKey(culture, key))

@@ -60,7 +60,9 @@
         public int Count => this.inner.Count;
 
         /// <inheritdoc/>
+#pragma warning disable CA1033 // Interface methods should be callable by child types
         bool ICollection<T>.IsReadOnly => false;
+#pragma warning restore CA1033 // Interface methods should be callable by child types
 
         /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator() => this.inner.GetEnumerator();

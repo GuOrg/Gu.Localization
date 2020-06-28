@@ -10,11 +10,11 @@
     {
         /// <summary>
         /// Gets the <see cref="Key"/> Translated to the <see cref="Translator.CurrentCulture"/>
-        /// This valus updates when <see cref="Translator.CurrentCulture"/> changes.
+        /// This values updates when <see cref="Translator.CurrentCulture"/> changes.
         /// </summary>
-        string Translated { get; }
+        string? Translated { get; }
 
-        /// <summary>Gets the key for the resource in the resourcemanager.</summary>
+        /// <summary>Gets the key for the resource in the <see cref="System.Resources.ResourceManager"/>.</summary>
         string Key { get; }
 
         /// <summary>Gets the <see cref="ErrorHandling"/> used by this translation.</summary>

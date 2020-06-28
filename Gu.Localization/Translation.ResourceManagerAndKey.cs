@@ -37,7 +37,7 @@
                 unchecked
                 {
                     var hashCode = this.ResourceManager.GetHashCode();
-                    hashCode = (hashCode * 397) ^ this.Key.GetHashCode();
+                    hashCode = (hashCode * 397) ^ StringComparer.InvariantCulture.GetHashCode(this.Key);
                     hashCode = (hashCode * 397) ^ (int)this.errorHandling;
                     return hashCode;
                 }
