@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers
+﻿namespace Gu.Localization.Analyzers
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;

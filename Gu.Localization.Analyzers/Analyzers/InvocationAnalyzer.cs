@@ -3,7 +3,9 @@
     using System.Collections.Immutable;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+
     using Gu.Roslyn.AnalyzerExtensions;
+
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -71,6 +73,7 @@
                     }
                 }
                 else if (argumentList.Arguments.TryFirst(out keyArgument) &&
+                         keyArgument is { } &&
                          (ResourceManager.IsGetObject(invocation, context, out var resourcesType, out _) ||
                           ResourceManager.IsGetString(invocation, context, out resourcesType, out _) ||
                           Translate.IsCustomTranslateMethod(invocation, context, out resourcesType, out _)))
@@ -153,7 +156,7 @@
                 {
                     return candidate.Parameters.Length == 0 ||
                            (candidate.Parameters.TryElementAt(1, out parameter) &&
-                           parameter.IsOptional);
+                           parameter is { IsOptional: true });
                 }
 
                 return false;
@@ -166,7 +169,7 @@
                    arguments[0] is { Expression: MemberAccessExpressionSyntax _ };
         }
 
-        private static bool TryGetStringValue(ArgumentSyntax argument, [NotNullWhen(true)] out string? result)
+        private static bool TryGetStringValue(ArgumentSyntax argument, out string? result)
         {
             result = null;
             if (argument?.Expression is null)

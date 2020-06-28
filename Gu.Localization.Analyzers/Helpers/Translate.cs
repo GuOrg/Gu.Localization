@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers
+﻿namespace Gu.Localization.Analyzers
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
@@ -9,7 +9,7 @@ namespace Gu.Localization.Analyzers
 
     internal static class Translate
     {
-        internal static bool IsCustomTranslateMethod(this InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, [NotNullWhen(true)] out INamedTypeSymbol? resourcesType, [NotNullWhen(true)] out IMethodSymbol? method)
+        internal static bool IsCustomTranslateMethod(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, [NotNullWhen(true)] out INamedTypeSymbol? resourcesType, [NotNullWhen(true)] out IMethodSymbol? method)
         {
             method = null;
             resourcesType = null;

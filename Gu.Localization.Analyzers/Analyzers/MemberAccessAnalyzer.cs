@@ -1,7 +1,9 @@
-namespace Gu.Localization.Analyzers
+﻿namespace Gu.Localization.Analyzers
 {
     using System.Collections.Immutable;
+
     using Gu.Roslyn.AnalyzerExtensions;
+
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -28,9 +30,10 @@ namespace Gu.Localization.Analyzers
                 Resources.IsResourceKey(memberAccess, out var resources) &&
                 !IsInNameOf(memberAccess) &&
                 context.SemanticModel.GetTypeInfo(memberAccess, context.CancellationToken).Type == KnownSymbol.String &&
-                context.SemanticModel.ReferencesGuLocalization())
+                context.SemanticModel.ReferencesGuLocalization() &&
+                context.SemanticModel.TryGetNamedType(resources, context.CancellationToken, out var resourcesType))
             {
-                if (Translate.TryFindCustomToString(context.SemanticModel.GetSymbolInfo(resources).Symbol as INamedTypeSymbol, out var custom))
+                if (Translate.TryFindCustomToString(resourcesType, out var custom))
                 {
                     var customCall = $"{custom.ContainingType.ToMinimalDisplayString(context.SemanticModel, memberAccess.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat)}.{custom.Name}(nameof({memberAccess}))";
                     context.ReportDiagnostic(Diagnostic.Create(Descriptors.GULOC04UseCustomTranslate, memberAccess.GetLocation(), ImmutableDictionary<string, string>.Empty.Add(nameof(Translate), customCall)));
