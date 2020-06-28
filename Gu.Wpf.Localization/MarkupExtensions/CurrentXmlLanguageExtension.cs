@@ -1,8 +1,7 @@
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System;
     using System.Globalization;
-    using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
     using Gu.Localization;
@@ -11,19 +10,16 @@ namespace Gu.Wpf.Localization
     [MarkupExtensionReturnType(typeof(BindingExpression))]
     public class CurrentXmlLanguageExtension : MarkupExtension
     {
-        private static readonly PropertyPath ValuePath = new PropertyPath(nameof(CurrentCultureProxy.Value));
-
         /// <inheritdoc />
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             var binding = new Binding
-                          {
-                              Source = CurrentCultureProxy.Instance,
-                              Path = ValuePath,
-                              UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                              Mode = BindingMode.OneWay,
-                              Converter = CultureToXmlLanguageConverter.Default,
-                          };
+            {
+                Path = CurrentCultureExtension.TranslatorCurrentCulturePath,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.OneWay,
+                Converter = CultureToXmlLanguageConverter.Default,
+            };
 
             return binding.ProvideValue(serviceProvider);
         }
