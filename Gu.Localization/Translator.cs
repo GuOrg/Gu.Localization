@@ -74,7 +74,7 @@
         /// <param name="language">The culture, if null CultureInfo.InvariantCulture is used.</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
         /// <returns>The key translated to the <paramref name="language"/>.</returns>
-        public static string Translate(
+        public static string? Translate(
             ResourceManager resourceManager,
             string key,
             CultureInfo language,

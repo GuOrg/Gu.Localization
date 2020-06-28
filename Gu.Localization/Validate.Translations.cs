@@ -53,7 +53,7 @@ namespace Gu.Localization
             }
 
             var culturesAndKeys = resourceManager.GetCulturesAndKeys(cultures);
-            Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
+            Dictionary<string, IReadOnlyList<TranslationError>>? errors = null;
             foreach (var key in culturesAndKeys.AllKeys)
             {
                 if (TryGetTranslationErrors(culturesAndKeys, cultures, key, out var keyErrors))
@@ -107,7 +107,7 @@ namespace Gu.Localization
             }
 
             var culturesAndKeys = resourceManager.GetCulturesAndKeys(cultures);
-            Dictionary<string, IReadOnlyList<TranslationError>> errors = null;
+            Dictionary<string, IReadOnlyList<TranslationError>>? errors = null;
             foreach (var key in Enum.GetNames(typeof(T)))
             {
                 if (TryGetTranslationErrors(culturesAndKeys, cultures, key, out var keyErrors))
@@ -181,7 +181,7 @@ namespace Gu.Localization
         /// <param name="cultures">The cultures to check.</param>
         /// <param name="errors">A list with all errors for the key.</param>
         /// <returns>True if errors were found.</returns>
-        public static bool TryGetTranslationErrors(ResourceManager resourceManager, string key, IEnumerable<CultureInfo> cultures, out IReadOnlyList<TranslationError> errors)
+        public static bool TryGetTranslationErrors(ResourceManager resourceManager, string key, IEnumerable<CultureInfo> cultures, [NotNullWhen(true)] out IReadOnlyList<TranslationError>? errors)
         {
             if (resourceManager is null)
             {
@@ -191,7 +191,9 @@ namespace Gu.Localization
             var culturesAndKeys = resourceManager.GetCulturesAndKeys(cultures);
             var result = TryGetTranslationErrors(culturesAndKeys, cultures, key, out errors);
             resourceManager.ReleaseAllResources();
+#pragma warning disable CS8762 // Parameter must have a non-null value when exiting in some condition.
             return result;
+#pragma warning restore CS8762 // Parameter must have a non-null value when exiting in some condition.
         }
 
         private static bool TryGetTranslationErrors(ResourceManagerExt.CulturesAndKeys culturesAndKeys, IEnumerable<CultureInfo> cultures, string key, [NotNullWhen(true)] out IReadOnlyList<TranslationError>? errors)

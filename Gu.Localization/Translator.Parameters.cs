@@ -18,7 +18,7 @@
         /// <param name="arg0">The argument will be used as string.Format(format, <paramref name="arg0"/>).</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
         /// <returns>The key translated to the <see cref="Culture"/>.</returns>
-        public static string Translate<T>(ResourceManager resourceManager, string key, T arg0, ErrorHandling errorHandling = ErrorHandling.Inherit)
+        public static string? Translate<T>(ResourceManager resourceManager, string key, T arg0, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             return Translate(resourceManager, key, CurrentCulture, arg0, errorHandling);
         }
@@ -34,7 +34,7 @@
         /// <param name="arg0">The argument will be used as string.Format(format, <paramref name="arg0"/>).</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
         /// <returns>The key translated to the <paramref name="language"/>.</returns>
-        public static string Translate<T>(ResourceManager resourceManager, string key, CultureInfo language, T arg0, ErrorHandling errorHandling = ErrorHandling.Inherit)
+        public static string? Translate<T>(ResourceManager resourceManager, string key, CultureInfo language, T arg0, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             if (!TryTranslateOrThrow(resourceManager, key, language, errorHandling, out var format))
             {
@@ -76,7 +76,7 @@
         /// <param name="arg1">The argument will be used as second argument string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>).</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
         /// <returns>The key translated to the <see cref="Culture"/>.</returns>
-        public static string Translate<T0, T1>(ResourceManager resourceManager, string key, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Inherit)
+        public static string? Translate<T0, T1>(ResourceManager resourceManager, string key, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             return Translate(resourceManager, key, CurrentCulture, arg0, arg1, errorHandling);
         }
@@ -94,7 +94,7 @@
         /// <param name="arg1">The argument will be used as second argument string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>).</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
         /// <returns>The key translated to the <paramref name="language"/>.</returns>
-        public static string Translate<T0, T1>(ResourceManager resourceManager, string key, CultureInfo language, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Inherit)
+        public static string? Translate<T0, T1>(ResourceManager resourceManager, string key, CultureInfo language, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
             if (!TryTranslateOrThrow(resourceManager, key, language, errorHandling, out var format))
             {

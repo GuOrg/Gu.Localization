@@ -57,7 +57,7 @@ namespace Gu.Localization.Tests.Sandbox
 
             private static IReadOnlyDictionary<CultureInfo, string> FindCultureFileNames(Uri assemblyLocation)
             {
-                Dictionary<CultureInfo, string> cultures = null;
+                Dictionary<CultureInfo, string>? cultures = null;
                 var resourceFileName = $"{Path.GetFileNameWithoutExtension(assemblyLocation.AbsolutePath)}.resources.dll";
                 var directoryName = Path.GetDirectoryName(assemblyLocation.AbsolutePath);
                 foreach (var folder in Directory.EnumerateDirectories(directoryName))

@@ -58,7 +58,7 @@
             return culturesAndKeys;
         }
 
-        internal static Type ContainingType(this ResourceManager resourceManager)
+        internal static Type? ContainingType(this ResourceManager resourceManager)
         {
             return ResourceManagers.TypeManagerCache.GetOrAdd(resourceManager);
         }

@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System;
     using System.Collections.ObjectModel;
@@ -24,7 +24,7 @@ namespace Gu.Wpf.Localization
             typeof(LanguageSelector),
             new PropertyMetadata(
                 default(bool),
-                OnAutogenerateLanguagesChanged));
+                OnAutoGenerateLanguagesChanged));
 
         private static readonly DependencyPropertyKey LanguagesPropertyKey = DependencyProperty.RegisterReadOnly(
             nameof(Languages),
@@ -79,7 +79,9 @@ namespace Gu.Wpf.Localization
         /// <summary>
         /// Gets or sets the languages.
         /// </summary>
+#pragma warning disable CA2227 // Collection properties should be read only
         public ObservableCollection<Language> Languages
+#pragma warning restore CA2227 // Collection properties should be read only
         {
             get => (ObservableCollection<Language>)this.GetValue(LanguagesProperty);
             protected set => this.SetValue(LanguagesPropertyKey, value);
@@ -104,7 +106,7 @@ namespace Gu.Wpf.Localization
             set => this.SetValue(ItemTemplateProperty, value);
         }
 
-        private static void OnAutogenerateLanguagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnAutoGenerateLanguagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var languageSelector = (LanguageSelector)d;
             languageSelector.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(languageSelector.SyncLanguages));
