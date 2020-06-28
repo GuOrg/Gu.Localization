@@ -3,11 +3,14 @@
     using System.CodeDom.Compiler;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
 
     /// <summary>A collection of errors.</summary>
+#pragma warning disable CA1710 // Identifiers should have correct suffix
     public class TranslationErrors : IReadOnlyDictionary<string, IReadOnlyList<TranslationError>>
+#pragma warning restore CA1710 // Identifiers should have correct suffix
     {
         /// <summary>
         /// An empty collection of <see cref="TranslationError"/>.
@@ -46,7 +49,7 @@
         /// </summary>
         /// <param name="tabString">The string to use for indentation.</param>
         /// <param name="newLine">The newline ex. <see cref="System.Environment.NewLine"/>.</param>
-        /// <returns>A formatted string with all errors or srting.Empty if none.</returns>
+        /// <returns>A formatted string with all errors or string.Empty if none.</returns>
         public string ToString(string tabString, string newLine)
         {
             if (this.errors.Count == 0)
@@ -82,7 +85,7 @@
         public bool ContainsKey(string key) => this.errors.ContainsKey(key);
 
         /// <inheritdoc />
-        public bool TryGetValue(string key, out IReadOnlyList<TranslationError> value)
+        public bool TryGetValue(string key, [MaybeNullWhen(false)] out IReadOnlyList<TranslationError> value)
         {
             return this.errors.TryGetValue(key, out value);
         }

@@ -1,4 +1,4 @@
-// ReSharper disable UnusedParameter.Global
+﻿// ReSharper disable UnusedParameter.Global
 namespace Gu.Localization
 {
     using System;
@@ -84,7 +84,9 @@ namespace Gu.Localization
         /// <param name="format">The format string ex: 'First: {0:N}.</param>
         /// <param name="arg0">The argument.</param>
         /// <returns>True if <paramref name="format"/> is valid for the argument <paramref name="arg0"/>.</returns>
+#pragma warning disable CA1801 // Review unused parameters
         public static bool IsValidFormat<T>(string format, T arg0)
+#pragma warning restore CA1801 // Review unused parameters
         {
             return IsValidFormat(format, 1);
         }
@@ -96,7 +98,9 @@ namespace Gu.Localization
         /// <param name="arg0">The first argument.</param>
         /// <param name="arg1">The second argument.</param>
         /// <returns>True if <paramref name="format"/> is valid for the two arguments <paramref name="arg0"/> and <paramref name="arg1"/>.</returns>
+#pragma warning disable CA1801 // Review unused parameters
         public static bool IsValidFormat<T0, T1>(string format, T0 arg0, T1 arg1)
+#pragma warning restore CA1801 // Review unused parameters
         {
             return IsValidFormat(format, 2);
         }

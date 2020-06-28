@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
 
     /// <summary>Optimized this a lot to avoid caching of results.</summary>
@@ -36,7 +35,7 @@
 
             if (numberOfArguments < 0)
             {
-                throw new ArgumentException(nameof(numberOfArguments));
+                throw new ArgumentException("Expected zero or more arguments.", nameof(numberOfArguments));
             }
 
             if (IsValidFormat(format, out var indexCount, out _))
@@ -67,7 +66,7 @@
             var pos = 0;
             anyItemHasFormat = false;
             var indices = Indices.Value;
-            indices.Clear();
+            indices!.Clear();
             while (TrySkipTo(format, '{', '}', ref pos))
             {
                 if (format[pos] == '}')
@@ -86,7 +85,7 @@
                     continue;
                 }
 
-                if (!TryParseItemFormat(format, ref pos, out var index, out bool? itemHasFormat))
+                if (!TryParseItemFormat(format, ref pos, out var index, out var itemHasFormat))
                 {
                     indexCount = -1;
                     anyItemHasFormat = null;
@@ -171,35 +170,6 @@
             return true;
         }
 
-        // ReSharper disable once UnusedMember.Local
-        private static bool TryParseItemFormat(string text, ref int pos, out int index, [NotNullWhen(true)] out string? format)
-        {
-            if (text[pos] != '{')
-            {
-                index = -1;
-                format = null;
-                return false;
-            }
-
-            pos++;
-            if (!TryParseUnsignedInt(text, ref pos, out index))
-            {
-                format = null;
-                return false;
-            }
-
-            TryParseFormatSuffix(text, ref pos, out format);
-            if (!TrySkipTo(text, '}', ref pos))
-            {
-                index = -1;
-                format = null;
-                return false;
-            }
-
-            pos++;
-            return true;
-        }
-
         private static bool TryParseFormatSuffix(string text, ref int pos, out bool? itemHasFormat)
         {
             if (pos >= text.Length)
@@ -234,32 +204,6 @@
             }
 
             itemHasFormat = true;
-            return true;
-        }
-
-        private static bool TryParseFormatSuffix(string text, ref int pos, [NotNullWhen(true)] out string? result)
-        {
-            if (text[pos] != ':')
-            {
-                result = null;
-                return false;
-            }
-
-            if (pos < text.Length - 1 && text[pos + 1] == '}')
-            {
-                result = null;
-                return false;
-            }
-
-            pos++;
-            var start = pos;
-            if (!TrySkipTo(text, '}', ref pos))
-            {
-                result = null;
-                return false;
-            }
-
-            result = text.Slice(start, pos - 1);
             return true;
         }
 
