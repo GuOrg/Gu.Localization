@@ -1,6 +1,5 @@
 ﻿namespace Gu.Localization
 {
-    using System;
     using System.Globalization;
     using System.Resources;
 
@@ -73,7 +72,7 @@
         /// <typeparam name="T1">The type of <paramref name="arg1"/> generic to avoid boxing.</typeparam>
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/>.</param>
-        /// <param name="arg0">The argument will be used as first arguyment in string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>).</param>
+        /// <param name="arg0">The argument will be used as first argument in string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>).</param>
         /// <param name="arg1">The argument will be used as second argument string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>).</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
         /// <returns>The key translated to the <see cref="Culture"/>.</returns>
@@ -91,7 +90,7 @@
         /// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /// <param name="key">The key in <paramref name="resourceManager"/>.</param>
         /// <param name="language">The culture.</param>
-        /// <param name="arg0">The argument will be used as first arguyment in string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>).</param>
+        /// <param name="arg0">The argument will be used as first argument in string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>).</param>
         /// <param name="arg1">The argument will be used as second argument string.Format(culture, format, <paramref name="arg0"/>, <paramref name="arg1"/>).</param>
         /// <param name="errorHandling">Specifies how to handle errors.</param>
         /// <returns>The key translated to the <paramref name="language"/>.</returns>
@@ -132,7 +131,7 @@
         /////// <param name="resourceManager"> The <see cref="ResourceManager"/> containing translations.</param>
         /////// <param name="key">The key in <paramref name="resourceManager"/></param>
         /////// <param name="errorHandling">Specifies how to handle errors.</param>
-        /////// <param name="args">The arguments will be used as first arguyment in string.Format(culture, format, <paramref name="args"/>)</param>
+        /////// <param name="args">The arguments will be used as first argument in string.Format(culture, format, <paramref name="args"/>)</param>
         /////// <returns>The key translated to the <see cref="Culture"/></returns>
         ////public static string Translate(
         ////    ResourceManager resourceManager,
@@ -151,7 +150,7 @@
         /////// <param name="key">The key in <paramref name="resourceManager"/></param>
         /////// <param name="culture">The culture.</param>
         /////// <param name="errorHandling">Specifies how to handle errors.</param>
-        /////// <param name="args">The arguments will be used as first arguyment in string.Format(culture, format, <paramref name="args"/>)</param>
+        /////// <param name="args">The arguments will be used as first argument in string.Format(culture, format, <paramref name="args"/>)</param>
         /////// <returns>The key translated to the <see cref="Culture"/></returns>
         ////public static string Translate(
         ////    ResourceManager resourceManager,
