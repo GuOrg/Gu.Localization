@@ -1,6 +1,7 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -88,7 +89,7 @@ namespace Gu.Localization
             string key,
             CultureInfo language,
             ErrorHandling errorHandling,
-            out string result)
+            out string? result)
         {
             errorHandling = errorHandling.Coerce();
 
@@ -128,7 +129,7 @@ namespace Gu.Localization
             {
                 if (errorHandling == ErrorHandling.Throw)
                 {
-                    var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the culture: {language?.Name ?? "null"}\r\n" +
+                    var message = $"The ResourceManager {resourceManager.BaseName} does not have a translation for the culture: {language?.Name ?? "null"}\r\n" +
                                    "Fix by either of:\r\n" +
                                   $"  - Add a resource file for the culture {language?.Name ?? "null"}\r\n" +
                                   $"  - If falling back to neutral is desired specify {typeof(ErrorHandling).Name}.{nameof(ErrorHandling.ReturnErrorInfoPreserveNeutral)}";
@@ -161,10 +162,10 @@ namespace Gu.Localization
                 {
                     if (errorHandling == ErrorHandling.Throw)
                     {
-                        var message = $"The resourcemanager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {language?.Name}\r\n" +
+                        var message = $"The ResourceManager {resourceManager.BaseName} does not have a translation for the key: {key} for the culture: {language?.Name}\r\n" +
                                        "Fix by either of:\r\n" +
                                       $"  - Add a translation for the key '{key}' for the culture '{language?.Name ?? "null"}'\r\n" +
-                                      $"  - If falling back to neutral is desired specify {typeof(ErrorHandling).Name}.{nameof(ErrorHandling.ReturnErrorInfoPreserveNeutral)}";
+                                      $"  - If falling back to neutral is desired specify {nameof(Localization.ErrorHandling)}.{nameof(ErrorHandling.ReturnErrorInfoPreserveNeutral)}";
                         throw new ArgumentOutOfRangeException(nameof(key), message);
                     }
 
@@ -184,7 +185,7 @@ namespace Gu.Localization
 
                 if (errorHandling == ErrorHandling.Throw)
                 {
-                    var message = $"The resourcemanager {resourceManager.BaseName} does not have the key: {key}\r\n" +
+                    var message = $"The ResourceManager {resourceManager.BaseName} does not have the key: {key}\r\n" +
                                   $"Fix the problem by adding a translation for the key '{key}'";
                     throw new ArgumentOutOfRangeException(nameof(key), message);
                 }

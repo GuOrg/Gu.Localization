@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
+﻿namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
 {
     using System.IO;
     using Gu.Localization.Analyzers.Tests.Helpers;
@@ -12,8 +12,10 @@ namespace Gu.Localization.Analyzers.Tests.GULOC07KeyDoesNotMatchTests
         private static readonly DiagnosticAnalyzer Analyzer = new ResourceAnalyzer();
         private static readonly CodeFixProvider Fix = new RenameResourceFix();
 
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         private static FileInfo projectFile;
         private static DirectoryInfo directory;
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
         [SetUp]
         public static void SetUp()

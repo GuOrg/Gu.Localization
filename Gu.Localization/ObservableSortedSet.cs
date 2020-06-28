@@ -56,7 +56,9 @@
         [field: NonSerialized]
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
-        /// <see cref="IReadOnlyCollection{T}.Count"/>
+        /// <summary>
+        /// <see cref="IReadOnlyCollection{T}.Count"/>.
+        /// </summary>
         public int Count => this.inner.Count;
 
         /// <inheritdoc/>

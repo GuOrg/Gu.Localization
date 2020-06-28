@@ -8,7 +8,7 @@
 
     /// <inheritdoc />
     internal class EmptyReadOnlyDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
-        where TKey: notnull
+        where TKey : notnull
     {
         /// <summary> A cached instance. </summary>
         internal static readonly EmptyReadOnlyDictionary<TKey, TValue> Default = new EmptyReadOnlyDictionary<TKey, TValue>();
