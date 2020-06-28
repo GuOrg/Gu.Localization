@@ -1,4 +1,4 @@
-namespace Gu.Localization.Tests.Internals
+﻿namespace Gu.Localization.Tests.Internals
 {
     using System.Collections.Generic;
     using System.Globalization;
@@ -19,7 +19,7 @@ namespace Gu.Localization.Tests.Internals
         public void TryGetByTwoLetterISOLanguageName(CultureInfo cultureInfo)
         {
             Assert.AreEqual(true, Culture.TryGet(cultureInfo.TwoLetterISOLanguageName, out var match));
-            Assert.AreEqual(cultureInfo.TwoLetterISOLanguageName, match.TwoLetterISOLanguageName);
+            Assert.AreEqual(cultureInfo.TwoLetterISOLanguageName, match!.TwoLetterISOLanguageName);
         }
 
         [TestCase("sv", "SE")]
@@ -32,7 +32,7 @@ namespace Gu.Localization.Tests.Internals
         {
             var culture = CultureInfo.GetCultureInfo(cultureName);
             Assert.AreEqual(true, Culture.TryGetRegion(culture, out var region));
-            Assert.AreEqual(regionName, region.TwoLetterISORegionName);
+            Assert.AreEqual(regionName, region!.TwoLetterISORegionName);
         }
 
         [TestCase]

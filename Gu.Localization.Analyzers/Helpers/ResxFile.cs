@@ -12,7 +12,7 @@
 
     internal class ResxFile
     {
-        private static readonly ConcurrentDictionary<string, ResxFile> Cache = new ConcurrentDictionary<string, ResxFile>();
+        private static readonly ConcurrentDictionary<string, ResxFile?> Cache = new ConcurrentDictionary<string, ResxFile?>();
 
         private readonly object gate = new object();
 
@@ -128,7 +128,7 @@
             }
         }
 
-        private static ResxFile Update(string fileName, ResxFile old)
+        private static ResxFile? Update(string fileName, ResxFile? old)
         {
             if (old is null ||
                 old.lastWriteTimeUtc != new FileInfo(fileName).LastWriteTimeUtc)
@@ -141,13 +141,11 @@
 
         private static ResxFile? Create(string fileName)
         {
-            using (var reader = new StreamReader(File.OpenRead(fileName), Encoding.UTF8, detectEncodingFromByteOrderMarks: true))
+            using var reader = new StreamReader(File.OpenRead(fileName), Encoding.UTF8, detectEncodingFromByteOrderMarks: true);
+            var document = XDocument.Load(reader);
+            if (document.Root != null)
             {
-                var document = XDocument.Load(reader);
-                if (document.Root != null)
-                {
-                    return new ResxFile(fileName, document, reader.CurrentEncoding, File.GetLastWriteTimeUtc(fileName));
-                }
+                return new ResxFile(fileName, document, reader.CurrentEncoding, File.GetLastWriteTimeUtc(fileName));
             }
 
             return null;

@@ -41,12 +41,9 @@
         /// <inheritdoc />
         public int GetHashCode(RegionInfo obj)
         {
-            if (obj is null)
-            {
-                return 0;
-            }
-
-            return StringComparer.GetHashCode(this.nameGetter(obj));
+            return this.nameGetter(obj) is { } name
+                ? StringComparer.GetHashCode(name)
+                : 0;
         }
 
         public int Compare(RegionInfo? x, RegionInfo? y)

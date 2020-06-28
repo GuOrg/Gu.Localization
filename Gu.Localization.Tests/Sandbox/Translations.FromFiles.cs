@@ -39,7 +39,7 @@ namespace Gu.Localization.Tests.Sandbox
                 return FindCultureFileNames(new Uri(assembly.EscapedCodeBase, UriKind.Absolute));
             }
 
-            internal static IReadOnlyDictionary<string, string> ReadResourceSet(Assembly assembly)
+            internal static IReadOnlyDictionary<string, string>? ReadResourceSet(Assembly assembly)
             {
                 var resourceName = FindResourceName(assembly);
                 if (resourceName is null)

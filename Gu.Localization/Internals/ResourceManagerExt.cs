@@ -97,7 +97,7 @@
 
             internal void CreateKeysForCultures(IEnumerable<CultureInfo> cultures)
             {
-                if ((cultures?.Any() != true || cultures.All(this.culturesAndKeys.ContainsKey)) && this.culturesAndKeys.ContainsKey(CultureInfo.InvariantCulture))
+                if ((cultures.Any() != true || cultures.All(this.culturesAndKeys.ContainsKey)) && this.culturesAndKeys.ContainsKey(CultureInfo.InvariantCulture))
                 {
                     return;
                 }

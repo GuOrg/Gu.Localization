@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.GULOC10MissingTranslationTests
+﻿namespace Gu.Localization.Analyzers.Tests.GULOC10MissingTranslationTests
 {
     using System.Globalization;
     using System.IO;
@@ -41,7 +41,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC10MissingTranslationTests
 
             Assert.AreEqual("GULOC10", diagnostics[0].Id);
             Assert.AreEqual("The resource does not have translation to 'sv-SE', the neutral string is 'Value'", diagnostics[0].GetMessage(CultureInfo.InvariantCulture));
-            StringAssert.EndsWith("Resources.Designer.cs", diagnostics[0].Location.SourceTree.FilePath);
+            StringAssert.EndsWith("Resources.Designer.cs", diagnostics[0].Location.SourceTree!.FilePath);
         }
     }
 }

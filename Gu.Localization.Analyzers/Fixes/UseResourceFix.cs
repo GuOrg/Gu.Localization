@@ -1,12 +1,14 @@
-namespace Gu.Localization.Analyzers
+﻿namespace Gu.Localization.Analyzers
 {
     using System.Collections.Immutable;
     using System.Composition;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
+
     using Gu.Roslyn.AnalyzerExtensions;
     using Gu.Roslyn.CodeFixExtensions;
+
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
@@ -214,7 +216,7 @@ namespace Gu.Localization.Analyzers
             {
                 return customTranslate.Parameters.Length == 1 ||
                        (customTranslate.Parameters.TryElementAt(1, out parameter) &&
-                        parameter.IsOptional);
+                        parameter is { IsOptional: true });
             }
 
             return false;
