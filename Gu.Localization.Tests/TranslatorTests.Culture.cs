@@ -7,7 +7,7 @@
 
     using NUnit.Framework;
 
-    public partial class TranslatorTests
+    public static partial class TranslatorTests
     {
         public static class Culture
         {

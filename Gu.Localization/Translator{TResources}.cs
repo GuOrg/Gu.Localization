@@ -1,4 +1,5 @@
-﻿namespace Gu.Localization
+﻿#pragma warning disable CA1000 // Do not declare static members on generic types
+namespace Gu.Localization
 {
     using System.Globalization;
     using System.Resources;
@@ -69,7 +70,7 @@
         /// <returns>The key translated to the <see cref="Translator.Culture"/>.</returns>
         public static string Translate<T>(string key, T arg0, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
-            return Translator.Translate(ResourceManager, key, Translator.Culture, arg0, errorHandling);
+            return Translator.Translate(ResourceManager, key, Translator.CurrentCulture, arg0, errorHandling);
         }
 
         /// <summary>
@@ -100,7 +101,7 @@
         /// <returns>The key translated to the <see cref="Translator.Culture"/>.</returns>
         public static string Translate<T0, T1>(string key, T0 arg0, T1 arg1, ErrorHandling errorHandling = ErrorHandling.Inherit)
         {
-            return Translator.Translate(ResourceManager, key, Translator.Culture, arg0, arg1, errorHandling);
+            return Translator.Translate(ResourceManager, key, Translator.CurrentCulture, arg0, arg1, errorHandling);
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-// ReSharper disable All
+﻿// ReSharper disable All
 #pragma warning disable 162
 namespace Gu.Localization.Benchmarks
 {
@@ -8,7 +8,7 @@ namespace Gu.Localization.Benchmarks
     using BenchmarkDotNet.Reports;
     using BenchmarkDotNet.Running;
 
-    public class Program
+    public static class Program
     {
         public static void Main()
         {

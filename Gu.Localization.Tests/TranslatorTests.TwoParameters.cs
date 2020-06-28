@@ -5,14 +5,14 @@
 
     using NUnit.Framework;
 
-    public partial class TranslatorTests
+    public static partial class TranslatorTests
     {
-        public class TwoParameters
+        public static class TwoParameters
         {
             [TestCase("en", 1, 2.0, "English first: 1, second 2.00")]
             [TestCase("sv", 1, 2.0, "första: 1, andra: 2,00")]
             [TestCase(null, 1, 2.0, "Neutral first: 1, second 2.00")]
-            public void HappyPath(string cultureName, object arg0, object arg1, string expected)
+            public static void HappyPath(string cultureName, object arg0, object arg1, string expected)
             {
                 var culture = cultureName != null
                                          ? CultureInfo.GetCultureInfo(cultureName)
@@ -30,7 +30,7 @@
 
             [TestCase("en", 1, 2, "Invalid format string: \"Value: {0} {2}\".")]
             [TestCase("sv", 1, 2, "Invalid format string: \"Värde: \" for the two arguments: 1, 2.")]
-            public void Throws(string cultureName, object arg0, object arg1, string expected)
+            public static void Throws(string cultureName, object arg0, object arg1, string expected)
             {
                 var culture = cultureName != null
                                          ? CultureInfo.GetCultureInfo(cultureName)
@@ -48,7 +48,7 @@
 
             [TestCase("en", 1, 2, "{\"Value: {0} {2}\" : 1, 2}")]
             [TestCase("sv", 1, 2, "{\"Värde: \" : 1, 2}")]
-            public void ReturnsInfo(string cultureName, object arg0, object arg1, string expected)
+            public static void ReturnsInfo(string cultureName, object arg0, object arg1, string expected)
             {
                 var culture = cultureName != null
                                          ? CultureInfo.GetCultureInfo(cultureName)

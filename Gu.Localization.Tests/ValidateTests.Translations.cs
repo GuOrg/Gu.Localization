@@ -8,12 +8,12 @@
 
     using NUnit.Framework;
 
-    public partial class ValidateTests
+    public static partial class ValidateTests
     {
-        public class Translations
+        public static class Translations
         {
             [Test]
-            public void ResourceManager()
+            public static void ResourceManager()
             {
                 var errors = Validate.Translations(Properties.Resources.ResourceManager);
                 Assert.IsFalse(errors.IsEmpty);
@@ -46,7 +46,7 @@
             }
 
             [Test]
-            public void ResourceManagerExplicitCultures()
+            public static void ResourceManagerExplicitCultures()
             {
                 var cultures = new[] { CultureInfo.GetCultureInfo("sv"), CultureInfo.GetCultureInfo("en") };
                 var errors = Validate.Translations(Properties.Resources.ResourceManager, cultures);
@@ -70,7 +70,7 @@
             }
 
             [Test]
-            public void ResourceManagerExplicitMissingCultures()
+            public static void ResourceManagerExplicitMissingCultures()
             {
                 var cultures = new[] { CultureInfo.GetCultureInfo("it") };
                 var errors = Validate.Translations(Properties.Resources.ResourceManager, cultures);
@@ -119,7 +119,7 @@
             }
 
             [Test]
-            public void EnumTranslations()
+            public static void EnumTranslations()
             {
                 var errors = Validate.EnumTranslations<DummyEnum>(Properties.Resources.ResourceManager);
                 Assert.IsFalse(errors.IsEmpty);
@@ -128,7 +128,7 @@
             }
 
             [Test]
-            public void EnumTranslationsExplicitCultures()
+            public static void EnumTranslationsExplicitCultures()
             {
                 var cultures = new[] { CultureInfo.GetCultureInfo("sv"), CultureInfo.GetCultureInfo("en") };
                 var errors = Validate.EnumTranslations<DummyEnum>(Properties.Resources.ResourceManager, cultures);
@@ -140,7 +140,7 @@
             [TestCase(nameof(Properties.Resources.AllLanguages))]
             [TestCase(nameof(Properties.Resources.ValidFormat__0__))]
             [TestCase(nameof(Properties.Resources.ValidFormat__0__1__))]
-            public void KeyWhenNoErrors(string key)
+            public static void KeyWhenNoErrors(string key)
             {
                 var resourceManager = Properties.Resources.ResourceManager;
                 var errors = Validate.Translations(resourceManager, key);
@@ -158,7 +158,7 @@
 
             [TestCase(nameof(Properties.Resources.InvalidFormat__0__))]
             [TestCase(nameof(Properties.Resources.EnglishOnly))]
-            public void KeyWithErrors(string key)
+            public static void KeyWithErrors(string key)
             {
                 var resourceManager = Properties.Resources.ResourceManager;
                 var errors = Validate.Translations(resourceManager, key);
