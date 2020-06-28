@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using System.Globalization;
     using System.Runtime.CompilerServices;
+
     using Gu.Localization;
 
     /// <summary>Class exposing a couple of binding friendly properties for a <see cref="CultureInfo"/>.</summary>
@@ -15,17 +16,12 @@
         private CultureInfo? culture;
         private Uri? flagSource;
 
-        /// <summary> Initializes a new instance of the <see cref="Language"/> class.</summary>
-        public Language()
-        {
-            CultureChangedEventManager.UpdateHandler((_, x) => this.IsSelected = Gu.Localization.Culture.NameEquals(Translator.CurrentCulture, this.Culture));
-        }
-
         /// <summary>Initializes a new instance of the <see cref="Language"/> class.</summary>
         /// <param name="culture">The culture.</param>
-        public Language(CultureInfo culture)
+        public Language(CultureInfo? culture = null)
         {
             this.culture = culture;
+            CultureChangedEventManager.UpdateHandler((_, x) => this.OnPropertyChanged(nameof(this.IsSelected)));
         }
 
         /// <inheritdoc />
@@ -63,7 +59,7 @@
         }
 
         /// <summary>Gets <see cref="Culture"/> NativeName TitleCased and trimmed to text only.</summary>
-        public string LanguageName
+        public string? LanguageName
         {
             get
             {
@@ -78,7 +74,7 @@
         }
 
         /// <summary>Gets <see cref="Culture"/> NativeName TitleCased.</summary>
-        public string NativeName => ToFirstCharUpper(this.culture?.NativeName);
+        public string? NativeName => ToFirstCharUpper(this.culture?.NativeName, this.culture);
 
         /// <summary>
         /// Gets or sets the <see cref="Uri"/> to the flag for the <see cref="Culture"/>.
@@ -99,22 +95,20 @@
             }
         }
 
-#pragma warning disable INPC010 // The property sets a different field than it returns.
         /// <summary>Gets or sets a value indicating whether gets or sets if the <see cref="Culture"/> is the same as <see cref="Translator.Culture"/>.</summary>
         public bool IsSelected
         {
-            get => Gu.Localization.Culture.NameEquals(Translator.CurrentCulture, this.Culture);
+            get => this.culture is { } temp && Gu.Localization.Culture.NameEquals(Translator.CurrentCulture, temp);
 
             set
             {
                 if (value == this.IsSelected)
                 {
-                    this.OnPropertyChanged();
                     return;
                 }
 
                 if (value &&
-                    !Gu.Localization.Culture.NameEquals(this.culture, Translator.Culture))
+                    !Gu.Localization.Culture.NameEquals(Translator.Culture, this.culture))
                 {
                     Translator.Culture = this.culture;
                 }
@@ -122,7 +116,6 @@
                 this.OnPropertyChanged();
             }
         }
-#pragma warning restore INPC010 // The property sets a different field than it returns.
 
         /// <summary>Raises <see cref="PropertyChanged"/>.</summary>
         /// <param name="propertyName">The name of the property.</param>
@@ -131,7 +124,7 @@
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private static string ToFirstCharUpper(string text)
+        private static string? ToFirstCharUpper(string? text, CultureInfo? culture)
         {
             if (string.IsNullOrEmpty(text) || text.Length == 1)
             {
@@ -143,7 +136,7 @@
                 return text;
             }
 
-            return $"{char.ToUpper(text[0])}{text.Substring(1)}";
+            return $"{char.ToUpper(text[0], culture ?? CultureInfo.InvariantCulture)}{text.Substring(1)}";
         }
     }
 }

@@ -5,7 +5,7 @@
     using Gu.Localization;
 
     /// <summary>
-    /// Manager for the DependencyObject.Loaded event.
+    /// Manager for the <see cref="Translator.CurrentCultureChanged"/> event.
     /// </summary>
     internal class CultureChangedEventManager : WeakEventManager
     {
@@ -60,7 +60,7 @@
         }
 
         // event handler for Loaded event
-        private void OnCultureChanged(object sender, CultureChangedEventArgs args)
+        private void OnCultureChanged(object? sender, CultureChangedEventArgs args)
         {
             this.DeliverEvent(sender, args);
         }
