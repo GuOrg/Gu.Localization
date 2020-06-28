@@ -15,9 +15,9 @@
 
         private static readonly StringComparer StringComparer = StringComparer.OrdinalIgnoreCase;
 
-        private readonly Func<CultureInfo, string?> nameGetter;
+        private readonly Func<CultureInfo?, string?> nameGetter;
 
-        private CultureInfoComparer(Func<CultureInfo, string?> nameGetter)
+        private CultureInfoComparer(Func<CultureInfo?, string?> nameGetter)
         {
             this.nameGetter = nameGetter;
         }
@@ -41,12 +41,9 @@
         /// <inheritdoc />
         public int GetHashCode(CultureInfo? obj)
         {
-            if (obj is null)
-            {
-                return 0;
-            }
-
-            return StringComparer.GetHashCode(this.nameGetter(obj));
+            return this.nameGetter(obj) is { } name
+                ? StringComparer.GetHashCode(name)
+                : 0;
         }
 
         public int Compare(CultureInfo? x, CultureInfo? y)

@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.GULOC08DuplicateNeutralTests
+﻿namespace Gu.Localization.Analyzers.Tests.GULOC08DuplicateNeutralTests
 {
     using System.IO;
     using System.Linq;
@@ -11,8 +11,10 @@ namespace Gu.Localization.Analyzers.Tests.GULOC08DuplicateNeutralTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ResourceAnalyzer();
 
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         private FileInfo projectFile;
         private DirectoryInfo directory;
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
         [SetUp]
         public void SetUp()
@@ -39,7 +41,7 @@ namespace Gu.Localization.Analyzers.Tests.GULOC08DuplicateNeutralTests
             Assert.AreEqual(4, diagnostics.Length);
 
             CollectionAssert.AreEquivalent(new[] { "GULOC07", "GULOC07", "GULOC08", "GULOC08" }, diagnostics.Select(x => x.Id).ToArray());
-            CollectionAssert.AreEquivalent(new[] { "Resources.Designer.cs", "Resources.Designer.cs", "Resources.Designer.cs", "Resources.Designer.cs" }, diagnostics.Select(x => Path.GetFileName(x.Location.SourceTree.FilePath)).ToArray());
+            CollectionAssert.AreEquivalent(new[] { "Resources.Designer.cs", "Resources.Designer.cs", "Resources.Designer.cs", "Resources.Designer.cs" }, diagnostics.Select(x => Path.GetFileName(x.Location.SourceTree!.FilePath)).ToArray());
         }
     }
 }

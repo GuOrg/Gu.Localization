@@ -82,7 +82,7 @@
         }
 
         /// <inheritdoc />
-        public string Translate(CultureInfo culture, ErrorHandling errorHandlingStrategy = ErrorHandling.Inherit)
+        public string? Translate(CultureInfo culture, ErrorHandling errorHandlingStrategy = ErrorHandling.Inherit)
         {
             return Translator.Translate(this.resourceManager, this.Key, culture, errorHandlingStrategy);
         }
