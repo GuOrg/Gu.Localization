@@ -10,8 +10,8 @@
 
         public TranslationThrowSource()
         {
-            this.Add(null, Sv, ErrorHandling.Throw, "key == null\r\nParameter name: key");
-            this.Add(null, null, ErrorHandling.Throw, "key == null\r\nParameter name: key");
+            this.Add(null, Sv, ErrorHandling.Throw, "key is null\r\nParameter name: key");
+            this.Add(null, null, ErrorHandling.Throw, "key is null\r\nParameter name: key");
             this.Add("Missing", Sv, ErrorHandling.Throw, "The ResourceManager Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\n" +
                                                          "Fix the problem by adding a translation for the key 'Missing'\r\n" +
                                                          "Parameter name: key");

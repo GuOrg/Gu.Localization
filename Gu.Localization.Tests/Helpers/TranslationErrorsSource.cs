@@ -11,8 +11,8 @@
 
         public TranslationErrorsSource()
         {
-            this.Add(null, Sv, ErrorHandling.ReturnErrorInfo, "key == null");
-            this.Add(null, Sv, ErrorHandling.ReturnErrorInfoPreserveNeutral, "key == null");
+            this.Add(null, Sv, ErrorHandling.ReturnErrorInfo, "key is null");
+            this.Add(null, Sv, ErrorHandling.ReturnErrorInfoPreserveNeutral, "key is null");
             this.Add("Missing", Sv, ErrorHandling.ReturnErrorInfo, "!Missing!");
             this.Add("Missing", Sv, ErrorHandling.ReturnErrorInfoPreserveNeutral, "!Missing!");
             this.Add(nameof(Properties.Resources.EnglishOnly), En, ErrorHandling.ReturnErrorInfo, "English");
