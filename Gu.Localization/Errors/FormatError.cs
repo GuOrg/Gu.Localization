@@ -1,4 +1,4 @@
-namespace Gu.Localization.Errors
+﻿namespace Gu.Localization.Errors
 {
     using System.CodeDom.Compiler;
     using System.Collections.Generic;
@@ -17,14 +17,14 @@ namespace Gu.Localization.Errors
         /// </summary>
         /// <param name="key">The resource key.</param>
         /// <param name="formats">The formats found in current cultures.</param>
-        public FormatError(string key, IReadOnlyDictionary<CultureInfo, string> formats)
+        public FormatError(string key, IReadOnlyDictionary<CultureInfo, string?> formats)
             : base(key)
         {
             this.Formats = formats;
         }
 
         /// <summary>Gets all formats for all cultures.</summary>
-        public IReadOnlyDictionary<CultureInfo, string> Formats { get; }
+        public IReadOnlyDictionary<CultureInfo, string?> Formats { get; }
 
         internal override void WriteTo(IndentedTextWriter writer)
         {

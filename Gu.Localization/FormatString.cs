@@ -54,7 +54,7 @@
         /// <param name="indexCount">The number of format indices or -1 if error.</param>
         /// <param name="anyItemHasFormat">If any index has formatting i.e: {0:N}.</param>
         /// <returns>True if <paramref name="format"/> is a valid format string.</returns>
-        internal static bool IsValidFormat(string format, out int indexCount, out bool? anyItemHasFormat)
+        internal static bool IsValidFormat(string? format, out int indexCount, out bool? anyItemHasFormat)
         {
             if (string.IsNullOrEmpty(format))
             {
@@ -67,9 +67,9 @@
             anyItemHasFormat = false;
             var indices = Indices.Value;
             indices!.Clear();
-            while (TrySkipTo(format, '{', '}', ref pos))
+            while (TrySkipTo(format!, '{', '}', ref pos))
             {
-                if (format[pos] == '}')
+                if (format![pos] == '}')
                 {
                     if (TrySkipEscaped(format, '}', ref pos))
                     {

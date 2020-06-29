@@ -44,7 +44,7 @@ namespace RoslynSandbox.Properties {
 </UserControl>";
             testXaml = testXaml.AssertReplace("<TextBlock Text=\"{x:Static p:Resources.Key}\"></TextBlock>", before);
             File.WriteAllText(fileName, testXaml);
-            Assert.AreEqual(true, XamlFile.TryUpdateUsage(fileName, property, newName, out var updated));
+            Assert.AreEqual(true, XamlFile.TryUpdateUsage(fileName, property!, newName, out var updated));
             var expected = @"
 <UserControl x:Class=""Gu.Localization.TestStub.UserControl1""
              xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
@@ -99,7 +99,7 @@ namespace RoslynSandbox.Properties {
 </UserControl>";
             testXaml = testXaml.AssertReplace("<TextBlock Text=\"{x:Static p:Resources.Key}\"></TextBlock>", before);
             File.WriteAllText(fileName, testXaml);
-            Assert.AreEqual(true, XamlFile.TryUpdateUsage(fileName, property, newName, out var updated));
+            Assert.AreEqual(true, XamlFile.TryUpdateUsage(fileName, property!, newName, out var updated));
             var expected = @"
 <UserControl x:Class=""Gu.Localization.TestStub.UserControl1""
              xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""

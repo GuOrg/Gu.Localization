@@ -90,7 +90,7 @@
                 return keys != null;
             }
 
-            internal IReadOnlyDictionary<CultureInfo, string> GetTranslationsFor(string key, IEnumerable<CultureInfo> cultures)
+            internal IReadOnlyDictionary<CultureInfo, string?> GetTranslationsFor(string key, IEnumerable<CultureInfo> cultures)
             {
                 return new Translations(this, key, cultures);
             }
@@ -171,7 +171,7 @@
             /// <summary>Creates a clone of the <see cref="ResourceManager"/> passed in. Releases all resources on dispose.</summary>
             private sealed class ResourceManagerClone : IDisposable
             {
-                internal readonly ResourceManager ResourceManager;
+                internal readonly ResourceManager? ResourceManager;
 
                 internal ResourceManagerClone(ResourceManager source)
                 {
@@ -192,23 +192,23 @@
                 }
             }
 
-            private class Translations : IReadOnlyDictionary<CultureInfo, string>
+            private class Translations : IReadOnlyDictionary<CultureInfo, string?>
             {
-                private readonly IReadOnlyList<KeyValuePair<CultureInfo, string>> translations;
+                private readonly IReadOnlyList<KeyValuePair<CultureInfo, string?>> translations;
 
                 internal Translations(CulturesAndKeys culturesAndKeys, string key, IEnumerable<CultureInfo> cultures)
                 {
-                    this.translations = cultures.Select(c => new KeyValuePair<CultureInfo, string>(c, culturesAndKeys.GetString(key, c)))
+                    this.translations = cultures.Select(c => new KeyValuePair<CultureInfo, string?>(c, culturesAndKeys.GetString(key, c)))
                                                 .ToList();
                 }
 
                 public int Count => this.translations.Count;
 
-                IEnumerable<CultureInfo> IReadOnlyDictionary<CultureInfo, string>.Keys => this.translations.Select(x => x.Key);
+                IEnumerable<CultureInfo> IReadOnlyDictionary<CultureInfo, string?>.Keys => this.translations.Select(x => x.Key);
 
-                IEnumerable<string> IReadOnlyDictionary<CultureInfo, string>.Values => this.translations.Select(x => x.Value);
+                IEnumerable<string?> IReadOnlyDictionary<CultureInfo, string?>.Values => this.translations.Select(x => x.Value);
 
-                public string this[CultureInfo key]
+                public string? this[CultureInfo key]
                 {
                     get
                     {
@@ -221,13 +221,13 @@
                     }
                 }
 
-                public IEnumerator<KeyValuePair<CultureInfo, string>> GetEnumerator() => this.translations.GetEnumerator();
+                public IEnumerator<KeyValuePair<CultureInfo, string?>> GetEnumerator() => this.translations.GetEnumerator();
 
                 IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
                 public bool ContainsKey(CultureInfo key) => this.translations.Any(x => Culture.NameEquals(x.Key, key));
 
-                public bool TryGetValue(CultureInfo key, [MaybeNullWhen(false)] out string value)
+                public bool TryGetValue(CultureInfo key, [MaybeNullWhen(false)] out string? value)
                 {
                     foreach (var keyValuePair in this.translations)
                     {

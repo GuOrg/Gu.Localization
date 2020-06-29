@@ -19,7 +19,7 @@
                        .Where(x => x != null)
                        .ToList()!;
 
-        internal static bool TryGet(string name, [NotNullWhen(true)] out CultureInfo? culture)
+        internal static bool TryGet(string? name, [NotNullWhen(true)] out CultureInfo? culture)
         {
             if (name is null)
             {

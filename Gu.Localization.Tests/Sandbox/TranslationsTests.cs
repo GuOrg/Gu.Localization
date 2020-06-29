@@ -20,7 +20,7 @@ namespace Gu.Localization.Tests.Sandbox
             Console.WriteLine($"Getting cultures took {sw.Elapsed.TotalMilliseconds:F2} ms");
 #endif
 
-            Assert.AreEqual(Properties.Resources.ResourceManager.BaseName, translations.BaseName);
+            Assert.AreEqual(Properties.Resources.ResourceManager.BaseName, translations!.BaseName);
             CollectionAssert.AreEqual(new[] { "de", "en", "sv" }, translations.Cultures.Select(x => x.TwoLetterISOLanguageName));
         }
 
