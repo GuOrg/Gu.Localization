@@ -9,8 +9,10 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Xml.Linq;
+
     using Gu.Roslyn.AnalyzerExtensions;
     using Gu.Roslyn.CodeFixExtensions;
+
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.CSharp;
@@ -83,10 +85,11 @@
 
         private static void UpdateXaml(Project project, IPropertySymbol property, string newName)
         {
-            if (project.MetadataReferences.TryFirst(x => x.Display.EndsWith("System.Xaml.dll", StringComparison.Ordinal), out _))
+            if (project.MetadataReferences.TryFirst(x => x.Display.EndsWith("System.Xaml.dll", StringComparison.Ordinal), out _) &&
+                project.FilePath is { } filePath &&
+                Path.GetDirectoryName(filePath) is { } directory)
             {
-                var directory = Path.GetDirectoryName(project.FilePath);
-                var csprojText = File.ReadAllText(project.FilePath);
+                var csprojText = File.ReadAllText(filePath);
                 if (Regex.IsMatch(csprojText, "<TargetFrameworks?\b"))
                 {
                     var csproj = XDocument.Parse(csprojText);
