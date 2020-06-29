@@ -8,6 +8,7 @@
     using System.Linq;
     using System.Resources;
     using System.Windows.Data;
+
     using Gu.Localization;
 
     /// <inheritdoc />
@@ -67,8 +68,12 @@
             var names = assembly.GetManifestResourceNames();
             var match = names.Single(x => x.EndsWith(".g.resources", StringComparison.Ordinal));
             Debug.Assert(match != null, "match != null");
-            //// ReSharper disable once AssignNullToNotNullAttribute
             using var stream = assembly.GetManifestResourceStream(match);
+            if (stream is null)
+            {
+                throw new InvalidOperationException($"GetManifestResourceStream({match}) returned null");
+            }
+
             using var reader = new ResourceReader(stream);
             var flags = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             var enumerator = reader.GetEnumerator();

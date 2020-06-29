@@ -63,10 +63,13 @@
         {
             get
             {
-                var indexOf = this.NativeName.IndexOf(" (", StringComparison.Ordinal);
-                if (indexOf > 0)
+                if (this.NativeName is { } nativeName)
                 {
-                    return this.NativeName.Substring(0, indexOf);
+                    var indexOf = nativeName.IndexOf(" (", StringComparison.Ordinal);
+                    if (indexOf > 0)
+                    {
+                        return nativeName.Substring(0, indexOf);
+                    }
                 }
 
                 return this.NativeName;
