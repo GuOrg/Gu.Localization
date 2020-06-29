@@ -17,7 +17,6 @@ Gu.Wpf.Localization.EnumExtension.Member.set -> void
 Gu.Wpf.Localization.EnumExtension.ResourceManager.get -> System.Resources.ResourceManager?
 Gu.Wpf.Localization.EnumExtension.ResourceManager.set -> void
 Gu.Wpf.Localization.ErrorHandling
-Gu.Wpf.Localization.ErrorHandling.ErrorHandling() -> void
 Gu.Wpf.Localization.Language
 Gu.Wpf.Localization.Language.CanSelect.get -> bool
 Gu.Wpf.Localization.Language.Culture.get -> System.Globalization.CultureInfo?
@@ -26,10 +25,9 @@ Gu.Wpf.Localization.Language.FlagSource.get -> System.Uri?
 Gu.Wpf.Localization.Language.FlagSource.set -> void
 Gu.Wpf.Localization.Language.IsSelected.get -> bool
 Gu.Wpf.Localization.Language.IsSelected.set -> void
-Gu.Wpf.Localization.Language.Language() -> void
-Gu.Wpf.Localization.Language.Language(System.Globalization.CultureInfo! culture) -> void
-Gu.Wpf.Localization.Language.LanguageName.get -> string!
-Gu.Wpf.Localization.Language.NativeName.get -> string!
+Gu.Wpf.Localization.Language.Language(System.Globalization.CultureInfo? culture = null) -> void
+Gu.Wpf.Localization.Language.LanguageName.get -> string?
+Gu.Wpf.Localization.Language.NativeName.get -> string?
 Gu.Wpf.Localization.Language.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
 Gu.Wpf.Localization.LanguageSelector
 Gu.Wpf.Localization.LanguageSelector.AutogenerateLanguages.get -> bool

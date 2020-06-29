@@ -41,6 +41,11 @@
                 return format;
             }
 
+            if (format is null)
+            {
+                return null;
+            }
+
             if (ShouldThrow(errorHandling))
             {
                 Validate.Format(format, arg0);
@@ -99,6 +104,11 @@
             if (!TryTranslateOrThrow(resourceManager, key, language, errorHandling, out var format))
             {
                 return format;
+            }
+
+            if (format is null)
+            {
+                return null;
             }
 
             if (ShouldThrow(errorHandling))
