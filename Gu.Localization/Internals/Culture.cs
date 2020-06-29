@@ -11,16 +11,13 @@
     {
         internal static readonly IReadOnlyList<CultureInfo> AllCultures =
             CultureInfo.GetCultures(CultureTypes.AllCultures)
-                .Where(x => !IsInvariant(x))
-                .ToArray();
+                       .Where(x => !IsInvariant(x))
+                       .ToArray();
 
-        internal static IReadOnlyList<RegionInfo> AllRegions
-        {
-            get
-            {
-                return AllCultures.Select(x => TryGetRegion(x, out var region) ? region : null).Where(x => x != null).ToList();
-            }
-        }
+        internal static IReadOnlyList<RegionInfo> AllRegions =
+            AllCultures.Select(x => TryGetRegion(x, out var region) ? region : null)
+                       .Where(x => x != null)
+                       .ToList()!;
 
         internal static bool TryGet(string name, [NotNullWhen(true)] out CultureInfo? culture)
         {

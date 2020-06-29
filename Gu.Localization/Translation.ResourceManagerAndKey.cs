@@ -6,7 +6,7 @@
     /// <summary> Split up nested class.  </summary>
     public partial class Translation
     {
-        private struct ResourceManagerAndKey : IEquatable<ResourceManagerAndKey>
+        private readonly struct ResourceManagerAndKey : IEquatable<ResourceManagerAndKey>
         {
             internal readonly ResourceManager ResourceManager;
             internal readonly string Key;
@@ -26,7 +26,7 @@
                        this.errorHandling == other.errorHandling;
             }
 
-            public override bool Equals(object obj)
+            public override bool Equals(object? obj)
             {
                 return obj is ResourceManagerAndKey key &&
                        this.Equals(key);

@@ -2,7 +2,9 @@
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+
     using Gu.Roslyn.AnalyzerExtensions;
+
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.Diagnostics;
@@ -29,7 +31,7 @@
                 method = target;
             }
 
-            return method != null;
+            return method is { } && resourcesType is { };
 
             bool IsCustomTranslateMethod(IMethodSymbol candidate)
             {

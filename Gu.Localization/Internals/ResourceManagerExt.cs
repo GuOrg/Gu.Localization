@@ -21,7 +21,7 @@
         /// <param name="key">The key.</param>
         /// <param name="culture">The <see cref="CultureInfo"/>.</param>
         /// <returns>True if a translation exists.</returns>
-        internal static bool HasKey(this ResourceManager resourceManager, string key, CultureInfo culture)
+        internal static bool HasKey(this ResourceManager resourceManager, string key, CultureInfo? culture)
         {
             var culturesAndKeys = Cache.GetOrAdd(resourceManager, r => new CulturesAndKeys(r));
             return culturesAndKeys.HasKey(culture, key);
@@ -45,7 +45,7 @@
         /// <param name="resourceManager">The <see cref="ResourceManager"/>.</param>
         /// <param name="culture">The <see cref="CultureInfo"/>.</param>
         /// <returns>True if a translation exists.</returns>
-        internal static bool HasCulture(this ResourceManager resourceManager, CultureInfo culture)
+        internal static bool HasCulture(this ResourceManager resourceManager, CultureInfo? culture)
         {
             var culturesAndKeys = Cache.GetOrAdd(resourceManager, r => new CulturesAndKeys(r));
             return culturesAndKeys.HasCulture(culture);
@@ -78,13 +78,13 @@
 
             internal IEnumerable<CultureInfo> Cultures => this.culturesAndKeys.Keys;
 
-            internal bool HasKey(CultureInfo culture, string key)
+            internal bool HasKey(CultureInfo? culture, string key)
             {
                 var keys = this.culturesAndKeys.GetOrAdd(culture ?? CultureInfo.InvariantCulture, this.CreateKeysForCulture);
                 return keys?.Contains(key) == true;
             }
 
-            internal bool HasCulture(CultureInfo culture)
+            internal bool HasCulture(CultureInfo? culture)
             {
                 var keys = this.culturesAndKeys.GetOrAdd(culture ?? CultureInfo.InvariantCulture, this.CreateKeysForCulture);
                 return keys != null;
