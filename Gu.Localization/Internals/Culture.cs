@@ -76,7 +76,7 @@
             }
         }
 
-        internal static bool NameEquals(CultureInfo first, CultureInfo other)
+        internal static bool NameEquals(CultureInfo? first, CultureInfo? other)
         {
             return CultureInfoComparer.ByName.Equals(first, other);
         }

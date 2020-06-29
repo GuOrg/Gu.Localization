@@ -7,13 +7,13 @@ namespace Gu.Wpf.Localization
 
     internal class QualifiedNameAndKey
     {
-        internal readonly string QualifiedName;
+        internal readonly string? QualifiedName;
 
         internal readonly string Key;
 
         private static readonly Dictionary<string, QualifiedNameAndKey> Cache = new Dictionary<string, QualifiedNameAndKey>();
 
-        private QualifiedNameAndKey(string qualifiedName, string key)
+        private QualifiedNameAndKey(string? qualifiedName, string key)
         {
             this.QualifiedName = qualifiedName;
             this.Key = key;
