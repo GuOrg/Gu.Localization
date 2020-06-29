@@ -129,9 +129,9 @@
                 if (errorHandling == ErrorHandling.Throw)
                 {
                     var message = $"The ResourceManager {resourceManager.BaseName} does not have a translation for the culture: {language?.Name ?? "null"}\r\n" +
-                                   "Fix by either of:\r\n" +
-                                  $"  - Add a resource file for the culture {language?.Name ?? "null"}\r\n" +
-                                  $"  - If falling back to neutral is desired specify {nameof(Localization.ErrorHandling)}.{nameof(ErrorHandling.ReturnErrorInfoPreserveNeutral)}";
+                                          "Fix by either of:\r\n" +
+                                         $"  - Add a resource file for the culture {language?.Name ?? "null"}\r\n" +
+                                         $"  - If falling back to neutral is desired specify {nameof(Localization.ErrorHandling)}.{nameof(ErrorHandling.ReturnErrorInfoPreserveNeutral)}";
                     throw new ArgumentOutOfRangeException(nameof(language), message);
                 }
 

@@ -1,4 +1,4 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
     using System.Collections.Generic;
@@ -85,7 +85,8 @@ namespace Gu.Localization
             var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
             var assembly = typeof(ResourceCultures).Assembly;
             var name = $"{assembly.GetName().Name}.dll";
-            if (currentDirectory.Contains(name))
+            if (currentDirectory.Contains(name) ||
+                assembly.CodeBase is null)
             {
                 return currentDirectory;
             }
