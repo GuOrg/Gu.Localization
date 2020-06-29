@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Gu.Wpf.Localization.WithNeutralLanguage.Properties {
+namespace Gu.Wpf.Localization.WithNeutralResourcesLanguage.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Gu.Wpf.Localization.WithNeutralLanguage.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Gu.Wpf.Localization.WithNeutralLanguage.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Gu.Wpf.Localization.WithNeutralResourcesLanguage.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

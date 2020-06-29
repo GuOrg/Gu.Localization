@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Localization.WithNeutralLanguage
+﻿namespace Gu.Wpf.Localization.WithNeutralResourcesLanguage
 {
     using System.Globalization;
     using System.Threading;

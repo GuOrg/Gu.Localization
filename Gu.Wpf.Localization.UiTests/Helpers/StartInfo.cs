@@ -6,12 +6,12 @@
 
     public static class StartInfo
     {
-        public static ProcessStartInfo DemoProject { get; } = CreateStartUpInfo(
+        public static ProcessStartInfo Demo { get; } = CreateStartUpInfo(
             Application.FindExe("Gu.Wpf.Localization.Demo.exe"),
             CultureInfo.GetCultureInfo("en"));
 
-        public static ProcessStartInfo WithNeutralLanguageProject { get; } = CreateStartUpInfo(
-            Application.FindExe("Gu.Wpf.Localization.WithNeutralLanguage.exe"),
+        public static ProcessStartInfo WithNeutralResourcesLanguage { get; } = CreateStartUpInfo(
+            Application.FindExe("Gu.Wpf.Localization.WithNeutralResourcesLanguage.exe"),
             CultureInfo.GetCultureInfo("en"));
 
         private static ProcessStartInfo CreateStartUpInfo(string exeFileName, CultureInfo culture)

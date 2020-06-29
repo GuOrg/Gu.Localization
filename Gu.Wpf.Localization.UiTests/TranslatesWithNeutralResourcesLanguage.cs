@@ -1,20 +1,20 @@
-namespace Gu.Wpf.Localization.UiTests
+﻿namespace Gu.Wpf.Localization.UiTests
 {
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public sealed class TranslatesWithNeutralLanguage
+    public sealed class TranslatesWithNeutralResourcesLanguage
     {
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Application.KillLaunched(StartInfo.WithNeutralLanguageProject.FileName);
+            Application.KillLaunched(StartInfo.WithNeutralResourcesLanguage.FileName);
         }
 
         [Test]
         public void EffectiveCulture()
         {
-            using var application = Application.AttachOrLaunch(StartInfo.WithNeutralLanguageProject);
+            using var application = Application.AttachOrLaunch(StartInfo.WithNeutralResourcesLanguage);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
             Assert.AreEqual("en", window.FindTextBlock("CurrentCultureTextBlock").Text);
@@ -25,7 +25,7 @@ namespace Gu.Wpf.Localization.UiTests
         [Test]
         public void VanillaXaml()
         {
-            using var application = Application.AttachOrLaunch(StartInfo.WithNeutralLanguageProject);
+            using var application = Application.AttachOrLaunch(StartInfo.WithNeutralResourcesLanguage);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
             var groupBox = window.FindGroupBox("Vanilla xaml");

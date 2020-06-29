@@ -8,13 +8,13 @@
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Application.KillLaunched(StartInfo.DemoProject.FileName);
+            Application.KillLaunched(StartInfo.Demo.FileName);
         }
 
         [Test]
         public void EffectiveCulture()
         {
-            using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
+            using var application = Application.AttachOrLaunch(StartInfo.Demo);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
             Assert.AreEqual("en", window.FindTextBlock("CurrentCultureTextBlockId").Text);
@@ -32,7 +32,7 @@
         [Test]
         public void VanillaXaml()
         {
-            using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
+            using var application = Application.AttachOrLaunch(StartInfo.Demo);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
             var groupBox = window.FindGroupBox("Vanilla xaml");
@@ -57,7 +57,7 @@
         [Test]
         public void VanillaXamlWithErrorHandling()
         {
-            using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
+            using var application = Application.AttachOrLaunch(StartInfo.Demo);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
             var groupBox = window.FindGroupBox("Vanilla xaml with ReturnErrorInfo");
@@ -82,7 +82,7 @@
         [Test]
         public void NotInVisualTree()
         {
-            using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
+            using var application = Application.AttachOrLaunch(StartInfo.Demo);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
             var groupBox = window.FindGroupBox("Not in visual tree");
@@ -98,7 +98,7 @@
         [Test]
         public void DataTemplate()
         {
-            using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
+            using var application = Application.AttachOrLaunch(StartInfo.Demo);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
             var groupBox = window.FindGroupBox("DataTemplateGroupId");
@@ -124,7 +124,7 @@
         [Test]
         public void UserControlSameProject()
         {
-            using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
+            using var application = Application.AttachOrLaunch(StartInfo.Demo);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
             var groupBox = window.FindGroupBox("UserControl from same project");
@@ -150,7 +150,7 @@
         [Test]
         public void UserControlOtherProject()
         {
-            using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
+            using var application = Application.AttachOrLaunch(StartInfo.Demo);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
             var groupBox = window.FindGroupBox("UserControl from other project");
@@ -167,7 +167,7 @@
         [Explicit(Todo.FixThisTest)]
         public void CustomControlOtherProject()
         {
-            using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
+            using var application = Application.AttachOrLaunch(StartInfo.Demo);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
             var groupBox = window.FindGroupBox("Custom control from other project");
@@ -183,7 +183,7 @@
         [Test]
         public void NoTranslations()
         {
-            using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
+            using var application = Application.AttachOrLaunch(StartInfo.Demo);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
             var groupBox = window.FindGroupBox("No translations");
@@ -205,7 +205,7 @@
         [Ignore(Todo.FixThisTest)]
         public void NoTranslationsWithReturnErrorInfo()
         {
-            using var application = Application.AttachOrLaunch(StartInfo.DemoProject);
+            using var application = Application.AttachOrLaunch(StartInfo.Demo);
             var window = application.MainWindow;
             window.FindRadioButton("en").IsChecked = true;
 

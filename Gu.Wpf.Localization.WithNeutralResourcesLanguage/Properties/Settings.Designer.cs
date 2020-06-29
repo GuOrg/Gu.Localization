@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Gu.Wpf.Localization.WithNeutralLanguage.Properties
+namespace Gu.Wpf.Localization.WithNeutralResourcesLanguage.Properties
 {
 
 
