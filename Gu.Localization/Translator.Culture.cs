@@ -85,7 +85,7 @@
         /// <summary>Check if <see cref="Cultures"/> contains a culture matching <paramref name="language"/>.</summary>
         /// <param name="language">The culture to test.</param>
         /// <returns>True if <see cref="Cultures"/> contains a match for <paramref name="language"/>.</returns>
-        public static bool ContainsCulture(CultureInfo language)
+        public static bool ContainsCulture(CultureInfo? language)
         {
             if (language is null)
             {

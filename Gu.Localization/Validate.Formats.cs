@@ -1,5 +1,4 @@
-﻿// ReSharper disable UnusedParameter.Global
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
 
