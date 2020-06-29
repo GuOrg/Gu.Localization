@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.Helpers
+﻿namespace Gu.Localization.Analyzers.Tests.Helpers
 {
     using System.IO;
     using Gu.Roslyn.Asserts;
@@ -141,7 +141,7 @@ namespace RoslynSandbox.Properties {
 }");
             var compilation = CSharpCompilation.Create("test", new[] { syntaxTree }, MetadataReferences.FromAttributes());
             var semanticModel = compilation.GetSemanticModel(syntaxTree);
-            var property = semanticModel.GetDeclaredSymbol(syntaxTree.FindPropertyDeclaration("Key"));
+            var property = semanticModel.GetDeclaredSymbol(syntaxTree.FindPropertyDeclaration("Key"))!;
             string fileName = Path.Combine(Path.GetTempPath(), "Foo.xaml");
             var testXaml = @"
 <UserControl x:Class=""Gu.Localization.TestStub.UserControl1""
@@ -160,7 +160,7 @@ namespace RoslynSandbox.Properties {
 
             testXaml = testXaml.AssertReplace("<TextBlock Text=\"{x:Static p:Resources.Key1}\"></TextBlock>", element);
             File.WriteAllText(fileName, testXaml);
-            Assert.AreEqual(false, XamlFile.TryUpdateUsage(fileName, property, null, out _));
+            Assert.AreEqual(false, XamlFile.TryUpdateUsage(fileName, property, null!, out _));
             File.Delete(fileName);
         }
     }

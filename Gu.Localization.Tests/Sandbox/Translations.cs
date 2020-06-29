@@ -1,4 +1,4 @@
-namespace Gu.Localization.Tests.Sandbox
+﻿namespace Gu.Localization.Tests.Sandbox
 {
     using System.Collections.Concurrent;
     using System.Collections.Generic;
@@ -8,7 +8,7 @@ namespace Gu.Localization.Tests.Sandbox
 
     public partial class Translations
     {
-        private static readonly ConcurrentDictionary<Assembly, Translations> Cache = new ConcurrentDictionary<Assembly, Translations>();
+        private static readonly ConcurrentDictionary<Assembly, Translations?> Cache = new ConcurrentDictionary<Assembly, Translations?>();
 
         //// ReSharper disable NotAccessedField.Local for debugging
         private readonly IReadOnlyDictionary<string, string> neutralMap;
@@ -30,9 +30,9 @@ namespace Gu.Localization.Tests.Sandbox
 
         public IReadOnlyList<CultureInfo> Cultures { get; }
 
-        public static Translations GetOrCreate(Assembly assembly)
+        public static Translations? GetOrCreate(Assembly assembly)
         {
-            return Cache.GetOrAdd(assembly, Translations.FromFiles.FindTranslations);
+            return Cache.GetOrAdd(assembly, x => Translations.FromFiles.FindTranslations(x));
         }
     }
 }
