@@ -76,7 +76,7 @@
         public static string? Translate(
             ResourceManager resourceManager,
             string key,
-            CultureInfo language,
+            CultureInfo? language,
             ErrorHandling errorHandling)
         {
             TryTranslateOrThrow(resourceManager, key, language, errorHandling, out var result);
@@ -86,7 +86,7 @@
         private static bool TryTranslateOrThrow(
             ResourceManager resourceManager,
             string key,
-            CultureInfo language,
+            CultureInfo? language,
             ErrorHandling errorHandling,
             out string? result)
         {
@@ -107,10 +107,10 @@
             {
                 if (errorHandling == ErrorHandling.Throw)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(key), "key == null");
+                    throw new ArgumentOutOfRangeException(nameof(key), "key is null");
                 }
 
-                result = "key == null";
+                result = "key is null";
                 return false;
             }
 
