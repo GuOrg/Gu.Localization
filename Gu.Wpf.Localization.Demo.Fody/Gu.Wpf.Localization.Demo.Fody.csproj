@@ -13,9 +13,24 @@
   <ItemGroup>
     <PackageReference Include="Gu.Analyzers" Version="1.6.7-dev" PrivateAssets="all" />
     <Resource Include="FodyWeavers.xml" />
-    <PackageReference Include="Costura.Fody" Version="4.1.0" PrivateAssets="all"/>
+    <PackageReference Include="Costura.Fody" Version="4.1.0" PrivateAssets="all" />
     <PackageReference Include="Fody" Version="6.2.0" PrivateAssets="all" />
     <PackageReference Include="PropertyChangedAnalyzers" Version="3.2.0" PrivateAssets="all" />
     <PackageReference Include="Resource.Embedder" Version="2.1.1" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 </Project>
