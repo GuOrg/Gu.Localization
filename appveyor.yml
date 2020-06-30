@@ -1,8 +1,5 @@
 image: Visual Studio 2019
 
-environment:
-  appveyor_dotnet_runtime: netcoreapp3.1
-
 before_build:
 - ps: dotnet restore
  
