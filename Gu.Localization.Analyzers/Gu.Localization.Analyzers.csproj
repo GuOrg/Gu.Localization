@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>6.4.3.0</Version>
+    <Version>6.5.0</Version>
     <DevelopmentDependency>true</DevelopmentDependency>
     <Description>Roslyn analyzers for Gu.Localization.</Description>
     <Authors>Johan Larsson</Authors>
@@ -42,6 +42,9 @@
     <PackageReference Include="PropertyChangedAnalyzers" Version="3.2.0" PrivateAssets="all" />
     <PackageReference Include="ReflectionAnalyzers" Version="0.1.22-dev" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[3.1.0]" />
     <PackageReference Include="TunnelVisionLabs.ReferenceAssemblyAnnotator" Version="1.0.0-alpha.154" PrivateAssets="all" />
   </ItemGroup>

@@ -35,6 +35,10 @@ Gu.Localization.ITranslation.ErrorHandling.get -> Gu.Localization.ErrorHandling
 Gu.Localization.ITranslation.Key.get -> string!
 Gu.Localization.ITranslation.Translate(System.Globalization.CultureInfo! culture, Gu.Localization.ErrorHandling errorHandlingStrategy = Gu.Localization.ErrorHandling.Inherit) -> string?
 Gu.Localization.ITranslation.Translated.get -> string?
+Gu.Localization.MissingTranslationEventArgs
+Gu.Localization.MissingTranslationEventArgs.Key.get -> string!
+Gu.Localization.MissingTranslationEventArgs.Language.get -> System.Globalization.CultureInfo?
+Gu.Localization.MissingTranslationEventArgs.MissingTranslationEventArgs(System.Globalization.CultureInfo? language, string! key) -> void
 Gu.Localization.ObservableSortedSet<T>
 Gu.Localization.ObservableSortedSet<T>.Add(T item) -> bool
 Gu.Localization.ObservableSortedSet<T>.Clear() -> void
@@ -92,6 +96,7 @@ static Gu.Localization.Translator.CurrentCulture.get -> System.Globalization.Cul
 static Gu.Localization.Translator.CurrentCultureChanged -> System.EventHandler<Gu.Localization.CultureChangedEventArgs!>?
 static Gu.Localization.Translator.ErrorHandling.get -> Gu.Localization.ErrorHandling
 static Gu.Localization.Translator.ErrorHandling.set -> void
+static Gu.Localization.Translator.MissingTranslation -> System.EventHandler<Gu.Localization.MissingTranslationEventArgs!>?
 static Gu.Localization.Translator.ResourceDirectory.get -> System.IO.DirectoryInfo!
 static Gu.Localization.Translator.ResourceDirectory.set -> void
 static Gu.Localization.Translator.StaticPropertyChanged -> System.EventHandler<System.ComponentModel.PropertyChangedEventArgs!>?

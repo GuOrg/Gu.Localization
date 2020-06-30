@@ -19,11 +19,17 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>6.4.3</Version>
+    <Version>6.5.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Johan Larsson</Authors>
-    <PackageReleaseNotes>6.4.3
-BUGFIX: Type initialization for Culture fails if installed cultures contains invalid neutral ancestry. Issue 82.</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      6.5.0
+      FEATURE: Nullable enable.
+      FEATURE: netcoreapp3.1
+      FEATURE: Translator.MissingTranslation
+      6.4.3
+      BUGFIX: Type initialization for Culture fails if installed cultures contains invalid neutral ancestry. Issue 82.
+    </PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageTags>ResourceManager localization translate language</PackageTags>
@@ -43,6 +49,7 @@ BUGFIX: Type initialization for Culture fails if installed cultures contains inv
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+
     <Compile Update="Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

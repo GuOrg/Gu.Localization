@@ -23,10 +23,14 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>6.4.3</Version>
+    <Version>6.5.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Johan Larsson</Authors>
     <PackageReleaseNotes>
+      6.5.0
+      FEATURE: Nullable enable.
+      FEATURE: netcoreapp3.1
+      FEATURE: Translator.MissingTranslation
       6.4.3
       BUGFIX: Type initialization for Culture fails if installed cultures contains invalid neutral ancestry. Issue 82.
     </PackageReleaseNotes>
