@@ -1,1 +1,5 @@
-﻿
+﻿Gu.Localization.MissingTranslationEventArgs
+Gu.Localization.MissingTranslationEventArgs.Key.get -> string!
+Gu.Localization.MissingTranslationEventArgs.Language.get -> System.Globalization.CultureInfo?
+Gu.Localization.MissingTranslationEventArgs.MissingTranslationEventArgs(System.Globalization.CultureInfo? language, string! key) -> void
+static Gu.Localization.Translator.MissingTranslation -> System.EventHandler<Gu.Localization.MissingTranslationEventArgs!>?

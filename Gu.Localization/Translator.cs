@@ -11,6 +11,8 @@
     {
         private static DirectoryInfo resourceDirectory = ResourceCultures.DefaultResourceDirectory();
 
+        public static event EventHandler<MissingTranslationEventArgs>? MissingTranslation;
+
         /// <summary>
         /// Gets or sets set the current directory where resources are found.
         /// Default is Directory.GetCurrentDirectory()
@@ -116,7 +118,7 @@
 
             if (language != null &&
                 !language.IsInvariant() &&
-                Cultures.Contains(language) == false)
+                !Cultures.Contains(language))
             {
                 if (resourceManager.HasCulture(language))
                 {
@@ -126,6 +128,7 @@
 
             if (!resourceManager.HasCulture(language))
             {
+                MissingTranslation?.Invoke(null, new MissingTranslationEventArgs(language, key));
                 if (errorHandling == ErrorHandling.Throw)
                 {
                     var message = $"The ResourceManager {resourceManager.BaseName} does not have a translation for the culture: {language?.Name ?? "null"}\r\n" +
@@ -157,6 +160,7 @@
 
             if (!resourceManager.HasKey(key, language))
             {
+                MissingTranslation?.Invoke(null, new MissingTranslationEventArgs(language, key));
                 if (resourceManager.HasKey(key, CultureInfo.InvariantCulture))
                 {
                     if (errorHandling == ErrorHandling.Throw)

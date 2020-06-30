@@ -306,6 +306,13 @@ string inSwedish = Translator.Translate(Properties.Resources.ResourceManager,
                                         foo);
 ```
 
+### MissingTranslation.
+An event that notifies when the key or culture is missing. Can be used for logging.
+
+```cs
+Translator.MissingTranslation += (sender, args) => Log($"Missing translation for {args.Key} when translating to {args.Language}.");
+```
+
 ## Translator&lt;T&gt;.
 
 Same as translator but used like `Translator<Properties.Resources>.Translate(...)`

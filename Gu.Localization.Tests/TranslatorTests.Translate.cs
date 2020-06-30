@@ -1,6 +1,7 @@
 ﻿namespace Gu.Localization.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
 
@@ -12,6 +13,13 @@
     {
         public static class Translate
         {
+            [SetUp]
+            public static void SetUp()
+            {
+                Translator.ErrorHandling = ErrorHandling.ReturnErrorInfoPreserveNeutral;
+                Translator.Culture = null;
+            }
+
             [TestCase("en", "English")]
             [TestCase("sv", "Svenska")]
             [TestCase(null, "So neutral")]
@@ -44,12 +52,23 @@
                 }
 
                 foreach (var errorHandling in Enum.GetValues(typeof(ErrorHandling))
-                                  .OfType<ErrorHandling>())
+                                                  .OfType<ErrorHandling>())
                 {
                     Translator.ErrorHandling = errorHandling;
                     actual = Translator.Translate(Properties.Resources.ResourceManager, row.Key);
                     Assert.AreEqual(row.ExpectedTranslation, actual);
                 }
+            }
+
+            [TestCaseSource(typeof(TranslationSource))]
+            public static void TranslateWithGlobalCultureDoesNotSignalMissingTranslation(TranslationSource.Row row)
+            {
+                Translator.Culture = row.Culture;
+                var missing = 0;
+                Translator.MissingTranslation += (sender, args) => missing++;
+                var actual = Translator.Translate(Properties.Resources.ResourceManager, row.Key);
+                Assert.AreEqual(row.ExpectedTranslation, actual);
+                Assert.AreEqual(0, missing);
             }
 
             [TestCaseSource(typeof(TranslationSource))]
@@ -73,6 +92,16 @@
                     actual = Translator.Translate(Properties.Resources.ResourceManager, row.Key, row.Culture);
                     Assert.AreEqual(row.ExpectedTranslation, actual);
                 }
+            }
+
+            [TestCaseSource(typeof(TranslationSource))]
+            public static void TranslateWithExplicitCultureDoesNotSignalMissingTranslation(TranslationSource.Row row)
+            {
+                var missing = 0;
+                Translator.MissingTranslation += (sender, args) => missing++;
+                var actual = Translator.Translate(Properties.Resources.ResourceManager, row.Key, row.Culture);
+                Assert.AreEqual(row.ExpectedTranslation, actual);
+                Assert.AreEqual(0, missing);
             }
 
             [TestCaseSource(typeof(TranslationErrorsSource))]
@@ -157,6 +186,43 @@
                 Console.Write(actual.Message);
 #endif
                 Assert.AreEqual(data.ExpectedMessage, actual.Message);
+            }
+
+            [Test]
+            public static void MissingKeySignalMissingTranslationWhenGlobalCulture()
+            {
+                var events = new List<MissingTranslationEventArgs>();
+                Translator.MissingTranslation += (sender, args) => events.Add(args);
+                Translator.Culture = CultureInfo.GetCultureInfo("sv");
+                var actual = Translator.Translate(Properties.Resources.ResourceManager, "missing");
+                Assert.AreEqual("!missing!", actual);
+                Assert.AreEqual(1, events.Count);
+                Assert.AreEqual("svenska", events[0].Language?.NativeName);
+                Assert.AreEqual("missing", events[0].Key);
+            }
+
+            [Test]
+            public static void MissingKeySignalMissingTranslationWhenExplicitCulture()
+            {
+                var events = new List<MissingTranslationEventArgs>();
+                Translator.MissingTranslation += (sender, args) => events.Add(args);
+                var actual = Translator.Translate(Properties.Resources.ResourceManager, "missing", CultureInfo.GetCultureInfo("sv"));
+                Assert.AreEqual("!missing!", actual);
+                Assert.AreEqual(1, events.Count);
+                Assert.AreEqual("svenska", events[0].Language?.NativeName);
+                Assert.AreEqual("missing", events[0].Key);
+            }
+
+            [Test]
+            public static void MissingCultureSignalMissingTranslationWhenExplicitCulture()
+            {
+                var events = new List<MissingTranslationEventArgs>();
+                Translator.MissingTranslation += (sender, args) => events.Add(args);
+                var actual = Translator.Translate(Properties.Resources.ResourceManager, "missing", CultureInfo.GetCultureInfo("it"));
+                Assert.AreEqual("~missing~", actual);
+                Assert.AreEqual(1, events.Count);
+                Assert.AreEqual("italiano", events[0].Language?.NativeName);
+                Assert.AreEqual("missing", events[0].Key);
             }
         }
     }
