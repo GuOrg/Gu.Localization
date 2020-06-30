@@ -54,6 +54,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Localization.Benchmarks"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.Localization.WithNeutralResourcesLanguage", "Gu.Wpf.Localization.WithNeutralResourcesLanguage\Gu.Wpf.Localization.WithNeutralResourcesLanguage.csproj", "{D8F64611-8F63-4A23-8995-D53C223A5A3E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Localization.WithNeutralLanguage", "Gu.Wpf.Localization.WithNeutralLanguage\Gu.Wpf.Localization.WithNeutralLanguage.csproj", "{EE0885A9-37DD-4ABC-8E8F-DA24EDAEFC5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -124,6 +126,10 @@ Global
 		{D8F64611-8F63-4A23-8995-D53C223A5A3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8F64611-8F63-4A23-8995-D53C223A5A3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8F64611-8F63-4A23-8995-D53C223A5A3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE0885A9-37DD-4ABC-8E8F-DA24EDAEFC5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE0885A9-37DD-4ABC-8E8F-DA24EDAEFC5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE0885A9-37DD-4ABC-8E8F-DA24EDAEFC5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE0885A9-37DD-4ABC-8E8F-DA24EDAEFC5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,6 +141,7 @@ Global
 		{BDB276CE-DBB6-4BD7-B7F8-59777D655A70} = {7C464917-49E0-40F2-BB85-EB16977B87A5}
 		{6D8D9688-CE1F-4EEA-9969-F32403650402} = {7C464917-49E0-40F2-BB85-EB16977B87A5}
 		{D8F64611-8F63-4A23-8995-D53C223A5A3E} = {7C464917-49E0-40F2-BB85-EB16977B87A5}
+		{EE0885A9-37DD-4ABC-8E8F-DA24EDAEFC5A} = {7C464917-49E0-40F2-BB85-EB16977B87A5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {935956A3-D560-462A-9FED-3A2E80C0C591}

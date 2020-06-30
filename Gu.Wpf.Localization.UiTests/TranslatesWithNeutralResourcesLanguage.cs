@@ -3,16 +3,16 @@
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public sealed class TranslatesWithNeutralResourcesLanguage
+    public static class TranslatesWithNeutralResourcesLanguage
     {
         [OneTimeTearDown]
-        public void OneTimeTearDown()
+        public static void OneTimeTearDown()
         {
             Application.KillLaunched(StartInfo.WithNeutralResourcesLanguage.FileName);
         }
 
         [Test]
-        public void EffectiveCulture()
+        public static void EffectiveCulture()
         {
             using var application = Application.AttachOrLaunch(StartInfo.WithNeutralResourcesLanguage);
             var window = application.MainWindow;
@@ -23,7 +23,7 @@
         }
 
         [Test]
-        public void VanillaXaml()
+        public static void VanillaXaml()
         {
             using var application = Application.AttachOrLaunch(StartInfo.WithNeutralResourcesLanguage);
             var window = application.MainWindow;
