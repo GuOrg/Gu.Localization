@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
+    <!--<TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>-->
     <LangVersion>latest</LangVersion>
     <Nullable>Enable</Nullable>
-    <!--<TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>-->
     <CodeAnalysisRuleSet>Gu.Localization.Tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
