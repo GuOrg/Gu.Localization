@@ -12,7 +12,7 @@
         /// <summary>Returns information about the error in the result.</summary>
         ReturnErrorInfo,
 
-        /// <summary>Returns information about the error in the result but leaves neutral strings intact</summary>
+        /// <summary>Returns information about the error in the result but leaves neutral strings intact.</summary>
         ReturnErrorInfoPreserveNeutral,
     }
 }
