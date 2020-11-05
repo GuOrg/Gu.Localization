@@ -5,6 +5,7 @@
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
+
     using Gu.Localization;
 
     /// <summary>MarkupExtension for binging to <see cref="Translator.CurrentCulture"/>.</summary>
@@ -16,8 +17,7 @@
         /// </summary>
         internal static readonly PropertyPath TranslatorCurrentCulturePath = new PropertyPath(
             "(0)",
-            typeof(Translator).GetProperty(nameof(Translator.CurrentCulture), BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly) ??
-            throw new InvalidOperationException("Did not find property Translator.CurrentCulture."));
+            typeof(Translator).GetProperty(nameof(Translator.CurrentCulture), BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly) ?? throw new InvalidOperationException("Did not find property Translator.CurrentCulture."));
 
         /// <inheritdoc />
         public override object ProvideValue(IServiceProvider serviceProvider)

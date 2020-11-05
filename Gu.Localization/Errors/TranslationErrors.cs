@@ -9,7 +9,7 @@
 
     /// <summary>A collection of errors.</summary>
 #pragma warning disable CA1710 // Identifiers should have correct suffix
-    public class TranslationErrors : IReadOnlyDictionary<string, IReadOnlyList<TranslationError>>
+    public sealed class TranslationErrors : IReadOnlyDictionary<string, IReadOnlyList<TranslationError>>
 #pragma warning restore CA1710 // Identifiers should have correct suffix
     {
         /// <summary>
