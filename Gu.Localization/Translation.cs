@@ -140,7 +140,7 @@
                 {
                     if (this.culture is null)
                     {
-                        this.TryUpdate(Translator.CurrentCulture);
+                        _ = this.TryUpdate(Translator.CurrentCulture);
                     }
 
                     return this.value;

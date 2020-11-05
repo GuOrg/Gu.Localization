@@ -9,6 +9,7 @@
     /// <summary> Utility class for <see cref="CultureInfo"/>. </summary>
     internal static class Culture
     {
+#pragma warning disable SA1401 // Fields should be private
         internal static readonly IReadOnlyList<CultureInfo> AllCultures =
             CultureInfo.GetCultures(CultureTypes.AllCultures)
                        .Where(x => !IsInvariant(x))
@@ -18,6 +19,7 @@
             AllCultures.Select(x => TryGetRegion(x, out var region) ? region : null)
                        .Where(x => x != null)
                        .ToList()!;
+#pragma warning restore SA1401 // Fields should be private
 
         internal static bool TryGet(string? name, [NotNullWhen(true)] out CultureInfo? culture)
         {

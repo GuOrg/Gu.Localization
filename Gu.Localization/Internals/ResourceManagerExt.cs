@@ -157,7 +157,7 @@
                 // I don't remember if this cloning solves a problem or if it is some old thing.
                 using var clone = new ResourceManagerClone(this.resourceManager);
 
-                using var resourceSet = clone?.ResourceManager?.GetResourceSet(culture, createIfNotExists: true, tryParents: false);
+                using var resourceSet = clone.ResourceManager?.GetResourceSet(culture, createIfNotExists: true, tryParents: false);
                 if (resourceSet is null)
                 {
                     return null;
@@ -171,7 +171,9 @@
             /// <summary>Creates a clone of the <see cref="ResourceManager"/> passed in. Releases all resources on dispose.</summary>
             private sealed class ResourceManagerClone : IDisposable
             {
+#pragma warning disable SA1401 // Fields should be private
                 internal readonly ResourceManager? ResourceManager;
+#pragma warning restore SA1401 // Fields should be private
 
                 internal ResourceManagerClone(ResourceManager source)
                 {

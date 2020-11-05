@@ -22,13 +22,14 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="TranslationErrors"/> class.
         /// </summary>
+        /// <param name="errors">The map of keys and errors.</param>
         public TranslationErrors(IReadOnlyDictionary<string, IReadOnlyList<TranslationError>> errors)
         {
             this.errors = errors;
         }
 
         /// <summary>
-        /// Returns true if the collection is empty.
+        /// Gets a value indicating whether the collection is empty.
         /// </summary>
         public bool IsEmpty => this.errors.Count == 0;
 

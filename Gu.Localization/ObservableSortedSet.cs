@@ -9,6 +9,7 @@
     /// <summary>
     /// A wrapper for <see cref="SortedSet{T}"/> that notifies about changes.
     /// </summary>
+    /// <typeparam name="T">The type of items in the collection.</typeparam>
     [Serializable]
     public class ObservableSortedSet<T> : ISet<T>, IReadOnlyCollection<T>, INotifyCollectionChanged, INotifyPropertyChanged
     {
@@ -26,6 +27,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableSortedSet{T}"/> class.
         /// </summary>
+        /// <param name="comparer">The <see cref="IComparer{T}"/>.</param>
         public ObservableSortedSet(IComparer<T> comparer)
         {
             this.inner = new SortedSet<T>(comparer);
@@ -35,6 +37,7 @@
         /// Initializes a new instance of the <see cref="ObservableSortedSet{T}"/> class.
         /// Uses <see cref="EqualityComparer{T}.Default"/>.
         /// </summary>
+        /// <param name="collection">The <see cref="IEnumerable{T}"/>.</param>
         public ObservableSortedSet(IEnumerable<T> collection)
             : this(collection, Comparer<T>.Default)
         {
@@ -43,6 +46,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableSortedSet{T}"/> class.
         /// </summary>
+        /// <param name="collection">The <see cref="IEnumerable{T}"/>.</param>
+        /// <param name="comparer">The <see cref="IComparer{T}"/>.</param>
         public ObservableSortedSet(IEnumerable<T> collection, IComparer<T> comparer)
         {
             this.inner = new SortedSet<T>(collection, comparer);
@@ -57,7 +62,7 @@
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         /// <summary>
-        /// <see cref="IReadOnlyCollection{T}.Count"/>.
+        /// Gets <see cref="IReadOnlyCollection{T}.Count"/>.
         /// </summary>
         public int Count => this.inner.Count;
 
@@ -75,6 +80,7 @@
         /// <summary>
         /// Clear then union with <paramref name="items"/>.
         /// </summary>
+        /// <param name="items">The <see cref="IReadOnlyCollection{T}"/>.</param>
         public void UpdateWith(IReadOnlyCollection<T> items)
         {
             if (this.inner.SetEquals(items))
@@ -198,6 +204,7 @@
         /// Properties/methods modifying this <see cref="ObservableSortedSet{T}"/> will raise
         /// a property changed event through this virtual method.
         /// </summary>
+        /// <param name="e">The <see cref="PropertyChangedEventArgs"/>.</param>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);
@@ -208,6 +215,7 @@
         /// Properties/methods modifying this <see cref="ObservableSortedSet{T}"/> will raise
         /// a collection changed event through this virtual method.
         /// </summary>
+        /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             this.CollectionChanged?.Invoke(this, e);

@@ -20,12 +20,12 @@
         }
 
         /// <summary>
-        /// The <see cref="CultureInfo"/> that a translation was sought for.
+        /// Gets the <see cref="CultureInfo"/> that a translation was sought for.
         /// </summary>
         public CultureInfo? Language { get; }
 
         /// <summary>
-        /// The resource key a translation was sought for.
+        /// Gets the resource key a translation was sought for.
         /// </summary>
         public string Key { get; }
     }

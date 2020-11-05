@@ -84,7 +84,7 @@
             CultureInfo? language,
             ErrorHandling errorHandling)
         {
-            TryTranslateOrThrow(resourceManager, key, language, errorHandling, out var result);
+            _ = TryTranslateOrThrow(resourceManager, key, language, errorHandling, out var result);
             return result;
         }
 
@@ -125,7 +125,7 @@
             {
                 if (resourceManager.HasCulture(language))
                 {
-                    Cultures.Add(language);
+                    _ = Cultures.Add(language);
                 }
             }
 
