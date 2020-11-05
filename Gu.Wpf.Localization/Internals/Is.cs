@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DesignMode.cs" company="">
-//
-// </copyright>
-// <summary>
-//   The design mode.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System.ComponentModel;
     using System.Windows;

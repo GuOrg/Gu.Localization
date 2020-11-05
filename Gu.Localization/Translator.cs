@@ -11,6 +11,9 @@
     {
         private static DirectoryInfo resourceDirectory = ResourceCultures.DefaultResourceDirectory();
 
+        /// <summary>
+        /// Signals when there is a request for translation of a key that does not exist in resources.
+        /// </summary>
         public static event EventHandler<MissingTranslationEventArgs>? MissingTranslation;
 
         /// <summary>
