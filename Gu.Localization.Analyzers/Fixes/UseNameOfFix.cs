@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers
+﻿namespace Gu.Localization.Analyzers
 {
     using System.Collections.Immutable;
     using System.Composition;
@@ -22,9 +22,9 @@ namespace Gu.Localization.Analyzers
                                                    .ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
-                var argument = syntaxRoot.FindNode(diagnostic.Location.SourceSpan)
+                var argument = syntaxRoot?.FindNode(diagnostic.Location.SourceSpan)
                                      .FirstAncestorOrSelf<ArgumentSyntax>();
-                switch (argument.Expression)
+                switch (argument?.Expression)
                 {
                     case LiteralExpressionSyntax literal when literal.IsKind(SyntaxKind.StringLiteralExpression) &&
                         diagnostic.Properties.TryGetValue(nameof(MemberAccessExpressionSyntax), out var member):

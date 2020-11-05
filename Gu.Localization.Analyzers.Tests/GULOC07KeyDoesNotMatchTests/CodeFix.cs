@@ -597,6 +597,7 @@ namespace Gu.Localization.TestStub.Properties
                 return ResourceManager.GetString(""Key"", resourceCulture);
             }
         }",
+#pragma warning disable SA1118 // Parameter should not span multiple lines
                 @"        public static string Wrong
         {
             get
@@ -605,6 +606,7 @@ namespace Gu.Localization.TestStub.Properties
                     ""ey"", resourceCulture);
             }
         }");
+#pragma warning restore SA1118 // Parameter should not span multiple lines
             var sln = CodeFactory.CreateSolution(projectFile, MetadataReferences.FromAttributes());
 
             var diagnostics = Analyze.GetDiagnostics(sln, Analyzer);

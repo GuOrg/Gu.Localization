@@ -108,7 +108,8 @@
 
         private static bool KeyExists(ArgumentSyntax keyArgument, INamedTypeSymbol resourcesType, SyntaxNodeAnalysisContext context)
         {
-            if (TryGetStringValue(keyArgument, out var key))
+            if (TryGetStringValue(keyArgument, out var key) &&
+                key is { })
             {
                 return resourcesType.GetMembers(key).Any();
             }
@@ -149,7 +150,7 @@
             custom = null;
             return false;
 
-            bool CanFix(IMethodSymbol candidate)
+            static bool CanFix(IMethodSymbol candidate)
             {
                 if (candidate.Parameters.TryFirst(out var parameter) &&
                     parameter.Type.SpecialType == SpecialType.System_String)

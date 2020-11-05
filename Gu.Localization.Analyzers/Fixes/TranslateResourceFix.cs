@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers
+﻿namespace Gu.Localization.Analyzers
 {
     using System.Collections.Generic;
     using System.Collections.Immutable;
@@ -25,7 +25,7 @@ namespace Gu.Localization.Analyzers
                                           .ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.FindNode(diagnostic.Location.SourceSpan) is MemberAccessExpressionSyntax memberAccess)
+                if (syntaxRoot?.FindNode(diagnostic.Location.SourceSpan) is MemberAccessExpressionSyntax memberAccess)
                 {
                     if (diagnostic.Id == "GULOC04" &&
                         diagnostic.Properties.TryGetValue(nameof(Translate), out var call))

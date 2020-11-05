@@ -34,7 +34,9 @@
             var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.TryFindNodeOrAncestor<PropertyDeclarationSyntax>(diagnostic, out var propertyDeclaration) &&
+                if (syntaxRoot is { } &&
+                    syntaxRoot.TryFindNodeOrAncestor<PropertyDeclarationSyntax>(diagnostic, out var propertyDeclaration) &&
+                    semanticModel is { } &&
                     semanticModel.TryGetSymbol(propertyDeclaration, context.CancellationToken, out var property) &&
                     diagnostic.Properties.TryGetValue("Key", out var name) &&
                     !property.ContainingType.TryFindFirstMember(name, out _) &&
@@ -72,9 +74,7 @@
                     var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
                     return solution.WithDocumentSyntaxRoot(
                         document.Id,
-                        root.ReplaceNode(
-                            declaration,
-                            Property.Rewrite(declaration, newName)));
+                        root.ReplaceNode(declaration, Property.Rewrite(declaration, newName))!);
                 }
 
                 return solution;
@@ -152,7 +152,7 @@
                     return node.WithExpression(SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(this.newKey)));
                 }
 
-                return base.VisitArgument(node);
+                return base.VisitArgument(node)!;
             }
 
             public override SyntaxNode VisitLiteralExpression(LiteralExpressionSyntax node)
@@ -165,7 +165,7 @@
                     return node.WithToken(SyntaxFactory.Literal(this.newKey));
                 }
 
-                return base.VisitLiteralExpression(node);
+                return base.VisitLiteralExpression(node)!;
             }
 
             internal static PropertyDeclarationSyntax Rewrite(PropertyDeclarationSyntax declaration, string newValue)

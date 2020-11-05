@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers
+﻿namespace Gu.Localization.Analyzers
 {
     using Microsoft.CodeAnalysis;
 
@@ -93,26 +93,5 @@ namespace Gu.Localization.Analyzers
             defaultSeverity: DiagnosticSeverity.Info,
             isEnabledByDefault: true,
             description: "Missing translation.");
-
-        private static DiagnosticDescriptor Create(
-            string id,
-            string title,
-            string messageFormat,
-            string category,
-            DiagnosticSeverity defaultSeverity,
-            bool isEnabledByDefault,
-            string description)
-        {
-            return new DiagnosticDescriptor(
-                id: id,
-                title: title,
-                messageFormat: messageFormat,
-                category: category,
-                defaultSeverity: defaultSeverity,
-                isEnabledByDefault: isEnabledByDefault,
-                description: description,
-                helpLinkUri: null,
-                customTags: null);
-        }
     }
 }

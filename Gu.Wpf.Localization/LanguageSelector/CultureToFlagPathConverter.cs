@@ -45,7 +45,9 @@
         }
 
         /// <inheritdoc />
+#pragma warning disable SA1313 // Parameter names should begin with lower-case letter
         public object Convert(object value, Type targetType, object parameter, CultureInfo _)
+#pragma warning restore SA1313 // Parameter names should begin with lower-case letter
         {
             if (value is CultureInfo culture &&
                 TryGetFlagPath(culture, out var path))

@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers
+﻿namespace Gu.Localization.Analyzers
 {
     using System;
     using System.Collections.Immutable;
@@ -25,7 +25,7 @@ namespace Gu.Localization.Analyzers
                                           .ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.FindNode(diagnostic.Location.SourceSpan) is LiteralExpressionSyntax literal)
+                if (syntaxRoot?.FindNode(diagnostic.Location.SourceSpan) is LiteralExpressionSyntax literal)
                 {
                     context.RegisterCodeFix(
                         CodeAction.Create(

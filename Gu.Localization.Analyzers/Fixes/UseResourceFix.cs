@@ -183,7 +183,7 @@
             {
                 // Adding a temp key so that we don't have a build error until next gen.
                 // public static string Key => ResourceManager.GetString("Key", resourceCulture);
-                if (designerRoot.DescendantNodes().TryLastOfType(out PropertyDeclarationSyntax? property))
+                if (designerRoot.DescendantNodes().TryLastOfType<SyntaxNode, PropertyDeclarationSyntax>(out var property))
                 {
                     return designerRoot.InsertNodesAfter(
                         property,
