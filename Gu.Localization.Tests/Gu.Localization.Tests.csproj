@@ -4,7 +4,6 @@
     <LangVersion>latest</LangVersion>
     <Nullable>Enable</Nullable>
     <!--<TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>-->
-    <CodeAnalysisRuleSet>Gu.Localization.Tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup>

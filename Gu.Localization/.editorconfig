@@ -1,5 +1,7 @@
 [*.cs]
 
+# SA1633: File should have header
+dotnet_diagnostic.SA1633.severity = none
 
 # CA1825: Avoid unnecessary zero-length array allocations.  Use Array.Empty<T>() instead.
 dotnet_diagnostic.CA1825.severity = none

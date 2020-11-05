@@ -1,6 +1,8 @@
 [*.cs]
-# SA1203: Constants should appear before fields
-dotnet_diagnostic.SA1203.severity = none
+# Default severity for analyzer diagnostics with category 'StyleCop.CSharp.DocumentationRules'
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.DocumentationRules.severity = none
+# SA0001: XML comment analysis is disabled due to project configuration
+dotnet_diagnostic.SA0001.severity = none
 
 # CA1724: The type name Diagnostics conflicts in whole or in part with the namespace name 'System.Diagnostics' defined in the .NET Framework. Rename the type to eliminate the conflict.
 dotnet_diagnostic.CA1724.severity = none

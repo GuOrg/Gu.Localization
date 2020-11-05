@@ -5,7 +5,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>Enable</Nullable>
-    <CodeAnalysisRuleSet>Gu.Localization.Benchmarks.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>

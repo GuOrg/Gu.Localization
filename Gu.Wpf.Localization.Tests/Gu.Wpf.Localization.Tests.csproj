@@ -3,7 +3,6 @@
     <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>Enable</Nullable>
-    <CodeAnalysisRuleSet>Gu.Wpf.Localization.Tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup>

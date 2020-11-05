@@ -4,8 +4,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>Enable</Nullable>
-    <NeutralLanguage>en-US</NeutralLanguage>
-    <CodeAnalysisRuleSet>Gu.Localization.Analyzers.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -17,7 +15,7 @@
 
   <PropertyGroup>
     <Version>6.5.0</Version>
-    <DevelopmentDependency>true</DevelopmentDependency>
+    <NeutralLanguage>en-US</NeutralLanguage>
     <Description>Roslyn analyzers for Gu.Localization.</Description>
     <Authors>Johan Larsson</Authors>
     <NeutralLanguage>en</NeutralLanguage>
@@ -26,6 +24,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Localization</PackageProjectUrl>    
     <RepositoryUrl>https://github.com/GuOrg/Gu.Localization</RepositoryUrl>
+    <DevelopmentDependency>true</DevelopmentDependency>
   </PropertyGroup>
   
   <PropertyGroup>

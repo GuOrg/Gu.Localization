@@ -4,8 +4,6 @@
     <UseWpf>true</UseWpf>
     <LangVersion>latest</LangVersion>
     <Nullable>Enable</Nullable>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <CodeAnalysisRuleSet>Gu.Wpf.Localization.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -24,7 +22,6 @@
 
   <PropertyGroup>
     <Version>6.5.0</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Johan Larsson</Authors>
     <PackageReleaseNotes>
       6.5.0
@@ -35,11 +32,13 @@
       BUGFIX: Type initialization for Culture fails if installed cultures contains invalid neutral ancestry. Issue 82.
     </PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <NeutralLanguage>en</NeutralLanguage>
     <PackageTags>ResourceManager localization translate language</PackageTags>
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Localization</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GuOrg/Gu.Localization</RepositoryUrl>
     <Description>For localization using ResourceManager.</Description>
+    <NeutralLanguage>en</NeutralLanguage>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
