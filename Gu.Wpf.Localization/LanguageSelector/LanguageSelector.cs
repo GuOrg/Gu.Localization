@@ -16,7 +16,6 @@
     [ContentProperty(nameof(Languages))]
     public class LanguageSelector : Control
     {
-#pragma warning disable SA1202 // Elements must be ordered by access
         /// <summary>Identifies the <see cref="AutogenerateLanguages"/> dependency property.</summary>
         public static readonly DependencyProperty AutogenerateLanguagesProperty = DependencyProperty.Register(
             nameof(AutogenerateLanguages),
@@ -49,8 +48,6 @@
             typeof(LanguageSelector),
             new PropertyMetadata(default(DataTemplate)),
             ValidateItemTemplate);
-
-#pragma warning restore SA1202 // Elements must be ordered by access
 
         static LanguageSelector()
         {
