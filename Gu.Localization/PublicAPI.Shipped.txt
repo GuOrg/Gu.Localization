@@ -97,7 +97,7 @@ static Gu.Localization.Translator.CurrentCultureChanged -> System.EventHandler<G
 static Gu.Localization.Translator.ErrorHandling.get -> Gu.Localization.ErrorHandling
 static Gu.Localization.Translator.ErrorHandling.set -> void
 static Gu.Localization.Translator.MissingTranslation -> System.EventHandler<Gu.Localization.MissingTranslationEventArgs!>?
-static Gu.Localization.Translator.ResourceDirectory.get -> System.IO.DirectoryInfo!
+static Gu.Localization.Translator.ResourceDirectory.get -> System.IO.DirectoryInfo?
 static Gu.Localization.Translator.ResourceDirectory.set -> void
 static Gu.Localization.Translator.StaticPropertyChanged -> System.EventHandler<System.ComponentModel.PropertyChangedEventArgs!>?
 static Gu.Localization.Translator.Translate(System.Resources.ResourceManager! resourceManager, string! key) -> string?

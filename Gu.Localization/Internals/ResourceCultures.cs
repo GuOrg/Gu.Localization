@@ -22,14 +22,49 @@
         /// </summary>
         /// <param name="executingDirectory">The directory to check.</param>
         /// <returns>The cultures found. If none an empty list is returned.</returns>
-        internal static IReadOnlyList<CultureInfo> GetAllCultures(DirectoryInfo executingDirectory)
+        internal static IEnumerable<CultureInfo> GetAllCultures(DirectoryInfo executingDirectory)
         {
+            HashSet<CultureInfo>? cultures = null;
             if (!executingDirectory.Exists)
             {
-                return EmptyCultures;
+                if (Assembly.GetEntryAssembly() is { } assembly &&
+                    assembly.GetType()
+                        .GetMethod(
+                            "InternalGetSatelliteAssembly",
+                            binder: null,
+                            bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
+                            modifiers: null,
+                            types: new[] { typeof(CultureInfo), typeof(Version), typeof(bool) }) is { } methodInfo)
+                {
+                    if (assembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>() is { } neutralLanguageAttribute &&
+                        Gu.Localization.Culture.TryGet(neutralLanguageAttribute.CultureName, out var neutralCulture))
+                    {
+                        if (cultures is null)
+                        {
+                            cultures = new HashSet<CultureInfo>(CultureInfoComparer.ByName);
+                        }
+
+                        cultures.Add(neutralCulture);
+                    }
+
+                    var method = (Func<CultureInfo, Version?, bool, Assembly?>)methodInfo.CreateDelegate(typeof(Func<CultureInfo, Version?, bool, Assembly?>), assembly);
+                    foreach (var candidate in CultureInfo.GetCultures(CultureTypes.AllCultures))
+                    {
+                        if (method(candidate, null, false) is { })
+                        {
+                            if (cultures is null)
+                            {
+                                cultures = new HashSet<CultureInfo>(CultureInfoComparer.ByName);
+                            }
+
+                            cultures.Add(candidate);
+                        }
+                    }
+                }
+
+                return (IEnumerable<CultureInfo>?)cultures ?? EmptyCultures;
             }
 
-            HashSet<CultureInfo>? cultures = null;
             foreach (var directory in executingDirectory.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
             {
                 if (Culture.TryGet(directory.Name, out var culture))
@@ -77,11 +112,16 @@
                 }
             }
 
-            return cultures?.OrderBy(x => x.Name).ToArray() ?? EmptyCultures;
+            return (IEnumerable<CultureInfo>?)cultures ?? EmptyCultures;
         }
 
-        internal static DirectoryInfo DefaultResourceDirectory()
+        internal static DirectoryInfo? DefaultResourceDirectory()
         {
+            if (string.IsNullOrEmpty(Directory.GetCurrentDirectory()))
+            {
+                return null;
+            }
+
             var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
             var assembly = typeof(ResourceCultures).Assembly;
             var name = $"{assembly.GetName().Name}.dll";

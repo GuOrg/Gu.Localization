@@ -5,12 +5,6 @@ dotnet_analyzer_diagnostic.category-StyleCop.CSharp.DocumentationRules.severity 
 # SA0001: XML comment analysis is disabled due to project configuration
 dotnet_diagnostic.SA0001.severity = none
 
-# CA1724: The type name Diagnostics conflicts in whole or in part with the namespace name 'System.Diagnostics' defined in the .NET Framework. Rename the type to eliminate the conflict.
-dotnet_diagnostic.CA1724.severity = none
-
-# CA1824: Mark assemblies with NeutralResourcesLanguageAttribute
-dotnet_diagnostic.CA1824.severity = none
-
 # CA1034: Nested types should not be visible
 dotnet_diagnostic.CA1034.severity = none
 
@@ -19,3 +13,9 @@ dotnet_diagnostic.CA1062.severity = none
 
 # CA1304: Specify CultureInfo
 dotnet_diagnostic.CA1304.severity = none
+
+# CA1724: The type name Diagnostics conflicts in whole or in part with the namespace name 'System.Diagnostics' defined in the .NET Framework. Rename the type to eliminate the conflict.
+dotnet_diagnostic.CA1724.severity = none
+
+# CA1824: Mark assemblies with NeutralResourcesLanguageAttribute
+dotnet_diagnostic.CA1824.severity = none

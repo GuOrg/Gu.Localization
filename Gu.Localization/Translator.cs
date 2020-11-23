@@ -9,7 +9,7 @@
     /// <summary> Class for translating resources. </summary>
     public static partial class Translator
     {
-        private static DirectoryInfo resourceDirectory = ResourceCultures.DefaultResourceDirectory();
+        private static DirectoryInfo? resourceDirectory = ResourceCultures.DefaultResourceDirectory();
 
         /// <summary>
         /// Signals when there is a request for translation of a key that does not exist in resources.
@@ -21,7 +21,7 @@
         /// Default is Directory.GetCurrentDirectory()
         /// Changing the default is perhaps useful in tests.
         /// </summary>
-        public static DirectoryInfo ResourceDirectory
+        public static DirectoryInfo? ResourceDirectory
         {
             get => resourceDirectory;
 
