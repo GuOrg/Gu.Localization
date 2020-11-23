@@ -1,3 +1,11 @@
+#### 6.6.0
+* FEATURE: Compatible with net 5 single file.
+
+#### 6.5.0
+* FEATURE: Nullable enable.
+* FEATURE: netcoreapp3.1
+* FEATURE: Translator.MissingTranslation
+
 #### 6.4.3
 * BUGFIX: Type initialization for Culture fails if installed cultures contains invalid neutral ancestry. Issue 82.
  

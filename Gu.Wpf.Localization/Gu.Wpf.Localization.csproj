@@ -21,9 +21,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>6.5.0</Version>
+    <Version>6.6.0</Version>
     <Authors>Johan Larsson</Authors>
     <PackageReleaseNotes>
+      6.6.0
+      FEATURE: Compatible with net 5 single file.
       6.5.0
       FEATURE: Nullable enable.
       FEATURE: netcoreapp3.1
