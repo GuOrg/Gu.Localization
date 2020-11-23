@@ -117,12 +117,12 @@
 
         internal static DirectoryInfo? DefaultResourceDirectory()
         {
-            var assembly = typeof(ResourceCultures).Assembly;
-            if (string.IsNullOrEmpty(assembly.Location))
+            if (string.IsNullOrEmpty(Assembly.GetEntryAssembly()?.Location))
             {
                 return null;
             }
 
+            var assembly = typeof(ResourceCultures).Assembly;
             var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
             var name = $"{assembly.GetName().Name}.dll";
             if (currentDirectory.Contains(name) ||
