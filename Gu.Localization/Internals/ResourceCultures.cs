@@ -12,8 +12,6 @@
     /// <summary>Utility class for finding resources.</summary>
     internal static class ResourceCultures
     {
-        private static readonly IReadOnlyList<CultureInfo> EmptyCultures = new CultureInfo[0];
-
         /// <summary>
         /// Gets all cultures found in the directory. The search is done by:
         /// 1) Enumerate all folders named with valid culture names
@@ -22,10 +20,9 @@
         /// </summary>
         /// <param name="executingDirectory">The directory to check.</param>
         /// <returns>The cultures found. If none an empty list is returned.</returns>
-        internal static IEnumerable<CultureInfo> GetAllCultures(DirectoryInfo executingDirectory)
+        internal static IEnumerable<CultureInfo> GetAllCultures(DirectoryInfo? executingDirectory)
         {
-            HashSet<CultureInfo>? cultures = null;
-            if (!executingDirectory.Exists)
+            if (executingDirectory is null)
             {
                 if (Assembly.GetEntryAssembly() is { } assembly &&
                     assembly.GetType()
@@ -39,12 +36,7 @@
                     if (assembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>() is { } neutralLanguageAttribute &&
                         Gu.Localization.Culture.TryGet(neutralLanguageAttribute.CultureName, out var neutralCulture))
                     {
-                        if (cultures is null)
-                        {
-                            cultures = new HashSet<CultureInfo>(CultureInfoComparer.ByName);
-                        }
-
-                        cultures.Add(neutralCulture);
+                        yield return neutralCulture;
                     }
 
                     var method = (Func<CultureInfo, Version?, bool, Assembly?>)methodInfo.CreateDelegate(typeof(Func<CultureInfo, Version?, bool, Assembly?>), assembly);
@@ -52,17 +44,12 @@
                     {
                         if (method(candidate, null, false) is { })
                         {
-                            if (cultures is null)
-                            {
-                                cultures = new HashSet<CultureInfo>(CultureInfoComparer.ByName);
-                            }
-
-                            cultures.Add(candidate);
+                            yield return candidate;
                         }
                     }
                 }
 
-                return (IEnumerable<CultureInfo>?)cultures ?? EmptyCultures;
+                yield break;
             }
 
             foreach (var directory in executingDirectory.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
@@ -71,12 +58,7 @@
                 {
                     if (directory.EnumerateFiles("*.resources.dll", SearchOption.TopDirectoryOnly).Any())
                     {
-                        if (cultures is null)
-                        {
-                            cultures = new HashSet<CultureInfo>(CultureInfoComparer.ByName);
-                        }
-
-                        cultures.Add(culture);
+                        yield return culture;
                     }
                 }
             }
@@ -87,12 +69,7 @@
                 var neutralLanguageAttribute = entryAssembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>();
                 if (Culture.TryGet(neutralLanguageAttribute?.CultureName, out var neutralCulture))
                 {
-                    if (cultures is null)
-                    {
-                        cultures = new HashSet<CultureInfo>(CultureInfoComparer.ByName);
-                    }
-
-                    cultures.Add(neutralCulture);
+                    yield return neutralCulture;
                 }
 
                 var pattern = $"{entryAssembly.GetName().Name}\\.(?<culture>[A-Za-z]{{1,8}}(-[A-Za-z0-9]{{1,8}})*)\\.resources\\.dll";
@@ -102,23 +79,18 @@
                     if (match.Success &&
                         Culture.TryGet(match.Groups["culture"].Value, out var culture))
                     {
-                        if (cultures is null)
-                        {
-                            cultures = new HashSet<CultureInfo>(CultureInfoComparer.ByName);
-                        }
-
-                        cultures.Add(culture);
+                        yield return culture;
                     }
                 }
             }
-
-            return (IEnumerable<CultureInfo>?)cultures ?? EmptyCultures;
         }
 
         internal static DirectoryInfo? DefaultResourceDirectory()
         {
-            if (string.IsNullOrEmpty(Assembly.GetEntryAssembly()?.Location))
+            if (Assembly.GetEntryAssembly() is { } entryAssembly &&
+                string.IsNullOrEmpty(entryAssembly.Location))
             {
+                // net 5 single exe.
                 return null;
             }
 

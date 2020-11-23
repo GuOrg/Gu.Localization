@@ -122,10 +122,7 @@
 
         private static IEnumerable<CultureInfo> GetAllCultures()
         {
-            Debug.WriteLine(resourceDirectory);
-            return resourceDirectory?.Exists == true
-                       ? ResourceCultures.GetAllCultures(resourceDirectory)
-                       : Enumerable.Empty<CultureInfo>();
+            return ResourceCultures.GetAllCultures(resourceDirectory);
         }
     }
 }
