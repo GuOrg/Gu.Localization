@@ -111,8 +111,7 @@
 
         private static bool ValidateItemTemplate(object value)
         {
-            if (value is DataTemplate dataTemplate &&
-                dataTemplate.DataType is Type type &&
+            if (value is DataTemplate { DataType: Type type } &&
                 type != typeof(Language))
             {
                 return false;
