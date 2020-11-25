@@ -4,12 +4,6 @@
     <UseWpf>true</UseWpf>
     <TargetFramework>net48</TargetFramework>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove=".editorconfig" />
-  </ItemGroup>
-  <ItemGroup>
-    <AdditionalFiles Include=".editorconfig" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Gu.Localization\Gu.Localization.csproj" />
