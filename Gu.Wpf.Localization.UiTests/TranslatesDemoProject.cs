@@ -37,18 +37,21 @@
             window.FindRadioButton("en").IsChecked = true;
             var groupBox = window.FindGroupBox("Vanilla xaml");
             Assert.AreEqual("English", groupBox.FindTextBlock("TranslatedToAllTextBlockId").Text);
+            Assert.AreEqual("ENGLISH", groupBox.FindTextBlock("TranslatedToAllWithConverterId").Text);
             Assert.AreEqual(string.Empty, groupBox.FindTextBlock("SwedishOnlyTextBlockId").Text);
             Assert.AreEqual("So neutral", groupBox.FindTextBlock("SwedishAndNeutralTextBlockId").Text);
             Assert.AreEqual("English", groupBox.FindTextBlock("EnumTranslatedToAllTextBlockId").Text);
 
             window.FindRadioButton("sv").IsChecked = true;
             Assert.AreEqual("Svenska", groupBox.FindTextBlock("TranslatedToAllTextBlockId").Text);
+            Assert.AreEqual("SVENSKA", groupBox.FindTextBlock("TranslatedToAllWithConverterId").Text);
             Assert.AreEqual("Svenska", groupBox.FindTextBlock("SwedishOnlyTextBlockId").Text);
             Assert.AreEqual("Svenska", groupBox.FindTextBlock("SwedishAndNeutralTextBlockId").Text);
             Assert.AreEqual("Svenska", groupBox.FindTextBlock("EnumTranslatedToAllTextBlockId").Text);
 
             window.FindRadioButton("en").IsChecked = true;
             Assert.AreEqual("English", groupBox.FindTextBlock("TranslatedToAllTextBlockId").Text);
+            Assert.AreEqual("ENGLISH", groupBox.FindTextBlock("TranslatedToAllWithConverterId").Text);
             Assert.AreEqual(string.Empty, groupBox.FindTextBlock("SwedishOnlyTextBlockId").Text);
             Assert.AreEqual("So neutral", groupBox.FindTextBlock("SwedishAndNeutralTextBlockId").Text);
             Assert.AreEqual("English", groupBox.FindTextBlock("EnumTranslatedToAllTextBlockId").Text);
@@ -62,18 +65,21 @@
             window.FindRadioButton("en").IsChecked = true;
             var groupBox = window.FindGroupBox("Vanilla xaml with ReturnErrorInfo");
             Assert.AreEqual("English", groupBox.FindTextBlock("TranslatedToAllTextBlockId").Text);
+            Assert.AreEqual("ENGLISH", groupBox.FindTextBlock("TranslatedToAllWithConverterId").Text);
             Assert.AreEqual("_SwedishOnly_", groupBox.FindTextBlock("SwedishOnlyTextBlockId").Text);
             Assert.AreEqual("_So neutral_", groupBox.FindTextBlock("SwedishAndNeutralTextBlockId").Text);
             Assert.AreEqual("English", groupBox.FindTextBlock("EnumTranslatedToAllTextBlockId").Text);
 
             window.FindRadioButton("sv").IsChecked = true;
             Assert.AreEqual("Svenska", groupBox.FindTextBlock("TranslatedToAllTextBlockId").Text);
+            Assert.AreEqual("SVENSKA", groupBox.FindTextBlock("TranslatedToAllWithConverterId").Text);
             Assert.AreEqual("Svenska", groupBox.FindTextBlock("SwedishOnlyTextBlockId").Text);
             Assert.AreEqual("Svenska", groupBox.FindTextBlock("SwedishAndNeutralTextBlockId").Text);
             Assert.AreEqual("Svenska", groupBox.FindTextBlock("EnumTranslatedToAllTextBlockId").Text);
 
             window.FindRadioButton("en").IsChecked = true;
             Assert.AreEqual("English", groupBox.FindTextBlock("TranslatedToAllTextBlockId").Text);
+            Assert.AreEqual("ENGLISH", groupBox.FindTextBlock("TranslatedToAllWithConverterId").Text);
             Assert.AreEqual("_SwedishOnly_", groupBox.FindTextBlock("SwedishOnlyTextBlockId").Text);
             Assert.AreEqual("_So neutral_", groupBox.FindTextBlock("SwedishAndNeutralTextBlockId").Text);
             Assert.AreEqual("English", groupBox.FindTextBlock("EnumTranslatedToAllTextBlockId").Text);
@@ -104,18 +110,21 @@
             var groupBox = window.FindGroupBox("DataTemplateGroupId");
 
             Assert.AreEqual("English", groupBox.FindTextBlock("TranslatedToAllTextBlockId").Text);
+            Assert.AreEqual("ENGLISH", groupBox.FindTextBlock("TranslatedToAllWithConverterId").Text);
             Assert.AreEqual(string.Empty, groupBox.FindTextBlock("SwedishOnlyTextBlockId").Text);
             Assert.AreEqual("So neutral", groupBox.FindTextBlock("SwedishAndNeutralTextBlockId").Text);
             Assert.AreEqual("English", groupBox.FindTextBlock("EnumTranslatedToAllTextBlockId").Text);
 
             window.FindRadioButton("sv").IsChecked = true;
             Assert.AreEqual("Svenska", groupBox.FindTextBlock("TranslatedToAllTextBlockId").Text);
+            Assert.AreEqual("SVENSKA", groupBox.FindTextBlock("TranslatedToAllWithConverterId").Text);
             Assert.AreEqual("Svenska", groupBox.FindTextBlock("SwedishOnlyTextBlockId").Text);
             Assert.AreEqual("Svenska", groupBox.FindTextBlock("SwedishAndNeutralTextBlockId").Text);
             Assert.AreEqual("Svenska", groupBox.FindTextBlock("EnumTranslatedToAllTextBlockId").Text);
 
             window.FindRadioButton("en").IsChecked = true;
             Assert.AreEqual("English", groupBox.FindTextBlock("TranslatedToAllTextBlockId").Text);
+            Assert.AreEqual("ENGLISH", groupBox.FindTextBlock("TranslatedToAllWithConverterId").Text);
             Assert.AreEqual(string.Empty, groupBox.FindTextBlock("SwedishOnlyTextBlockId").Text);
             Assert.AreEqual("So neutral", groupBox.FindTextBlock("SwedishAndNeutralTextBlockId").Text);
             Assert.AreEqual("English", groupBox.FindTextBlock("EnumTranslatedToAllTextBlockId").Text);

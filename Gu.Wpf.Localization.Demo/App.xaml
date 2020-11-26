@@ -24,6 +24,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
@@ -60,8 +61,16 @@
 
                 <TextBlock Grid.Row="4"
                            Grid.Column="0"
-                           Text="Enum" />
+                           Text="TranslatedToAllWithConverter" />
                 <TextBlock Grid.Row="4"
+                           Grid.Column="1"
+                           AutomationProperties.AutomationId="TranslatedToAllWithConverterId"
+                           Text="{Binding Source={l:Static p:Resources.TranslatedToAll}, Path=Translated, Converter={x:Static local:StringToUpperConverter.Default}}" />
+
+                <TextBlock Grid.Row="5"
+                           Grid.Column="0"
+                           Text="Enum" />
+                <TextBlock Grid.Row="5"
                            Grid.Column="1"
                            AutomationProperties.AutomationId="EnumTranslatedToAllTextBlockId"
                            Text="{l:Enum ResourceManager={x:Static p:Resources.ResourceManager},

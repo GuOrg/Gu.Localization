@@ -1,3 +1,6 @@
+#### 6.7.0
+* BUGFIX: Handle when used for setting binding source.
+
 #### 6.6.0
 * FEATURE: Compatible with net 5 single file.
 

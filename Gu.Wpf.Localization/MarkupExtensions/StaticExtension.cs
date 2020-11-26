@@ -7,6 +7,7 @@
     using System.Windows.Data;
     using System.Windows.Markup;
     using System.Xaml;
+
     using Gu.Localization;
     using Gu.Localization.Properties;
 
@@ -91,6 +92,8 @@
         {
             switch (serviceProvider.ProvideValueTarget())
             {
+                case { TargetObject: Binding }:
+                    return Translation.GetOrCreate(resourceManager, key, GetErrorHandling(serviceProvider.RootObjectProvider()?.RootObject));
                 case { TargetObject: { } o }:
                     var translation = Translation.GetOrCreate(resourceManager, key, GetErrorHandling(o));
                     var binding = new Binding

@@ -12,6 +12,7 @@
 - [Quickstart](#quickstart)
 - [Usage in XAML.](#usage-in-xaml)
   - [Simple example](#simple-example)
+  - [With converter](#with-converter)
   - [Bind a localized string.](#bind-a-localized-string)
   - [Errorhandling.](#errorhandling)
   - [CurrentCulture.](#currentculture)
@@ -141,6 +142,37 @@ For each language, create a resource.xx.resx file. You can use [ResXManager](htt
 
     <!-- Label that changes translation upon language selection -->
     <Label Content="{l:Static p:Resources.ResourceKeyName}" />
+```
+
+## With converter
+
+When `StaticExctension` is used for setting `Binding.Source` it returns an `ITranslation`, this means it can be used with a converter like below.
+
+```xaml
+<TextBlock Text="{Binding Source={l:Static p:Resources.TranslatedToAll}, Path=Translated, Converter={x:Static local:StringToUpperConverter.Default}}" />
+```
+
+```c#
+[ValueConversion(typeof(string), typeof(string))]
+public sealed class StringToUpperConverter : IValueConverter
+{
+    public static readonly StringToUpperConverter Default = new StringToUpperConverter();
+
+    public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    {
+        return value switch
+        {
+            string { } s => s.ToUpper(culture),
+            null => null,
+            _ => throw new ArgumentException($"Expected a string, was: {value.GetType()} with value: {value}"),
+        };
+    }
+
+    object IValueConverter.ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    {
+        throw new System.NotSupportedException($"{nameof(StringToUpperConverter)} can only be used in OneWay bindings");
+    }
+}
 ```
 
 ## Bind a localized string.
