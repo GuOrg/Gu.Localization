@@ -6,7 +6,7 @@
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
-
+    using System.Xaml;
     using Gu.Localization;
     using Gu.Localization.Properties;
 
@@ -89,20 +89,34 @@
 
         internal static object CreateBindingExpression(ResourceManager resourceManager, string key, IServiceProvider serviceProvider)
         {
-            var errorHandling = serviceProvider.ProvideValueTarget().TargetObject is DependencyObject o
-                ? ErrorHandling.GetMode(o) ?? Gu.Localization.ErrorHandling.ReturnErrorInfoPreserveNeutral
-                : Gu.Localization.ErrorHandling.ReturnErrorInfoPreserveNeutral;
-            var translation = Gu.Localization.Translation.GetOrCreate(resourceManager, key, errorHandling);
-            var binding = new Binding
+            switch (serviceProvider.ProvideValueTarget())
             {
-                Path = TranslatedPropertyPath,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                Source = translation,
-            };
+                case { TargetObject: { } o }:
+                    var translation = Translation.GetOrCreate(resourceManager, key, GetErrorHandling(o));
+                    var binding = new Binding
+                    {
+                        Path = TranslatedPropertyPath,
+                        Mode = BindingMode.OneWay,
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                        Source = translation,
+                    };
 
-            var provideValue = binding.ProvideValue(serviceProvider);
-            return provideValue;
+                    var provideValue = binding.ProvideValue(serviceProvider);
+                    return provideValue;
+                default:
+                    return Translation.GetOrCreate(resourceManager, key, GetErrorHandling(serviceProvider.RootObjectProvider()?.RootObject));
+            }
+
+            Gu.Localization.ErrorHandling GetErrorHandling(object? o)
+            {
+                if (o is DependencyObject dependencyObject &&
+                    ErrorHandling.GetMode(dependencyObject) is { } errorHandling)
+                {
+                    return errorHandling;
+                }
+
+                return Gu.Localization.ErrorHandling.ReturnErrorInfoPreserveNeutral;
+            }
         }
     }
 }
