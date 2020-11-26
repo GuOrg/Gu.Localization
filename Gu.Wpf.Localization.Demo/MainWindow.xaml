@@ -56,7 +56,7 @@
                                Text="SwedishOnly" />
                     <TextBlock Grid.Row="0"
                                Grid.Column="1"
-                               AutomationProperties.AutomationId="SwedishOnlyTextBlockId"
+                               x:Name="SwedishOnlyTextBlockId"
                                Text="{l:Static p:Resources.SwedishOnly}" />
 
                     <TextBlock Grid.Row="1"
@@ -64,7 +64,7 @@
                                Text="SwedishAndNeutral" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="1"
-                               AutomationProperties.AutomationId="SwedishAndNeutralTextBlockId"
+                               x:Name="SwedishAndNeutralTextBlockId"
                                Text="{l:Static p:Resources.SwedishAndNeutral}" />
 
                     <TextBlock Grid.Row="2"
@@ -79,7 +79,7 @@
                                Text="TranslatedToAll" />
                     <TextBlock Grid.Row="3"
                                Grid.Column="1"
-                               AutomationProperties.AutomationId="TranslatedToAllTextBlockId"
+                               x:Name="TranslatedToAllTextBlockId"
                                Text="{l:Static p:Resources.TranslatedToAll}" />
 
                     <TextBlock Grid.Row="4"
