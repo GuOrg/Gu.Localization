@@ -1,1 +1,3 @@
 ﻿Gu.Wpf.Localization.CultureOrDefaultConverter.Convert(object! value, System.Type! targetType, object! parameter, System.Globalization.CultureInfo! culture) -> object!
+static Gu.Wpf.Localization.DesignTime.GetCulture(this System.Windows.UIElement! element) -> System.Globalization.CultureInfo?
+static Gu.Wpf.Localization.DesignTime.SetCulture(this System.Windows.UIElement! element, System.Globalization.CultureInfo? value) -> void

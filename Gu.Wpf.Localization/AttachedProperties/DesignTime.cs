@@ -22,20 +22,20 @@
         /// <param name="element"><see cref="UIElement"/> to read <see cref="CultureProperty"/> from.</param>
         /// <returns>Culture property value.</returns>
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static CultureInfo GetCulture(this UIElement element)
+        public static CultureInfo? GetCulture(this UIElement element)
         {
             if (element is null)
             {
                 throw new System.ArgumentNullException(nameof(element));
             }
 
-            return (CultureInfo)element.GetValue(CultureProperty);
+            return (CultureInfo?)element.GetValue(CultureProperty);
         }
 
         /// <summary>Helper for setting <see cref="CultureProperty"/> on <paramref name="element"/>.</summary>
         /// <param name="element"><see cref="UIElement"/> to set <see cref="CultureProperty"/> on.</param>
         /// <param name="value">Culture property value.</param>
-        public static void SetCulture(this UIElement element, CultureInfo value)
+        public static void SetCulture(this UIElement element, CultureInfo? value)
         {
             if (element is null)
             {
@@ -49,7 +49,7 @@
         {
             if (Is.DesignMode && e.NewValue != null)
             {
-                Translator.Culture = (CultureInfo)e.NewValue;
+                Translator.Culture = (CultureInfo?)e.NewValue;
             }
         }
     }
