@@ -11,8 +11,10 @@
         private static readonly ConcurrentDictionary<Assembly, Translations?> Cache = new ConcurrentDictionary<Assembly, Translations?>();
 
         //// ReSharper disable NotAccessedField.Local for debugging
+#pragma warning disable IDE0052 // Remove unread private members
         private readonly IReadOnlyDictionary<string, string> neutralMap;
         private readonly IReadOnlyDictionary<CultureInfo, string> cultureFileMap;
+#pragma warning restore IDE0052 // Remove unread private members
         //// ReSharper restore NotAccessedField.Local
 
         private Translations(
