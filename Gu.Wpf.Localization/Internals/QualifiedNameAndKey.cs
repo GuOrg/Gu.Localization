@@ -1,5 +1,4 @@
-﻿#pragma warning disable SA1600 // Elements must be documented
-#pragma warning disable SA1401 // Fields must be private
+﻿#pragma warning disable SA1401 // Fields must be private
 namespace Gu.Wpf.Localization
 {
     using System.Collections.Generic;

@@ -187,7 +187,6 @@
                 {
                     return designerRoot.InsertNodesAfter(
                         property,
-#pragma warning disable SA1118 // Parameter must not span multiple lines
                         new[]
                         {
                             SyntaxFactory.PropertyDeclaration(
@@ -201,7 +200,6 @@
                                 default,
                                 SyntaxFactory.Token(SyntaxKind.SemicolonToken)),
                         });
-#pragma warning restore SA1118 // Parameter must not span multiple lines
                 }
 
                 return designerRoot;

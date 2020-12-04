@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.Helpers
+﻿namespace Gu.Localization.Analyzers.Tests.Helpers
 {
     using System.IO;
     using NUnit.Framework;
@@ -14,9 +14,7 @@ namespace Gu.Localization.Analyzers.Tests.Helpers
 
             foreach (var file in source.GetFiles())
             {
-#pragma warning disable GU0011 // Don't ignore the return value.
                 file.CopyTo(Path.Combine(target.FullName, file.Name));
-#pragma warning restore GU0011 // Don't ignore the return value.
             }
         }
 

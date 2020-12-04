@@ -32,8 +32,7 @@
             if (invocation.ArgumentList.Arguments.TryFirst(out _) &&
                 invocation.TryGetMethodName(out var name) &&
                 name == expected.Name &&
-                invocation.Expression is MemberAccessExpressionSyntax getX &&
-                getX.Expression is MemberAccessExpressionSyntax resourceManager &&
+                invocation.Expression is MemberAccessExpressionSyntax { Expression: MemberAccessExpressionSyntax resourceManager } getX &&
                 Resources.IsResourceManager(resourceManager, out var resources) &&
                 context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is IMethodSymbol target &&
                 target == expected)

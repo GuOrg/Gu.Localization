@@ -1,6 +1,4 @@
-﻿#pragma warning disable SA1600 // Elements must be documented
-
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System;
     using System.Windows.Markup;

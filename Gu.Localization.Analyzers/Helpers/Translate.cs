@@ -33,7 +33,7 @@
 
             return method is { } && resourcesType is { };
 
-            bool IsCustomTranslateMethod(IMethodSymbol candidate)
+            static bool IsCustomTranslateMethod(IMethodSymbol candidate)
             {
                 return candidate.IsStatic &&
                        (candidate.ReturnType == KnownSymbol.String ||
@@ -62,7 +62,7 @@
 
             return false;
 
-            bool IsCustomTranslateMethod(IMethodSymbol candidate)
+            static bool IsCustomTranslateMethod(IMethodSymbol candidate)
             {
                 return candidate.IsStatic &&
                        candidate.ReturnType == KnownSymbol.String &&
@@ -90,7 +90,7 @@
 
             return false;
 
-            bool IsCustomTranslateMethod(IMethodSymbol candidate)
+            static bool IsCustomTranslateMethod(IMethodSymbol candidate)
             {
                 return candidate.IsStatic &&
                        candidate.ReturnType == KnownSymbol.ITranslation &&

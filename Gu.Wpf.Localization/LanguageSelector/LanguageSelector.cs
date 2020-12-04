@@ -23,7 +23,7 @@
             typeof(LanguageSelector),
             new PropertyMetadata(
                 default(bool),
-                OnAutoGenerateLanguagesChanged));
+                (d, e) => ((LanguageSelector)d).Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(((LanguageSelector)d).SyncLanguages))));
 
         private static readonly DependencyPropertyKey LanguagesPropertyKey = DependencyProperty.RegisterReadOnly(
             nameof(Languages),
@@ -103,13 +103,7 @@
             set => this.SetValue(ItemTemplateProperty, value);
         }
 
-        private static void OnAutoGenerateLanguagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var languageSelector = (LanguageSelector)d;
-            languageSelector.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(languageSelector.SyncLanguages));
-        }
-
-        private static bool ValidateItemTemplate(object value)
+        private static bool ValidateItemTemplate(object? value)
         {
             if (value is DataTemplate { DataType: Type type } &&
                 type != typeof(Language))

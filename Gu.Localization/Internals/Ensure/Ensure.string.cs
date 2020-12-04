@@ -1,6 +1,4 @@
-﻿#pragma warning disable SA1600 // Elements must be documented, reason: internal
-#pragma warning disable SA1601 // Partial must be documented, reason: internal
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System;
     using System.Diagnostics;
@@ -16,15 +14,6 @@ namespace Gu.Localization
             if (string.IsNullOrEmpty(value))
             {
                 throw new ArgumentNullException(parameterName);
-            }
-        }
-
-        internal static void IsMatch(string text, string pattern, string parameterName)
-        {
-            Debug.Assert(!string.IsNullOrEmpty(parameterName), $"{nameof(parameterName)} cannot be null");
-            if (!Regex.IsMatch(text, pattern))
-            {
-                throw new ArgumentException(parameterName);
             }
         }
     }

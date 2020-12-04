@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Resources;
 
-    internal class ResourceManagerComparer : IEqualityComparer<ResourceManager>
+    internal sealed class ResourceManagerComparer : IEqualityComparer<ResourceManager>
     {
         internal static readonly ResourceManagerComparer ByBaseName = new ResourceManagerComparer();
         private static readonly StringComparer StringComparer = StringComparer.Ordinal;

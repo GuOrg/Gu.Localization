@@ -1,9 +1,9 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System.Collections;
     using System.Collections.Generic;
 
-    internal class ReadOnlySet<T> : IReadOnlyCollection<T>
+    internal sealed class ReadOnlySet<T> : IReadOnlyCollection<T>
     {
         internal static readonly ReadOnlySet<T> Empty = new ReadOnlySet<T>(new T[0]);
 

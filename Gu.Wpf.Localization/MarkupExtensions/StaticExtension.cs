@@ -110,7 +110,7 @@
                     return Translation.GetOrCreate(resourceManager, key, GetErrorHandling(serviceProvider.RootObjectProvider()?.RootObject));
             }
 
-            Gu.Localization.ErrorHandling GetErrorHandling(object? o)
+            static Gu.Localization.ErrorHandling GetErrorHandling(object? o)
             {
                 if (o is DependencyObject dependencyObject &&
                     ErrorHandling.GetMode(dependencyObject) is { } errorHandling)

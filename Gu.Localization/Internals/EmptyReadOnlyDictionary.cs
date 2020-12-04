@@ -7,7 +7,7 @@
     using System.Linq;
 
     /// <inheritdoc />
-    internal class EmptyReadOnlyDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
+    internal sealed class EmptyReadOnlyDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
         where TKey : notnull
     {
         /// <summary> A cached instance. </summary>

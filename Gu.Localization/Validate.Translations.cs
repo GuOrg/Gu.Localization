@@ -191,9 +191,7 @@ namespace Gu.Localization
             var culturesAndKeys = resourceManager.GetCulturesAndKeys(cultures);
             var result = TryGetTranslationErrors(culturesAndKeys, cultures, key, out errors);
             resourceManager.ReleaseAllResources();
-#pragma warning disable CS8762 // Parameter must have a non-null value when exiting in some condition.
             return result;
-#pragma warning restore CS8762 // Parameter must have a non-null value when exiting in some condition.
         }
 
         private static bool TryGetTranslationErrors(ResourceManagerExt.CulturesAndKeys culturesAndKeys, IEnumerable<CultureInfo> cultures, string key, [NotNullWhen(true)] out IReadOnlyList<TranslationError>? errors)

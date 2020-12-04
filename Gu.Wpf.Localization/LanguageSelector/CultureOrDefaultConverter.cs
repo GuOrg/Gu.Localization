@@ -13,26 +13,22 @@
         public static readonly CultureOrDefaultConverter Default = new CultureOrDefaultConverter();
 
         /// <inheritdoc />
-#pragma warning disable SA1313 // Parameter names should begin with lower-case letter
-        public object Convert(object value, Type targetType, object parameter, CultureInfo _)
-#pragma warning restore SA1313 // Parameter names should begin with lower-case letter
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is CultureInfo culture)
+            if (value is CultureInfo ci)
             {
-                return culture;
+                return ci;
             }
 
             return Translator.CurrentCulture;
         }
 
         /// <inheritdoc />
-#pragma warning disable SA1313 // Parameter names should begin with lower-case letter
-        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo _)
-#pragma warning restore SA1313 // Parameter names should begin with lower-case letter
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is CultureInfo culture)
+            if (value is CultureInfo ci)
             {
-                return culture;
+                return ci;
             }
 
             return Translator.CurrentCulture;

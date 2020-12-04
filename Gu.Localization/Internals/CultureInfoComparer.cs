@@ -5,7 +5,7 @@
     using System.Globalization;
 
     /// <summary>A comparer for <see cref="CultureInfo"/>. </summary>
-    internal class CultureInfoComparer : IEqualityComparer<CultureInfo>, IComparer<CultureInfo>
+    internal sealed class CultureInfoComparer : IEqualityComparer<CultureInfo>, IComparer<CultureInfo>
     {
         /// <summary> Gets a comparer that compares by <see cref="CultureInfo.TwoLetterISOLanguageName"/>. </summary>
         internal static readonly CultureInfoComparer ByTwoLetterIsoLanguageName = new CultureInfoComparer(x => x?.TwoLetterISOLanguageName);

@@ -47,9 +47,7 @@
 
         private static bool IsInNameOf(MemberAccessExpressionSyntax memberAccess)
         {
-            return memberAccess.Parent is ArgumentSyntax argument &&
-                   argument.Parent is ArgumentListSyntax argumentList &&
-                   argumentList.Parent is InvocationExpressionSyntax invocation &&
+            return memberAccess.Parent is ArgumentSyntax { Parent: ArgumentListSyntax { Parent: InvocationExpressionSyntax invocation } argumentList } argument &&
                    invocation.IsNameOf();
         }
     }

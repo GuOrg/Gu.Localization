@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Localization
+﻿namespace Gu.Wpf.Localization
 {
     using System.Windows;
 
@@ -31,9 +31,9 @@ namespace Gu.Wpf.Localization
             element.SetValue(ModeProperty, value);
         }
 
-        /// <summary>Gets how translation errors are handled by <see cref="StaticExtension"/> for <paramref name="element"/> and it's children.</summary>
-        /// <param name="element">The element to get <see cref="ErrorHandling"/> for.</param>
-        /// <returns>A value indicating how translation errors are handled by the <see cref="StaticExtension"/> for this <paramref name="element"/>.</returns>
+        /// <summary>Helper for getting <see cref="ModeProperty"/> from <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="DependencyObject"/> to read <see cref="ModeProperty"/> from.</param>
+        /// <returns>Mode property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static Gu.Localization.ErrorHandling? GetMode(DependencyObject element)
