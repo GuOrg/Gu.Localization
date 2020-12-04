@@ -24,7 +24,7 @@
             return binding.ProvideValue(serviceProvider);
         }
 
-        private class CultureToXmlLanguageConverter : IValueConverter
+        private sealed class CultureToXmlLanguageConverter : IValueConverter
         {
             internal static readonly IValueConverter Default = new CultureToXmlLanguageConverter();
 

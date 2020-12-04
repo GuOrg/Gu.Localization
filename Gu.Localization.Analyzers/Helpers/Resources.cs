@@ -81,10 +81,10 @@
                 _ = builder.Insert(0, '_');
             }
 
-            const int maxLength = 100;
-            if (builder.Length > maxLength)
+            const int MaxLength = 100;
+            if (builder.Length > MaxLength)
             {
-                _ = builder.Remove(maxLength, builder.Length - maxLength);
+                _ = builder.Remove(MaxLength, builder.Length - MaxLength);
             }
 
             key = builder.Return();
