@@ -80,7 +80,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <l:LanguageSelector AutogenerateLanguages="True" />
+        <localize:LanguageSelector AutogenerateLanguages="True" />
         <TextBlock Grid.Column="1" Text="{localize:Static properties:Resources.Some_text}" />
     </Grid>
 </Window>
