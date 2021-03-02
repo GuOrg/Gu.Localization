@@ -45,11 +45,11 @@ namespace Gu.Localization.Tests
             var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translation.GetOrCreate(Properties.Resources.ResourceManager, "Missing", ErrorHandling.Throw));
             var expected = "The ResourceManager: Gu.Localization.Tests.Properties.Resources does not have the key: Missing\r\n" +
                            "Parameter name: key";
-            Assert.AreEqual(expected, exception.Message);
+            Assert.AreEqual(expected, exception!.Message);
 
             Translator.ErrorHandling = ErrorHandling.Throw;
             exception = Assert.Throws<ArgumentOutOfRangeException>(() => Translation.GetOrCreate(Properties.Resources.ResourceManager, "Missing", ErrorHandling.Inherit));
-            Assert.AreEqual(expected, exception.Message);
+            Assert.AreEqual(expected, exception!.Message);
         }
 
         [Test]

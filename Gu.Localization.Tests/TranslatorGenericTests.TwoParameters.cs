@@ -1,4 +1,4 @@
-namespace Gu.Localization.Tests
+ï»¿namespace Gu.Localization.Tests
 {
     using System;
     using System.Globalization;
@@ -16,13 +16,13 @@ namespace Gu.Localization.Tests
             }
 
             [TestCase("en", 1, 2.0, "English first: 1, second 2.00")]
-            [TestCase("sv", 1, 2.0, "första: 1, andra: 2,00")]
+            [TestCase("sv", 1, 2.0, "fÃ¶rsta: 1, andra: 2,00")]
             [TestCase(null, 1, 2.0, "Neutral first: 1, second 2.00")]
-            public void HappyPath(string cultureName, object arg0, object arg1, string expected)
+            public void HappyPath(string? cultureName, object arg0, object arg1, string expected)
             {
-                var culture = cultureName != null
-                                  ? CultureInfo.GetCultureInfo(cultureName)
-                                  : CultureInfo.InvariantCulture;
+                var culture = cultureName is null
+                                  ? CultureInfo.InvariantCulture
+                                  : CultureInfo.GetCultureInfo(cultureName);
                 var key = nameof(Properties.Resources.ValidFormat__0__1__);
 
                 Translator.Culture = culture;
@@ -35,17 +35,15 @@ namespace Gu.Localization.Tests
             }
 
             [TestCase("en", 1, 2, "Invalid format string: \"Value: {0} {2}\".")]
-            [TestCase("sv", 1, 2, "Invalid format string: \"Värde: \" for the two arguments: 1, 2.")]
+            [TestCase("sv", 1, 2, "Invalid format string: \"VÃ¤rde: \" for the two arguments: 1, 2.")]
             public void Throws(string cultureName, object arg0, object arg1, string expected)
             {
-                var culture = cultureName != null
-                                  ? CultureInfo.GetCultureInfo(cultureName)
-                                  : CultureInfo.InvariantCulture;
+                var culture = CultureInfo.GetCultureInfo(cultureName);
                 var key = nameof(Properties.Resources.InvalidFormat__0__);
 
                 Translator.Culture = culture;
                 var actual = Assert.Throws<FormatException>(() => Translator<Properties.Resources>.Translate(key, arg0, arg1));
-                Assert.AreEqual(expected, actual.Message);
+                Assert.AreEqual(expected, actual!.Message);
 
                 Translator.Culture = null;
                 actual = Assert.Throws<FormatException>(() => Translator<Properties.Resources>.Translate(key, culture, arg0, arg1));
@@ -53,12 +51,10 @@ namespace Gu.Localization.Tests
             }
 
             [TestCase("en", 1, 2, "{\"Value: {0} {2}\" : 1, 2}")]
-            [TestCase("sv", 1, 2, "{\"Värde: \" : 1, 2}")]
+            [TestCase("sv", 1, 2, "{\"VÃ¤rde: \" : 1, 2}")]
             public void ReturnsInfo(string cultureName, object arg0, object arg1, string expected)
             {
-                var culture = cultureName != null
-                                  ? CultureInfo.GetCultureInfo(cultureName)
-                                  : CultureInfo.InvariantCulture;
+                var culture = CultureInfo.GetCultureInfo(cultureName);
                 var key = nameof(Properties.Resources.InvalidFormat__0__);
 
                 Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;

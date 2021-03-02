@@ -52,7 +52,7 @@ namespace Gu.Localization.Tests.Internals
         {
             var ex = Assert.Throws<ArgumentException>(() => Ensure.Format(format, args, "format", "args"));
 #if DEBUG
-            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex!.Message);
 #endif
         }
 
