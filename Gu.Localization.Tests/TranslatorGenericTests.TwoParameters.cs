@@ -47,7 +47,7 @@
 
                 Translator.Culture = null;
                 actual = Assert.Throws<FormatException>(() => Translator<Properties.Resources>.Translate(key, culture, arg0, arg1));
-                Assert.AreEqual(expected, actual.Message);
+                Assert.AreEqual(expected, actual!.Message);
             }
 
             [TestCase("en", 1, 2, "{\"Value: {0} {2}\" : 1, 2}")]

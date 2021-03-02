@@ -41,7 +41,7 @@
             public static void OneArgumentWithError(string format, string expected)
             {
                 var exception = Assert.Throws<FormatException>(() => Validate.Format(format, 1));
-                Assert.AreEqual(expected, exception.Message);
+                Assert.AreEqual(expected, exception!.Message);
                 Assert.IsFalse(Validate.IsValidFormat(format, 1));
             }
 
@@ -51,7 +51,7 @@
             public static void TwoArgumentsWithError(string format, string expected)
             {
                 var exception = Assert.Throws<FormatException>(() => Validate.Format(format, 1, 2));
-                Assert.AreEqual(expected, exception.Message);
+                Assert.AreEqual(expected, exception!.Message);
                 Assert.IsFalse(Validate.IsValidFormat(format, 1, 2));
             }
 
@@ -61,7 +61,7 @@
             public static void ParamsWithError(string format, string expected)
             {
                 var exception = Assert.Throws<FormatException>(() => Validate.Format(format, 1, 2, 3));
-                Assert.AreEqual(expected, exception.Message);
+                Assert.AreEqual(expected, exception!.Message);
                 Assert.IsFalse(Validate.IsValidFormat(format, 1, 2, 3));
             }
         }

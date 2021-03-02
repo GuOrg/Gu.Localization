@@ -12,11 +12,11 @@
             [TestCase("en", 1, "Value: 1")]
             [TestCase("sv", 1, "Värde: 1")]
             [TestCase(null, 1, "Neutral: 1")]
-            public static void HappyPath(string cultureName, object arg, string expected)
+            public static void HappyPath(string? cultureName, object arg, string expected)
             {
-                var culture = cultureName != null
-                                         ? CultureInfo.GetCultureInfo(cultureName)
-                                         : CultureInfo.InvariantCulture;
+                var culture = cultureName is null
+                                         ? CultureInfo.InvariantCulture
+                                         : CultureInfo.GetCultureInfo(cultureName);
                 var key = nameof(Properties.Resources.ValidFormat__0__);
 
                 Translator.Culture = culture;
@@ -32,27 +32,23 @@
             [TestCase("sv", 1, "Invalid format string: \"Värde: \" for the single argument: 1.")]
             public static void Throws(string cultureName, object arg, string expected)
             {
-                var culture = cultureName != null
-                                         ? CultureInfo.GetCultureInfo(cultureName)
-                                         : CultureInfo.InvariantCulture;
+                var culture = CultureInfo.GetCultureInfo(cultureName);
                 var key = nameof(Properties.Resources.InvalidFormat__0__);
 
                 Translator.Culture = culture;
                 var actual = Assert.Throws<FormatException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, arg));
-                Assert.AreEqual(expected, actual.Message);
+                Assert.AreEqual(expected, actual!.Message);
 
                 Translator.Culture = null;
                 actual = Assert.Throws<FormatException>(() => Translator.Translate(Properties.Resources.ResourceManager, key, culture, arg));
-                Assert.AreEqual(expected, actual.Message);
+                Assert.AreEqual(expected, actual!.Message);
             }
 
             [TestCase("en", 1, "{\"Value: {0} {2}\" : 1}")]
             [TestCase("sv", 1, "{\"Värde: \" : 1}")]
             public static void ReturnsInfo(string cultureName, object arg, string expected)
             {
-                var culture = cultureName != null
-                                         ? CultureInfo.GetCultureInfo(cultureName)
-                                         : CultureInfo.InvariantCulture;
+                var culture = CultureInfo.GetCultureInfo(cultureName);
                 var key = nameof(Properties.Resources.InvalidFormat__0__);
 
                 Translator.ErrorHandling = ErrorHandling.ReturnErrorInfo;
