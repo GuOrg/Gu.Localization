@@ -42,7 +42,7 @@
 
             public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
             {
-                throw new NotSupportedException($"The {this.GetType().Name} can only be used in one way bindings.");
+                throw new NotSupportedException($"The {nameof(CultureToXmlLanguageConverter)} can only be used in one way bindings.");
             }
         }
     }

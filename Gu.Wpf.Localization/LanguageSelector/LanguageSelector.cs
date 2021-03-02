@@ -88,18 +88,18 @@
         /// Gets or sets the selected language.
         /// Convenience property mapping to <see cref="Translator.CurrentCulture"/>.
         /// </summary>
-        public Language SelectedLanguage
+        public Language? SelectedLanguage
         {
-            get => (Language)this.GetValue(SelectedLanguageProperty);
+            get => (Language?)this.GetValue(SelectedLanguageProperty);
             set => this.SetValue(SelectedLanguageProperty, value);
         }
 
         /// <summary>
         /// Gets or sets the <see cref="DataTemplate"/> to use for rendering items of type <see cref="Language"/>.
         /// </summary>
-        public DataTemplate ItemTemplate
+        public DataTemplate? ItemTemplate
         {
-            get => (DataTemplate)this.GetValue(ItemTemplateProperty);
+            get => (DataTemplate?)this.GetValue(ItemTemplateProperty);
             set => this.SetValue(ItemTemplateProperty, value);
         }
 
