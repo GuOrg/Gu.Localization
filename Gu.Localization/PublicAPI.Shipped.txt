@@ -1,6 +1,7 @@
-﻿Gu.Localization.CultureChangedEventArgs
-Gu.Localization.CultureChangedEventArgs.Culture.get -> System.Globalization.CultureInfo
-Gu.Localization.CultureChangedEventArgs.CultureChangedEventArgs(System.Globalization.CultureInfo culture) -> void
+﻿#nullable enable
+Gu.Localization.CultureChangedEventArgs
+Gu.Localization.CultureChangedEventArgs.Culture.get -> System.Globalization.CultureInfo!
+Gu.Localization.CultureChangedEventArgs.CultureChangedEventArgs(System.Globalization.CultureInfo! culture) -> void
 Gu.Localization.EnumTranslation
 Gu.Localization.EnumTranslation<T>
 Gu.Localization.ErrorHandling
@@ -9,137 +10,137 @@ Gu.Localization.ErrorHandling.ReturnErrorInfo = 2 -> Gu.Localization.ErrorHandli
 Gu.Localization.ErrorHandling.ReturnErrorInfoPreserveNeutral = 3 -> Gu.Localization.ErrorHandling
 Gu.Localization.ErrorHandling.Throw = 1 -> Gu.Localization.ErrorHandling
 Gu.Localization.Errors.FormatError
-Gu.Localization.Errors.FormatError.FormatError(string key, System.Collections.Generic.IReadOnlyDictionary<System.Globalization.CultureInfo, string> formats) -> void
-Gu.Localization.Errors.FormatError.Formats.get -> System.Collections.Generic.IReadOnlyDictionary<System.Globalization.CultureInfo, string>
+Gu.Localization.Errors.FormatError.FormatError(string! key, System.Collections.Generic.IReadOnlyDictionary<System.Globalization.CultureInfo!, string?>! formats) -> void
+Gu.Localization.Errors.FormatError.Formats.get -> System.Collections.Generic.IReadOnlyDictionary<System.Globalization.CultureInfo!, string?>!
 Gu.Localization.Errors.MissingTranslation
-Gu.Localization.Errors.MissingTranslation.Cultures.get -> System.Collections.Generic.IReadOnlyList<System.Globalization.CultureInfo>
-Gu.Localization.Errors.MissingTranslation.MissingTranslation(string key, System.Collections.Generic.IReadOnlyList<System.Globalization.CultureInfo> cultures) -> void
+Gu.Localization.Errors.MissingTranslation.Cultures.get -> System.Collections.Generic.IReadOnlyList<System.Globalization.CultureInfo!>!
+Gu.Localization.Errors.MissingTranslation.MissingTranslation(string! key, System.Collections.Generic.IReadOnlyList<System.Globalization.CultureInfo!>! cultures) -> void
 Gu.Localization.Errors.TranslationError
-Gu.Localization.Errors.TranslationError.Key.get -> string
-Gu.Localization.Errors.TranslationError.TranslationError(string key) -> void
+Gu.Localization.Errors.TranslationError.Key.get -> string!
+Gu.Localization.Errors.TranslationError.TranslationError(string! key) -> void
 Gu.Localization.Errors.TranslationErrors
-Gu.Localization.Errors.TranslationErrors.ContainsKey(string key) -> bool
+Gu.Localization.Errors.TranslationErrors.ContainsKey(string! key) -> bool
 Gu.Localization.Errors.TranslationErrors.Count.get -> int
-Gu.Localization.Errors.TranslationErrors.GetEnumerator() -> System.Collections.Generic.IEnumerator<System.Collections.Generic.KeyValuePair<string, System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError>>>
+Gu.Localization.Errors.TranslationErrors.GetEnumerator() -> System.Collections.Generic.IEnumerator<System.Collections.Generic.KeyValuePair<string!, System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError!>!>>!
 Gu.Localization.Errors.TranslationErrors.IsEmpty.get -> bool
-Gu.Localization.Errors.TranslationErrors.Keys.get -> System.Collections.Generic.IEnumerable<string>
-Gu.Localization.Errors.TranslationErrors.this[string key].get -> System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError>
-Gu.Localization.Errors.TranslationErrors.ToString(string tabString, string newLine) -> string
-Gu.Localization.Errors.TranslationErrors.TranslationErrors(System.Collections.Generic.IReadOnlyDictionary<string, System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError>> errors) -> void
-Gu.Localization.Errors.TranslationErrors.TryGetValue(string key, out System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError> value) -> bool
-Gu.Localization.Errors.TranslationErrors.Values.get -> System.Collections.Generic.IEnumerable<System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError>>
+Gu.Localization.Errors.TranslationErrors.Keys.get -> System.Collections.Generic.IEnumerable<string!>!
+Gu.Localization.Errors.TranslationErrors.this[string! key].get -> System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError!>!
+Gu.Localization.Errors.TranslationErrors.ToString(string! tabString, string! newLine) -> string!
+Gu.Localization.Errors.TranslationErrors.TranslationErrors(System.Collections.Generic.IReadOnlyDictionary<string!, System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError!>!>! errors) -> void
+Gu.Localization.Errors.TranslationErrors.TryGetValue(string! key, out System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError!>! value) -> bool
+Gu.Localization.Errors.TranslationErrors.Values.get -> System.Collections.Generic.IEnumerable<System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError!>!>!
 Gu.Localization.FormatString
 Gu.Localization.ITranslation
 Gu.Localization.ITranslation.ErrorHandling.get -> Gu.Localization.ErrorHandling
-Gu.Localization.ITranslation.Key.get -> string
-Gu.Localization.ITranslation.Translate(System.Globalization.CultureInfo culture, Gu.Localization.ErrorHandling errorHandlingStrategy = Gu.Localization.ErrorHandling.Inherit) -> string
-Gu.Localization.ITranslation.Translated.get -> string
+Gu.Localization.ITranslation.Key.get -> string!
+Gu.Localization.ITranslation.Translate(System.Globalization.CultureInfo! culture, Gu.Localization.ErrorHandling errorHandlingStrategy = Gu.Localization.ErrorHandling.Inherit) -> string?
+Gu.Localization.ITranslation.Translated.get -> string?
 Gu.Localization.MissingTranslationEventArgs
-Gu.Localization.MissingTranslationEventArgs.Key.get -> string
-Gu.Localization.MissingTranslationEventArgs.Language.get -> System.Globalization.CultureInfo
-Gu.Localization.MissingTranslationEventArgs.MissingTranslationEventArgs(System.Globalization.CultureInfo language, string key) -> void
+Gu.Localization.MissingTranslationEventArgs.Key.get -> string!
+Gu.Localization.MissingTranslationEventArgs.Language.get -> System.Globalization.CultureInfo?
+Gu.Localization.MissingTranslationEventArgs.MissingTranslationEventArgs(System.Globalization.CultureInfo? language, string! key) -> void
 Gu.Localization.ObservableSortedSet<T>
 Gu.Localization.ObservableSortedSet<T>.Add(T item) -> bool
 Gu.Localization.ObservableSortedSet<T>.Clear() -> void
-Gu.Localization.ObservableSortedSet<T>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler
+Gu.Localization.ObservableSortedSet<T>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler?
 Gu.Localization.ObservableSortedSet<T>.Contains(T item) -> bool
-Gu.Localization.ObservableSortedSet<T>.CopyTo(T[] array, int arrayIndex) -> void
+Gu.Localization.ObservableSortedSet<T>.CopyTo(T[]! array, int arrayIndex) -> void
 Gu.Localization.ObservableSortedSet<T>.Count.get -> int
-Gu.Localization.ObservableSortedSet<T>.ExceptWith(System.Collections.Generic.IEnumerable<T> other) -> void
-Gu.Localization.ObservableSortedSet<T>.GetEnumerator() -> System.Collections.Generic.IEnumerator<T>
-Gu.Localization.ObservableSortedSet<T>.IntersectWith(System.Collections.Generic.IEnumerable<T> other) -> void
-Gu.Localization.ObservableSortedSet<T>.IsProperSubsetOf(System.Collections.Generic.IEnumerable<T> other) -> bool
-Gu.Localization.ObservableSortedSet<T>.IsProperSupersetOf(System.Collections.Generic.IEnumerable<T> other) -> bool
-Gu.Localization.ObservableSortedSet<T>.IsSubsetOf(System.Collections.Generic.IEnumerable<T> other) -> bool
-Gu.Localization.ObservableSortedSet<T>.IsSupersetOf(System.Collections.Generic.IEnumerable<T> other) -> bool
+Gu.Localization.ObservableSortedSet<T>.ExceptWith(System.Collections.Generic.IEnumerable<T>! other) -> void
+Gu.Localization.ObservableSortedSet<T>.GetEnumerator() -> System.Collections.Generic.IEnumerator<T>!
+Gu.Localization.ObservableSortedSet<T>.IntersectWith(System.Collections.Generic.IEnumerable<T>! other) -> void
+Gu.Localization.ObservableSortedSet<T>.IsProperSubsetOf(System.Collections.Generic.IEnumerable<T>! other) -> bool
+Gu.Localization.ObservableSortedSet<T>.IsProperSupersetOf(System.Collections.Generic.IEnumerable<T>! other) -> bool
+Gu.Localization.ObservableSortedSet<T>.IsSubsetOf(System.Collections.Generic.IEnumerable<T>! other) -> bool
+Gu.Localization.ObservableSortedSet<T>.IsSupersetOf(System.Collections.Generic.IEnumerable<T>! other) -> bool
 Gu.Localization.ObservableSortedSet<T>.ObservableSortedSet() -> void
-Gu.Localization.ObservableSortedSet<T>.ObservableSortedSet(System.Collections.Generic.IComparer<T> comparer) -> void
-Gu.Localization.ObservableSortedSet<T>.ObservableSortedSet(System.Collections.Generic.IEnumerable<T> collection) -> void
-Gu.Localization.ObservableSortedSet<T>.ObservableSortedSet(System.Collections.Generic.IEnumerable<T> collection, System.Collections.Generic.IComparer<T> comparer) -> void
-Gu.Localization.ObservableSortedSet<T>.Overlaps(System.Collections.Generic.IEnumerable<T> other) -> bool
-Gu.Localization.ObservableSortedSet<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Localization.ObservableSortedSet<T>.ObservableSortedSet(System.Collections.Generic.IComparer<T>! comparer) -> void
+Gu.Localization.ObservableSortedSet<T>.ObservableSortedSet(System.Collections.Generic.IEnumerable<T>! collection) -> void
+Gu.Localization.ObservableSortedSet<T>.ObservableSortedSet(System.Collections.Generic.IEnumerable<T>! collection, System.Collections.Generic.IComparer<T>! comparer) -> void
+Gu.Localization.ObservableSortedSet<T>.Overlaps(System.Collections.Generic.IEnumerable<T>! other) -> bool
+Gu.Localization.ObservableSortedSet<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
 Gu.Localization.ObservableSortedSet<T>.Remove(T item) -> bool
-Gu.Localization.ObservableSortedSet<T>.SetEquals(System.Collections.Generic.IEnumerable<T> other) -> bool
-Gu.Localization.ObservableSortedSet<T>.SymmetricExceptWith(System.Collections.Generic.IEnumerable<T> other) -> void
-Gu.Localization.ObservableSortedSet<T>.UnionWith(System.Collections.Generic.IEnumerable<T> other) -> void
-Gu.Localization.ObservableSortedSet<T>.UpdateWith(System.Collections.Generic.IReadOnlyCollection<T> items) -> void
+Gu.Localization.ObservableSortedSet<T>.SetEquals(System.Collections.Generic.IEnumerable<T>! other) -> bool
+Gu.Localization.ObservableSortedSet<T>.SymmetricExceptWith(System.Collections.Generic.IEnumerable<T>! other) -> void
+Gu.Localization.ObservableSortedSet<T>.UnionWith(System.Collections.Generic.IEnumerable<T>! other) -> void
+Gu.Localization.ObservableSortedSet<T>.UpdateWith(System.Collections.Generic.IReadOnlyCollection<T>! items) -> void
 Gu.Localization.Properties.Resources
 Gu.Localization.StaticTranslation
 Gu.Localization.StaticTranslation.ErrorHandling.get -> Gu.Localization.ErrorHandling
-Gu.Localization.StaticTranslation.Key.get -> string
-Gu.Localization.StaticTranslation.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
-Gu.Localization.StaticTranslation.StaticTranslation(string translated) -> void
-Gu.Localization.StaticTranslation.StaticTranslation(string translated, string key, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> void
-Gu.Localization.StaticTranslation.Translate(System.Globalization.CultureInfo culture, Gu.Localization.ErrorHandling errorHandlingStrategy = Gu.Localization.ErrorHandling.Inherit) -> string
-Gu.Localization.StaticTranslation.Translated.get -> string
+Gu.Localization.StaticTranslation.Key.get -> string!
+Gu.Localization.StaticTranslation.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
+Gu.Localization.StaticTranslation.StaticTranslation(string! translated) -> void
+Gu.Localization.StaticTranslation.StaticTranslation(string! translated, string! key, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> void
+Gu.Localization.StaticTranslation.Translate(System.Globalization.CultureInfo! culture, Gu.Localization.ErrorHandling errorHandlingStrategy = Gu.Localization.ErrorHandling.Inherit) -> string!
+Gu.Localization.StaticTranslation.Translated.get -> string!
 Gu.Localization.Translation
 Gu.Localization.Translation.ErrorHandling.get -> Gu.Localization.ErrorHandling
-Gu.Localization.Translation.Key.get -> string
-Gu.Localization.Translation.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
-Gu.Localization.Translation.Translate(System.Globalization.CultureInfo culture, Gu.Localization.ErrorHandling errorHandlingStrategy = Gu.Localization.ErrorHandling.Inherit) -> string
-Gu.Localization.Translation.Translated.get -> string
+Gu.Localization.Translation.Key.get -> string!
+Gu.Localization.Translation.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
+Gu.Localization.Translation.Translate(System.Globalization.CultureInfo! culture, Gu.Localization.ErrorHandling errorHandlingStrategy = Gu.Localization.ErrorHandling.Inherit) -> string?
+Gu.Localization.Translation.Translated.get -> string?
 Gu.Localization.Translator
 Gu.Localization.Translator<TResources>
 Gu.Localization.Validate
-override Gu.Localization.Errors.MissingTranslation.ToString() -> string
-static Gu.Localization.EnumTranslation.Create<T>(System.Resources.ResourceManager resourceManager, T member, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> Gu.Localization.ITranslation
-static Gu.Localization.EnumTranslation<T>.Create(System.Resources.ResourceManager resourceManager, T member, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> Gu.Localization.ITranslation
-static Gu.Localization.FormatString.IsFormatString(string format) -> bool
-static Gu.Localization.FormatString.IsValidFormatString(string format, int numberOfArguments) -> bool
-static Gu.Localization.Properties.Resources.Culture.get -> System.Globalization.CultureInfo
-static Gu.Localization.Properties.Resources.Culture.set -> void
-static Gu.Localization.Properties.Resources.InvalidFormat.get -> string
-static Gu.Localization.Properties.Resources.MissingCultureFormat.get -> string
-static Gu.Localization.Properties.Resources.MissingKeyFormat.get -> string
-static Gu.Localization.Properties.Resources.MissingResourcesFormat.get -> string
-static Gu.Localization.Properties.Resources.MissingTranslationFormat.get -> string
-static Gu.Localization.Properties.Resources.NullManagerFormat.get -> string
-static Gu.Localization.Properties.Resources.ResourceManager.get -> System.Resources.ResourceManager
-static Gu.Localization.Properties.Resources.UnknownErrorFormat.get -> string
-static Gu.Localization.Translation.GetOrCreate(System.Resources.ResourceManager resourceManager, string key, Gu.Localization.ErrorHandling errorHandlingStrategy = Gu.Localization.ErrorHandling.Inherit) -> Gu.Localization.ITranslation
-static Gu.Localization.Translator.ContainsCulture(System.Globalization.CultureInfo language) -> bool
-static Gu.Localization.Translator.Culture.get -> System.Globalization.CultureInfo
+override Gu.Localization.Errors.MissingTranslation.ToString() -> string!
+static Gu.Localization.EnumTranslation.Create<T>(System.Resources.ResourceManager! resourceManager, T member, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> Gu.Localization.ITranslation!
+static Gu.Localization.EnumTranslation<T>.Create(System.Resources.ResourceManager! resourceManager, T member, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> Gu.Localization.ITranslation!
+static Gu.Localization.FormatString.IsFormatString(string! format) -> bool
+static Gu.Localization.FormatString.IsValidFormatString(string! format, int numberOfArguments) -> bool
+~static Gu.Localization.Properties.Resources.Culture.get -> System.Globalization.CultureInfo
+~static Gu.Localization.Properties.Resources.Culture.set -> void
+~static Gu.Localization.Properties.Resources.InvalidFormat.get -> string
+~static Gu.Localization.Properties.Resources.MissingCultureFormat.get -> string
+~static Gu.Localization.Properties.Resources.MissingKeyFormat.get -> string
+~static Gu.Localization.Properties.Resources.MissingResourcesFormat.get -> string
+~static Gu.Localization.Properties.Resources.MissingTranslationFormat.get -> string
+~static Gu.Localization.Properties.Resources.NullManagerFormat.get -> string
+~static Gu.Localization.Properties.Resources.ResourceManager.get -> System.Resources.ResourceManager
+~static Gu.Localization.Properties.Resources.UnknownErrorFormat.get -> string
+static Gu.Localization.Translation.GetOrCreate(System.Resources.ResourceManager! resourceManager, string! key, Gu.Localization.ErrorHandling errorHandlingStrategy = Gu.Localization.ErrorHandling.Inherit) -> Gu.Localization.ITranslation!
+static Gu.Localization.Translator.ContainsCulture(System.Globalization.CultureInfo? language) -> bool
+static Gu.Localization.Translator.Culture.get -> System.Globalization.CultureInfo?
 static Gu.Localization.Translator.Culture.set -> void
-static Gu.Localization.Translator.Cultures.get -> Gu.Localization.ObservableSortedSet<System.Globalization.CultureInfo>
-static Gu.Localization.Translator.CurrentCulture.get -> System.Globalization.CultureInfo
-static Gu.Localization.Translator.CurrentCultureChanged -> System.EventHandler<Gu.Localization.CultureChangedEventArgs>
+static Gu.Localization.Translator.Cultures.get -> Gu.Localization.ObservableSortedSet<System.Globalization.CultureInfo!>!
+static Gu.Localization.Translator.CurrentCulture.get -> System.Globalization.CultureInfo!
+static Gu.Localization.Translator.CurrentCultureChanged -> System.EventHandler<Gu.Localization.CultureChangedEventArgs!>?
 static Gu.Localization.Translator.ErrorHandling.get -> Gu.Localization.ErrorHandling
 static Gu.Localization.Translator.ErrorHandling.set -> void
-static Gu.Localization.Translator.MissingTranslation -> System.EventHandler<Gu.Localization.MissingTranslationEventArgs>
-static Gu.Localization.Translator.ResourceDirectory.get -> System.IO.DirectoryInfo
+static Gu.Localization.Translator.MissingTranslation -> System.EventHandler<Gu.Localization.MissingTranslationEventArgs!>?
+static Gu.Localization.Translator.ResourceDirectory.get -> System.IO.DirectoryInfo?
 static Gu.Localization.Translator.ResourceDirectory.set -> void
-static Gu.Localization.Translator.StaticPropertyChanged -> System.EventHandler<System.ComponentModel.PropertyChangedEventArgs>
-static Gu.Localization.Translator.Translate(System.Resources.ResourceManager resourceManager, string key) -> string
-static Gu.Localization.Translator.Translate(System.Resources.ResourceManager resourceManager, string key, Gu.Localization.ErrorHandling errorHandling) -> string
-static Gu.Localization.Translator.Translate(System.Resources.ResourceManager resourceManager, string key, System.Globalization.CultureInfo language) -> string
-static Gu.Localization.Translator.Translate(System.Resources.ResourceManager resourceManager, string key, System.Globalization.CultureInfo language, Gu.Localization.ErrorHandling errorHandling) -> string
-static Gu.Localization.Translator.Translate<T0, T1>(System.Resources.ResourceManager resourceManager, string key, System.Globalization.CultureInfo language, T0 arg0, T1 arg1, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string
-static Gu.Localization.Translator.Translate<T0, T1>(System.Resources.ResourceManager resourceManager, string key, T0 arg0, T1 arg1, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string
-static Gu.Localization.Translator.Translate<T>(System.Resources.ResourceManager resourceManager, string key, System.Globalization.CultureInfo language, T arg0, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string
-static Gu.Localization.Translator.Translate<T>(System.Resources.ResourceManager resourceManager, string key, T arg0, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string
-static Gu.Localization.Translator<TResources>.GetOrCreateTranslation(string key, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> Gu.Localization.ITranslation
-static Gu.Localization.Translator<TResources>.Translate(string key) -> string
-static Gu.Localization.Translator<TResources>.Translate(string key, Gu.Localization.ErrorHandling errorHandling) -> string
-static Gu.Localization.Translator<TResources>.Translate(string key, System.Globalization.CultureInfo culture) -> string
-static Gu.Localization.Translator<TResources>.Translate(string key, System.Globalization.CultureInfo culture, Gu.Localization.ErrorHandling errorHandling) -> string
-static Gu.Localization.Translator<TResources>.Translate<T0, T1>(string key, System.Globalization.CultureInfo culture, T0 arg0, T1 arg1, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string
-static Gu.Localization.Translator<TResources>.Translate<T0, T1>(string key, T0 arg0, T1 arg1, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string
-static Gu.Localization.Translator<TResources>.Translate<T>(string key, System.Globalization.CultureInfo culture, T arg0, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string
-static Gu.Localization.Translator<TResources>.Translate<T>(string key, T arg0, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string
-static Gu.Localization.Validate.EnumTranslations<T>(System.Resources.ResourceManager resourceManager) -> Gu.Localization.Errors.TranslationErrors
-static Gu.Localization.Validate.EnumTranslations<T>(System.Resources.ResourceManager resourceManager, System.Collections.Generic.IEnumerable<System.Globalization.CultureInfo> cultures) -> Gu.Localization.Errors.TranslationErrors
-static Gu.Localization.Validate.Format(string format, params object[] args) -> void
-static Gu.Localization.Validate.Format<T0, T1>(string format, T0 arg0, T1 arg1) -> void
-static Gu.Localization.Validate.Format<T0>(string format, T0 arg0) -> void
-static Gu.Localization.Validate.IsValidFormat(string format, params object[] args) -> bool
-static Gu.Localization.Validate.IsValidFormat<T0, T1>(string format, T0 arg0, T1 arg1) -> bool
-static Gu.Localization.Validate.IsValidFormat<T>(string format, T arg0) -> bool
-static Gu.Localization.Validate.Translations(System.Resources.ResourceManager resourceManager) -> Gu.Localization.Errors.TranslationErrors
-static Gu.Localization.Validate.Translations(System.Resources.ResourceManager resourceManager, string key) -> System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError>
-static Gu.Localization.Validate.Translations(System.Resources.ResourceManager resourceManager, string key, System.Collections.Generic.IEnumerable<System.Globalization.CultureInfo> cultures) -> System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError>
-static Gu.Localization.Validate.Translations(System.Resources.ResourceManager resourceManager, System.Collections.Generic.IEnumerable<System.Globalization.CultureInfo> cultures) -> Gu.Localization.Errors.TranslationErrors
-static Gu.Localization.Validate.TryGetTranslationErrors(System.Resources.ResourceManager resourceManager, string key, System.Collections.Generic.IEnumerable<System.Globalization.CultureInfo> cultures, out System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError> errors) -> bool
-static readonly Gu.Localization.Errors.TranslationErrors.Empty -> Gu.Localization.Errors.TranslationErrors
-virtual Gu.Localization.ObservableSortedSet<T>.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e) -> void
-virtual Gu.Localization.ObservableSortedSet<T>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) -> void
-virtual Gu.Localization.StaticTranslation.OnPropertyChanged(string propertyName = null) -> void
+static Gu.Localization.Translator.StaticPropertyChanged -> System.EventHandler<System.ComponentModel.PropertyChangedEventArgs!>?
+static Gu.Localization.Translator.Translate(System.Resources.ResourceManager! resourceManager, string! key) -> string?
+static Gu.Localization.Translator.Translate(System.Resources.ResourceManager! resourceManager, string! key, Gu.Localization.ErrorHandling errorHandling) -> string?
+static Gu.Localization.Translator.Translate(System.Resources.ResourceManager! resourceManager, string! key, System.Globalization.CultureInfo! language) -> string?
+static Gu.Localization.Translator.Translate(System.Resources.ResourceManager! resourceManager, string! key, System.Globalization.CultureInfo? language, Gu.Localization.ErrorHandling errorHandling) -> string?
+static Gu.Localization.Translator.Translate<T0, T1>(System.Resources.ResourceManager! resourceManager, string! key, System.Globalization.CultureInfo! language, T0 arg0, T1 arg1, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string?
+static Gu.Localization.Translator.Translate<T0, T1>(System.Resources.ResourceManager! resourceManager, string! key, T0 arg0, T1 arg1, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string?
+static Gu.Localization.Translator.Translate<T>(System.Resources.ResourceManager! resourceManager, string! key, System.Globalization.CultureInfo! language, T arg0, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string?
+static Gu.Localization.Translator.Translate<T>(System.Resources.ResourceManager! resourceManager, string! key, T arg0, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string?
+static Gu.Localization.Translator<TResources>.GetOrCreateTranslation(string! key, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> Gu.Localization.ITranslation!
+static Gu.Localization.Translator<TResources>.Translate(string! key) -> string?
+static Gu.Localization.Translator<TResources>.Translate(string! key, Gu.Localization.ErrorHandling errorHandling) -> string?
+static Gu.Localization.Translator<TResources>.Translate(string! key, System.Globalization.CultureInfo! culture) -> string?
+static Gu.Localization.Translator<TResources>.Translate(string! key, System.Globalization.CultureInfo! culture, Gu.Localization.ErrorHandling errorHandling) -> string?
+static Gu.Localization.Translator<TResources>.Translate<T0, T1>(string! key, System.Globalization.CultureInfo! culture, T0 arg0, T1 arg1, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string?
+static Gu.Localization.Translator<TResources>.Translate<T0, T1>(string! key, T0 arg0, T1 arg1, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string?
+static Gu.Localization.Translator<TResources>.Translate<T>(string! key, System.Globalization.CultureInfo! culture, T arg0, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string?
+static Gu.Localization.Translator<TResources>.Translate<T>(string! key, T arg0, Gu.Localization.ErrorHandling errorHandling = Gu.Localization.ErrorHandling.Inherit) -> string?
+static Gu.Localization.Validate.EnumTranslations<T>(System.Resources.ResourceManager! resourceManager) -> Gu.Localization.Errors.TranslationErrors!
+static Gu.Localization.Validate.EnumTranslations<T>(System.Resources.ResourceManager! resourceManager, System.Collections.Generic.IEnumerable<System.Globalization.CultureInfo!>! cultures) -> Gu.Localization.Errors.TranslationErrors!
+static Gu.Localization.Validate.Format(string! format, params object![]? args) -> void
+static Gu.Localization.Validate.Format<T0, T1>(string! format, T0 arg0, T1 arg1) -> void
+static Gu.Localization.Validate.Format<T0>(string! format, T0 arg0) -> void
+static Gu.Localization.Validate.IsValidFormat(string! format, params object![]? args) -> bool
+static Gu.Localization.Validate.IsValidFormat<T0, T1>(string! format, T0 arg0, T1 arg1) -> bool
+static Gu.Localization.Validate.IsValidFormat<T>(string! format, T arg0) -> bool
+static Gu.Localization.Validate.Translations(System.Resources.ResourceManager! resourceManager) -> Gu.Localization.Errors.TranslationErrors!
+static Gu.Localization.Validate.Translations(System.Resources.ResourceManager! resourceManager, string! key) -> System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError!>!
+static Gu.Localization.Validate.Translations(System.Resources.ResourceManager! resourceManager, string! key, System.Collections.Generic.IEnumerable<System.Globalization.CultureInfo!>! cultures) -> System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError!>!
+static Gu.Localization.Validate.Translations(System.Resources.ResourceManager! resourceManager, System.Collections.Generic.IEnumerable<System.Globalization.CultureInfo!>! cultures) -> Gu.Localization.Errors.TranslationErrors!
+static Gu.Localization.Validate.TryGetTranslationErrors(System.Resources.ResourceManager! resourceManager, string! key, System.Collections.Generic.IEnumerable<System.Globalization.CultureInfo!>! cultures, out System.Collections.Generic.IReadOnlyList<Gu.Localization.Errors.TranslationError!>? errors) -> bool
+static readonly Gu.Localization.Errors.TranslationErrors.Empty -> Gu.Localization.Errors.TranslationErrors!
+virtual Gu.Localization.ObservableSortedSet<T>.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs! e) -> void
+virtual Gu.Localization.ObservableSortedSet<T>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs! e) -> void
+virtual Gu.Localization.StaticTranslation.OnPropertyChanged(string? propertyName = null) -> void
