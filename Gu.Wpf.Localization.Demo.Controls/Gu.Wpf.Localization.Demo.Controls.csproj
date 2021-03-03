@@ -3,6 +3,7 @@
     <OutputType>library</OutputType>
     <TargetFramework>net48</TargetFramework>
     <UseWpf>true</UseWpf>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <PropertyGroup>

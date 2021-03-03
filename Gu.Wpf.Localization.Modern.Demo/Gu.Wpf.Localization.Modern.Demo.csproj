@@ -3,6 +3,7 @@
     <OutputType>WinExe</OutputType>
     <UseWpf>true</UseWpf>
     <TargetFramework>net48</TargetFramework>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <PropertyGroup>
