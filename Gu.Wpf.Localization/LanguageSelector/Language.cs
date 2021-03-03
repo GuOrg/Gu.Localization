@@ -139,7 +139,9 @@
                 return text;
             }
 
+#pragma warning disable IDE0079, IDE0057 // Use range operator
             return $"{char.ToUpper(text[0], culture ?? CultureInfo.InvariantCulture)}{text.Substring(1)}";
+#pragma warning restore IDE0079, IDE0057 // Use range operator
         }
     }
 }
