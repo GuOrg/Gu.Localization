@@ -6,5 +6,3 @@ dotnet_diagnostic.SA1633.severity = none
 # CA1825: Avoid unnecessary zero-length array allocations.  Use Array.Empty<T>() instead.
 dotnet_diagnostic.CA1825.severity = none
 
-# RS0041: Symbol 'Symbol' uses some oblivious reference types. BUG: https://github.com/dotnet/roslyn-analyzers/issues/3793
-dotnet_diagnostic.RS0041.severity = none
