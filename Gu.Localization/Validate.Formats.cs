@@ -62,7 +62,9 @@
                 throw new FormatException($"Invalid format string: \"{format}\".");
             }
 
+#pragma warning disable CA1508 // Avoid dead conditional code
             if (args is null || args.Length == 0)
+#pragma warning restore CA1508 // Avoid dead conditional code
             {
                 if (count == 0)
                 {
@@ -110,7 +112,9 @@
         /// <returns>True if <paramref name="format"/> is valid for <paramref name="args"/>.</returns>
         public static bool IsValidFormat(string format, params object[]? args)
         {
+#pragma warning disable CA1508 // Avoid dead conditional code
             return IsValidFormat(format, args?.Length ?? 0);
+#pragma warning restore CA1508 // Avoid dead conditional code
         }
 
         private static bool IsValidFormat(string format, int argumentCount)

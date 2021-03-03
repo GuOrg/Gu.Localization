@@ -91,26 +91,26 @@
                 return false;
             }
 
-            if (Cultures is null || Cultures.Count == 0)
+            if (Cultures.Count == 0)
             {
                 return false;
             }
 
-            return Cultures?.Contains(language) == true ||
-                   Cultures?.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, language)) == true;
+            return Cultures.Contains(language) == true ||
+                   Cultures.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, language)) == true;
         }
 
         private static CultureInfo GetEffectiveCulture(CultureInfo? cultureInfo)
         {
             if (cultureInfo is null)
             {
-                return Cultures?.FirstOrDefault(c => Localization.Culture.NameEquals(c, CultureInfo.CurrentCulture)) ??
-                       Cultures?.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, CultureInfo.CurrentCulture)) ??
+                return Cultures.FirstOrDefault(c => Localization.Culture.NameEquals(c, CultureInfo.CurrentCulture)) ??
+                       Cultures.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, CultureInfo.CurrentCulture)) ??
                        CultureInfo.InvariantCulture;
             }
 
-            return Cultures?.FirstOrDefault(c => Localization.Culture.NameEquals(c, cultureInfo)) ??
-                   Cultures?.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, cultureInfo)) ??
+            return Cultures.FirstOrDefault(c => Localization.Culture.NameEquals(c, cultureInfo)) ??
+                   Cultures.FirstOrDefault(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, cultureInfo)) ??
                    CultureInfo.InvariantCulture;
         }
 

@@ -1,4 +1,5 @@
 ﻿Gu.Wpf.Localization.CultureOrDefaultConverter.Convert(object! value, System.Type! targetType, object! parameter, System.Globalization.CultureInfo! culture) -> object!
+Gu.Wpf.Localization.CultureToFlagPathConverter.Convert(object! value, System.Type! targetType, object! parameter, System.Globalization.CultureInfo! culture) -> object!
 Gu.Wpf.Localization.LanguageSelector.ItemTemplate.get -> System.Windows.DataTemplate?
 Gu.Wpf.Localization.LanguageSelector.SelectedLanguage.get -> Gu.Wpf.Localization.Language?
 static Gu.Wpf.Localization.DesignTime.GetCulture(this System.Windows.UIElement! element) -> System.Globalization.CultureInfo?
