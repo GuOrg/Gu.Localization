@@ -23,11 +23,11 @@
             [TestCase("en", "English")]
             [TestCase("sv", "Svenska")]
             [TestCase(null, "So neutral")]
-            public static void TranslateResourceManagerAndNameHappyPath(string cultureName, string expected)
+            public static void TranslateResourceManagerAndNameHappyPath(string? cultureName, string expected)
             {
-                var culture = cultureName != null
-                                  ? CultureInfo.GetCultureInfo(cultureName)
-                                  : CultureInfo.InvariantCulture;
+                var culture = cultureName is null
+                                  ? CultureInfo.InvariantCulture
+                                  : CultureInfo.GetCultureInfo(cultureName);
                 Translator.Culture = culture;
                 var actual = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.AllLanguages));
                 Assert.AreEqual(expected, actual);
@@ -65,7 +65,7 @@
             {
                 Translator.Culture = row.Culture;
                 var missing = 0;
-                Translator.MissingTranslation += (sender, args) => missing++;
+                Translator.MissingTranslation += (_, _) => missing++;
                 var actual = Translator.Translate(Properties.Resources.ResourceManager, row.Key);
                 Assert.AreEqual(row.ExpectedTranslation, actual);
                 Assert.AreEqual(0, missing);
@@ -98,7 +98,7 @@
             public static void TranslateWithExplicitCultureDoesNotSignalMissingTranslation(TranslationSource.Row row)
             {
                 var missing = 0;
-                Translator.MissingTranslation += (sender, args) => missing++;
+                Translator.MissingTranslation += (_, _) => missing++;
                 var actual = Translator.Translate(Properties.Resources.ResourceManager, row.Key, row.Culture);
                 Assert.AreEqual(row.ExpectedTranslation, actual);
                 Assert.AreEqual(0, missing);
@@ -192,7 +192,7 @@
             public static void MissingKeySignalMissingTranslationWhenGlobalCulture()
             {
                 var events = new List<MissingTranslationEventArgs>();
-                Translator.MissingTranslation += (sender, args) => events.Add(args);
+                Translator.MissingTranslation += (_, args) => events.Add(args);
                 Translator.Culture = CultureInfo.GetCultureInfo("sv");
                 var actual = Translator.Translate(Properties.Resources.ResourceManager, "missing");
                 Assert.AreEqual("!missing!", actual);
@@ -205,7 +205,7 @@
             public static void MissingKeySignalMissingTranslationWhenExplicitCulture()
             {
                 var events = new List<MissingTranslationEventArgs>();
-                Translator.MissingTranslation += (sender, args) => events.Add(args);
+                Translator.MissingTranslation += (_, args) => events.Add(args);
                 var actual = Translator.Translate(Properties.Resources.ResourceManager, "missing", CultureInfo.GetCultureInfo("sv"));
                 Assert.AreEqual("!missing!", actual);
                 Assert.AreEqual(1, events.Count);
@@ -217,7 +217,7 @@
             public static void MissingCultureSignalMissingTranslationWhenExplicitCulture()
             {
                 var events = new List<MissingTranslationEventArgs>();
-                Translator.MissingTranslation += (sender, args) => events.Add(args);
+                Translator.MissingTranslation += (_, args) => events.Add(args);
                 var actual = Translator.Translate(Properties.Resources.ResourceManager, "missing", CultureInfo.GetCultureInfo("it"));
                 Assert.AreEqual("~missing~", actual);
                 Assert.AreEqual(1, events.Count);
