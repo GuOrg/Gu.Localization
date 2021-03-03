@@ -1,2 +1,1 @@
-﻿static Gu.Localization.Validate.Format(string! format, params object![]? args) -> void
-static Gu.Localization.Validate.IsValidFormat(string! format, params object![]? args) -> bool
+﻿
