@@ -55,7 +55,7 @@
         /// </summary>
         /// <param name="format">The format string ex: 'First: {0:N}.</param>
         /// <param name="args">The arguments.</param>
-        public static void Format(string format, params object[] args)
+        public static void Format(string format, params object[]? args)
         {
             if (!FormatString.IsValidFormat(format, out var count, out _))
             {
@@ -108,7 +108,7 @@
         /// <param name="format">The format string ex: 'First: {0:N}.</param>
         /// <param name="args">The arguments.</param>
         /// <returns>True if <paramref name="format"/> is valid for <paramref name="args"/>.</returns>
-        public static bool IsValidFormat(string format, params object[] args)
+        public static bool IsValidFormat(string format, params object[]? args)
         {
             return IsValidFormat(format, args?.Length ?? 0);
         }

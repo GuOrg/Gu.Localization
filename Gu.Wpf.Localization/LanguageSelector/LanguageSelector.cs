@@ -77,7 +77,9 @@
         /// Gets or sets the languages.
         /// </summary>
 #pragma warning disable CA2227 // Collection properties should be read only
+#pragma warning disable WPF0012 // CLR property type should match registered type.
         public ObservableCollection<Language> Languages
+#pragma warning restore WPF0012 // CLR property type should match registered type.
 #pragma warning restore CA2227 // Collection properties should be read only
         {
             get => (ObservableCollection<Language>)this.GetValue(LanguagesProperty);

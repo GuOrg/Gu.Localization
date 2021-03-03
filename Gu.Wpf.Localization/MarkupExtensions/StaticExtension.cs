@@ -6,8 +6,6 @@
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
-    using System.Xaml;
-
     using Gu.Localization;
     using Gu.Localization.Properties;
 

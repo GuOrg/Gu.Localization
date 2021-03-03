@@ -3,7 +3,6 @@
     using System;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
-    using System.Text.RegularExpressions;
 
     [SuppressMessage("ReSharper", "UnusedParameter.Global", Justification = "All this class does are precondition checks.")]
     internal static partial class Ensure
