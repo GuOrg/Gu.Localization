@@ -14,7 +14,7 @@
     <PackageReference Include="Gu.Analyzers" Version="1.8.5" PrivateAssets="all" />
     <Resource Include="FodyWeavers.xml" />
     <PackageReference Include="Costura.Fody" Version="5.0.2" PrivateAssets="all" />
-    <PackageReference Include="Fody" Version="6.3.0" PrivateAssets="all" />
+    <PackageReference Include="Fody" Version="6.4.0" PrivateAssets="all" />
     <PackageReference Include="PropertyChangedAnalyzers" Version="3.2.2" PrivateAssets="all" />
     <PackageReference Include="Resource.Embedder" Version="2.1.1" PrivateAssets="all" />
   </ItemGroup>
