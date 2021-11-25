@@ -7,6 +7,7 @@ namespace Gu.Localization.Tests.Sandbox
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+
     using NUnit.Framework;
 
     public class TranslationsTests
@@ -29,9 +30,8 @@ namespace Gu.Localization.Tests.Sandbox
         {
             var sw = Stopwatch.StartNew();
             var assembly = this.GetType().Assembly;
-            var uri = new Uri(assembly.CodeBase, UriKind.Absolute);
             var resourceName = $"{assembly.GetName().Name}.resources.dll";
-            var files = Directory.EnumerateFiles(System.IO.Path.GetDirectoryName(uri.LocalPath), resourceName, SearchOption.AllDirectories).ToArray();
+            var files = Directory.EnumerateFiles(Path.GetDirectoryName(assembly.Location)!, resourceName, SearchOption.AllDirectories).ToArray();
 #if DEBUG
             Console.WriteLine($"Getting {files.Length} cultures took {sw.Elapsed.TotalMilliseconds:F2} ms");
 #endif
@@ -44,9 +44,8 @@ namespace Gu.Localization.Tests.Sandbox
         {
             var sw = Stopwatch.StartNew();
             var assembly = this.GetType().Assembly;
-            var uri = new Uri(assembly.CodeBase, UriKind.Absolute);
             var resourceName = $"{assembly.GetName().Name}.resources.dll";
-            var directories = Directory.EnumerateDirectories(System.IO.Path.GetDirectoryName(uri.LocalPath)).ToArray();
+            var directories = Directory.EnumerateDirectories(Path.GetDirectoryName(assembly.Location)!).ToArray();
             foreach (var directory in directories)
             {
                 var count = Directory.EnumerateFiles(directory, resourceName, SearchOption.TopDirectoryOnly).Count();
