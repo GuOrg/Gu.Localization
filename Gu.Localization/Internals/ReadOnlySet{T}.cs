@@ -5,7 +5,7 @@
 
     internal sealed class ReadOnlySet<T> : IReadOnlyCollection<T>
     {
-        internal static readonly ReadOnlySet<T> Empty = new ReadOnlySet<T>(new T[0]);
+        internal static readonly ReadOnlySet<T> Empty = new(new T[0]);
 
         private readonly HashSet<T> set;
 

@@ -11,7 +11,7 @@
         /// <summary>
         /// The dependency object.
         /// </summary>
-        private static readonly DependencyObject DependencyObject = new DependencyObject();
+        private static readonly DependencyObject DependencyObject = new();
 
         /// <summary>
         /// Gets a value indicating whether is design mode.

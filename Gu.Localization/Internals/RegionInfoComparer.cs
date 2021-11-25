@@ -8,10 +8,10 @@
     internal sealed class RegionInfoComparer : IEqualityComparer<RegionInfo>, IComparer<RegionInfo>
     {
         /// <summary> Gets a comparer that compares by <see cref="RegionInfo.TwoLetterISORegionName"/>. </summary>
-        internal static readonly RegionInfoComparer ByTwoLetterISORegionName = new RegionInfoComparer(x => x?.TwoLetterISORegionName);
+        internal static readonly RegionInfoComparer ByTwoLetterISORegionName = new(x => x?.TwoLetterISORegionName);
 
         /// <summary> Gets a comparer that compares by <see cref="RegionInfo.Name"/>. </summary>
-        internal static readonly RegionInfoComparer ByName = new RegionInfoComparer(x => x?.Name);
+        internal static readonly RegionInfoComparer ByName = new(x => x?.Name);
 
         private static readonly StringComparer StringComparer = StringComparer.OrdinalIgnoreCase;
 

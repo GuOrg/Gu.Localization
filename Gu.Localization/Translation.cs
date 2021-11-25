@@ -12,8 +12,8 @@
     // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
     public partial class Translation : ITranslation
     {
-        private static readonly PropertyChangedEventArgs TranslatedPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Translated));
-        private static readonly ConcurrentDictionary<ResourceManagerAndKey, ITranslation> Cache = new ConcurrentDictionary<ResourceManagerAndKey, ITranslation>();
+        private static readonly PropertyChangedEventArgs TranslatedPropertyChangedEventArgs = new(nameof(Translated));
+        private static readonly ConcurrentDictionary<ResourceManagerAndKey, ITranslation> Cache = new();
 
         private readonly ResourceManager resourceManager;
         private readonly CachedTranslation cachedTranslation;
@@ -125,7 +125,7 @@
         private class CachedTranslation
         {
             private readonly Translation translation;
-            private readonly object gate = new object();
+            private readonly object gate = new();
             private CultureInfo? culture;
             private string? value;
 

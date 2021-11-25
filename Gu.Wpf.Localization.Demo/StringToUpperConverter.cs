@@ -6,7 +6,7 @@
     [ValueConversion(typeof(string), typeof(string))]
     public sealed class StringToUpperConverter : IValueConverter
     {
-        public static readonly StringToUpperConverter Default = new StringToUpperConverter();
+        public static readonly StringToUpperConverter Default = new();
 
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

@@ -6,7 +6,7 @@
 
     internal sealed class ResourceManagerComparer : IEqualityComparer<ResourceManager>
     {
-        internal static readonly ResourceManagerComparer ByBaseName = new ResourceManagerComparer();
+        internal static readonly ResourceManagerComparer ByBaseName = new();
         private static readonly StringComparer StringComparer = StringComparer.Ordinal;
 
         private ResourceManagerComparer()

@@ -17,7 +17,7 @@
     [MarkupExtensionReturnType(typeof(BindingExpression))]
     public class StaticExtension : System.Windows.Markup.StaticExtension
     {
-        private static readonly PropertyPath TranslatedPropertyPath = new PropertyPath(nameof(Gu.Localization.Translation.Translated));
+        private static readonly PropertyPath TranslatedPropertyPath = new(nameof(Gu.Localization.Translation.Translated));
 
         /// <summary> Initializes a new instance of the <see cref="StaticExtension"/> class.</summary>
         public StaticExtension()

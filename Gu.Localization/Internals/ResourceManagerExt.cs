@@ -12,7 +12,7 @@
 
     internal static class ResourceManagerExt
     {
-        private static readonly ConcurrentDictionary<ResourceManager, CulturesAndKeys> Cache = new ConcurrentDictionary<ResourceManager, CulturesAndKeys>(ResourceManagerComparer.ByBaseName);
+        private static readonly ConcurrentDictionary<ResourceManager, CulturesAndKeys> Cache = new(ResourceManagerComparer.ByBaseName);
 
         /// <summary>
         /// Check if the <paramref name="resourceManager"/> has a translation for <paramref name="key"/>.
@@ -65,9 +65,9 @@
 
         internal sealed class CulturesAndKeys
         {
-            private readonly ConcurrentDictionary<CultureInfo, ReadOnlySet<string>?> culturesAndKeys = new ConcurrentDictionary<CultureInfo, ReadOnlySet<string>?>(CultureInfoComparer.ByName);
+            private readonly ConcurrentDictionary<CultureInfo, ReadOnlySet<string>?> culturesAndKeys = new(CultureInfoComparer.ByName);
             private readonly ResourceManager resourceManager;
-            private readonly HashSet<string> allKeys = new HashSet<string>();
+            private readonly HashSet<string> allKeys = new();
 
             internal CulturesAndKeys(ResourceManager resourceManager)
             {

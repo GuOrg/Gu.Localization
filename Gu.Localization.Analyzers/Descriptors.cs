@@ -4,7 +4,7 @@
 
     internal static class Descriptors
     {
-        internal static readonly DiagnosticDescriptor GULOC01KeyExists = new DiagnosticDescriptor(
+        internal static readonly DiagnosticDescriptor GULOC01KeyExists = new(
             id: "GULOC01",
             title: "Key does not exist.",
             messageFormat: "Key does not exist.",
@@ -13,7 +13,7 @@
             isEnabledByDefault: true,
             description: "Key does not exist.");
 
-        internal static readonly DiagnosticDescriptor GULOC02UseNameOf = new DiagnosticDescriptor(
+        internal static readonly DiagnosticDescriptor GULOC02UseNameOf = new(
             id: "GULOC02",
             title: "Use nameof(key).",
             messageFormat: "Use nameof(key).",
@@ -22,7 +22,7 @@
             isEnabledByDefault: true,
             description: "Use nameof(key).");
 
-        internal static readonly DiagnosticDescriptor GULOC03UseResource = new DiagnosticDescriptor(
+        internal static readonly DiagnosticDescriptor GULOC03UseResource = new(
             id: "GULOC03",
             title: "Use resource.",
             messageFormat: "Use resource.",
@@ -31,7 +31,7 @@
             isEnabledByDefault: true,
             description: "Use resource.");
 
-        internal static readonly DiagnosticDescriptor GULOC04UseCustomTranslate = new DiagnosticDescriptor(
+        internal static readonly DiagnosticDescriptor GULOC04UseCustomTranslate = new(
             id: "GULOC04",
             title: "Use custom translate.",
             messageFormat: "Use custom translate.",
@@ -40,7 +40,7 @@
             isEnabledByDefault: false,
             description: "Use custom translate.");
 
-        internal static readonly DiagnosticDescriptor GULOC05TranslateUseResource = new DiagnosticDescriptor(
+        internal static readonly DiagnosticDescriptor GULOC05TranslateUseResource = new(
             id: "GULOC05",
             title: "Translate resource.",
             messageFormat: "Translate resource.",
@@ -49,7 +49,7 @@
             isEnabledByDefault: true,
             description: "Translate resource.");
 
-        internal static readonly DiagnosticDescriptor GULOC06UseInterpolation = new DiagnosticDescriptor(
+        internal static readonly DiagnosticDescriptor GULOC06UseInterpolation = new(
             id: "GULOC06",
             title: "Use interpolation.",
             messageFormat: "Use interpolation.",
@@ -58,7 +58,7 @@
             isEnabledByDefault: true,
             description: "Use interpolation.");
 
-        internal static readonly DiagnosticDescriptor GULOC07KeyDoesNotMatch = new DiagnosticDescriptor(
+        internal static readonly DiagnosticDescriptor GULOC07KeyDoesNotMatch = new(
             id: "GULOC07",
             title: "Key does not match.",
             messageFormat: "Expected the name to be {0}",
@@ -67,7 +67,7 @@
             isEnabledByDefault: true,
             description: "The resource key does not match the resource text.");
 
-        internal static readonly DiagnosticDescriptor GULOC08DuplicateNeutral = new DiagnosticDescriptor(
+        internal static readonly DiagnosticDescriptor GULOC08DuplicateNeutral = new(
             id: "GULOC08",
             title: "More than one resource has the same neutral string.",
             messageFormat: "The duplicated neutral string is {0}",
@@ -76,7 +76,7 @@
             isEnabledByDefault: true,
             description: "More than one resource has the same neutral string.");
 
-        internal static readonly DiagnosticDescriptor GULOC09Duplicate = new DiagnosticDescriptor(
+        internal static readonly DiagnosticDescriptor GULOC09Duplicate = new(
             id: "GULOC09",
             title: "The resource is a duplicate in all cultures.",
             messageFormat: "The duplicated neutral string is {0}",
@@ -85,7 +85,7 @@
             isEnabledByDefault: true,
             description: "The resource is a duplicate in all cultures.");
 
-        internal static readonly DiagnosticDescriptor GULOC10MissingTranslation = new DiagnosticDescriptor(
+        internal static readonly DiagnosticDescriptor GULOC10MissingTranslation = new(
             id: "GULOC10",
             title: "Missing translation.",
             messageFormat: "The resource does not have translation to '{0}', the neutral string is '{1}'",

@@ -16,7 +16,7 @@
     public sealed class CultureToFlagPathConverter : IValueConverter
     {
         /// <summary>The default instance.</summary>
-        public static readonly CultureToFlagPathConverter Default = new CultureToFlagPathConverter();
+        public static readonly CultureToFlagPathConverter Default = new();
 
         private static readonly IReadOnlyDictionary<string, string> FlagNameResourceMap = CreateFlagNameResourceMap();
 

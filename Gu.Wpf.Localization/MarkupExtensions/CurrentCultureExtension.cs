@@ -15,7 +15,7 @@
         /// <summary>
         /// For binding to the static property <see cref="Translator.CurrentCulture"/>.
         /// </summary>
-        internal static readonly PropertyPath TranslatorCurrentCulturePath = new PropertyPath(
+        internal static readonly PropertyPath TranslatorCurrentCulturePath = new(
             "(0)",
             typeof(Translator).GetProperty(nameof(Translator.CurrentCulture), BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly) ?? throw new InvalidOperationException("Did not find property Translator.CurrentCulture."));
 

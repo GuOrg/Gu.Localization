@@ -62,8 +62,8 @@
 
         internal static class TypeManagerCache
         {
-            private static readonly ConcurrentDictionary<Type, ResourceManager?> TypeManagerMap = new ConcurrentDictionary<Type, ResourceManager?>();
-            private static readonly ConcurrentDictionary<ResourceManager, Type?> ManagerTypeMap = new ConcurrentDictionary<ResourceManager, Type?>(ResourceManagerComparer.ByBaseName);
+            private static readonly ConcurrentDictionary<Type, ResourceManager?> TypeManagerMap = new();
+            private static readonly ConcurrentDictionary<ResourceManager, Type?> ManagerTypeMap = new(ResourceManagerComparer.ByBaseName);
 
             internal static ResourceManager? GetOrAdd(Type type, Func<Type, ResourceManager?> create)
             {

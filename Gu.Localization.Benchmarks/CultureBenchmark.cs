@@ -68,10 +68,10 @@
         private sealed class CultureInfoComparer : IEqualityComparer<CultureInfo>, IComparer<CultureInfo>
         {
             /// <summary> Gets a comparer that compares by <see cref="CultureInfo.TwoLetterISOLanguageName"/>. </summary>
-            internal static readonly CultureInfoComparer ByTwoLetterIsoLanguageName = new CultureInfoComparer(x => x?.TwoLetterISOLanguageName);
+            internal static readonly CultureInfoComparer ByTwoLetterIsoLanguageName = new(x => x?.TwoLetterISOLanguageName);
 
             /// <summary> Gets a comparer that compares by <see cref="CultureInfo.Name"/>. </summary>
-            internal static readonly CultureInfoComparer ByName = new CultureInfoComparer(x => x?.Name);
+            internal static readonly CultureInfoComparer ByName = new(x => x?.Name);
 
             private static readonly StringComparer StringComparer = StringComparer.OrdinalIgnoreCase;
 

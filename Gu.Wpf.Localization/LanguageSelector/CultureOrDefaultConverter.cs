@@ -10,7 +10,7 @@
     public sealed class CultureOrDefaultConverter : IValueConverter
     {
         /// <summary> Gets the default instance. </summary>
-        public static readonly CultureOrDefaultConverter Default = new CultureOrDefaultConverter();
+        public static readonly CultureOrDefaultConverter Default = new();
 
         /// <inheritdoc />
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

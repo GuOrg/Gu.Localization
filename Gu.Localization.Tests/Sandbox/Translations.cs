@@ -8,7 +8,7 @@
 
     public partial class Translations
     {
-        private static readonly ConcurrentDictionary<Assembly, Translations?> Cache = new ConcurrentDictionary<Assembly, Translations?>();
+        private static readonly ConcurrentDictionary<Assembly, Translations?> Cache = new();
 
         //// ReSharper disable NotAccessedField.Local for debugging
 #pragma warning disable IDE0052 // Remove unread private members

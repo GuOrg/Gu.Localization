@@ -7,7 +7,7 @@
     /// <summary>Optimized this a lot to avoid caching of results.</summary>
     public static class FormatString
     {
-        private static readonly ThreadLocal<SortedSet<int>> Indices = new ThreadLocal<SortedSet<int>>(() => new SortedSet<int>());
+        private static readonly ThreadLocal<SortedSet<int>> Indices = new(() => new SortedSet<int>());
 
         /// <summary>Checks if <paramref name="format"/> has argument placeholders like 'Value: {0}'.</summary>
         /// <param name="format">A format string.</param>

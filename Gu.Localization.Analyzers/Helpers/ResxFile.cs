@@ -12,9 +12,9 @@
 
     internal class ResxFile
     {
-        private static readonly ConcurrentDictionary<string, ResxFile?> Cache = new ConcurrentDictionary<string, ResxFile?>();
+        private static readonly ConcurrentDictionary<string, ResxFile?> Cache = new();
 
-        private readonly object gate = new object();
+        private readonly object gate = new();
 
         private DateTime lastWriteTimeUtc;
 

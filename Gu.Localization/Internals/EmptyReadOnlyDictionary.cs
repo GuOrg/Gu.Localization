@@ -11,7 +11,7 @@
         where TKey : notnull
     {
         /// <summary> A cached instance. </summary>
-        internal static readonly EmptyReadOnlyDictionary<TKey, TValue> Default = new EmptyReadOnlyDictionary<TKey, TValue>();
+        internal static readonly EmptyReadOnlyDictionary<TKey, TValue> Default = new();
 
         private EmptyReadOnlyDictionary()
         {

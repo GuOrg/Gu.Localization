@@ -10,7 +10,7 @@ namespace Gu.Wpf.Localization
     public sealed class NullImageSourceConverter : IValueConverter
     {
         /// <summary>The default instance.</summary>
-        public static readonly NullImageSourceConverter Default = new NullImageSourceConverter();
+        public static readonly NullImageSourceConverter Default = new();
 
         /// <inheritdoc />
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

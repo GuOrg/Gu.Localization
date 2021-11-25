@@ -15,7 +15,7 @@
         /// <summary>
         /// An empty collection of <see cref="TranslationError"/>.
         /// </summary>
-        public static readonly TranslationErrors Empty = new TranslationErrors(EmptyReadOnlyDictionary<string, IReadOnlyList<TranslationError>>.Default);
+        public static readonly TranslationErrors Empty = new(EmptyReadOnlyDictionary<string, IReadOnlyList<TranslationError>>.Default);
 
         private readonly IReadOnlyDictionary<string, IReadOnlyList<TranslationError>> errors;
 
