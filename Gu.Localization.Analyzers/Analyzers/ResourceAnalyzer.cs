@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers
+﻿namespace Gu.Localization.Analyzers
 {
     using System.Collections.Immutable;
     using System.Text.RegularExpressions;
@@ -39,7 +39,7 @@ namespace Gu.Localization.Analyzers
                         Diagnostic.Create(
                             Descriptors.GULOC07KeyDoesNotMatch,
                             propertyDeclaration.Identifier.GetLocation(),
-                            ImmutableDictionary<string, string>.Empty.Add("Key", key),
+                            ImmutableDictionary<string, string?>.Empty.Add("Key", key),
                             key));
                 }
 

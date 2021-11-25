@@ -36,7 +36,11 @@
                 if (Translate.TryFindCustomToString(resourcesType, out var custom))
                 {
                     var customCall = $"{custom.ContainingType.ToMinimalDisplayString(context.SemanticModel, memberAccess.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat)}.{custom.Name}(nameof({memberAccess}))";
-                    context.ReportDiagnostic(Diagnostic.Create(Descriptors.GULOC04UseCustomTranslate, memberAccess.GetLocation(), ImmutableDictionary<string, string>.Empty.Add(nameof(Translate), customCall)));
+                    context.ReportDiagnostic(
+                        Diagnostic.Create(
+                            Descriptors.GULOC04UseCustomTranslate,
+                            memberAccess.GetLocation(),
+                            ImmutableDictionary<string, string?>.Empty.Add(nameof(Translate), customCall)));
                 }
                 else
                 {

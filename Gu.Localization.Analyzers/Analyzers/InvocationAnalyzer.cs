@@ -46,7 +46,7 @@
                                 Diagnostic.Create(
                                     Descriptors.GULOC02UseNameOf,
                                     keyArgument.GetLocation(),
-                                    ImmutableDictionary<string, string>.Empty.Add(
+                                    ImmutableDictionary<string, string?>.Empty.Add(
                                         nameof(MemberAccessExpressionSyntax),
                                         resources.ToString())));
                         }
@@ -68,12 +68,11 @@
                             TryGetCustom(target, resourcesType, out var custom))
                         {
                             var customCall = $"{custom.ContainingType.ToMinimalDisplayString(context.SemanticModel, invocation.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat)}.{custom.Name}({keyArgument})";
-                            context.ReportDiagnostic(Diagnostic.Create(Descriptors.GULOC04UseCustomTranslate, invocation.GetLocation(), ImmutableDictionary<string, string>.Empty.Add(nameof(Translate), customCall)));
+                            context.ReportDiagnostic(Diagnostic.Create(Descriptors.GULOC04UseCustomTranslate, invocation.GetLocation(), ImmutableDictionary<string, string?>.Empty.Add(nameof(Translate), customCall)));
                         }
                     }
                 }
                 else if (argumentList.Arguments.TryFirst(out keyArgument) &&
-                         keyArgument is { } &&
                          (ResourceManager.IsGetObject(invocation, context, out var resourcesType, out _) ||
                           ResourceManager.IsGetString(invocation, context, out resourcesType, out _) ||
                           Translate.IsCustomTranslateMethod(invocation, context, out resourcesType, out _)))
@@ -93,7 +92,7 @@
                                 Diagnostic.Create(
                                     Descriptors.GULOC02UseNameOf,
                                     keyArgument.GetLocation(),
-                                    ImmutableDictionary<string, string>.Empty.Add(
+                                    ImmutableDictionary<string, string?>.Empty.Add(
                                         nameof(MemberAccessExpressionSyntax),
                                         resourcesType.ToMinimalDisplayString(context.SemanticModel, keyArgument.SpanStart, SymbolDisplayFormat.MinimallyQualifiedFormat))));
                         }
