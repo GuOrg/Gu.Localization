@@ -62,9 +62,7 @@
                 throw new FormatException($"Invalid format string: \"{format}\".");
             }
 
-#pragma warning disable CA1508 // Avoid dead conditional code
             if (args is null || args.Length == 0)
-#pragma warning restore CA1508 // Avoid dead conditional code
             {
                 if (count == 0)
                 {
@@ -85,9 +83,9 @@
         /// <param name="format">The format string ex: 'First: {0:N}.</param>
         /// <param name="arg0">The argument.</param>
         /// <returns>True if <paramref name="format"/> is valid for the argument <paramref name="arg0"/>.</returns>
-#pragma warning disable CA1801, IDE0060 // Review unused parameters
+#pragma warning disable IDE0060 // Review unused parameters
         public static bool IsValidFormat<T>(string format, T arg0)
-#pragma warning restore CA1801, IDE0060 // Review unused parameters
+#pragma warning restore IDE0060 // Review unused parameters
         {
             return IsValidFormat(format, 1);
         }
@@ -112,9 +110,7 @@
         /// <returns>True if <paramref name="format"/> is valid for <paramref name="args"/>.</returns>
         public static bool IsValidFormat(string format, params object[]? args)
         {
-#pragma warning disable CA1508 // Avoid dead conditional code
             return IsValidFormat(format, args?.Length ?? 0);
-#pragma warning restore CA1508 // Avoid dead conditional code
         }
 
         private static bool IsValidFormat(string format, int argumentCount)
