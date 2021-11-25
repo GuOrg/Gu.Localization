@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests.GULOC06UseInterpolationTests
+﻿namespace Gu.Localization.Analyzers.Tests.GULOC06UseInterpolationTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
@@ -18,9 +18,9 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-#pragma warning disable GULOC03 Use resource.
+#pragma warning disable GULOC03 Use resource
             var translate = ""abc"";
-#pragma warning restore GULOC03 Use resource.
+#pragma warning restore GULOC03 Use resource
         }
     }
 }";

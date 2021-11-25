@@ -150,9 +150,9 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-#pragma warning disable GULOC02 // Use nameof(key).
+#pragma warning disable GULOC02 // Use nameof(key)
             var translate = Translate.TranslationFor(""Key"");
-#pragma warning restore GULOC02 // Use nameof(key).
+#pragma warning restore GULOC02 // Use nameof(key)
         }
     }
 }";
@@ -192,9 +192,9 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-#pragma warning disable GULOC02 // Use nameof(key).
+#pragma warning disable GULOC02 // Use nameof(key)
             var translation = Properties.Translate.TranslationFor(""Key"");
-#pragma warning restore GULOC02 // Use nameof(key).
+#pragma warning restore GULOC02 // Use nameof(key)
         }
     }
 }";

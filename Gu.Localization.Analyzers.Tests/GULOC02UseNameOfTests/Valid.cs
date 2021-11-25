@@ -413,9 +413,9 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-#pragma warning disable GULOC01 // Key does not exist.
+#pragma warning disable GULOC01 // Key does not exist
             var translate = Properties.Resources.ResourceManager.GetString(""Missing translation"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
-#pragma warning restore GULOC01 // Key does not exist.
+#pragma warning restore GULOC01 // Key does not exist
         }
     }
 }";
