@@ -6,4 +6,5 @@ using Gu.Roslyn.Asserts;
 
 [assembly: TransitiveMetadataReferences(
     typeof(Gu.Localization.Analyzers.Tests.AllValid),
-    typeof(Gu.Localization.Translation))]
+    typeof(Gu.Localization.Translation),
+    typeof(System.Windows.Window))]
