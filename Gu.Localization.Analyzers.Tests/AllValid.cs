@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers.Tests
+﻿namespace Gu.Localization.Analyzers.Tests
 {
     using System;
     using System.Collections.Immutable;
@@ -8,12 +8,13 @@ namespace Gu.Localization.Analyzers.Tests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class HappyPathWithAll
+    public class AllValid
     {
-        private static readonly ImmutableArray<DiagnosticAnalyzer> AllAnalyzers = typeof(Gu.Localization.Analyzers.Descriptors)
+        private static readonly ImmutableArray<DiagnosticAnalyzer> AllAnalyzers =
+            typeof(Gu.Localization.Analyzers.Descriptors)
             .Assembly
             .GetTypes()
-            .Where(typeof(DiagnosticAnalyzer).IsAssignableFrom)
+            .Where(t => typeof(DiagnosticAnalyzer).IsAssignableFrom(t) && !t.IsAbstract)
             .Select(t => (DiagnosticAnalyzer)Activator.CreateInstance(t))
             .ToImmutableArray();
 
