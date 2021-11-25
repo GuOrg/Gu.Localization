@@ -98,7 +98,9 @@
 
         internal static IEnumerable<INamedTypeSymbol> LookupResourceTypes(this SemanticModel semanticModel, int position, string name, INamespaceSymbol? container = null)
         {
-            return LookupResourceTypesCore().Distinct();
+#pragma warning disable RS1024 // Compare symbols correctly
+            return LookupResourceTypesCore().Distinct(NamedTypeSymbolComparer.Default);
+#pragma warning restore RS1024 // Compare symbols correctly
 
             IEnumerable<INamedTypeSymbol> LookupResourceTypesCore()
             {

@@ -1,4 +1,4 @@
-namespace Gu.Localization
+﻿namespace Gu.Localization
 {
     using System.Collections.Generic;
     using System.Diagnostics;
