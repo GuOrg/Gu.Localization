@@ -32,7 +32,7 @@
                     {
                         context.RegisterCodeFix(
                             $"{call}",
-                            (editor, _) => editor.ReplaceNode(memberAccess, SyntaxFactory.ParseExpression(call)),
+                            (editor, _) => editor.ReplaceNode(memberAccess, SyntaxFactory.ParseExpression(call!)),
                             $"{call}",
                             diagnostic);
                     }

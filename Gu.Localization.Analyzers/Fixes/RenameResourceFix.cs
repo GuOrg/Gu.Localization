@@ -39,14 +39,14 @@
                     semanticModel is { } &&
                     semanticModel.TryGetSymbol(propertyDeclaration, context.CancellationToken, out var property) &&
                     diagnostic.Properties.TryGetValue("Key", out var name) &&
-                    !property.ContainingType.TryFindFirstMember(name, out _) &&
+                    !property.ContainingType.TryFindFirstMember(name!, out _) &&
                     ResxFile.TryGetDefault(property.ContainingType, out _))
                 {
                     context.RegisterCodeFix(
                         new PreviewCodeAction(
                             "Rename resource",
-                            cancellationToken => Renamer.RenameSymbolAsync(context.Document.Project.Solution, property, name, null, cancellationToken),
-                            cancellationToken => RenameAsync(context.Document, property, name, cancellationToken)),
+                            cancellationToken => Renamer.RenameSymbolAsync(context.Document.Project.Solution, property, name!, context.Document.Project.Solution.Options, cancellationToken),
+                            cancellationToken => RenameAsync(context.Document, property, name!, cancellationToken)),
                         diagnostic);
                 }
             }
@@ -68,7 +68,7 @@
                     UpdateXaml(project, property, newName);
                 }
 
-                var solution = await Renamer.RenameSymbolAsync(document.Project.Solution, property, newName, null, cancellationToken).ConfigureAwait(false);
+                var solution = await Renamer.RenameSymbolAsync(document.Project.Solution, property, newName, document.Project.Solution.Options, cancellationToken).ConfigureAwait(false);
                 if (property.TrySingleDeclaration(cancellationToken, out PropertyDeclarationSyntax? declaration))
                 {
                     var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
@@ -85,7 +85,7 @@
 
         private static void UpdateXaml(Project project, IPropertySymbol property, string newName)
         {
-            if (project.MetadataReferences.TryFirst(x => x.Display.EndsWith("System.Xaml.dll", StringComparison.Ordinal), out _) &&
+            if (project.MetadataReferences.TryFirst(x => x.Display!.EndsWith("System.Xaml.dll", StringComparison.Ordinal), out _) &&
                 project.FilePath is { } filePath &&
                 Path.GetDirectoryName(filePath) is { } directory)
             {

@@ -43,7 +43,7 @@
                             key));
                 }
 
-                foreach (var data in resx.Document.Root.Elements("data"))
+                foreach (var data in resx.Document.Root!.Elements("data"))
                 {
                     if (ResxFile.TryGetString(data, out var candidateText) &&
                         candidateText == neutral &&

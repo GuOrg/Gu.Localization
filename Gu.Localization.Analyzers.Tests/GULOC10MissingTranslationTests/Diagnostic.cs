@@ -20,7 +20,7 @@
         public void SetUp()
         {
             var original = ProjectFile.Find("Gu.Localization.TestStub.csproj");
-            this.directory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), original.Directory.Name));
+            this.directory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), original.Directory!.Name));
             if (this.directory.Exists)
             {
                 this.directory.Delete(recursive: true);
@@ -33,9 +33,9 @@
         [Test]
         public void WhenMissing()
         {
-            this.projectFile.Directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", "\"Value\"");
-            this.projectFile.Directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", "\"Value\"");
-            this.projectFile.Directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", "public static string Value");
+            this.projectFile.Directory!.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", "\"Value\"");
+            this.projectFile.Directory!.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", "\"Value\"");
+            this.projectFile.Directory!.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", "public static string Value");
             var sln = CodeFactory.CreateSolution(this.projectFile);
             var diagnostics = Analyze.GetDiagnostics(Analyzer, sln).Single().AnalyzerDiagnostics;
             Assert.AreEqual(1, diagnostics.Length);

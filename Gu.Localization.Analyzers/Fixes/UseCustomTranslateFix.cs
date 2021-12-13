@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers
+﻿namespace Gu.Localization.Analyzers
 {
     using System.Collections.Immutable;
     using System.Composition;
@@ -34,7 +34,7 @@ namespace Gu.Localization.Analyzers
                                     context.Document.WithSyntaxRoot(
                                         syntaxRoot.ReplaceNode(
                                             invocation,
-                                            SyntaxFactory.ParseExpression(call)))),
+                                            SyntaxFactory.ParseExpression(call!)))),
                                 call),
                             diagnostic);
                     }

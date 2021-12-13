@@ -20,7 +20,7 @@
         public void SetUp()
         {
             var original = ProjectFile.Find("Gu.Localization.TestStub.csproj");
-            this.directory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), original.Directory.Name));
+            this.directory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), original.Directory!.Name));
             if (this.directory.Exists)
             {
                 this.directory.Delete(recursive: true);

@@ -110,7 +110,7 @@
                     xElement.Add(new XAttribute(XNamespace.Xml + "space", "preserve"));
                     xElement.Add(new XElement("value", text));
                     //// ReSharper disable once PossibleNullReferenceException
-                    this.Document.Root.Add(xElement);
+                    this.Document.Root!.Add(xElement);
                     this.Save();
                 }
             }
@@ -118,7 +118,7 @@
 
         internal IEnumerable<ResxFile> CultureSpecific()
         {
-            foreach (var cultureResx in Directory.EnumerateFiles(Path.GetDirectoryName(this.FileName), $"{Path.GetFileNameWithoutExtension(this.FileName)}.*.resx", SearchOption.TopDirectoryOnly))
+            foreach (var cultureResx in Directory.EnumerateFiles(Path.GetDirectoryName(this.FileName)!, $"{Path.GetFileNameWithoutExtension(this.FileName)}.*.resx", SearchOption.TopDirectoryOnly))
             {
                 var resxFile = Cache.AddOrUpdate(cultureResx, s => Create(s), (s, file) => Update(s, file));
                 if (resxFile != null)
