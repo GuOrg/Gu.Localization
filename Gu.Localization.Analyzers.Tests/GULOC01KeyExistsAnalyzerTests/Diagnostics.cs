@@ -109,9 +109,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translator.Translate(Resources.ResourceManager, ↓""Missing"");
         }
@@ -129,9 +129,9 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translator.Translate(Properties.Resources.ResourceManager, ↓""Missing"");
         }
@@ -149,9 +149,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translator.Translate(Resources.ResourceManager, ↓nameof(Resources));
         }
@@ -169,9 +169,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translator.Translate(Resources.ResourceManager, ↓Resources.Key);
         }
@@ -188,9 +188,9 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translator.Translate(Properties.Resources.ResourceManager, ↓nameof(Properties.Resources));
         }
@@ -208,9 +208,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translate.TranslationFor(↓""Missing"");
         }
@@ -228,9 +228,9 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Translate.TranslationFor(↓""Missing"");
         }
@@ -248,9 +248,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translate.TranslationFor(↓nameof(Resources));
         }
@@ -268,9 +268,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Translate.TranslationFor(↓Resources.Key);
         }
@@ -287,11 +287,11 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
-            var translate = Properties.Translate.TranslationFor(↓nameof(Foo));
+            var translate = Properties.Translate.TranslationFor(↓nameof(C));
         }
     }
 }";
@@ -307,9 +307,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translate.Key(↓""Missing"");
         }
@@ -327,9 +327,9 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Translate.Key(↓""Missing"");
         }
@@ -347,9 +347,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translate.Key(↓nameof(Resources));
         }
@@ -367,9 +367,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Translate.Key(↓Resources.Key);
         }
@@ -386,11 +386,11 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
-            var translate = Properties.Translate.Key(↓nameof(Foo));
+            var translate = Properties.Translate.Key(↓nameof(C));
         }
     }
 }";
@@ -406,9 +406,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translation = Translation.GetOrCreate(Resources.ResourceManager, ↓""Missing"");
         }
@@ -426,9 +426,9 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, ↓""Missing"");
         }
@@ -446,9 +446,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translation = Translation.GetOrCreate(Resources.ResourceManager, ↓nameof(Resources));
         }
@@ -466,9 +466,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translation = Translation.GetOrCreate(Resources.ResourceManager, ↓Resources.Key);
         }
@@ -485,11 +485,11 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
-            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, ↓nameof(Foo));
+            var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, ↓nameof(C));
         }
     }
 }";
@@ -504,9 +504,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetObject(↓""Missing"");
         }
@@ -522,9 +522,9 @@ namespace RoslynSandbox
             var code = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetObject(↓""Missing"");
         }
@@ -541,9 +541,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetObject(↓nameof(Resources));
         }
@@ -560,9 +560,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetObject(↓Resources.Key);
         }
@@ -577,11 +577,11 @@ namespace RoslynSandbox
             var code = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
-            var translate = Properties.Resources.ResourceManager.GetObject(↓nameof(Foo));
+            var translate = Properties.Resources.ResourceManager.GetObject(↓nameof(C));
         }
     }
 }";
@@ -596,9 +596,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetObject(↓""Missing"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -614,9 +614,9 @@ namespace RoslynSandbox
             var code = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetObject(↓""Missing"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -633,9 +633,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetObject(↓nameof(Resources), System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -652,9 +652,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetObject(↓Resources.Key, System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -669,11 +669,11 @@ namespace RoslynSandbox
             var code = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
-            var translate = Properties.Resources.ResourceManager.GetObject(↓nameof(Foo), System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
+            var translate = Properties.Resources.ResourceManager.GetObject(↓nameof(C), System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
     }
 }";
@@ -688,9 +688,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetString(↓""Missing"");
         }
@@ -706,9 +706,9 @@ namespace RoslynSandbox
             var code = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetString(↓""Missing"");
         }
@@ -725,9 +725,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetString(↓nameof(Resources));
         }
@@ -744,9 +744,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetString(↓Resources.Key);
         }
@@ -761,11 +761,11 @@ namespace RoslynSandbox
             var code = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
-            var translate = Properties.Resources.ResourceManager.GetString(↓nameof(Foo));
+            var translate = Properties.Resources.ResourceManager.GetString(↓nameof(C));
         }
     }
 }";
@@ -780,9 +780,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetString(↓""Missing"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -798,9 +798,9 @@ namespace RoslynSandbox
             var code = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetString(↓""Missing"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -817,9 +817,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetString(↓nameof(Resources), System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -836,9 +836,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetString(↓Resources.Key, System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -853,11 +853,11 @@ namespace RoslynSandbox
             var code = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
-            var translate = Properties.Resources.ResourceManager.GetString(↓nameof(Foo), System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
+            var translate = Properties.Resources.ResourceManager.GetString(↓nameof(C), System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
     }
 }";
@@ -870,9 +870,9 @@ namespace RoslynSandbox
             var code = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo(SomeEnum someEnum)
+        public C(SomeEnum someEnum)
         {
             var translate = Properties.Resources.ResourceManager.GetString(↓someEnum.ToString());
         }

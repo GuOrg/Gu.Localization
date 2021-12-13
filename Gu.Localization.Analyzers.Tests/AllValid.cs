@@ -15,13 +15,11 @@
             .Assembly
             .GetTypes()
             .Where(t => typeof(DiagnosticAnalyzer).IsAssignableFrom(t) && !t.IsAbstract)
-            .Select(t => (DiagnosticAnalyzer)Activator.CreateInstance(t))
+            .Select(t => (DiagnosticAnalyzer)Activator.CreateInstance(t)!)
             .ToImmutableArray();
 
         private static readonly Solution DemoProjectSolution = CodeFactory.CreateSolution(
-            ProjectFile.Find("Gu.Wpf.Localization.Demo.csproj"),
-            AllAnalyzers,
-            MetadataReferences.FromAttributes());
+            ProjectFile.Find("Gu.Wpf.Localization.Demo.csproj"));
 
         [Test]
         public void NotEmpty()

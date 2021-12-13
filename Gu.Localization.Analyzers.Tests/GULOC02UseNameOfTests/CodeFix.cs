@@ -111,9 +111,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translator.Translate(Resources.ResourceManager, ↓""Key"");
         }
@@ -126,9 +126,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translator.Translate(Resources.ResourceManager, nameof(Resources.Key));
         }
@@ -145,9 +145,9 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translator.Translate(Properties.Resources.ResourceManager, ↓""Key"");
         }
@@ -158,9 +158,9 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translator.Translate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Key));
         }
@@ -178,9 +178,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translator.Translate(Resources.ResourceManager, ↓""Key"");
         }
@@ -193,9 +193,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translator.Translate(Resources.ResourceManager, nameof(Resources.Key));
         }
@@ -212,9 +212,9 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, ↓""Key"");
         }
@@ -225,9 +225,9 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translation = Translation.GetOrCreate(Properties.Resources.ResourceManager, nameof(Properties.Resources.Key));
         }
@@ -245,9 +245,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translate.Key(↓""Key"");
         }
@@ -260,9 +260,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translate.Key(nameof(Resources.Key));
         }
@@ -279,9 +279,9 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Translate.Key(↓""Key"");
         }
@@ -292,9 +292,9 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Translate.Key(nameof(Properties.Resources.Key));
         }
@@ -312,9 +312,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translate.TranslationFor(↓""Key"");
         }
@@ -327,9 +327,9 @@ namespace RoslynSandbox
     using Gu.Localization;
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Translate.TranslationFor(nameof(Resources.Key));
         }
@@ -346,9 +346,9 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translation = Properties.Translate.TranslationFor(↓""Key"");
         }
@@ -359,9 +359,9 @@ namespace RoslynSandbox
 {
     using Gu.Localization;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translation = Properties.Translate.TranslationFor(nameof(Properties.Resources.Key));
         }
@@ -378,9 +378,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetObject(↓""Key"");
         }
@@ -392,9 +392,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetObject(nameof(Resources.Key));
         }
@@ -409,9 +409,9 @@ namespace RoslynSandbox
             var before = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetObject(↓""Key"");
         }
@@ -421,9 +421,9 @@ namespace RoslynSandbox
             var after = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetObject(nameof(Properties.Resources.Key));
         }
@@ -440,9 +440,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetObject(↓""Key"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -454,9 +454,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetObject(nameof(Resources.Key), System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -471,9 +471,9 @@ namespace RoslynSandbox
             var before = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetObject(↓""Key"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -483,9 +483,9 @@ namespace RoslynSandbox
             var after = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetObject(nameof(Properties.Resources.Key), System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -502,9 +502,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetString(↓""Key"");
         }
@@ -516,9 +516,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetString(nameof(Resources.Key));
         }
@@ -533,9 +533,9 @@ namespace RoslynSandbox
             var before = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetString(↓""Key"");
         }
@@ -544,9 +544,9 @@ namespace RoslynSandbox
             var after = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetString(nameof(Properties.Resources.Key));
         }
@@ -563,9 +563,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetString(↓""Key"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -576,9 +576,9 @@ namespace RoslynSandbox
 {
     using RoslynSandbox.Properties;
 
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Resources.ResourceManager.GetString(nameof(Resources.Key), System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -593,9 +593,9 @@ namespace RoslynSandbox
             var before = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetString(↓""Key"", System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }
@@ -604,9 +604,9 @@ namespace RoslynSandbox
             var after = @"
 namespace RoslynSandbox
 {
-    public class Foo
+    public class C
     {
-        public Foo()
+        public C()
         {
             var translate = Properties.Resources.ResourceManager.GetString(nameof(Properties.Resources.Key), System.Globalization.CultureInfo.GetCultureInfo(""sv-SE""));
         }

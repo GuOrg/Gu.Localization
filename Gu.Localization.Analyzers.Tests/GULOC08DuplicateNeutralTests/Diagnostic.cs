@@ -36,12 +36,12 @@
             this.directory.FindFile("Properties\\Resources.resx").ReplaceText(
                 "<value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</value>",
                 $"<value>Value</value>");
-            var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
-            var diagnostics = Analyze.GetDiagnostics(sln, Analyzer).Single();
-            Assert.AreEqual(4, diagnostics.Length);
+            var sln = CodeFactory.CreateSolution(this.projectFile);
+            var diagnostics = Analyze.GetDiagnostics(Analyzer, sln).Single();
+            Assert.AreEqual(4, diagnostics.AnalyzerDiagnostics.Length);
 
-            CollectionAssert.AreEquivalent(new[] { "GULOC07", "GULOC07", "GULOC08", "GULOC08" }, diagnostics.Select(x => x.Id).ToArray());
-            CollectionAssert.AreEquivalent(new[] { "Resources.Designer.cs", "Resources.Designer.cs", "Resources.Designer.cs", "Resources.Designer.cs" }, diagnostics.Select(x => Path.GetFileName(x.Location.SourceTree!.FilePath)).ToArray());
+            CollectionAssert.AreEquivalent(new[] { "GULOC07", "GULOC07", "GULOC08", "GULOC08" }, diagnostics.AnalyzerDiagnostics.Select(x => x.Id).ToArray());
+            CollectionAssert.AreEquivalent(new[] { "Resources.Designer.cs", "Resources.Designer.cs", "Resources.Designer.cs", "Resources.Designer.cs" }, diagnostics.AnalyzerDiagnostics.Select(x => Path.GetFileName(x.Location.SourceTree!.FilePath)).ToArray());
         }
     }
 }

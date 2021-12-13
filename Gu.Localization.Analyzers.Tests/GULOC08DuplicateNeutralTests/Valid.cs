@@ -34,7 +34,7 @@
             projectFile.Directory!.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", "\"Value\"");
             projectFile.Directory!.FindFile("Properties\\Resources.sv-SE.resx").ReplaceText("\"Key\"", "\"Value\"");
             projectFile.Directory!.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", "public static string Value");
-            var solution = CodeFactory.CreateSolution(projectFile, MetadataReferences.FromAttributes());
+            var solution = CodeFactory.CreateSolution(projectFile);
             RoslynAssert.NoAnalyzerDiagnostics(Analyzer, solution);
         }
     }

@@ -37,8 +37,8 @@
             this.projectFile.Directory.FindFile("Properties\\Resources.resx").ReplaceText("\"Key\"", "\"Value\"");
             this.projectFile.Directory.FindFile("Properties\\Resources.sv.resx").ReplaceText("\"Key\"", "\"Value\"");
             this.projectFile.Directory.FindFile("Properties\\Resources.Designer.cs").ReplaceText("public static string Key", "public static string Value");
-            var sln = CodeFactory.CreateSolution(this.projectFile, MetadataReferences.FromAttributes());
-            var diagnostics = Analyze.GetDiagnostics(sln, Analyzer).Single();
+            var sln = CodeFactory.CreateSolution(this.projectFile);
+            var diagnostics = Analyze.GetDiagnostics(Analyzer, sln).Single().AnalyzerDiagnostics;
             Assert.AreEqual(1, diagnostics.Length);
 
             Assert.AreEqual("GULOC10", diagnostics[0].Id);

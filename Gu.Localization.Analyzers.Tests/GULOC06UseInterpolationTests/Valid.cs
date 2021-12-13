@@ -18,9 +18,8 @@ namespace RoslynSandbox
     {
         public Foo()
         {
-#pragma warning disable GULOC03 Use resource
+#pragma warning disable GULOC03, CS0219
             var translate = ""abc"";
-#pragma warning restore GULOC03 Use resource
         }
     }
 }";
