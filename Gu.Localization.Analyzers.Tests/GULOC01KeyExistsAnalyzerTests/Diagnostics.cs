@@ -1,12 +1,11 @@
 ﻿namespace Gu.Localization.Analyzers.Tests.GULOC01KeyExistsAnalyzerTests
 {
     using Gu.Roslyn.Asserts;
-    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public static class Diagnostics
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
+        private static readonly InvocationAnalyzer Analyzer = new();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GULOC01KeyExists);
 
         private const string ResourcesCode = @"

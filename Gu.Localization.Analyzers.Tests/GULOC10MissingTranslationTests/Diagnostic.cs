@@ -5,12 +5,11 @@
     using System.Linq;
     using Gu.Localization.Analyzers.Tests.Helpers;
     using Gu.Roslyn.Asserts;
-    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public class Diagnostic
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new ResourceAnalyzer();
+        private static readonly ResourceAnalyzer Analyzer = new();
 
 #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         private FileInfo projectFile;

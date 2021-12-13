@@ -1,12 +1,11 @@
 ﻿namespace Gu.Localization.Analyzers.Tests.GULOC06UseInterpolationTests
 {
     using Gu.Roslyn.Asserts;
-    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public static class Valid
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new LiteralAnalyzer();
+        private static readonly LiteralAnalyzer Analyzer = new();
 
         [Test]
         public static void NoCuriles()

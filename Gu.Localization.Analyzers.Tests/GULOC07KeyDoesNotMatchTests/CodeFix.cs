@@ -3,14 +3,12 @@
     using System.IO;
     using Gu.Localization.Analyzers.Tests.Helpers;
     using Gu.Roslyn.Asserts;
-    using Microsoft.CodeAnalysis.CodeFixes;
-    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public static class CodeFix
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new ResourceAnalyzer();
-        private static readonly CodeFixProvider Fix = new RenameResourceFix();
+        private static readonly ResourceAnalyzer Analyzer = new();
+        private static readonly RenameResourceFix Fix = new();
 
 #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         private static FileInfo projectFile;

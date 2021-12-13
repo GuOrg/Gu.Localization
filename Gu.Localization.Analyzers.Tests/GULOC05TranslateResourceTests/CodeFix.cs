@@ -1,14 +1,12 @@
 ﻿namespace Gu.Localization.Analyzers.Tests.GULOC05TranslateResourceTests
 {
     using Gu.Roslyn.Asserts;
-    using Microsoft.CodeAnalysis.CodeFixes;
-    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public static class CodeFix
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new MemberAccessAnalyzer();
-        private static readonly CodeFixProvider Fix = new TranslateResourceFix();
+        private static readonly MemberAccessAnalyzer Analyzer = new();
+        private static readonly TranslateResourceFix Fix = new();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GULOC05TranslateUseResource);
 
         private const string ResourcesCode = @"
