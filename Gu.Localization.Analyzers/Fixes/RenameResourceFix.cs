@@ -74,7 +74,7 @@
                     var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
                     return solution.WithDocumentSyntaxRoot(
                         document.Id,
-                        root.ReplaceNode(declaration, Property.Rewrite(declaration, newName))!);
+                        root!.ReplaceNode(declaration, Property.Rewrite(declaration, newName))!);
                 }
 
                 return solution;
@@ -90,7 +90,17 @@
                 Path.GetDirectoryName(filePath) is { } directory)
             {
                 var csprojText = File.ReadAllText(filePath);
-                if (Regex.IsMatch(csprojText, "<TargetFrameworks?\b"))
+                if (csprojText.Contains("Sdk=\"Microsoft.NET.Sdk"))
+                {
+                    foreach (var fileName in Directory.EnumerateFiles(directory, "*.xaml", SearchOption.AllDirectories))
+                    {
+                        if (XamlFile.TryUpdateUsage(fileName, property, newName, out var xamlFile))
+                        {
+                            File.WriteAllText(fileName, xamlFile.Text, xamlFile.Encoding);
+                        }
+                    }
+                }
+                else
                 {
                     var csproj = XDocument.Parse(csprojText);
                     if (csproj.Root is { } root)
@@ -106,16 +116,6 @@
                                     File.WriteAllText(fileName, xamlFile.Text, xamlFile.Encoding);
                                 }
                             }
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var fileName in Directory.EnumerateFiles(directory, "*.xaml", SearchOption.AllDirectories))
-                    {
-                        if (XamlFile.TryUpdateUsage(fileName, property, newName, out var xamlFile))
-                        {
-                            File.WriteAllText(fileName, xamlFile.Text, xamlFile.Encoding);
                         }
                     }
                 }

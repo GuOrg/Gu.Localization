@@ -13,7 +13,9 @@
             Settings.Default = Settings.Default
                                        .WithCompilationOptions(x => x.WithSuppressedDiagnostics("CS1701", "CS8019")
                                                                                          .WithNullableContextOptions(NullableContextOptions.Disable))
-                                       .WithMetadataReferences(MetadataReferences.Transitive(typeof(Gu.Localization.Translation)));
+                                       .WithMetadataReferences(MetadataReferences.Transitive(
+                                           typeof(Gu.Localization.Translation),
+                                           typeof(System.Windows.Window)));
         }
     }
 }
