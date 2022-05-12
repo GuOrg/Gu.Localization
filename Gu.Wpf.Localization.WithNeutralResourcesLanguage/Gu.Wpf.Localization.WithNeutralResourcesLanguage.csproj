@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <UseWpf>true</UseWpf>
     <TargetFramework>net48</TargetFramework>
+    <UseWpf>true</UseWpf>
   </PropertyGroup>
   
   <ItemGroup>
