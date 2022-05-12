@@ -1,13 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project>
-  <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.props" />
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <RootNamespace>Gu.Localization.Analyzers</RootNamespace>
     <TargetName>Gu.Localization.Analyzers</TargetName>
-    <NoWarn>NU1605</NoWarn>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -26,10 +22,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="source.extension.vsixmanifest" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.2.2156" PrivateAssets="all" />
   </ItemGroup>
 
@@ -38,12 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- https://github.com/dotnet/sdk/issues/433 -->
-    <ProjectReference Update="@(ProjectReference)" AdditionalProperties="TargetFramework=netstandard1.3" />
-    <!-- https://github.com/Microsoft/extendvs/issues/57 -->
-    <ProjectReference Update="@(ProjectReference)" Name="%(Filename)" />
+    <None Include="source.extension.vsixmanifest" />
   </ItemGroup>
-
-  <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
-  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="Exists('$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets')" />
 </Project>
