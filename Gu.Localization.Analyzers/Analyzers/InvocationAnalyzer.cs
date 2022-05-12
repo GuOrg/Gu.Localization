@@ -113,7 +113,7 @@
                 return resourcesType.GetMembers(key).Any();
             }
 
-            if (keyArgument.Expression is InvocationExpressionSyntax { ArgumentList: { Arguments: { Count: 0 } }, Expression: MemberAccessExpressionSyntax memberAccess } &&
+            if (keyArgument.Expression is InvocationExpressionSyntax { ArgumentList.Arguments.Count: 0, Expression: MemberAccessExpressionSyntax memberAccess } &&
                 context.SemanticModel.TryGetType(memberAccess.Expression, context.CancellationToken, out var candidateType) &&
                 candidateType.TypeKind == TypeKind.Enum &&
                 candidateType is INamedTypeSymbol enumType)
@@ -165,7 +165,7 @@
 
         private static bool IsNameOfKey(ArgumentSyntax argument)
         {
-            return argument.Expression is InvocationExpressionSyntax { Expression: IdentifierNameSyntax { Identifier: { ValueText: "nameof" } }, ArgumentList: { Arguments: { Count: 1 } arguments } } &&
+            return argument.Expression is InvocationExpressionSyntax { Expression: IdentifierNameSyntax { Identifier.ValueText: "nameof" }, ArgumentList.Arguments: { Count: 1 } arguments } &&
                    arguments[0] is { Expression: MemberAccessExpressionSyntax _ };
         }
 

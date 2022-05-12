@@ -28,7 +28,7 @@
         {
             if (!context.IsExcludedFromAnalysis() &&
                 context.Node is PropertyDeclarationSyntax propertyDeclaration &&
-                context.ContainingSymbol is IPropertySymbol { Type: { SpecialType: SpecialType.System_String } } property &&
+                context.ContainingSymbol is IPropertySymbol { Type.SpecialType: SpecialType.System_String } property &&
                 ResxFile.TryGetDefault(property.ContainingType, out var resx) &&
                 resx.TryGetString(property.Name, out var neutral))
             {
