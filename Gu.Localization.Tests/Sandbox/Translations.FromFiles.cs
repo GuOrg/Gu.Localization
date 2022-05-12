@@ -101,7 +101,7 @@ namespace Gu.Localization.Tests.Sandbox
                     throw new InvalidOperationException($"Could not get BaseName from resourceName: {resourceName}");
                 }
 
-                return resourceName.Substring(0, resourceName.LastIndexOf(".resources", StringComparison.OrdinalIgnoreCase));
+                return resourceName[..resourceName.LastIndexOf(".resources", StringComparison.OrdinalIgnoreCase)];
             }
         }
     }
