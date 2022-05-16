@@ -61,6 +61,7 @@
                 }
             }
 
+#pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable CA1307 // Specify StringComparison for clarity
             if (!culture.Name.Contains('-'))
             {
@@ -68,6 +69,7 @@
                 return false;
             }
 #pragma warning restore CA1307 // Specify StringComparison for clarity
+#pragma warning restore IDE0079 // Remove unnecessary suppression
 
             try
             {

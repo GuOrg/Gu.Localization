@@ -98,9 +98,13 @@
                 return new DirectoryInfo(Path.GetDirectoryName(entryAssembly.Location)!);
             }
 
-            var assembly = typeof(ResourceCultures).Assembly;
+            if (typeof(ResourceCultures).Assembly.Location is { } location)
+            {
+                return new DirectoryInfo(Path.GetDirectoryName(location)!);
+            }
+
             var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
-            if (currentDirectory.Contains($"{assembly.GetName().Name}.dll", SearchOption.AllDirectories))
+            if (currentDirectory.Contains($"{typeof(ResourceCultures).Assembly.GetName().Name}.dll"))
             {
                 return currentDirectory;
             }
