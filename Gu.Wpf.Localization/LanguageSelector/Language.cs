@@ -68,7 +68,11 @@
                     var indexOf = nativeName.IndexOf(" (", StringComparison.Ordinal);
                     if (indexOf > 0)
                     {
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable IDE0057 // Use range operator
                         return nativeName.Substring(0, indexOf);
+#pragma warning restore IDE0057 // Use range operator
+#pragma warning restore IDE0079 // Remove unnecessary suppression
                     }
                 }
 

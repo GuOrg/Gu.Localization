@@ -177,12 +177,12 @@
 
                 internal ResourceManagerClone(ResourceManager source)
                 {
-                    Debug.Assert(source != null, "resourceManager == null");
-                    var containingType = source.ContainingType();
-                    Debug.Assert(containingType != null, "containingType == null");
+                    if (source is null)
+                    {
+                        throw new ArgumentNullException(nameof(source));
+                    }
 
-                    // ReSharper disable once ConditionIsAlwaysTrueOrFalse want this check in release build
-                    if (containingType != null)
+                    if (source.ContainingType() is { } containingType)
                     {
                         this.ResourceManager = new ResourceManager(source.BaseName, containingType.Assembly);
                     }
