@@ -6,30 +6,20 @@
 
     internal static class ServiceProviderExt
     {
-        internal static IProvideValueTarget ProvideValueTarget(this IServiceProvider serviceProvider)
-        {
-            return serviceProvider.GetService<IProvideValueTarget>();
-        }
+        internal static IProvideValueTarget ProvideValueTarget(this IServiceProvider serviceProvider) => serviceProvider.GetService<IProvideValueTarget>() ?? throw new InvalidOperationException("GetService<IProvideValueTarget>() returned null");
 
-        internal static IRootObjectProvider? RootObjectProvider(this IServiceProvider serviceProvider)
-        {
-            return serviceProvider.GetService<IRootObjectProvider?>();
-        }
+        internal static IRootObjectProvider? RootObjectProvider(this IServiceProvider serviceProvider) => serviceProvider.GetService<IRootObjectProvider>();
 
         internal static Type? Resolve(this IServiceProvider serviceProvider, string qualifiedTypeName)
         {
-            var xamlTypeResolver = serviceProvider.GetXamlTypeResolver();
-            return xamlTypeResolver?.Resolve(qualifiedTypeName);
+            if (serviceProvider.GetService<IXamlTypeResolver>() is { } xamlTypeResolver)
+            {
+                return xamlTypeResolver.Resolve(qualifiedTypeName);
+            }
+
+            return null;
         }
 
-        private static IXamlTypeResolver GetXamlTypeResolver(this IServiceProvider provider)
-        {
-            return provider.GetService<IXamlTypeResolver>();
-        }
-
-        private static T GetService<T>(this IServiceProvider provider)
-        {
-            return (T)provider.GetService(typeof(T));
-        }
+        private static T? GetService<T>(this IServiceProvider provider) => (T?)provider.GetService(typeof(T));
     }
 }
