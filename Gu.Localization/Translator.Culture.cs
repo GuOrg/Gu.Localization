@@ -96,8 +96,8 @@
                 return false;
             }
 
-            return Cultures.Contains(language) == true ||
-                   Cultures.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, language)) == true;
+            return Cultures.Contains(language) ||
+                   Cultures.Any(c => Localization.Culture.TwoLetterIsoLanguageNameEquals(c, language));
         }
 
         private static CultureInfo GetEffectiveCulture(CultureInfo? cultureInfo)
