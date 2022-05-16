@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <!--<TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>-->
+    <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>Enable</Nullable>
   </PropertyGroup>
