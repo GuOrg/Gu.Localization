@@ -87,23 +87,25 @@
 
         internal static DirectoryInfo? DefaultResourceDirectory()
         {
-            if (Assembly.GetEntryAssembly() is { } entryAssembly &&
-                string.IsNullOrEmpty(entryAssembly.Location))
+            if (Assembly.GetEntryAssembly() is { } entryAssembly)
             {
-                // net 5 single exe.
-                return null;
+                if (string.IsNullOrEmpty(entryAssembly.Location))
+                {
+                    // net 5 single exe.
+                    return null;
+                }
+
+                return new DirectoryInfo(Path.GetDirectoryName(entryAssembly.Location)!);
             }
 
             var assembly = typeof(ResourceCultures).Assembly;
             var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
-            var name = $"{assembly.GetName().Name}.dll";
-            if (currentDirectory.Contains(name) ||
-                assembly.CodeBase is null)
+            if (currentDirectory.Contains($"{assembly.GetName().Name}.dll", SearchOption.AllDirectories))
             {
                 return currentDirectory;
             }
 
-            return new DirectoryInfo(System.IO.Path.GetDirectoryName(new Uri(assembly.CodeBase).LocalPath));
+            return null;
         }
 
         private static bool Contains(
