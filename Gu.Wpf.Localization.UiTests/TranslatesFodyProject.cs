@@ -16,6 +16,11 @@
         [Test]
         public void DetectsLanguages()
         {
+            if (WindowsVersion.IsRunningOnCiServer)
+            {
+                Assert.Inconclusive();
+            }
+
             using var application = Application.AttachOrLaunch("Gu.Wpf.Localization.Demo.Fody.exe");
             var window = application.MainWindow;
             var comboBox = window.FindComboBox("LanguageComboBox");
@@ -27,6 +32,11 @@
         [Test]
         public void Translates()
         {
+            if (WindowsVersion.IsRunningOnCiServer)
+            {
+                Assert.Inconclusive();
+            }
+
             using var application = Application.AttachOrLaunch("Gu.Wpf.Localization.Demo.Fody.exe");
             var window = application.MainWindow;
             if (WindowsVersion.IsAzureDevops())
