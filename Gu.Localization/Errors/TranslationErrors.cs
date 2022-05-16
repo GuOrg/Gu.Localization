@@ -86,7 +86,9 @@
         public bool ContainsKey(string key) => this.errors.ContainsKey(key);
 
         /// <inheritdoc />
+#pragma warning disable CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
         public bool TryGetValue(string key, [MaybeNullWhen(false)] out IReadOnlyList<TranslationError> value)
+#pragma warning restore CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
         {
             return this.errors.TryGetValue(key, out value);
         }

@@ -129,7 +129,8 @@
 
         private static string? ToFirstCharUpper(string? text, CultureInfo? culture)
         {
-            if (string.IsNullOrEmpty(text) || text.Length == 1)
+            if (string.IsNullOrEmpty(text) ||
+                text!.Length == 1)
             {
                 return text;
             }
