@@ -61,6 +61,14 @@
                 }
             }
 
+#pragma warning disable CA1307 // Specify StringComparison for clarity
+            if (!culture.Name.Contains('-'))
+            {
+                region = null;
+                return false;
+            }
+#pragma warning restore CA1307 // Specify StringComparison for clarity
+
             try
             {
                 region = new RegionInfo(culture.Name);
