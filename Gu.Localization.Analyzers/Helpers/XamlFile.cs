@@ -1,4 +1,4 @@
-namespace Gu.Localization.Analyzers
+﻿namespace Gu.Localization.Analyzers
 {
     using System.Globalization;
     using System.IO;
@@ -6,18 +6,8 @@ namespace Gu.Localization.Analyzers
     using System.Text.RegularExpressions;
     using Microsoft.CodeAnalysis;
 
-    internal struct XamlFile
+    internal record struct XamlFile(string Text, Encoding Encoding)
     {
-        private XamlFile(string text, Encoding encoding)
-        {
-            this.Text = text;
-            this.Encoding = encoding;
-        }
-
-        internal string Text { get; }
-
-        internal Encoding Encoding { get; }
-
         internal static XamlFile Create(string fileName)
         {
             using var reader = new StreamReader(File.OpenRead(fileName), Encoding.UTF8, detectEncodingFromByteOrderMarks: true);
