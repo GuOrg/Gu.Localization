@@ -45,7 +45,7 @@
                     context.RegisterCodeFix(
                         new PreviewCodeAction(
                             "Rename resource",
-                            cancellationToken => Renamer.RenameSymbolAsync(context.Document.Project.Solution, property, name!, context.Document.Project.Solution.Options, cancellationToken),
+                            cancellationToken => Renamer.RenameSymbolAsync(context.Document.Project.Solution, property, default, name!, cancellationToken),
                             cancellationToken => RenameAsync(context.Document, property, name!, cancellationToken)),
                         diagnostic);
                 }
@@ -68,7 +68,7 @@
                     UpdateXaml(project, property, newName);
                 }
 
-                var solution = await Renamer.RenameSymbolAsync(document.Project.Solution, property, newName, document.Project.Solution.Options, cancellationToken).ConfigureAwait(false);
+                var solution = await Renamer.RenameSymbolAsync(document.Project.Solution, property, default, newName, cancellationToken).ConfigureAwait(false);
                 if (property.TrySingleDeclaration(cancellationToken, out PropertyDeclarationSyntax? declaration))
                 {
                     var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
