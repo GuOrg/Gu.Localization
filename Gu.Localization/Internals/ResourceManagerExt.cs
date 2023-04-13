@@ -4,7 +4,6 @@
     using System.Collections;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
@@ -97,7 +96,8 @@
 
             internal void CreateKeysForCultures(IEnumerable<CultureInfo> cultures)
             {
-                if ((cultures.Any() != true || cultures.All(this.culturesAndKeys.ContainsKey)) && this.culturesAndKeys.ContainsKey(CultureInfo.InvariantCulture))
+#pragma warning disable CA1851 // Possible multiple enumerations of 'IEnumerable' collection
+                if ((!cultures.Any() || cultures.All(this.culturesAndKeys.ContainsKey)) && this.culturesAndKeys.ContainsKey(CultureInfo.InvariantCulture))
                 {
                     return;
                 }
@@ -143,6 +143,7 @@
                         }
                     }
                 }
+#pragma warning restore CA1851 // Possible multiple enumerations of 'IEnumerable' collection
             }
 
             private string? GetString(string key, CultureInfo cultureInfo)
