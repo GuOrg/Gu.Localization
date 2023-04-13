@@ -58,11 +58,7 @@ namespace Gu.Localization
             {
                 if (TryGetTranslationErrors(culturesAndKeys, cultures, key, out var keyErrors))
                 {
-                    if (errors is null)
-                    {
-                        errors = new Dictionary<string, IReadOnlyList<TranslationError>>();
-                    }
-
+                    errors ??= new Dictionary<string, IReadOnlyList<TranslationError>>();
                     errors.Add(key, keyErrors);
                 }
             }
@@ -112,11 +108,7 @@ namespace Gu.Localization
             {
                 if (TryGetTranslationErrors(culturesAndKeys, cultures, key, out var keyErrors))
                 {
-                    if (errors is null)
-                    {
-                        errors = new Dictionary<string, IReadOnlyList<TranslationError>>();
-                    }
-
+                    errors ??= new Dictionary<string, IReadOnlyList<TranslationError>>();
                     errors.Add(key, keyErrors);
                 }
             }
@@ -262,11 +254,7 @@ namespace Gu.Localization
             {
                 if (!culturesAndKeys.HasKey(culture, key))
                 {
-                    if (missing is null)
-                    {
-                        missing = new List<CultureInfo>();
-                    }
-
+                    missing ??= new List<CultureInfo>();
                     missing.Add(culture);
                 }
             }
